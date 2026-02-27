@@ -1,0 +1,107 @@
+name: CloudGuard APIs
+description: A collection of APIs for Check Point CloudGuard cloud security platform
+image: https://www.checkpoint.com/images/cloudguard-logo.png
+url: https://www.checkpoint.com/cloudguard/
+created: '2024'
+modified: '2024'
+apis:
+- name: CloudGuard Dome9 API
+  description: API for CloudGuard compliance and security posture management
+  image: https://www.checkpoint.com/images/cloudguard-dome9.png
+  humanUrl: https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/
+  baseUrl: https://api.dome9.com/v2
+  tags:
+  - Cloud Security
+  - Compliance
+  - Posture Management
+  - AWS
+  - Azure
+  - GCP
+  properties:
+  - type: Documentation
+    url: https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/API-Reference.html
+  - type: OpenAPI
+    url: https://api.dome9.com/v2/swagger.json
+  - type: Authentication
+    url: https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/API-Authentication.html
+  contact:
+  - type: Support
+    url: https://support.checkpoint.com/
+- name: CloudGuard Workload Protection API
+  description: API for server and container workload protection
+  humanUrl: https://sc1.checkpoint.com/documents/CloudGuard_Workload_Protection/
+  baseUrl: https://workload.dome9.com/api
+  tags:
+  - Workload Protection
+  - Container Security
+  - Server Security
+  - Runtime Protection
+  properties:
+  - type: Documentation
+    url: https://sc1.checkpoint.com/documents/CloudGuard_Workload_Protection/Documentation/
+  - type: Authentication
+    url: https://sc1.checkpoint.com/documents/CloudGuard_Workload_Protection/Documentation/Authentication.html
+- name: CloudGuard CSPM API
+  description: Cloud Security Posture Management API for multi-cloud environments
+  humanUrl: https://www.checkpoint.com/cloudguard/cspm/
+  baseUrl: https://api.dome9.com/v2
+  tags:
+  - CSPM
+  - Multi-Cloud
+  - Security Posture
+  - Configuration Management
+  properties:
+  - type: Documentation
+    url: https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/CSPM-API.html
+  - type: Compliance Policies
+    url: https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/Compliance.html
+- name: CloudGuard CNAPP API
+  description: Cloud Native Application Protection Platform API
+  humanUrl: https://www.checkpoint.com/cloudguard/cloud-native-security/
+  baseUrl: https://api.dome9.com/v2
+  tags:
+  - CNAPP
+  - Cloud Native
+  - Application Security
+  - DevSecOps
+  properties:
+  - type: Documentation
+    url: https://sc1.checkpoint.com/documents/CloudGuard_CNAPP/
+  - type: Integration Guide
+    url: https://sc1.checkpoint.com/documents/CloudGuard_CNAPP/Integration/
+- name: CloudGuard Spectral API
+  description: API for code security and secrets detection
+  humanUrl: https://spectralops.io/
+  baseUrl: https://api.spectralops.io/v1
+  tags:
+  - Code Security
+  - Secrets Detection
+  - DevSecOps
+  - CI/CD Security
+  properties:
+  - type: Documentation
+    url: https://docs.spectralops.io/reference/
+  - type: OpenAPI
+    url: https://api.spectralops.io/v1/openapi.json
+maintainers:
+- name: Check Point Software Technologies
+  email: cloudguard-support@checkpoint.com
+  url: https://www.checkpoint.com/
+include:
+- name: CloudGuard Best Practices
+  url: https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/Best-Practices.html
+- name: CloudGuard Release Notes
+  url: https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/Release-Notes.html
+common:
+- type: Getting Started
+  url: https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/Getting-Started.html
+- type: Authentication
+  url: https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/API-Authentication.html
+- type: Support Portal
+  url: https://support.checkpoint.com/
+- type: Community
+  url: https://community.checkpoint.com/
+- type: Training
+  url: https://training-certifications.checkpoint.com/
+- type: Status Page
+  url: https://status.dome9.com/
