@@ -1,7 +1,7 @@
 aid: cloudguard
 url: >-
   https://raw.githubusercontent.com/api-evangelist/cloudguard/refs/heads/main/apis.yml
-name: CloudGuard APIs
+name: CloudGuard
 tags:
   - Cloud Security
   - Compliance
