@@ -3,10 +3,10 @@ url: >-
   https://raw.githubusercontent.com/api-evangelist/cloudguard/refs/heads/main/apis.yml
 name: CloudGuard
 tags:
+  - Check Point
   - Cloud Security
   - Compliance
   - Posture Management
-  - Check Point
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party
