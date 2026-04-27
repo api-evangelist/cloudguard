@@ -1,102 +1,55 @@
-# CloudGuard APIs (cloudguard)
-A collection of APIs for Check Point CloudGuard cloud security platform
+# CloudGuard (cloudguard)
 
-**URL:** [Visit APIs.json URL](https://www.checkpoint.com/cloudguard/)
+Check Point CloudGuard is a Cloud Native Application Protection Platform (CNAPP) covering cloud security posture management (CSPM), cloud workload protection (CWPP), code security, cloud network security, WAF/AppSec, and intelligence/CDR. The public CloudGuard REST API (originally Dome9 v2) is used to onboard AWS, Azure, GCP, Alibaba, Oracle, Kubernetes, and on-prem accounts; run compliance and posture assessments; list and manage findings/alerts; configure IAM safety, network policies, and notifications.
 
-## Timestamps
+**APIs.json:** [apis.yml](https://raw.githubusercontent.com/api-evangelist/cloudguard/refs/heads/main/apis.yml)
 
-- **Created:** 2024 
-- **Modified:** 2024 
+## Scope
+
+- **Type:** Index
+- **x-type:** company
+- **Company:** Check Point Software Technologies
+- **Position:** Consumer
+- **Access:** 3rd-Party
+
+## Tags
+
+Check Point, CNAPP, Cloud Security, Compliance, CSPM, CWPP, Posture Management
 
 ## APIs
 
-### CloudGuard Dome9 API
-API for CloudGuard compliance and security posture management
+### CloudGuard CNAPP REST API
+The CloudGuard CNAPP REST API (formerly Dome9 v2) for cloud account onboarding, posture assessments, compliance rulesets, findings, alerts, IAM safety, and network security configuration. Auth uses HTTP Basic with an API key and secret.
 
-**Human URL:** [https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/](https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/)
-
-
-#### Tags:
-
- - Cloud Security, Compliance, Posture Management, AWS, Azure, GCP
-
-#### Properties
-
-- [Documentation](https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/API-Reference.html)
+- [Documentation](https://docs.cgn.portal.checkpoint.com/reference)
 - [OpenAPI](https://api.dome9.com/v2/swagger.json)
 - [Authentication](https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/API-Authentication.html)
+- [Terraform Provider](https://registry.terraform.io/providers/dome9/dome9/latest/docs)
 
-### CloudGuard Workload Protection API
-API for server and container workload protection
+### CloudGuard Workload Protection (CWPP)
+Kubernetes admission control, image assurance / CI scanning, runtime protection, and serverless function security.
 
-**Human URL:** [https://sc1.checkpoint.com/documents/CloudGuard_Workload_Protection/](https://sc1.checkpoint.com/documents/CloudGuard_Workload_Protection/)
+### CloudGuard Code Security (Spectral)
+Developer-first SAST, IaC scanning, secrets detection, and SCA integrated into CI/CD pipelines via CLI and API.
 
+### CloudGuard WAF (AppSec)
+Contextual ML-based protection for web apps and APIs.
 
-#### Tags:
-
- - Workload Protection, Container Security, Server Security, Runtime Protection
-
-#### Properties
-
-- [Documentation](https://sc1.checkpoint.com/documents/CloudGuard_Workload_Protection/Documentation/)
-- [Authentication](https://sc1.checkpoint.com/documents/CloudGuard_Workload_Protection/Documentation/Authentication.html)
-
-### CloudGuard CSPM API
-Cloud Security Posture Management API for multi-cloud environments
-
-**Human URL:** [https://www.checkpoint.com/cloudguard/cspm/](https://www.checkpoint.com/cloudguard/cspm/)
-
-
-#### Tags:
-
- - CSPM, Multi-Cloud, Security Posture, Configuration Management
-
-#### Properties
-
-- [Documentation](https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/CSPM-API.html)
-- [Compliance Policies](https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/Compliance.html)
-
-### CloudGuard CNAPP API
-Cloud Native Application Protection Platform API
-
-**Human URL:** [https://www.checkpoint.com/cloudguard/cloud-native-security/](https://www.checkpoint.com/cloudguard/cloud-native-security/)
-
-
-#### Tags:
-
- - CNAPP, Cloud Native, Application Security, DevSecOps
-
-#### Properties
-
-- [Documentation](https://sc1.checkpoint.com/documents/CloudGuard_CNAPP/)
-- [Integration Guide](https://sc1.checkpoint.com/documents/CloudGuard_CNAPP/Integration/)
-
-### CloudGuard Spectral API
-API for code security and secrets detection
-
-**Human URL:** [https://spectralops.io/](https://spectralops.io/)
-
-
-#### Tags:
-
- - Code Security, Secrets Detection, DevSecOps, CI/CD Security
-
-#### Properties
-
-- [Documentation](https://docs.spectralops.io/reference/)
-- [OpenAPI](https://api.spectralops.io/v1/openapi.json)
+### CloudGuard Network Security
+Cloud-native firewalling and threat prevention with management APIs for gateway provisioning and rule management.
 
 ## Common Properties
 
-- [Getting Started](https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/Getting-Started.html)
-- [Authentication](https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/API-Authentication.html)
-- [Support Portal](https://support.checkpoint.com/)
-- [Community](https://community.checkpoint.com/)
-- [Training](https://training-certifications.checkpoint.com/)
-- [Status Page](https://status.dome9.com/)
+- [Website](https://www.checkpoint.com/cloudguard/)
+- [Documentation](https://docs.cgn.portal.checkpoint.com/)
+- [Developer Portal](https://docs.cgn.portal.checkpoint.com/reference)
+- [Support](https://support.checkpoint.com/)
+- [Status](https://status.dome9.com/)
+- [JSON-LD](json-ld/cloudguard-context.jsonld)
+- [Spectral](rules/cloudguard-rules.yml)
+- [Naftiko Capabilities](capabilities/cloudguard-capabilities.yml)
 
 ## Maintainers
 
-**FN:** Check Point Software Technologies
-
-**Email:** cloudguard-support@checkpoint.com
+- **FN:** Kin Lane
+- **Email:** kinlane@gmail.com

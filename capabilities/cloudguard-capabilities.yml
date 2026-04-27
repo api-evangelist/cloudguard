@@ -1,0 +1,104 @@
+# Naftiko capabilities profile for CloudGuard CNAPP.
+# Capabilities are derived from the public CloudGuard (Dome9 v2) API
+# documentation at https://docs.cgn.portal.checkpoint.com/reference and
+# the Dome9 v2 swagger at https://api.dome9.com/v2/swagger.json.
+provider: cloudguard
+name: Check Point CloudGuard
+description: >-
+  Cloud Native Application Protection Platform (CNAPP) covering security
+  posture management, workload protection, code security, network security,
+  WAF, and threat intelligence across multi-cloud environments.
+capabilities:
+  - id: cloudguard.cloud-account.onboard
+    name: Onboard cloud account
+    description: Register a new AWS, Azure, GCP, Alibaba, Oracle, or Kubernetes account with CloudGuard.
+    inputs:
+      - api-key
+      - api-secret
+      - vendor
+      - credentials
+    outputs:
+      - cloud-account
+  - id: cloudguard.cloud-account.list
+    name: List cloud accounts
+    description: List all onboarded cloud accounts.
+    inputs:
+      - api-key
+      - api-secret
+    outputs:
+      - cloud-accounts
+  - id: cloudguard.ruleset.list
+    name: List compliance rulesets
+    description: List built-in and custom compliance/posture rulesets.
+    inputs:
+      - api-key
+      - api-secret
+    outputs:
+      - rulesets
+  - id: cloudguard.assessment.run
+    name: Run posture assessment
+    description: Execute a compliance ruleset against one or more cloud accounts.
+    inputs:
+      - api-key
+      - api-secret
+      - ruleset-id
+      - cloud-account-id
+    outputs:
+      - assessment
+  - id: cloudguard.findings.list
+    name: List findings
+    description: Retrieve security findings filtered by severity, type, account, and time range.
+    inputs:
+      - api-key
+      - api-secret
+      - filters
+    outputs:
+      - findings
+  - id: cloudguard.findings.acknowledge
+    name: Acknowledge finding
+    description: Mark a finding as acknowledged or remediated.
+    inputs:
+      - api-key
+      - api-secret
+      - finding-id
+      - status
+    outputs:
+      - status
+  - id: cloudguard.alerts.list
+    name: List alerts
+    description: List active CloudGuard intelligence and CDR alerts.
+    inputs:
+      - api-key
+      - api-secret
+      - filters
+    outputs:
+      - alerts
+  - id: cloudguard.iam-safety.policy
+    name: Manage IAM safety policy
+    description: Configure IAM safety policies that protect privileged actions in cloud environments.
+    inputs:
+      - api-key
+      - api-secret
+      - policy
+    outputs:
+      - policy
+  - id: cloudguard.network.security-group
+    name: Manage cloud network security groups
+    description: Read and update cloud security group rules through CloudGuard.
+    inputs:
+      - api-key
+      - api-secret
+      - cloud-account-id
+      - security-group-id
+      - rules
+    outputs:
+      - security-group
+  - id: cloudguard.notifications.configure
+    name: Configure notifications
+    description: Configure notification policies for findings, alerts, and assessments.
+    inputs:
+      - api-key
+      - api-secret
+      - notification-config
+    outputs:
+      - notification

@@ -1,0 +1,80 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "cg": "https://checkpoint.com/cloudguard/ns/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+
+    "CloudAccount": {
+      "@id": "cg:CloudAccount",
+      "@context": {
+        "id": "schema:identifier",
+        "name": "schema:name",
+        "vendor": "cg:cloudVendor",
+        "externalAccountNumber": "cg:externalAccountNumber",
+        "organizationalUnitId": "cg:organizationalUnitId",
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Ruleset": {
+      "@id": "cg:Ruleset",
+      "@context": {
+        "id": "schema:identifier",
+        "name": "schema:name",
+        "description": "schema:description",
+        "cloudVendor": "cg:cloudVendor",
+        "rulesCount": "cg:rulesCount",
+        "language": "cg:language"
+      }
+    },
+
+    "Finding": {
+      "@id": "cg:Finding",
+      "@context": {
+        "id": "schema:identifier",
+        "severity": "cg:severity",
+        "ruleId": "cg:ruleId",
+        "ruleName": "schema:name",
+        "entityType": "cg:entityType",
+        "entityId": "cg:entityId",
+        "cloudAccountId": "cg:cloudAccountId",
+        "createdTime": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Assessment": {
+      "@id": "cg:Assessment",
+      "@context": {
+        "id": "schema:identifier",
+        "rulesetId": "cg:rulesetId",
+        "cloudAccountId": "cg:cloudAccountId",
+        "score": "cg:score",
+        "passed": "cg:passed",
+        "failed": "cg:failed",
+        "createdTime": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Alert": {
+      "@id": "cg:Alert",
+      "@context": {
+        "id": "schema:identifier",
+        "severity": "cg:severity",
+        "type": "cg:alertType",
+        "status": "cg:status",
+        "cloudAccountId": "cg:cloudAccountId"
+      }
+    }
+  }
+}
