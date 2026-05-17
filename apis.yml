@@ -16,7 +16,7 @@ access: 3rd-Party
 created: '2024-01-01'
 modified: '2026-04-26'
 position: Consumer
-x-type: company
+kind: company
 x-company: Check Point Software Technologies
 description: >-
   Check Point CloudGuard is a Cloud Native Application Protection Platform
@@ -115,7 +115,7 @@ common:
     url: https://docs.cgn.portal.checkpoint.com/
   - type: Developer Portal
     url: https://docs.cgn.portal.checkpoint.com/reference
-  - type: Getting Started
+  - type: GettingStarted
     url: https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/Getting-Started/Getting-started-with-CloudGuard.htm
   - type: Authentication
     url: https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/API-Authentication.html
@@ -123,13 +123,13 @@ common:
     url: https://support.checkpoint.com/
   - type: Community
     url: https://community.checkpoint.com/
-  - type: Status
+  - type: StatusPage
     url: https://status.dome9.com/
-  - type: Privacy Policy
+  - type: PrivacyPolicy
     url: https://www.checkpoint.com/privacy/
   - type: Terraform Provider
     url: https://registry.terraform.io/providers/dome9/dome9/latest/docs
-  - type: JSON-LD
+  - type: JSONLD
     url: json-ld/cloudguard-context.jsonld
   - type: Spectral
     url: rules/cloudguard-rules.yml
