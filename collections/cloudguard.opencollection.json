@@ -1,0 +1,297 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Check Point CloudGuard CNAPP REST API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "CloudAccounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List AWS cloud accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dome9.com/v2/cloudaccounts"
+          },
+          "docs": "List AWS cloud accounts"
+        },
+        {
+          "info": {
+            "name": "Add an AWS cloud account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.dome9.com/v2/cloudaccounts"
+          },
+          "docs": "Add an AWS cloud account"
+        },
+        {
+          "info": {
+            "name": "Get cloud account details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dome9.com/v2/cloudaccounts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get cloud account details"
+        },
+        {
+          "info": {
+            "name": "Delete a cloud account",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.dome9.com/v2/cloudaccounts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a cloud account"
+        },
+        {
+          "info": {
+            "name": "Update cloud account name",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.dome9.com/v2/cloudaccounts/name"
+          },
+          "docs": "Update cloud account name"
+        },
+        {
+          "info": {
+            "name": "Update cloud account credentials",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.dome9.com/v2/cloudaccounts/credentials"
+          },
+          "docs": "Update cloud account credentials"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Findings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a specific finding",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dome9.com/v2/compliance/finding/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a specific finding"
+        },
+        {
+          "info": {
+            "name": "Search findings",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.dome9.com/v2/compliance/findings/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Search findings"
+        },
+        {
+          "info": {
+            "name": "Acknowledge a finding",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.dome9.com/v2/compliance/finding/:id/acknowledge",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Acknowledge a finding"
+        },
+        {
+          "info": {
+            "name": "Archive a finding",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.dome9.com/v2/compliance/finding/:id/archive",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Archive a finding"
+        },
+        {
+          "info": {
+            "name": "Bulk acknowledge findings",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.dome9.com/v2/compliance/finding/bulkacknowledge"
+          },
+          "docs": "Bulk acknowledge findings"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Compliance",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get findings for a compliance bundle / rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dome9.com/v2/compliance/finding/bundle/:bundleId",
+            "params": [
+              {
+                "name": "bundleId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get findings for a compliance bundle / rule"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Notifications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a notification policy",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.dome9.com/v2/notification"
+          },
+          "docs": "Create a notification policy"
+        },
+        {
+          "info": {
+            "name": "Update a notification policy",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.dome9.com/v2/notification"
+          },
+          "docs": "Update a notification policy"
+        },
+        {
+          "info": {
+            "name": "Get notification policy",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dome9.com/v2/notification/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get notification policy"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Policies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List AWS security group entities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dome9.com/v2/awssecuritygroup"
+          },
+          "docs": "List AWS security group entities"
+        },
+        {
+          "info": {
+            "name": "Create AWS security group policy",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.dome9.com/v2/awssecuritygroup"
+          },
+          "docs": "Create AWS security group policy"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
