@@ -103,7 +103,7 @@ common:
     url: https://www.checkpoint.com/cloudguard/
   - type: Documentation
     url: https://docs.cgn.portal.checkpoint.com/
-  - type: Developer Portal
+  - type: DeveloperPortal
     url: https://docs.cgn.portal.checkpoint.com/reference
   - type: GettingStarted
     url: >-
