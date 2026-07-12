@@ -1,0 +1,15 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/cloudguard-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: basicAuth
+  type: http
+  scheme: basic
+  description: |-
+    CloudGuard authentication uses HTTP Basic with the CloudGuard API
+    key id as the username and the API key secret as the password.
+  sources:
+  - openapi/cloudguard-openapi.yml
