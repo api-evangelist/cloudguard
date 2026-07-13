@@ -1,0 +1,13 @@
+{
+  "repo": "cloudguard",
+  "feeds": [
+    {
+      "source": "https://blog.checkpoint.com/feed/",
+      "feed_url": "https://blog.checkpoint.com/feed/",
+      "title": "Check Point Blog",
+      "saved": 4
+    }
+  ],
+  "fetched": "2026-07-11T11:43:46Z",
+  "post_count": 14
+}
