@@ -99,6 +99,8 @@ apis:
       CloudGuard Network Security delivers cloud-native firewalling and threat prevention with management APIs for
       gateway provisioning, rule management, and integrations with CI/CD pipelines.
 common:
+  - type: AgenticAccess
+    url: agentic-access/cloudguard-agentic-access.yml
   - type: DomainSecurity
     url: security/cloudguard-domain-security.yml
   - type: Authentication
