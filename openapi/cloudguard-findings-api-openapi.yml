@@ -1,0 +1,114 @@
+openapi: 3.1.0
+info:
+  title: Check Point CloudGuard CNAPP REST CloudAccounts Findings API
+  description: 'Best-effort OpenAPI 3.1 description of the Check Point CloudGuard CNAPP
+
+    REST API (originally Dome9). The API is used to onboard cloud accounts,
+
+    run posture assessments, manage compliance bundles, retrieve findings,
+
+    and configure notifications and policies across AWS, Azure, GCP, Alibaba,
+
+    Oracle, and Kubernetes environments. Authentication uses HTTP Basic with
+
+    the CloudGuard API key id as username and API key secret as password.
+
+    '
+  version: '2.0'
+  contact:
+    name: Check Point CloudGuard
+    url: https://docs.cgn.portal.checkpoint.com/reference
+servers:
+- url: https://api.dome9.com
+  description: CloudGuard CNAPP API (Dome9 endpoint)
+security:
+- basicAuth: []
+tags:
+- name: Findings
+paths:
+  /v2/compliance/finding/{id}:
+    parameters:
+    - in: path
+      name: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Get a specific finding
+      operationId: getFinding
+      tags:
+      - Findings
+      responses:
+        '200':
+          description: Finding details
+  /v2/compliance/findings/search:
+    post:
+      summary: Search findings
+      operationId: searchFindings
+      tags:
+      - Findings
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pageSize:
+                  type: integer
+                sorting:
+                  type: object
+                filter:
+                  type: object
+      responses:
+        '200':
+          description: Search results
+  /v2/compliance/finding/{id}/acknowledge:
+    parameters:
+    - in: path
+      name: id
+      required: true
+      schema:
+        type: string
+    put:
+      summary: Acknowledge a finding
+      operationId: acknowledgeFinding
+      tags:
+      - Findings
+      responses:
+        '200':
+          description: Acknowledged
+  /v2/compliance/finding/{id}/archive:
+    parameters:
+    - in: path
+      name: id
+      required: true
+      schema:
+        type: string
+    post:
+      summary: Archive a finding
+      operationId: archiveFinding
+      tags:
+      - Findings
+      responses:
+        '200':
+          description: Archived
+  /v2/compliance/finding/bulkacknowledge:
+    put:
+      summary: Bulk acknowledge findings
+      operationId: bulkAcknowledgeFindings
+      tags:
+      - Findings
+      responses:
+        '200':
+          description: Acknowledged
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: 'CloudGuard authentication uses HTTP Basic with the CloudGuard API
+
+        key id as the username and the API key secret as the password.
+
+        '

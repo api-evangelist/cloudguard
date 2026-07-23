@@ -1,0 +1,53 @@
+openapi: 3.1.0
+info:
+  title: Check Point CloudGuard CNAPP REST CloudAccounts Compliance API
+  description: 'Best-effort OpenAPI 3.1 description of the Check Point CloudGuard CNAPP
+
+    REST API (originally Dome9). The API is used to onboard cloud accounts,
+
+    run posture assessments, manage compliance bundles, retrieve findings,
+
+    and configure notifications and policies across AWS, Azure, GCP, Alibaba,
+
+    Oracle, and Kubernetes environments. Authentication uses HTTP Basic with
+
+    the CloudGuard API key id as username and API key secret as password.
+
+    '
+  version: '2.0'
+  contact:
+    name: Check Point CloudGuard
+    url: https://docs.cgn.portal.checkpoint.com/reference
+servers:
+- url: https://api.dome9.com
+  description: CloudGuard CNAPP API (Dome9 endpoint)
+security:
+- basicAuth: []
+tags:
+- name: Compliance
+paths:
+  /v2/compliance/finding/bundle/{bundleId}:
+    parameters:
+    - in: path
+      name: bundleId
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Get findings for a compliance bundle / rule
+      operationId: getBundleFindings
+      tags:
+      - Compliance
+      responses:
+        '200':
+          description: Bundle findings
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: 'CloudGuard authentication uses HTTP Basic with the CloudGuard API
+
+        key id as the username and the API key secret as the password.
+
+        '

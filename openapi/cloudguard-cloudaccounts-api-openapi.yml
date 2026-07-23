@@ -1,0 +1,96 @@
+openapi: 3.1.0
+info:
+  title: Check Point CloudGuard CNAPP REST CloudAccounts API
+  description: 'Best-effort OpenAPI 3.1 description of the Check Point CloudGuard CNAPP
+
+    REST API (originally Dome9). The API is used to onboard cloud accounts,
+
+    run posture assessments, manage compliance bundles, retrieve findings,
+
+    and configure notifications and policies across AWS, Azure, GCP, Alibaba,
+
+    Oracle, and Kubernetes environments. Authentication uses HTTP Basic with
+
+    the CloudGuard API key id as username and API key secret as password.
+
+    '
+  version: '2.0'
+  contact:
+    name: Check Point CloudGuard
+    url: https://docs.cgn.portal.checkpoint.com/reference
+servers:
+- url: https://api.dome9.com
+  description: CloudGuard CNAPP API (Dome9 endpoint)
+security:
+- basicAuth: []
+tags:
+- name: CloudAccounts
+paths:
+  /v2/cloudaccounts:
+    get:
+      summary: List AWS cloud accounts
+      operationId: listAwsCloudAccounts
+      tags:
+      - CloudAccounts
+      responses:
+        '200':
+          description: List of AWS accounts
+    post:
+      summary: Add an AWS cloud account
+      operationId: addAwsCloudAccount
+      tags:
+      - CloudAccounts
+      responses:
+        '201':
+          description: Account added
+  /v2/cloudaccounts/{id}:
+    parameters:
+    - in: path
+      name: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Get cloud account details
+      operationId: getCloudAccount
+      tags:
+      - CloudAccounts
+      responses:
+        '200':
+          description: Account details
+    delete:
+      summary: Delete a cloud account
+      operationId: deleteCloudAccount
+      tags:
+      - CloudAccounts
+      responses:
+        '204':
+          description: Account deleted
+  /v2/cloudaccounts/name:
+    put:
+      summary: Update cloud account name
+      operationId: updateCloudAccountName
+      tags:
+      - CloudAccounts
+      responses:
+        '200':
+          description: Updated
+  /v2/cloudaccounts/credentials:
+    put:
+      summary: Update cloud account credentials
+      operationId: updateCloudAccountCredentials
+      tags:
+      - CloudAccounts
+      responses:
+        '200':
+          description: Updated
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: 'CloudGuard authentication uses HTTP Basic with the CloudGuard API
+
+        key id as the username and the API key secret as the password.
+
+        '

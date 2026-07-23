@@ -1,0 +1,70 @@
+openapi: 3.1.0
+info:
+  title: Check Point CloudGuard CNAPP REST CloudAccounts Notifications API
+  description: 'Best-effort OpenAPI 3.1 description of the Check Point CloudGuard CNAPP
+
+    REST API (originally Dome9). The API is used to onboard cloud accounts,
+
+    run posture assessments, manage compliance bundles, retrieve findings,
+
+    and configure notifications and policies across AWS, Azure, GCP, Alibaba,
+
+    Oracle, and Kubernetes environments. Authentication uses HTTP Basic with
+
+    the CloudGuard API key id as username and API key secret as password.
+
+    '
+  version: '2.0'
+  contact:
+    name: Check Point CloudGuard
+    url: https://docs.cgn.portal.checkpoint.com/reference
+servers:
+- url: https://api.dome9.com
+  description: CloudGuard CNAPP API (Dome9 endpoint)
+security:
+- basicAuth: []
+tags:
+- name: Notifications
+paths:
+  /v2/notification:
+    post:
+      summary: Create a notification policy
+      operationId: createNotification
+      tags:
+      - Notifications
+      responses:
+        '201':
+          description: Notification created
+    put:
+      summary: Update a notification policy
+      operationId: updateNotification
+      tags:
+      - Notifications
+      responses:
+        '200':
+          description: Notification updated
+  /v2/notification/{id}:
+    parameters:
+    - in: path
+      name: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Get notification policy
+      operationId: getNotification
+      tags:
+      - Notifications
+      responses:
+        '200':
+          description: Notification details
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: 'CloudGuard authentication uses HTTP Basic with the CloudGuard API
+
+        key id as the username and the API key secret as the password.
+
+        '
