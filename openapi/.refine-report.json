@@ -1,0 +1,22 @@
+{
+  "provider": "cloudguard",
+  "sources": [
+    "cloudguard-cloudaccounts-api-openapi.yml",
+    "cloudguard-compliance-api-openapi.yml",
+    "cloudguard-findings-api-openapi.yml",
+    "cloudguard-notifications-api-openapi.yml",
+    "cloudguard-policies-api-openapi.yml"
+  ],
+  "outputs": [
+    "cloudguard-cloudaccounts-api-openapi.yml",
+    "cloudguard-compliance-api-openapi.yml",
+    "cloudguard-findings-api-openapi.yml",
+    "cloudguard-notifications-api-openapi.yml",
+    "cloudguard-policies-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
