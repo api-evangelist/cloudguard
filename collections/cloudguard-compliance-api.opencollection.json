@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Check Point CloudGuard CNAPP REST CloudAccounts Compliance API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Compliance",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get findings for a compliance bundle / rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dome9.com/v2/compliance/finding/bundle/:bundleId",
+            "params": [
+              {
+                "name": "bundleId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get findings for a compliance bundle / rule"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

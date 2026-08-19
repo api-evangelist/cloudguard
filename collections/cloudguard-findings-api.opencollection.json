@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Check Point CloudGuard CNAPP REST CloudAccounts Findings API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Findings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a specific finding",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dome9.com/v2/compliance/finding/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a specific finding"
+        },
+        {
+          "info": {
+            "name": "Search findings",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.dome9.com/v2/compliance/findings/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Search findings"
+        },
+        {
+          "info": {
+            "name": "Acknowledge a finding",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.dome9.com/v2/compliance/finding/:id/acknowledge",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Acknowledge a finding"
+        },
+        {
+          "info": {
+            "name": "Archive a finding",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.dome9.com/v2/compliance/finding/:id/archive",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Archive a finding"
+        },
+        {
+          "info": {
+            "name": "Bulk acknowledge findings",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.dome9.com/v2/compliance/finding/bulkacknowledge"
+          },
+          "docs": "Bulk acknowledge findings"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

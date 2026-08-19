@@ -1,0 +1,134 @@
+{
+  "item": [
+    {
+      "id": "5b6776d6-7c96-4a26-ad9c-1374ea4a149a",
+      "name": "Compliance",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2de5adf5-f785-4142-a79b-f8c2f3355859",
+          "name": "Get findings for a compliance bundle / rule",
+          "request": {
+            "name": "Get findings for a compliance bundle / rule",
+            "description": {},
+            "url": {
+              "path": [
+                "v2",
+                "compliance",
+                "finding",
+                "bundle",
+                ":bundleId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "bundleId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "da3223ac-443f-41f6-bc74-9672d67b8f0e",
+              "name": "Bundle findings",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "compliance",
+                    "finding",
+                    "bundle",
+                    ":bundleId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "bundleId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.dome9.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "e91fb56b-57df-4397-be1c-c95b8d3eae87",
+    "name": "Check Point CloudGuard CNAPP REST CloudAccounts Compliance API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Best-effort OpenAPI 3.1 description of the Check Point CloudGuard CNAPP\nREST API (originally Dome9). The API is used to onboard cloud accounts,\nrun posture assessments, manage compliance bundles, retrieve findings,\nand configure notifications and policies across AWS, Azure, GCP, Alibaba,\nOracle, and Kubernetes environments. Authentication uses HTTP Basic with\nthe CloudGuard API key id as username and API key secret as password.\n\n\nContact Support:\n Name: Check Point CloudGuard",
+      "type": "text/plain"
+    }
+  }
+}

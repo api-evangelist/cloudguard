@@ -1,0 +1,47 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Check Point CloudGuard CNAPP REST CloudAccounts Policies API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Policies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List AWS security group entities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dome9.com/v2/awssecuritygroup"
+          },
+          "docs": "List AWS security group entities"
+        },
+        {
+          "info": {
+            "name": "Create AWS security group policy",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.dome9.com/v2/awssecuritygroup"
+          },
+          "docs": "Create AWS security group policy"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
