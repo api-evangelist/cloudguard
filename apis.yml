@@ -96,6 +96,8 @@ apis:
   description: The CloudAccounts API from CloudGuard — 4 operation(s) for cloudaccounts.
   humanURL: https://docs.cgn.portal.checkpoint.com/reference
   tags:
+  - Cloud Accounts
+  tags_raw:
   - CloudAccounts
   properties:
   - type: OpenAPI
@@ -144,6 +146,8 @@ apis:
   description: The Notifications API from CloudGuard — 2 operation(s) for notifications.
   humanURL: https://docs.cgn.portal.checkpoint.com/reference
   tags:
+  - Notification
+  tags_raw:
   - Notifications
   properties:
   - type: OpenAPI
