@@ -1,0 +1,4429 @@
+info:
+  title: Posture Management
+  version: v2
+openapi: 3.0.0
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+paths:
+  /v2/assessment/bundleV2:
+    post:
+      tags:
+      - Assessment
+      summary: Run Bundle V2
+      operationId: Assessment_RunBundleV2Async_post_/v2/assessment/bundleV2
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.Assessment.AssessmentResultViewModel_Newtonsoft.Json.Linq.JRaw_'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.Assessment.AssessmentBundleRequestViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.Assessment.AssessmentBundleRequestViewModel'
+        description: The assessment request block
+        required: true
+      description: Run an assessment on a cloud environment using a bundle (V2)
+  /v2/AssessmentHistoryV2/bundleResults:
+    get:
+      tags:
+      - Assessment History V2
+      summary: Get Bundle Results
+      operationId: AssessmentHistoryV2_GetBundleResults_get_/v2/AssessmentHistoryV2/bundleResults
+      parameters:
+      - name: bundleId
+        in: query
+        description: the bundle used for the assessment (for all the accounts in the list)
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: cloudAccountIds
+        in: query
+        description: comma separated list of cloud accounts
+        required: true
+        schema:
+          type: string
+      - name: fromTime
+        in: query
+        description: the time the assessment was done
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: epsilonInMinutes
+        in: query
+        description: period of time (in min) back from the fromTime to look for results; only results in this range will be
+          returned
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: requestId
+        in: query
+        description: an optional request id; the same value will appear in the response
+        required: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentHistoryResultV2ViewModel_Newtonsoft.Json.Linq.JRaw_'
+      description: Get most recent assessment results for a specific bundle, for a list of cloud accounts
+  /v2/AssessmentHistoryV2/assessmentTrendOrganizationalUnit:
+    get:
+      tags:
+      - Assessment History V2
+      summary: Get Assessment Trend Organizational Unit
+      operationId: AssessmentHistoryV2_GetAssessmentTrendOrganizationalUnit_get_/v2/AssessmentHistoryV2/assessmentTrendOrganizationalUnit
+      parameters:
+      - name: rulesetId
+        in: query
+        description: Ruleset ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: organizationalUnitId
+        in: query
+        description: Organizational Unit ID
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: from
+        in: query
+        description: From Date
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: to
+        in: query
+        description: To Date
+        required: true
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Falconetix.Model.Compliance.AssessmentTrend.AssessmentTrendItemViewModel'
+      description: Get the assessment trend for the selected time range (maximum of 93 days)
+  /v2/AssessmentHistoryV2/assessmentTrendV2:
+    get:
+      tags:
+      - Assessment History V2
+      summary: Get Assessment Trend V2
+      operationId: AssessmentHistoryV2_GetAssessmentTrendV2_get_/v2/AssessmentHistoryV2/assessmentTrendV2
+      parameters:
+      - name: bundleId
+        in: query
+        description: Bundle ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: cloudAccountId
+        in: query
+        description: Cloud Account ID
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: from
+        in: query
+        description: From Date
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: to
+        in: query
+        description: To Date
+        required: true
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Falconetix.Model.Compliance.AssessmentTrend.AssessmentTrendItemViewModel'
+      description: Get the assessment trend for the selected time range (maximum of 93 days)
+  /v2/AssessmentHistoryV2/LastAssessmentResults/view:
+    post:
+      tags:
+      - Assessment History V2
+      summary: Get Last Assessment Results View
+      operationId: AssessmentHistoryV2_GetLastAssessmentResultsView_post_/v2/AssessmentHistoryV2/LastAssessmentResults/view
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentHistoryViewResultV2ViewModel'
+      requestBody:
+        $ref: '#/components/requestBodies/Falconetix.Model.RuleEngine.Entities.AssessmentsRequestFilterViewModel'
+      description: Get last assessment results for selected cloud accounts and bundles. Does not return details for the tests
+        or test entities.
+  /v2/AssessmentHistoryV2/LastAssessmentResults:
+    post:
+      tags:
+      - Assessment History V2
+      summary: Get Last Assessment Results
+      operationId: AssessmentHistoryV2_GetLastAssessmentResults_post_/v2/AssessmentHistoryV2/LastAssessmentResults
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentHistoryResultV2ViewModel_Newtonsoft.Json.Linq.JRaw_'
+      requestBody:
+        $ref: '#/components/requestBodies/Falconetix.Model.RuleEngine.Entities.AssessmentsRequestFilterViewModel'
+      description: Get last assessment results for selected cloud accounts and bundles. Includes details of tests and test
+        entities.
+  /v2/AssessmentHistoryV2/LastAssessmentResults/minimized:
+    post:
+      tags:
+      - Assessment History V2
+      summary: Get Last Assessment Results Mini
+      operationId: AssessmentHistoryV2_GetLastAssessmentResultsMini_post_/v2/AssessmentHistoryV2/LastAssessmentResults/minimized
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentHistoryResultV2ViewModel_Falconetix.Model.RuleEngine.Entities.AssessmentHistoryMinimizedEntity_'
+      requestBody:
+        $ref: '#/components/requestBodies/Falconetix.Model.RuleEngine.Entities.AssessmentsRequestFilterViewModel'
+      description: Get last assessment results for selected cloud accounts and bundles as Minimized Entity.
+  /v2/AssessmentHistoryV2/ExecutiveReport/{vendor}/{rulesetId}:
+    get:
+      tags:
+      - Assessment History V2
+      summary: Get Last Assessment Results Mini To Executive Summary
+      operationId: AssessmentHistoryV2_GetLastAssessmentResultsMiniToExecutiveSummary_get_/v2/AssessmentHistoryV2/ExecutiveReport/{vendor}/{rulesetId}
+      parameters:
+      - name: vendor
+        in: path
+        description: Platform
+        required: true
+        schema:
+          type: string
+          enum:
+          - aws
+          - hp
+          - mellanox
+          - awsgov
+          - azure
+          - google
+          - awschina
+          - azuregov
+          - kubernetes
+          - azurechina
+          - terraform
+          - generic
+          - kubernetesruntimeassurance
+          - shiftleft
+          - sourcecodeassurance
+          - imageassurance
+          - alibaba
+          - cft
+          - containerregistry
+          - oci
+          - ocigov
+          - ocigovuk
+          - CIEM
+      - name: rulesetId
+        in: path
+        description: Ruleset ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.AssessmentExecutiveReport'
+      description: Get an executive report of assessments for the selected ruleset and platform
+  /v2/AssessmentHistoryV2/ExecutiveReport/email/{vendor}/{rulesetId}:
+    post:
+      tags:
+      - Assessment History V2
+      summary: Send Executive ReportCSV By Email
+      operationId: AssessmentHistoryV2_SendExecutiveReportCSVByEmail_post_/v2/AssessmentHistoryV2/ExecutiveReport/email/{vendor}/{rulesetId}
+      parameters:
+      - name: vendor
+        in: path
+        description: vendor
+        required: true
+        schema:
+          type: string
+          enum:
+          - aws
+          - hp
+          - mellanox
+          - awsgov
+          - azure
+          - google
+          - awschina
+          - azuregov
+          - kubernetes
+          - azurechina
+          - terraform
+          - generic
+          - kubernetesruntimeassurance
+          - shiftleft
+          - sourcecodeassurance
+          - imageassurance
+          - alibaba
+          - cft
+          - containerregistry
+          - oci
+          - ocigov
+          - ocigovuk
+          - CIEM
+      - name: rulesetId
+        in: path
+        description: rulesetId
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                format: uuid
+                type: string
+                example: 00000000-0000-0000-0000-000000000000
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+          application/x-www-form-urlencoded:
+            schema:
+              type: array
+              items:
+                type: string
+        description: Emails
+        required: true
+      description: Send email with link to s3 bucket to the Executive Report
+  /v2/AssessmentHistoryV2/{assessmentId}/ExecutiveReport/csv:
+    get:
+      tags:
+      - Assessment History V2
+      summary: Get Assessment Executive ReportCSV
+      operationId: AssessmentHistoryV2_GetAssessmentExecutiveReportCSV_get_/v2/AssessmentHistoryV2/{assessmentId}/ExecutiveReport/csv
+      parameters:
+      - name: assessmentId
+        in: path
+        description: AssessmentId
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      description: Get a csv executive report of assessment
+  /v2/AssessmentHistoryV2/OrganizationalUnitsLastAssessmentStatistics:
+    post:
+      tags:
+      - Assessment History V2
+      summary: Get Organizational Units Last Assessment Statistics
+      operationId: AssessmentHistoryV2_GetOrganizationalUnitsLastAssessmentStatistics_post_/v2/AssessmentHistoryV2/OrganizationalUnitsLastAssessmentStatistics
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.OrganizationalUnitAssessmentHistoryViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.OrganizationalUnitAssessmentHistoryRequestModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.OrganizationalUnitAssessmentHistoryRequestModel'
+        required: true
+      description: Get last assessment statistics for selected Organizational Units and bundles.
+  /v2/AssessmentHistoryV2/view/timeRange:
+    post:
+      tags:
+      - Assessment History V2
+      summary: Find Result Views By Time Range
+      operationId: AssessmentHistoryV2_FindResultViewsByTimeRangeAsync_post_/v2/AssessmentHistoryV2/view/timeRange
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessnentHistoryViewResultsTimeRangeViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentViewsByTimeRangeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentViewsByTimeRangeRequest'
+        description: details of the results to get (filters, time range)
+        required: true
+      description: Get assessment history (list of assessments) for specified time range and filters
+  /v2/AssessmentHistoryV2/view/{id}:
+    get:
+      tags:
+      - Assessment History V2
+      summary: Get View History
+      operationId: AssessmentHistoryV2_GetViewHistoryAsync_get_/v2/AssessmentHistoryV2/view/{id}
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the assessment
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentHistoryViewResultV2ViewModel'
+      description: Get result statistics for a specific assessment
+  /v2/AssessmentHistoryV2/csv/{assessmentResultId}:
+    get:
+      tags:
+      - Assessment History V2
+      summary: Get Assessment Result Csv
+      operationId: AssessmentHistoryV2_GetAssessmentResultCsv_get_/v2/AssessmentHistoryV2/csv/{assessmentResultId}
+      parameters:
+      - name: assessmentResultId
+        in: path
+        description: Assessment result ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      description: Get assessment result CSV
+  /v2/AssessmentHistoryV2/{id}:
+    get:
+      tags:
+      - Assessment History V2
+      summary: Get History
+      operationId: AssessmentHistoryV2_GetHistoryAsync_get_/v2/AssessmentHistoryV2/{id}
+      parameters:
+      - name: id
+        in: path
+        description: the id of the assessment
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentHistoryResultV2ViewModel_Newtonsoft.Json.Linq.JRaw_'
+      description: Get results for a specific assessment
+  /v2/AssessmentHistoryV2:
+    delete:
+      tags:
+      - Assessment History V2
+      summary: Delete History
+      operationId: AssessmentHistoryV2_DeleteHistoryAsync_delete_/v2/AssessmentHistoryV2
+      parameters:
+      - name: historyId
+        in: query
+        description: the id of the assessment
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '204':
+          description: No Content
+      description: Delete an assessment
+  /v2/Compliance/Exclusion:
+    get:
+      tags:
+      - Compliance Exclusion
+      summary: Get All
+      operationId: ComplianceExclusion_GetAll_get_/v2/Compliance/Exclusion
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExclusionViewModel'
+      description: Get a list of exclusions for the account
+    post:
+      tags:
+      - Compliance Exclusion
+      operationId: ComplianceExclusion_Post_post_/v2/Compliance/Exclusion
+      requestBody:
+        x-name: model
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExclusionPostRequestModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExclusionViewModel'
+      description: ''
+      summary: Post
+    put:
+      tags:
+      - Compliance Exclusion
+      operationId: ComplianceExclusion_Put_put_/v2/Compliance/Exclusion
+      requestBody:
+        x-name: model
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExclusionPutRequestModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExclusionViewModel'
+      description: ''
+      summary: Put
+    delete:
+      tags:
+      - Compliance Exclusion
+      operationId: ComplianceExclusion_Delete_delete_/v2/Compliance/Exclusion
+      parameters:
+      - name: id
+        in: query
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: ''
+      summary: Delete
+  /v2/Compliance/Remediation:
+    get:
+      tags:
+      - Compliance Remediation
+      summary: Get
+      operationId: ComplianceRemediation_Get_get_/v2/Compliance/Remediation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Remediation.RemediationViewModel'
+      description: Get a list of remediations for the account
+    put:
+      tags:
+      - Compliance Remediation
+      summary: Put
+      operationId: ComplianceRemediation_Put_put_/v2/Compliance/Remediation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Remediation.RemediationViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Remediation.RemediationPutRequestModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Remediation.RemediationPutRequestModel'
+        description: details for the remediation
+        required: true
+      description: Update a remediation
+    post:
+      tags:
+      - Compliance Remediation
+      summary: Post
+      operationId: ComplianceRemediation_Post_post_/v2/Compliance/Remediation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Remediation.RemediationViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Remediation.RemediationPostRequestModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Remediation.RemediationPostRequestModel'
+        description: details for the remediation
+        required: true
+      description: Add a new remediation
+    delete:
+      tags:
+      - Compliance Remediation
+      summary: Delete
+      operationId: ComplianceRemediation_Delete_delete_/v2/Compliance/Remediation
+      parameters:
+      - name: id
+        in: query
+        description: the id of the remediation to delete
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      description: Delete a remediation
+  /v2/ComplianceRemediation:
+    get:
+      tags:
+      - Compliance Remediation Old
+      summary: Get
+      operationId: ComplianceRemediationOld_Get_get_/v2/ComplianceRemediation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Compliance.RemediationOld.RemediationGetOldViewModel'
+      description: Get a list of remediations for the account
+    put:
+      tags:
+      - Compliance Remediation Old
+      summary: Put
+      operationId: ComplianceRemediationOld_Put_put_/v2/ComplianceRemediation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.RemediationOld.RemediationGetOldViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.RemediationOld.RemediationGetOldViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.RemediationOld.RemediationGetOldViewModel'
+        description: details for the remediation
+        required: true
+      description: Update a remediation
+    post:
+      tags:
+      - Compliance Remediation Old
+      summary: Post
+      operationId: ComplianceRemediationOld_Post_post_/v2/ComplianceRemediation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.RemediationOld.RemediationGetOldViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.RemediationOld.RemediationPostOldViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.RemediationOld.RemediationPostOldViewModel'
+        description: details for the remediation
+        required: true
+      description: Add a new remediation
+  /v2/ComplianceRemediation/{id}:
+    delete:
+      tags:
+      - Compliance Remediation Old
+      summary: Delete
+      operationId: ComplianceRemediationOld_Delete_delete_/v2/ComplianceRemediation/{id}
+      parameters:
+      - name: id
+        in: path
+        description: the id of the remediation to delete
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      description: Delete a remediation
+  /v2/Compliance/Ruleset:
+    post:
+      tags:
+      - Compliance Ruleset
+      summary: Create Rule Bundle
+      operationId: ComplianceRuleset_CreateRuleBundle_post_/v2/Compliance/Ruleset
+      requestBody:
+        x-name: ruleBudleViewModel
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RuleBundleRequestPostViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleBundleResultViewModel'
+      description: Create a new ruleset
+    get:
+      tags:
+      - Compliance Ruleset
+      summary: Get Account Bundles
+      operationId: ComplianceRuleset_GetAccountBundles_get_/v2/Compliance/Ruleset
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RuleBundleResultViewModel'
+      description: Get all rulesets for the account
+  /v2/Compliance/Ruleset/{id}:
+    put:
+      tags:
+      - Compliance Ruleset
+      summary: Update Rule Bundle
+      operationId: ComplianceRuleset_UpdateRuleBundle_put_/v2/Compliance/Ruleset/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the bundle id
+        schema:
+          type: integer
+          format: int64
+        x-position: 1
+      requestBody:
+        x-name: ruleBudleViewModel
+        description: bundle definition
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RuleBundleRequestViewModel'
+        required: true
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleBundleResultViewModel'
+      description: Update a Ruleset
+    get:
+      tags:
+      - Compliance Ruleset
+      summary: Get Bundle By Id
+      operationId: ComplianceRuleset_GetBundleById_get_/v2/Compliance/Ruleset/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the bundle id
+        schema:
+          type: integer
+          format: int64
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleBundleResultViewModel'
+      description: Get a specific ruleset
+    delete:
+      tags:
+      - Compliance Ruleset
+      summary: Delete Bundle
+      operationId: ComplianceRuleset_DeleteBundle_delete_/v2/Compliance/Ruleset/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the bundle id
+        schema:
+          type: integer
+          format: int32
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: Delete a ruleset in the account
+  /v2/Compliance/ContinuousCompliancePolicyV2/EvaluateRulesetVersions:
+    post:
+      tags:
+      - Continuous Compliance Policy V2
+      summary: Evaluate Ruleset Versions
+      operationId: ContinuousCompliancePolicyV2_EvaluateRulesetVersionsAsync_post_/v2/Compliance/ContinuousCompliancePolicyV2/EvaluateRulesetVersions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliancePolicyV2.EvaluateRulesetVersionsRequestModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliancePolicyV2.EvaluateRulesetVersionsRequestModel'
+        description: The ruleset id and version as well as a list of cloud accounts to evaluate ruleset version of configured
+          polices.
+        required: true
+      description: Evaluate the ruleset version elected for each cloud account, based on the configured policies.
+  /v2/ContinuousCompliancePolicyV2/{id}:
+    get:
+      tags:
+      - Continuous Compliance Policy V2
+      summary: Get
+      operationId: ContinuousCompliancePolicyV2_Get_get_/v2/ContinuousCompliancePolicyV2/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Policy's ID
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContinuousCompliancePolicyViewModel'
+      description: 'Get single policy by its ID.
+
+        Returns a policy matching a given ID.'
+    delete:
+      tags:
+      - Continuous Compliance Policy V2
+      summary: Delete
+      operationId: ContinuousCompliancePolicyV2_Delete_delete_/v2/ContinuousCompliancePolicyV2/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Policy's ID
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: Delete policy by its ID.
+  /v2/ContinuousCompliancePolicyV2:
+    get:
+      tags:
+      - Continuous Compliance Policy V2
+      summary: Get By Id
+      operationId: ContinuousCompliancePolicyV2_GetById_get_/v2/ContinuousCompliancePolicyV2
+      parameters:
+      - name: id
+        in: query
+        description: Policy's ID
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: 'Get single policy by its ID or Get All policies for the requesting account.
+
+        Returns a policy matching a given ID or a collection of policies.'
+    post:
+      tags:
+      - Continuous Compliance Policy V2
+      summary: Post
+      operationId: ContinuousCompliancePolicyV2_Post_post_/v2/ContinuousCompliancePolicyV2
+      requestBody:
+        x-name: continuousCompliancePolicyRequestModels
+        description: Policies to create
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ContinuousCompliancePolicyRequestModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ContinuousCompliancePolicyViewModel'
+      description: 'Create new policies.
+
+        Returns a multi status response containing successfully created policies without an error message and failed policies
+        with an error message.'
+    put:
+      tags:
+      - Continuous Compliance Policy V2
+      summary: Put
+      operationId: ContinuousCompliancePolicyV2_Put_put_/v2/ContinuousCompliancePolicyV2
+      requestBody:
+        x-name: continuousCompliancePolicyRequestModels
+        description: Policies to update
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ContinuousCompliancePolicyRequestModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ContinuousCompliancePolicyViewModel'
+      description: 'Update policies.
+
+        Returns a multi status response containing successfully updated policies without an error message and failed policies
+        with an error message.'
+    delete:
+      tags:
+      - Continuous Compliance Policy V2
+      summary: Delete By Id
+      operationId: ContinuousCompliancePolicyV2_DeleteById_delete_/v2/ContinuousCompliancePolicyV2
+      parameters:
+      - name: id
+        in: query
+        description: Policy's ID
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: Delete policy by its ID.
+  /v2/Exclusion:
+    get:
+      tags:
+      - Exclusion Old
+      summary: Get
+      operationId: ExclusionOld_Get_get_/v2/Exclusion
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ExclusionOld.ExclusionGetOldViewModel'
+      description: Get a list of exclusions for the account
+    put:
+      tags:
+      - Exclusion Old
+      summary: Put
+      operationId: ExclusionOld_Put_put_/v2/Exclusion
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ExclusionOld.ExclusionGetOldViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ExclusionOld.ExclusionGetOldViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ExclusionOld.ExclusionGetOldViewModel'
+        description: details for the exclusion
+        required: true
+      description: Update an exclusion
+    post:
+      tags:
+      - Exclusion Old
+      summary: Post
+      operationId: ExclusionOld_Post_post_/v2/Exclusion
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ExclusionOld.ExclusionGetOldViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ExclusionOld.ExclusionPostOldViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ExclusionOld.ExclusionPostOldViewModel'
+        description: details for the exclusion
+        required: true
+      description: Add a new exclusion
+  /v2/Exclusion/{id}:
+    get:
+      tags:
+      - Exclusion Old
+      summary: Get
+      operationId: ExclusionOld_Get_get_/v2/Exclusion/{id}
+      parameters:
+      - name: id
+        in: path
+        description: the id of the exclusion
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ExclusionOld.ExclusionGetOldViewModel'
+      description: Get details for a specific exclusion
+    delete:
+      tags:
+      - Exclusion Old
+      summary: Delete
+      operationId: ExclusionOld_Delete_delete_/v2/Exclusion/{id}
+      parameters:
+      - name: id
+        in: path
+        description: the id of the exclusion to delete
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      description: Delete an exclusion
+  /v2/GenericList/{id}:
+    get:
+      tags:
+      - Generic List
+      summary: Get
+      operationId: GenericList_Get_get_/v2/GenericList/{id}
+      parameters:
+      - name: id
+        in: path
+        description: Generic list ID
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.GenericList.GenericListResponseViewModel'
+      description: Get a generic list by its ID
+    delete:
+      tags:
+      - Generic List
+      summary: Delete
+      operationId: GenericList_Delete_delete_/v2/GenericList/{id}
+      parameters:
+      - name: id
+        in: path
+        description: Generic list ID
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      description: Delete a generic list by its ID
+  /v2/GenericList:
+    get:
+      tags:
+      - Generic List
+      summary: Get
+      operationId: GenericList_Get_get_/v2/GenericList
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.GenericList.GenericListResponseViewModel'
+      description: Get all generic lists
+    put:
+      tags:
+      - Generic List
+      summary: Put
+      operationId: GenericList_Put_put_/v2/GenericList
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.GenericList.GenericListResponseViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.GenericList.GenericListViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.GenericList.GenericListViewModel'
+        description: Generic list model with ID
+        required: true
+      description: "Update a generic list\r\nReturns the updated generic list"
+    post:
+      tags:
+      - Generic List
+      summary: Post
+      operationId: GenericList_Post_post_/v2/GenericList
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.GenericList.GenericListResponseViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.GenericList.GenericListViewModelBase'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.GenericList.GenericListViewModelBase'
+        description: Generic list model
+        required: true
+      description: "Create a new generic list\r\nReturns the created generic list"
+  /v2/Compliance/Exclusion/{id}:
+    get:
+      tags:
+      - Compliance Exclusion
+      operationId: ComplianceExclusion_Get_get_/v2/Compliance/Exclusion/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExclusionViewModel'
+      description: ''
+      summary: Get
+  /v2/Compliance/Exclusion/ByFindingId:
+    post:
+      tags:
+      - Compliance Exclusion
+      summary: Create By Finding Id
+      operationId: ComplianceExclusion_CreateByFindingId_post_/v2/Compliance/Exclusion/ByFindingId
+      requestBody:
+        x-name: model
+        description: Finding ID and details for the exclusion
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExclusionPostByFindingIdRequestModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExclusionViewModel'
+      description: Create an exclusion from finding ID
+  /v2/Compliance/Exclusion/ByFindingKey:
+    post:
+      tags:
+      - Compliance Exclusion
+      summary: Create By Finding Key
+      operationId: ComplianceExclusion_CreateByFindingKey_post_/v2/Compliance/Exclusion/ByFindingKey
+      requestBody:
+        x-name: model
+        description: Finding key and details for the exclusion
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExclusionPostByFindingKeyRequestModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExclusionViewModel'
+      description: Create an exclusion from finding key
+  /v2/Compliance/Exclusion/BulkDelete:
+    post:
+      tags:
+      - Compliance Exclusion
+      summary: Bulk Delete
+      operationId: ComplianceExclusion_BulkDelete_post_/v2/Compliance/Exclusion/BulkDelete
+      requestBody:
+        x-name: exclusionIds
+        description: List of exclusion ids to delete
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                format: guid
+        required: true
+        x-position: 1
+      responses:
+        '207':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExclusionMultiStatusResponseViewModel'
+              example:
+                Exclusions:
+                  <ExclusionId: <StatusCode>
+                  00000000-0000-0000-0000-000000000001: 200
+      description: Delete Multiple Exclusions by Ids
+  /v2/Compliance/Ruleset/{id}/version/{version}:
+    get:
+      tags:
+      - Compliance Ruleset
+      summary: Get Versioned Bundle By Id
+      operationId: ComplianceRuleset_GetVersionedBundleById_get_/v2/Compliance/Ruleset/{id}/version/{version}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the bundle id
+        schema:
+          type: integer
+          format: int64
+        x-position: 1
+      - name: version
+        in: path
+        required: true
+        description: the bundle version
+        schema:
+          type: string
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleBundleResultViewModel'
+      description: Get a specific versioned ruleset
+  /v2/ContinuousCompliancePolicyV2/EvaluateRulesetVersions:
+    post:
+      tags:
+      - Continuous Compliance Policy V2
+      summary: Evaluate Ruleset Versions
+      operationId: ContinuousCompliancePolicyV2_EvaluateRulesetVersions_post_/v2/ContinuousCompliancePolicyV2/EvaluateRulesetVersions
+      requestBody:
+        x-name: rulesetVersionEvaluationRequest
+        description: The ruleset id and version as well as a list of cloud accounts to evaluate ruleset version of configured
+          polices.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvaluateRulesetVersionsRequestModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: Mapping of CloudAccount id to evaluated ruleset version
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+      description: Evaluate the ruleset version elected for each cloud account, based on the configured policies.
+tags:
+- name: AccessLease
+  description: Access Leases
+- name: AccessLeaseInvitation
+  description: Access Lease Invitations
+- name: Account
+- name: AccountLimitation
+- name: AccountPollingInterval
+- name: AccountRegistration
+- name: AccountTrust
+  description: "Allow you to define a trust between accounts in order to allow users in a certain account to make changes\
+    \ and operation on another account.\nActions can be taken on a trustee account via a role which is defined on it. \nThe\
+    \ role should be assumed by a user from the trusted account."
+- name: Agent
+- name: Agentless
+  description: Agentless Workload Posture
+- name: Alert
+- name: AlibabaCloudAccount
+  description: Alibaba Cloud Accounts
+- name: Application
+- name: Assessment
+  description: Run and View Compliance Assessments
+- name: AssessmentHistory
+- name: AssessmentHistoryV2
+  description: Compliance Assessment History
+- name: Audit
+  description: Audit logs
+- name: Auth
+- name: Aws Cloud Account
+  description: Manage AWS Cloud Accounts
+- name: AwsAppSync
+- name: AwsBackupVault
+- name: AwsConfigSettings
+- name: AwsCustomerGateway
+- name: AwsEcsTask
+- name: AwsEks
+- name: AwsElasticIp
+- name: AwsElasticsearchDomain
+- name: AwsEmrCluster
+- name: AwsInspectorFindings
+- name: AwsInspectorRuns
+- name: AwsLoadBalancersNetworkInterfaces
+- name: AwsOrganizations
+- name: AwsQuickSightAccount
+- name: AwsQuickSightGroup
+- name: AwsQuickSightUser
+- name: AwsQuickSightVpcConnections
+- name: AwsSageMaker
+- name: AwsSecurityGroup
+- name: AwsSecurityGroupPolicy
+- name: AwsSecurityGroupsIndex
+- name: AwsUnifiedOnboarding
+  description: Aws Unified Onboarding
+- name: AwsVpcEndpoint
+- name: AzureAnalysisService
+- name: AzureApplicationGateway
+- name: AzureApplicationSecurityGroup
+- name: AzureCloudAccount
+  description: Onboard Azure accounts
+- name: AzureComputeGalleryImage
+- name: AzureCosmosDbAccount
+- name: AzureDisk
+- name: AzureFunction
+- name: AzureKeyVault
+- name: AzureKubernetes
+- name: AzureLoadBalancer
+- name: AzureLock
+- name: AzureLogicApp
+- name: AzureLogProfile
+- name: AzurePolicyAssignment
+- name: AzureRedisCache
+- name: AzureResourceGroup
+- name: AzureRouteTable
+- name: AzureSecurityGroup
+- name: AzureSecurityGroupPolicy
+  description: Azure Network Security Group Policies
+- name: AzureSnapshot
+- name: AzureSqlDb
+- name: AzureSqlServer
+- name: AzureStorageAccounts
+- name: AzureStorageBlobContainer
+- name: AzureSubnet
+- name: AzureUser
+- name: AzureVirtualMachine
+- name: AzureVirtualMachineImage
+- name: AzureVirtualMachineScaleSet
+- name: AzureVirtualNetworkPeering
+- name: AzureWebApp
+- name: BigTable
+- name: BillableAssets
+  description: Retrieve billable assets data
+- name: BillableAssetsReport
+  description: Billable Assets Report
+- name: Billing
+- name: Clarity
+- name: CloudAcmCertificate
+- name: CloudAmi
+- name: CloudAutoScalingGroup
+- name: CloudDbInstance
+- name: CloudDirectConnect
+- name: CloudDynamoDb
+- name: CloudEcsCluster
+- name: CloudEcsService
+  description: Cloud Ecs Service
+- name: CloudEcsTaskDefinition
+- name: CloudEfs
+- name: CloudElastiCacheCluster
+- name: CloudFlowLogs
+- name: CloudFrontDistribution
+- name: CloudGuardDutyDetector
+- name: CloudIamAccountSummary
+- name: CloudIamCredentialReport
+- name: CloudIamGroup
+- name: CloudIamPasswordPolicy
+- name: CloudIamPolicy
+- name: CloudIamRole
+- name: CloudIamServerCertificate
+- name: CloudIamUser
+- name: CloudIamVirtualMfaDevice
+- name: CloudInfraUser
+  description: CloudInfra Users
+- name: CloudInstance
+  description: Cloud Instances
+- name: CloudInternetGateway
+- name: CloudKinesisStream
+- name: CloudKms
+- name: CloudKmsAlias
+- name: CloudLambdaFunction
+  description: Cloud Lambda Function
+- name: CloudLoadBalancer
+- name: CloudLogGroups
+- name: CloudMetricAlarm
+- name: CloudNacl
+- name: CloudNetworkInterfaces
+- name: CloudRedshiftCluster
+- name: CloudRegion
+- name: CloudRoute53Domain
+- name: CloudRoute53HostedZone
+- name: CloudRoute53RecordSetGroup
+- name: CloudRouteTable
+- name: CloudS3Bucket
+  description: ''
+- name: CloudSecurityGroup
+  description: AWS Security Groups
+- name: CloudSnsSubscription
+- name: CloudSnsTopic
+- name: CloudSql
+- name: CloudSqs
+  description: ''
+- name: CloudSubnet
+- name: CloudTrail
+  description: CloudTrail
+- name: CloudVolume
+- name: CloudVpc
+- name: CloudVpcPeeringConnection
+- name: CloudVPNConnection
+- name: CloudVpnGateway
+- name: CloudWAFRegional
+- name: CloudWatchEventsRule
+  description: CloudWatchEventsRule
+- name: ComplianceExclusion
+  description: Compliance Exclusions
+- name: CompliancePolicy
+- name: ComplianceRemediation
+  description: Compliance Remediation
+- name: ComplianceRemediationOld
+  description: Compliance Remediation - DEPRECATED - please use /Compliance/Remediation instead
+- name: ComplianceRuleset
+  description: ComplianceRuleset
+- name: ContinuousComplianceNotification
+  description: Continuous Compliance Notification Policies
+- name: ContinuousCompliancePolicy
+- name: ContinuousCompliancePolicyV2
+  description: Continuous Compliance Policies
+- name: EmergencyPolicy
+- name: EntityFetchStatus
+- name: EntityReport
+- name: ExclusionOld
+  description: Compliance Exclusions - DEPRECATED - please use /Compliance/Exclusion instead
+- name: ExternalFindings
+  description: Findings from External (3rd-party) systems
+- name: Fim
+- name: Finding
+  description: Compliance Findings
+- name: FindingsReport
+  description: Compliance Findings csv reports
+- name: GcpBigQuery
+- name: GcpDisk
+- name: GcpGkeCluster
+- name: GcpImage
+- name: GcpKmsKeyRing
+- name: GcpProjectInfo
+  description: Google Cloud Project Info
+- name: GcpPubSub
+- name: GcpSecurityGroup
+- name: GcpServiceAccount
+- name: GcpStorageBucket
+- name: GenericList
+  description: Generic Lists
+- name: GlobalSearch
+  description: Global search for all CloudGuard services
+- name: GoogleCloudAccount
+  description: Google Cloud Accounts
+- name: GoogleCloudFirewallRule
+- name: GoogleCloudFunction
+- name: GoogleCloudIamPolicy
+- name: GoogleCloudNetwork
+  description: Google Cloud Network
+- name: GoogleCloudSubnet
+- name: GoogleCloudVMInstance
+- name: Home
+- name: IamSafeLease
+  description: IAM Safety Leases
+- name: IncidentsStatus
+- name: InfrastructureAssessment
+- name: Intelligence
+  description: CloudGuard Intelligence allows you to visualize and analyze Account Activity and Network Traffic into and out
+    of your cloud environment.
+- name: IpAddressMetadata
+  description: IP Address Metadata
+- name: IpList
+  description: IP Lists
+- name: LicenseActivator
+- name: Licensing
+- name: ManagedGenericList
+- name: Msp
+- name: OrganizationalUnit
+  description: Manage Organizational Units
+- name: Permission
+- name: ProtectedAsset
+- name: ProtectedAssetsReport
+  description: Compliance Protected Asset csv reports
+- name: ProtegoStatistics
+  description: Protego statistics by dates
+- name: Role
+  description: CloudGuard Roles
+- name: RulesEngine
+- name: SecurityGroup
+- name: Serverless
+- name: ServerlessPolicy
+  description: Serverless policy
+- name: ServiceAccount
+  description: CloudGuard Service Accounts
+- name: ServicePort
+- name: Settings
+  description: Account Settings
+- name: ShiftLeft
+  description: ShiftLeft
+- name: SystemHealth
+- name: TenableAccount
+  description: Onboard Tenable accounts
+- name: User
+  description: CloudGuard account users
+- name: BaseImage
+  description: ''
+- name: ContainerRegistryAccount
+  description: Container Registry Account
+- name: ContainerRegistryAccountInternal
+  description: ''
+- name: ContainerRegistryImageAssurancePolicy
+  description: '(deprecated: move to use /v2/vulnerability/policy)'
+- name: Dashboard
+  description: ''
+- name: EcsConfiguration
+  description: ''
+- name: EcsImageAssurancePolicy
+  description: '(deprecated: move to use /v2/vulnerability/policy)'
+- name: EcsImageScan
+  description: ECS Image Scan Configuration
+- name: Environment
+  description: ''
+- name: ImageAdmissionExclusion
+  description: '[Preview feature] Kubernetes Image admission exclusions'
+- name: ImageAssuranceDashboard
+  description: ''
+- name: ImageAssuranceReport
+  description: ''
+- name: KubernetesAccount
+  description: Kubernetes Accounts
+- name: KubernetesAccountInternal
+  description: ''
+- name: KubernetesAccountOld
+  description: '(deprecated: this api is deprecated, please use ''/v2/kubernetes/account'' instead)'
+- name: KubernetesAdmissionControl
+  description: Kubernetes Admission Control
+- name: KubernetesAdmissionControlPoliciesSummary
+  description: ''
+- name: KubernetesClusterRole
+  description: ''
+- name: KubernetesImage
+  description: ''
+- name: KubernetesImageAdmissionExclusion
+  description: '[Preview feature] Kubernetes Image admission exclusions (deprecated: this api is deprecated, please use ''/v2/kubernetes/admissionControl/imageAdmissionExclusion''
+    instead)'
+- name: KubernetesImageAssurance
+  description: Kubernetes Image Assurance
+- name: KubernetesImageAssurancePolicy
+  description: 'Kubernetes Image Assurance Policy (deprecated: move to use /v2/vulnerability/policy)'
+- name: KubernetesIngress
+  description: ''
+- name: KubernetesNetworkPolicy
+  description: ''
+- name: KubernetesNode
+  description: ''
+- name: KubernetesPod
+  description: ''
+- name: KubernetesPodGroup
+  description: Kubernetes Pod Groups
+- name: KubernetesPodGroupOwner
+  description: ''
+- name: KubernetesPodSecurityPolicy
+  description: ''
+- name: KubernetesRole
+  description: ''
+- name: KubernetesRuntimeAssurance
+  description: ''
+- name: KubernetesService
+  description: ''
+- name: KubernetesServiceAccount
+  description: ''
+- name: Shiftleft
+  description: ''
+- name: ShiftLeftAccount
+  description: ShiftLeft
+- name: ShiftLeftPolicy
+  description: 'ShiftLeft Policy (deprecated: move to use /v2/vulnerability/policy)'
+- name: Workload
+  description: ''
+- name: WorkloadAccountSetting
+  description: Workload Account Setting
+- name: WorkloadChangeMonitoring
+  description: ''
+- name: WorkloadImageAssurance
+  description: Workload Image Assurance
+- name: WorkloadImageAssuranceInternal
+  description: ''
+- name: WorkloadInternal
+  description: ''
+- name: WorkloadRuntimeProtection
+  description: ''
+- name: Alerts
+  description: ''
+- name: Azure
+  description: ''
+- name: FindingOrchestration
+  description: ''
+- name: FindingsUpdate
+  description: ''
+- name: Gcp
+  description: ''
+- name: Remediation
+  description: Remediation Actions
+- name: Reports
+  description: ''
+- name: CloudInfraMigration
+  description: infinity-portal-connect
+- name: GslBuilder
+  description: ''
+- name: Infrastructure
+  description: ''
+- name: InternalLicense
+  description: ''
+- name: NotificationIntegrationInternal
+  description: '(deprecated: This controller is deprecated and will be removed in the future)'
+- name: OciCloudAccount
+  description: Onboard OCI accounts
+- name: PlatformReports
+  description: ''
+- name: Regions
+  description: ''
+- name: Spectral
+  description: ''
+- name: RestrictedWorkloadClientModules
+  description: ''
+- name: WorkloadClientModules
+  description: ''
+- name: WorkloadTelemetry
+  description: ''
+- name: Integration
+  description: Integration
+- name: IntegrationInternal
+  description: ''
+- name: Notification
+  description: Notification
+- name: NotificationInternal
+  description: ''
+- name: AssetMetadataSyncNow
+  description: ''
+- name: BusinessPriorityModifier
+  description: Business Priority Rules
+- name: CustomRuleset
+  description: Risk Management Rulesets
+- name: Dspm
+  description: DSPM Controller
+- name: Exposure
+  description: ''
+- name: GroupRiskManagement
+  description: Groups Risk Management
+- name: RemediationActions
+  description: Remediation Actions
+- name: RiskModifiers
+  description: Risk Modifiers
+- name: SecurityEvents
+  description: ''
+- name: SimilarAssetGroups
+  description: ''
+- name: Waf
+  description: WAF Protection
+- name: AwsOrganizationManagement
+  description: AwsOrganizationManagement
+- name: AwsOrganizationManagementOnboarding
+  description: AwsOrganizationManagementOnboarding
+- name: AzureOrganizationManagement
+  description: AzureOrganizationManagement
+- name: GcpOrganizationManagement
+  description: GcpOrganizationManagement
+- name: OnboardingManagement
+  description: OnboardingManagement
+- name: InternalSBOM
+  description: ''
+- name: InternalVulnerabilityAccountStatsBatch
+  description: ''
+- name: InternalVulnerabilityCleanup
+  description: ''
+- name: InternalVulnerabilityPolicy
+  description: ''
+- name: InternalVulnerabilityScanResults
+  description: ''
+- name: SBOM
+  description: ''
+- name: SBOMExport
+  description: SBOM Export
+- name: Vulnerabilities
+  description: Vulnerabilities
+- name: VulnerabilityAssessment
+  description: ''
+- name: VulnerabilityExclusions
+  description: Vulnerability Exclusions
+- name: VulnerabilityPolicy
+  description: Vulnerability Policy
+- name: VulnerabilitySBOM
+  description: ''
+- name: CloudApplicationLoadBalancer
+  description: ''
+- name: CloudNetworkLoadBalancer
+  description: ''
+- name: GcpMachineImage
+  description: ''
+- name: OciCompartment
+  description: ''
+- name: AssetLabelsService
+  description: ''
+- name: AssetOpenFindings
+  description: ''
+- name: EntityTypes
+  description: The entity types endpoint allows you to get the supported entity types and the platform they're supported for.
+- name: EvidencePath
+  description: The evidence path endpoint allows you to get the evidence path for a given findingId.
+- name: Exclusions
+  description: The exclusion endpoint provides API to perform CRUD operations on the resource.
+- name: IgnoreCves
+  description: The ignore CVEs endpoint provides API to perform CRUD operations on the resource.
+- name: IgnoreMalwares
+  description: The ignore malwares endpoint provides API to perform CRUD operations on the resource.
+- name: Rules
+  description: The rules endpoint provides APIs to get the security rules data
+- name: SecurityGraphIssues
+  description: API for issue enrichments
+- name: SecurityGraphQuery
+  description: The query endpoint provides APIs to run queries (rules) to preview possible issues.
+- name: EntitySchema
+  description: The entity schema endpoint presents schema of toxic issues entities.
+- name: SecurityIssues
+  description: The Findings endpoint provides APIs query the findings store which contains findings such as security issues.
+    It provides APIs to get, search and group findings.
+- name: AutomatedActions
+  description: The Automated Actions resource provides API to perform CRUD operations on the resource.
+components:
+  schemas:
+    Falconetix.Model.RuleEngine.ViewModels.Assessment.AssessmentBundleRequestViewModel:
+      type: object
+      properties:
+        id:
+          format: int64
+          description: the bundle id
+          type: integer
+        version:
+          type: string
+        name:
+          description: the bundle name
+          type: string
+        description:
+          description: the bundle description
+          type: string
+        dome9CloudAccountId:
+          format: uuid
+          description: The Dome9 account id
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        externalCloudAccountId:
+          description: account id on cloud provider (AWS, Azure, GCP)
+          type: string
+        cloudAccountId:
+          description: account id on cloud provider (AWS, Azure, GCP)
+          type: string
+        cloudAccountType:
+          description: the cloud provider (AWS/Azure/GCP)
+          enum:
+          - Aws
+          - Azure
+          - Google
+          - Kubernetes
+          - Terraform
+          - Generic
+          - KubernetesRuntimeAssurance
+          - ShiftLeft
+          - SourceCodeAssurance
+          - ImageAssurance
+          - Alibaba
+          - Cft
+          - ContainerRegistry
+          - Oci
+          - CIEM
+          type: string
+        requestId:
+          format: uuid
+          description: the assessment id (returned in the response)
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        shouldMinimizeResult:
+          description: Minimized the entity results
+          type: boolean
+    Falconetix.Model.RuleEngine.ViewModels.Assessment.BaseAssessmentRequestViewModel:
+      description: 'Roy note: This is a temp impl that unites the request the result and the rule. All these 3 concepts will
+        be split.'
+      type: object
+      properties:
+        dome9CloudAccountId:
+          format: uuid
+          description: The Dome9 account id
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        externalCloudAccountId:
+          description: account id on cloud provider (AWS, Azure, GCP)
+          type: string
+        cloudAccountId:
+          description: account id on cloud provider (AWS, Azure, GCP)
+          type: string
+        cloudAccountType:
+          description: the cloud provider (AWS/Azure/GCP)
+          enum:
+          - Aws
+          - Azure
+          - Google
+          - Kubernetes
+          - Terraform
+          - Generic
+          - KubernetesRuntimeAssurance
+          - ShiftLeft
+          - SourceCodeAssurance
+          - ImageAssurance
+          - Alibaba
+          - Cft
+          - ContainerRegistry
+          - Oci
+          - CIEM
+          type: string
+        requestId:
+          format: uuid
+          description: the assessment id (returned in the response)
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        shouldMinimizeResult:
+          description: Minimized the entity results
+          type: boolean
+    Falconetix.Model.RuleEngine.Entities.RuleTestResult:
+      type: object
+      properties:
+        error:
+          type: string
+        testedCount:
+          format: int32
+          type: integer
+        relevantCount:
+          format: int32
+          type: integer
+        nonComplyingCount:
+          format: int32
+          type: integer
+        exclusionStats:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.RuleTestResultStats'
+        entityResults:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.ValidationResult'
+        rule:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.RuleEntity'
+        testPassed:
+          type: boolean
+    Falconetix.Model.Entites.RuleEngine.LocationMetadata:
+      type: object
+      properties:
+        account:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.LocationConventionMetadataViewModel'
+    Falconetix.Model.RuleEngine.ViewModels.Assessment.AssessmentDataSyncStatusEntityViewModel:
+      type: object
+      properties:
+        entityType:
+          type: string
+        recentlySuccessfulSync:
+          type: boolean
+        generalFetchPermissionIssues:
+          type: boolean
+        entitiesWithPermissionIssues:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.Assessment.EntityWithPermissionIssueViewModel'
+    Falconetix.Model.RuleEngine.Entities.RuleTestResultStats:
+      type: object
+      properties:
+        testedCount:
+          format: int32
+          type: integer
+        relevantCount:
+          format: int32
+          type: integer
+        nonComplyingCount:
+          format: int32
+          type: integer
+    Falconetix.Model.RuleEngine.Entities.ValidationResult:
+      type: object
+      properties:
+        validationStatus:
+          enum:
+          - Relevant
+          - Valid
+          - Excluded
+          type: string
+        isRelevant:
+          description: "means if entity is relevant for this rule\r\nfor example rule = \"Instance where name like '%db%'\
+            \ should have...\", returns false in instance name = 'scheduler1'"
+          type: boolean
+        isValid:
+          description: "means if entity is compliant.\r\nfor example for rule=\"Instance should have vpc\", return true if\
+            \ instance i-123 is under vpc-234, and false if not"
+          type: boolean
+        isExcluded:
+          description: "means if entity is excluded.\r\nfor example for rule=\"Instance should have vpc exclude name='test'\"\
+            , return true if instance name is test, and false if not"
+          type: boolean
+        exclusionId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        remediationId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        error:
+          description: note that the lambda is not aware of this field
+          type: string
+        testObj:
+          description: note that the lambda is not aware of this field
+          type: object
+    Falconetix.Model.RuleEngine.Entities.RuleEntity:
+      type: object
+      properties:
+        rlmId:
+          format: uuid
+          description: rlm rule id, do not expose this on API for now
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          description: rule name
+          type: string
+        severity:
+          description: rule severity (High/Medium/Low)
+          enum:
+          - Informational
+          - Low
+          - Medium
+          - High
+          - Critical
+          type: string
+        logic:
+          description: the GSL statement for the rule (text string)
+          type: string
+        description:
+          description: description of the rule (text)
+          type: string
+        remediation:
+          description: remediation text for the rule (text)
+          type: string
+        cloudbots:
+          description: the Cloudbots section for the rule (optional)
+          type: string
+        complianceTag:
+          description: the compliance section for the rule (optional)
+          type: string
+        domain:
+          description: this field is not used
+          type: string
+        priority:
+          description: this field is not used
+          type: string
+        controlTitle:
+          description: this field is not used
+          type: string
+        ruleId:
+          description: this field is not used
+          type: string
+        category:
+          description: Rule Category
+          type: string
+        labels:
+          type: array
+          items:
+            type: string
+        logicHash:
+          description: MD5 hash of the rule logic (serves as a unique ID for the rule), returned in response
+          type: string
+          readOnly: true
+        isDefault:
+          description: The property represents default rule
+          type: boolean
+          readOnly: true
+    Falconetix.Model.RuleEngine.ViewModels.LocationConventionMetadataViewModel:
+      type: object
+      properties:
+        srl:
+          type: string
+        name:
+          type: string
+        id:
+          type: string
+        externalId:
+          type: string
+    Falconetix.Model.RuleEngine.ViewModels.Assessment.EntityWithPermissionIssueViewModel:
+      type: object
+      properties:
+        externalId:
+          type: string
+        name:
+          type: string
+        cloudVendorIdentifier:
+          type: string
+    Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.RuleTestResultViewModel:
+      type: object
+      properties:
+        error:
+          type: string
+        testedCount:
+          format: int32
+          type: integer
+        relevantCount:
+          format: int32
+          type: integer
+        nonComplyingCount:
+          format: int32
+          type: integer
+        exclusionStats:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.RuleTestResultStats'
+        entityResults:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.ValidationResult'
+        entityResultsCount:
+          format: int32
+          type: integer
+        entityType:
+          type: string
+        rule:
+          $ref: '#/components/schemas/Falconetix.Model.Compliance.Ruleset.RuleViewModel'
+        testPassed:
+          type: boolean
+    Falconetix.Model.RuleEngine.ViewModels.Exclusion.ExclusionViewModel:
+      required:
+      - comment
+      type: object
+      properties:
+        platform:
+          description: Exclusion platform
+          enum:
+          - Aws
+          - Azure
+          - Google
+          - Kubernetes
+          - Terraform
+          - Generic
+          - KubernetesRuntimeAssurance
+          - ShiftLeft
+          - SourceCodeAssurance
+          - ImageAssurance
+          - Alibaba
+          - Cft
+          - ContainerRegistry
+          - Oci
+          - CIEM
+          type: string
+        id:
+          format: uuid
+          description: Exclusion ID
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        rules:
+          description: '[Optional] List of rules to apply the exclusion on.'
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.Exclusion.RuleViewModel'
+        logicExpressions:
+          description: '[Optional] The GSL logic expressions of the exclusion.'
+          pattern: ((name|id|accountNumber) like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')|(severity like
+            '(informational|low|medium|high|critical)')|(tags contain \[(key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\]
+            À-ÖØ-öø-ÿ]+' and value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')( or key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\]
+            À-ÖØ-öø-ÿ]+' and value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')*\])
+          type: array
+          items:
+            type: string
+        regions:
+          description: '[Optional] List of regions to exclude, for example ''us_east_1''.'
+          type: array
+          items:
+            type: string
+        rulesetId:
+          format: int64
+          description: Ruleset ID to apply exclusion on.
+          type: integer
+        cloudAccountIds:
+          description: "[Optional] List of cloud account IDs to apply exclusion on.\r\nIf neither cloud account IDs nor organizational\
+            \ unit IDs are supplied, exclusion will apply on all cloud accounts.\r\nIf both organizational unit IDs and cloud\
+            \ account IDs are supplied, only organizational unit IDs will take effect."
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        organizationalUnitIds:
+          description: "[Optional] List of organizational unit IDs to apply exclusion on.\r\nIf neither organizational unit\
+            \ IDs nor cloud account IDs are supplied, exclusion will apply on all cloud accounts.\r\nIf both organizational\
+            \ unit IDs and cloud account IDs are supplied, only organizational unit IDs will take effect."
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        comment:
+          description: Comment text (free text)
+          type: string
+        dateRange:
+          $ref: '#/components/schemas/Falconetix.Model.DateTimeRange'
+          description: "[Optional] Effective date range for the exclusion.\r\nLeaving 'From' null will take only 'To' into\
+            \ account.\r\nLeaving 'To' null will take only 'From' into account.\r\nDateRange with both 'From' and 'To' null\
+            \ will be disregarded."
+    Falconetix.Model.RuleEngine.ViewModels.Remediation.RemediationViewModel:
+      required:
+      - comment
+      type: object
+      properties:
+        platform:
+          description: Remediation platform
+          enum:
+          - Aws
+          - Azure
+          - Google
+          - Kubernetes
+          - Terraform
+          - Generic
+          - KubernetesRuntimeAssurance
+          - ShiftLeft
+          - SourceCodeAssurance
+          - ImageAssurance
+          - Alibaba
+          - Cft
+          - ContainerRegistry
+          - Oci
+          - CIEM
+          type: string
+        id:
+          format: uuid
+          description: Remediation ID
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        rules:
+          description: '[Optional] List of rules to apply the remediation on.'
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.Exclusion.RuleViewModel'
+        logicExpressions:
+          description: '[Optional] The GSL logic expressions of the exclusion.'
+          pattern: ((name|id|accountNumber) like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')|(severity like
+            '(informational|low|medium|high|critical)')|(tags contain \[(key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\]
+            À-ÖØ-öø-ÿ]+' and value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')( or key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\]
+            À-ÖØ-öø-ÿ]+' and value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')*\])
+          type: array
+          items:
+            type: string
+        rulesetId:
+          format: int64
+          description: Ruleset ID to apply exclusion on.
+          type: integer
+        cloudAccountIds:
+          description: "[Optional] List of cloud account IDs to apply exclusion on.\r\nIf neither cloud account IDs nor organizational\
+            \ unit IDs are supplied, exclusion will apply on all cloud accounts.\r\nIf both organizational unit IDs and cloud\
+            \ account IDs are supplied, only organizational unit IDs will take effect."
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        comment:
+          description: Comment text (free text)
+          type: string
+        cloudBots:
+          description: Cloud bots execution expressions
+          type: array
+          items:
+            type: string
+        organizationalUnitIds:
+          description: "[Optional] List of organizational unit IDs to apply exclusion on.\r\nIf neither organizational unit\
+            \ IDs nor cloud account IDs are supplied, exclusion will apply on all cloud accounts.\r\nIf both organizational\
+            \ unit IDs and cloud account IDs are supplied, only organizational unit IDs will take effect."
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        dateRange:
+          $ref: '#/components/schemas/Falconetix.Model.DateTimeRange'
+          description: "[Optional] Effective date range for the exclusion.\r\nLeaving 'From' null will take only 'To' into\
+            \ account.\r\nLeaving 'To' null will take only 'From' into account.\r\nDateRange with both 'From' and 'To' null\
+            \ will be disregarded."
+    Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentHistoryStatsV2ViewModel:
+      type: object
+      properties:
+        passed:
+          format: int32
+          description: number of passed rules
+          type: integer
+        passedRulesBySeverity:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.StatsBySeverityViewModel'
+          description: passed rules divided by severity
+        failed:
+          format: int32
+          description: number of failed rules
+          type: integer
+        failedRulesBySeverity:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.StatsBySeverityViewModel'
+          description: failed rules divided by severity
+        error:
+          format: int32
+          description: number of errors
+          type: integer
+        failedTests:
+          format: int32
+          description: number of failed tests (entities) - same entity will be counted multiple times if it is relevant for
+            multiple failed tests)
+          type: integer
+        logicallyTested:
+          format: int32
+          description: Total number of tests performed
+          type: integer
+        failedEntities:
+          format: int32
+          description: number of failed entities. (Distinct count of the entities - no duplications)
+          type: integer
+        excludedTests:
+          format: int32
+          description: number of excluded tests
+          type: integer
+        excludedFailedTests:
+          format: int32
+          description: number of excluded tests that also failed
+          type: integer
+        excludedRules:
+          format: int32
+          description: number of rules that contains only excluded tests
+          type: integer
+        excludedRulesBySeverity:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.StatsBySeverityViewModel'
+          description: excluded rules divided by severity
+        failedTestsBySeverity:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.StatsBySeverityViewModel'
+          description: "Amount of failed tests (entities) divided by severity.\r\n(same entity will be counted multiple times\
+            \ if it is relevant for multiple failed tests)"
+        totalRelevantTestsBySeverity:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.StatsBySeverityViewModel'
+          description: "Amount of Relevant tests (entities) divided by severity.\r\n(same entity will be counted multiple\
+            \ times if it is relevant for multiple failed tests)"
+    Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentHistoryBundleResultV2ViewModel:
+      type: object
+      properties:
+        isTemplate:
+          type: boolean
+        id:
+          format: int64
+          description: the bundle id
+          type: integer
+        version:
+          type: string
+        name:
+          description: the bundle name
+          type: string
+        description:
+          description: the bundle description
+          type: string
+        dome9CloudAccountId:
+          format: uuid
+          description: The Dome9 account id
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        externalCloudAccountId:
+          description: account id on cloud provider (AWS, Azure, GCP)
+          type: string
+        cloudAccountId:
+          description: account id on cloud provider (AWS, Azure, GCP)
+          type: string
+        cloudAccountType:
+          description: the cloud provider (AWS/Azure/GCP)
+          enum:
+          - Aws
+          - Azure
+          - Google
+          - Kubernetes
+          - Terraform
+          - Generic
+          - KubernetesRuntimeAssurance
+          - ShiftLeft
+          - SourceCodeAssurance
+          - ImageAssurance
+          - Alibaba
+          - Cft
+          - ContainerRegistry
+          - Oci
+          - CIEM
+          type: string
+        requestId:
+          format: uuid
+          description: the assessment id (returned in the response)
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        shouldMinimizeResult:
+          description: Minimized the entity results
+          type: boolean
+    Falconetix.Model.Compliance.Ruleset.RuleViewModel:
+      required:
+      - name
+      - logic
+      type: object
+      properties:
+        name:
+          description: rule name
+          type: string
+        severity:
+          description: rule severity (High/Medium/Low)
+          enum:
+          - Informational
+          - Low
+          - Medium
+          - High
+          - Critical
+          type: string
+        rlmId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        logic:
+          description: the GSL statement for the rule (text string)
+          type: string
+        description:
+          description: description of the rule (text)
+          type: string
+        remediation:
+          description: remediation text for the rule (text)
+          type: string
+        cloudbots:
+          description: the Cloudbots section for the rule (optional)
+          type: string
+        complianceTag:
+          description: the compliance section for the rule (optional)
+          type: string
+        domain:
+          description: this field is not used
+          type: string
+        priority:
+          description: this field is not used
+          type: string
+        controlTitle:
+          description: this field is not used
+          type: string
+        ruleId:
+          description: this field is not used
+          type: string
+        category:
+          description: Rule Category
+          type: string
+        labels:
+          type: array
+          items:
+            type: string
+        logicHash:
+          description: MD5 hash of the rule logic (serves as a unique ID for the rule), returned in response
+          type: string
+        isDefault:
+          description: The property represents default rule
+          type: boolean
+    Falconetix.Model.RuleEngine.ViewModels.Exclusion.RuleViewModel:
+      type: object
+      properties:
+        logicHash:
+          description: Rule logic hash
+          pattern: ^[A-Za-z0-9+/]{22}?$
+          type: string
+        id:
+          description: Rule ID
+          type: string
+        name:
+          description: Rule name
+          type: string
+        rlmId:
+          type: string
+    Falconetix.Model.DateTimeRange:
+      type: object
+      properties:
+        from:
+          format: date-time
+          description: From date time
+          type: string
+        to:
+          format: date-time
+          description: To date time
+          type: string
+    Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.StatsBySeverityViewModel:
+      type: object
+      properties:
+        informational:
+          format: int32
+          type: integer
+        low:
+          format: int32
+          type: integer
+        medium:
+          format: int32
+          type: integer
+        high:
+          format: int32
+          type: integer
+        critical:
+          format: int32
+          type: integer
+    Falconetix.Model.Compliance.AssessmentTrend.AssessmentTrendItemViewModel:
+      type: object
+      properties:
+        assessmentDate:
+          format: date-time
+          type: string
+        failedTests:
+          format: int64
+          type: integer
+        totalTests:
+          format: int64
+          type: integer
+        passedTests:
+          format: int64
+          type: integer
+          readOnly: true
+    Falconetix.Model.RuleEngine.Entities.AssessmentsRequestFilterViewModel:
+      description: Assessment Filter Model
+      required:
+      - cloudAccountBundleFilters
+      type: object
+      properties:
+        cloudAccountBundleFilters:
+          description: Cloud Account Filter Models
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.CloudAccountBundleFilterViewModel'
+        from:
+          format: date-time
+          description: '[OPTIONAL] Filter latest results that are later than this date.'
+          type: string
+        to:
+          format: date-time
+          description: '[OPTIONAL] Filter latest results that are earlier than this date.'
+          type: string
+    Falconetix.Model.RuleEngine.Entities.CloudAccountBundleFilterViewModel:
+      description: Filter model per cloud account type
+      required:
+      - bundleIds
+      - cloudAccountIds
+      type: object
+      properties:
+        bundleIds:
+          description: Bundle IDs
+          type: array
+          items:
+            format: int64
+            type: integer
+        cloudAccountIds:
+          description: Cloud Account IDs (GUIDs)
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        cloudAccountType:
+          description: Cloud Account Type - "Aws", "Azure", "Google"
+          enum:
+          - Aws
+          - Azure
+          - Google
+          - Kubernetes
+          - Terraform
+          - Generic
+          - KubernetesRuntimeAssurance
+          - ShiftLeft
+          - SourceCodeAssurance
+          - ImageAssurance
+          - Alibaba
+          - Cft
+          - ContainerRegistry
+          - Oci
+          - CIEM
+          type: string
+    Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentHistoryViewResultV2ViewModel:
+      type: object
+      properties:
+        createdTime:
+          format: date-time
+          description: date of assessment
+          type: string
+        id:
+          format: int64
+          description: assessment id
+          type: integer
+        assessmentId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        triggeredBy:
+          description: reason for assessment
+          enum:
+          - Unknown
+          - ContinuousCompliancePolicy
+          - Manual
+          - SystemBundle
+          - Serverless
+          - Logic
+          - Magellan
+          - KubernetesRuntimeAssurance
+          - ContainersRuntimeProtection
+          - ExternalFinding
+          - CIEM
+          - Incident
+          - WorkloadChangeMonitoring
+          - Agentless
+          type: string
+        assessmentPassed:
+          description: assessment result
+          type: boolean
+        hasErrors:
+          description: assessment has errors
+          type: boolean
+        stats:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentHistoryStatsV2ViewModel'
+          description: summary statistics for assessment
+        request:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentHistoryBundleResultV2ViewModel'
+        hasDataSyncStatusIssues:
+          type: boolean
+        comparisonCustomId:
+          type: string
+        additionalFields:
+          type: object
+          additionalProperties:
+            type: string
+    Falconetix.Model.RuleEngine.Entities.AssessmentHistoryMinimizedEntity:
+      type: object
+      properties:
+        dome9Id:
+          type: string
+        name:
+          type: string
+        category:
+          type: string
+        region:
+          type: string
+        vpc:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.VpcMinimizedEntity'
+        network:
+          type: string
+        virtualNetwork:
+          type: string
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.TagRuleEntity'
+        accountNumber:
+          type: string
+        vendorIdentifier:
+          type: string
+        id:
+          type: string
+        type:
+          type: string
+    Falconetix.Model.RuleEngine.Entities.VpcMinimizedEntity:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    Falconetix.Model.RuleEngine.Entities.TagRuleEntity:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    Falconetix.Model.RuleEngine.Entities.AssessmentExecutiveReport:
+      type: object
+      properties:
+        date:
+          format: date-time
+          description: date of assessment
+          type: string
+        rulesetName:
+          description: bundle name
+          type: string
+        vendor:
+          enum:
+          - aws
+          - hp
+          - mellanox
+          - awsgov
+          - azure
+          - google
+          - awschina
+          - azuregov
+          - kubernetes
+          - azurechina
+          - terraform
+          - generic
+          - kubernetesruntimeassurance
+          - shiftleft
+          - sourcecodeassurance
+          - imageassurance
+          - alibaba
+          - cft
+          - containerregistry
+          - oci
+          - ocigov
+          - ocigovuk
+          - CIEM
+          type: string
+        numberOfEnvironments:
+          format: int32
+          type: integer
+        topEnvironmentsWithHighSeverityFindings:
+          description: Top 10 environments with high severity findings and number of findings for each environment
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.AssessmentExecutiveReportEnvironmentFinding'
+        testedEntities:
+          description: Entity name and number of entities in each category
+          type: object
+          additionalProperties:
+            format: int32
+            type: integer
+        failedTestedBySeverity:
+          type: object
+          additionalProperties:
+            format: int32
+            type: integer
+        passedPerEntityType:
+          type: object
+          additionalProperties:
+            format: int32
+            type: integer
+        failedPerEntityType:
+          type: object
+          additionalProperties:
+            format: int32
+            type: integer
+        allTestsScore:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.AssessmentData.TestsScore'
+    Falconetix.Model.RuleEngine.Entities.AssessmentExecutiveReportEnvironmentFinding:
+      type: object
+      properties:
+        accountId:
+          type: string
+        name:
+          type: string
+        countFindingsBySeverity:
+          type: object
+          additionalProperties:
+            format: int32
+            type: integer
+    Falconetix.Model.RuleEngine.AssessmentData.TestsScore:
+      type: object
+      properties:
+        tested:
+          format: int64
+          type: integer
+        passed:
+          format: int64
+          type: integer
+        failed:
+          format: int64
+          type: integer
+    Falconetix.Model.RuleEngine.Entities.OrganizationalUnitAssessmentHistoryRequestModel:
+      type: object
+      properties:
+        organizationalUnitIds:
+          description: List of Organizational Units on which assessments were run
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        bundleIds:
+          description: List of bundles (rulesets) run on the accounts in the Organizational Units
+          type: array
+          items:
+            format: int64
+            type: integer
+    Falconetix.Model.RuleEngine.Entities.OrganizationalUnitAssessmentHistoryViewModel:
+      type: object
+      properties:
+        organizationalUnitPaths:
+          type: array
+          items:
+            type: string
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        bundleId:
+          format: int64
+          type: integer
+        statistics:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.AssessmentHistoryStats'
+        resultId:
+          format: int64
+          type: integer
+        resultDate:
+          format: date-time
+          type: string
+        triggeredBy:
+          enum:
+          - Unknown
+          - ContinuousCompliancePolicy
+          - Manual
+          - SystemBundle
+          - Serverless
+          - Logic
+          - Magellan
+          - KubernetesRuntimeAssurance
+          - ContainersRuntimeProtection
+          - ExternalFinding
+          - CIEM
+          - Incident
+          - WorkloadChangeMonitoring
+          - Agentless
+          type: string
+    Falconetix.Model.RuleEngine.Entities.AssessmentHistoryStats:
+      type: object
+      properties:
+        passed:
+          format: int32
+          type: integer
+        passedRulesBySeverity:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.StatsBySeverity'
+        logicallyTested:
+          format: int32
+          type: integer
+        failed:
+          format: int32
+          type: integer
+        failedRulesBySeverity:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.StatsBySeverity'
+        failedTests:
+          format: int32
+          type: integer
+        error:
+          format: int32
+          type: integer
+        failedEntities:
+          format: int32
+          type: integer
+        totalEntities:
+          format: int32
+          type: integer
+        excludedTests:
+          format: int32
+          type: integer
+        excludedFailedTests:
+          format: int32
+          type: integer
+        excludedRules:
+          format: int32
+          type: integer
+        excludedRulesBySeverity:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.StatsBySeverity'
+        failedTestsBySeverity:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.StatsBySeverity'
+        totalRelevantTestsBySeverity:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.StatsBySeverity'
+    Falconetix.Model.RuleEngine.Entities.StatsBySeverity:
+      type: object
+      properties:
+        informational:
+          format: int32
+          type: integer
+        low:
+          format: int32
+          type: integer
+        medium:
+          format: int32
+          type: integer
+        high:
+          format: int32
+          type: integer
+        critical:
+          format: int32
+          type: integer
+    Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentViewsByTimeRangeRequest:
+      required:
+      - creationTime
+      type: object
+      properties:
+        creationTime:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentViewsByTimeRangeRequest.CreationTimeFieldViewModel'
+        pageSize:
+          format: int32
+          description: number of results in a page
+          maximum: 500
+          minimum: 1
+          type: integer
+        pageNumber:
+          format: int32
+          description: result page number to retrieve (results are grouped in pages, according to PageSize)
+          maximum: 2147483647
+          minimum: 1
+          type: integer
+        requestId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        filterFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentViewsByTimeRangeRequest.FilterFieldViewModel'
+        rulesetTypes:
+          type: array
+          items:
+            enum:
+            - aws
+            - hp
+            - mellanox
+            - awsgov
+            - azure
+            - google
+            - awschina
+            - azuregov
+            - kubernetes
+            - azurechina
+            - terraform
+            - generic
+            - kubernetesruntimeassurance
+            - shiftleft
+            - sourcecodeassurance
+            - imageassurance
+            - alibaba
+            - cft
+            - containerregistry
+            - oci
+            - ocigov
+            - ocigovuk
+            - CIEM
+            type: string
+        sorting:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentViewsByTimeRangeRequest.SortingFieldViewModel'
+        hideCount:
+          type: boolean
+    Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentViewsByTimeRangeRequest.CreationTimeFieldViewModel:
+      required:
+      - from
+      - to
+      type: object
+      properties:
+        from:
+          format: date-time
+          description: Starting time/date for assessments to be retrieved
+          type: string
+        to:
+          format: date-time
+          description: End time/date for assessments to be retrieved
+          type: string
+    Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentViewsByTimeRangeRequest.FilterFieldViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentViewsByTimeRangeRequest.SortingFieldViewModel:
+      type: object
+      properties:
+        fieldName:
+          description: field to sort the retrieved results
+          type: string
+        direction:
+          format: int32
+          description: direction of sort
+          type: integer
+    Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessnentHistoryViewResultsTimeRangeViewModel:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentHistoryViewResultV2ViewModel'
+        totalResultsCount:
+          format: int64
+          type: integer
+        pageNumber:
+          format: int32
+          type: integer
+        pageSize:
+          format: int32
+          type: integer
+        requestId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+    Dome9.Web.Api.Compliance.RuleViewModel:
+      type: object
+      properties:
+        logicHash:
+          description: Rule logic hash
+          pattern: ^[A-Za-z0-9+/]{22}?$
+          type: string
+        rlmId:
+          type: string
+        id:
+          description: Rule ID
+          type: string
+        name:
+          description: Rule name
+          type: string
+    Dome9.Web.Api.Compliance.Remediation.RemediationViewModel:
+      required:
+      - comment
+      type: object
+      properties:
+        platform:
+          description: Remediation platform
+          enum:
+          - Aws
+          - Azure
+          - Google
+          - Kubernetes
+          - Terraform
+          - Generic
+          - KubernetesRuntimeAssurance
+          - ShiftLeft
+          - SourceCodeAssurance
+          - ImageAssurance
+          - Alibaba
+          - Cft
+          - ContainerRegistry
+          - Oci
+          - CIEM
+          type: string
+        id:
+          format: uuid
+          description: '[Required] Remediation ID'
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        rules:
+          description: '[Optional] List of rules to apply the remediation on.'
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Compliance.RuleViewModel'
+        logicExpressions:
+          description: '[Optional] The GSL logic expressions of the remediation.'
+          pattern: ((name|id|accountNumber) like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')|(tags contain
+            \[(key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' and value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\]
+            À-ÖØ-öø-ÿ]+')( or key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' and value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\]
+            À-ÖØ-öø-ÿ]+')*\])
+          type: array
+          items:
+            type: string
+        severities:
+          description: '[Optional] List of severities to remediate. Valid values: [''Informational'', ''Low'', ''Medium'',
+            ''High'', ''Critical'']'
+          type: array
+          items:
+            enum:
+            - Informational
+            - Low
+            - Medium
+            - High
+            - Critical
+            type: string
+        rulesetId:
+          format: int64
+          description: '[Required] Ruleset ID to apply remediation on.'
+          type: integer
+        cloudAccountIds:
+          description: "[Optional] List of cloud account IDs to apply remediation on.\r\nIf neither cloud account IDs nor\
+            \ organizational unit IDs are supplied, remediation will apply on all cloud accounts.\r\nIf both organizational\
+            \ unit IDs and cloud account IDs are supplied, only organizational unit IDs will take effect."
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        comment:
+          description: '[Required] Comment text (free text)'
+          type: string
+        cloudBots:
+          description: Cloud bots execution expressions
+          type: array
+          items:
+            type: string
+        organizationalUnitIds:
+          description: "[Optional] List of organizational unit IDs to apply remediation on.\r\nIf neither organizational unit\
+            \ IDs nor cloud account IDs are supplied, remediation will apply on all cloud accounts.\r\nIf both organizational\
+            \ unit IDs and cloud account IDs are supplied, only organizational unit IDs will take effect."
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        dateRange:
+          $ref: '#/components/schemas/Falconetix.Model.DateTimeRange'
+          description: "[Optional] Date range for the remediation to take effect.\r\nThe exclusion will take effect permanently\
+            \ unless a specific date range is specified.\r\nLeaving 'From' null will take only 'To' into account.\r\nLeaving\
+            \ 'To' null will take only 'From' into account.\r\nDateRange with both 'From' and 'To' null will be disregarded."
+        cloudAccountType:
+          enum:
+          - Aws
+          - Azure
+          - Google
+          - Kubernetes
+          - Terraform
+          - Generic
+          - KubernetesRuntimeAssurance
+          - ShiftLeft
+          - SourceCodeAssurance
+          - ImageAssurance
+          - Alibaba
+          - Cft
+          - ContainerRegistry
+          - Oci
+          - CIEM
+          type: string
+    Dome9.Web.Api.Compliance.Remediation.RemediationPostRequestModel:
+      required:
+      - comment
+      type: object
+      properties:
+        rules:
+          description: '[Optional] List of rules to apply the remediation on.'
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Compliance.RuleViewModel'
+        logicExpressions:
+          description: '[Optional] The GSL logic expressions of the remediation.'
+          pattern: ((name|id|accountNumber) like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')|(tags contain
+            \[(key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' and value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\]
+            À-ÖØ-öø-ÿ]+')( or key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' and value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\]
+            À-ÖØ-öø-ÿ]+')*\])
+          type: array
+          items:
+            type: string
+        severities:
+          description: '[Optional] List of severities to remediate. Valid values: [''Informational'', ''Low'', ''Medium'',
+            ''High'', ''Critical'']'
+          type: array
+          items:
+            enum:
+            - Informational
+            - Low
+            - Medium
+            - High
+            - Critical
+            type: string
+        rulesetId:
+          format: int64
+          description: '[Required] Ruleset ID to apply remediation on.'
+          type: integer
+        cloudAccountIds:
+          description: "[Optional] List of cloud account IDs to apply remediation on.\r\nIf neither cloud account IDs nor\
+            \ organizational unit IDs are supplied, remediation will apply on all cloud accounts.\r\nIf both organizational\
+            \ unit IDs and cloud account IDs are supplied, only organizational unit IDs will take effect."
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        comment:
+          description: '[Required] Comment text (free text)'
+          type: string
+        cloudBots:
+          description: Cloud bots execution expressions
+          type: array
+          items:
+            type: string
+        organizationalUnitIds:
+          description: "[Optional] List of organizational unit IDs to apply remediation on.\r\nIf neither organizational unit\
+            \ IDs nor cloud account IDs are supplied, remediation will apply on all cloud accounts.\r\nIf both organizational\
+            \ unit IDs and cloud account IDs are supplied, only organizational unit IDs will take effect."
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        dateRange:
+          $ref: '#/components/schemas/Falconetix.Model.DateTimeRange'
+          description: "[Optional] Date range for the remediation to take effect.\r\nThe exclusion will take effect permanently\
+            \ unless a specific date range is specified.\r\nLeaving 'From' null will take only 'To' into account.\r\nLeaving\
+            \ 'To' null will take only 'From' into account.\r\nDateRange with both 'From' and 'To' null will be disregarded."
+        platform:
+          enum:
+          - Aws
+          - Azure
+          - Google
+          - Kubernetes
+          - Terraform
+          - Generic
+          - KubernetesRuntimeAssurance
+          - ShiftLeft
+          - SourceCodeAssurance
+          - ImageAssurance
+          - Alibaba
+          - Cft
+          - ContainerRegistry
+          - Oci
+          - CIEM
+          type: string
+        cloudAccountType:
+          enum:
+          - Aws
+          - Azure
+          - Google
+          - Kubernetes
+          - Terraform
+          - Generic
+          - KubernetesRuntimeAssurance
+          - ShiftLeft
+          - SourceCodeAssurance
+          - ImageAssurance
+          - Alibaba
+          - Cft
+          - ContainerRegistry
+          - Oci
+          - CIEM
+          type: string
+    Dome9.Web.Api.Compliance.Remediation.RemediationPutRequestModel:
+      required:
+      - comment
+      type: object
+      properties:
+        id:
+          format: uuid
+          description: '[Required] Remediation ID'
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        rules:
+          description: '[Optional] List of rules to apply the remediation on.'
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Compliance.RuleViewModel'
+        logicExpressions:
+          description: '[Optional] The GSL logic expressions of the remediation.'
+          pattern: ((name|id|accountNumber) like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')|(tags contain
+            \[(key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' and value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\]
+            À-ÖØ-öø-ÿ]+')( or key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' and value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\]
+            À-ÖØ-öø-ÿ]+')*\])
+          type: array
+          items:
+            type: string
+        severities:
+          description: '[Optional] List of severities to remediate. Valid values: [''Informational'', ''Low'', ''Medium'',
+            ''High'', ''Critical'']'
+          type: array
+          items:
+            enum:
+            - Informational
+            - Low
+            - Medium
+            - High
+            - Critical
+            type: string
+        rulesetId:
+          format: int64
+          description: '[Required] Ruleset ID to apply remediation on.'
+          type: integer
+        cloudAccountIds:
+          description: "[Optional] List of cloud account IDs to apply remediation on.\r\nIf neither cloud account IDs nor\
+            \ organizational unit IDs are supplied, remediation will apply on all cloud accounts.\r\nIf both organizational\
+            \ unit IDs and cloud account IDs are supplied, only organizational unit IDs will take effect."
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        comment:
+          description: '[Required] Comment text (free text)'
+          type: string
+        cloudBots:
+          description: Cloud bots execution expressions
+          type: array
+          items:
+            type: string
+        organizationalUnitIds:
+          description: "[Optional] List of organizational unit IDs to apply remediation on.\r\nIf neither organizational unit\
+            \ IDs nor cloud account IDs are supplied, remediation will apply on all cloud accounts.\r\nIf both organizational\
+            \ unit IDs and cloud account IDs are supplied, only organizational unit IDs will take effect."
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        dateRange:
+          $ref: '#/components/schemas/Falconetix.Model.DateTimeRange'
+          description: "[Optional] Date range for the remediation to take effect.\r\nThe exclusion will take effect permanently\
+            \ unless a specific date range is specified.\r\nLeaving 'From' null will take only 'To' into account.\r\nLeaving\
+            \ 'To' null will take only 'From' into account.\r\nDateRange with both 'From' and 'To' null will be disregarded."
+        platform:
+          enum:
+          - Aws
+          - Azure
+          - Google
+          - Kubernetes
+          - Terraform
+          - Generic
+          - KubernetesRuntimeAssurance
+          - ShiftLeft
+          - SourceCodeAssurance
+          - ImageAssurance
+          - Alibaba
+          - Cft
+          - ContainerRegistry
+          - Oci
+          - CIEM
+          type: string
+        cloudAccountType:
+          enum:
+          - Aws
+          - Azure
+          - Google
+          - Kubernetes
+          - Terraform
+          - Generic
+          - KubernetesRuntimeAssurance
+          - ShiftLeft
+          - SourceCodeAssurance
+          - ImageAssurance
+          - Alibaba
+          - Cft
+          - ContainerRegistry
+          - Oci
+          - CIEM
+          type: string
+    Dome9.Web.Api.Compliance.RemediationOld.RemediationGetOldViewModel:
+      required:
+      - comment
+      type: object
+      properties:
+        id:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        ruleLogicHash:
+          pattern: ^[A-Za-z0-9+/]{22}?$
+          type: string
+        ruleName:
+          type: string
+        ruleId:
+          type: string
+        logic:
+          pattern: (name|id){1} (like){1} '{1}[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+'{1}
+          type: string
+        rulesetId:
+          format: int64
+          type: integer
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        platform:
+          enum:
+          - Aws
+          - Azure
+          - Google
+          - Kubernetes
+          - Terraform
+          - Generic
+          - KubernetesRuntimeAssurance
+          - ShiftLeft
+          - SourceCodeAssurance
+          - ImageAssurance
+          - Alibaba
+          - Cft
+          - ContainerRegistry
+          - Oci
+          - CIEM
+          type: string
+        comment:
+          type: string
+        cloudBots:
+          type: array
+          items:
+            type: string
+    Dome9.Web.Api.Compliance.RemediationOld.RemediationPostOldViewModel:
+      required:
+      - comment
+      type: object
+      properties:
+        ruleLogicHash:
+          pattern: ^[A-Za-z0-9+/]{22}?$
+          type: string
+        ruleName:
+          type: string
+        ruleId:
+          type: string
+        logic:
+          pattern: (name|id){1} (like){1} '{1}[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+'{1}
+          type: string
+        rulesetId:
+          format: int64
+          type: integer
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        platform:
+          enum:
+          - Aws
+          - Azure
+          - Google
+          - Kubernetes
+          - Terraform
+          - Generic
+          - KubernetesRuntimeAssurance
+          - ShiftLeft
+          - SourceCodeAssurance
+          - ImageAssurance
+          - Alibaba
+          - Cft
+          - ContainerRegistry
+          - Oci
+          - CIEM
+          type: string
+        comment:
+          type: string
+        cloudBots:
+          type: array
+          items:
+            type: string
+    Dome9.Web.Api.Compliance.ContinuousCompliancePolicyV2.EvaluateRulesetVersionsRequestModel:
+      type: object
+      properties:
+        rulesetId:
+          format: int64
+          type: integer
+        cloudAccountIds:
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+    Dome9.Web.Api.Compliance.ExclusionOld.ExclusionGetOldViewModel:
+      required:
+      - comment
+      type: object
+      properties:
+        id:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        ruleLogicHash:
+          description: '[Optional] Hash for the rule logic. If not specified, the exclusion logic applies to all rules.'
+          pattern: ^[A-Za-z0-9+/]{22}?$
+          type: string
+        ruleName:
+          type: string
+        ruleId:
+          type: string
+        logic:
+          description: '[Optional] The GSL logic of the exclusion. If not specified, the entire rule is excluded.'
+          pattern: (name|id){1} (like){1} '{1}[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+'{1}
+          type: string
+        bundleId:
+          format: int64
+          description: id of the bundle containing the rule, whose findings will be excluded.
+          type: integer
+        cloudAccountId:
+          format: uuid
+          description: '[Optional] id of the cloud account on which the rule is applied, for which findings will be excluded.
+            If not specified, findings for all cloud accounts for which the rule applies will be excluded.'
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        cloudAccountType:
+          enum:
+          - Aws
+          - Azure
+          - Google
+          - Kubernetes
+          - Terraform
+          - Generic
+          - KubernetesRuntimeAssurance
+          - ShiftLeft
+          - SourceCodeAssurance
+          - ImageAssurance
+          - Alibaba
+          - Cft
+          - ContainerRegistry
+          - Oci
+          - CIEM
+          type: string
+        comment:
+          description: Comment text (free text)
+          type: string
+    Dome9.Web.Api.Compliance.ExclusionOld.ExclusionPostOldViewModel:
+      required:
+      - comment
+      type: object
+      properties:
+        ruleLogicHash:
+          description: '[Optional] Hash for the rule logic. If not specified, the exclusion logic applies to all rules.'
+          pattern: ^[A-Za-z0-9+/]{22}?$
+          type: string
+        ruleName:
+          type: string
+        ruleId:
+          type: string
+        logic:
+          description: '[Optional] The GSL logic of the exclusion. If not specified, the entire rule is excluded.'
+          pattern: (name|id){1} (like){1} '{1}[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+'{1}
+          type: string
+        bundleId:
+          format: int64
+          description: id of the bundle containing the rule, whose findings will be excluded.
+          type: integer
+        cloudAccountId:
+          format: uuid
+          description: '[Optional] id of the cloud account on which the rule is applied, for which findings will be excluded.
+            If not specified, findings for all cloud accounts for which the rule applies will be excluded.'
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        cloudAccountType:
+          enum:
+          - Aws
+          - Azure
+          - Google
+          - Kubernetes
+          - Terraform
+          - Generic
+          - KubernetesRuntimeAssurance
+          - ShiftLeft
+          - SourceCodeAssurance
+          - ImageAssurance
+          - Alibaba
+          - Cft
+          - ContainerRegistry
+          - Oci
+          - CIEM
+          type: string
+        comment:
+          description: Comment text (free text)
+          type: string
+    Dome9.Web.Api.GenericList.GenericListResponseViewModel:
+      required:
+      - id
+      - name
+      - items
+      type: object
+      properties:
+        isManaged:
+          type: boolean
+        id:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          pattern: '[a-zA-Z0-9/\-_:]*[a-zA-Z]+[a-zA-Z0-9/\-_:]*'
+          type: string
+        description:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.GenericList.GenericListValueViewModel'
+    Dome9.Web.Api.GenericList.GenericListValueViewModel:
+      required:
+      - value
+      type: object
+      properties:
+        value:
+          pattern: '[a-zA-Z0-9/.\-_:%*{}()=!&|\\$#~^+@ \u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff]+'
+          type: string
+        comment:
+          type: string
+    Dome9.Web.Api.GenericList.GenericListViewModelBase:
+      required:
+      - name
+      - items
+      type: object
+      properties:
+        name:
+          pattern: '[a-zA-Z0-9/\-_:]*[a-zA-Z]+[a-zA-Z0-9/\-_:]*'
+          type: string
+        description:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.GenericList.GenericListValueViewModel'
+    Dome9.Web.Api.GenericList.GenericListViewModel:
+      required:
+      - id
+      - name
+      - items
+      type: object
+      properties:
+        id:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          pattern: '[a-zA-Z0-9/\-_:]*[a-zA-Z]+[a-zA-Z0-9/\-_:]*'
+          type: string
+        description:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.GenericList.GenericListValueViewModel'
+    Falconetix.Model.RuleEngine.ViewModels.Assessment.AssessmentResultViewModel_Newtonsoft.Json.Linq.JRaw_:
+      description: the API result structure. Aggregates results from multiple tests
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.Assessment.BaseAssessmentRequestViewModel'
+          description: Request information
+        tests:
+          description: Tests results
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.RuleTestResult'
+        locationMetadata:
+          $ref: '#/components/schemas/Falconetix.Model.Entites.RuleEngine.LocationMetadata'
+          description: Location metadata
+        testEntities:
+          description: list of the cloud entities that were tested by the bundle
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: object
+        dataSyncStatus:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.Assessment.AssessmentDataSyncStatusEntityViewModel'
+        assessmentPassed:
+          description: assessment passed
+          type: boolean
+          readOnly: true
+        hasErrors:
+          description: assessment has errors
+          type: boolean
+          readOnly: true
+        id:
+          format: int64
+          type: integer
+        assessmentId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+    Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentHistoryResultV2ViewModel_Newtonsoft.Json.Linq.JRaw_:
+      type: object
+      properties:
+        tests:
+          description: list of rules in the assessment
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.RuleTestResultViewModel'
+        testEntities:
+          description: list of entities tested in the assessment
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: object
+        exclusions:
+          description: list of exclusions associated with this assessment
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.Exclusion.ExclusionViewModel'
+        remediations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.Remediation.RemediationViewModel'
+        dataSyncStatus:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.Assessment.AssessmentDataSyncStatusEntityViewModel'
+        createdTime:
+          format: date-time
+          description: date of assessment
+          type: string
+        id:
+          format: int64
+          description: assessment id
+          type: integer
+        assessmentId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        triggeredBy:
+          description: reason for assessment
+          enum:
+          - Unknown
+          - ContinuousCompliancePolicy
+          - Manual
+          - SystemBundle
+          - Serverless
+          - Logic
+          - Magellan
+          - KubernetesRuntimeAssurance
+          - ContainersRuntimeProtection
+          - ExternalFinding
+          - CIEM
+          - Incident
+          - WorkloadChangeMonitoring
+          - Agentless
+          type: string
+        assessmentPassed:
+          description: assessment result
+          type: boolean
+        hasErrors:
+          description: assessment has errors
+          type: boolean
+        stats:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentHistoryStatsV2ViewModel'
+          description: summary statistics for assessment
+        request:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentHistoryBundleResultV2ViewModel'
+        hasDataSyncStatusIssues:
+          type: boolean
+        comparisonCustomId:
+          type: string
+        additionalFields:
+          type: object
+          additionalProperties:
+            type: string
+    ? Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentHistoryResultV2ViewModel_Falconetix.Model.RuleEngine.Entities.AssessmentHistoryMinimizedEntity_
+    : type: object
+      properties:
+        tests:
+          description: list of rules in the assessment
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.RuleTestResultViewModel'
+        testEntities:
+          description: list of entities tested in the assessment
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.AssessmentHistoryMinimizedEntity'
+        exclusions:
+          description: list of exclusions associated with this assessment
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.Exclusion.ExclusionViewModel'
+        remediations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.Remediation.RemediationViewModel'
+        dataSyncStatus:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.Assessment.AssessmentDataSyncStatusEntityViewModel'
+        createdTime:
+          format: date-time
+          description: date of assessment
+          type: string
+        id:
+          format: int64
+          description: assessment id
+          type: integer
+        assessmentId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        triggeredBy:
+          description: reason for assessment
+          enum:
+          - Unknown
+          - ContinuousCompliancePolicy
+          - Manual
+          - SystemBundle
+          - Serverless
+          - Logic
+          - Magellan
+          - KubernetesRuntimeAssurance
+          - ContainersRuntimeProtection
+          - ExternalFinding
+          - CIEM
+          - Incident
+          - WorkloadChangeMonitoring
+          - Agentless
+          type: string
+        assessmentPassed:
+          description: assessment result
+          type: boolean
+        hasErrors:
+          description: assessment has errors
+          type: boolean
+        stats:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentHistoryStatsV2ViewModel'
+          description: summary statistics for assessment
+        request:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.AssessmentHistory.V2.AssessmentHistoryBundleResultV2ViewModel'
+        hasDataSyncStatusIssues:
+          type: boolean
+        comparisonCustomId:
+          type: string
+        additionalFields:
+          type: object
+          additionalProperties:
+            type: string
+    ContinuousCompliancePolicyTargetType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Aws
+      - Azure
+      - Gcp
+      - Kubernetes
+      - OrganizationalUnit
+      - Terraform
+      - Generic
+      - KubernetesRuntimeAssurance
+      - ShiftLeft
+      - Alibaba
+      - Cft
+      - ContainerRegistry
+      - Vendor
+      - Oci
+      - CIEM
+      enum:
+      - Aws
+      - Azure
+      - Gcp
+      - Kubernetes
+      - OrganizationalUnit
+      - Terraform
+      - Generic
+      - KubernetesRuntimeAssurance
+      - ShiftLeft
+      - Alibaba
+      - Cft
+      - ContainerRegistry
+      - Vendor
+      - Oci
+      - CIEM
+    AssessmentCloudAccountType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Aws
+      - Azure
+      - Google
+      - Kubernetes
+      - Terraform
+      - Generic
+      - KubernetesRuntimeAssurance
+      - ShiftLeft
+      - SourceCodeAssurance
+      - ImageAssurance
+      - Alibaba
+      - Cft
+      - ContainerRegistry
+      - Oci
+      - CIEM
+      enum:
+      - Aws
+      - Azure
+      - Google
+      - Kubernetes
+      - Terraform
+      - Generic
+      - KubernetesRuntimeAssurance
+      - ShiftLeft
+      - SourceCodeAssurance
+      - ImageAssurance
+      - Alibaba
+      - Cft
+      - ContainerRegistry
+      - Oci
+      - CIEM
+    DateTimeRange:
+      type: object
+      deprecated: true
+      x-deprecatedMessage: 'This class was duplicated to new Domain (as part of DDD refactoring effort), please refer to the
+        new Project: CGN.RuleEngine.Common.Infra.DateTimeRange'
+      additionalProperties: false
+      required:
+      - from
+      - to
+      properties:
+        from:
+          type: string
+          description: From date time
+          format: date-time
+          nullable: true
+        to:
+          type: string
+          description: To date time
+          format: date-time
+          nullable: true
+    CloudVendor:
+      type: string
+      description: ''
+      x-enumNames:
+      - aws
+      - hp
+      - mellanox
+      - awsgov
+      - azure
+      - google
+      - awschina
+      - azuregov
+      - kubernetes
+      - azurechina
+      - terraform
+      - generic
+      - kubernetesruntimeassurance
+      - shiftleft
+      - sourcecodeassurance
+      - imageassurance
+      - alibaba
+      - cft
+      - containerregistry
+      - oci
+      - ocigov
+      - ocigovuk
+      - CIEM
+      enum:
+      - aws
+      - hp
+      - mellanox
+      - awsgov
+      - azure
+      - google
+      - awschina
+      - azuregov
+      - kubernetes
+      - azurechina
+      - terraform
+      - generic
+      - kubernetesruntimeassurance
+      - shiftleft
+      - sourcecodeassurance
+      - imageassurance
+      - alibaba
+      - cft
+      - containerregistry
+      - oci
+      - ocigov
+      - ocigovuk
+      - CIEM
+    ExclusionViewModel:
+      allOf:
+      - $ref: '#/components/schemas/ExclusionPutRequestModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - platform
+        properties:
+          platform:
+            description: Exclusion platform
+            oneOf:
+            - $ref: '#/components/schemas/AssessmentCloudAccountType'
+    ExclusionPutRequestModel:
+      allOf:
+      - $ref: '#/components/schemas/ExclusionPostRequestModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - id
+        properties:
+          id:
+            type: string
+            description: Exclusion ID
+            format: guid
+    ExclusionPostRequestModel:
+      type: object
+      additionalProperties: false
+      required:
+      - comment
+      - rules
+      - logicExpressions
+      - regions
+      - rulesetId
+      - cloudAccountIds
+      - organizationalUnitIds
+      - dateRange
+      properties:
+        rules:
+          type: array
+          description: '[Optional] List of rules to apply the exclusion on.'
+          default: []
+          nullable: true
+          items:
+            $ref: '#/components/schemas/RuleViewModel2'
+        logicExpressions:
+          type: array
+          description: '[Optional] The GSL logic expressions of the exclusion.'
+          pattern: ((name|id|accountNumber) like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')|(severity like
+            '(informational|low|medium|high|critical)')|(tags contain \[(key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\]
+            À-ÖØ-öø-ÿ]+' and value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')( or key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\]
+            À-ÖØ-öø-ÿ]+' and value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')*\])
+          nullable: true
+          items:
+            type: string
+        regions:
+          type: array
+          description: "           [Optional] List of regions to exclude, for example 'us_east_1'.\n           "
+          nullable: true
+          items:
+            type: string
+        rulesetId:
+          type: integer
+          description: Ruleset ID to apply exclusion on.
+          format: int64
+        cloudAccountIds:
+          type: array
+          description: '[Optional] List of cloud account IDs to apply exclusion on.
+
+            If neither cloud account IDs nor organizational unit IDs are supplied, exclusion will apply on all cloud accounts.
+
+            If both organizational unit IDs and cloud account IDs are supplied, only organizational unit IDs will take effect.'
+          nullable: true
+          items:
+            type: string
+            format: guid
+        organizationalUnitIds:
+          type: array
+          description: '[Optional] List of organizational unit IDs to apply exclusion on.
+
+            If neither organizational unit IDs nor cloud account IDs are supplied, exclusion will apply on all cloud accounts.
+
+            If both organizational unit IDs and cloud account IDs are supplied, only organizational unit IDs will take effect.'
+          nullable: true
+          items:
+            type: string
+            format: guid
+        comment:
+          type: string
+          description: Comment text (free text)
+          minLength: 1
+        dateRange:
+          description: '[Optional] Effective date range for the exclusion.
+
+            Leaving ''From'' null will take only ''To'' into account.
+
+            Leaving ''To'' null will take only ''From'' into account.
+
+            DateRange with both ''From'' and ''To'' null will be disregarded.'
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/DateTimeRange'
+    ExclusionPostByFindingIdRequestModel:
+      type: object
+      additionalProperties: false
+      required:
+      - findingId
+      - dateRange
+      properties:
+        findingId:
+          type: string
+          description: '[Required] Finding ID'
+          format: guid
+        dateRange:
+          description: '[Optional] Date range for the exclusion to take effect.
+
+            The exclusion will take effect permanently unless a specific date range is specified.
+
+            Leaving ''From'' null will take only ''To'' into account.
+
+            Leaving ''To'' null will take only ''From'' into account.
+
+            DateRange with both ''From'' and ''To'' null will be disregarded.'
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/DateTimeRange'
+    ExclusionPostByFindingKeyRequestModel:
+      type: object
+      additionalProperties: false
+      required:
+      - findingKey
+      - dateRange
+      properties:
+        findingKey:
+          type: string
+          description: '[Required] Finding Key'
+          nullable: true
+        dateRange:
+          description: '[Optional] Date range for the exclusion to take effect.
+
+            The exclusion will take effect permanently unless a specific date range is specified.
+
+            Leaving ''From'' null will take only ''To'' into account.
+
+            Leaving ''To'' null will take only ''From'' into account.
+
+            DateRange with both ''From'' and ''To'' null will be disregarded.'
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/DateTimeRange'
+    ExclusionMultiStatusResponseViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - exclusions
+      properties:
+        exclusions:
+          type: object
+          default: {}
+          nullable: true
+          additionalProperties:
+            type: integer
+            format: int32
+    FeatureTier:
+      type: string
+      description: ''
+      x-enumNames:
+      - Trial
+      - Basic
+      - Advanced
+      - Premium
+      enum:
+      - Trial
+      - Basic
+      - Advanced
+      - Premium
+    RuleBundleVersionViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - createdTime
+      properties:
+        version:
+          type: string
+          nullable: true
+        createdTime:
+          type: string
+          nullable: true
+    RuleBundleResultViewModel:
+      allOf:
+      - $ref: '#/components/schemas/BaseRuleBundleResultViewModelOfRuleBundleEntity'
+      - type: object
+        additionalProperties: false
+        required:
+        - rules
+        properties:
+          rules:
+            type: array
+            description: list of rules in the bundle
+            nullable: true
+            items:
+              $ref: '#/components/schemas/RuleViewModel2'
+    RuleViewModel2:
+      type: object
+      additionalProperties: false
+      required:
+      - logicHash
+      - id
+      - name
+      - rlmId
+      properties:
+        logicHash:
+          type: string
+          description: Rule logic hash
+          pattern: ^[A-Za-z0-9+/]{22}?$
+          nullable: true
+        id:
+          type: string
+          description: Rule ID
+          nullable: true
+        name:
+          type: string
+          description: Rule name
+          nullable: true
+        rlmId:
+          type: string
+          nullable: true
+    BaseRuleBundleResultViewModelOfRuleBundleEntity:
+      type: object
+      x-abstract: true
+      additionalProperties: false
+      properties:
+        accountId:
+          type: integer
+          description: Dome9 account id
+          format: int64
+        createdTime:
+          type: string
+          description: bundle creation date
+          format: date-time
+        updatedTime:
+          type: string
+          format: date-time
+        id:
+          type: integer
+          description: bundle id
+          format: int64
+        name:
+          type: string
+          description: bundle name
+          nullable: true
+        description:
+          type: string
+          description: bundle description
+          nullable: true
+        isTemplate:
+          type: boolean
+        hideInCompliance:
+          type: boolean
+        minFeatureTier:
+          $ref: '#/components/schemas/FeatureTier'
+        section:
+          type: integer
+          format: int32
+        tooltipText:
+          type: string
+          description: tooltip text (UI) for the bundle, when hovering over it
+          nullable: true
+        showBundle:
+          type: boolean
+        systemBundle:
+          type: boolean
+        cloudVendor:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/CloudVendor'
+        version:
+          type: integer
+          format: int32
+        minorVersion:
+          type: integer
+          format: int32
+        availableVersions:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/RuleBundleVersionViewModel'
+        language:
+          type: string
+          nullable: true
+        rulesCount:
+          type: integer
+          format: int32
+        default:
+          type: boolean
+        common:
+          type: boolean
+        icon:
+          type: string
+          nullable: true
+    RuleBundleRequestPostViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - cloudVendor
+      - description
+      - rules
+      - hideInCompliance
+      - minFeatureTier
+      - language
+      properties:
+        name:
+          type: string
+          description: bundle name
+          default: ''
+          minLength: 1
+        description:
+          type: string
+          description: description of the bundle
+          default: ''
+          nullable: true
+        rules:
+          type: array
+          description: list of rules in the bundle
+          default: []
+          nullable: true
+          items:
+            $ref: '#/components/schemas/RuleViewModel2'
+        hideInCompliance:
+          type: boolean
+        minFeatureTier:
+          default: 30
+          $ref: '#/components/schemas/FeatureTier'
+        cloudVendor:
+          description: the cloud provider on which the rule will be run
+          oneOf:
+          - $ref: '#/components/schemas/CloudVendor'
+        language:
+          type: string
+          description: the language of the text (default, 'en' - English)
+          default: en
+          nullable: true
+    RuleBundleRequestViewModel:
+      allOf:
+      - $ref: '#/components/schemas/RuleBundleRequestPostViewModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - id
+        - rlmId
+        properties:
+          id:
+            type: integer
+            description: the bundle id (returned in response)
+            format: int64
+          rlmId:
+            type: string
+            description: 'RDS database table entity (row) id
+
+              Is null for non-RLM customers (using legacy Mongo)'
+            format: guid
+            nullable: true
+    ContinuousCompliancePolicyViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - targetType
+      - vendor
+      - targetInternalId
+      - targetExternalId
+      - rulesetId
+      - rulesetVersion
+      - notificationIds
+      - errorMessage
+      properties:
+        id:
+          type: string
+          format: guid
+        targetType:
+          $ref: '#/components/schemas/ContinuousCompliancePolicyTargetType'
+        vendor:
+          $ref: '#/components/schemas/ContinuousCompliancePolicyTargetType'
+        targetInternalId:
+          type: string
+          format: guid
+        targetExternalId:
+          type: string
+        rulesetId:
+          type: integer
+          format: int64
+        rulesetVersion:
+          type: string
+          default: Latest
+        notificationIds:
+          type: array
+          items:
+            type: string
+            format: guid
+        errorMessage:
+          type: string
+    ContinuousCompliancePolicyRequestModel:
+      type: object
+      additionalProperties: false
+      required:
+      - targetType
+      - rulesetId
+      - notificationIds
+      - targetId
+      - rulesetVersion
+      properties:
+        targetId:
+          type: string
+        targetType:
+          $ref: '#/components/schemas/ContinuousCompliancePolicyTargetType'
+        rulesetId:
+          type: integer
+          format: int64
+        rulesetVersion:
+          type: string
+          nullable: true
+        notificationIds:
+          type: array
+          items:
+            type: string
+            format: guid
+    EvaluateRulesetVersionsRequestModel:
+      type: object
+      additionalProperties: false
+      required:
+      - rulesetId
+      - cloudAccountIds
+      properties:
+        rulesetId:
+          type: integer
+          format: int64
+        cloudAccountIds:
+          type: array
+          items:
+            type: string
+            format: guid
+  requestBodies:
+    Falconetix.Model.RuleEngine.Entities.AssessmentsRequestFilterViewModel:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.AssessmentsRequestFilterViewModel'
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.AssessmentsRequestFilterViewModel'
+      description: block that specifies the accounts and bundles
+      required: true
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+security:
+- basic: []
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

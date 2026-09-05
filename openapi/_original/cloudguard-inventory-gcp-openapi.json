@@ -1,0 +1,6411 @@
+{
+ "info": {
+  "title": "Inventory - GCP",
+  "version": "v2"
+ },
+ "openapi": "3.0.0",
+ "servers": [
+  {
+   "url": "https://api.dome9.com/",
+   "description": "US region"
+  },
+  {
+   "url": "https://api.{region}.dome9.com/",
+   "description": "Other regions",
+   "variables": {
+    "region": {
+     "enum": [
+      "eu1",
+      "ap1",
+      "ap2",
+      "ap3",
+      "cace1"
+     ],
+     "default": "eu1"
+    }
+   }
+  }
+ ],
+ "paths": {
+  "/v2/BigTable": {
+   "get": {
+    "tags": [
+     "Big Table"
+    ],
+    "operationId": "BigTable_Get_get_/v2/BigTable",
+    "parameters": [
+     {
+      "name": "name",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.Google.BigTable.GcpBigTableInstanceViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/v2/CloudSql": {
+   "get": {
+    "tags": [
+     "Cloud Sql"
+    ],
+    "operationId": "CloudSql_Get_get_/v2/CloudSql",
+    "parameters": [
+     {
+      "name": "name",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.Google.Sql.GcpCloudSqlInstanceViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/v2/GcpDisk": {
+   "get": {
+    "tags": [
+     "Gcp Disk"
+    ],
+    "operationId": "GcpDisk_Get_get_/v2/GcpDisk",
+    "parameters": [
+     {
+      "name": "externalId",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.Google.GcpDisk.GcpDiskViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/v2/GcpGkeCluster": {
+   "get": {
+    "tags": [
+     "Gcp Gke Cluster"
+    ],
+    "summary": "Get All",
+    "operationId": "GcpGkeCluster_GetAll_get_/v2/GcpGkeCluster",
+    "parameters": [
+     {
+      "name": "cloudAccountId",
+      "in": "query",
+      "description": "The Dome9 Google Cloud Account Id",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeClusterViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "Get a list of GKE clusters for a specific Google Cloud account"
+   }
+  },
+  "/v2/GcpImage": {
+   "get": {
+    "tags": [
+     "Gcp Image"
+    ],
+    "operationId": "GcpImage_Get_get_/v2/GcpImage",
+    "parameters": [
+     {
+      "name": "externalId",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.Google.GcpImage.GcpImageViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/v2/GcpProjectInfo": {
+   "get": {
+    "tags": [
+     "Gcp Project Info"
+    ],
+    "summary": "Get",
+    "operationId": "GcpProjectInfo_Get_get_/v2/GcpProjectInfo",
+    "parameters": [
+     {
+      "name": "cloudAccountId",
+      "in": "query",
+      "description": "the Google cloud account id",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.Google.ProjectInfo.GcpProjectInfoViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "Get Project Info for a Google account"
+   }
+  },
+  "/topics": {
+   "get": {
+    "tags": [
+     "Gcp Pub Sub"
+    ],
+    "operationId": "GcpPubSub_Get_get_/topics",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.Google.PubSub.GcpPubSubTopicViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/topics/{cloudAccountId}": {
+   "get": {
+    "tags": [
+     "Gcp Pub Sub"
+    ],
+    "operationId": "GcpPubSub_Get_get_/topics/{cloudAccountId}",
+    "parameters": [
+     {
+      "name": "cloudAccountId",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.Google.PubSub.GcpPubSubTopicViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/subscriptions/{cloudAccountId}/{project}/{topic}": {
+   "get": {
+    "tags": [
+     "Gcp Pub Sub"
+    ],
+    "operationId": "GcpPubSub_Get_get_/subscriptions/{cloudAccountId}/{project}/{topic}",
+    "parameters": [
+     {
+      "name": "cloudAccountId",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "project",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "topic",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.Google.PubSub.GcpPubSubSubscriptionViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/v2/GoogleCloudFirewallRule": {
+   "get": {
+    "tags": [
+     "Google Cloud Firewall Rule"
+    ],
+    "operationId": "GoogleCloudFirewallRule_Get_get_/v2/GoogleCloudFirewallRule",
+    "parameters": [
+     {
+      "name": "cloudAccountId",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.Google.Firewall.GoogleCloudFirewallRuleViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/v2/GoogleCloudFunction": {
+   "get": {
+    "tags": [
+     "Google Cloud Function"
+    ],
+    "summary": "Get",
+    "operationId": "GoogleCloudFunction_Get_get_/v2/GoogleCloudFunction",
+    "parameters": [
+     {
+      "name": "cloudAccountId",
+      "in": "query",
+      "description": "Cloud Account Id, to get Cloud Functions for a specific cloud account",
+      "required": false,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "Get all Gcp Cloud Functions for account"
+   }
+  },
+  "/v2/GoogleCloudIamPolicy": {
+   "get": {
+    "tags": [
+     "Google Cloud Iam Policy"
+    ],
+    "operationId": "GoogleCloudIamPolicy_Get_get_/v2/GoogleCloudIamPolicy",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.Google.IamPolicy.GoogleCloudIamPolicyViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/v2/GoogleCloudIamPolicy/{id}": {
+   "get": {
+    "tags": [
+     "Google Cloud Iam Policy"
+    ],
+    "operationId": "GoogleCloudIamPolicy_Get_get_/v2/GoogleCloudIamPolicy/{id}",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Google.IamPolicy.GoogleCloudIamPolicyViewModel"
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/v2/GoogleCloudNetwork": {
+   "get": {
+    "tags": [
+     "Google Cloud Network"
+    ],
+    "summary": "Get",
+    "operationId": "GoogleCloudNetwork_Get_get_/v2/GoogleCloudNetwork",
+    "parameters": [
+     {
+      "name": "cloudAccountId",
+      "in": "query",
+      "description": "the Google cloud account id",
+      "required": false,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.Google.Network.GoogleCloudNetworkViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "Get network details for a Google account"
+   }
+  },
+  "/v2/GoogleCloudSubnet": {
+   "get": {
+    "tags": [
+     "Google Cloud Subnet"
+    ],
+    "operationId": "GoogleCloudSubnet_Get_get_/v2/GoogleCloudSubnet",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.Google.Subnet.GoogleCloudSubnetViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/v2/GoogleCloudVMInstance/{cloudAccountId}/network-details": {
+   "get": {
+    "tags": [
+     "Google CloudVM Instance"
+    ],
+    "operationId": "GoogleCloudVMInstance_GetNetworkDetailsByInstanceId_get_/v2/GoogleCloudVMInstance/{cloudAccountId}/network-details",
+    "parameters": [
+     {
+      "name": "cloudAccountId",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      }
+     },
+     {
+      "name": "instanceExternalId",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.Google.Instance.NetworkDetailViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get Network Details By Instance Id"
+   }
+  },
+  "/v2/GoogleCloudVMInstance": {
+   "get": {
+    "tags": [
+     "Google CloudVM Instance"
+    ],
+    "operationId": "GoogleCloudVMInstance_GetAll_get_/v2/GoogleCloudVMInstance",
+    "parameters": [
+     {
+      "name": "cloudAccountId",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.Google.Instance.GcpVMInstanceViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get All"
+   }
+  },
+  "/v2/GoogleCloudVMInstance/{id}": {
+   "get": {
+    "tags": [
+     "Google CloudVM Instance"
+    ],
+    "operationId": "GoogleCloudVMInstance_Get_get_/v2/GoogleCloudVMInstance/{id}",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Google.Instance.GcpVMInstanceViewModel"
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/v2/GcpMachineImage": {
+   "get": {
+    "tags": [
+     "Gcp Machine Image"
+    ],
+    "operationId": "GcpMachineImage_Get_get_/v2/GcpMachineImage",
+    "responses": {
+     "200": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/GcpMachineImageViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  }
+ },
+ "tags": [
+  {
+   "name": "AccessLease",
+   "description": "Access Leases"
+  },
+  {
+   "name": "AccessLeaseInvitation",
+   "description": "Access Lease Invitations"
+  },
+  {
+   "name": "Account"
+  },
+  {
+   "name": "AccountLimitation"
+  },
+  {
+   "name": "AccountPollingInterval"
+  },
+  {
+   "name": "AccountRegistration"
+  },
+  {
+   "name": "AccountTrust",
+   "description": "Allow you to define a trust between accounts in order to allow users in a certain account to make changes and operation on another account.\nActions can be taken on a trustee account via a role which is defined on it. \nThe role should be assumed by a user from the trusted account."
+  },
+  {
+   "name": "Agent"
+  },
+  {
+   "name": "Agentless",
+   "description": "Agentless Workload Posture"
+  },
+  {
+   "name": "Alert"
+  },
+  {
+   "name": "AlibabaCloudAccount",
+   "description": "Alibaba Cloud Accounts"
+  },
+  {
+   "name": "Application"
+  },
+  {
+   "name": "Assessment",
+   "description": "Run and View Compliance Assessments"
+  },
+  {
+   "name": "AssessmentHistory"
+  },
+  {
+   "name": "AssessmentHistoryV2",
+   "description": "Compliance Assessment History"
+  },
+  {
+   "name": "Audit",
+   "description": "Audit logs"
+  },
+  {
+   "name": "Auth"
+  },
+  {
+   "name": "Aws Cloud Account",
+   "description": "Manage AWS Cloud Accounts"
+  },
+  {
+   "name": "AwsAppSync"
+  },
+  {
+   "name": "AwsBackupVault"
+  },
+  {
+   "name": "AwsConfigSettings"
+  },
+  {
+   "name": "AwsCustomerGateway"
+  },
+  {
+   "name": "AwsEcsTask"
+  },
+  {
+   "name": "AwsEks"
+  },
+  {
+   "name": "AwsElasticIp"
+  },
+  {
+   "name": "AwsElasticsearchDomain"
+  },
+  {
+   "name": "AwsEmrCluster"
+  },
+  {
+   "name": "AwsInspectorFindings"
+  },
+  {
+   "name": "AwsInspectorRuns"
+  },
+  {
+   "name": "AwsLoadBalancersNetworkInterfaces"
+  },
+  {
+   "name": "AwsOrganizations"
+  },
+  {
+   "name": "AwsQuickSightAccount"
+  },
+  {
+   "name": "AwsQuickSightGroup"
+  },
+  {
+   "name": "AwsQuickSightUser"
+  },
+  {
+   "name": "AwsQuickSightVpcConnections"
+  },
+  {
+   "name": "AwsSageMaker"
+  },
+  {
+   "name": "AwsSecurityGroup"
+  },
+  {
+   "name": "AwsSecurityGroupPolicy"
+  },
+  {
+   "name": "AwsSecurityGroupsIndex"
+  },
+  {
+   "name": "AwsUnifiedOnboarding",
+   "description": "Aws Unified Onboarding"
+  },
+  {
+   "name": "AwsVpcEndpoint"
+  },
+  {
+   "name": "AzureAnalysisService"
+  },
+  {
+   "name": "AzureApplicationGateway"
+  },
+  {
+   "name": "AzureApplicationSecurityGroup"
+  },
+  {
+   "name": "AzureCloudAccount",
+   "description": "Onboard Azure accounts"
+  },
+  {
+   "name": "AzureComputeGalleryImage"
+  },
+  {
+   "name": "AzureCosmosDbAccount"
+  },
+  {
+   "name": "AzureDisk"
+  },
+  {
+   "name": "AzureFunction"
+  },
+  {
+   "name": "AzureKeyVault"
+  },
+  {
+   "name": "AzureKubernetes"
+  },
+  {
+   "name": "AzureLoadBalancer"
+  },
+  {
+   "name": "AzureLock"
+  },
+  {
+   "name": "AzureLogicApp"
+  },
+  {
+   "name": "AzureLogProfile"
+  },
+  {
+   "name": "AzurePolicyAssignment"
+  },
+  {
+   "name": "AzureRedisCache"
+  },
+  {
+   "name": "AzureResourceGroup"
+  },
+  {
+   "name": "AzureRouteTable"
+  },
+  {
+   "name": "AzureSecurityGroup"
+  },
+  {
+   "name": "AzureSecurityGroupPolicy",
+   "description": "Azure Network Security Group Policies"
+  },
+  {
+   "name": "AzureSnapshot"
+  },
+  {
+   "name": "AzureSqlDb"
+  },
+  {
+   "name": "AzureSqlServer"
+  },
+  {
+   "name": "AzureStorageAccounts"
+  },
+  {
+   "name": "AzureStorageBlobContainer"
+  },
+  {
+   "name": "AzureSubnet"
+  },
+  {
+   "name": "AzureUser"
+  },
+  {
+   "name": "AzureVirtualMachine"
+  },
+  {
+   "name": "AzureVirtualMachineImage"
+  },
+  {
+   "name": "AzureVirtualMachineScaleSet"
+  },
+  {
+   "name": "AzureVirtualNetworkPeering"
+  },
+  {
+   "name": "AzureWebApp"
+  },
+  {
+   "name": "BigTable"
+  },
+  {
+   "name": "BillableAssets",
+   "description": "Retrieve billable assets data"
+  },
+  {
+   "name": "BillableAssetsReport",
+   "description": "Billable Assets Report"
+  },
+  {
+   "name": "Billing"
+  },
+  {
+   "name": "Clarity"
+  },
+  {
+   "name": "CloudAcmCertificate"
+  },
+  {
+   "name": "CloudAmi"
+  },
+  {
+   "name": "CloudAutoScalingGroup"
+  },
+  {
+   "name": "CloudDbInstance"
+  },
+  {
+   "name": "CloudDirectConnect"
+  },
+  {
+   "name": "CloudDynamoDb"
+  },
+  {
+   "name": "CloudEcsCluster"
+  },
+  {
+   "name": "CloudEcsService",
+   "description": "Cloud Ecs Service"
+  },
+  {
+   "name": "CloudEcsTaskDefinition"
+  },
+  {
+   "name": "CloudEfs"
+  },
+  {
+   "name": "CloudElastiCacheCluster"
+  },
+  {
+   "name": "CloudFlowLogs"
+  },
+  {
+   "name": "CloudFrontDistribution"
+  },
+  {
+   "name": "CloudGuardDutyDetector"
+  },
+  {
+   "name": "CloudIamAccountSummary"
+  },
+  {
+   "name": "CloudIamCredentialReport"
+  },
+  {
+   "name": "CloudIamGroup"
+  },
+  {
+   "name": "CloudIamPasswordPolicy"
+  },
+  {
+   "name": "CloudIamPolicy"
+  },
+  {
+   "name": "CloudIamRole"
+  },
+  {
+   "name": "CloudIamServerCertificate"
+  },
+  {
+   "name": "CloudIamUser"
+  },
+  {
+   "name": "CloudIamVirtualMfaDevice"
+  },
+  {
+   "name": "CloudInfraUser",
+   "description": "CloudInfra Users"
+  },
+  {
+   "name": "CloudInstance",
+   "description": "Cloud Instances"
+  },
+  {
+   "name": "CloudInternetGateway"
+  },
+  {
+   "name": "CloudKinesisStream"
+  },
+  {
+   "name": "CloudKms"
+  },
+  {
+   "name": "CloudKmsAlias"
+  },
+  {
+   "name": "CloudLambdaFunction",
+   "description": "Cloud Lambda Function"
+  },
+  {
+   "name": "CloudLoadBalancer"
+  },
+  {
+   "name": "CloudLogGroups"
+  },
+  {
+   "name": "CloudMetricAlarm"
+  },
+  {
+   "name": "CloudNacl"
+  },
+  {
+   "name": "CloudNetworkInterfaces"
+  },
+  {
+   "name": "CloudRedshiftCluster"
+  },
+  {
+   "name": "CloudRegion"
+  },
+  {
+   "name": "CloudRoute53Domain"
+  },
+  {
+   "name": "CloudRoute53HostedZone"
+  },
+  {
+   "name": "CloudRoute53RecordSetGroup"
+  },
+  {
+   "name": "CloudRouteTable"
+  },
+  {
+   "name": "CloudS3Bucket",
+   "description": ""
+  },
+  {
+   "name": "CloudSecurityGroup",
+   "description": "AWS Security Groups"
+  },
+  {
+   "name": "CloudSnsSubscription"
+  },
+  {
+   "name": "CloudSnsTopic"
+  },
+  {
+   "name": "CloudSql"
+  },
+  {
+   "name": "CloudSqs",
+   "description": ""
+  },
+  {
+   "name": "CloudSubnet"
+  },
+  {
+   "name": "CloudTrail",
+   "description": "CloudTrail"
+  },
+  {
+   "name": "CloudVolume"
+  },
+  {
+   "name": "CloudVpc"
+  },
+  {
+   "name": "CloudVpcPeeringConnection"
+  },
+  {
+   "name": "CloudVPNConnection"
+  },
+  {
+   "name": "CloudVpnGateway"
+  },
+  {
+   "name": "CloudWAFRegional"
+  },
+  {
+   "name": "CloudWatchEventsRule",
+   "description": "CloudWatchEventsRule"
+  },
+  {
+   "name": "ComplianceExclusion",
+   "description": "Compliance Exclusions"
+  },
+  {
+   "name": "CompliancePolicy"
+  },
+  {
+   "name": "ComplianceRemediation",
+   "description": "Compliance Remediation"
+  },
+  {
+   "name": "ComplianceRemediationOld",
+   "description": "Compliance Remediation - DEPRECATED - please use /Compliance/Remediation instead"
+  },
+  {
+   "name": "ComplianceRuleset",
+   "description": "ComplianceRuleset"
+  },
+  {
+   "name": "ContinuousComplianceNotification",
+   "description": "Continuous Compliance Notification Policies"
+  },
+  {
+   "name": "ContinuousCompliancePolicy"
+  },
+  {
+   "name": "ContinuousCompliancePolicyV2",
+   "description": "Continuous Compliance Policies"
+  },
+  {
+   "name": "EmergencyPolicy"
+  },
+  {
+   "name": "EntityFetchStatus"
+  },
+  {
+   "name": "EntityReport"
+  },
+  {
+   "name": "ExclusionOld",
+   "description": "Compliance Exclusions - DEPRECATED - please use /Compliance/Exclusion instead"
+  },
+  {
+   "name": "ExternalFindings",
+   "description": "Findings from External (3rd-party) systems"
+  },
+  {
+   "name": "Fim"
+  },
+  {
+   "name": "Finding",
+   "description": "Compliance Findings"
+  },
+  {
+   "name": "FindingsReport",
+   "description": "Compliance Findings csv reports"
+  },
+  {
+   "name": "GcpBigQuery"
+  },
+  {
+   "name": "GcpDisk"
+  },
+  {
+   "name": "GcpGkeCluster"
+  },
+  {
+   "name": "GcpImage"
+  },
+  {
+   "name": "GcpKmsKeyRing"
+  },
+  {
+   "name": "GcpProjectInfo",
+   "description": "Google Cloud Project Info"
+  },
+  {
+   "name": "GcpPubSub"
+  },
+  {
+   "name": "GcpSecurityGroup"
+  },
+  {
+   "name": "GcpServiceAccount"
+  },
+  {
+   "name": "GcpStorageBucket"
+  },
+  {
+   "name": "GenericList",
+   "description": "Generic Lists"
+  },
+  {
+   "name": "GlobalSearch",
+   "description": "Global search for all CloudGuard services"
+  },
+  {
+   "name": "GoogleCloudAccount",
+   "description": "Google Cloud Accounts"
+  },
+  {
+   "name": "GoogleCloudFirewallRule"
+  },
+  {
+   "name": "GoogleCloudFunction"
+  },
+  {
+   "name": "GoogleCloudIamPolicy"
+  },
+  {
+   "name": "GoogleCloudNetwork",
+   "description": "Google Cloud Network"
+  },
+  {
+   "name": "GoogleCloudSubnet"
+  },
+  {
+   "name": "GoogleCloudVMInstance"
+  },
+  {
+   "name": "Home"
+  },
+  {
+   "name": "IamSafeLease",
+   "description": "IAM Safety Leases"
+  },
+  {
+   "name": "IncidentsStatus"
+  },
+  {
+   "name": "InfrastructureAssessment"
+  },
+  {
+   "name": "Intelligence",
+   "description": "CloudGuard Intelligence allows you to visualize and analyze Account Activity and Network Traffic into and out of your cloud environment."
+  },
+  {
+   "name": "IpAddressMetadata",
+   "description": "IP Address Metadata"
+  },
+  {
+   "name": "IpList",
+   "description": "IP Lists"
+  },
+  {
+   "name": "LicenseActivator"
+  },
+  {
+   "name": "Licensing"
+  },
+  {
+   "name": "ManagedGenericList"
+  },
+  {
+   "name": "Msp"
+  },
+  {
+   "name": "OrganizationalUnit",
+   "description": "Manage Organizational Units"
+  },
+  {
+   "name": "Permission"
+  },
+  {
+   "name": "ProtectedAsset"
+  },
+  {
+   "name": "ProtectedAssetsReport",
+   "description": "Compliance Protected Asset csv reports"
+  },
+  {
+   "name": "ProtegoStatistics",
+   "description": "Protego statistics by dates"
+  },
+  {
+   "name": "Role",
+   "description": "CloudGuard Roles"
+  },
+  {
+   "name": "RulesEngine"
+  },
+  {
+   "name": "SecurityGroup"
+  },
+  {
+   "name": "Serverless"
+  },
+  {
+   "name": "ServerlessPolicy",
+   "description": "Serverless policy"
+  },
+  {
+   "name": "ServiceAccount",
+   "description": "CloudGuard Service Accounts"
+  },
+  {
+   "name": "ServicePort"
+  },
+  {
+   "name": "Settings",
+   "description": "Account Settings"
+  },
+  {
+   "name": "ShiftLeft",
+   "description": "ShiftLeft"
+  },
+  {
+   "name": "SystemHealth"
+  },
+  {
+   "name": "TenableAccount",
+   "description": "Onboard Tenable accounts"
+  },
+  {
+   "name": "User",
+   "description": "CloudGuard account users"
+  },
+  {
+   "name": "BaseImage",
+   "description": ""
+  },
+  {
+   "name": "ContainerRegistryAccount",
+   "description": "Container Registry Account"
+  },
+  {
+   "name": "ContainerRegistryAccountInternal",
+   "description": ""
+  },
+  {
+   "name": "ContainerRegistryImageAssurancePolicy",
+   "description": "(deprecated: move to use /v2/vulnerability/policy)"
+  },
+  {
+   "name": "Dashboard",
+   "description": ""
+  },
+  {
+   "name": "EcsConfiguration",
+   "description": ""
+  },
+  {
+   "name": "EcsImageAssurancePolicy",
+   "description": "(deprecated: move to use /v2/vulnerability/policy)"
+  },
+  {
+   "name": "EcsImageScan",
+   "description": "ECS Image Scan Configuration"
+  },
+  {
+   "name": "Environment",
+   "description": ""
+  },
+  {
+   "name": "ImageAdmissionExclusion",
+   "description": "[Preview feature] Kubernetes Image admission exclusions"
+  },
+  {
+   "name": "ImageAssuranceDashboard",
+   "description": ""
+  },
+  {
+   "name": "ImageAssuranceReport",
+   "description": ""
+  },
+  {
+   "name": "KubernetesAccount",
+   "description": "Kubernetes Accounts"
+  },
+  {
+   "name": "KubernetesAccountInternal",
+   "description": ""
+  },
+  {
+   "name": "KubernetesAccountOld",
+   "description": "(deprecated: this api is deprecated, please use '/v2/kubernetes/account' instead)"
+  },
+  {
+   "name": "KubernetesAdmissionControl",
+   "description": "Kubernetes Admission Control"
+  },
+  {
+   "name": "KubernetesAdmissionControlPoliciesSummary",
+   "description": ""
+  },
+  {
+   "name": "KubernetesClusterRole",
+   "description": ""
+  },
+  {
+   "name": "KubernetesImage",
+   "description": ""
+  },
+  {
+   "name": "KubernetesImageAdmissionExclusion",
+   "description": "[Preview feature] Kubernetes Image admission exclusions (deprecated: this api is deprecated, please use '/v2/kubernetes/admissionControl/imageAdmissionExclusion' instead)"
+  },
+  {
+   "name": "KubernetesImageAssurance",
+   "description": "Kubernetes Image Assurance"
+  },
+  {
+   "name": "KubernetesImageAssurancePolicy",
+   "description": "Kubernetes Image Assurance Policy (deprecated: move to use /v2/vulnerability/policy)"
+  },
+  {
+   "name": "KubernetesIngress",
+   "description": ""
+  },
+  {
+   "name": "KubernetesNetworkPolicy",
+   "description": ""
+  },
+  {
+   "name": "KubernetesNode",
+   "description": ""
+  },
+  {
+   "name": "KubernetesPod",
+   "description": ""
+  },
+  {
+   "name": "KubernetesPodGroup",
+   "description": "Kubernetes Pod Groups"
+  },
+  {
+   "name": "KubernetesPodGroupOwner",
+   "description": ""
+  },
+  {
+   "name": "KubernetesPodSecurityPolicy",
+   "description": ""
+  },
+  {
+   "name": "KubernetesRole",
+   "description": ""
+  },
+  {
+   "name": "KubernetesRuntimeAssurance",
+   "description": ""
+  },
+  {
+   "name": "KubernetesService",
+   "description": ""
+  },
+  {
+   "name": "KubernetesServiceAccount",
+   "description": ""
+  },
+  {
+   "name": "Shiftleft",
+   "description": ""
+  },
+  {
+   "name": "ShiftLeftAccount",
+   "description": "ShiftLeft"
+  },
+  {
+   "name": "ShiftLeftPolicy",
+   "description": "ShiftLeft Policy (deprecated: move to use /v2/vulnerability/policy)"
+  },
+  {
+   "name": "Workload",
+   "description": ""
+  },
+  {
+   "name": "WorkloadAccountSetting",
+   "description": "Workload Account Setting"
+  },
+  {
+   "name": "WorkloadChangeMonitoring",
+   "description": ""
+  },
+  {
+   "name": "WorkloadImageAssurance",
+   "description": "Workload Image Assurance"
+  },
+  {
+   "name": "WorkloadImageAssuranceInternal",
+   "description": ""
+  },
+  {
+   "name": "WorkloadInternal",
+   "description": ""
+  },
+  {
+   "name": "WorkloadRuntimeProtection",
+   "description": ""
+  },
+  {
+   "name": "Alerts",
+   "description": ""
+  },
+  {
+   "name": "Azure",
+   "description": ""
+  },
+  {
+   "name": "FindingOrchestration",
+   "description": ""
+  },
+  {
+   "name": "FindingsUpdate",
+   "description": ""
+  },
+  {
+   "name": "Gcp",
+   "description": ""
+  },
+  {
+   "name": "Remediation",
+   "description": "Remediation Actions"
+  },
+  {
+   "name": "Reports",
+   "description": ""
+  },
+  {
+   "name": "CloudInfraMigration",
+   "description": "infinity-portal-connect"
+  },
+  {
+   "name": "GslBuilder",
+   "description": ""
+  },
+  {
+   "name": "Infrastructure",
+   "description": ""
+  },
+  {
+   "name": "InternalLicense",
+   "description": ""
+  },
+  {
+   "name": "NotificationIntegrationInternal",
+   "description": "(deprecated: This controller is deprecated and will be removed in the future)"
+  },
+  {
+   "name": "OciCloudAccount",
+   "description": "Onboard OCI accounts"
+  },
+  {
+   "name": "PlatformReports",
+   "description": ""
+  },
+  {
+   "name": "Regions",
+   "description": ""
+  },
+  {
+   "name": "Spectral",
+   "description": ""
+  },
+  {
+   "name": "RestrictedWorkloadClientModules",
+   "description": ""
+  },
+  {
+   "name": "WorkloadClientModules",
+   "description": ""
+  },
+  {
+   "name": "WorkloadTelemetry",
+   "description": ""
+  },
+  {
+   "name": "Integration",
+   "description": "Integration"
+  },
+  {
+   "name": "IntegrationInternal",
+   "description": ""
+  },
+  {
+   "name": "Notification",
+   "description": "Notification"
+  },
+  {
+   "name": "NotificationInternal",
+   "description": ""
+  },
+  {
+   "name": "AssetMetadataSyncNow",
+   "description": ""
+  },
+  {
+   "name": "BusinessPriorityModifier",
+   "description": "Business Priority Rules"
+  },
+  {
+   "name": "CustomRuleset",
+   "description": "Risk Management Rulesets"
+  },
+  {
+   "name": "Dspm",
+   "description": "DSPM Controller"
+  },
+  {
+   "name": "Exposure",
+   "description": ""
+  },
+  {
+   "name": "GroupRiskManagement",
+   "description": "Groups Risk Management"
+  },
+  {
+   "name": "RemediationActions",
+   "description": "Remediation Actions"
+  },
+  {
+   "name": "RiskModifiers",
+   "description": "Risk Modifiers"
+  },
+  {
+   "name": "SecurityEvents",
+   "description": ""
+  },
+  {
+   "name": "SimilarAssetGroups",
+   "description": ""
+  },
+  {
+   "name": "Waf",
+   "description": "WAF Protection"
+  },
+  {
+   "name": "AwsOrganizationManagement",
+   "description": "AwsOrganizationManagement"
+  },
+  {
+   "name": "AwsOrganizationManagementOnboarding",
+   "description": "AwsOrganizationManagementOnboarding"
+  },
+  {
+   "name": "AzureOrganizationManagement",
+   "description": "AzureOrganizationManagement"
+  },
+  {
+   "name": "GcpOrganizationManagement",
+   "description": "GcpOrganizationManagement"
+  },
+  {
+   "name": "OnboardingManagement",
+   "description": "OnboardingManagement"
+  },
+  {
+   "name": "InternalSBOM",
+   "description": ""
+  },
+  {
+   "name": "InternalVulnerabilityAccountStatsBatch",
+   "description": ""
+  },
+  {
+   "name": "InternalVulnerabilityCleanup",
+   "description": ""
+  },
+  {
+   "name": "InternalVulnerabilityPolicy",
+   "description": ""
+  },
+  {
+   "name": "InternalVulnerabilityScanResults",
+   "description": ""
+  },
+  {
+   "name": "SBOM",
+   "description": ""
+  },
+  {
+   "name": "SBOMExport",
+   "description": "SBOM Export"
+  },
+  {
+   "name": "Vulnerabilities",
+   "description": "Vulnerabilities"
+  },
+  {
+   "name": "VulnerabilityAssessment",
+   "description": ""
+  },
+  {
+   "name": "VulnerabilityExclusions",
+   "description": "Vulnerability Exclusions"
+  },
+  {
+   "name": "VulnerabilityPolicy",
+   "description": "Vulnerability Policy"
+  },
+  {
+   "name": "VulnerabilitySBOM",
+   "description": ""
+  },
+  {
+   "name": "CloudApplicationLoadBalancer",
+   "description": ""
+  },
+  {
+   "name": "CloudNetworkLoadBalancer",
+   "description": ""
+  },
+  {
+   "name": "GcpMachineImage",
+   "description": ""
+  },
+  {
+   "name": "OciCompartment",
+   "description": ""
+  },
+  {
+   "name": "AssetLabelsService",
+   "description": ""
+  },
+  {
+   "name": "AssetOpenFindings",
+   "description": ""
+  },
+  {
+   "name": "EntityTypes",
+   "description": "The entity types endpoint allows you to get the supported entity types and the platform they're supported for."
+  },
+  {
+   "name": "EvidencePath",
+   "description": "The evidence path endpoint allows you to get the evidence path for a given findingId."
+  },
+  {
+   "name": "Exclusions",
+   "description": "The exclusion endpoint provides API to perform CRUD operations on the resource."
+  },
+  {
+   "name": "IgnoreCves",
+   "description": "The ignore CVEs endpoint provides API to perform CRUD operations on the resource."
+  },
+  {
+   "name": "IgnoreMalwares",
+   "description": "The ignore malwares endpoint provides API to perform CRUD operations on the resource."
+  },
+  {
+   "name": "Rules",
+   "description": "The rules endpoint provides APIs to get the security rules data"
+  },
+  {
+   "name": "SecurityGraphIssues",
+   "description": "API for issue enrichments"
+  },
+  {
+   "name": "SecurityGraphQuery",
+   "description": "The query endpoint provides APIs to run queries (rules) to preview possible issues."
+  },
+  {
+   "name": "EntitySchema",
+   "description": "The entity schema endpoint presents schema of toxic issues entities."
+  },
+  {
+   "name": "SecurityIssues",
+   "description": "The Findings endpoint provides APIs query the findings store which contains findings such as security issues. It provides APIs to get, search and group findings."
+  },
+  {
+   "name": "AutomatedActions",
+   "description": "The Automated Actions resource provides API to perform CRUD operations on the resource."
+  }
+ ],
+ "components": {
+  "schemas": {
+   "Dome9.Web.Api.Shared.SharedViewModels.TagViewModel": {
+    "type": "object",
+    "properties": {
+     "key": {
+      "type": "string"
+     },
+     "value": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.BigTable.GcpBigTableInstanceViewModel": {
+    "type": "object",
+    "properties": {
+     "projectId": {
+      "type": "string"
+     },
+     "instanceId": {
+      "type": "string"
+     },
+     "displayName": {
+      "type": "string"
+     },
+     "state": {
+      "type": "string"
+     },
+     "instanceType": {
+      "type": "string"
+     },
+     "policy": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.BigTable.GcpBigTablePolicyViewModel"
+     },
+     "labels": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.TagViewModel"
+      }
+     },
+     "profiles": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.BigTable.GcpBigTableAppProfileViewModel"
+      }
+     },
+     "clusters": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.BigTable.GcpBigTableClusterViewModel"
+      }
+     },
+     "id": {
+      "type": "string"
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "name": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.BigTable.GcpBigTablePolicyViewModel": {
+    "type": "object",
+    "properties": {
+     "version": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "bindings": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.BigTable.GcpBigTableBindingViewModel"
+      }
+     },
+     "eTag": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.BigTable.GcpBigTableAppProfileViewModel": {
+    "type": "object",
+    "properties": {
+     "description": {
+      "type": "string"
+     },
+     "eTag": {
+      "type": "string"
+     },
+     "kind": {
+      "type": "string"
+     },
+     "name": {
+      "type": "string"
+     },
+     "routingPolicyCase": {
+      "type": "string"
+     },
+     "singleClusterRouting": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.BigTable.GcpBigTableSingleRoutingViewModel"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.BigTable.GcpBigTableClusterViewModel": {
+    "type": "object",
+    "properties": {
+     "serveNodes": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "state": {
+      "type": "string"
+     },
+     "location": {
+      "type": "string"
+     },
+     "name": {
+      "type": "string"
+     },
+     "clusterName": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.BigTable.GcpBigTableClusterNameViewModel"
+     },
+     "locationAsLocationName": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.BigTable.GcpBigTableLocationNameViewModel"
+     },
+     "defaultStorageType": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.BigTable.GcpBigTableBindingViewModel": {
+    "type": "object",
+    "properties": {
+     "role": {
+      "type": "string"
+     },
+     "members": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.BigTable.GcpBigTableSingleRoutingViewModel": {
+    "type": "object",
+    "properties": {
+     "clusterId": {
+      "type": "string"
+     },
+     "allowTransactionalWrites": {
+      "type": "boolean"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.BigTable.GcpBigTableClusterNameViewModel": {
+    "type": "object",
+    "properties": {
+     "projectId": {
+      "type": "string"
+     },
+     "instanceId": {
+      "type": "string"
+     },
+     "clusterId": {
+      "type": "string"
+     },
+     "kind": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.BigTable.GcpBigTableLocationNameViewModel": {
+    "type": "object",
+    "properties": {
+     "projectId": {
+      "type": "string"
+     },
+     "locationId": {
+      "type": "string"
+     },
+     "kind": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Instance.GcpComputeAttachedDiskViewModel": {
+    "type": "object",
+    "properties": {
+     "autoDelete": {
+      "type": "boolean"
+     },
+     "deviceName": {
+      "type": "string"
+     },
+     "guestOsFeatures": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.Instance.GcpComputeGuestOsFeatureViewModel"
+      }
+     },
+     "eTag": {
+      "type": "string"
+     },
+     "interface": {
+      "type": "string"
+     },
+     "kind": {
+      "type": "string"
+     },
+     "licenses": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "mode": {
+      "type": "string"
+     },
+     "source": {
+      "type": "string"
+     },
+     "type": {
+      "type": "string"
+     },
+     "diskEncryptionType": {
+      "type": "string"
+     },
+     "diskEncryptionTypeMetadata": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Instance.GcpComputeDiskEncryptionTypeMetadataViewModel"
+     },
+     "diskEncryptionKey": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Instance.GcpComputeInstanceCustomerEncryptionKeyViewModel"
+     },
+     "initializeParams": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Instance.GcpComputeAttachedDiskInitializeParamsViewModel"
+     },
+     "id": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Instance.GcpComputeGuestOsFeatureViewModel": {
+    "type": "object",
+    "properties": {
+     "type": {
+      "type": "string"
+     },
+     "eTag": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Instance.GcpComputeDiskEncryptionTypeMetadataViewModel": {
+    "type": "object",
+    "properties": {
+     "isGoogleManagedKey": {
+      "type": "boolean",
+      "readOnly": true
+     },
+     "isCustomerManagedKey": {
+      "type": "boolean",
+      "readOnly": true
+     },
+     "isCustomerSuppliedKey": {
+      "type": "boolean",
+      "readOnly": true
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Instance.GcpComputeInstanceCustomerEncryptionKeyViewModel": {
+    "type": "object",
+    "properties": {
+     "eTag": {
+      "type": "string"
+     },
+     "rawKey": {
+      "type": "string"
+     },
+     "sha256": {
+      "type": "string"
+     },
+     "kmsKeyName": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Instance.GcpComputeAttachedDiskInitializeParamsViewModel": {
+    "type": "object",
+    "properties": {
+     "diskName": {
+      "type": "string"
+     },
+     "diskSizeGb": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "diskType": {
+      "type": "string"
+     },
+     "sourceImage": {
+      "type": "string"
+     },
+     "sourceImageEncryptionKey": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Instance.GcpComputeCustomerEncryptionKeyViewModel"
+     },
+     "eTag": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Instance.GcpComputeCustomerEncryptionKeyViewModel": {
+    "type": "object",
+    "properties": {
+     "kmsKeyName": {
+      "type": "string"
+     },
+     "rawKey": {
+      "type": "string"
+     },
+     "sha256": {
+      "type": "string"
+     },
+     "eTag": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Sql.GcpCloudSqlInstanceViewModel": {
+    "type": "object",
+    "properties": {
+     "backendType": {
+      "type": "string"
+     },
+     "connectionName": {
+      "type": "string"
+     },
+     "databaseVersion": {
+      "type": "string"
+     },
+     "eTag": {
+      "type": "string"
+     },
+     "failoverReplica": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Sql.GcpCloudSqlFailoverReplicaDataViewModel"
+     },
+     "gceZone": {
+      "type": "string"
+     },
+     "instanceType": {
+      "type": "string"
+     },
+     "ipAddresses": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.Sql.GcpCloudSqlIpMappingViewModel"
+      }
+     },
+     "ipv6Address": {
+      "type": "string"
+     },
+     "kind": {
+      "type": "string"
+     },
+     "masterInstanceName": {
+      "type": "string"
+     },
+     "maxDiskSize": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "name": {
+      "type": "string"
+     },
+     "onPremisesConfiguration": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Sql.GcpCloudSqlOnPremisesConfigurationViewModel"
+     },
+     "project": {
+      "type": "string"
+     },
+     "region": {
+      "type": "string"
+     },
+     "replicaConfiguration": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Sql.GcpCloudSqlReplicaConfigurationViewModel"
+     },
+     "replicaNames": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "selfLink": {
+      "type": "string"
+     },
+     "serverCaCert": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Sql.GcpCloudSqlSslCertViewModel"
+     },
+     "serviceAccountEmailAddress": {
+      "format": "email",
+      "description": "Email Address",
+      "type": "string",
+      "example": "MyName@gmail.com"
+     },
+     "settings": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Sql.GcpCloudSqlSettingsViewModel"
+     },
+     "state": {
+      "type": "string"
+     },
+     "suspensionReason": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "gcpCloudSqlUser": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.Sql.GcpCloudSqlUserViewModel"
+      }
+     },
+     "id": {
+      "type": "string"
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Sql.GcpCloudSqlFailoverReplicaDataViewModel": {
+    "type": "object",
+    "properties": {
+     "available": {
+      "type": "boolean"
+     },
+     "name": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Sql.GcpCloudSqlIpMappingViewModel": {
+    "type": "object",
+    "properties": {
+     "ipAddress": {
+      "type": "string"
+     },
+     "timeToRetireRaw": {
+      "type": "string"
+     },
+     "timeToRetire": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "type": {
+      "type": "string"
+     },
+     "eTag": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Sql.GcpCloudSqlOnPremisesConfigurationViewModel": {
+    "type": "object",
+    "properties": {
+     "hostPort": {
+      "type": "string"
+     },
+     "kind": {
+      "type": "string"
+     },
+     "eTag": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Sql.GcpCloudSqlReplicaConfigurationViewModel": {
+    "type": "object",
+    "properties": {
+     "failoverTarget": {
+      "type": "boolean"
+     },
+     "kind": {
+      "type": "string"
+     },
+     "mysqlReplicaConfiguration": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Sql.GcpCloudSqlMySqlReplicaConfigurationViewModel"
+     },
+     "eTag": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Sql.GcpCloudSqlSslCertViewModel": {
+    "type": "object",
+    "properties": {
+     "certSerialNumber": {
+      "type": "string"
+     },
+     "commonName": {
+      "type": "string"
+     },
+     "createTimeRaw": {
+      "type": "string"
+     },
+     "createTime": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "expirationTimeRaw": {
+      "type": "string"
+     },
+     "expirationTime": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "instance": {
+      "type": "string"
+     },
+     "kind": {
+      "type": "string"
+     },
+     "selfLink": {
+      "type": "string"
+     },
+     "sha1Fingerprint": {
+      "type": "string"
+     },
+     "eTag": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Sql.GcpCloudSqlSettingsViewModel": {
+    "type": "object",
+    "properties": {
+     "activationPolicy": {
+      "type": "string"
+     },
+     "authorizedGaeApplications": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "availabilityType": {
+      "type": "string"
+     },
+     "backupConfiguration": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Sql.GcpCloudSqlBackupConfigurationViewModel"
+     },
+     "crashSafeReplicationEnabled": {
+      "type": "boolean"
+     },
+     "dataDiskSizeGb": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "dataDiskType": {
+      "type": "string"
+     },
+     "databaseFlags": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.Sql.GcpCloudSqlDatabaseFlagsViewModel"
+      }
+     },
+     "databaseReplicationEnabled": {
+      "type": "boolean"
+     },
+     "ipConfiguration": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Sql.GcpCloudSqlIpConfigurationViewModel"
+     },
+     "kind": {
+      "type": "string"
+     },
+     "locationPreference": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Sql.GcpCloudSqlLocationPreferenceViewModel"
+     },
+     "maintenanceWindow": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Sql.GcpCloudSqlMaintenanceWindowViewModel"
+     },
+     "pricingPlan": {
+      "type": "string"
+     },
+     "replicationType": {
+      "type": "string"
+     },
+     "settingsVersion": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "storageAutoResize": {
+      "type": "boolean"
+     },
+     "storageAutoResizeLimit": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "tier": {
+      "type": "string"
+     },
+     "userLabels": {
+      "type": "object",
+      "additionalProperties": {
+       "type": "string"
+      }
+     },
+     "eTag": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Sql.GcpCloudSqlUserViewModel": {
+    "type": "object",
+    "properties": {
+     "eTag": {
+      "type": "string"
+     },
+     "host": {
+      "type": "string"
+     },
+     "instance": {
+      "type": "string"
+     },
+     "kind": {
+      "type": "string"
+     },
+     "name": {
+      "type": "string"
+     },
+     "project": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Sql.GcpCloudSqlMySqlReplicaConfigurationViewModel": {
+    "type": "object",
+    "properties": {
+     "caCertificate": {
+      "type": "string"
+     },
+     "clientCertificate": {
+      "type": "string"
+     },
+     "clientKey": {
+      "type": "string"
+     },
+     "connectRetryInterval": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "dumpFilePath": {
+      "type": "string"
+     },
+     "kind": {
+      "type": "string"
+     },
+     "masterHeartbeatPeriod": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "password": {
+      "type": "string"
+     },
+     "sslCipher": {
+      "type": "string"
+     },
+     "username": {
+      "type": "string"
+     },
+     "verifyServerCertificate": {
+      "type": "boolean"
+     },
+     "eTag": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Sql.GcpCloudSqlBackupConfigurationViewModel": {
+    "type": "object",
+    "properties": {
+     "binaryLogEnabled": {
+      "type": "boolean"
+     },
+     "enabled": {
+      "type": "boolean"
+     },
+     "kind": {
+      "type": "string"
+     },
+     "replicationLogArchivingEnabled": {
+      "type": "boolean"
+     },
+     "startTime": {
+      "type": "string"
+     },
+     "eTag": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Sql.GcpCloudSqlDatabaseFlagsViewModel": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "value": {
+      "type": "string"
+     },
+     "eTag": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Sql.GcpCloudSqlIpConfigurationViewModel": {
+    "type": "object",
+    "properties": {
+     "authorizedNetworks": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.Sql.GcpCloudSqlAclEntryViewModel"
+      }
+     },
+     "ipv4Enabled": {
+      "type": "boolean"
+     },
+     "requireSsl": {
+      "type": "boolean"
+     },
+     "eTag": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Sql.GcpCloudSqlLocationPreferenceViewModel": {
+    "type": "object",
+    "properties": {
+     "followGaeApplication": {
+      "type": "string"
+     },
+     "kind": {
+      "type": "string"
+     },
+     "zone": {
+      "type": "string"
+     },
+     "eTag": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Sql.GcpCloudSqlMaintenanceWindowViewModel": {
+    "type": "object",
+    "properties": {
+     "day": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "hour": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "kind": {
+      "type": "string"
+     },
+     "updateTrack": {
+      "type": "string"
+     },
+     "eTag": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Sql.GcpCloudSqlAclEntryViewModel": {
+    "type": "object",
+    "properties": {
+     "expirationTimeRaw": {
+      "type": "string"
+     },
+     "expirationTime": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "kind": {
+      "type": "string"
+     },
+     "name": {
+      "type": "string"
+     },
+     "value": {
+      "type": "string"
+     },
+     "eTag": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.GcpDisk.GcpDiskViewModel": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "externalId": {
+      "type": "string"
+     },
+     "name": {
+      "type": "string"
+     },
+     "selfLink": {
+      "type": "string"
+     },
+     "status": {
+      "type": "string"
+     },
+     "creationTimestamp": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "lastAttachTimestamp": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "lastDetachTimestamp": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "sourceImage": {
+      "type": "string"
+     },
+     "sourceImageId": {
+      "type": "string"
+     },
+     "sourceDisk": {
+      "type": "string"
+     },
+     "sourceDiskId": {
+      "type": "string"
+     },
+     "sourceSnapshot": {
+      "type": "string"
+     },
+     "sourceSnapshotId": {
+      "type": "string"
+     },
+     "labels": {
+      "type": "object",
+      "additionalProperties": {
+       "type": "string"
+      }
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeClusterViewModel": {
+    "type": "object",
+    "properties": {
+     "tags": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.TagViewModel"
+      }
+     },
+     "nodePools": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeNodePoolViewModel"
+      }
+     },
+     "network": {
+      "type": "string"
+     },
+     "subnetwork": {
+      "type": "string"
+     },
+     "clusterIpv4Cidr": {
+      "type": "string"
+     },
+     "currentNodeCount": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "currentMasterVersion": {
+      "type": "string"
+     },
+     "initialClusterVersion": {
+      "type": "string"
+     },
+     "description": {
+      "type": "string"
+     },
+     "enableKubernetesAlpha": {
+      "type": "boolean"
+     },
+     "endpoint": {
+      "type": "string"
+     },
+     "ipAllocationPolicy": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeIPAllocationPolicyViewModel"
+     },
+     "labelFingerprint": {
+      "type": "string"
+     },
+     "legacyAbac": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeLegacyAbacViewModel"
+     },
+     "loggingService": {
+      "type": "string"
+     },
+     "maintenancePolicy": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeMaintenancePolicyViewModel"
+     },
+     "monitoringService": {
+      "type": "string"
+     },
+     "networkPolicy": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeNetworkPolicyViewModel"
+     },
+     "nodeIpv4CidrSize": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "servicesIpv4Cidr": {
+      "type": "string"
+     },
+     "status": {
+      "type": "string"
+     },
+     "statusMessage": {
+      "type": "string"
+     },
+     "addonsConfig": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeAddonsConfigViewModel"
+     },
+     "autoScaling": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeClusterAutoScalingViewModel"
+     },
+     "masterAuthorizedNetworksConfig": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeMasterAuthorizedNetworksConfigViewModel"
+     },
+     "selfLink": {
+      "type": "string"
+     },
+     "region": {
+      "type": "string"
+     },
+     "conditions": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeStatusConditionViewModel"
+      }
+     },
+     "expireTime": {
+      "type": "string"
+     },
+     "privateClusterConfig": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkePrivateClusterConfigViewModel"
+     },
+     "databaseConfig": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeDatabaseEncryptionViewModel"
+     },
+     "shieldedNodes": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeShieldedNodesViewModel"
+     },
+     "releaseChannel": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeReleaseChannelViewModel"
+     },
+     "workloadIdentityConfig": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeWorkloadIdentityConfigViewModel"
+     },
+     "binaryAuthorization": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeBinaryAuthorizationViewModel"
+     },
+     "id": {
+      "type": "string"
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "name": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeNodePoolViewModel": {
+    "type": "object",
+    "properties": {
+     "autoScaling": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeNodePoolAutoScalingViewModel"
+     },
+     "config": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeNodeConfigViewModel"
+     },
+     "initialNodeCount": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "instanceGroupUrls": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "management": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeNodeManagementViewModel"
+     },
+     "name": {
+      "type": "string"
+     },
+     "selfLink": {
+      "type": "string"
+     },
+     "status": {
+      "type": "string"
+     },
+     "statusMessage": {
+      "type": "string"
+     },
+     "version": {
+      "type": "string"
+     },
+     "conditions": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeStatusConditionViewModel"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeIPAllocationPolicyViewModel": {
+    "type": "object",
+    "properties": {
+     "clusterIpv4CidrBlock": {
+      "type": "string"
+     },
+     "clusterSecondaryRangeName": {
+      "type": "string"
+     },
+     "nodeIpv4CidrBlock": {
+      "type": "string"
+     },
+     "servicesIpv4CidrBlock": {
+      "type": "string"
+     },
+     "servicesSecondaryRangeName": {
+      "type": "string"
+     },
+     "useIpAliases": {
+      "type": "boolean"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeLegacyAbacViewModel": {
+    "type": "object",
+    "properties": {
+     "enabled": {
+      "type": "boolean"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeMaintenancePolicyViewModel": {
+    "type": "object",
+    "properties": {
+     "dailyMaintenanceWindow": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeDailyMaintenanceWindowViewModel"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeNetworkPolicyViewModel": {
+    "type": "object",
+    "properties": {
+     "enabled": {
+      "type": "boolean"
+     },
+     "provider": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeAddonsConfigViewModel": {
+    "type": "object",
+    "properties": {
+     "horizontalPodAutoscaling": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeHorizontalPodAutoscalingViewModel"
+     },
+     "httpLoadBalancing": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeHttpLoadBalancingViewModel"
+     },
+     "kubernetesDashboard": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeKubernetesDashboardViewModel"
+     },
+     "networkPolicyConfig": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeNetworkPolicyConfigViewModel"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeClusterAutoScalingViewModel": {
+    "type": "object",
+    "properties": {
+     "enableNodeAutoprovisioning": {
+      "type": "boolean"
+     },
+     "resourceLimits": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeResourceLimitViewModel"
+      }
+     },
+     "autoScalingProfile": {
+      "type": "string"
+     },
+     "autoprovisioningNodePoolDefaults": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeAutoprovisioningNodePoolDefaultsViewModel"
+     },
+     "autoprovisioningLocations": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeMasterAuthorizedNetworksConfigViewModel": {
+    "type": "object",
+    "properties": {
+     "cidrBlocks": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeCidrBlockViewModel"
+      }
+     },
+     "enabled": {
+      "type": "boolean"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeStatusConditionViewModel": {
+    "type": "object",
+    "properties": {
+     "code": {
+      "type": "string"
+     },
+     "message": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkePrivateClusterConfigViewModel": {
+    "type": "object",
+    "properties": {
+     "enablePrivateEndpoint": {
+      "type": "boolean"
+     },
+     "enablePrivateNodes": {
+      "type": "boolean"
+     },
+     "masterIpv4CidrBlock": {
+      "type": "string"
+     },
+     "privateEndpoint": {
+      "type": "string"
+     },
+     "publicEndpoint": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeDatabaseEncryptionViewModel": {
+    "type": "object",
+    "properties": {
+     "keyName": {
+      "type": "string"
+     },
+     "state": {
+      "type": "string"
+     },
+     "decryptionKeys": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "lastOperationErrors": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeOperationErrorViewModel"
+      }
+     },
+     "currentState": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeShieldedNodesViewModel": {
+    "type": "object",
+    "properties": {
+     "enabled": {
+      "type": "boolean"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeReleaseChannelViewModel": {
+    "type": "object",
+    "properties": {
+     "channel": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeWorkloadIdentityConfigViewModel": {
+    "type": "object",
+    "properties": {
+     "workloadPool": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeBinaryAuthorizationViewModel": {
+    "type": "object",
+    "properties": {
+     "evaluationMode": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeNodePoolAutoScalingViewModel": {
+    "type": "object",
+    "properties": {
+     "enabled": {
+      "type": "boolean"
+     },
+     "maxNodeCount": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "minNodeCount": {
+      "format": "int32",
+      "type": "integer"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeNodeConfigViewModel": {
+    "type": "object",
+    "properties": {
+     "accelerators": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeAcceleratorConfigViewModel"
+      }
+     },
+     "diskSizeGb": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "imageType": {
+      "type": "string"
+     },
+     "labels": {
+      "type": "object",
+      "additionalProperties": {
+       "type": "string"
+      }
+     },
+     "localSsdCount": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "machineType": {
+      "type": "string"
+     },
+     "metadata": {
+      "type": "object",
+      "additionalProperties": {
+       "type": "string"
+      }
+     },
+     "minCpuPlatform": {
+      "type": "string"
+     },
+     "oauthScopes": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "preemptible": {
+      "type": "boolean"
+     },
+     "serviceAccount": {
+      "type": "string"
+     },
+     "diskType": {
+      "type": "string"
+     },
+     "taints": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeNodeTaintViewModel"
+      }
+     },
+     "workloadMetadataConfig": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeWorkloadMetadataConfigViewModel"
+     },
+     "sandboxConfig": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeSandboxConfigViewModel"
+     },
+     "tags": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeNodeManagementViewModel": {
+    "type": "object",
+    "properties": {
+     "autoRepair": {
+      "type": "boolean"
+     },
+     "autoUpgrade": {
+      "type": "boolean"
+     },
+     "upgradeOptions": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeAutoUpgradeOptionsViewModel"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeDailyMaintenanceWindowViewModel": {
+    "type": "object",
+    "properties": {
+     "duration": {
+      "type": "string"
+     },
+     "startTime": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeHorizontalPodAutoscalingViewModel": {
+    "type": "object",
+    "properties": {
+     "disabled": {
+      "type": "boolean"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeHttpLoadBalancingViewModel": {
+    "type": "object",
+    "properties": {
+     "disabled": {
+      "type": "boolean"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeKubernetesDashboardViewModel": {
+    "type": "object",
+    "properties": {
+     "disabled": {
+      "type": "boolean"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeNetworkPolicyConfigViewModel": {
+    "type": "object",
+    "properties": {
+     "disabled": {
+      "type": "boolean"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeResourceLimitViewModel": {
+    "type": "object",
+    "properties": {
+     "resourceType": {
+      "type": "string"
+     },
+     "minimum": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "maximum": {
+      "format": "int64",
+      "type": "integer"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeAutoprovisioningNodePoolDefaultsViewModel": {
+    "type": "object",
+    "properties": {
+     "oauthScopes": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "serviceAccount": {
+      "type": "string"
+     },
+     "upgradeSettings": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeUpgradeSettingsViewModel"
+     },
+     "management": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeNodeManagementViewModel"
+     },
+     "diskSizeGb": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "diskType": {
+      "type": "string"
+     },
+     "bootDiskKmsKey": {
+      "type": "string"
+     },
+     "shieldedInstanceConfig": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeShieldedInstanceConfigViewModel"
+     },
+     "imageType": {
+      "type": "string"
+     },
+     "insecureKubeletReadonlyPortEnabled": {
+      "type": "boolean"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeCidrBlockViewModel": {
+    "type": "object",
+    "properties": {
+     "cidrBlockValue": {
+      "type": "string"
+     },
+     "displayName": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeOperationErrorViewModel": {
+    "type": "object",
+    "properties": {
+     "keyName": {
+      "type": "string"
+     },
+     "errorMessage": {
+      "type": "string"
+     },
+     "timestamp": {
+      "format": "int64",
+      "type": "integer"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeAcceleratorConfigViewModel": {
+    "type": "object",
+    "properties": {
+     "acceleratorCount": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "acceleratorType": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeNodeTaintViewModel": {
+    "type": "object",
+    "properties": {
+     "effect": {
+      "type": "string"
+     },
+     "key": {
+      "type": "string"
+     },
+     "value": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeWorkloadMetadataConfigViewModel": {
+    "type": "object",
+    "properties": {
+     "mode": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeSandboxConfigViewModel": {
+    "type": "object",
+    "properties": {
+     "type": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeAutoUpgradeOptionsViewModel": {
+    "type": "object",
+    "properties": {
+     "autoUpgradeStartTime": {
+      "type": "string"
+     },
+     "description": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeUpgradeSettingsViewModel": {
+    "type": "object",
+    "properties": {
+     "maxSurge": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "maxUnavailable": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "strategy": {
+      "type": "string"
+     },
+     "blueGreenSettings": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeBlueGreenSettingsViewModel"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeShieldedInstanceConfigViewModel": {
+    "type": "object",
+    "properties": {
+     "enableSecureBoot": {
+      "type": "boolean"
+     },
+     "enableIntegrityMonitoring": {
+      "type": "boolean"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeBlueGreenSettingsViewModel": {
+    "type": "object",
+    "properties": {
+     "nodePoolSoakDuration": {
+      "type": "string"
+     },
+     "standardRolloutPolicy": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Gke.GcpGkeStandardRolloutPolicyViewModel"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Gke.GcpGkeStandardRolloutPolicyViewModel": {
+    "type": "object",
+    "properties": {
+     "batchPercentage": {
+      "format": "double",
+      "type": "number"
+     },
+     "batchNodeCount": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "batchSoakDuration": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.GcpImage.GcpImageViewModel": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "externalId": {
+      "type": "string"
+     },
+     "name": {
+      "type": "string"
+     },
+     "creationTimestamp": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "status": {
+      "type": "string"
+     },
+     "sourceType": {
+      "type": "string"
+     },
+     "sourceSnapshotId": {
+      "type": "string"
+     },
+     "sourceSnapshot": {
+      "type": "string"
+     },
+     "sourceImage": {
+      "type": "string"
+     },
+     "sourceDiskId": {
+      "type": "string"
+     },
+     "sourceDisk": {
+      "type": "string"
+     },
+     "labels": {
+      "type": "object",
+      "additionalProperties": {
+       "type": "string"
+      }
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.ProjectInfo.GcpProjectInfoViewModel": {
+    "type": "object",
+    "properties": {
+     "defaultServiceAccount": {
+      "type": "string"
+     },
+     "description": {
+      "type": "string"
+     },
+     "enabledFeatures": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "metadata": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.ProjectInfo.GcpProjectMetadataViewModel"
+     },
+     "sharedVpcHostProjectId": {
+      "type": "string"
+     },
+     "projectNumber": {
+      "type": "string"
+     },
+     "projectId": {
+      "type": "string"
+     },
+     "lifecycleState": {
+      "type": "string"
+     },
+     "labels": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.TagViewModel"
+      }
+     },
+     "createTime": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "orgPolicies": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.OrgPolicy.GcpOrgPolicyViewModel"
+      }
+     },
+     "accessApprovalSettings": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.ProjectInfo.GcpProjectAccessApprovalSettingsViewModel"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.ProjectInfo.GcpProjectMetadataViewModel": {
+    "type": "object",
+    "properties": {
+     "items": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.ProjectInfo.ItemsDataViewModel"
+      }
+     },
+     "eTag": {
+      "type": "string"
+     },
+     "kind": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.OrgPolicy.GcpOrgPolicyViewModel": {
+    "type": "object",
+    "properties": {
+     "version": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "constraint": {
+      "type": "string"
+     },
+     "eTag": {
+      "type": "string"
+     },
+     "listPolicy": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.OrgPolicy.GcpOrgPolicyListPolicyViewModel"
+     },
+     "booleanPolicy": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.OrgPolicy.GcpOrgPolicyBooleanPolicyViewModel"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.ProjectInfo.GcpProjectAccessApprovalSettingsViewModel": {
+    "type": "object",
+    "properties": {
+     "notificationEmails": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "enrolledServices": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.ProjectInfo.GcpProjectEnrolledServiceViewModel"
+      }
+     },
+     "enrolledAncestor": {
+      "type": "boolean"
+     },
+     "activeKeyVersion": {
+      "type": "string"
+     },
+     "ancestorHasActiveKeyVersion": {
+      "type": "boolean"
+     },
+     "invalidKeyVersion": {
+      "type": "boolean"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.ProjectInfo.ItemsDataViewModel": {
+    "type": "object",
+    "properties": {
+     "key": {
+      "type": "string"
+     },
+     "value": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.OrgPolicy.GcpOrgPolicyListPolicyViewModel": {
+    "type": "object",
+    "properties": {
+     "allowedValues": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "deniedValues": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "allValues": {
+      "type": "string"
+     },
+     "suggestedValue": {
+      "type": "string"
+     },
+     "inheritFromParent": {
+      "type": "boolean"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.OrgPolicy.GcpOrgPolicyBooleanPolicyViewModel": {
+    "type": "object",
+    "properties": {
+     "enforced": {
+      "type": "boolean"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.ProjectInfo.GcpProjectEnrolledServiceViewModel": {
+    "type": "object",
+    "properties": {
+     "cloudProduct": {
+      "type": "string"
+     },
+     "enrollmentLevel": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.PubSub.GcpPubSubTopicViewModel": {
+    "type": "object",
+    "properties": {
+     "messageStoragePolicy": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.PubSub.GcpPubSubTopicMessageStoragePolicyViewModel"
+     },
+     "labels": {
+      "type": "object",
+      "additionalProperties": {
+       "type": "string"
+      }
+     },
+     "policy": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.PubSub.GcpPubSubIamPolicyViewModel"
+     },
+     "id": {
+      "type": "string"
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "name": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.PubSub.GcpPubSubTopicMessageStoragePolicyViewModel": {
+    "type": "object",
+    "properties": {
+     "allowedRegions": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.PubSub.GcpPubSubIamPolicyViewModel": {
+    "type": "object",
+    "properties": {
+     "bindings": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.PubSub.GcpPubSubIamPolicyViewModel.GcpPubSubPolicyBindingViewModel"
+      }
+     },
+     "eTag": {
+      "type": "string"
+     },
+     "version": {
+      "format": "int32",
+      "type": "integer"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.PubSub.GcpPubSubIamPolicyViewModel.GcpPubSubPolicyBindingViewModel": {
+    "type": "object",
+    "properties": {
+     "condition": {
+      "type": "object"
+     },
+     "members": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "role": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.PubSub.GcpPubSubSubscriptionViewModel": {
+    "type": "object",
+    "properties": {
+     "ackDeadlineSeconds": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "labels": {
+      "type": "object",
+      "additionalProperties": {
+       "type": "string"
+      }
+     },
+     "messageRetentionDuration": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "pushConfig": {
+      "type": "string"
+     },
+     "retainAckedMessages": {
+      "type": "boolean"
+     },
+     "topic": {
+      "type": "string"
+     },
+     "id": {
+      "type": "string"
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "name": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Instance.GcpVMInstanceViewModel": {
+    "type": "object",
+    "properties": {
+     "canIpForward": {
+      "type": "boolean"
+     },
+     "cpuPlatform": {
+      "type": "string"
+     },
+     "externalId": {
+      "type": "string"
+     },
+     "creationTimestamp": {
+      "type": "string"
+     },
+     "description": {
+      "type": "string"
+     },
+     "disks": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.Instance.GcpComputeAttachedDiskViewModel"
+      }
+     },
+     "machineType": {
+      "type": "string"
+     },
+     "sourceMachineImage": {
+      "type": "string"
+     },
+     "networkInterfaces": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.Instance.NetworkInterfaceViewModel"
+      }
+     },
+     "status": {
+      "type": "string"
+     },
+     "statusMessage": {
+      "type": "string"
+     },
+     "networkTags": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "tags": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.TagViewModel"
+      }
+     },
+     "labels": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.TagViewModel"
+      }
+     },
+     "zone": {
+      "type": "string"
+     },
+     "region": {
+      "type": "string"
+     },
+     "isRunning": {
+      "type": "boolean",
+      "readOnly": true
+     },
+     "isBillable": {
+      "type": "boolean",
+      "readOnly": true
+     },
+     "id": {
+      "type": "string"
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "name": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Instance.NetworkInterfaceViewModel": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "network": {
+      "type": "string"
+     },
+     "networkIP": {
+      "type": "string"
+     },
+     "subnetwork": {
+      "type": "string"
+     },
+     "publicIP": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Network.GoogleCloudNetworkViewModel": {
+    "type": "object",
+    "properties": {
+     "cloudAccountName": {
+      "type": "string"
+     },
+     "autoCreateSubnetworks": {
+      "type": "boolean"
+     },
+     "creationTimestamp": {
+      "type": "string"
+     },
+     "description": {
+      "type": "string"
+     },
+     "eTag": {
+      "type": "string"
+     },
+     "gatewayIPv4": {
+      "type": "string"
+     },
+     "iPv4Range": {
+      "type": "string"
+     },
+     "kind": {
+      "type": "string"
+     },
+     "name": {
+      "type": "string"
+     },
+     "subnetworks": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "id": {
+      "type": "string"
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Firewall.GoogleCloudFirewallRuleViewModel": {
+    "type": "object",
+    "properties": {
+     "creationTimestamp": {
+      "type": "string"
+     },
+     "allowed": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.Firewall.GoogleFirewallRuleScopeViewModel"
+      }
+     },
+     "denied": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.Firewall.GoogleFirewallRuleScopeViewModel"
+      }
+     },
+     "destinationRanges": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "description": {
+      "type": "string"
+     },
+     "network": {
+      "type": "string"
+     },
+     "sourceRanges": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "sourceTags": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "targetTags": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "isProtected": {
+      "type": "boolean"
+     },
+     "priority": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "direction": {
+      "enum": [
+       "Ingress",
+       "Egress"
+      ],
+      "type": "string"
+     },
+     "enabled": {
+      "type": "boolean"
+     },
+     "id": {
+      "type": "string"
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "name": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Firewall.GoogleFirewallRuleScopeViewModel": {
+    "type": "object",
+    "properties": {
+     "ipProtocol": {
+      "type": "string"
+     },
+     "ports": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionViewModel": {
+    "type": "object",
+    "properties": {
+     "availableMemoryMb": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "description": {
+      "type": "string"
+     },
+     "entryPoint": {
+      "type": "string"
+     },
+     "environmentVariables": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionEnvironmentVariableViewModel"
+      }
+     },
+     "trigger": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionTriggerViewModel"
+     },
+     "labels": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionLabelViewModel"
+      }
+     },
+     "maxInstances": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "runtime": {
+      "type": "string"
+     },
+     "serviceAccountEmail": {
+      "format": "email",
+      "description": "Email Address",
+      "type": "string",
+      "example": "MyName@gmail.com"
+     },
+     "sourceArchiveUrl": {
+      "type": "string"
+     },
+     "sourceRepository": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionSourceRepositoryViewModel"
+     },
+     "sourceUploadUrl": {
+      "type": "string"
+     },
+     "status": {
+      "type": "string"
+     },
+     "timeout": {
+      "type": "object"
+     },
+     "updateTime": {
+      "type": "object"
+     },
+     "versionId": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "vpcConnector": {
+      "type": "string"
+     },
+     "eTag": {
+      "type": "string"
+     },
+     "region": {
+      "type": "string"
+     },
+     "id": {
+      "type": "string"
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "name": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionEnvironmentVariableViewModel": {
+    "type": "object",
+    "properties": {
+     "key": {
+      "type": "string"
+     },
+     "value": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionTriggerViewModel": {
+    "type": "object",
+    "properties": {
+     "eventTrigger": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionEventTriggerViewModel"
+     },
+     "httpsTrigger": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionHttpsTriggerViewModel"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionLabelViewModel": {
+    "type": "object",
+    "properties": {
+     "key": {
+      "type": "string"
+     },
+     "value": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionSourceRepositoryViewModel": {
+    "type": "object",
+    "properties": {
+     "deployedUrl": {
+      "type": "string"
+     },
+     "url": {
+      "type": "string"
+     },
+     "eTag": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionEventTriggerViewModel": {
+    "type": "object",
+    "properties": {
+     "eventType": {
+      "type": "string"
+     },
+     "failurePolicy": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionFailurePolicyViewModel"
+     },
+     "resource": {
+      "type": "string"
+     },
+     "service": {
+      "type": "string"
+     },
+     "eTag": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionHttpsTriggerViewModel": {
+    "type": "object",
+    "properties": {
+     "url": {
+      "type": "string"
+     },
+     "eTag": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionFailurePolicyViewModel": {
+    "type": "object",
+    "properties": {
+     "retry": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionRetryViewModel"
+     },
+     "eTag": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionRetryViewModel": {
+    "type": "object",
+    "properties": {
+     "eTag": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.IamPolicy.GoogleCloudIamPolicyViewModel": {
+    "type": "object",
+    "properties": {
+     "eTag": {
+      "type": "string"
+     },
+     "version": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "bindings": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.IamPolicy.GcpIamPolicyBindingsViewModel"
+      }
+     },
+     "auditConfigs": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.IamPolicy.GcpIamPolicyAuditConfigsViewModel"
+      }
+     },
+     "id": {
+      "type": "string"
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "name": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.IamPolicy.GcpIamPolicyBindingsViewModel": {
+    "type": "object",
+    "properties": {
+     "eTag": {
+      "type": "string"
+     },
+     "role": {
+      "type": "string"
+     },
+     "members": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.IamPolicy.GcpIamPolicyAuditConfigsViewModel": {
+    "type": "object",
+    "properties": {
+     "eTag": {
+      "type": "string"
+     },
+     "service": {
+      "type": "string"
+     },
+     "auditLogConfigs": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.IamPolicy.GcpIamPolicyAuditConfigsViewModel.GcpIamPolicyAuditLogConfigsViewModel"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.IamPolicy.GcpIamPolicyAuditConfigsViewModel.GcpIamPolicyAuditLogConfigsViewModel": {
+    "type": "object",
+    "properties": {
+     "eTag": {
+      "type": "string"
+     },
+     "logType": {
+      "type": "string"
+     },
+     "exemptedMembers": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Subnet.GoogleCloudSubnetViewModel": {
+    "type": "object",
+    "properties": {
+     "creationTimestamp": {
+      "type": "string"
+     },
+     "description": {
+      "type": "string"
+     },
+     "gatewayAddress": {
+      "type": "string"
+     },
+     "ipCidrRange": {
+      "type": "string"
+     },
+     "network": {
+      "type": "string"
+     },
+     "region": {
+      "type": "string"
+     },
+     "purpose": {
+      "type": "string"
+     },
+     "id": {
+      "type": "string"
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "name": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Instance.NetworkDetailViewModel": {
+    "type": "object",
+    "properties": {
+     "vmInstanceName": {
+      "type": "string"
+     },
+     "resourceType": {
+      "enum": [
+       "Local",
+       "Shared"
+      ],
+      "type": "string"
+     },
+     "network": {
+      "type": "string"
+     },
+     "inboundRules": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.Instance.GoogleCloudFirewallRuleWithSecurityGroupsViewModel"
+      }
+     },
+     "outboundRules": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.Instance.GoogleCloudFirewallRuleWithSecurityGroupsViewModel"
+      }
+     },
+     "networkInterface": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Google.Instance.NetworkInterfaceViewModel"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Instance.GoogleCloudFirewallRuleWithSecurityGroupsViewModel": {
+    "type": "object",
+    "properties": {
+     "securityGroupDetails": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.Instance.SecurityGroupOfFirewallRule"
+      }
+     },
+     "creationTimestamp": {
+      "type": "string"
+     },
+     "allowed": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.Firewall.GoogleFirewallRuleScopeViewModel"
+      }
+     },
+     "denied": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Google.Firewall.GoogleFirewallRuleScopeViewModel"
+      }
+     },
+     "destinationRanges": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "description": {
+      "type": "string"
+     },
+     "network": {
+      "type": "string"
+     },
+     "sourceRanges": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "sourceTags": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "targetTags": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "isProtected": {
+      "type": "boolean"
+     },
+     "priority": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "direction": {
+      "enum": [
+       "Ingress",
+       "Egress"
+      ],
+      "type": "string"
+     },
+     "enabled": {
+      "type": "boolean"
+     },
+     "id": {
+      "type": "string"
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "name": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Google.Instance.SecurityGroupOfFirewallRule": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "externalId": {
+      "type": "string"
+     }
+    }
+   },
+   "GcpMachineImageViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "creationTimestamp",
+     "description",
+     "guestFlush",
+     "id",
+     "instanceProperties",
+     "kind",
+     "machineImageEncryptionKey",
+     "name",
+     "satisfiesPzs",
+     "savedDisks",
+     "sourceDiskEncryptionKeys",
+     "sourceInstance",
+     "sourceInstanceProperties",
+     "status",
+     "storageLocations",
+     "totalStorageBytes"
+    ],
+    "properties": {
+     "creationTimestamp": {
+      "type": "string"
+     },
+     "description": {
+      "type": "string"
+     },
+     "guestFlush": {
+      "type": "boolean",
+      "nullable": true
+     },
+     "id": {
+      "type": "string"
+     },
+     "instanceProperties": {
+      "$ref": "#/components/schemas/InstanceProperties"
+     },
+     "kind": {
+      "type": "string"
+     },
+     "machineImageEncryptionKey": {
+      "$ref": "#/components/schemas/MachineImageEncryptionKey"
+     },
+     "name": {
+      "type": "string"
+     },
+     "satisfiesPzs": {
+      "type": "boolean",
+      "nullable": true
+     },
+     "savedDisks": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/SavedDisk"
+      }
+     },
+     "sourceDiskEncryptionKeys": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/SourceDiskEncryptionKey"
+      }
+     },
+     "sourceInstance": {
+      "type": "string"
+     },
+     "sourceInstanceProperties": {
+      "$ref": "#/components/schemas/SourceInstanceProperties"
+     },
+     "status": {
+      "type": "string"
+     },
+     "storageLocations": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "totalStorageBytes": {
+      "type": "string"
+     }
+    }
+   },
+   "InstanceProperties": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "advancedMachineFeatures",
+     "canIpForward",
+     "confidentialInstanceConfig",
+     "description",
+     "disks",
+     "guestAccelerators",
+     "keyRevocationActionType",
+     "machineType",
+     "metadata",
+     "minCpuPlatform",
+     "networkInterfaces",
+     "networkPerformanceConfig",
+     "privateIpv6GoogleAccess",
+     "reservationAffinity",
+     "resourcePolicies",
+     "scheduling",
+     "serviceAccounts",
+     "shieldedInstanceConfig",
+     "tags"
+    ],
+    "properties": {
+     "advancedMachineFeatures": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/AdvancedMachineFeatures"
+       }
+      ]
+     },
+     "canIpForward": {
+      "type": "boolean",
+      "nullable": true
+     },
+     "confidentialInstanceConfig": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/ConfidentialInstanceConfig"
+       }
+      ]
+     },
+     "description": {
+      "type": "string",
+      "nullable": true
+     },
+     "disks": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/InstancePropertiesDisk"
+      }
+     },
+     "guestAccelerators": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/InstancePropertiesGuestAccelerator"
+      }
+     },
+     "keyRevocationActionType": {
+      "type": "string",
+      "nullable": true
+     },
+     "machineType": {
+      "type": "string",
+      "nullable": true
+     },
+     "metadata": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/InstancePropertiesMetadata"
+       }
+      ]
+     },
+     "minCpuPlatform": {
+      "type": "string",
+      "nullable": true
+     },
+     "networkInterfaces": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/InstancePropertiesNetworkInterface"
+      }
+     },
+     "networkPerformanceConfig": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/NetworkPerformanceConfig"
+       }
+      ]
+     },
+     "privateIpv6GoogleAccess": {
+      "type": "string",
+      "nullable": true
+     },
+     "reservationAffinity": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/ReservationAffinity"
+       }
+      ]
+     },
+     "resourcePolicies": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "type": "string"
+      }
+     },
+     "scheduling": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/InstancePropertiesScheduling"
+       }
+      ]
+     },
+     "serviceAccounts": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/InstancePropertiesServiceAccount"
+      }
+     },
+     "shieldedInstanceConfig": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/ShieldedInstanceConfig"
+       }
+      ]
+     },
+     "tags": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/InstancePropertiesTags"
+       }
+      ]
+     }
+    }
+   },
+   "AdvancedMachineFeatures": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "enableNestedVirtualization",
+     "enableUefiNetworking",
+     "threadsPerCore",
+     "visibleCoreCount"
+    ],
+    "properties": {
+     "enableNestedVirtualization": {
+      "type": "boolean",
+      "nullable": true
+     },
+     "enableUefiNetworking": {
+      "type": "boolean",
+      "nullable": true
+     },
+     "threadsPerCore": {
+      "type": "integer",
+      "format": "int64",
+      "nullable": true
+     },
+     "visibleCoreCount": {
+      "type": "integer",
+      "format": "int64",
+      "nullable": true
+     }
+    }
+   },
+   "ConfidentialInstanceConfig": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "enableConfidentialCompute"
+    ],
+    "properties": {
+     "enableConfidentialCompute": {
+      "type": "boolean",
+      "nullable": true
+     }
+    }
+   },
+   "InstancePropertiesDisk": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "architecture",
+     "autoDelete",
+     "boot",
+     "deviceName",
+     "diskEncryptionKey",
+     "diskSizeGb",
+     "forceAttach",
+     "guestOsFeatures",
+     "index",
+     "initializeParams",
+     "interface",
+     "kind",
+     "licenses",
+     "mode",
+     "savedState",
+     "shieldedInstanceInitialState",
+     "source",
+     "type"
+    ],
+    "properties": {
+     "architecture": {
+      "type": "string",
+      "nullable": true
+     },
+     "autoDelete": {
+      "type": "boolean",
+      "nullable": true
+     },
+     "boot": {
+      "type": "boolean",
+      "nullable": true
+     },
+     "deviceName": {
+      "type": "string",
+      "nullable": true
+     },
+     "diskEncryptionKey": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/PurpleDiskEncryptionKey"
+       }
+      ]
+     },
+     "diskSizeGb": {
+      "type": "string",
+      "nullable": true
+     },
+     "forceAttach": {
+      "type": "boolean",
+      "nullable": true
+     },
+     "guestOsFeatures": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/PurpleGuestOsFeature"
+      }
+     },
+     "index": {
+      "type": "integer",
+      "format": "int64",
+      "nullable": true
+     },
+     "initializeParams": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/InitializeParams"
+       }
+      ]
+     },
+     "interface": {
+      "type": "string",
+      "nullable": true
+     },
+     "kind": {
+      "type": "string",
+      "nullable": true
+     },
+     "licenses": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "type": "string"
+      }
+     },
+     "mode": {
+      "type": "string",
+      "nullable": true
+     },
+     "savedState": {
+      "type": "string",
+      "nullable": true
+     },
+     "shieldedInstanceInitialState": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/ShieldedInstanceInitialState"
+       }
+      ]
+     },
+     "source": {
+      "type": "string",
+      "nullable": true
+     },
+     "type": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "PurpleDiskEncryptionKey": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "kmsKeyName",
+     "kmsKeyServiceAccount",
+     "rawKey",
+     "rsaEncryptedKey",
+     "sha256"
+    ],
+    "properties": {
+     "kmsKeyName": {
+      "type": "string",
+      "nullable": true
+     },
+     "kmsKeyServiceAccount": {
+      "type": "string",
+      "nullable": true
+     },
+     "rawKey": {
+      "type": "string",
+      "nullable": true
+     },
+     "rsaEncryptedKey": {
+      "type": "string",
+      "nullable": true
+     },
+     "sha256": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "PurpleGuestOsFeature": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "type"
+    ],
+    "properties": {
+     "type": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "InitializeParams": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "architecture",
+     "description",
+     "diskName",
+     "diskSizeGb",
+     "diskType",
+     "licenses",
+     "onUpdateAction",
+     "provisionedIops",
+     "provisionedThroughput",
+     "replicaZones",
+     "resourcePolicies",
+     "sourceImage",
+     "sourceImageEncryptionKey",
+     "sourceSnapshot",
+     "sourceSnapshotEncryptionKey"
+    ],
+    "properties": {
+     "architecture": {
+      "type": "string",
+      "nullable": true
+     },
+     "description": {
+      "type": "string",
+      "nullable": true
+     },
+     "diskName": {
+      "type": "string",
+      "nullable": true
+     },
+     "diskSizeGb": {
+      "type": "string",
+      "nullable": true
+     },
+     "diskType": {
+      "type": "string",
+      "nullable": true
+     },
+     "licenses": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "type": "string"
+      }
+     },
+     "onUpdateAction": {
+      "type": "string",
+      "nullable": true
+     },
+     "provisionedIops": {
+      "type": "string",
+      "nullable": true
+     },
+     "provisionedThroughput": {
+      "type": "string",
+      "nullable": true
+     },
+     "replicaZones": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "type": "string"
+      }
+     },
+     "resourcePolicies": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "type": "string"
+      }
+     },
+     "sourceImage": {
+      "type": "string",
+      "nullable": true
+     },
+     "sourceImageEncryptionKey": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/SourceImageEncryptionKey"
+       }
+      ]
+     },
+     "sourceSnapshot": {
+      "type": "string",
+      "nullable": true
+     },
+     "sourceSnapshotEncryptionKey": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/SourceSnapshotEncryptionKey"
+       }
+      ]
+     }
+    }
+   },
+   "SourceImageEncryptionKey": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "kmsKeyName",
+     "kmsKeyServiceAccount",
+     "rawKey",
+     "rsaEncryptedKey",
+     "sha256"
+    ],
+    "properties": {
+     "kmsKeyName": {
+      "type": "string",
+      "nullable": true
+     },
+     "kmsKeyServiceAccount": {
+      "type": "string",
+      "nullable": true
+     },
+     "rawKey": {
+      "type": "string",
+      "nullable": true
+     },
+     "rsaEncryptedKey": {
+      "type": "string",
+      "nullable": true
+     },
+     "sha256": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "SourceSnapshotEncryptionKey": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "kmsKeyName",
+     "kmsKeyServiceAccount",
+     "rawKey",
+     "rsaEncryptedKey",
+     "sha256"
+    ],
+    "properties": {
+     "kmsKeyName": {
+      "type": "string",
+      "nullable": true
+     },
+     "kmsKeyServiceAccount": {
+      "type": "string",
+      "nullable": true
+     },
+     "rawKey": {
+      "type": "string",
+      "nullable": true
+     },
+     "rsaEncryptedKey": {
+      "type": "string",
+      "nullable": true
+     },
+     "sha256": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "ShieldedInstanceInitialState": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "dbs",
+     "dbxs",
+     "keks",
+     "pk"
+    ],
+    "properties": {
+     "dbs": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/Db"
+      }
+     },
+     "dbxs": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/Dbx"
+      }
+     },
+     "keks": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/Kek"
+      }
+     },
+     "pk": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/Pk"
+       }
+      ]
+     }
+    }
+   },
+   "Db": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "content",
+     "fileType"
+    ],
+    "properties": {
+     "content": {
+      "type": "string",
+      "nullable": true
+     },
+     "fileType": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "Dbx": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "content",
+     "fileType"
+    ],
+    "properties": {
+     "content": {
+      "type": "string",
+      "nullable": true
+     },
+     "fileType": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "Kek": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "content",
+     "fileType"
+    ],
+    "properties": {
+     "content": {
+      "type": "string",
+      "nullable": true
+     },
+     "fileType": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "Pk": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "content",
+     "fileType"
+    ],
+    "properties": {
+     "content": {
+      "type": "string",
+      "nullable": true
+     },
+     "fileType": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "InstancePropertiesGuestAccelerator": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "acceleratorCount",
+     "acceleratorType"
+    ],
+    "properties": {
+     "acceleratorCount": {
+      "type": "integer",
+      "format": "int64",
+      "nullable": true
+     },
+     "acceleratorType": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "InstancePropertiesMetadata": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "fingerprint",
+     "items",
+     "kind"
+    ],
+    "properties": {
+     "fingerprint": {
+      "type": "string",
+      "nullable": true
+     },
+     "items": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/PurpleItem"
+      }
+     },
+     "kind": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "PurpleItem": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "key",
+     "value"
+    ],
+    "properties": {
+     "key": {
+      "type": "string",
+      "nullable": true
+     },
+     "value": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "InstancePropertiesNetworkInterface": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "accessConfigs",
+     "aliasIpRanges",
+     "fingerprint",
+     "internalIpv6PrefixLength",
+     "ipv6AccessConfigs",
+     "ipv6AccessType",
+     "ipv6Address",
+     "kind",
+     "name",
+     "network",
+     "networkAttachment",
+     "networkIp",
+     "nicType",
+     "queueCount",
+     "stackType",
+     "subnetwork"
+    ],
+    "properties": {
+     "accessConfigs": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/PurpleAccessConfig"
+      }
+     },
+     "aliasIpRanges": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/PurpleAliasIpRange"
+      }
+     },
+     "fingerprint": {
+      "type": "string",
+      "nullable": true
+     },
+     "internalIpv6PrefixLength": {
+      "type": "integer",
+      "format": "int64",
+      "nullable": true
+     },
+     "ipv6AccessConfigs": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/PurpleIpv6AccessConfig"
+      }
+     },
+     "ipv6AccessType": {
+      "type": "string",
+      "nullable": true
+     },
+     "ipv6Address": {
+      "type": "string",
+      "nullable": true
+     },
+     "kind": {
+      "type": "string",
+      "nullable": true
+     },
+     "name": {
+      "type": "string",
+      "nullable": true
+     },
+     "network": {
+      "type": "string",
+      "nullable": true
+     },
+     "networkAttachment": {
+      "type": "string",
+      "nullable": true
+     },
+     "networkIp": {
+      "type": "string",
+      "nullable": true
+     },
+     "nicType": {
+      "type": "string",
+      "nullable": true
+     },
+     "queueCount": {
+      "type": "integer",
+      "format": "int64",
+      "nullable": true
+     },
+     "stackType": {
+      "type": "string",
+      "nullable": true
+     },
+     "subnetwork": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "PurpleAccessConfig": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "externalIpv6",
+     "externalIpv6PrefixLength",
+     "kind",
+     "name",
+     "natIp",
+     "networkTier",
+     "publicPtrDomainName",
+     "securityPolicy",
+     "setPublicPtr",
+     "type"
+    ],
+    "properties": {
+     "externalIpv6": {
+      "type": "string",
+      "nullable": true
+     },
+     "externalIpv6PrefixLength": {
+      "type": "integer",
+      "format": "int64",
+      "nullable": true
+     },
+     "kind": {
+      "type": "string",
+      "nullable": true
+     },
+     "name": {
+      "type": "string",
+      "nullable": true
+     },
+     "natIp": {
+      "type": "string",
+      "nullable": true
+     },
+     "networkTier": {
+      "type": "string",
+      "nullable": true
+     },
+     "publicPtrDomainName": {
+      "type": "string",
+      "nullable": true
+     },
+     "securityPolicy": {
+      "type": "string",
+      "nullable": true
+     },
+     "setPublicPtr": {
+      "type": "boolean",
+      "nullable": true
+     },
+     "type": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "PurpleAliasIpRange": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "ipCidrRange",
+     "subnetworkRangeName"
+    ],
+    "properties": {
+     "ipCidrRange": {
+      "type": "string",
+      "nullable": true
+     },
+     "subnetworkRangeName": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "PurpleIpv6AccessConfig": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "externalIpv6",
+     "externalIpv6PrefixLength",
+     "kind",
+     "name",
+     "natIp",
+     "networkTier",
+     "publicPtrDomainName",
+     "securityPolicy",
+     "setPublicPtr",
+     "type"
+    ],
+    "properties": {
+     "externalIpv6": {
+      "type": "string",
+      "nullable": true
+     },
+     "externalIpv6PrefixLength": {
+      "type": "integer",
+      "format": "int64",
+      "nullable": true
+     },
+     "kind": {
+      "type": "string",
+      "nullable": true
+     },
+     "name": {
+      "type": "string",
+      "nullable": true
+     },
+     "natIp": {
+      "type": "string",
+      "nullable": true
+     },
+     "networkTier": {
+      "type": "string",
+      "nullable": true
+     },
+     "publicPtrDomainName": {
+      "type": "string",
+      "nullable": true
+     },
+     "securityPolicy": {
+      "type": "string",
+      "nullable": true
+     },
+     "setPublicPtr": {
+      "type": "boolean",
+      "nullable": true
+     },
+     "type": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "NetworkPerformanceConfig": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "totalEgressBandwidthTier"
+    ],
+    "properties": {
+     "totalEgressBandwidthTier": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "ReservationAffinity": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "consumeReservationType",
+     "key",
+     "values"
+    ],
+    "properties": {
+     "consumeReservationType": {
+      "type": "string",
+      "nullable": true
+     },
+     "key": {
+      "type": "string",
+      "nullable": true
+     },
+     "values": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "InstancePropertiesScheduling": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "automaticRestart",
+     "instanceTerminationAction",
+     "localSsdRecoveryTimeout",
+     "locationHint",
+     "minNodeCpus",
+     "nodeAffinities",
+     "onHostMaintenance",
+     "preemptible",
+     "provisioningModel"
+    ],
+    "properties": {
+     "automaticRestart": {
+      "type": "boolean",
+      "nullable": true
+     },
+     "instanceTerminationAction": {
+      "type": "string",
+      "nullable": true
+     },
+     "localSsdRecoveryTimeout": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/PurpleLocalSsdRecoveryTimeout"
+       }
+      ]
+     },
+     "locationHint": {
+      "type": "string",
+      "nullable": true
+     },
+     "minNodeCpus": {
+      "type": "integer",
+      "format": "int64",
+      "nullable": true
+     },
+     "nodeAffinities": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/PurpleNodeAffinity"
+      }
+     },
+     "onHostMaintenance": {
+      "type": "string",
+      "nullable": true
+     },
+     "preemptible": {
+      "type": "boolean",
+      "nullable": true
+     },
+     "provisioningModel": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "PurpleLocalSsdRecoveryTimeout": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "nanos",
+     "seconds"
+    ],
+    "properties": {
+     "nanos": {
+      "type": "integer",
+      "format": "int64",
+      "nullable": true
+     },
+     "seconds": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "PurpleNodeAffinity": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "key",
+     "operator",
+     "values"
+    ],
+    "properties": {
+     "key": {
+      "type": "string",
+      "nullable": true
+     },
+     "operator": {
+      "type": "string",
+      "nullable": true
+     },
+     "values": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "InstancePropertiesServiceAccount": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "email",
+     "scopes"
+    ],
+    "properties": {
+     "email": {
+      "type": "string",
+      "nullable": true
+     },
+     "scopes": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "ShieldedInstanceConfig": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "enableIntegrityMonitoring",
+     "enableSecureBoot",
+     "enableVtpm"
+    ],
+    "properties": {
+     "enableIntegrityMonitoring": {
+      "type": "boolean",
+      "nullable": true
+     },
+     "enableSecureBoot": {
+      "type": "boolean",
+      "nullable": true
+     },
+     "enableVtpm": {
+      "type": "boolean",
+      "nullable": true
+     }
+    }
+   },
+   "InstancePropertiesTags": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "fingerprint",
+     "items"
+    ],
+    "properties": {
+     "fingerprint": {
+      "type": "string",
+      "nullable": true
+     },
+     "items": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "MachineImageEncryptionKey": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "kmsKeyName",
+     "kmsKeyServiceAccount",
+     "rawKey",
+     "rsaEncryptedKey",
+     "sha256"
+    ],
+    "properties": {
+     "kmsKeyName": {
+      "type": "string",
+      "nullable": true
+     },
+     "kmsKeyServiceAccount": {
+      "type": "string",
+      "nullable": true
+     },
+     "rawKey": {
+      "type": "string",
+      "nullable": true
+     },
+     "rsaEncryptedKey": {
+      "type": "string",
+      "nullable": true
+     },
+     "sha256": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "SavedDisk": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "architecture",
+     "kind",
+     "sourceDisk",
+     "storageBytes",
+     "storageBytesStatus"
+    ],
+    "properties": {
+     "architecture": {
+      "type": "string",
+      "nullable": true
+     },
+     "kind": {
+      "type": "string",
+      "nullable": true
+     },
+     "sourceDisk": {
+      "type": "string",
+      "nullable": true
+     },
+     "storageBytes": {
+      "type": "string",
+      "nullable": true
+     },
+     "storageBytesStatus": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "SourceDiskEncryptionKey": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "diskEncryptionKey",
+     "sourceDisk"
+    ],
+    "properties": {
+     "diskEncryptionKey": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/SourceDiskEncryptionKeyDiskEncryptionKey"
+       }
+      ]
+     },
+     "sourceDisk": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "SourceDiskEncryptionKeyDiskEncryptionKey": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "kmsKeyName",
+     "kmsKeyServiceAccount",
+     "rawKey",
+     "rsaEncryptedKey",
+     "sha256"
+    ],
+    "properties": {
+     "kmsKeyName": {
+      "type": "string",
+      "nullable": true
+     },
+     "kmsKeyServiceAccount": {
+      "type": "string",
+      "nullable": true
+     },
+     "rawKey": {
+      "type": "string",
+      "nullable": true
+     },
+     "rsaEncryptedKey": {
+      "type": "string",
+      "nullable": true
+     },
+     "sha256": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "SourceInstanceProperties": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "canIpForward",
+     "deletionProtection",
+     "description",
+     "disks",
+     "guestAccelerators",
+     "keyRevocationActionType",
+     "machineType",
+     "metadata",
+     "minCpuPlatform",
+     "networkInterfaces",
+     "scheduling",
+     "serviceAccounts",
+     "tags"
+    ],
+    "properties": {
+     "canIpForward": {
+      "type": "boolean",
+      "nullable": true
+     },
+     "deletionProtection": {
+      "type": "boolean",
+      "nullable": true
+     },
+     "description": {
+      "type": "string",
+      "nullable": true
+     },
+     "disks": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/SourceInstancePropertiesDisk"
+      }
+     },
+     "guestAccelerators": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/SourceInstancePropertiesGuestAccelerator"
+      }
+     },
+     "keyRevocationActionType": {
+      "type": "string",
+      "nullable": true
+     },
+     "machineType": {
+      "type": "string",
+      "nullable": true
+     },
+     "metadata": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/SourceInstancePropertiesMetadata"
+       }
+      ]
+     },
+     "minCpuPlatform": {
+      "type": "string",
+      "nullable": true
+     },
+     "networkInterfaces": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/SourceInstancePropertiesNetworkInterface"
+      }
+     },
+     "scheduling": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/SourceInstancePropertiesScheduling"
+       }
+      ]
+     },
+     "serviceAccounts": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/SourceInstancePropertiesServiceAccount"
+      }
+     },
+     "tags": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/SourceInstancePropertiesTags"
+       }
+      ]
+     }
+    }
+   },
+   "SourceInstancePropertiesDisk": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "autoDelete",
+     "boot",
+     "deviceName",
+     "diskEncryptionKey",
+     "diskSizeGb",
+     "diskType",
+     "guestOsFeatures",
+     "index",
+     "interface",
+     "kind",
+     "licenses",
+     "mode",
+     "source",
+     "storageBytes",
+     "storageBytesStatus",
+     "type"
+    ],
+    "properties": {
+     "autoDelete": {
+      "type": "boolean",
+      "nullable": true
+     },
+     "boot": {
+      "type": "boolean",
+      "nullable": true
+     },
+     "deviceName": {
+      "type": "string",
+      "nullable": true
+     },
+     "diskEncryptionKey": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/FluffyDiskEncryptionKey"
+       }
+      ]
+     },
+     "diskSizeGb": {
+      "type": "string",
+      "nullable": true
+     },
+     "diskType": {
+      "type": "string",
+      "nullable": true
+     },
+     "guestOsFeatures": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/FluffyGuestOsFeature"
+      }
+     },
+     "index": {
+      "type": "integer",
+      "format": "int64",
+      "nullable": true
+     },
+     "interface": {
+      "type": "string",
+      "nullable": true
+     },
+     "kind": {
+      "type": "string",
+      "nullable": true
+     },
+     "licenses": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "type": "string"
+      }
+     },
+     "mode": {
+      "type": "string",
+      "nullable": true
+     },
+     "source": {
+      "type": "string",
+      "nullable": true
+     },
+     "storageBytes": {
+      "type": "string",
+      "nullable": true
+     },
+     "storageBytesStatus": {
+      "type": "string",
+      "nullable": true
+     },
+     "type": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "FluffyDiskEncryptionKey": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "kmsKeyName",
+     "kmsKeyServiceAccount",
+     "rawKey",
+     "rsaEncryptedKey",
+     "sha256"
+    ],
+    "properties": {
+     "kmsKeyName": {
+      "type": "string",
+      "nullable": true
+     },
+     "kmsKeyServiceAccount": {
+      "type": "string",
+      "nullable": true
+     },
+     "rawKey": {
+      "type": "string",
+      "nullable": true
+     },
+     "rsaEncryptedKey": {
+      "type": "string",
+      "nullable": true
+     },
+     "sha256": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "FluffyGuestOsFeature": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "type"
+    ],
+    "properties": {
+     "type": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "SourceInstancePropertiesGuestAccelerator": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "acceleratorCount",
+     "acceleratorType"
+    ],
+    "properties": {
+     "acceleratorCount": {
+      "type": "integer",
+      "format": "int64",
+      "nullable": true
+     },
+     "acceleratorType": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "SourceInstancePropertiesMetadata": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "fingerprint",
+     "items",
+     "kind"
+    ],
+    "properties": {
+     "fingerprint": {
+      "type": "string",
+      "nullable": true
+     },
+     "items": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/FluffyItem"
+      }
+     },
+     "kind": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "FluffyItem": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "key",
+     "value"
+    ],
+    "properties": {
+     "key": {
+      "type": "string",
+      "nullable": true
+     },
+     "value": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "SourceInstancePropertiesNetworkInterface": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "accessConfigs",
+     "aliasIpRanges",
+     "fingerprint",
+     "internalIpv6PrefixLength",
+     "ipv6AccessConfigs",
+     "ipv6AccessType",
+     "ipv6Address",
+     "kind",
+     "name",
+     "network",
+     "networkAttachment",
+     "networkIp",
+     "nicType",
+     "queueCount",
+     "stackType",
+     "subnetwork"
+    ],
+    "properties": {
+     "accessConfigs": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/FluffyAccessConfig"
+      }
+     },
+     "aliasIpRanges": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/FluffyAliasIpRange"
+      }
+     },
+     "fingerprint": {
+      "type": "string",
+      "nullable": true
+     },
+     "internalIpv6PrefixLength": {
+      "type": "integer",
+      "format": "int64",
+      "nullable": true
+     },
+     "ipv6AccessConfigs": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/FluffyIpv6AccessConfig"
+      }
+     },
+     "ipv6AccessType": {
+      "type": "string",
+      "nullable": true
+     },
+     "ipv6Address": {
+      "type": "string",
+      "nullable": true
+     },
+     "kind": {
+      "type": "string",
+      "nullable": true
+     },
+     "name": {
+      "type": "string",
+      "nullable": true
+     },
+     "network": {
+      "type": "string",
+      "nullable": true
+     },
+     "networkAttachment": {
+      "type": "string",
+      "nullable": true
+     },
+     "networkIp": {
+      "type": "string",
+      "nullable": true
+     },
+     "nicType": {
+      "type": "string",
+      "nullable": true
+     },
+     "queueCount": {
+      "type": "integer",
+      "format": "int64",
+      "nullable": true
+     },
+     "stackType": {
+      "type": "string",
+      "nullable": true
+     },
+     "subnetwork": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "FluffyAccessConfig": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "externalIpv6",
+     "externalIpv6PrefixLength",
+     "kind",
+     "name",
+     "natIp",
+     "networkTier",
+     "publicPtrDomainName",
+     "securityPolicy",
+     "setPublicPtr",
+     "type"
+    ],
+    "properties": {
+     "externalIpv6": {
+      "type": "string",
+      "nullable": true
+     },
+     "externalIpv6PrefixLength": {
+      "type": "integer",
+      "format": "int64",
+      "nullable": true
+     },
+     "kind": {
+      "type": "string",
+      "nullable": true
+     },
+     "name": {
+      "type": "string",
+      "nullable": true
+     },
+     "natIp": {
+      "type": "string",
+      "nullable": true
+     },
+     "networkTier": {
+      "type": "string",
+      "nullable": true
+     },
+     "publicPtrDomainName": {
+      "type": "string",
+      "nullable": true
+     },
+     "securityPolicy": {
+      "type": "string",
+      "nullable": true
+     },
+     "setPublicPtr": {
+      "type": "boolean",
+      "nullable": true
+     },
+     "type": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "FluffyAliasIpRange": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "ipCidrRange",
+     "subnetworkRangeName"
+    ],
+    "properties": {
+     "ipCidrRange": {
+      "type": "string",
+      "nullable": true
+     },
+     "subnetworkRangeName": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "FluffyIpv6AccessConfig": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "externalIpv6",
+     "externalIpv6PrefixLength",
+     "kind",
+     "name",
+     "natIp",
+     "networkTier",
+     "publicPtrDomainName",
+     "securityPolicy",
+     "setPublicPtr",
+     "type"
+    ],
+    "properties": {
+     "externalIpv6": {
+      "type": "string",
+      "nullable": true
+     },
+     "externalIpv6PrefixLength": {
+      "type": "integer",
+      "format": "int64",
+      "nullable": true
+     },
+     "kind": {
+      "type": "string",
+      "nullable": true
+     },
+     "name": {
+      "type": "string",
+      "nullable": true
+     },
+     "natIp": {
+      "type": "string",
+      "nullable": true
+     },
+     "networkTier": {
+      "type": "string",
+      "nullable": true
+     },
+     "publicPtrDomainName": {
+      "type": "string",
+      "nullable": true
+     },
+     "securityPolicy": {
+      "type": "string",
+      "nullable": true
+     },
+     "setPublicPtr": {
+      "type": "boolean",
+      "nullable": true
+     },
+     "type": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "SourceInstancePropertiesScheduling": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "automaticRestart",
+     "instanceTerminationAction",
+     "localSsdRecoveryTimeout",
+     "locationHint",
+     "minNodeCpus",
+     "nodeAffinities",
+     "onHostMaintenance",
+     "preemptible",
+     "provisioningModel"
+    ],
+    "properties": {
+     "automaticRestart": {
+      "type": "boolean",
+      "nullable": true
+     },
+     "instanceTerminationAction": {
+      "type": "string",
+      "nullable": true
+     },
+     "localSsdRecoveryTimeout": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/FluffyLocalSsdRecoveryTimeout"
+       }
+      ]
+     },
+     "locationHint": {
+      "type": "string",
+      "nullable": true
+     },
+     "minNodeCpus": {
+      "type": "integer",
+      "format": "int64",
+      "nullable": true
+     },
+     "nodeAffinities": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/FluffyNodeAffinity"
+      }
+     },
+     "onHostMaintenance": {
+      "type": "string",
+      "nullable": true
+     },
+     "preemptible": {
+      "type": "boolean",
+      "nullable": true
+     },
+     "provisioningModel": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "FluffyLocalSsdRecoveryTimeout": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "nanos",
+     "seconds"
+    ],
+    "properties": {
+     "nanos": {
+      "type": "integer",
+      "format": "int64",
+      "nullable": true
+     },
+     "seconds": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "FluffyNodeAffinity": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "key",
+     "operator",
+     "values"
+    ],
+    "properties": {
+     "key": {
+      "type": "string",
+      "nullable": true
+     },
+     "operator": {
+      "type": "string",
+      "nullable": true
+     },
+     "values": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "SourceInstancePropertiesServiceAccount": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "email",
+     "scopes"
+    ],
+    "properties": {
+     "email": {
+      "type": "string",
+      "nullable": true
+     },
+     "scopes": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "SourceInstancePropertiesTags": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "fingerprint",
+     "items"
+    ],
+    "properties": {
+     "fingerprint": {
+      "type": "string",
+      "nullable": true
+     },
+     "items": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   }
+  },
+  "securitySchemes": {
+   "basic": {
+    "type": "http",
+    "scheme": "basic"
+   }
+  }
+ },
+ "security": [
+  {
+   "basic": []
+  }
+ ],
+ "x-readme": {
+  "explorer-enabled": true,
+  "proxy-enabled": true
+ }
+}

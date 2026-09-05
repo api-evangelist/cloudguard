@@ -1,0 +1,76 @@
+generated: '2026-09-05'
+method: searched
+source: https://github.com/CheckPointSW/mcp-servers + https://registry.npmjs.org/@chkp/checkpoint-waf-mcp
+description: 'Check Point publishes a monorepo of 22 official MCP servers under github.com/CheckPointSW/mcp-servers,
+  each shipped to npm under the @chkp scope. One of them - @chkp/checkpoint-waf-mcp - covers a CloudGuard product
+  (CloudGuard WAF / AppSec). There is NO MCP server for the CloudGuard CNAPP/CSPM v2 REST API that this profile''s
+  23 OpenAPI definitions describe: that surface has 823 operations and no agent-callable MCP front door.'
+status: published
+deployment:
+  mode: local-stdio
+  endpoint: null
+  install: npx -y @chkp/checkpoint-waf-mcp
+  package: https://www.npmjs.com/package/@chkp/checkpoint-waf-mcp
+  auth: api-key
+  verified: searched
+why_not_remote: Check Point ships no hosted MCP endpoint. Every @chkp server is an npm package a human installs
+  and runs over stdio on a machine they control, configured with their own tenant credentials. An agent cannot reach
+  CloudGuard over MCP without that install step first.
+servers:
+- name: Check Point WAF MCP
+  package: '@chkp/checkpoint-waf-mcp'
+  version: 0.2.1
+  published: '2026-08-20'
+  product: CloudGuard WAF (Check Point WAF / AppSec)
+  transport: stdio
+  mode: local-stdio
+  repository: https://github.com/CheckPointSW/mcp-servers/tree/main/packages/checkpoint-waf
+  backing_api: Check Point WAF GraphQL API via the Infinity Portal gateway
+  auth:
+    type: api-key
+    variables:
+    - WAF_CLIENT_ID
+    - WAF_ACCESS_KEY
+    obtained_from: Infinity Portal > Check Point WAF > Settings > API Keys
+    regional_hosts:
+      EU: cloudinfra-gw.portal.checkpoint.com
+      US: cloudinfra-gw-us.portal.checkpoint.com
+      AU: cloudinfra-gw.ap.portal.checkpoint.com
+      IN: cloudinfra-gw.in.portal.checkpoint.com
+      AE: cloudinfra-gw.ae.portal.checkpoint.com
+      CA: cloudinfra-gw.ca.portal.checkpoint.com
+  safety:
+    read_only_by_default: true
+    write_gate: WAF_ALLOW_WRITES (or --allow-writes) must be set before manage_objects, publish_and_enforce or GraphQL
+      mutations are exposed.
+    note: publish_and_enforce is documented as CRITICAL and requires explicit user approval; it makes permanent
+      changes to the security configuration.
+  tools:
+  - name: call_waf_api
+    description: Execute a GraphQL query or mutation against the Check Point WAF API.
+  - name: get_enforcement_status
+    description: Get the current session status including publish state and number of pending changes.
+  - name: publish_and_enforce
+    description: Publish and enforce pending changes. Mutating, permanent, requires explicit user approval.
+  - name: get_objects
+    description: 'Retrieve WAF objects: assets, practices, profiles, agents, zones, behaviors, triggers.'
+  - name: manage_objects
+    description: Create, update and delete WAF objects. Write-gated.
+  - name: waf_consultant
+    description: Best-practice recommendations and guidance based on the WAF configuration.
+  tool_source: https://github.com/CheckPointSW/mcp-servers/blob/main/packages/checkpoint-waf/src/index.ts (server.tool
+    registrations, read 2026-09-05)
+- name: Exposure Management (Argos ERM) MCP
+  package: '@chkp/argos-erm-mcp'
+  version: 0.5.5
+  published: '2026-08-20'
+  product: Check Point External Risk Management
+  transport: stdio
+  mode: local-stdio
+  related: Adjacent to CloudGuard risk management but a separate Check Point product; listed as a lead, not as a
+    CloudGuard CNAPP server.
+gaps:
+- No MCP server for the CloudGuard CNAPP / CSPM v2 REST API (api.dome9.com), the 823-operation surface this profile
+  documents.
+- No hosted/remote MCP endpoint for any Check Point product - all 22 servers are stdio npm packages.
+- Tool input schemas were read from source, not from a live tools/list; there is no reachable endpoint to introspect.

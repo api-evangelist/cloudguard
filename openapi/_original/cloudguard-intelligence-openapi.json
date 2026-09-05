@@ -1,0 +1,2952 @@
+{
+ "info": {
+  "title": "Intelligence",
+  "version": "v2"
+ },
+ "openapi": "3.0.0",
+ "servers": [
+  {
+   "url": "https://api.dome9.com/",
+   "description": "US region"
+  },
+  {
+   "url": "https://api.{region}.dome9.com/",
+   "description": "Other regions",
+   "variables": {
+    "region": {
+     "enum": [
+      "eu1",
+      "ap1",
+      "ap2",
+      "ap3",
+      "cace1"
+     ],
+     "default": "eu1"
+    }
+   }
+  }
+ ],
+ "paths": {
+  "/v2/view/magellan/disable-magellan-for-cloud-account": {
+   "post": {
+    "tags": [
+     "Intelligence"
+    ],
+    "summary": "Offboard Account",
+    "operationId": "Intelligence_OffboardAccount_post_/v2/view/magellan/disable-magellan-for-cloud-account",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "enum": [
+          "Continue",
+          "SwitchingProtocols",
+          "OK",
+          "Created",
+          "Accepted",
+          "NonAuthoritativeInformation",
+          "NoContent",
+          "ResetContent",
+          "PartialContent",
+          "MultipleChoices",
+          "Ambiguous",
+          "MovedPermanently",
+          "Moved",
+          "Found",
+          "Redirect",
+          "SeeOther",
+          "RedirectMethod",
+          "NotModified",
+          "UseProxy",
+          "Unused",
+          "TemporaryRedirect",
+          "RedirectKeepVerb",
+          "BadRequest",
+          "Unauthorized",
+          "PaymentRequired",
+          "Forbidden",
+          "NotFound",
+          "MethodNotAllowed",
+          "NotAcceptable",
+          "ProxyAuthenticationRequired",
+          "RequestTimeout",
+          "Conflict",
+          "Gone",
+          "LengthRequired",
+          "PreconditionFailed",
+          "RequestEntityTooLarge",
+          "RequestUriTooLong",
+          "UnsupportedMediaType",
+          "RequestedRangeNotSatisfiable",
+          "ExpectationFailed",
+          "UpgradeRequired",
+          "InternalServerError",
+          "NotImplemented",
+          "BadGateway",
+          "ServiceUnavailable",
+          "GatewayTimeout",
+          "HttpVersionNotSupported"
+         ],
+         "type": "string"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Falconetix.Model.Magellan.MagellanAccountOffboardingModel"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Falconetix.Model.Magellan.MagellanAccountOffboardingModel"
+       }
+      }
+     },
+     "description": "Block indicating cloud account id and vendor to be offboarded from Intelligence",
+     "required": true
+    },
+    "description": "Offboard cloud account from Intelligence. The cloud account must already be onboarded to Intelligence."
+   }
+  },
+  "/v2/view/magellan/usage-notification-rate": {
+   "put": {
+    "tags": [
+     "Intelligence"
+    ],
+    "summary": "Set Usage Notification Rate",
+    "operationId": "Intelligence_SetUsageNotificationRate_put_/v2/view/magellan/usage-notification-rate",
+    "parameters": [
+     {
+      "name": "rate",
+      "in": "query",
+      "description": "Emails will be sent every {rate} % reached.",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "format": "int32"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "enum": [
+          "Continue",
+          "SwitchingProtocols",
+          "OK",
+          "Created",
+          "Accepted",
+          "NonAuthoritativeInformation",
+          "NoContent",
+          "ResetContent",
+          "PartialContent",
+          "MultipleChoices",
+          "Ambiguous",
+          "MovedPermanently",
+          "Moved",
+          "Found",
+          "Redirect",
+          "SeeOther",
+          "RedirectMethod",
+          "NotModified",
+          "UseProxy",
+          "Unused",
+          "TemporaryRedirect",
+          "RedirectKeepVerb",
+          "BadRequest",
+          "Unauthorized",
+          "PaymentRequired",
+          "Forbidden",
+          "NotFound",
+          "MethodNotAllowed",
+          "NotAcceptable",
+          "ProxyAuthenticationRequired",
+          "RequestTimeout",
+          "Conflict",
+          "Gone",
+          "LengthRequired",
+          "PreconditionFailed",
+          "RequestEntityTooLarge",
+          "RequestUriTooLong",
+          "UnsupportedMediaType",
+          "RequestedRangeNotSatisfiable",
+          "ExpectationFailed",
+          "UpgradeRequired",
+          "InternalServerError",
+          "NotImplemented",
+          "BadGateway",
+          "ServiceUnavailable",
+          "GatewayTimeout",
+          "HttpVersionNotSupported"
+         ],
+         "type": "string"
+        }
+       }
+      }
+     }
+    },
+    "description": "Set usage notification emails rate.\r\nBy default, the system will send an email notification when Intelligence usage reaches 80%, 90% and 100% of your allowed quota. \r\nUse this API call to configure sending an email notification every time you consumed the defined % of your quota."
+   }
+  },
+  "/v2/view/magellan/usage-notification-update-ancestors": {
+   "put": {
+    "tags": [
+     "Intelligence"
+    ],
+    "summary": "Set Usage Notification Ancestors Update",
+    "operationId": "Intelligence_SetUsageNotificationAncestorsUpdate_put_/v2/view/magellan/usage-notification-update-ancestors",
+    "parameters": [
+     {
+      "name": "shouldUpdate",
+      "in": "query",
+      "description": "Indicating if emails should be sent to ancestors.",
+      "required": true,
+      "schema": {
+       "type": "boolean"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "enum": [
+          "Continue",
+          "SwitchingProtocols",
+          "OK",
+          "Created",
+          "Accepted",
+          "NonAuthoritativeInformation",
+          "NoContent",
+          "ResetContent",
+          "PartialContent",
+          "MultipleChoices",
+          "Ambiguous",
+          "MovedPermanently",
+          "Moved",
+          "Found",
+          "Redirect",
+          "SeeOther",
+          "RedirectMethod",
+          "NotModified",
+          "UseProxy",
+          "Unused",
+          "TemporaryRedirect",
+          "RedirectKeepVerb",
+          "BadRequest",
+          "Unauthorized",
+          "PaymentRequired",
+          "Forbidden",
+          "NotFound",
+          "MethodNotAllowed",
+          "NotAcceptable",
+          "ProxyAuthenticationRequired",
+          "RequestTimeout",
+          "Conflict",
+          "Gone",
+          "LengthRequired",
+          "PreconditionFailed",
+          "RequestEntityTooLarge",
+          "RequestUriTooLong",
+          "UnsupportedMediaType",
+          "RequestedRangeNotSatisfiable",
+          "ExpectationFailed",
+          "UpgradeRequired",
+          "InternalServerError",
+          "NotImplemented",
+          "BadGateway",
+          "ServiceUnavailable",
+          "GatewayTimeout",
+          "HttpVersionNotSupported"
+         ],
+         "type": "string"
+        }
+       }
+      }
+     }
+    },
+    "description": "Enable sending usage notification updates to parent accounts (all levels)."
+   }
+  },
+  "/v2/view/magellan/magellan-flowlogs-onboarding": {
+   "post": {
+    "tags": [
+     "Intelligence"
+    ],
+    "summary": "Aws Network Traffic Onboarding",
+    "operationId": "Intelligence_AwsNetworkTrafficOnboarding_post_/v2/view/magellan/magellan-flowlogs-onboarding",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Views.Magellan.AwsLogicLogViewModel"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Falconetix.Model.Magellan.MagellanOnboardingModel"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Falconetix.Model.Magellan.MagellanOnboardingModel"
+       }
+      }
+     },
+     "description": "Block indicating cloud account id and bucket name to be onboarded to Intelligence Network Traffic",
+     "required": true
+    },
+    "description": "Onboard an account for Network Traffic. The account must already be onboarded to CloudGuard\r\nPlease follow the Intelligence onboarding \"Prerequisites\" screen and the \"Prepare IAM Policy for CloudGuard Intelligence\" screen on the CloudGuard portal."
+   }
+  },
+  "/v2/view/magellan/magellan-cloudtrail-onboarding": {
+   "post": {
+    "tags": [
+     "Intelligence"
+    ],
+    "summary": "Aws Account Activity Onboarding",
+    "operationId": "Intelligence_AwsAccountActivityOnboarding_post_/v2/view/magellan/magellan-cloudtrail-onboarding",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Views.Magellan.AwsLogicLogViewModel"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Falconetix.Model.Magellan.MagellanOnboardingModel"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Falconetix.Model.Magellan.MagellanOnboardingModel"
+       }
+      }
+     },
+     "description": "Block indicating cloud account id and bucket name to be onboarded to Intelligence Account Activity",
+     "required": true
+    },
+    "description": "Onboard an account for Account Activity. The account must already be onboarded to CloudGuard.\r\nPlease follow the Intelligence onboarding \"Prerequisites\" screen and the \"Prepare IAM Policy for CloudGuard Intelligence\" screen on the CloudGuard portal."
+   }
+  },
+  "/v2/view/magellan/magellan-custom-onboarding": {
+   "post": {
+    "tags": [
+     "Intelligence"
+    ],
+    "summary": "Aws Custom Onboarding",
+    "operationId": "Intelligence_AwsCustomOnboarding_post_/v2/view/magellan/magellan-custom-onboarding",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "enum": [
+          "Continue",
+          "SwitchingProtocols",
+          "OK",
+          "Created",
+          "Accepted",
+          "NonAuthoritativeInformation",
+          "NoContent",
+          "ResetContent",
+          "PartialContent",
+          "MultipleChoices",
+          "Ambiguous",
+          "MovedPermanently",
+          "Moved",
+          "Found",
+          "Redirect",
+          "SeeOther",
+          "RedirectMethod",
+          "NotModified",
+          "UseProxy",
+          "Unused",
+          "TemporaryRedirect",
+          "RedirectKeepVerb",
+          "BadRequest",
+          "Unauthorized",
+          "PaymentRequired",
+          "Forbidden",
+          "NotFound",
+          "MethodNotAllowed",
+          "NotAcceptable",
+          "ProxyAuthenticationRequired",
+          "RequestTimeout",
+          "Conflict",
+          "Gone",
+          "LengthRequired",
+          "PreconditionFailed",
+          "RequestEntityTooLarge",
+          "RequestUriTooLong",
+          "UnsupportedMediaType",
+          "RequestedRangeNotSatisfiable",
+          "ExpectationFailed",
+          "UpgradeRequired",
+          "InternalServerError",
+          "NotImplemented",
+          "BadGateway",
+          "ServiceUnavailable",
+          "GatewayTimeout",
+          "HttpVersionNotSupported"
+         ],
+         "type": "string"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Falconetix.Model.Magellan.MagellanCustomOnboardingModel"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Falconetix.Model.Magellan.MagellanCustomOnboardingModel"
+       }
+      }
+     },
+     "description": "Block indicating custom onboarding data to be onboarded to Intelligence",
+     "required": true
+    },
+    "description": "Custom onboard Account Activity or Network Traffic of your cloud environment to Intelligence.\r\nThe cloud accounts must already be onboarded to CloudGuard.\r\nPlease follow the Intelligence onboarding \"Prerequisites\" screen and the \"Prepare IAM Policy for CloudGuard Intelligence\" screen on the CloudGuard portal."
+   }
+  },
+  "/v2/view/magellan/magellan-alibaba-actiontrail-onboarding": {
+   "post": {
+    "tags": [
+     "Intelligence"
+    ],
+    "summary": "Alibaba Accoount Activity Onboarding",
+    "operationId": "Intelligence_AlibabaAccoountActivityOnboarding_post_/v2/view/magellan/magellan-alibaba-actiontrail-onboarding",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "enum": [
+          "Continue",
+          "SwitchingProtocols",
+          "OK",
+          "Created",
+          "Accepted",
+          "NonAuthoritativeInformation",
+          "NoContent",
+          "ResetContent",
+          "PartialContent",
+          "MultipleChoices",
+          "Ambiguous",
+          "MovedPermanently",
+          "Moved",
+          "Found",
+          "Redirect",
+          "SeeOther",
+          "RedirectMethod",
+          "NotModified",
+          "UseProxy",
+          "Unused",
+          "TemporaryRedirect",
+          "RedirectKeepVerb",
+          "BadRequest",
+          "Unauthorized",
+          "PaymentRequired",
+          "Forbidden",
+          "NotFound",
+          "MethodNotAllowed",
+          "NotAcceptable",
+          "ProxyAuthenticationRequired",
+          "RequestTimeout",
+          "Conflict",
+          "Gone",
+          "LengthRequired",
+          "PreconditionFailed",
+          "RequestEntityTooLarge",
+          "RequestUriTooLong",
+          "UnsupportedMediaType",
+          "RequestedRangeNotSatisfiable",
+          "ExpectationFailed",
+          "UpgradeRequired",
+          "InternalServerError",
+          "NotImplemented",
+          "BadGateway",
+          "ServiceUnavailable",
+          "GatewayTimeout",
+          "HttpVersionNotSupported"
+         ],
+         "type": "string"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Falconetix.Model.Magellan.MagellanOnboardingAzurePricingStorage.MagellanAlibabaActionTrailOnboardingModel"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Falconetix.Model.Magellan.MagellanOnboardingAzurePricingStorage.MagellanAlibabaActionTrailOnboardingModel"
+       }
+      }
+     },
+     "description": "Block indicating data to be onboarded to Intelligence Event Activity",
+     "required": true
+    },
+    "description": "Onboard Alibaba account for Account Activity. The account must already be onboarded to CloudGuard.\r\nPlease follow Intelligence onboarding \"Prerequisites\" screen on CloudGuard portal."
+   }
+  },
+  "/v2/view/magellan/provide-azure-storage-details": {
+   "post": {
+    "tags": [
+     "Intelligence"
+    ],
+    "summary": "Azure Network Traffic New Storage Onboarding",
+    "operationId": "Intelligence_AzureNetworkTrafficNewStorageOnboarding_post_/v2/view/magellan/provide-azure-storage-details",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "enum": [
+          "Continue",
+          "SwitchingProtocols",
+          "OK",
+          "Created",
+          "Accepted",
+          "NonAuthoritativeInformation",
+          "NoContent",
+          "ResetContent",
+          "PartialContent",
+          "MultipleChoices",
+          "Ambiguous",
+          "MovedPermanently",
+          "Moved",
+          "Found",
+          "Redirect",
+          "SeeOther",
+          "RedirectMethod",
+          "NotModified",
+          "UseProxy",
+          "Unused",
+          "TemporaryRedirect",
+          "RedirectKeepVerb",
+          "BadRequest",
+          "Unauthorized",
+          "PaymentRequired",
+          "Forbidden",
+          "NotFound",
+          "MethodNotAllowed",
+          "NotAcceptable",
+          "ProxyAuthenticationRequired",
+          "RequestTimeout",
+          "Conflict",
+          "Gone",
+          "LengthRequired",
+          "PreconditionFailed",
+          "RequestEntityTooLarge",
+          "RequestUriTooLong",
+          "UnsupportedMediaType",
+          "RequestedRangeNotSatisfiable",
+          "ExpectationFailed",
+          "UpgradeRequired",
+          "InternalServerError",
+          "NotImplemented",
+          "BadGateway",
+          "ServiceUnavailable",
+          "GatewayTimeout",
+          "HttpVersionNotSupported"
+         ],
+         "type": "string"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Falconetix.Model.Magellan.MagellanOnboardingAzurePricingStorage.MagellanAzureNewStorageDetailsAfterArmModel"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Falconetix.Model.Magellan.MagellanOnboardingAzurePricingStorage.MagellanAzureNewStorageDetailsAfterArmModel"
+       }
+      }
+     },
+     "description": "Block indicating data of storage keys to be onboarded to Intelligence Network Traffic",
+     "required": true
+    },
+    "description": "After calling AzureNetworkTrafficOnboardingWithArm and creating the required resources in Azure using the ARM template, Intelligence needs access to the storage keys."
+   }
+  },
+  "/v2/view/magellan/magellan-gcp-onboarding": {
+   "post": {
+    "tags": [
+     "Intelligence"
+    ],
+    "summary": "Gcp Onboarding",
+    "operationId": "Intelligence_GcpOnboarding_post_/v2/view/magellan/magellan-gcp-onboarding",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "enum": [
+          "Continue",
+          "SwitchingProtocols",
+          "OK",
+          "Created",
+          "Accepted",
+          "NonAuthoritativeInformation",
+          "NoContent",
+          "ResetContent",
+          "PartialContent",
+          "MultipleChoices",
+          "Ambiguous",
+          "MovedPermanently",
+          "Moved",
+          "Found",
+          "Redirect",
+          "SeeOther",
+          "RedirectMethod",
+          "NotModified",
+          "UseProxy",
+          "Unused",
+          "TemporaryRedirect",
+          "RedirectKeepVerb",
+          "BadRequest",
+          "Unauthorized",
+          "PaymentRequired",
+          "Forbidden",
+          "NotFound",
+          "MethodNotAllowed",
+          "NotAcceptable",
+          "ProxyAuthenticationRequired",
+          "RequestTimeout",
+          "Conflict",
+          "Gone",
+          "LengthRequired",
+          "PreconditionFailed",
+          "RequestEntityTooLarge",
+          "RequestUriTooLong",
+          "UnsupportedMediaType",
+          "RequestedRangeNotSatisfiable",
+          "ExpectationFailed",
+          "UpgradeRequired",
+          "InternalServerError",
+          "NotImplemented",
+          "BadGateway",
+          "ServiceUnavailable",
+          "GatewayTimeout",
+          "HttpVersionNotSupported"
+         ],
+         "type": "string"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Falconetix.Model.Magellan.MagellanGcpOnboardingModel"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Falconetix.Model.Magellan.MagellanGcpOnboardingModel"
+       }
+      }
+     },
+     "description": "Block indicating data to be onboarded to Intelligence",
+     "required": true
+    },
+    "description": "Onboard Gcp project. The project must already be onboarded to CloudGuard.\r\nFor network traffic please follow the Intelligence onboarding \"Prerequisites\" screen on the CloudGuard portal.\r\nThis is the API for onboarding your gcp project in CloudGuard side. In addition, you need to create some\r\nresources in GCP as part of the onboarding. The following GIT contains a code that you can run on your computer.\r\nThe code creates the needed resources and makes an API call to CloudGuard:\r\nhttps://github.com/dome9/gcp-onboarding/tree/main/onboarding-api"
+   }
+  },
+  "/v2/intelligence/azure/onboarding-account-activity": {
+   "post": {
+    "tags": [
+     "Azure"
+    ],
+    "summary": "Azure Account Activity New Storage Onboarding",
+    "operationId": "Azure_AzureAccountActivityNewStorageOnboarding_post_/v2/intelligence/azure/onboarding-account-activity",
+    "requestBody": {
+     "x-name": "model",
+     "description": "All required details to be onboarded to Intelligence Account Activity",
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object"
+       }
+      }
+     },
+     "required": true,
+     "x-position": 1
+    },
+    "responses": {
+     "200": {
+      "description": "Http status code 200 if onboarding succeeded",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HttpStatusCode"
+        }
+       }
+      }
+     }
+    },
+    "description": "After calling get-arm-to-onboard-resources-account-activity API and creating the\nrequired resources in Azure using the ARM template,\nneed to onboard the storages and the subscriptions to Intelligence."
+   }
+  },
+  "/v2/intelligence/azure/onboarding-network-traffic": {
+   "post": {
+    "tags": [
+     "Azure"
+    ],
+    "summary": "Azure Network Traffic New Centralized Storage Onboarding",
+    "operationId": "Azure_AzureNetworkTrafficNewCentralizedStorageOnboarding_post_/v2/intelligence/azure/onboarding-network-traffic",
+    "requestBody": {
+     "x-name": "model",
+     "description": "All required details to be onboarded to Intelligence Network Traffic",
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object"
+       }
+      }
+     },
+     "required": true,
+     "x-position": 1
+    },
+    "responses": {
+     "200": {
+      "description": "Http status code 200 if onboarding succeded",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HttpStatusCode"
+        }
+       }
+      }
+     }
+    },
+    "description": "After calling get-arm-to-onboard-resources-network-traffic-centralized API and creating the required resources in Azure using the ARM template, need to onboard the storages and the subscriptions to Intelligence."
+   }
+  },
+  "/v2/intelligence/azure/get-arm-to-onboard-resources-network-traffic-centralized": {
+   "post": {
+    "tags": [
+     "Azure"
+    ],
+    "summary": "Get Arm To Onboard Resources Network Traffic Centralized",
+    "operationId": "Azure_GetArmToOnboardResourcesNetworkTrafficCentralized_post_/v2/intelligence/azure/get-arm-to-onboard-resources-network-traffic-centralized",
+    "requestBody": {
+     "x-name": "data",
+     "description": "The data that going to be onboarded to Intelligence Network Traffic.",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/CentralizedNetworkTrafficArmApiRequest"
+       }
+      }
+     },
+     "required": true,
+     "x-position": 1
+    },
+    "responses": {
+     "200": {
+      "description": "Http status code 200, ARM URL if succeeded and warnings list",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ArmApiResponseDetails"
+        }
+       }
+      }
+     }
+    },
+    "description": "Onboard Centralized Network Traffic for your Azure environment. The function creates an ARM template that you need to run in your Azure environment.\nThe function returns the url of the ARM template.\nThe Azure environment must already be onboarded to CloudGuard.\nPlease follow the Intelligence onboarding \"Prerequisites\" screen on the CloudGuard portal."
+   }
+  },
+  "/v2/intelligence/azure/get-arm-to-onboard-resources-account-activity": {
+   "post": {
+    "tags": [
+     "Azure"
+    ],
+    "summary": "Get Arm To Onboard Resources Account Activity",
+    "operationId": "Azure_GetArmToOnboardResourcesAccountActivity_post_/v2/intelligence/azure/get-arm-to-onboard-resources-account-activity",
+    "requestBody": {
+     "x-name": "data",
+     "description": "The data that going to be onboarded to Intelligence Account Activity.",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/AccountActivityArmApiRequest"
+       }
+      }
+     },
+     "required": true,
+     "x-position": 1
+    },
+    "responses": {
+     "200": {
+      "description": "Http status code 200, ARM URL if succeeded and warnings list",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ArmApiResponseDetails"
+        }
+       }
+      }
+     }
+    },
+    "description": "Onboard Account Activity for your Azure environment.\nThe function creates an ARM template that you need to run in your Azure environment.\nThe Azure environment must already be onboarded to CloudGuard.\nMake the first call to get the ARM: https://docs.cgn.portal.checkpoint.com/reference/azure_getarmtoonboardresourcesaccountactivity_post_v2intelligenceazureget-arm-to-onboard-resources-account-activity.\nMake sure that {{returnJsonUrl }} is set to false.\nThe function returns the URL of the ARM template.\nUse the ARM URL to run the ARM deployment\nWhen the deployment is finished, make the second API call to onboard the account and the storages to the databases:\nhttps://docs.cgn.portal.checkpoint.com/reference/azure_azureaccountactivitynewstorageonboarding_post_v2intelligenceazureonboarding-account-activity\nPlease follow the Intelligence onboarding \"Prerequisites\" screen on the CloudGuard portal."
+   }
+  },
+  "/v2/intelligence/azure/magellan-azure-flowlogs-onboarding-with-arm": {
+   "post": {
+    "tags": [
+     "Azure"
+    ],
+    "summary": "Azure Network Traffic Nsg Onboarding With Arm",
+    "operationId": "Azure_AzureNetworkTrafficNsgOnboardingWithArm_post_/v2/intelligence/azure/magellan-azure-flowlogs-onboarding-with-arm",
+    "requestBody": {
+     "x-name": "model",
+     "description": "Block indicating the data to be onboarded to Intelligence Network Traffic",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/MagellanAzureNetworkActivityOnboardingArmModelForApi"
+       }
+      }
+     },
+     "required": true,
+     "x-position": 1
+    },
+    "responses": {
+     "200": {
+      "description": "ARM url if onboarding succeded",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "string"
+        }
+       }
+      }
+     }
+    },
+    "description": "This API is for onboarding azure from the context of NSG, to onboard storage account use: /v2/intelligence/azure/get-arm-to-onboard-resources-network-traffic-centralized\nOnboard Network Traffic for your Azure environment. Using NSG information, the function creates an ARM template that you need to run in your Azure environment.\nThe function returns the url of the ARM template.\nThe Azure environment must already be onboarded to CloudGuard.\nPlease follow the Intelligence onboarding \"Prerequisites\" screen on the CloudGuard portal."
+   }
+  },
+  "/v2/remediation/trigger": {
+   "post": {
+    "tags": [
+     "Remediation"
+    ],
+    "summary": "Post Trigger Remediation",
+    "operationId": "Remediation_PostTriggerRemediation_post_/v2/remediation/trigger",
+    "requestBody": {
+     "x-name": "remediationModel",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/RemediationExecuteRequestModel"
+       }
+      }
+     },
+     "required": true,
+     "x-position": 1
+    },
+    "responses": {
+     "200": {
+      "description": "Status of the batch report progress",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/RemediationExecuteResponseModel"
+        }
+       }
+      }
+     }
+    },
+    "description": "External api execute command for remediation"
+   }
+  },
+  "/v2/remediation/status/{executionId}": {
+   "get": {
+    "tags": [
+     "Remediation"
+    ],
+    "summary": "Get Status Remediation",
+    "operationId": "Remediation_GetStatusRemediation_get_/v2/remediation/status/{executionId}",
+    "parameters": [
+     {
+      "name": "executionId",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      },
+      "x-position": 1
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Status of the Remediation progress",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/StatusGeneralDetails"
+        }
+       }
+      }
+     }
+    },
+    "description": "Get status for remediation"
+   }
+  },
+  "/v2/reports": {
+   "get": {
+    "tags": [
+     "Reports"
+    ],
+    "summary": "Get Reports",
+    "operationId": "Reports_GetReports_get_/v2/reports",
+    "responses": {
+     "200": {
+      "description": "Existing Reports Details",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/FullReportResponseModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "Get reports"
+   },
+   "post": {
+    "tags": [
+     "Reports"
+    ],
+    "summary": "Create Report",
+    "operationId": "Reports_CreateReport_post_/v2/reports",
+    "requestBody": {
+     "x-name": "item",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/BaseReportModel"
+       }
+      }
+     },
+     "required": true,
+     "x-position": 1
+    },
+    "responses": {
+     "200": {
+      "description": "New Report Id",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ReportOperationResponse"
+        }
+       }
+      }
+     }
+    },
+    "description": "Create Report"
+   },
+   "delete": {
+    "tags": [
+     "Reports"
+    ],
+    "summary": "Delete Reports",
+    "operationId": "Reports_DeleteReports_delete_/v2/reports",
+    "requestBody": {
+     "x-name": "item",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/DeleteReportRequest"
+       }
+      }
+     },
+     "required": true,
+     "x-position": 1
+    },
+    "responses": {
+     "200": {
+      "description": "Deleted Count",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ReportOperationResponse"
+        }
+       }
+      }
+     }
+    },
+    "description": "Delete Reports"
+   }
+  },
+  "/v2/reports/{reportId}": {
+   "put": {
+    "tags": [
+     "Reports"
+    ],
+    "summary": "Update Report",
+    "operationId": "Reports_UpdateReport_put_/v2/reports/{reportId}",
+    "parameters": [
+     {
+      "name": "reportId",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "format": "int32"
+      },
+      "x-position": 1
+     }
+    ],
+    "requestBody": {
+     "x-name": "item",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/BaseReportModel"
+       }
+      }
+     },
+     "required": true,
+     "x-position": 2
+    },
+    "responses": {
+     "200": {
+      "description": "New Report Id",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ReportOperationResponse"
+        }
+       }
+      }
+     }
+    },
+    "description": "Update Report"
+   }
+  }
+ },
+ "tags": [
+  {
+   "name": "AccessLease",
+   "description": "Access Leases"
+  },
+  {
+   "name": "AccessLeaseInvitation",
+   "description": "Access Lease Invitations"
+  },
+  {
+   "name": "Account"
+  },
+  {
+   "name": "AccountLimitation"
+  },
+  {
+   "name": "AccountPollingInterval"
+  },
+  {
+   "name": "AccountRegistration"
+  },
+  {
+   "name": "AccountTrust",
+   "description": "Allow you to define a trust between accounts in order to allow users in a certain account to make changes and operation on another account.\nActions can be taken on a trustee account via a role which is defined on it. \nThe role should be assumed by a user from the trusted account."
+  },
+  {
+   "name": "Agent"
+  },
+  {
+   "name": "Agentless",
+   "description": "Agentless Workload Posture"
+  },
+  {
+   "name": "Alert"
+  },
+  {
+   "name": "AlibabaCloudAccount",
+   "description": "Alibaba Cloud Accounts"
+  },
+  {
+   "name": "Application"
+  },
+  {
+   "name": "Assessment",
+   "description": "Run and View Compliance Assessments"
+  },
+  {
+   "name": "AssessmentHistory"
+  },
+  {
+   "name": "AssessmentHistoryV2",
+   "description": "Compliance Assessment History"
+  },
+  {
+   "name": "Audit",
+   "description": "Audit logs"
+  },
+  {
+   "name": "Auth"
+  },
+  {
+   "name": "Aws Cloud Account",
+   "description": "Manage AWS Cloud Accounts"
+  },
+  {
+   "name": "AwsAppSync"
+  },
+  {
+   "name": "AwsBackupVault"
+  },
+  {
+   "name": "AwsConfigSettings"
+  },
+  {
+   "name": "AwsCustomerGateway"
+  },
+  {
+   "name": "AwsEcsTask"
+  },
+  {
+   "name": "AwsEks"
+  },
+  {
+   "name": "AwsElasticIp"
+  },
+  {
+   "name": "AwsElasticsearchDomain"
+  },
+  {
+   "name": "AwsEmrCluster"
+  },
+  {
+   "name": "AwsInspectorFindings"
+  },
+  {
+   "name": "AwsInspectorRuns"
+  },
+  {
+   "name": "AwsLoadBalancersNetworkInterfaces"
+  },
+  {
+   "name": "AwsOrganizations"
+  },
+  {
+   "name": "AwsQuickSightAccount"
+  },
+  {
+   "name": "AwsQuickSightGroup"
+  },
+  {
+   "name": "AwsQuickSightUser"
+  },
+  {
+   "name": "AwsQuickSightVpcConnections"
+  },
+  {
+   "name": "AwsSageMaker"
+  },
+  {
+   "name": "AwsSecurityGroup"
+  },
+  {
+   "name": "AwsSecurityGroupPolicy"
+  },
+  {
+   "name": "AwsSecurityGroupsIndex"
+  },
+  {
+   "name": "AwsUnifiedOnboarding",
+   "description": "Aws Unified Onboarding"
+  },
+  {
+   "name": "AwsVpcEndpoint"
+  },
+  {
+   "name": "AzureAnalysisService"
+  },
+  {
+   "name": "AzureApplicationGateway"
+  },
+  {
+   "name": "AzureApplicationSecurityGroup"
+  },
+  {
+   "name": "AzureCloudAccount",
+   "description": "Onboard Azure accounts"
+  },
+  {
+   "name": "AzureComputeGalleryImage"
+  },
+  {
+   "name": "AzureCosmosDbAccount"
+  },
+  {
+   "name": "AzureDisk"
+  },
+  {
+   "name": "AzureFunction"
+  },
+  {
+   "name": "AzureKeyVault"
+  },
+  {
+   "name": "AzureKubernetes"
+  },
+  {
+   "name": "AzureLoadBalancer"
+  },
+  {
+   "name": "AzureLock"
+  },
+  {
+   "name": "AzureLogicApp"
+  },
+  {
+   "name": "AzureLogProfile"
+  },
+  {
+   "name": "AzurePolicyAssignment"
+  },
+  {
+   "name": "AzureRedisCache"
+  },
+  {
+   "name": "AzureResourceGroup"
+  },
+  {
+   "name": "AzureRouteTable"
+  },
+  {
+   "name": "AzureSecurityGroup"
+  },
+  {
+   "name": "AzureSecurityGroupPolicy",
+   "description": "Azure Network Security Group Policies"
+  },
+  {
+   "name": "AzureSnapshot"
+  },
+  {
+   "name": "AzureSqlDb"
+  },
+  {
+   "name": "AzureSqlServer"
+  },
+  {
+   "name": "AzureStorageAccounts"
+  },
+  {
+   "name": "AzureStorageBlobContainer"
+  },
+  {
+   "name": "AzureSubnet"
+  },
+  {
+   "name": "AzureUser"
+  },
+  {
+   "name": "AzureVirtualMachine"
+  },
+  {
+   "name": "AzureVirtualMachineImage"
+  },
+  {
+   "name": "AzureVirtualMachineScaleSet"
+  },
+  {
+   "name": "AzureVirtualNetworkPeering"
+  },
+  {
+   "name": "AzureWebApp"
+  },
+  {
+   "name": "BigTable"
+  },
+  {
+   "name": "BillableAssets",
+   "description": "Retrieve billable assets data"
+  },
+  {
+   "name": "BillableAssetsReport",
+   "description": "Billable Assets Report"
+  },
+  {
+   "name": "Billing"
+  },
+  {
+   "name": "Clarity"
+  },
+  {
+   "name": "CloudAcmCertificate"
+  },
+  {
+   "name": "CloudAmi"
+  },
+  {
+   "name": "CloudAutoScalingGroup"
+  },
+  {
+   "name": "CloudDbInstance"
+  },
+  {
+   "name": "CloudDirectConnect"
+  },
+  {
+   "name": "CloudDynamoDb"
+  },
+  {
+   "name": "CloudEcsCluster"
+  },
+  {
+   "name": "CloudEcsService",
+   "description": "Cloud Ecs Service"
+  },
+  {
+   "name": "CloudEcsTaskDefinition"
+  },
+  {
+   "name": "CloudEfs"
+  },
+  {
+   "name": "CloudElastiCacheCluster"
+  },
+  {
+   "name": "CloudFlowLogs"
+  },
+  {
+   "name": "CloudFrontDistribution"
+  },
+  {
+   "name": "CloudGuardDutyDetector"
+  },
+  {
+   "name": "CloudIamAccountSummary"
+  },
+  {
+   "name": "CloudIamCredentialReport"
+  },
+  {
+   "name": "CloudIamGroup"
+  },
+  {
+   "name": "CloudIamPasswordPolicy"
+  },
+  {
+   "name": "CloudIamPolicy"
+  },
+  {
+   "name": "CloudIamRole"
+  },
+  {
+   "name": "CloudIamServerCertificate"
+  },
+  {
+   "name": "CloudIamUser"
+  },
+  {
+   "name": "CloudIamVirtualMfaDevice"
+  },
+  {
+   "name": "CloudInfraUser",
+   "description": "CloudInfra Users"
+  },
+  {
+   "name": "CloudInstance",
+   "description": "Cloud Instances"
+  },
+  {
+   "name": "CloudInternetGateway"
+  },
+  {
+   "name": "CloudKinesisStream"
+  },
+  {
+   "name": "CloudKms"
+  },
+  {
+   "name": "CloudKmsAlias"
+  },
+  {
+   "name": "CloudLambdaFunction",
+   "description": "Cloud Lambda Function"
+  },
+  {
+   "name": "CloudLoadBalancer"
+  },
+  {
+   "name": "CloudLogGroups"
+  },
+  {
+   "name": "CloudMetricAlarm"
+  },
+  {
+   "name": "CloudNacl"
+  },
+  {
+   "name": "CloudNetworkInterfaces"
+  },
+  {
+   "name": "CloudRedshiftCluster"
+  },
+  {
+   "name": "CloudRegion"
+  },
+  {
+   "name": "CloudRoute53Domain"
+  },
+  {
+   "name": "CloudRoute53HostedZone"
+  },
+  {
+   "name": "CloudRoute53RecordSetGroup"
+  },
+  {
+   "name": "CloudRouteTable"
+  },
+  {
+   "name": "CloudS3Bucket",
+   "description": ""
+  },
+  {
+   "name": "CloudSecurityGroup",
+   "description": "AWS Security Groups"
+  },
+  {
+   "name": "CloudSnsSubscription"
+  },
+  {
+   "name": "CloudSnsTopic"
+  },
+  {
+   "name": "CloudSql"
+  },
+  {
+   "name": "CloudSqs",
+   "description": ""
+  },
+  {
+   "name": "CloudSubnet"
+  },
+  {
+   "name": "CloudTrail",
+   "description": "CloudTrail"
+  },
+  {
+   "name": "CloudVolume"
+  },
+  {
+   "name": "CloudVpc"
+  },
+  {
+   "name": "CloudVpcPeeringConnection"
+  },
+  {
+   "name": "CloudVPNConnection"
+  },
+  {
+   "name": "CloudVpnGateway"
+  },
+  {
+   "name": "CloudWAFRegional"
+  },
+  {
+   "name": "CloudWatchEventsRule",
+   "description": "CloudWatchEventsRule"
+  },
+  {
+   "name": "ComplianceExclusion",
+   "description": "Compliance Exclusions"
+  },
+  {
+   "name": "CompliancePolicy"
+  },
+  {
+   "name": "ComplianceRemediation",
+   "description": "Compliance Remediation"
+  },
+  {
+   "name": "ComplianceRemediationOld",
+   "description": "Compliance Remediation - DEPRECATED - please use /Compliance/Remediation instead"
+  },
+  {
+   "name": "ComplianceRuleset",
+   "description": "ComplianceRuleset"
+  },
+  {
+   "name": "ContinuousComplianceNotification",
+   "description": "Continuous Compliance Notification Policies"
+  },
+  {
+   "name": "ContinuousCompliancePolicy"
+  },
+  {
+   "name": "ContinuousCompliancePolicyV2",
+   "description": "Continuous Compliance Policies"
+  },
+  {
+   "name": "EmergencyPolicy"
+  },
+  {
+   "name": "EntityFetchStatus"
+  },
+  {
+   "name": "EntityReport"
+  },
+  {
+   "name": "ExclusionOld",
+   "description": "Compliance Exclusions - DEPRECATED - please use /Compliance/Exclusion instead"
+  },
+  {
+   "name": "ExternalFindings",
+   "description": "Findings from External (3rd-party) systems"
+  },
+  {
+   "name": "Fim"
+  },
+  {
+   "name": "Finding",
+   "description": "Compliance Findings"
+  },
+  {
+   "name": "FindingsReport",
+   "description": "Compliance Findings csv reports"
+  },
+  {
+   "name": "GcpBigQuery"
+  },
+  {
+   "name": "GcpDisk"
+  },
+  {
+   "name": "GcpGkeCluster"
+  },
+  {
+   "name": "GcpImage"
+  },
+  {
+   "name": "GcpKmsKeyRing"
+  },
+  {
+   "name": "GcpProjectInfo",
+   "description": "Google Cloud Project Info"
+  },
+  {
+   "name": "GcpPubSub"
+  },
+  {
+   "name": "GcpSecurityGroup"
+  },
+  {
+   "name": "GcpServiceAccount"
+  },
+  {
+   "name": "GcpStorageBucket"
+  },
+  {
+   "name": "GenericList",
+   "description": "Generic Lists"
+  },
+  {
+   "name": "GlobalSearch",
+   "description": "Global search for all CloudGuard services"
+  },
+  {
+   "name": "GoogleCloudAccount",
+   "description": "Google Cloud Accounts"
+  },
+  {
+   "name": "GoogleCloudFirewallRule"
+  },
+  {
+   "name": "GoogleCloudFunction"
+  },
+  {
+   "name": "GoogleCloudIamPolicy"
+  },
+  {
+   "name": "GoogleCloudNetwork",
+   "description": "Google Cloud Network"
+  },
+  {
+   "name": "GoogleCloudSubnet"
+  },
+  {
+   "name": "GoogleCloudVMInstance"
+  },
+  {
+   "name": "Home"
+  },
+  {
+   "name": "IamSafeLease",
+   "description": "IAM Safety Leases"
+  },
+  {
+   "name": "IncidentsStatus"
+  },
+  {
+   "name": "InfrastructureAssessment"
+  },
+  {
+   "name": "Intelligence",
+   "description": "CloudGuard Intelligence allows you to visualize and analyze Account Activity and Network Traffic into and out of your cloud environment."
+  },
+  {
+   "name": "IpAddressMetadata",
+   "description": "IP Address Metadata"
+  },
+  {
+   "name": "IpList",
+   "description": "IP Lists"
+  },
+  {
+   "name": "LicenseActivator"
+  },
+  {
+   "name": "Licensing"
+  },
+  {
+   "name": "ManagedGenericList"
+  },
+  {
+   "name": "Msp"
+  },
+  {
+   "name": "OrganizationalUnit",
+   "description": "Manage Organizational Units"
+  },
+  {
+   "name": "Permission"
+  },
+  {
+   "name": "ProtectedAsset"
+  },
+  {
+   "name": "ProtectedAssetsReport",
+   "description": "Compliance Protected Asset csv reports"
+  },
+  {
+   "name": "ProtegoStatistics",
+   "description": "Protego statistics by dates"
+  },
+  {
+   "name": "Role",
+   "description": "CloudGuard Roles"
+  },
+  {
+   "name": "RulesEngine"
+  },
+  {
+   "name": "SecurityGroup"
+  },
+  {
+   "name": "Serverless"
+  },
+  {
+   "name": "ServerlessPolicy",
+   "description": "Serverless policy"
+  },
+  {
+   "name": "ServiceAccount",
+   "description": "CloudGuard Service Accounts"
+  },
+  {
+   "name": "ServicePort"
+  },
+  {
+   "name": "Settings",
+   "description": "Account Settings"
+  },
+  {
+   "name": "ShiftLeft",
+   "description": "ShiftLeft"
+  },
+  {
+   "name": "SystemHealth"
+  },
+  {
+   "name": "TenableAccount",
+   "description": "Onboard Tenable accounts"
+  },
+  {
+   "name": "User",
+   "description": "CloudGuard account users"
+  },
+  {
+   "name": "BaseImage",
+   "description": ""
+  },
+  {
+   "name": "ContainerRegistryAccount",
+   "description": "Container Registry Account"
+  },
+  {
+   "name": "ContainerRegistryAccountInternal",
+   "description": ""
+  },
+  {
+   "name": "ContainerRegistryImageAssurancePolicy",
+   "description": "(deprecated: move to use /v2/vulnerability/policy)"
+  },
+  {
+   "name": "Dashboard",
+   "description": ""
+  },
+  {
+   "name": "EcsConfiguration",
+   "description": ""
+  },
+  {
+   "name": "EcsImageAssurancePolicy",
+   "description": "(deprecated: move to use /v2/vulnerability/policy)"
+  },
+  {
+   "name": "EcsImageScan",
+   "description": "ECS Image Scan Configuration"
+  },
+  {
+   "name": "Environment",
+   "description": ""
+  },
+  {
+   "name": "ImageAdmissionExclusion",
+   "description": "[Preview feature] Kubernetes Image admission exclusions"
+  },
+  {
+   "name": "ImageAssuranceDashboard",
+   "description": ""
+  },
+  {
+   "name": "ImageAssuranceReport",
+   "description": ""
+  },
+  {
+   "name": "KubernetesAccount",
+   "description": "Kubernetes Accounts"
+  },
+  {
+   "name": "KubernetesAccountInternal",
+   "description": ""
+  },
+  {
+   "name": "KubernetesAccountOld",
+   "description": "(deprecated: this api is deprecated, please use '/v2/kubernetes/account' instead)"
+  },
+  {
+   "name": "KubernetesAdmissionControl",
+   "description": "Kubernetes Admission Control"
+  },
+  {
+   "name": "KubernetesAdmissionControlPoliciesSummary",
+   "description": ""
+  },
+  {
+   "name": "KubernetesClusterRole",
+   "description": ""
+  },
+  {
+   "name": "KubernetesImage",
+   "description": ""
+  },
+  {
+   "name": "KubernetesImageAdmissionExclusion",
+   "description": "[Preview feature] Kubernetes Image admission exclusions (deprecated: this api is deprecated, please use '/v2/kubernetes/admissionControl/imageAdmissionExclusion' instead)"
+  },
+  {
+   "name": "KubernetesImageAssurance",
+   "description": "Kubernetes Image Assurance"
+  },
+  {
+   "name": "KubernetesImageAssurancePolicy",
+   "description": "Kubernetes Image Assurance Policy (deprecated: move to use /v2/vulnerability/policy)"
+  },
+  {
+   "name": "KubernetesIngress",
+   "description": ""
+  },
+  {
+   "name": "KubernetesNetworkPolicy",
+   "description": ""
+  },
+  {
+   "name": "KubernetesNode",
+   "description": ""
+  },
+  {
+   "name": "KubernetesPod",
+   "description": ""
+  },
+  {
+   "name": "KubernetesPodGroup",
+   "description": "Kubernetes Pod Groups"
+  },
+  {
+   "name": "KubernetesPodGroupOwner",
+   "description": ""
+  },
+  {
+   "name": "KubernetesPodSecurityPolicy",
+   "description": ""
+  },
+  {
+   "name": "KubernetesRole",
+   "description": ""
+  },
+  {
+   "name": "KubernetesRuntimeAssurance",
+   "description": ""
+  },
+  {
+   "name": "KubernetesService",
+   "description": ""
+  },
+  {
+   "name": "KubernetesServiceAccount",
+   "description": ""
+  },
+  {
+   "name": "Shiftleft",
+   "description": ""
+  },
+  {
+   "name": "ShiftLeftAccount",
+   "description": "ShiftLeft"
+  },
+  {
+   "name": "ShiftLeftPolicy",
+   "description": "ShiftLeft Policy (deprecated: move to use /v2/vulnerability/policy)"
+  },
+  {
+   "name": "Workload",
+   "description": ""
+  },
+  {
+   "name": "WorkloadAccountSetting",
+   "description": "Workload Account Setting"
+  },
+  {
+   "name": "WorkloadChangeMonitoring",
+   "description": ""
+  },
+  {
+   "name": "WorkloadImageAssurance",
+   "description": "Workload Image Assurance"
+  },
+  {
+   "name": "WorkloadImageAssuranceInternal",
+   "description": ""
+  },
+  {
+   "name": "WorkloadInternal",
+   "description": ""
+  },
+  {
+   "name": "WorkloadRuntimeProtection",
+   "description": ""
+  },
+  {
+   "name": "Alerts",
+   "description": ""
+  },
+  {
+   "name": "Azure",
+   "description": ""
+  },
+  {
+   "name": "FindingOrchestration",
+   "description": ""
+  },
+  {
+   "name": "FindingsUpdate",
+   "description": ""
+  },
+  {
+   "name": "Gcp",
+   "description": ""
+  },
+  {
+   "name": "Remediation",
+   "description": "Remediation Actions"
+  },
+  {
+   "name": "Reports",
+   "description": ""
+  },
+  {
+   "name": "CloudInfraMigration",
+   "description": "infinity-portal-connect"
+  },
+  {
+   "name": "GslBuilder",
+   "description": ""
+  },
+  {
+   "name": "Infrastructure",
+   "description": ""
+  },
+  {
+   "name": "InternalLicense",
+   "description": ""
+  },
+  {
+   "name": "NotificationIntegrationInternal",
+   "description": "(deprecated: This controller is deprecated and will be removed in the future)"
+  },
+  {
+   "name": "OciCloudAccount",
+   "description": "Onboard OCI accounts"
+  },
+  {
+   "name": "PlatformReports",
+   "description": ""
+  },
+  {
+   "name": "Regions",
+   "description": ""
+  },
+  {
+   "name": "Spectral",
+   "description": ""
+  },
+  {
+   "name": "RestrictedWorkloadClientModules",
+   "description": ""
+  },
+  {
+   "name": "WorkloadClientModules",
+   "description": ""
+  },
+  {
+   "name": "WorkloadTelemetry",
+   "description": ""
+  },
+  {
+   "name": "Integration",
+   "description": "Integration"
+  },
+  {
+   "name": "IntegrationInternal",
+   "description": ""
+  },
+  {
+   "name": "Notification",
+   "description": "Notification"
+  },
+  {
+   "name": "NotificationInternal",
+   "description": ""
+  },
+  {
+   "name": "AssetMetadataSyncNow",
+   "description": ""
+  },
+  {
+   "name": "BusinessPriorityModifier",
+   "description": "Business Priority Rules"
+  },
+  {
+   "name": "CustomRuleset",
+   "description": "Risk Management Rulesets"
+  },
+  {
+   "name": "Dspm",
+   "description": "DSPM Controller"
+  },
+  {
+   "name": "Exposure",
+   "description": ""
+  },
+  {
+   "name": "GroupRiskManagement",
+   "description": "Groups Risk Management"
+  },
+  {
+   "name": "RemediationActions",
+   "description": "Remediation Actions"
+  },
+  {
+   "name": "RiskModifiers",
+   "description": "Risk Modifiers"
+  },
+  {
+   "name": "SecurityEvents",
+   "description": ""
+  },
+  {
+   "name": "SimilarAssetGroups",
+   "description": ""
+  },
+  {
+   "name": "Waf",
+   "description": "WAF Protection"
+  },
+  {
+   "name": "AwsOrganizationManagement",
+   "description": "AwsOrganizationManagement"
+  },
+  {
+   "name": "AwsOrganizationManagementOnboarding",
+   "description": "AwsOrganizationManagementOnboarding"
+  },
+  {
+   "name": "AzureOrganizationManagement",
+   "description": "AzureOrganizationManagement"
+  },
+  {
+   "name": "GcpOrganizationManagement",
+   "description": "GcpOrganizationManagement"
+  },
+  {
+   "name": "OnboardingManagement",
+   "description": "OnboardingManagement"
+  },
+  {
+   "name": "InternalSBOM",
+   "description": ""
+  },
+  {
+   "name": "InternalVulnerabilityAccountStatsBatch",
+   "description": ""
+  },
+  {
+   "name": "InternalVulnerabilityCleanup",
+   "description": ""
+  },
+  {
+   "name": "InternalVulnerabilityPolicy",
+   "description": ""
+  },
+  {
+   "name": "InternalVulnerabilityScanResults",
+   "description": ""
+  },
+  {
+   "name": "SBOM",
+   "description": ""
+  },
+  {
+   "name": "SBOMExport",
+   "description": "SBOM Export"
+  },
+  {
+   "name": "Vulnerabilities",
+   "description": "Vulnerabilities"
+  },
+  {
+   "name": "VulnerabilityAssessment",
+   "description": ""
+  },
+  {
+   "name": "VulnerabilityExclusions",
+   "description": "Vulnerability Exclusions"
+  },
+  {
+   "name": "VulnerabilityPolicy",
+   "description": "Vulnerability Policy"
+  },
+  {
+   "name": "VulnerabilitySBOM",
+   "description": ""
+  },
+  {
+   "name": "CloudApplicationLoadBalancer",
+   "description": ""
+  },
+  {
+   "name": "CloudNetworkLoadBalancer",
+   "description": ""
+  },
+  {
+   "name": "GcpMachineImage",
+   "description": ""
+  },
+  {
+   "name": "OciCompartment",
+   "description": ""
+  },
+  {
+   "name": "AssetLabelsService",
+   "description": ""
+  },
+  {
+   "name": "AssetOpenFindings",
+   "description": ""
+  },
+  {
+   "name": "EntityTypes",
+   "description": "The entity types endpoint allows you to get the supported entity types and the platform they're supported for."
+  },
+  {
+   "name": "EvidencePath",
+   "description": "The evidence path endpoint allows you to get the evidence path for a given findingId."
+  },
+  {
+   "name": "Exclusions",
+   "description": "The exclusion endpoint provides API to perform CRUD operations on the resource."
+  },
+  {
+   "name": "IgnoreCves",
+   "description": "The ignore CVEs endpoint provides API to perform CRUD operations on the resource."
+  },
+  {
+   "name": "IgnoreMalwares",
+   "description": "The ignore malwares endpoint provides API to perform CRUD operations on the resource."
+  },
+  {
+   "name": "Rules",
+   "description": "The rules endpoint provides APIs to get the security rules data"
+  },
+  {
+   "name": "SecurityGraphIssues",
+   "description": "API for issue enrichments"
+  },
+  {
+   "name": "SecurityGraphQuery",
+   "description": "The query endpoint provides APIs to run queries (rules) to preview possible issues."
+  },
+  {
+   "name": "EntitySchema",
+   "description": "The entity schema endpoint presents schema of toxic issues entities."
+  },
+  {
+   "name": "SecurityIssues",
+   "description": "The Findings endpoint provides APIs query the findings store which contains findings such as security issues. It provides APIs to get, search and group findings."
+  },
+  {
+   "name": "AutomatedActions",
+   "description": "The Automated Actions resource provides API to perform CRUD operations on the resource."
+  }
+ ],
+ "components": {
+  "schemas": {
+   "Falconetix.Model.Magellan.MagellanAccountOffboardingModel": {
+    "type": "object",
+    "properties": {
+     "cloudAccountId": {
+      "type": "string"
+     },
+     "vendor": {
+      "enum": [
+       "AWS",
+       "Azure",
+       "GCP",
+       "Kubernetes",
+       "Alibaba",
+       "OCI"
+      ],
+      "type": "string"
+     },
+     "logTypes": {
+      "type": "array",
+      "items": {
+       "enum": [
+        "flowlogs",
+        "CloudTrail",
+        "Both",
+        "GuardDuty"
+       ],
+       "type": "string"
+      }
+     }
+    }
+   },
+   "Falconetix.Model.Magellan.MagellanOnboardingModel": {
+    "type": "object",
+    "properties": {
+     "cloudAccountId": {
+      "description": "AWS cloud account id",
+      "type": "string"
+     },
+     "bucketName": {
+      "description": "The name of the bucket that Magellan (logic) will use for the onboarding [case sensitive]",
+      "type": "string"
+     },
+     "isUnifiedOnboarding": {
+      "type": "boolean"
+     },
+     "rulesetsIds": {
+      "type": "array",
+      "items": {
+       "format": "int64",
+       "type": "integer"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.Views.Magellan.AwsLogicLogViewModel": {
+    "type": "object",
+    "properties": {
+     "cloudAccountId": {
+      "description": "AWS cloud account id",
+      "type": "string"
+     },
+     "isOnboarded": {
+      "description": "indicates whether the account was successfully onboarded to Magellan (Log.ic)",
+      "type": "boolean"
+     },
+     "bucketName": {
+      "description": "The name of the bucket that Magellan (logic) will use for the onboarding [case sensitive]",
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.Magellan.MagellanCustomOnboardingModel": {
+    "type": "object",
+    "properties": {
+     "bucketName": {
+      "type": "string"
+     },
+     "bucketAccountId": {
+      "type": "string"
+     },
+     "topicArn": {
+      "type": "string"
+     },
+     "cloudAccountIds": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "onboardingType": {
+      "enum": [
+       "flowlogs",
+       "CloudTrail",
+       "Both",
+       "GuardDuty"
+      ],
+      "type": "string"
+     },
+     "isUnifiedOnboarding": {
+      "description": "Boolean that check if the request was from UnifiedOnboarding method. not needed for API.",
+      "type": "boolean"
+     },
+     "rulesetsIds": {
+      "description": "List of rule sets.  not needed for API.",
+      "type": "array",
+      "items": {
+       "format": "int64",
+       "type": "integer"
+      }
+     },
+     "isSubscribedAlready": {
+      "description": "Boolean that check if the account connect to centralized bucket on other account.",
+      "type": "boolean"
+     },
+     "isAutoDiscoveryEnabled": {
+      "description": "Boolean that check if the bucket should support auto discovery of additional accounts",
+      "type": "boolean"
+     }
+    }
+   },
+   "Falconetix.Model.Magellan.MagellanOnboardingAzurePricingStorage.MagellanAlibabaActionTrailOnboardingModel": {
+    "type": "object",
+    "properties": {
+     "cloudAccountNumbers": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "Falconetix.Model.Magellan.MagellanOnboardingAzurePricingStorage.MagellanAzureNewStorageDetailsAfterArmModel": {
+    "type": "object",
+    "properties": {
+     "storageDetails": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "subscriptionId": {
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.Magellan.MagellanGcpOnboardingModel": {
+    "type": "object",
+    "properties": {
+     "cloudAccounts": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "logType": {
+      "enum": [
+       "NetworkTraffic",
+       "AccountActivity",
+       "Both"
+      ],
+      "type": "string"
+     }
+    }
+   },
+   "HttpStatusCode": {
+    "type": "string",
+    "description": "",
+    "x-enumNames": [
+     "Continue",
+     "SwitchingProtocols",
+     "Processing",
+     "EarlyHints",
+     "OK",
+     "Created",
+     "Accepted",
+     "NonAuthoritativeInformation",
+     "NoContent",
+     "ResetContent",
+     "PartialContent",
+     "MultiStatus",
+     "AlreadyReported",
+     "IMUsed",
+     "MultipleChoices",
+     "Ambiguous",
+     "MovedPermanently",
+     "Moved",
+     "Found",
+     "Redirect",
+     "SeeOther",
+     "RedirectMethod",
+     "NotModified",
+     "UseProxy",
+     "Unused",
+     "TemporaryRedirect",
+     "RedirectKeepVerb",
+     "PermanentRedirect",
+     "BadRequest",
+     "Unauthorized",
+     "PaymentRequired",
+     "Forbidden",
+     "NotFound",
+     "MethodNotAllowed",
+     "NotAcceptable",
+     "ProxyAuthenticationRequired",
+     "RequestTimeout",
+     "Conflict",
+     "Gone",
+     "LengthRequired",
+     "PreconditionFailed",
+     "RequestEntityTooLarge",
+     "RequestUriTooLong",
+     "UnsupportedMediaType",
+     "RequestedRangeNotSatisfiable",
+     "ExpectationFailed",
+     "MisdirectedRequest",
+     "UnprocessableEntity",
+     "UnprocessableContent",
+     "Locked",
+     "FailedDependency",
+     "UpgradeRequired",
+     "PreconditionRequired",
+     "TooManyRequests",
+     "RequestHeaderFieldsTooLarge",
+     "UnavailableForLegalReasons",
+     "InternalServerError",
+     "NotImplemented",
+     "BadGateway",
+     "ServiceUnavailable",
+     "GatewayTimeout",
+     "HttpVersionNotSupported",
+     "VariantAlsoNegotiates",
+     "InsufficientStorage",
+     "LoopDetected",
+     "NotExtended",
+     "NetworkAuthenticationRequired"
+    ],
+    "enum": [
+     "Continue",
+     "SwitchingProtocols",
+     "Processing",
+     "EarlyHints",
+     "OK",
+     "Created",
+     "Accepted",
+     "NonAuthoritativeInformation",
+     "NoContent",
+     "ResetContent",
+     "PartialContent",
+     "MultiStatus",
+     "AlreadyReported",
+     "IMUsed",
+     "MultipleChoices",
+     "MultipleChoices",
+     "MovedPermanently",
+     "MovedPermanently",
+     "Found",
+     "Found",
+     "SeeOther",
+     "SeeOther",
+     "NotModified",
+     "UseProxy",
+     "Unused",
+     "RedirectKeepVerb",
+     "RedirectKeepVerb",
+     "PermanentRedirect",
+     "BadRequest",
+     "Unauthorized",
+     "PaymentRequired",
+     "Forbidden",
+     "NotFound",
+     "MethodNotAllowed",
+     "NotAcceptable",
+     "ProxyAuthenticationRequired",
+     "RequestTimeout",
+     "Conflict",
+     "Gone",
+     "LengthRequired",
+     "PreconditionFailed",
+     "RequestEntityTooLarge",
+     "RequestUriTooLong",
+     "UnsupportedMediaType",
+     "RequestedRangeNotSatisfiable",
+     "ExpectationFailed",
+     "MisdirectedRequest",
+     "UnprocessableEntity",
+     "UnprocessableEntity",
+     "Locked",
+     "FailedDependency",
+     "UpgradeRequired",
+     "PreconditionRequired",
+     "TooManyRequests",
+     "RequestHeaderFieldsTooLarge",
+     "UnavailableForLegalReasons",
+     "InternalServerError",
+     "NotImplemented",
+     "BadGateway",
+     "ServiceUnavailable",
+     "GatewayTimeout",
+     "HttpVersionNotSupported",
+     "VariantAlsoNegotiates",
+     "InsufficientStorage",
+     "LoopDetected",
+     "NotExtended",
+     "NetworkAuthenticationRequired"
+    ]
+   },
+   "ArmApiResponseDetails": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "arm",
+     "warnings"
+    ],
+    "properties": {
+     "arm": {
+      "type": "string"
+     },
+     "warnings": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/ArmApiWarning"
+      }
+     }
+    }
+   },
+   "ArmApiWarning": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "warning",
+     "storagesNames"
+    ],
+    "properties": {
+     "warning": {
+      "type": "string"
+     },
+     "storagesNames": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "CentralizedNetworkTrafficArmApiRequest": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "subscriptionId",
+     "storagesNames",
+     "returnJsonUrl"
+    ],
+    "properties": {
+     "subscriptionId": {
+      "type": "string",
+      "description": "Azure Subscription ID of the Storage Accounts"
+     },
+     "storagesNames": {
+      "type": "array",
+      "description": "List of storages to be onboarded to Intelligence Network Traffic",
+      "items": {
+       "type": "string"
+      }
+     },
+     "returnJsonUrl": {
+      "type": "boolean",
+      "description": "Indicates if to return json or full ARM template URL. Deault value is true, so the API will return a json URL.",
+      "default": true
+     }
+    }
+   },
+   "AccountActivityArmApiRequest": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "subscriptionId",
+     "storagesDetails",
+     "returnJsonUrl"
+    ],
+    "properties": {
+     "subscriptionId": {
+      "type": "string",
+      "description": "Azure Subscription ID of the Storage Accounts"
+     },
+     "storagesDetails": {
+      "type": "array",
+      "description": "List of storages to be onboarded to Intelligence Account Activity",
+      "items": {
+       "$ref": "#/components/schemas/AccountActivityStorageDetails"
+      }
+     },
+     "returnJsonUrl": {
+      "type": "boolean",
+      "description": "Indicates whether to return json or full ARM template URL. The deault value is true, meaning the API will return a json URL.",
+      "default": true
+     }
+    }
+   },
+   "AccountActivityStorageDetails": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "logTypes",
+     "storageName"
+    ],
+    "properties": {
+     "logTypes": {
+      "type": "array",
+      "description": "[Required] List of log types to be onboarded to Intelligence Account Activity",
+      "items": {
+       "$ref": "#/components/schemas/CdrAzureActivityLogTypeEnum"
+      }
+     },
+     "storageName": {
+      "type": "string",
+      "description": "[Required] Storage Account Name"
+     }
+    }
+   },
+   "CdrAzureActivityLogTypeEnum": {
+    "type": "string",
+    "description": "",
+    "x-enumNames": [
+     "ActivityLogs",
+     "SignIns",
+     "AuditLogs",
+     "StorageAccounts"
+    ],
+    "enum": [
+     "ActivityLogs",
+     "SignIns",
+     "AuditLogs",
+     "StorageAccounts"
+    ]
+   },
+   "MagellanAzureNetworkActivityOnboardingArmModelForApi": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "subscriptionId",
+     "nsgsDetails"
+    ],
+    "properties": {
+     "subscriptionId": {
+      "type": "string"
+     },
+     "nsgsDetails": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/MagellanAzureFlowLogsParamsFromCliForApi"
+      }
+     }
+    }
+   },
+   "MagellanAzureFlowLogsParamsFromCliForApi": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "rgName",
+     "nsgsNames"
+    ],
+    "properties": {
+     "rgName": {
+      "type": "string"
+     },
+     "nsgsNames": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "RemediationExecuteResponseModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "workItemsTriggerStatuses"
+    ],
+    "properties": {
+     "workItemsTriggerStatuses": {
+      "type": "array",
+      "default": [],
+      "items": {
+       "$ref": "#/components/schemas/WorkItemsTriggerStatus"
+      }
+     }
+    }
+   },
+   "WorkItemsTriggerStatus": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "errorMessage",
+     "isTriggered",
+     "workItemExecutionId",
+     "workItemFindingKey"
+    ],
+    "properties": {
+     "errorMessage": {
+      "type": "string",
+      "nullable": true
+     },
+     "isTriggered": {
+      "type": "boolean"
+     },
+     "workItemExecutionId": {
+      "type": "string"
+     },
+     "workItemFindingKey": {
+      "type": "string"
+     }
+    }
+   },
+   "RemediationExecuteRequestModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "triggerEndpoint",
+     "cloudbots",
+     "findings"
+    ],
+    "properties": {
+     "triggerEndpoint": {
+      "type": "string"
+     },
+     "cloudbots": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/CloudBot"
+      }
+     },
+     "findings": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Finding2"
+      }
+     }
+    }
+   },
+   "CloudBot": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "name",
+     "params"
+    ],
+    "properties": {
+     "name": {
+      "type": "string",
+      "nullable": true
+     },
+     "params": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "Finding2": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "key"
+    ],
+    "properties": {
+     "key": {
+      "type": "string"
+     }
+    }
+   },
+   "StatusGeneralDetails": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "eventTime",
+     "status",
+     "remediation",
+     "findingKey",
+     "botMessage"
+    ],
+    "properties": {
+     "eventTime": {
+      "type": "string"
+     },
+     "status": {
+      "type": "string"
+     },
+     "remediation": {
+      "type": "string"
+     },
+     "findingKey": {
+      "type": "string"
+     },
+     "botMessage": {
+      "type": "string"
+     }
+    }
+   },
+   "FullReportResponseModel": {
+    "allOf": [
+     {
+      "$ref": "#/components/schemas/BaseReportModel"
+     },
+     {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "scheduleId",
+       "accountId",
+       "scheduledCron",
+       "lastRun",
+       "nextRun"
+      ],
+      "properties": {
+       "scheduleId": {
+        "type": "integer",
+        "format": "int32"
+       },
+       "accountId": {
+        "type": "integer",
+        "format": "int32"
+       },
+       "scheduledCron": {
+        "type": "string"
+       },
+       "lastRun": {
+        "type": "string"
+       },
+       "nextRun": {
+        "type": "string"
+       }
+      }
+     }
+    ]
+   },
+   "BaseReportModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "reportName",
+     "reportType",
+     "filters",
+     "notifications",
+     "scheduleDetails"
+    ],
+    "properties": {
+     "reportName": {
+      "type": "string"
+     },
+     "reportType": {
+      "type": "string"
+     },
+     "filters": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/ReportFiltersItem"
+      }
+     },
+     "notifications": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/ReportNotificationItem"
+      }
+     },
+     "scheduleDetails": {
+      "$ref": "#/components/schemas/ReportScheduleDetails"
+     }
+    }
+   },
+   "ReportFiltersItem": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "name",
+     "value"
+    ],
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "value": {}
+    }
+   },
+   "ReportNotificationItem": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "type",
+     "value"
+    ],
+    "properties": {
+     "type": {
+      "type": "string"
+     },
+     "value": {
+      "type": "string"
+     }
+    }
+   },
+   "ReportScheduleDetails": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "minuteOfHour",
+     "hourOfDay",
+     "dayOfWeek",
+     "dayOfMonth"
+    ],
+    "properties": {
+     "minuteOfHour": {
+      "type": "integer",
+      "format": "int32"
+     },
+     "hourOfDay": {
+      "type": "integer",
+      "format": "int32"
+     },
+     "dayOfWeek": {
+      "type": "integer",
+      "format": "int32",
+      "nullable": true
+     },
+     "dayOfMonth": {
+      "type": "integer",
+      "format": "int32",
+      "nullable": true
+     }
+    }
+   },
+   "ReportOperationResponse": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "message"
+    ],
+    "properties": {
+     "message": {
+      "type": "string"
+     }
+    }
+   },
+   "DeleteReportRequest": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "scheduleIds"
+    ],
+    "properties": {
+     "scheduleIds": {
+      "type": "array",
+      "items": {
+       "type": "integer",
+       "format": "int32"
+      }
+     }
+    }
+   }
+  },
+  "securitySchemes": {
+   "basic": {
+    "type": "http",
+    "scheme": "basic"
+   }
+  }
+ },
+ "security": [
+  {
+   "basic": []
+  }
+ ],
+ "x-readme": {
+  "explorer-enabled": true,
+  "proxy-enabled": true
+ }
+}

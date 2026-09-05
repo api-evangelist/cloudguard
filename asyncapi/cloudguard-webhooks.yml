@@ -1,0 +1,215 @@
+generated: '2026-09-05'
+method: derived
+source: openapi/cloudguard-administration-openapi.yml + openapi/cloudguard-events-openapi.yml + https://docs.cgn.portal.checkpoint.com/reference
+type: webhook-catalog
+description: 'CloudGuard ships a real outbound event surface - Continuous Compliance Notifications - but publishes
+  no AsyncAPI document and no event-payload schema for it. This catalog is derived from the notification and integration
+  models in the provider-published OpenAPI. It records what an integrator can configure, and is explicit about what
+  CloudGuard does NOT publish: the shape of the payload it will POST to your endpoint.'
+asyncapi_published: false
+asyncapi_note: No /asyncapi.json or /asyncapi.yaml on any CloudGuard host, no event catalog on the developer hub,
+  and no AsyncAPI document in the CheckPointSW or dome9 GitHub organizations. Not fabricated here.
+delivery:
+  model: configured subscription - the consumer registers a notification, CloudGuard pushes on matching events
+  management_api:
+  - operation: ContinuousComplianceNotification_Get_get_/v2/Compliance/ContinuousComplianceNotification
+    method: get
+    purpose: List configured notifications
+  - operation: ContinuousComplianceNotification_Post
+    method: post
+    purpose: Create a notification (target + filter)
+  - operation: ContinuousComplianceNotification_Put
+    method: put
+    purpose: Update a notification
+  - operation: ContinuousComplianceNotification_Delete
+    method: delete
+    purpose: Delete a notification
+  - operation: ContinuousComplianceNotification_PublishOpenedFindings_post_/v2/Compliance/ContinuousComplianceNotification/PublishOpenedFindings/{id}
+    method: post
+    purpose: Replay currently-open findings through a notification target
+  - operation: Integration_GetAllIntegrations_get_/v2/integration
+    method: get
+    purpose: List configured delivery integrations
+  - operation: Notification_Get_get_/v2/notification
+    method: get
+    purpose: List notifications in the newer integration-settings model
+  circuit_breaker:
+    operations:
+    - /v2/Compliance/ContinuousComplianceNotification/CircuitBreaker
+    - /v2/Compliance/ContinuousComplianceNotification/CircuitBreaker/{id}
+    - /v2/Compliance/ContinuousComplianceNotification/CircuitBreaker/{id}/{integrationType}
+    note: CloudGuard trips a circuit breaker per notification/integration when a delivery target keeps failing,
+      and exposes it for inspection and reset. This is the closest thing to published delivery-reliability semantics;
+      no retry count, backoff schedule or replay window is documented.
+channels:
+- name: change-detection
+  trigger: A compliance finding is opened, changed or closed by continuous assessment
+  model: ChangeDetectionNotificationViewModel
+  targets:
+  - email
+  - emailPerFinding
+  - sns
+  - webhook
+  - slack
+  - teams
+  - eventarc
+  - awsSecurityHub
+  - azureSecurityCenter
+  - externalTicketing
+  filter:
+    model: ContinuousComplianceNotificationFilterViewModel
+    by:
+    - severities
+    - entityTypes
+    - entityTags
+    - entityNames
+    - entityIds
+  occurrence_control: sendOnEachOccurrence
+- name: scheduled-report
+  trigger: Cron schedule
+  model: ScheduledReportNotificationViewModel
+  schedule:
+    model: ReportScheduleData
+    fields:
+    - cronExpression
+    - type
+    - isIntelligence
+    - recipients
+  targets:
+  - email
+- name: alerts-console
+  trigger: Finding raised
+  targets:
+  - CloudGuard alerts console (in-product)
+- name: account-events (email)
+  trigger: Platform events
+  model: EmailNotificationsDescriptor
+  events:
+  - serverCreatedOrDeleted
+  - serverStatusChange
+  - serverUpdated
+  - awsProfileCreatedOrDeleted
+  - cloudTamperDetected
+  - awsInvalidCredentials
+  - policyChanges
+  - cloudExternalChanges
+  - fimChanges
+  - invitationEvent
+  - leaseEvent
+  - userCreatedOrDeleted
+  - userPermissionsChange
+  targets:
+  - email
+  note: The most complete published event vocabulary CloudGuard has - but it is email-only, not deliverable to a
+    webhook.
+- name: compliance-content-events (email)
+  model: ComplianceEmailNotificationsDescriptor
+  events:
+  - bundleAdded
+  - bundleDeleted
+  - ruleAdded
+  - ruleChanged
+  - ruleDeleted
+  targets:
+  - email
+- name: iam-safe-events (email)
+  model: IamSafeEmailNotificationsDescriptor
+  events:
+  - leaseEvent
+  - leaseNotificationsOthers
+  - tamperDetected
+  - enrollmentEvent
+  - iamSafetyAccount
+  - iamSafetyInvalidCredentials
+  targets:
+  - email
+- name: kubernetes-events (email)
+  model: KubernetesEmailNotificationsDescriptor
+  events:
+  - agentStatusDegradation
+  targets:
+  - email
+webhook_target:
+  model: WebhookNotificationDataViewModel
+  configuration_fields:
+  - name: url
+    description: Endpoint CloudGuard POSTs to.
+  - name: advancedUrl
+    description: Alternate URL for the advanced payload form.
+  - name: httpMethod
+    description: HTTP method CloudGuard uses for delivery.
+  - name: authMethod
+    description: Authentication scheme applied to the outbound call.
+  - name: username
+    description: Credential for the outbound call.
+  - name: password
+    description: Credential for the outbound call.
+  - name: formatType
+    description: Payload format selector.
+  - name: payloadFormat
+    description: Payload template.
+  - name: ignoreCertificate
+    description: Skip TLS certificate validation on the outbound call.
+  payload_schema_published: false
+  payload_note: CloudGuard lets the customer choose formatType / payloadFormat but publishes no schema for any of
+    them. A consumer cannot write a typed receiver from the contract - the only published response model is WebhookResponseMessage
+    {requestTime, responseContent}, which describes what CloudGuard records about YOUR response, not what it sends.
+  signing:
+    published: false
+    note: No HMAC signature header, timestamp or replay-protection scheme is documented. Authentication of the delivery
+      is whatever the customer configures via authMethod/username/password.
+other_delivery_integrations:
+- type: sns
+  model: SnsDataNotificationViewModel
+  fields:
+  - snsTopicArn
+  - snsOutputFormat
+- type: aws-security-hub
+  model: AwsSecurityHubIntegrationNotificationViewModel
+  fields:
+  - externalAccountId
+  - region
+- type: azure-security-center
+  model: AzureSecurityCenterIntegrationNotificationViewModel
+  fields:
+  - subscription
+- type: gcp-security-command-center
+  model: GcpSecurityCommandCenterIntegrationViewModel
+  fields:
+  - state
+  - projectId
+  - sourceId
+- type: gcp-eventarc
+  model: EventarcNotificationDataViewModel
+  fields:
+  - channelConnectionId
+- type: slack
+  model: SlackNotificationDataViewModel
+  fields:
+  - url
+- type: teams
+  model: TeamsNotificationDataViewModel
+  fields:
+  - url
+- type: ticketing (Jira and others)
+  model: TicketingSystemNotificationDataViewModel
+  fields:
+  - systemType
+  - shouldCloseTickets
+  - domain
+  - user
+  - pass
+  - projectKey
+  - issueType
+  related_operation: /v2/Compliance/ContinuousComplianceNotification/webhookJiraTokens
+- type: aws-sns-subscription (inbound cloud events)
+  operations:
+  - /v2/CloudSnsSubscription
+  - /v2/CloudSnsSubscription/{cloudAccountId}
+  note: 'Inbound: CloudGuard subscribes to the customer''s CloudTrail SNS topic for real-time change detection.
+    The opposite direction to the notification targets above.'
+gaps:
+- No AsyncAPI document.
+- No published webhook payload schema for any formatType.
+- No delivery signature or replay protection documented.
+- No retry/backoff policy documented beyond the existence of a circuit breaker.

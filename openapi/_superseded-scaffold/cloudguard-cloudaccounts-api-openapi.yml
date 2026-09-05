@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Check Point CloudGuard CNAPP REST CloudAccounts API
+  title: Check Point CloudGuard CNAPP REST Cloud Accounts API
   description: 'Best-effort OpenAPI 3.1 description of the Check Point CloudGuard CNAPP
 
     REST API (originally Dome9). The API is used to onboard cloud accounts,

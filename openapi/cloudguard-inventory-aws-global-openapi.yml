@@ -1,0 +1,972 @@
+info:
+  title: Inventory - AWS Global
+  version: v2
+openapi: 3.0.0
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+paths:
+  /v2/AwsOrganization/Organizations:
+    get:
+      tags:
+      - Aws Organizations
+      operationId: AwsOrganizations_GetOrganizations_get_/v2/AwsOrganization/Organizations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.AwsOrganizationViewModel'
+      description: ''
+      summary: Get Organizations
+  /v2/AwsOrganization/Accounts:
+    get:
+      tags:
+      - Aws Organizations
+      operationId: AwsOrganizations_GetAccounts_get_/v2/AwsOrganization/Accounts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.AwsOrganizationAccountViewModel'
+      description: ''
+      summary: Get Accounts
+  /v2/CloudRegion:
+    get:
+      tags:
+      - Cloud Region
+      operationId: CloudRegion_Get_get_/v2/CloudRegion
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.CloudAwsRegion.CloudRegionViewModel'
+      description: ''
+      summary: Get
+  /v2/organizationalunit/view:
+    get:
+      tags:
+      - Organizational Unit
+      summary: Get Organizational Units View
+      operationId: OrganizationalUnit_GetOrganizationalUnitsViewAsync_get_/v2/organizationalunit/view
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Falconetix.Model.OrganizationalUnit.OrganizationalUnitNodeViewModel'
+      description: Get organizational unit view entities
+  /v2/organizationalunit/GetFlatOrganizationalUnits:
+    get:
+      tags:
+      - Organizational Unit
+      summary: Get Flat Organizational Units
+      operationId: OrganizationalUnit_GetFlatOrganizationalUnitsAsync_get_/v2/organizationalunit/GetFlatOrganizationalUnits
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Falconetix.Model.OrganizationalUnit.OrganizationalUnitViewModel'
+      description: Get all organizational units flat
+  /v2/organizationalunit/{id}/DeleteForce:
+    delete:
+      tags:
+      - Organizational Unit
+      summary: Delete Force Organizational Unit By Id
+      operationId: OrganizationalUnit_DeleteForceOrganizationalUnitByIdAsync_delete_/v2/organizationalunit/{id}/DeleteForce
+      parameters:
+      - name: id
+        in: path
+        description: Id (Guid) of the organizational unit
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.BL.Std.Helpers.TreeNode_Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem_System.String_'
+      description: Delete an organizational unit by its id and attach its cloud accounts to the the root organizational unit,
+        and delete all its linked policies
+  /v2/organizationalunit/deleteAll:
+    delete:
+      tags:
+      - Organizational Unit
+      summary: Delete All Organizational Units
+      operationId: OrganizationalUnit_DeleteAllOrganizationalUnitsAsync_delete_/v2/organizationalunit/deleteAll
+      responses:
+        '204':
+          description: No Content
+      description: Delete all organizational units, detach all clouad accounts from the organizational unit they belong to
+        and attach them to the root organizational unit
+  /v2/OrganizationalUnit:
+    get:
+      tags:
+      - Organizational Unit
+      summary: Get
+      operationId: OrganizationalUnit_Get_get_/v2/OrganizationalUnit
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.BL.Std.Helpers.TreeNode_Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem_System.String_'
+      description: Get all the organizational units of the account as tree
+    post:
+      tags:
+      - Organizational Unit
+      summary: Post Organizational Unit
+      operationId: OrganizationalUnit_PostOrganizationalUnitAsync_post_/v2/OrganizationalUnit
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.BL.Std.Helpers.TreeNode_Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem_System.String_'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.BL.Std.Services.OrganizationalUnit.UpdateOrganizationalUnitViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.BL.Std.Services.OrganizationalUnit.UpdateOrganizationalUnitViewModel'
+        description: the organizational unit data. Requires name. path is optional
+        required: true
+      description: Create a new Organizational unit. Only name is required. Path is optional and should be in the format of
+        'parent-id'.'parent-id'...
+  /v2/OrganizationalUnit/{id}:
+    get:
+      tags:
+      - Organizational Unit
+      summary: Get
+      operationId: OrganizationalUnit_Get_get_/v2/OrganizationalUnit/{id}
+      parameters:
+      - name: id
+        in: path
+        description: requested organizational unit id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.BL.Std.Helpers.TreeNode_Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem_System.String_'
+      description: Get an organizational unit by its id
+    put:
+      tags:
+      - Organizational Unit
+      summary: Update By Id
+      operationId: OrganizationalUnit_UpdateByIdAsync_put_/v2/OrganizationalUnit/{id}
+      parameters:
+      - name: id
+        in: path
+        description: Id (Guid) of the organizational unit
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.BL.Std.Helpers.TreeNode_Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem_System.String_'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.BL.Std.Services.OrganizationalUnit.UpdateOrganizationalUnitViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.BL.Std.Services.OrganizationalUnit.UpdateOrganizationalUnitViewModel'
+        description: update data for the organizational unit
+        required: true
+      description: Update an organizational unit by its id
+    delete:
+      tags:
+      - Organizational Unit
+      summary: Delete Organizational Unit By Id
+      operationId: OrganizationalUnit_DeleteOrganizationalUnitByIdAsync_delete_/v2/OrganizationalUnit/{id}
+      parameters:
+      - name: id
+        in: path
+        description: Id (Guid) of the organizational unit
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.BL.Std.Helpers.TreeNode_Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem_System.String_'
+      description: Delete an organizational unit by its id and attach its cloud accounts to the the root organizational unit
+tags:
+- name: AccessLease
+  description: Access Leases
+- name: AccessLeaseInvitation
+  description: Access Lease Invitations
+- name: Account
+- name: AccountLimitation
+- name: AccountPollingInterval
+- name: AccountRegistration
+- name: AccountTrust
+  description: "Allow you to define a trust between accounts in order to allow users in a certain account to make changes\
+    \ and operation on another account.\nActions can be taken on a trustee account via a role which is defined on it. \nThe\
+    \ role should be assumed by a user from the trusted account."
+- name: Agent
+- name: Agentless
+  description: Agentless Workload Posture
+- name: Alert
+- name: AlibabaCloudAccount
+  description: Alibaba Cloud Accounts
+- name: Application
+- name: Assessment
+  description: Run and View Compliance Assessments
+- name: AssessmentHistory
+- name: AssessmentHistoryV2
+  description: Compliance Assessment History
+- name: Audit
+  description: Audit logs
+- name: Auth
+- name: Aws Cloud Account
+  description: Manage AWS Cloud Accounts
+- name: AwsAppSync
+- name: AwsBackupVault
+- name: AwsConfigSettings
+- name: AwsCustomerGateway
+- name: AwsEcsTask
+- name: AwsEks
+- name: AwsElasticIp
+- name: AwsElasticsearchDomain
+- name: AwsEmrCluster
+- name: AwsInspectorFindings
+- name: AwsInspectorRuns
+- name: AwsLoadBalancersNetworkInterfaces
+- name: AwsOrganizations
+- name: AwsQuickSightAccount
+- name: AwsQuickSightGroup
+- name: AwsQuickSightUser
+- name: AwsQuickSightVpcConnections
+- name: AwsSageMaker
+- name: AwsSecurityGroup
+- name: AwsSecurityGroupPolicy
+- name: AwsSecurityGroupsIndex
+- name: AwsUnifiedOnboarding
+  description: Aws Unified Onboarding
+- name: AwsVpcEndpoint
+- name: AzureAnalysisService
+- name: AzureApplicationGateway
+- name: AzureApplicationSecurityGroup
+- name: AzureCloudAccount
+  description: Onboard Azure accounts
+- name: AzureComputeGalleryImage
+- name: AzureCosmosDbAccount
+- name: AzureDisk
+- name: AzureFunction
+- name: AzureKeyVault
+- name: AzureKubernetes
+- name: AzureLoadBalancer
+- name: AzureLock
+- name: AzureLogicApp
+- name: AzureLogProfile
+- name: AzurePolicyAssignment
+- name: AzureRedisCache
+- name: AzureResourceGroup
+- name: AzureRouteTable
+- name: AzureSecurityGroup
+- name: AzureSecurityGroupPolicy
+  description: Azure Network Security Group Policies
+- name: AzureSnapshot
+- name: AzureSqlDb
+- name: AzureSqlServer
+- name: AzureStorageAccounts
+- name: AzureStorageBlobContainer
+- name: AzureSubnet
+- name: AzureUser
+- name: AzureVirtualMachine
+- name: AzureVirtualMachineImage
+- name: AzureVirtualMachineScaleSet
+- name: AzureVirtualNetworkPeering
+- name: AzureWebApp
+- name: BigTable
+- name: BillableAssets
+  description: Retrieve billable assets data
+- name: BillableAssetsReport
+  description: Billable Assets Report
+- name: Billing
+- name: Clarity
+- name: CloudAcmCertificate
+- name: CloudAmi
+- name: CloudAutoScalingGroup
+- name: CloudDbInstance
+- name: CloudDirectConnect
+- name: CloudDynamoDb
+- name: CloudEcsCluster
+- name: CloudEcsService
+  description: Cloud Ecs Service
+- name: CloudEcsTaskDefinition
+- name: CloudEfs
+- name: CloudElastiCacheCluster
+- name: CloudFlowLogs
+- name: CloudFrontDistribution
+- name: CloudGuardDutyDetector
+- name: CloudIamAccountSummary
+- name: CloudIamCredentialReport
+- name: CloudIamGroup
+- name: CloudIamPasswordPolicy
+- name: CloudIamPolicy
+- name: CloudIamRole
+- name: CloudIamServerCertificate
+- name: CloudIamUser
+- name: CloudIamVirtualMfaDevice
+- name: CloudInfraUser
+  description: CloudInfra Users
+- name: CloudInstance
+  description: Cloud Instances
+- name: CloudInternetGateway
+- name: CloudKinesisStream
+- name: CloudKms
+- name: CloudKmsAlias
+- name: CloudLambdaFunction
+  description: Cloud Lambda Function
+- name: CloudLoadBalancer
+- name: CloudLogGroups
+- name: CloudMetricAlarm
+- name: CloudNacl
+- name: CloudNetworkInterfaces
+- name: CloudRedshiftCluster
+- name: CloudRegion
+- name: CloudRoute53Domain
+- name: CloudRoute53HostedZone
+- name: CloudRoute53RecordSetGroup
+- name: CloudRouteTable
+- name: CloudS3Bucket
+  description: ''
+- name: CloudSecurityGroup
+  description: AWS Security Groups
+- name: CloudSnsSubscription
+- name: CloudSnsTopic
+- name: CloudSql
+- name: CloudSqs
+  description: ''
+- name: CloudSubnet
+- name: CloudTrail
+  description: CloudTrail
+- name: CloudVolume
+- name: CloudVpc
+- name: CloudVpcPeeringConnection
+- name: CloudVPNConnection
+- name: CloudVpnGateway
+- name: CloudWAFRegional
+- name: CloudWatchEventsRule
+  description: CloudWatchEventsRule
+- name: ComplianceExclusion
+  description: Compliance Exclusions
+- name: CompliancePolicy
+- name: ComplianceRemediation
+  description: Compliance Remediation
+- name: ComplianceRemediationOld
+  description: Compliance Remediation - DEPRECATED - please use /Compliance/Remediation instead
+- name: ComplianceRuleset
+  description: ComplianceRuleset
+- name: ContinuousComplianceNotification
+  description: Continuous Compliance Notification Policies
+- name: ContinuousCompliancePolicy
+- name: ContinuousCompliancePolicyV2
+  description: Continuous Compliance Policies
+- name: EmergencyPolicy
+- name: EntityFetchStatus
+- name: EntityReport
+- name: ExclusionOld
+  description: Compliance Exclusions - DEPRECATED - please use /Compliance/Exclusion instead
+- name: ExternalFindings
+  description: Findings from External (3rd-party) systems
+- name: Fim
+- name: Finding
+  description: Compliance Findings
+- name: FindingsReport
+  description: Compliance Findings csv reports
+- name: GcpBigQuery
+- name: GcpDisk
+- name: GcpGkeCluster
+- name: GcpImage
+- name: GcpKmsKeyRing
+- name: GcpProjectInfo
+  description: Google Cloud Project Info
+- name: GcpPubSub
+- name: GcpSecurityGroup
+- name: GcpServiceAccount
+- name: GcpStorageBucket
+- name: GenericList
+  description: Generic Lists
+- name: GlobalSearch
+  description: Global search for all CloudGuard services
+- name: GoogleCloudAccount
+  description: Google Cloud Accounts
+- name: GoogleCloudFirewallRule
+- name: GoogleCloudFunction
+- name: GoogleCloudIamPolicy
+- name: GoogleCloudNetwork
+  description: Google Cloud Network
+- name: GoogleCloudSubnet
+- name: GoogleCloudVMInstance
+- name: Home
+- name: IamSafeLease
+  description: IAM Safety Leases
+- name: IncidentsStatus
+- name: InfrastructureAssessment
+- name: Intelligence
+  description: CloudGuard Intelligence allows you to visualize and analyze Account Activity and Network Traffic into and out
+    of your cloud environment.
+- name: IpAddressMetadata
+  description: IP Address Metadata
+- name: IpList
+  description: IP Lists
+- name: LicenseActivator
+- name: Licensing
+- name: ManagedGenericList
+- name: Msp
+- name: OrganizationalUnit
+  description: Manage Organizational Units
+- name: Permission
+- name: ProtectedAsset
+- name: ProtectedAssetsReport
+  description: Compliance Protected Asset csv reports
+- name: ProtegoStatistics
+  description: Protego statistics by dates
+- name: Role
+  description: CloudGuard Roles
+- name: RulesEngine
+- name: SecurityGroup
+- name: Serverless
+- name: ServerlessPolicy
+  description: Serverless policy
+- name: ServiceAccount
+  description: CloudGuard Service Accounts
+- name: ServicePort
+- name: Settings
+  description: Account Settings
+- name: ShiftLeft
+  description: ShiftLeft
+- name: SystemHealth
+- name: TenableAccount
+  description: Onboard Tenable accounts
+- name: User
+  description: CloudGuard account users
+- name: BaseImage
+  description: ''
+- name: ContainerRegistryAccount
+  description: Container Registry Account
+- name: ContainerRegistryAccountInternal
+  description: ''
+- name: ContainerRegistryImageAssurancePolicy
+  description: '(deprecated: move to use /v2/vulnerability/policy)'
+- name: Dashboard
+  description: ''
+- name: EcsConfiguration
+  description: ''
+- name: EcsImageAssurancePolicy
+  description: '(deprecated: move to use /v2/vulnerability/policy)'
+- name: EcsImageScan
+  description: ECS Image Scan Configuration
+- name: Environment
+  description: ''
+- name: ImageAdmissionExclusion
+  description: '[Preview feature] Kubernetes Image admission exclusions'
+- name: ImageAssuranceDashboard
+  description: ''
+- name: ImageAssuranceReport
+  description: ''
+- name: KubernetesAccount
+  description: Kubernetes Accounts
+- name: KubernetesAccountInternal
+  description: ''
+- name: KubernetesAccountOld
+  description: '(deprecated: this api is deprecated, please use ''/v2/kubernetes/account'' instead)'
+- name: KubernetesAdmissionControl
+  description: Kubernetes Admission Control
+- name: KubernetesAdmissionControlPoliciesSummary
+  description: ''
+- name: KubernetesClusterRole
+  description: ''
+- name: KubernetesImage
+  description: ''
+- name: KubernetesImageAdmissionExclusion
+  description: '[Preview feature] Kubernetes Image admission exclusions (deprecated: this api is deprecated, please use ''/v2/kubernetes/admissionControl/imageAdmissionExclusion''
+    instead)'
+- name: KubernetesImageAssurance
+  description: Kubernetes Image Assurance
+- name: KubernetesImageAssurancePolicy
+  description: 'Kubernetes Image Assurance Policy (deprecated: move to use /v2/vulnerability/policy)'
+- name: KubernetesIngress
+  description: ''
+- name: KubernetesNetworkPolicy
+  description: ''
+- name: KubernetesNode
+  description: ''
+- name: KubernetesPod
+  description: ''
+- name: KubernetesPodGroup
+  description: Kubernetes Pod Groups
+- name: KubernetesPodGroupOwner
+  description: ''
+- name: KubernetesPodSecurityPolicy
+  description: ''
+- name: KubernetesRole
+  description: ''
+- name: KubernetesRuntimeAssurance
+  description: ''
+- name: KubernetesService
+  description: ''
+- name: KubernetesServiceAccount
+  description: ''
+- name: Shiftleft
+  description: ''
+- name: ShiftLeftAccount
+  description: ShiftLeft
+- name: ShiftLeftPolicy
+  description: 'ShiftLeft Policy (deprecated: move to use /v2/vulnerability/policy)'
+- name: Workload
+  description: ''
+- name: WorkloadAccountSetting
+  description: Workload Account Setting
+- name: WorkloadChangeMonitoring
+  description: ''
+- name: WorkloadImageAssurance
+  description: Workload Image Assurance
+- name: WorkloadImageAssuranceInternal
+  description: ''
+- name: WorkloadInternal
+  description: ''
+- name: WorkloadRuntimeProtection
+  description: ''
+- name: Alerts
+  description: ''
+- name: Azure
+  description: ''
+- name: FindingOrchestration
+  description: ''
+- name: FindingsUpdate
+  description: ''
+- name: Gcp
+  description: ''
+- name: Remediation
+  description: Remediation Actions
+- name: Reports
+  description: ''
+- name: CloudInfraMigration
+  description: infinity-portal-connect
+- name: GslBuilder
+  description: ''
+- name: Infrastructure
+  description: ''
+- name: InternalLicense
+  description: ''
+- name: NotificationIntegrationInternal
+  description: '(deprecated: This controller is deprecated and will be removed in the future)'
+- name: OciCloudAccount
+  description: Onboard OCI accounts
+- name: PlatformReports
+  description: ''
+- name: Regions
+  description: ''
+- name: Spectral
+  description: ''
+- name: RestrictedWorkloadClientModules
+  description: ''
+- name: WorkloadClientModules
+  description: ''
+- name: WorkloadTelemetry
+  description: ''
+- name: Integration
+  description: Integration
+- name: IntegrationInternal
+  description: ''
+- name: Notification
+  description: Notification
+- name: NotificationInternal
+  description: ''
+- name: AssetMetadataSyncNow
+  description: ''
+- name: BusinessPriorityModifier
+  description: Business Priority Rules
+- name: CustomRuleset
+  description: Risk Management Rulesets
+- name: Dspm
+  description: DSPM Controller
+- name: Exposure
+  description: ''
+- name: GroupRiskManagement
+  description: Groups Risk Management
+- name: RemediationActions
+  description: Remediation Actions
+- name: RiskModifiers
+  description: Risk Modifiers
+- name: SecurityEvents
+  description: ''
+- name: SimilarAssetGroups
+  description: ''
+- name: Waf
+  description: WAF Protection
+- name: AwsOrganizationManagement
+  description: AwsOrganizationManagement
+- name: AwsOrganizationManagementOnboarding
+  description: AwsOrganizationManagementOnboarding
+- name: AzureOrganizationManagement
+  description: AzureOrganizationManagement
+- name: GcpOrganizationManagement
+  description: GcpOrganizationManagement
+- name: OnboardingManagement
+  description: OnboardingManagement
+- name: InternalSBOM
+  description: ''
+- name: InternalVulnerabilityAccountStatsBatch
+  description: ''
+- name: InternalVulnerabilityCleanup
+  description: ''
+- name: InternalVulnerabilityPolicy
+  description: ''
+- name: InternalVulnerabilityScanResults
+  description: ''
+- name: SBOM
+  description: ''
+- name: SBOMExport
+  description: SBOM Export
+- name: Vulnerabilities
+  description: Vulnerabilities
+- name: VulnerabilityAssessment
+  description: ''
+- name: VulnerabilityExclusions
+  description: Vulnerability Exclusions
+- name: VulnerabilityPolicy
+  description: Vulnerability Policy
+- name: VulnerabilitySBOM
+  description: ''
+- name: CloudApplicationLoadBalancer
+  description: ''
+- name: CloudNetworkLoadBalancer
+  description: ''
+- name: GcpMachineImage
+  description: ''
+- name: OciCompartment
+  description: ''
+- name: AssetLabelsService
+  description: ''
+- name: AssetOpenFindings
+  description: ''
+- name: EntityTypes
+  description: The entity types endpoint allows you to get the supported entity types and the platform they're supported for.
+- name: EvidencePath
+  description: The evidence path endpoint allows you to get the evidence path for a given findingId.
+- name: Exclusions
+  description: The exclusion endpoint provides API to perform CRUD operations on the resource.
+- name: IgnoreCves
+  description: The ignore CVEs endpoint provides API to perform CRUD operations on the resource.
+- name: IgnoreMalwares
+  description: The ignore malwares endpoint provides API to perform CRUD operations on the resource.
+- name: Rules
+  description: The rules endpoint provides APIs to get the security rules data
+- name: SecurityGraphIssues
+  description: API for issue enrichments
+- name: SecurityGraphQuery
+  description: The query endpoint provides APIs to run queries (rules) to preview possible issues.
+- name: EntitySchema
+  description: The entity schema endpoint presents schema of toxic issues entities.
+- name: SecurityIssues
+  description: The Findings endpoint provides APIs query the findings store which contains findings such as security issues.
+    It provides APIs to get, search and group findings.
+- name: AutomatedActions
+  description: The Automated Actions resource provides API to perform CRUD operations on the resource.
+components:
+  schemas:
+    Dome9.Web.Api.AwsOrganizationViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        unitPath:
+          type: string
+        arn:
+          type: string
+        organizationType:
+          enum:
+          - Root
+          - Account
+          - Unit
+          type: string
+        organizationPolicies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Organizations.AwsOrganizationPolicyViewModel'
+    Dome9.Web.Api.Organizations.AwsOrganizationPolicyViewModel:
+      type: object
+      properties:
+        policyDocument:
+          type: string
+        arn:
+          type: string
+        awsManaged:
+          type: boolean
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        summaryType:
+          type: string
+    Dome9.Web.Api.AwsOrganizationAccountViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        arn:
+          type: string
+        ouPath:
+          type: string
+        email:
+          format: email
+          description: Email Address
+          type: string
+          example: MyName@gmail.com
+        joinedMethod:
+          enum:
+          - CREATED
+          - INVITED
+          type: string
+        status:
+          enum:
+          - ACTIVE
+          - SUSPENDED
+          type: string
+        organizationType:
+          enum:
+          - Root
+          - Account
+          - Unit
+          type: string
+        organizationPolicies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Organizations.AwsOrganizationPolicyViewModel'
+        organizationTags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Organizations.AwsOrganizationTagViewModel'
+    Dome9.Web.Api.Organizations.AwsOrganizationTagViewModel:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    Dome9.Web.Api.CloudAwsRegion.CloudRegionViewModel:
+      type: object
+      properties:
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        accountId:
+          format: int64
+          type: integer
+        externalAccountNumber:
+          type: string
+        regionName:
+          type: string
+        endpoint:
+          type: string
+        isDefaultEndpoint:
+          type: boolean
+        isEnabled:
+          type: boolean
+    Falconetix.Model.OrganizationalUnit.OrganizationalUnitNodeViewModel:
+      type: object
+      properties:
+        id:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          type: string
+        path:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.OrganizationalUnit.OrganizationalUnitNodeViewModel'
+    Falconetix.Model.OrganizationalUnit.OrganizationalUnitViewModel:
+      type: object
+      properties:
+        id:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          type: string
+        path:
+          type: string
+        parentId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+    Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem:
+      type: object
+      properties:
+        accountId:
+          format: int64
+          type: integer
+        id:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          type: string
+        path:
+          type: string
+        parentId:
+          type: string
+        created:
+          format: date-time
+          type: string
+        updated:
+          format: date-time
+          type: string
+        awsCloudAcountsCount:
+          format: int64
+          type: integer
+        azureCloudAccountsCount:
+          format: int64
+          type: integer
+        ociCloudAccountsCount:
+          format: int64
+          type: integer
+        googleCloudAccountsCount:
+          format: int64
+          type: integer
+        k8sCloudAccountsCount:
+          format: int64
+          type: integer
+        shiftLeftCloudAccountsCount:
+          format: int64
+          type: integer
+        alibabaCloudAccountsCount:
+          format: int64
+          type: integer
+        containerRegistryAccountsCount:
+          format: int64
+          type: integer
+        awsAggregatedCloudAcountsCount:
+          format: int64
+          type: integer
+        azureAggregateCloudAccountsCount:
+          format: int64
+          type: integer
+        ociAggregateCloudAccountsCount:
+          format: int64
+          type: integer
+        googleAggregateCloudAccountsCount:
+          format: int64
+          type: integer
+        k8sAggregateCloudAccountsCount:
+          format: int64
+          type: integer
+        shiftLeftAggregateCloudAccountsCount:
+          format: int64
+          type: integer
+        alibabaAggregateCloudAccountsCount:
+          format: int64
+          type: integer
+        containerRegistryAggregateCloudAccountsCount:
+          format: int64
+          type: integer
+        subOrganizationalUnitsCount:
+          format: int32
+          type: integer
+        isRoot:
+          type: boolean
+        isParentRoot:
+          type: boolean
+        pathStr:
+          type: string
+    Dome9.BL.Std.Services.OrganizationalUnit.UpdateOrganizationalUnitViewModel:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 50
+          minLength: 0
+          pattern: '[^/]+$'
+          type: string
+        parentId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+    Dome9.BL.Std.Helpers.TreeNode_Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem_System.String_:
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem'
+        parentId:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.BL.Std.Helpers.TreeNode_Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem_System.String_'
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+security:
+- basic: []
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

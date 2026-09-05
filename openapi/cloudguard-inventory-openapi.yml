@@ -1,0 +1,2350 @@
+info:
+  title: Inventory
+  version: v2
+openapi: 3.0.0
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+paths:
+  /v2/CloudS3Bucket:
+    get:
+      tags:
+      - Cloud S3 Bucket
+      operationId: CloudS3Bucket_Get_get_/v2/CloudS3Bucket
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CloudS3BucketViewModel'
+      description: ''
+      summary: Get
+  /v2/CloudSqs:
+    get:
+      tags:
+      - Cloud Sqs
+      operationId: CloudSqs_Get_get_/v2/CloudSqs
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CloudSqsViewModel'
+      description: ''
+      summary: Get
+  /v2/EntityFetchStatus:
+    get:
+      tags:
+      - Entity Fetch Status
+      summary: Get
+      operationId: EntityFetchStatus_Get_get_/v2/EntityFetchStatus
+      parameters:
+      - name: externalAccountNumber
+        in: query
+        description: '[Required for an AWS account] AWS/Alibaba/OCI account number'
+        required: false
+        schema:
+          type: string
+      - name: subscriptionId
+        in: query
+        description: '[Required for an Azure subscription]'
+        required: false
+        schema:
+          type: string
+      - name: projectId
+        in: query
+        description: '[Required for a GCP project]'
+        required: false
+        schema:
+          type: string
+      - name: cloudAccountId
+        in: query
+        description: '[Optional] This is the Dome9 CloudAccountId which can replace the AWS externalAccountNumber'
+        required: false
+        schema:
+          type: string
+          format: uuid
+      - name: region
+        in: query
+        description: 'The cloud account region. Note: the API expects ''_'' instead of ''-'' (Example: us_east_1)'
+        required: false
+        schema:
+          type: string
+      - name: resourceGroupName
+        in: query
+        description: Azure resource group name
+        required: false
+        schema:
+          type: string
+      - name: entityType
+        in: query
+        description: The desired cloud entity (type)
+        required: false
+        schema:
+          type: string
+      - name: workFlowId
+        in: query
+        description: (for internal use)
+        required: false
+        schema:
+          type: string
+          format: uuid
+      - name: location
+        in: query
+        description: GCP Location
+        required: false
+        schema:
+          type: string
+      - name: vendor
+        in: query
+        description: the cloud account vendor
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.EntityFetchStatus.FetcherRunStatusViewModel'
+      description: ''
+  /v2/EntityReport/Request/{cloudVendor}/{type}:
+    post:
+      tags:
+      - Entity Report
+      summary: Get By Cloud Account Id
+      operationId: EntityReport_GetByCloudAccountId_post_/v2/EntityReport/Request/{cloudVendor}/{type}
+      parameters:
+      - name: cloudVendor
+        in: path
+        description: 'The cloud vendor.<br />Allowed values: AWS, Azure, GCP, Kubernetes.'
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: path
+        description: The asset type for the report file.<br />Allowed values are the Dome9 Rule Target Types.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+          application/x-www-form-urlencoded:
+            schema:
+              type: array
+              items:
+                type: string
+        description: The Dome9 cloud accounts IDs for the report. Use empty array for all allowed cloud accounts report.
+        required: true
+      description: Post a request to export all assets held by CloudGuard Dome9.
+  /v2/EntityReport/Download/{reportRequestUuid}:
+    get:
+      tags:
+      - Entity Report
+      summary: Get Report
+      operationId: EntityReport_GetReport_get_/v2/EntityReport/Download/{reportRequestUuid}
+      parameters:
+      - name: reportRequestUuid
+        in: path
+        description: The Entity Report request UUID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      description: Get a CSV report file containing all cloud assets held by CloudGuard Dome9.
+  /v2/protected-asset/search:
+    post:
+      tags:
+      - Protected Asset
+      summary: Search
+      operationId: ProtectedAsset_Search_post_/v2/protected-asset/search
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.ProtectedAsset.ProtectedAssetPaganationViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.ProtectedAsset.SearchRequestViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.ProtectedAsset.SearchRequestViewModel'
+        required: true
+      description: Search API for protected assets.
+  /v2/CloudApplicationLoadBalancer:
+    get:
+      tags:
+      - Cloud Application Load Balancer
+      operationId: CloudApplicationLoadBalancer_GetAll_get_/v2/CloudApplicationLoadBalancer
+      parameters:
+      - name: externalAccountNumber
+        in: query
+        schema:
+          type: string
+          nullable: true
+        x-position: 1
+      - name: vpcId
+        in: query
+        schema:
+          type: string
+          nullable: true
+        x-position: 2
+      - name: cloudAccountId
+        in: query
+        schema:
+          type: string
+          format: guid
+          nullable: true
+        x-position: 3
+      - name: arn
+        in: query
+        schema:
+          type: string
+          nullable: true
+        x-position: 4
+      - name: externalSecurityGroupId
+        in: query
+        schema:
+          type: string
+          nullable: true
+        x-position: 5
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CloudV2LoadBalancerViewModel'
+      description: ''
+      summary: Get All
+  /v2/CloudApplicationLoadBalancer/{id}:
+    get:
+      tags:
+      - Cloud Application Load Balancer
+      operationId: CloudApplicationLoadBalancer_Get_get_/v2/CloudApplicationLoadBalancer/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudV2LoadBalancerViewModel'
+      description: ''
+      summary: Get
+  /v2/CloudNetworkLoadBalancer:
+    get:
+      tags:
+      - Cloud Network Load Balancer
+      operationId: CloudNetworkLoadBalancer_Get_get_/v2/CloudNetworkLoadBalancer
+      parameters:
+      - name: arn
+        in: query
+        schema:
+          type: string
+          nullable: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CloudV2LoadBalancerViewModel'
+      description: ''
+      summary: Get
+  /v2/CloudNetworkLoadBalancer/{id}:
+    get:
+      tags:
+      - Cloud Network Load Balancer
+      operationId: CloudNetworkLoadBalancer_GetAsyncById_get_/v2/CloudNetworkLoadBalancer/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudV2LoadBalancerViewModel'
+      description: ''
+      summary: Get  By Id
+tags:
+- name: AccessLease
+  description: Access Leases
+- name: AccessLeaseInvitation
+  description: Access Lease Invitations
+- name: Account
+- name: AccountLimitation
+- name: AccountPollingInterval
+- name: AccountRegistration
+- name: AccountTrust
+  description: "Allow you to define a trust between accounts in order to allow users in a certain account to make changes\
+    \ and operation on another account.\nActions can be taken on a trustee account via a role which is defined on it. \nThe\
+    \ role should be assumed by a user from the trusted account."
+- name: Agent
+- name: Agentless
+  description: Agentless Workload Posture
+- name: Alert
+- name: AlibabaCloudAccount
+  description: Alibaba Cloud Accounts
+- name: Application
+- name: Assessment
+  description: Run and View Compliance Assessments
+- name: AssessmentHistory
+- name: AssessmentHistoryV2
+  description: Compliance Assessment History
+- name: Audit
+  description: Audit logs
+- name: Auth
+- name: Aws Cloud Account
+  description: Manage AWS Cloud Accounts
+- name: AwsAppSync
+- name: AwsBackupVault
+- name: AwsConfigSettings
+- name: AwsCustomerGateway
+- name: AwsEcsTask
+- name: AwsEks
+- name: AwsElasticIp
+- name: AwsElasticsearchDomain
+- name: AwsEmrCluster
+- name: AwsInspectorFindings
+- name: AwsInspectorRuns
+- name: AwsLoadBalancersNetworkInterfaces
+- name: AwsOrganizations
+- name: AwsQuickSightAccount
+- name: AwsQuickSightGroup
+- name: AwsQuickSightUser
+- name: AwsQuickSightVpcConnections
+- name: AwsSageMaker
+- name: AwsSecurityGroup
+- name: AwsSecurityGroupPolicy
+- name: AwsSecurityGroupsIndex
+- name: AwsUnifiedOnboarding
+  description: Aws Unified Onboarding
+- name: AwsVpcEndpoint
+- name: AzureAnalysisService
+- name: AzureApplicationGateway
+- name: AzureApplicationSecurityGroup
+- name: AzureCloudAccount
+  description: Onboard Azure accounts
+- name: AzureComputeGalleryImage
+- name: AzureCosmosDbAccount
+- name: AzureDisk
+- name: AzureFunction
+- name: AzureKeyVault
+- name: AzureKubernetes
+- name: AzureLoadBalancer
+- name: AzureLock
+- name: AzureLogicApp
+- name: AzureLogProfile
+- name: AzurePolicyAssignment
+- name: AzureRedisCache
+- name: AzureResourceGroup
+- name: AzureRouteTable
+- name: AzureSecurityGroup
+- name: AzureSecurityGroupPolicy
+  description: Azure Network Security Group Policies
+- name: AzureSnapshot
+- name: AzureSqlDb
+- name: AzureSqlServer
+- name: AzureStorageAccounts
+- name: AzureStorageBlobContainer
+- name: AzureSubnet
+- name: AzureUser
+- name: AzureVirtualMachine
+- name: AzureVirtualMachineImage
+- name: AzureVirtualMachineScaleSet
+- name: AzureVirtualNetworkPeering
+- name: AzureWebApp
+- name: BigTable
+- name: BillableAssets
+  description: Retrieve billable assets data
+- name: BillableAssetsReport
+  description: Billable Assets Report
+- name: Billing
+- name: Clarity
+- name: CloudAcmCertificate
+- name: CloudAmi
+- name: CloudAutoScalingGroup
+- name: CloudDbInstance
+- name: CloudDirectConnect
+- name: CloudDynamoDb
+- name: CloudEcsCluster
+- name: CloudEcsService
+  description: Cloud Ecs Service
+- name: CloudEcsTaskDefinition
+- name: CloudEfs
+- name: CloudElastiCacheCluster
+- name: CloudFlowLogs
+- name: CloudFrontDistribution
+- name: CloudGuardDutyDetector
+- name: CloudIamAccountSummary
+- name: CloudIamCredentialReport
+- name: CloudIamGroup
+- name: CloudIamPasswordPolicy
+- name: CloudIamPolicy
+- name: CloudIamRole
+- name: CloudIamServerCertificate
+- name: CloudIamUser
+- name: CloudIamVirtualMfaDevice
+- name: CloudInfraUser
+  description: CloudInfra Users
+- name: CloudInstance
+  description: Cloud Instances
+- name: CloudInternetGateway
+- name: CloudKinesisStream
+- name: CloudKms
+- name: CloudKmsAlias
+- name: CloudLambdaFunction
+  description: Cloud Lambda Function
+- name: CloudLoadBalancer
+- name: CloudLogGroups
+- name: CloudMetricAlarm
+- name: CloudNacl
+- name: CloudNetworkInterfaces
+- name: CloudRedshiftCluster
+- name: CloudRegion
+- name: CloudRoute53Domain
+- name: CloudRoute53HostedZone
+- name: CloudRoute53RecordSetGroup
+- name: CloudRouteTable
+- name: CloudS3Bucket
+  description: ''
+- name: CloudSecurityGroup
+  description: AWS Security Groups
+- name: CloudSnsSubscription
+- name: CloudSnsTopic
+- name: CloudSql
+- name: CloudSqs
+  description: ''
+- name: CloudSubnet
+- name: CloudTrail
+  description: CloudTrail
+- name: CloudVolume
+- name: CloudVpc
+- name: CloudVpcPeeringConnection
+- name: CloudVPNConnection
+- name: CloudVpnGateway
+- name: CloudWAFRegional
+- name: CloudWatchEventsRule
+  description: CloudWatchEventsRule
+- name: ComplianceExclusion
+  description: Compliance Exclusions
+- name: CompliancePolicy
+- name: ComplianceRemediation
+  description: Compliance Remediation
+- name: ComplianceRemediationOld
+  description: Compliance Remediation - DEPRECATED - please use /Compliance/Remediation instead
+- name: ComplianceRuleset
+  description: ComplianceRuleset
+- name: ContinuousComplianceNotification
+  description: Continuous Compliance Notification Policies
+- name: ContinuousCompliancePolicy
+- name: ContinuousCompliancePolicyV2
+  description: Continuous Compliance Policies
+- name: EmergencyPolicy
+- name: EntityFetchStatus
+- name: EntityReport
+- name: ExclusionOld
+  description: Compliance Exclusions - DEPRECATED - please use /Compliance/Exclusion instead
+- name: ExternalFindings
+  description: Findings from External (3rd-party) systems
+- name: Fim
+- name: Finding
+  description: Compliance Findings
+- name: FindingsReport
+  description: Compliance Findings csv reports
+- name: GcpBigQuery
+- name: GcpDisk
+- name: GcpGkeCluster
+- name: GcpImage
+- name: GcpKmsKeyRing
+- name: GcpProjectInfo
+  description: Google Cloud Project Info
+- name: GcpPubSub
+- name: GcpSecurityGroup
+- name: GcpServiceAccount
+- name: GcpStorageBucket
+- name: GenericList
+  description: Generic Lists
+- name: GlobalSearch
+  description: Global search for all CloudGuard services
+- name: GoogleCloudAccount
+  description: Google Cloud Accounts
+- name: GoogleCloudFirewallRule
+- name: GoogleCloudFunction
+- name: GoogleCloudIamPolicy
+- name: GoogleCloudNetwork
+  description: Google Cloud Network
+- name: GoogleCloudSubnet
+- name: GoogleCloudVMInstance
+- name: Home
+- name: IamSafeLease
+  description: IAM Safety Leases
+- name: IncidentsStatus
+- name: InfrastructureAssessment
+- name: Intelligence
+  description: CloudGuard Intelligence allows you to visualize and analyze Account Activity and Network Traffic into and out
+    of your cloud environment.
+- name: IpAddressMetadata
+  description: IP Address Metadata
+- name: IpList
+  description: IP Lists
+- name: LicenseActivator
+- name: Licensing
+- name: ManagedGenericList
+- name: Msp
+- name: OrganizationalUnit
+  description: Manage Organizational Units
+- name: Permission
+- name: ProtectedAsset
+- name: ProtectedAssetsReport
+  description: Compliance Protected Asset csv reports
+- name: ProtegoStatistics
+  description: Protego statistics by dates
+- name: Role
+  description: CloudGuard Roles
+- name: RulesEngine
+- name: SecurityGroup
+- name: Serverless
+- name: ServerlessPolicy
+  description: Serverless policy
+- name: ServiceAccount
+  description: CloudGuard Service Accounts
+- name: ServicePort
+- name: Settings
+  description: Account Settings
+- name: ShiftLeft
+  description: ShiftLeft
+- name: SystemHealth
+- name: TenableAccount
+  description: Onboard Tenable accounts
+- name: User
+  description: CloudGuard account users
+- name: BaseImage
+  description: ''
+- name: ContainerRegistryAccount
+  description: Container Registry Account
+- name: ContainerRegistryAccountInternal
+  description: ''
+- name: ContainerRegistryImageAssurancePolicy
+  description: '(deprecated: move to use /v2/vulnerability/policy)'
+- name: Dashboard
+  description: ''
+- name: EcsConfiguration
+  description: ''
+- name: EcsImageAssurancePolicy
+  description: '(deprecated: move to use /v2/vulnerability/policy)'
+- name: EcsImageScan
+  description: ECS Image Scan Configuration
+- name: Environment
+  description: ''
+- name: ImageAdmissionExclusion
+  description: '[Preview feature] Kubernetes Image admission exclusions'
+- name: ImageAssuranceDashboard
+  description: ''
+- name: ImageAssuranceReport
+  description: ''
+- name: KubernetesAccount
+  description: Kubernetes Accounts
+- name: KubernetesAccountInternal
+  description: ''
+- name: KubernetesAccountOld
+  description: '(deprecated: this api is deprecated, please use ''/v2/kubernetes/account'' instead)'
+- name: KubernetesAdmissionControl
+  description: Kubernetes Admission Control
+- name: KubernetesAdmissionControlPoliciesSummary
+  description: ''
+- name: KubernetesClusterRole
+  description: ''
+- name: KubernetesImage
+  description: ''
+- name: KubernetesImageAdmissionExclusion
+  description: '[Preview feature] Kubernetes Image admission exclusions (deprecated: this api is deprecated, please use ''/v2/kubernetes/admissionControl/imageAdmissionExclusion''
+    instead)'
+- name: KubernetesImageAssurance
+  description: Kubernetes Image Assurance
+- name: KubernetesImageAssurancePolicy
+  description: 'Kubernetes Image Assurance Policy (deprecated: move to use /v2/vulnerability/policy)'
+- name: KubernetesIngress
+  description: ''
+- name: KubernetesNetworkPolicy
+  description: ''
+- name: KubernetesNode
+  description: ''
+- name: KubernetesPod
+  description: ''
+- name: KubernetesPodGroup
+  description: Kubernetes Pod Groups
+- name: KubernetesPodGroupOwner
+  description: ''
+- name: KubernetesPodSecurityPolicy
+  description: ''
+- name: KubernetesRole
+  description: ''
+- name: KubernetesRuntimeAssurance
+  description: ''
+- name: KubernetesService
+  description: ''
+- name: KubernetesServiceAccount
+  description: ''
+- name: Shiftleft
+  description: ''
+- name: ShiftLeftAccount
+  description: ShiftLeft
+- name: ShiftLeftPolicy
+  description: 'ShiftLeft Policy (deprecated: move to use /v2/vulnerability/policy)'
+- name: Workload
+  description: ''
+- name: WorkloadAccountSetting
+  description: Workload Account Setting
+- name: WorkloadChangeMonitoring
+  description: ''
+- name: WorkloadImageAssurance
+  description: Workload Image Assurance
+- name: WorkloadImageAssuranceInternal
+  description: ''
+- name: WorkloadInternal
+  description: ''
+- name: WorkloadRuntimeProtection
+  description: ''
+- name: Alerts
+  description: ''
+- name: Azure
+  description: ''
+- name: FindingOrchestration
+  description: ''
+- name: FindingsUpdate
+  description: ''
+- name: Gcp
+  description: ''
+- name: Remediation
+  description: Remediation Actions
+- name: Reports
+  description: ''
+- name: CloudInfraMigration
+  description: infinity-portal-connect
+- name: GslBuilder
+  description: ''
+- name: Infrastructure
+  description: ''
+- name: InternalLicense
+  description: ''
+- name: NotificationIntegrationInternal
+  description: '(deprecated: This controller is deprecated and will be removed in the future)'
+- name: OciCloudAccount
+  description: Onboard OCI accounts
+- name: PlatformReports
+  description: ''
+- name: Regions
+  description: ''
+- name: Spectral
+  description: ''
+- name: RestrictedWorkloadClientModules
+  description: ''
+- name: WorkloadClientModules
+  description: ''
+- name: WorkloadTelemetry
+  description: ''
+- name: Integration
+  description: Integration
+- name: IntegrationInternal
+  description: ''
+- name: Notification
+  description: Notification
+- name: NotificationInternal
+  description: ''
+- name: AssetMetadataSyncNow
+  description: ''
+- name: BusinessPriorityModifier
+  description: Business Priority Rules
+- name: CustomRuleset
+  description: Risk Management Rulesets
+- name: Dspm
+  description: DSPM Controller
+- name: Exposure
+  description: ''
+- name: GroupRiskManagement
+  description: Groups Risk Management
+- name: RemediationActions
+  description: Remediation Actions
+- name: RiskModifiers
+  description: Risk Modifiers
+- name: SecurityEvents
+  description: ''
+- name: SimilarAssetGroups
+  description: ''
+- name: Waf
+  description: WAF Protection
+- name: AwsOrganizationManagement
+  description: AwsOrganizationManagement
+- name: AwsOrganizationManagementOnboarding
+  description: AwsOrganizationManagementOnboarding
+- name: AzureOrganizationManagement
+  description: AzureOrganizationManagement
+- name: GcpOrganizationManagement
+  description: GcpOrganizationManagement
+- name: OnboardingManagement
+  description: OnboardingManagement
+- name: InternalSBOM
+  description: ''
+- name: InternalVulnerabilityAccountStatsBatch
+  description: ''
+- name: InternalVulnerabilityCleanup
+  description: ''
+- name: InternalVulnerabilityPolicy
+  description: ''
+- name: InternalVulnerabilityScanResults
+  description: ''
+- name: SBOM
+  description: ''
+- name: SBOMExport
+  description: SBOM Export
+- name: Vulnerabilities
+  description: Vulnerabilities
+- name: VulnerabilityAssessment
+  description: ''
+- name: VulnerabilityExclusions
+  description: Vulnerability Exclusions
+- name: VulnerabilityPolicy
+  description: Vulnerability Policy
+- name: VulnerabilitySBOM
+  description: ''
+- name: CloudApplicationLoadBalancer
+  description: ''
+- name: CloudNetworkLoadBalancer
+  description: ''
+- name: GcpMachineImage
+  description: ''
+- name: OciCompartment
+  description: ''
+- name: AssetLabelsService
+  description: ''
+- name: AssetOpenFindings
+  description: ''
+- name: EntityTypes
+  description: The entity types endpoint allows you to get the supported entity types and the platform they're supported for.
+- name: EvidencePath
+  description: The evidence path endpoint allows you to get the evidence path for a given findingId.
+- name: Exclusions
+  description: The exclusion endpoint provides API to perform CRUD operations on the resource.
+- name: IgnoreCves
+  description: The ignore CVEs endpoint provides API to perform CRUD operations on the resource.
+- name: IgnoreMalwares
+  description: The ignore malwares endpoint provides API to perform CRUD operations on the resource.
+- name: Rules
+  description: The rules endpoint provides APIs to get the security rules data
+- name: SecurityGraphIssues
+  description: API for issue enrichments
+- name: SecurityGraphQuery
+  description: The query endpoint provides APIs to run queries (rules) to preview possible issues.
+- name: EntitySchema
+  description: The entity schema endpoint presents schema of toxic issues entities.
+- name: SecurityIssues
+  description: The Findings endpoint provides APIs query the findings store which contains findings such as security issues.
+    It provides APIs to get, search and group findings.
+- name: AutomatedActions
+  description: The Automated Actions resource provides API to perform CRUD operations on the resource.
+components:
+  schemas:
+    Dome9.Web.Api.EntityFetchStatus.FetcherRunStatusViewModel:
+      type: object
+      properties:
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        externalAccountNumber:
+          type: string
+        subscriptionId:
+          type: string
+        projectId:
+          type: string
+        region:
+          type: string
+        resourceGroupName:
+          type: string
+        workFlowId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        entityType:
+          type: string
+        fetchedEntities:
+          format: int32
+          type: integer
+        lastSuccessfulRun:
+          format: date-time
+          type: string
+        lastFailureRun:
+          format: date-time
+          type: string
+        location:
+          type: string
+        vendor:
+          type: string
+    CGN.OpenSearch.Model.CommonViewModels.FieldFilterViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    Dome9.Web.Api.ProtectedAsset.SearchRequestViewModel:
+      description: Search or filter parameters. This object is passed via url so the field names are short because quary params
+        are limited (about 2000 chars)
+      type: object
+      properties:
+        pageSize:
+          format: int32
+          description: 'page size (number of findings returned per page). default: 10.'
+          maximum: 1000
+          minimum: 0
+          type: integer
+        skipAggregations:
+          type: boolean
+        aggregations:
+          type: array
+          items:
+            type: string
+        sorting:
+          $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.SortingViewModel'
+          description: sort data
+        filter:
+          $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.SearchFilterViewModel'
+          description: filter
+        searchAfter:
+          description: token for the page of findings (first page if not specified)
+          type: array
+          items:
+            type: string
+        additionalFields:
+          $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.AdditionalFieldsRequestViewModel'
+        optionalAggregationFields:
+          type: array
+          items:
+            type: string
+        externalAdditionalFields:
+          $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.AdditionalFieldsRequestViewModel'
+        filterEntitiesWithoutRiskScore:
+          type: boolean
+    CGN.OpenSearch.Model.CommonViewModels.SortingViewModel:
+      type: object
+      properties:
+        fieldName:
+          type: string
+        direction:
+          format: int32
+          type: integer
+    CGN.OpenSearch.Model.CommonViewModels.SearchFilterViewModel:
+      type: object
+      properties:
+        freeTextPhrase:
+          type: string
+        freeTextNamePhrase:
+          type: string
+        freeTextForIdsPhrase:
+          type: string
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.FieldFilterViewModel'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.TagViewModel'
+        includedEntityTypes:
+          type: array
+          items:
+            type: string
+        excludedEntityTypes:
+          type: array
+          items:
+            type: string
+    CGN.OpenSearch.Model.CommonViewModels.AdditionalFieldsRequestViewModel:
+      type: object
+      properties:
+        source:
+          type: string
+        filterFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.FieldFilterViewModel'
+        sortField:
+          $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.SortingViewModel'
+    CGN.OpenSearch.Model.CommonViewModels.TagViewModel:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    Dome9.Web.Api.ProtectedAsset.ProtectedAssetPaganationViewModel:
+      type: object
+      properties:
+        searchRequest:
+          $ref: '#/components/schemas/Dome9.Web.Api.ProtectedAsset.SearchRequestViewModel'
+          description: search request for findings
+        assets:
+          description: current page of findings
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.ProtectedAsset.ProtectedAssetViewModel'
+        totalCount:
+          format: int64
+          description: total number of findings
+          type: integer
+        aggregations:
+          description: aggregate findings per search or filter entity (facet)
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.FieldAggregationViewModel'
+        searchAfter:
+          description: token for next page of results
+          type: array
+          items:
+            type: string
+    Dome9.Web.Api.ProtectedAsset.ProtectedAssetViewModel:
+      type: object
+      properties:
+        id:
+          description: Id of the entity SRL-accountId
+          type: string
+        entityId:
+          type: string
+        externalCloudAccountId:
+          type: string
+        cloudAccountId:
+          format: uuid
+          description: Dome 9 cloudaccount id
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        srl:
+          description: SRL
+          type: string
+        type:
+          description: rule engine type Enum
+          type: string
+        name:
+          description: entity Name
+          type: string
+        tags:
+          description: entity Tags
+          type: array
+          items:
+            $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.TagViewModel'
+        platform:
+          description: aws,azure,gcp
+          type: string
+        typeByPlatform:
+          description: rule engine type Enum by the platform (aws,azure,gcp...) in formt of platform|type
+          type: string
+        network:
+          description: VPC for Aws, Vnet for Azure, Network for Gcp
+          type: string
+        region:
+          description: aws region , azure region(not resourcegroup) , gcp location
+          type: string
+        resourceGroup:
+          description: azure resourcegroup and aws in the future...
+          type: string
+        additionalFields:
+          description: AdditionalFields we want to add that are relevant for our entities but dont want to mess the general
+            object...
+          type: array
+          items:
+            $ref: '#/components/schemas/CGN.OpenSearch.Model.AssetsIndexer.AssetIndexerAdditionalField'
+        externalAdditionalFields:
+          description: 'ExternalAdditionalFields: AdditionalFields we want to add from external sources, that are relevant
+            for our entities'
+          type: array
+          items:
+            $ref: '#/components/schemas/CGN.OpenSearch.Model.AssetsIndexer.AssetIndexerExternalAdditionalField'
+        assetLabels:
+          description: 'AssetLabels: Labels we want to add on an entity.'
+          type: array
+          items:
+            type: string
+        compartment:
+          description: OCI Compartment
+          type: string
+        riskScore:
+          format: double
+          description: Risk score
+          type: number
+        postureFindings:
+          description: Severity name and its unique finding count
+          type: object
+          additionalProperties:
+            format: int32
+            type: integer
+        businessPriority:
+          description: Business Modifier Priority
+          type: string
+        cvEs:
+          description: CVEs per severity
+          type: object
+          additionalProperties:
+            format: int32
+            type: integer
+        malware:
+          format: int32
+          description: Number of Malware
+          type: integer
+        malwarePerSeverity:
+          description: Malware per severity
+          type: object
+          additionalProperties:
+            format: int32
+            type: integer
+        secrets:
+          format: int32
+          description: Number of Secrets
+          type: integer
+        secretsPerSeverity:
+          description: Secrets per severity
+          type: object
+          additionalProperties:
+            format: int32
+            type: integer
+        context:
+          $ref: '#/components/schemas/Dome9.Web.Api.ProtectedAsset.ContextViewModel'
+          description: Asset context
+        vulnerability:
+          $ref: '#/components/schemas/CGN.Common.Model.Vlm.VlmAssetMetadata'
+    CGN.OpenSearch.Model.CommonViewModels.FieldAggregationViewModel:
+      type: object
+      properties:
+        value:
+          type: object
+        count:
+          format: int64
+          type: integer
+    CGN.OpenSearch.Model.AssetsIndexer.AssetIndexerAdditionalField:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    CGN.OpenSearch.Model.AssetsIndexer.AssetIndexerExternalAdditionalField:
+      type: object
+      properties:
+        source:
+          type: string
+        name:
+          type: string
+        value:
+          type: string
+    Dome9.Web.Api.ProtectedAsset.ContextViewModel:
+      type: object
+      properties:
+        networkExposure:
+          type: string
+        iamSensitivity:
+          format: double
+          type: number
+        dataSensitivity:
+          type: string
+        iamExposure:
+          type: string
+        dataClassifications:
+          type: array
+          items:
+            type: string
+        wafProtection:
+          type: string
+        openSecurityIssues:
+          $ref: '#/components/schemas/Dome9.Web.Api.ProtectedAsset.OpenSecurityIssuesViewModel'
+        networkInspection:
+          type: array
+          items:
+            type: string
+    CGN.Common.Model.Vlm.VlmAssetMetadata:
+      type: object
+      properties:
+        stats:
+          $ref: '#/components/schemas/CGN.VLM.Model.Entities.VulnerabilityStats'
+        scanStatus:
+          type: string
+        scanStatusDetails:
+          type: string
+    Dome9.Web.Api.ProtectedAsset.OpenSecurityIssuesViewModel:
+      type: object
+      properties:
+        critical:
+          format: int32
+          type: integer
+        high:
+          format: int32
+          type: integer
+        medium:
+          format: int32
+          type: integer
+        low:
+          format: int32
+          type: integer
+    CGN.VLM.Model.Entities.VulnerabilityStats:
+      type: object
+      properties:
+        cve:
+          $ref: '#/components/schemas/CGN.VLM.Model.Entities.VulnerabilitySeverityStats'
+        cveFixable:
+          $ref: '#/components/schemas/CGN.VLM.Model.Entities.VulnerabilitySeverityStats'
+        threat:
+          $ref: '#/components/schemas/CGN.VLM.Model.Entities.VulnerabilitySeverityStats'
+        secret:
+          $ref: '#/components/schemas/CGN.VLM.Model.Entities.VulnerabilitySeverityStats'
+        knownExploit:
+          $ref: '#/components/schemas/CGN.VLM.Model.Entities.VulnerabilitySeverityStats'
+        cveExcluded:
+          $ref: '#/components/schemas/CGN.VLM.Model.Entities.VulnerabilitySeverityStats'
+        threatsExcluded:
+          $ref: '#/components/schemas/CGN.VLM.Model.Entities.VulnerabilitySeverityStats'
+        secretExcluded:
+          $ref: '#/components/schemas/CGN.VLM.Model.Entities.VulnerabilitySeverityStats'
+    CGN.VLM.Model.Entities.VulnerabilitySeverityStats:
+      type: object
+      properties:
+        all:
+          format: int32
+          type: integer
+        critical:
+          format: int32
+          type: integer
+        high:
+          format: int32
+          type: integer
+        medium:
+          format: int32
+          type: integer
+        low:
+          format: int32
+          type: integer
+        informational:
+          format: int32
+          type: integer
+        unknown:
+          format: int32
+          type: integer
+    CloudRegion:
+      type: string
+      description: ''
+      x-enumNames:
+      - us_east_1
+      - us_west_1
+      - eu_west_1
+      - ap_southeast_1
+      - ap_northeast_1
+      - us_west_2
+      - sa_east_1
+      - az_1_region_a_geo_1
+      - az_2_region_a_geo_1
+      - az_3_region_a_geo_1
+      - ap_southeast_2
+      - mellanox_region
+      - us_gov_west_1
+      - eu_central_1
+      - ap_northeast_2
+      - ap_south_1
+      - us_east_2
+      - ca_central_1
+      - eu_west_2
+      - eu_west_3
+      - eu_north_1
+      - cn_north_1
+      - cn_northwest_1
+      - us_gov_east_1
+      - ap_east_1
+      - me_south_1
+      - af_south_1
+      - eu_south_1
+      - ap_northeast_3
+      - me_central_1
+      - ap_south_2
+      - ap_southeast_3
+      - ap_southeast_4
+      - eu_central_2
+      - eu_south_2
+      - il_central_1
+      - ca_west_1
+      - mx_central_1
+      - ap_southeast_5
+      - ap_southeast_7
+      - westus
+      - eastus
+      - eastus2
+      - northcentralus
+      - westus2
+      - southcentralus
+      - centralus
+      - usgovlowa
+      - usgovvirginia
+      - northeurope
+      - westeurope
+      - eastasia
+      - southeastasia
+      - japaneast
+      - japanwest
+      - brazilsouth
+      - australiaeast
+      - australiasoutheast
+      - centralindia
+      - southindia
+      - westindia
+      - canadaeast
+      - westcentralus
+      - chinaeast
+      - chinanorth
+      - canadacentral
+      - germanycentral
+      - germanynortheast
+      - koreacentral
+      - uksouth
+      - ukwest
+      - koreasouth
+      - francecentral
+      - francesouth
+      - germanywestcentral
+      - usdodcentral
+      - usdodeast
+      - usgovarizona
+      - usgovtexas
+      - australiacentral
+      - australiacentral2
+      - chinaeast2
+      - chinanorth2
+      - southafricanorth
+      - southafricawest
+      - uaecentral
+      - uaenorth
+      - ussecwest
+      - usseceast
+      - germanynorth
+      - switzerlandwest
+      - norwaywest
+      - norwayeast
+      - switzerlandnorth
+      - westus3
+      - swedencentral
+      - chinanorth3
+      - brazilsoutheast
+      - eastus2euap
+      - jioindiawest
+      - jioindiacentral
+      - qatarcentral
+      - spaincentral
+      - italynorth
+      - polandcentral
+      - mexicocentral
+      - asia
+      - asia_east1
+      - asia_northeast1
+      - asia_south1
+      - asia_southeast1
+      - australia_southeast1
+      - europe
+      - europe_north1
+      - europe_west1
+      - europe_west2
+      - europe_west3
+      - europe_west4
+      - northamerica_northeast1
+      - southamerica_east1
+      - us
+      - us_central1
+      - us_east1
+      - us_east4
+      - us_west1
+      - us_west2
+      - global
+      - asia_east2
+      - eur4
+      - nam4
+      - europe_west6
+      - japan_west
+      - asia_northeast2
+      - asia_northeast3
+      - us_west3
+      - us_west4
+      - asia_southeast2
+      - nam3
+      - nam5
+      - nam6
+      - nam7
+      - nam10
+      - nam_eur_asia1
+      - eur3
+      - eur5
+      - asia1
+      - nam11
+      - eu
+      - northamerica_northeast2
+      - southamerica_west1
+      - us_east5
+      - us_south1
+      - europe_central2
+      - europe_southwest1
+      - europe_west8
+      - europe_west9
+      - europe_west10
+      - europe_west12
+      - asia_south2
+      - australia_southeast2
+      - me_central1
+      - me_central2
+      - me_west1
+      - ap_sydney_1
+      - ap_melbourne_1
+      - sa_saopaulo_1
+      - sa_vinhedo_1
+      - ca_montreal_1
+      - ca_toronto_1
+      - sa_santiago_1
+      - eu_paris_1
+      - eu_marseille_1
+      - eu_frankfurt_1
+      - ap_hyderabad_1
+      - ap_mumbai_1
+      - il_jerusalem_1
+      - eu_milan_1
+      - ap_osaka_1
+      - ap_tokyo_1
+      - mx_queretaro_1
+      - eu_amsterdam_1
+      - me_jeddah_1
+      - ap_singapore_1
+      - af_johannesburg_1
+      - ap_seoul_1
+      - ap_chuncheon_1
+      - eu_madrid_1
+      - eu_stockholm_1
+      - eu_zurich_1
+      - me_abudhabi_1
+      - me_dubai_1
+      - uk_london_1
+      - uk_cardiff_1
+      - us_ashburn_1
+      - us_phoenix_1
+      - us_sanjose_1
+      - us_gov_ashburn_1
+      - us_gov_chicago_1
+      - us_gov_phoenix_1
+      - us_langley_1
+      - us_luke_1
+      - uk_gov_london_1
+      - uk_gov_cardiff_1
+      - sa_bogota_1
+      - us_chicago_1
+      - sa_valparaiso_1
+      - mx_monterrey_1
+      - eu_jovanovac_1
+      - ap_singapore_2
+      enum:
+      - us_east_1
+      - us_west_1
+      - eu_west_1
+      - ap_southeast_1
+      - ap_northeast_1
+      - us_west_2
+      - sa_east_1
+      - az_1_region_a_geo_1
+      - az_2_region_a_geo_1
+      - az_3_region_a_geo_1
+      - ap_southeast_2
+      - mellanox_region
+      - us_gov_west_1
+      - eu_central_1
+      - ap_northeast_2
+      - ap_south_1
+      - us_east_2
+      - ca_central_1
+      - eu_west_2
+      - eu_west_3
+      - eu_north_1
+      - cn_north_1
+      - cn_northwest_1
+      - us_gov_east_1
+      - ap_east_1
+      - me_south_1
+      - af_south_1
+      - eu_south_1
+      - ap_northeast_3
+      - me_central_1
+      - ap_south_2
+      - ap_southeast_3
+      - ap_southeast_4
+      - eu_central_2
+      - eu_south_2
+      - il_central_1
+      - ca_west_1
+      - mx_central_1
+      - ap_southeast_5
+      - ap_southeast_7
+      - westus
+      - eastus
+      - eastus2
+      - northcentralus
+      - westus2
+      - southcentralus
+      - centralus
+      - usgovlowa
+      - usgovvirginia
+      - northeurope
+      - westeurope
+      - eastasia
+      - southeastasia
+      - japaneast
+      - japanwest
+      - brazilsouth
+      - australiaeast
+      - australiasoutheast
+      - centralindia
+      - southindia
+      - westindia
+      - canadaeast
+      - westcentralus
+      - chinaeast
+      - chinanorth
+      - canadacentral
+      - germanycentral
+      - germanynortheast
+      - koreacentral
+      - uksouth
+      - ukwest
+      - koreasouth
+      - francecentral
+      - francesouth
+      - germanywestcentral
+      - usdodcentral
+      - usdodeast
+      - usgovarizona
+      - usgovtexas
+      - australiacentral
+      - australiacentral2
+      - chinaeast2
+      - chinanorth2
+      - southafricanorth
+      - southafricawest
+      - uaecentral
+      - uaenorth
+      - ussecwest
+      - usseceast
+      - germanynorth
+      - switzerlandwest
+      - norwaywest
+      - norwayeast
+      - switzerlandnorth
+      - westus3
+      - swedencentral
+      - chinanorth3
+      - brazilsoutheast
+      - eastus2euap
+      - jioindiawest
+      - jioindiacentral
+      - qatarcentral
+      - spaincentral
+      - italynorth
+      - polandcentral
+      - mexicocentral
+      - asia
+      - asia_east1
+      - asia_northeast1
+      - asia_south1
+      - asia_southeast1
+      - australia_southeast1
+      - europe
+      - europe_north1
+      - europe_west1
+      - europe_west2
+      - europe_west3
+      - europe_west4
+      - northamerica_northeast1
+      - southamerica_east1
+      - us
+      - us_central1
+      - us_east1
+      - us_east4
+      - us_west1
+      - us_west2
+      - global
+      - asia_east2
+      - eur4
+      - nam4
+      - europe_west6
+      - japan_west
+      - asia_northeast2
+      - asia_northeast3
+      - us_west3
+      - us_west4
+      - asia_southeast2
+      - nam3
+      - nam5
+      - nam6
+      - nam7
+      - nam10
+      - nam_eur_asia1
+      - eur3
+      - eur5
+      - asia1
+      - nam11
+      - eu
+      - northamerica_northeast2
+      - southamerica_west1
+      - us_east5
+      - us_south1
+      - europe_central2
+      - europe_southwest1
+      - europe_west8
+      - europe_west9
+      - europe_west10
+      - europe_west12
+      - asia_south2
+      - australia_southeast2
+      - me_central1
+      - me_central2
+      - me_west1
+      - ap_sydney_1
+      - ap_melbourne_1
+      - sa_saopaulo_1
+      - sa_vinhedo_1
+      - ca_montreal_1
+      - ca_toronto_1
+      - sa_santiago_1
+      - eu_paris_1
+      - eu_marseille_1
+      - eu_frankfurt_1
+      - ap_hyderabad_1
+      - ap_mumbai_1
+      - il_jerusalem_1
+      - eu_milan_1
+      - ap_osaka_1
+      - ap_tokyo_1
+      - mx_queretaro_1
+      - eu_amsterdam_1
+      - me_jeddah_1
+      - ap_singapore_1
+      - af_johannesburg_1
+      - ap_seoul_1
+      - ap_chuncheon_1
+      - eu_madrid_1
+      - eu_stockholm_1
+      - eu_zurich_1
+      - me_abudhabi_1
+      - me_dubai_1
+      - uk_london_1
+      - uk_cardiff_1
+      - us_ashburn_1
+      - us_phoenix_1
+      - us_sanjose_1
+      - us_gov_ashburn_1
+      - us_gov_chicago_1
+      - us_gov_phoenix_1
+      - us_langley_1
+      - us_luke_1
+      - uk_gov_london_1
+      - uk_gov_cardiff_1
+      - sa_bogota_1
+      - us_chicago_1
+      - sa_valparaiso_1
+      - mx_monterrey_1
+      - eu_jovanovac_1
+      - ap_singapore_2
+    CloudSqsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - externalId
+      - region
+      - accountId
+      - cloudAccountId
+      - createdTimestamp
+      - lastModifiedTimestamp
+      - messageRetentionPeriod
+      - policy
+      - name
+      - receiveMessageWaitTimeSeconds
+      - kmsDataKeyReusePeriodSeconds
+      - redrivePolicy
+      - kmsMasterKeyId
+      - visibilityTimeout
+      - queueUrl
+      - maximumMessageSize
+      - delaySeconds
+      - tags
+      - sqsManagedSseEnabled
+      properties:
+        id:
+          type: string
+        externalId:
+          type: string
+        region:
+          $ref: '#/components/schemas/CloudRegion'
+        accountId:
+          type: integer
+          format: int64
+        cloudAccountId:
+          type: string
+          format: guid
+        createdTimestamp:
+          type: string
+          format: date-time
+        lastModifiedTimestamp:
+          type: string
+          format: date-time
+        messageRetentionPeriod:
+          type: integer
+          format: int32
+        policy:
+          type: string
+        name:
+          type: string
+        receiveMessageWaitTimeSeconds:
+          type: integer
+          format: int32
+        kmsDataKeyReusePeriodSeconds:
+          type: integer
+          format: int32
+          nullable: true
+        redrivePolicy:
+          $ref: '#/components/schemas/AwsSqsRedrivePolicyViewModel'
+        kmsMasterKeyId:
+          type: string
+        visibilityTimeout:
+          type: integer
+          format: int32
+        queueUrl:
+          type: string
+        maximumMessageSize:
+          type: integer
+          format: int32
+        delaySeconds:
+          type: integer
+          format: int32
+        tags:
+          $ref: '#/components/schemas/TagsDictionary'
+        sqsManagedSseEnabled:
+          type: boolean
+    AwsSqsRedrivePolicyViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - deadLetterTargetArn
+      - maxReceiveCount
+      properties:
+        deadLetterTargetArn:
+          type: string
+        maxReceiveCount:
+          type: integer
+          format: int32
+    TagsDictionary:
+      type: object
+      additionalProperties:
+        type: string
+    CloudV2LoadBalancerViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - externalId
+      - name
+      - accountId
+      - cloudAccountId
+      - region
+      - vpc
+      - dnsName
+      - securityGroups
+      - scheme
+      - state
+      - listeners
+      - targetGroups
+      - tags
+      - canonicalHostedZoneId
+      - ipAddressType
+      - type
+      - arn
+      properties:
+        id:
+          type: string
+        externalId:
+          type: string
+        name:
+          type: string
+        accountId:
+          type: integer
+          format: int64
+        cloudAccountId:
+          type: string
+          format: guid
+        region:
+          $ref: '#/components/schemas/CloudRegion'
+        vpc:
+          type: string
+        dnsName:
+          type: string
+        securityGroups:
+          type: array
+          items:
+            type: string
+        scheme:
+          type: string
+        state:
+          type: string
+        listeners:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudV2LoadBalancerListenerViewModel'
+        targetGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudV2LoadBalancerTargetGroupViewModel'
+        tags:
+          $ref: '#/components/schemas/TagsDictionary'
+        canonicalHostedZoneId:
+          type: string
+        ipAddressType:
+          type: string
+        type:
+          type: string
+        arn:
+          type: string
+    CloudV2LoadBalancerListenerViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - listenerArn
+      - port
+      - protocol
+      - certificates
+      - securityPolicy
+      - listenerRules
+      properties:
+        listenerArn:
+          type: string
+        port:
+          type: integer
+          format: int32
+        protocol:
+          type: string
+        certificates:
+          type: array
+          items:
+            type: string
+        securityPolicy:
+          type: string
+        listenerRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudV2LoadBalancerListenerRuleViewModel'
+    CloudV2LoadBalancerListenerRuleViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - ruleArn
+      - priority
+      - isDefault
+      - targetGroupName
+      - conditions
+      properties:
+        ruleArn:
+          type: string
+        priority:
+          type: string
+        isDefault:
+          type: boolean
+        targetGroupName:
+          type: string
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListenerRuleConditionViewModel'
+    ListenerRuleConditionViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - values
+      properties:
+        name:
+          type: string
+        values:
+          type: array
+          items:
+            type: string
+    CloudV2LoadBalancerTargetGroupViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - targetGroupArn
+      - name
+      - port
+      - protocol
+      - targets
+      - tags
+      properties:
+        targetGroupArn:
+          type: string
+        name:
+          type: string
+        port:
+          type: integer
+          format: int32
+        protocol:
+          type: string
+        targets:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudV2LoadBalancerTargetViewModel'
+        tags:
+          $ref: '#/components/schemas/TagsDictionary'
+    CloudV2LoadBalancerTargetViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - instanceId
+      - port
+      - status
+      properties:
+        instanceId:
+          type: string
+        port:
+          type: integer
+          format: int32
+        status:
+          type: string
+    CloudS3BucketViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - externalId
+      - name
+      - region
+      - cloudAccountId
+      - accountId
+      - bucketName
+      - creationTime
+      - bucketLogging
+      - bucketAcl
+      - bucketPolicy
+      - bucketVersioning
+      - bucketWebsite
+      - bucketEncryption
+      - bucketReplication
+      - bucketLifecycle
+      - publicAccessBlock
+      - s3RegionName
+      - tags
+      properties:
+        id:
+          type: string
+        externalId:
+          type: string
+        name:
+          type: string
+        region:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/CloudRegion'
+        cloudAccountId:
+          type: string
+          format: guid
+        accountId:
+          type: integer
+          format: int64
+        bucketName:
+          type: string
+        creationTime:
+          type: string
+          format: date-time
+        bucketLogging:
+          $ref: '#/components/schemas/CloudS3BucketLoggingViewModel'
+        bucketAcl:
+          $ref: '#/components/schemas/CloudS3BucketAclViewModel'
+        bucketPolicy:
+          $ref: '#/components/schemas/CloudS3BucketPolicyViewModel'
+        bucketVersioning:
+          $ref: '#/components/schemas/CloudS3BucketVersioningViewModel'
+        bucketWebsite:
+          $ref: '#/components/schemas/CloudS3BucketWebsiteViewModel'
+        bucketEncryption:
+          $ref: '#/components/schemas/CloudS3ServerSideEncryptionConfigurationViewModel'
+        bucketReplication:
+          $ref: '#/components/schemas/CloudS3ReplicationConfigurationViewModel'
+        bucketLifecycle:
+          $ref: '#/components/schemas/CloudS3LifecycleConfigurationViewModel'
+        publicAccessBlock:
+          $ref: '#/components/schemas/CloudS3BucketPublicAccessBlockViewModel'
+        s3RegionName:
+          type: string
+        tags:
+          $ref: '#/components/schemas/TagsDictionary'
+    CloudS3BucketLoggingViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - targetPrefix
+      - targetBucketName
+      - grants
+      properties:
+        targetPrefix:
+          type: string
+        targetBucketName:
+          type: string
+        grants:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudS3BucketGrantViewModel'
+    CloudS3BucketGrantViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - granteeType
+      - granteeCanonicalUser
+      - granteeDisplayName
+      - granteeEmailAddress
+      - granteeURI
+      - granteePremissionHeaderName
+      - granteePremission
+      properties:
+        granteeType:
+          type: string
+        granteeCanonicalUser:
+          type: string
+        granteeDisplayName:
+          type: string
+        granteeEmailAddress:
+          type: string
+        granteeURI:
+          type: string
+        granteePremissionHeaderName:
+          type: string
+        granteePremission:
+          type: string
+    CloudS3BucketAclViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - ownerId
+      - ownerDisplayName
+      - grants
+      properties:
+        ownerId:
+          type: string
+        ownerDisplayName:
+          type: string
+        grants:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudS3BucketGrantViewModel'
+    CloudS3BucketPolicyViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - document
+      properties:
+        document:
+          type: string
+    CloudS3BucketVersioningViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - status
+      - mfaDelete
+      properties:
+        status:
+          type: string
+        mfaDelete:
+          type: boolean
+    CloudS3BucketWebsiteViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - indexDocumentSuffix
+      - errorDocument
+      - routingRules
+      - redirectAllRequestsTo
+      properties:
+        indexDocumentSuffix:
+          type: string
+        errorDocument:
+          type: string
+        routingRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudS3RoutingRuleViewModel'
+        redirectAllRequestsTo:
+          $ref: '#/components/schemas/CloudS3RoutingRuleRedirectViewModel'
+    CloudS3RoutingRuleViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - condition
+      - redirect
+      properties:
+        condition:
+          $ref: '#/components/schemas/CloudS3RoutingRuleConditionViewModel'
+        redirect:
+          $ref: '#/components/schemas/CloudS3RoutingRuleRedirectViewModel'
+    CloudS3RoutingRuleConditionViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - httpErrorCodeReturnedEquals
+      - keyPrefixEquals
+      properties:
+        httpErrorCodeReturnedEquals:
+          type: string
+        keyPrefixEquals:
+          type: string
+    CloudS3RoutingRuleRedirectViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - hostName
+      - httpRedirectCode
+      - protocol
+      - replaceKeyPrefixWith
+      - replaceKeyWith
+      properties:
+        hostName:
+          type: string
+        httpRedirectCode:
+          type: string
+        protocol:
+          type: string
+        replaceKeyPrefixWith:
+          type: string
+        replaceKeyWith:
+          type: string
+    CloudS3ServerSideEncryptionConfigurationViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - serverSideEncryptionRules
+      properties:
+        serverSideEncryptionRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudS3ServerSideEncryptionRuleViewModel'
+    CloudS3ServerSideEncryptionRuleViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - serverSideEncryptionByDefault
+      properties:
+        serverSideEncryptionByDefault:
+          $ref: '#/components/schemas/CloudS3ServerSideEncryptionByDefaultViewModel'
+    CloudS3ServerSideEncryptionByDefaultViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - serverSideEncryptionAlgorithm
+      - serverSideEncryptionKeyManagementServiceKeyId
+      properties:
+        serverSideEncryptionAlgorithm:
+          type: string
+        serverSideEncryptionKeyManagementServiceKeyId:
+          type: string
+    CloudS3ReplicationConfigurationViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - role
+      - rules
+      properties:
+        role:
+          type: string
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudS3ReplicationRuleViewModel'
+    CloudS3ReplicationRuleViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - prefix
+      - status
+      - destination
+      properties:
+        id:
+          type: string
+        prefix:
+          type: string
+        status:
+          type: string
+        destination:
+          $ref: '#/components/schemas/CloudS3ReplicationDestinationViewModel'
+    CloudS3ReplicationDestinationViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - bucketArn
+      - storageClass
+      properties:
+        bucketArn:
+          type: string
+        storageClass:
+          type: string
+    CloudS3LifecycleConfigurationViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - rules
+      properties:
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudS3LifecycleRuleViewModel'
+    CloudS3LifecycleRuleViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - expiration
+      - id
+      - prefix
+      - filter
+      - status
+      - transition
+      - noncurrentVersionExpiration
+      - noncurrentVersionTransition
+      - transitions
+      - noncurrentVersionTransitions
+      - abortIncompleteMultipartUpload
+      properties:
+        expiration:
+          $ref: '#/components/schemas/CloudS3LifecycleRuleExpirationViewModel'
+        id:
+          type: string
+        prefix:
+          type: string
+        filter:
+          $ref: '#/components/schemas/CloudS3LifecycleFilterViewModel'
+        status:
+          type: string
+        transition:
+          $ref: '#/components/schemas/CloudS3LifecycleTransitionViewModel'
+        noncurrentVersionExpiration:
+          $ref: '#/components/schemas/CloudS3LifecycleRuleNoncurrentVersionExpirationViewModel'
+        noncurrentVersionTransition:
+          $ref: '#/components/schemas/CloudS3LifecycleRuleNoncurrentVersionTransitionViewModel'
+        transitions:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudS3LifecycleTransitionViewModel'
+        noncurrentVersionTransitions:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudS3LifecycleRuleNoncurrentVersionTransitionViewModel'
+        abortIncompleteMultipartUpload:
+          $ref: '#/components/schemas/CloudS3LifecycleRuleAbortIncompleteMultipartUploadViewModel'
+    CloudS3LifecycleRuleExpirationViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - date
+      - dateUtc
+      - days
+      - expiredObjectDeleteMarker
+      properties:
+        date:
+          type: string
+          format: date-time
+        dateUtc:
+          type: string
+          format: date-time
+        days:
+          type: integer
+          format: int32
+        expiredObjectDeleteMarker:
+          type: boolean
+    CloudS3LifecycleFilterViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - lifecycleFilterPredicate
+      properties:
+        lifecycleFilterPredicate:
+          $ref: '#/components/schemas/CloudS3LifecycleFilterPredicateViewModel'
+    CloudS3LifecycleFilterPredicateViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - prefixOperand
+      - tagOperands
+      properties:
+        prefixOperand:
+          $ref: '#/components/schemas/CloudS3LifecyclePrefixPredicateViewModel'
+        tagOperands:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudS3LifecycleTagPredicateViewModel'
+    CloudS3LifecyclePrefixPredicateViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - prefix
+      properties:
+        prefix:
+          type: string
+    CloudS3LifecycleTagPredicateViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - tag
+      properties:
+        tag:
+          $ref: '#/components/schemas/CloudS3TagViewModel'
+    CloudS3TagViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    CloudS3LifecycleTransitionViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - date
+      - dateUtc
+      - days
+      - storageClass
+      properties:
+        date:
+          type: string
+          format: date-time
+        dateUtc:
+          type: string
+          format: date-time
+        days:
+          type: integer
+          format: int32
+        storageClass:
+          type: string
+    CloudS3LifecycleRuleNoncurrentVersionExpirationViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - noncurrentDays
+      properties:
+        noncurrentDays:
+          type: integer
+          format: int32
+    CloudS3LifecycleRuleNoncurrentVersionTransitionViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - noncurrentDays
+      - storageClass
+      properties:
+        noncurrentDays:
+          type: integer
+          format: int32
+        storageClass:
+          type: string
+    CloudS3LifecycleRuleAbortIncompleteMultipartUploadViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - daysAfterInitiation
+      properties:
+        daysAfterInitiation:
+          type: integer
+          format: int32
+    CloudS3BucketPublicAccessBlockViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - blockPublicAcls
+      - ignorePublicAcls
+      - blockPublicPolicy
+      - restrictPublicBuckets
+      properties:
+        blockPublicAcls:
+          type: boolean
+          nullable: true
+        ignorePublicAcls:
+          type: boolean
+          nullable: true
+        blockPublicPolicy:
+          type: boolean
+          nullable: true
+        restrictPublicBuckets:
+          type: boolean
+          nullable: true
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+security:
+- basic: []
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

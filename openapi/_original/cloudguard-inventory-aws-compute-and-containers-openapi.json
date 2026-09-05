@@ -1,0 +1,6798 @@
+{
+ "info": {
+  "title": "Inventory - AWS Compute and Containers",
+  "version": "v2"
+ },
+ "openapi": "3.0.0",
+ "servers": [
+  {
+   "url": "https://api.dome9.com/",
+   "description": "US region"
+  },
+  {
+   "url": "https://api.{region}.dome9.com/",
+   "description": "Other regions",
+   "variables": {
+    "region": {
+     "enum": [
+      "eu1",
+      "ap1",
+      "ap2",
+      "ap3",
+      "cace1"
+     ],
+     "default": "eu1"
+    }
+   }
+  }
+ ],
+ "paths": {
+  "/v2/AwsEcsTask": {
+   "get": {
+    "tags": [
+     "Aws Ecs Task"
+    ],
+    "operationId": "AwsEcsTask_Get_get_/v2/AwsEcsTask",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.CloudEcsTask.AwsEcsTaskViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/v2/AwsEks/GetByCloudAccount": {
+   "get": {
+    "tags": [
+     "Aws Eks"
+    ],
+    "operationId": "AwsEks_GetByCloudAccount_get_/v2/AwsEks/GetByCloudAccount",
+    "parameters": [
+     {
+      "name": "cloudAccountId",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get By Cloud Account"
+   }
+  },
+  "/v2/AwsEks": {
+   "get": {
+    "tags": [
+     "Aws Eks"
+    ],
+    "operationId": "AwsEks_Get_get_/v2/AwsEks",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/v2/AwsEks/{id}": {
+   "get": {
+    "tags": [
+     "Aws Eks"
+    ],
+    "operationId": "AwsEks_Get_get_/v2/AwsEks/{id}",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel"
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/v2/CloudAmi": {
+   "get": {
+    "tags": [
+     "Cloud Ami"
+    ],
+    "operationId": "CloudAmi_Get_get_/v2/CloudAmi",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.CloudAmi.CloudEc2ImageViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/v2/CloudAmi/{id}": {
+   "get": {
+    "tags": [
+     "Cloud Ami"
+    ],
+    "operationId": "CloudAmi_Get_get_/v2/CloudAmi/{id}",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.CloudAmi.CloudEc2ImageViewModel"
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/v2/CloudAutoScalingGroup": {
+   "get": {
+    "tags": [
+     "Cloud Auto Scaling Group"
+    ],
+    "operationId": "CloudAutoScalingGroup_Get_get_/v2/CloudAutoScalingGroup",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.CloudAutoScalingGroup.CloudAutoScalingGroupViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/v2/CloudDbInstance": {
+   "get": {
+    "tags": [
+     "Cloud Db Instance"
+    ],
+    "operationId": "CloudDbInstance_Get_get_/v2/CloudDbInstance",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.CloudDbInstances.CloudDbInstanceViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/v2/CloudDbInstance/{id}": {
+   "get": {
+    "tags": [
+     "Cloud Db Instance"
+    ],
+    "operationId": "CloudDbInstance_Get_get_/v2/CloudDbInstance/{id}",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.CloudDbInstances.CloudDbInstanceViewModel"
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/v2/CloudEcsCluster": {
+   "get": {
+    "tags": [
+     "Cloud Ecs Cluster"
+    ],
+    "operationId": "CloudEcsCluster_Get_get_/v2/CloudEcsCluster",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.CloudEcsClusterViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/v2/CloudEcsService/by-external-id-and-cloud-account": {
+   "get": {
+    "tags": [
+     "Cloud Ecs Service"
+    ],
+    "operationId": "CloudEcsService_GetByExternalIdAndCloudAccountAsync_get_/v2/CloudEcsService/by-external-id-and-cloud-account",
+    "parameters": [
+     {
+      "name": "externalId",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "cloudAccountId",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.CloudECSServiceViewModel"
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get By External Id And Cloud Account"
+   }
+  },
+  "/v2/CloudEcsService": {
+   "get": {
+    "tags": [
+     "Cloud Ecs Service"
+    ],
+    "operationId": "CloudEcsService_Get_get_/v2/CloudEcsService",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.CloudECSServiceViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/v2/CloudEcsTaskDefinition": {
+   "get": {
+    "tags": [
+     "Cloud Ecs Task Definition"
+    ],
+    "operationId": "CloudEcsTaskDefinition_Get_get_/v2/CloudEcsTaskDefinition",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.CloudEcsTaskDefinitionViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/v2/cloudinstance/by-external-id-and-cloud-account": {
+   "get": {
+    "tags": [
+     "Cloud Instance"
+    ],
+    "operationId": "CloudInstance_GetByIdAndCloudAccountAsync_get_/v2/cloudinstance/by-external-id-and-cloud-account",
+    "parameters": [
+     {
+      "name": "externalId",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "cloudAccountId",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Models.CloudInstanceViewModel"
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get By Id And Cloud Account"
+   }
+  },
+  "/v2/cloudinstance/guard-duty-findings": {
+   "get": {
+    "tags": [
+     "Cloud Instance"
+    ],
+    "summary": "Get Instance Guard Duty Findings",
+    "operationId": "CloudInstance_GetInstanceGuardDutyFindings_get_/v2/cloudinstance/guard-duty-findings",
+    "parameters": [
+     {
+      "name": "cloudaccountid",
+      "in": "query",
+      "description": "the cloud account id",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      }
+     },
+     {
+      "name": "region",
+      "in": "query",
+      "description": "the region containing the instanceid",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "enum": [
+        "us_east_1",
+        "us_west_1",
+        "eu_west_1",
+        "ap_southeast_1",
+        "ap_northeast_1",
+        "us_west_2",
+        "sa_east_1",
+        "az_1_region_a_geo_1",
+        "az_2_region_a_geo_1",
+        "az_3_region_a_geo_1",
+        "ap_southeast_2",
+        "mellanox_region",
+        "us_gov_west_1",
+        "eu_central_1",
+        "ap_northeast_2",
+        "ap_south_1",
+        "us_east_2",
+        "ca_central_1",
+        "eu_west_2",
+        "eu_west_3",
+        "eu_north_1",
+        "cn_north_1",
+        "cn_northwest_1",
+        "us_gov_east_1",
+        "ap_east_1",
+        "me_south_1",
+        "af_south_1",
+        "eu_south_1",
+        "ap_northeast_3",
+        "me_central_1",
+        "ap_south_2",
+        "ap_southeast_3",
+        "ap_southeast_4",
+        "eu_central_2",
+        "eu_south_2",
+        "il_central_1",
+        "ca_west_1",
+        "mx_central_1",
+        "ap_southeast_5",
+        "ap_southeast_7",
+        "westus",
+        "eastus",
+        "eastus2",
+        "northcentralus",
+        "westus2",
+        "southcentralus",
+        "centralus",
+        "usgovlowa",
+        "usgovvirginia",
+        "northeurope",
+        "westeurope",
+        "eastasia",
+        "southeastasia",
+        "japaneast",
+        "japanwest",
+        "brazilsouth",
+        "australiaeast",
+        "australiasoutheast",
+        "centralindia",
+        "southindia",
+        "westindia",
+        "canadaeast",
+        "westcentralus",
+        "chinaeast",
+        "chinanorth",
+        "canadacentral",
+        "germanycentral",
+        "germanynortheast",
+        "koreacentral",
+        "uksouth",
+        "ukwest",
+        "koreasouth",
+        "francecentral",
+        "francesouth",
+        "germanywestcentral",
+        "usdodcentral",
+        "usdodeast",
+        "usgovarizona",
+        "usgovtexas",
+        "australiacentral",
+        "australiacentral2",
+        "chinaeast2",
+        "chinanorth2",
+        "southafricanorth",
+        "southafricawest",
+        "uaecentral",
+        "uaenorth",
+        "ussecwest",
+        "usseceast",
+        "germanynorth",
+        "switzerlandwest",
+        "norwaywest",
+        "norwayeast",
+        "switzerlandnorth",
+        "westus3",
+        "swedencentral",
+        "chinanorth3",
+        "brazilsoutheast",
+        "eastus2euap",
+        "jioindiawest",
+        "jioindiacentral",
+        "qatarcentral",
+        "spaincentral",
+        "italynorth",
+        "polandcentral",
+        "mexicocentral",
+        "asia",
+        "asia_east1",
+        "asia_northeast1",
+        "asia_south1",
+        "asia_southeast1",
+        "australia_southeast1",
+        "europe",
+        "europe_north1",
+        "europe_west1",
+        "europe_west2",
+        "europe_west3",
+        "europe_west4",
+        "northamerica_northeast1",
+        "southamerica_east1",
+        "us",
+        "us_central1",
+        "us_east1",
+        "us_east4",
+        "us_west1",
+        "us_west2",
+        "global",
+        "asia_east2",
+        "eur4",
+        "nam4",
+        "europe_west6",
+        "japan_west",
+        "asia_northeast2",
+        "asia_northeast3",
+        "us_west3",
+        "us_west4",
+        "asia_southeast2",
+        "nam3",
+        "nam5",
+        "nam6",
+        "nam7",
+        "nam10",
+        "nam_eur_asia1",
+        "eur3",
+        "eur5",
+        "asia1",
+        "nam11",
+        "eu",
+        "northamerica_northeast2",
+        "southamerica_west1",
+        "us_east5",
+        "us_south1",
+        "europe_central2",
+        "europe_southwest1",
+        "europe_west8",
+        "europe_west9",
+        "europe_west10",
+        "europe_west12",
+        "asia_south2",
+        "australia_southeast2",
+        "me_central1",
+        "me_central2",
+        "me_west1",
+        "ap_sydney_1",
+        "ap_melbourne_1",
+        "sa_saopaulo_1",
+        "sa_vinhedo_1",
+        "ca_montreal_1",
+        "ca_toronto_1",
+        "sa_santiago_1",
+        "eu_paris_1",
+        "eu_marseille_1",
+        "eu_frankfurt_1",
+        "ap_hyderabad_1",
+        "ap_mumbai_1",
+        "il_jerusalem_1",
+        "eu_milan_1",
+        "ap_osaka_1",
+        "ap_tokyo_1",
+        "mx_queretaro_1",
+        "eu_amsterdam_1",
+        "me_jeddah_1",
+        "ap_singapore_1",
+        "af_johannesburg_1",
+        "ap_seoul_1",
+        "ap_chuncheon_1",
+        "eu_madrid_1",
+        "eu_stockholm_1",
+        "eu_zurich_1",
+        "me_abudhabi_1",
+        "me_dubai_1",
+        "uk_london_1",
+        "uk_cardiff_1",
+        "us_ashburn_1",
+        "us_phoenix_1",
+        "us_sanjose_1",
+        "us_gov_ashburn_1",
+        "us_gov_chicago_1",
+        "us_gov_phoenix_1",
+        "us_langley_1",
+        "us_luke_1",
+        "uk_gov_london_1",
+        "uk_gov_cardiff_1",
+        "sa_bogota_1",
+        "us_chicago_1",
+        "sa_valparaiso_1",
+        "mx_monterrey_1",
+        "eu_jovanovac_1",
+        "ap_singapore_2"
+       ]
+      }
+     },
+     {
+      "name": "instanceid",
+      "in": "query",
+      "description": "the id of the instance",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyFindingsResponse"
+        }
+       }
+      }
+     }
+    },
+    "description": "Fetch AWS GuardDuty findings for a specific AWS instance"
+   }
+  },
+  "/v2/cloudinstance/{externalid}/sec-groups": {
+   "post": {
+    "tags": [
+     "Cloud Instance"
+    ],
+    "summary": "Attach Security Group To Instance",
+    "operationId": "CloudInstance_AttachSecurityGroupToInstance_post_/v2/cloudinstance/{externalid}/sec-groups",
+    "parameters": [
+     {
+      "name": "externalid",
+      "in": "path",
+      "description": "the external id of the instance",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Models.CloudInstanceSecurityGroupAttachDetachViewModel"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Models.CloudInstanceSecurityGroupAttachDetachViewModel"
+       }
+      }
+     },
+     "description": "information to update",
+     "required": true
+    },
+    "description": "Attach security Group to an AWS EC2 Instance"
+   },
+   "delete": {
+    "tags": [
+     "Cloud Instance"
+    ],
+    "summary": "Detach Security Group From Instance",
+    "operationId": "CloudInstance_DetachSecurityGroupFromInstance_delete_/v2/cloudinstance/{externalid}/sec-groups",
+    "parameters": [
+     {
+      "name": "externalid",
+      "in": "path",
+      "description": "details of the instance",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Models.CloudInstanceSecurityGroupAttachDetachViewModel"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Models.CloudInstanceSecurityGroupAttachDetachViewModel"
+       }
+      }
+     },
+     "description": "information to update",
+     "required": true
+    },
+    "description": "Detach security Group from an AWS EC2 Instance"
+   }
+  },
+  "/v2/CloudInstance": {
+   "get": {
+    "tags": [
+     "Cloud Instance"
+    ],
+    "summary": "Get",
+    "operationId": "CloudInstance_Get_get_/v2/CloudInstance",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.Models.CloudInstanceViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "Fetch all AWS EC2 instances for the user from all cloud accounts."
+   }
+  },
+  "/v2/CloudInstance/{id}": {
+   "get": {
+    "tags": [
+     "Cloud Instance"
+    ],
+    "summary": "Get",
+    "operationId": "CloudInstance_Get_get_/v2/CloudInstance/{id}",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "description": "The instance external ID",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Models.CloudInstanceViewModel"
+        }
+       }
+      }
+     }
+    },
+    "description": "Fetch a specific AWS EC2 instance"
+   }
+  },
+  "/v2/CloudLambdaFunction/by-external-id-and-cloud-account": {
+   "get": {
+    "tags": [
+     "Cloud Lambda Function"
+    ],
+    "operationId": "CloudLambdaFunction_GetByExternalIdAndCloudAccountAsync_get_/v2/CloudLambdaFunction/by-external-id-and-cloud-account",
+    "parameters": [
+     {
+      "name": "externalId",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "cloudAccountId",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Models.CloudLambdaFunctionViewModel"
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get By External Id And Cloud Account"
+   }
+  },
+  "/v2/CloudLambdaFunction": {
+   "get": {
+    "tags": [
+     "Cloud Lambda Function"
+    ],
+    "operationId": "CloudLambdaFunction_Get_get_/v2/CloudLambdaFunction",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.Models.CloudLambdaFunctionViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/v2/CloudLambdaFunction/{id}": {
+   "get": {
+    "tags": [
+     "Cloud Lambda Function"
+    ],
+    "operationId": "CloudLambdaFunction_Get_get_/v2/CloudLambdaFunction/{id}",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Models.CloudLambdaFunctionViewModel"
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/v2/CloudLoadBalancer": {
+   "get": {
+    "tags": [
+     "Cloud Load Balancer"
+    ],
+    "summary": "Get",
+    "operationId": "CloudLoadBalancer_Get_get_/v2/CloudLoadBalancer",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.Models.CloudLoadBalancerViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "Fetch all cloud instances for the user from all cloud accounts."
+   }
+  },
+  "/v2/CloudLoadBalancer/{id}": {
+   "get": {
+    "tags": [
+     "Cloud Load Balancer"
+    ],
+    "operationId": "CloudLoadBalancer_Get_get_/v2/CloudLoadBalancer/{id}",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Models.CloudLoadBalancerViewModel"
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  },
+  "/v2/CloudVolume": {
+   "get": {
+    "tags": [
+     "Cloud Volume"
+    ],
+    "operationId": "CloudVolume_Get_get_/v2/CloudVolume",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.CloudVolume.CloudVolumeViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get"
+   }
+  }
+ },
+ "tags": [
+  {
+   "name": "AccessLease",
+   "description": "Access Leases"
+  },
+  {
+   "name": "AccessLeaseInvitation",
+   "description": "Access Lease Invitations"
+  },
+  {
+   "name": "Account"
+  },
+  {
+   "name": "AccountLimitation"
+  },
+  {
+   "name": "AccountPollingInterval"
+  },
+  {
+   "name": "AccountRegistration"
+  },
+  {
+   "name": "AccountTrust",
+   "description": "Allow you to define a trust between accounts in order to allow users in a certain account to make changes and operation on another account.\nActions can be taken on a trustee account via a role which is defined on it. \nThe role should be assumed by a user from the trusted account."
+  },
+  {
+   "name": "Agent"
+  },
+  {
+   "name": "Agentless",
+   "description": "Agentless Workload Posture"
+  },
+  {
+   "name": "Alert"
+  },
+  {
+   "name": "AlibabaCloudAccount",
+   "description": "Alibaba Cloud Accounts"
+  },
+  {
+   "name": "Application"
+  },
+  {
+   "name": "Assessment",
+   "description": "Run and View Compliance Assessments"
+  },
+  {
+   "name": "AssessmentHistory"
+  },
+  {
+   "name": "AssessmentHistoryV2",
+   "description": "Compliance Assessment History"
+  },
+  {
+   "name": "Audit",
+   "description": "Audit logs"
+  },
+  {
+   "name": "Auth"
+  },
+  {
+   "name": "Aws Cloud Account",
+   "description": "Manage AWS Cloud Accounts"
+  },
+  {
+   "name": "AwsAppSync"
+  },
+  {
+   "name": "AwsBackupVault"
+  },
+  {
+   "name": "AwsConfigSettings"
+  },
+  {
+   "name": "AwsCustomerGateway"
+  },
+  {
+   "name": "AwsEcsTask"
+  },
+  {
+   "name": "AwsEks"
+  },
+  {
+   "name": "AwsElasticIp"
+  },
+  {
+   "name": "AwsElasticsearchDomain"
+  },
+  {
+   "name": "AwsEmrCluster"
+  },
+  {
+   "name": "AwsInspectorFindings"
+  },
+  {
+   "name": "AwsInspectorRuns"
+  },
+  {
+   "name": "AwsLoadBalancersNetworkInterfaces"
+  },
+  {
+   "name": "AwsOrganizations"
+  },
+  {
+   "name": "AwsQuickSightAccount"
+  },
+  {
+   "name": "AwsQuickSightGroup"
+  },
+  {
+   "name": "AwsQuickSightUser"
+  },
+  {
+   "name": "AwsQuickSightVpcConnections"
+  },
+  {
+   "name": "AwsSageMaker"
+  },
+  {
+   "name": "AwsSecurityGroup"
+  },
+  {
+   "name": "AwsSecurityGroupPolicy"
+  },
+  {
+   "name": "AwsSecurityGroupsIndex"
+  },
+  {
+   "name": "AwsUnifiedOnboarding",
+   "description": "Aws Unified Onboarding"
+  },
+  {
+   "name": "AwsVpcEndpoint"
+  },
+  {
+   "name": "AzureAnalysisService"
+  },
+  {
+   "name": "AzureApplicationGateway"
+  },
+  {
+   "name": "AzureApplicationSecurityGroup"
+  },
+  {
+   "name": "AzureCloudAccount",
+   "description": "Onboard Azure accounts"
+  },
+  {
+   "name": "AzureComputeGalleryImage"
+  },
+  {
+   "name": "AzureCosmosDbAccount"
+  },
+  {
+   "name": "AzureDisk"
+  },
+  {
+   "name": "AzureFunction"
+  },
+  {
+   "name": "AzureKeyVault"
+  },
+  {
+   "name": "AzureKubernetes"
+  },
+  {
+   "name": "AzureLoadBalancer"
+  },
+  {
+   "name": "AzureLock"
+  },
+  {
+   "name": "AzureLogicApp"
+  },
+  {
+   "name": "AzureLogProfile"
+  },
+  {
+   "name": "AzurePolicyAssignment"
+  },
+  {
+   "name": "AzureRedisCache"
+  },
+  {
+   "name": "AzureResourceGroup"
+  },
+  {
+   "name": "AzureRouteTable"
+  },
+  {
+   "name": "AzureSecurityGroup"
+  },
+  {
+   "name": "AzureSecurityGroupPolicy",
+   "description": "Azure Network Security Group Policies"
+  },
+  {
+   "name": "AzureSnapshot"
+  },
+  {
+   "name": "AzureSqlDb"
+  },
+  {
+   "name": "AzureSqlServer"
+  },
+  {
+   "name": "AzureStorageAccounts"
+  },
+  {
+   "name": "AzureStorageBlobContainer"
+  },
+  {
+   "name": "AzureSubnet"
+  },
+  {
+   "name": "AzureUser"
+  },
+  {
+   "name": "AzureVirtualMachine"
+  },
+  {
+   "name": "AzureVirtualMachineImage"
+  },
+  {
+   "name": "AzureVirtualMachineScaleSet"
+  },
+  {
+   "name": "AzureVirtualNetworkPeering"
+  },
+  {
+   "name": "AzureWebApp"
+  },
+  {
+   "name": "BigTable"
+  },
+  {
+   "name": "BillableAssets",
+   "description": "Retrieve billable assets data"
+  },
+  {
+   "name": "BillableAssetsReport",
+   "description": "Billable Assets Report"
+  },
+  {
+   "name": "Billing"
+  },
+  {
+   "name": "Clarity"
+  },
+  {
+   "name": "CloudAcmCertificate"
+  },
+  {
+   "name": "CloudAmi"
+  },
+  {
+   "name": "CloudAutoScalingGroup"
+  },
+  {
+   "name": "CloudDbInstance"
+  },
+  {
+   "name": "CloudDirectConnect"
+  },
+  {
+   "name": "CloudDynamoDb"
+  },
+  {
+   "name": "CloudEcsCluster"
+  },
+  {
+   "name": "CloudEcsService",
+   "description": "Cloud Ecs Service"
+  },
+  {
+   "name": "CloudEcsTaskDefinition"
+  },
+  {
+   "name": "CloudEfs"
+  },
+  {
+   "name": "CloudElastiCacheCluster"
+  },
+  {
+   "name": "CloudFlowLogs"
+  },
+  {
+   "name": "CloudFrontDistribution"
+  },
+  {
+   "name": "CloudGuardDutyDetector"
+  },
+  {
+   "name": "CloudIamAccountSummary"
+  },
+  {
+   "name": "CloudIamCredentialReport"
+  },
+  {
+   "name": "CloudIamGroup"
+  },
+  {
+   "name": "CloudIamPasswordPolicy"
+  },
+  {
+   "name": "CloudIamPolicy"
+  },
+  {
+   "name": "CloudIamRole"
+  },
+  {
+   "name": "CloudIamServerCertificate"
+  },
+  {
+   "name": "CloudIamUser"
+  },
+  {
+   "name": "CloudIamVirtualMfaDevice"
+  },
+  {
+   "name": "CloudInfraUser",
+   "description": "CloudInfra Users"
+  },
+  {
+   "name": "CloudInstance",
+   "description": "Cloud Instances"
+  },
+  {
+   "name": "CloudInternetGateway"
+  },
+  {
+   "name": "CloudKinesisStream"
+  },
+  {
+   "name": "CloudKms"
+  },
+  {
+   "name": "CloudKmsAlias"
+  },
+  {
+   "name": "CloudLambdaFunction",
+   "description": "Cloud Lambda Function"
+  },
+  {
+   "name": "CloudLoadBalancer"
+  },
+  {
+   "name": "CloudLogGroups"
+  },
+  {
+   "name": "CloudMetricAlarm"
+  },
+  {
+   "name": "CloudNacl"
+  },
+  {
+   "name": "CloudNetworkInterfaces"
+  },
+  {
+   "name": "CloudRedshiftCluster"
+  },
+  {
+   "name": "CloudRegion"
+  },
+  {
+   "name": "CloudRoute53Domain"
+  },
+  {
+   "name": "CloudRoute53HostedZone"
+  },
+  {
+   "name": "CloudRoute53RecordSetGroup"
+  },
+  {
+   "name": "CloudRouteTable"
+  },
+  {
+   "name": "CloudS3Bucket",
+   "description": ""
+  },
+  {
+   "name": "CloudSecurityGroup",
+   "description": "AWS Security Groups"
+  },
+  {
+   "name": "CloudSnsSubscription"
+  },
+  {
+   "name": "CloudSnsTopic"
+  },
+  {
+   "name": "CloudSql"
+  },
+  {
+   "name": "CloudSqs",
+   "description": ""
+  },
+  {
+   "name": "CloudSubnet"
+  },
+  {
+   "name": "CloudTrail",
+   "description": "CloudTrail"
+  },
+  {
+   "name": "CloudVolume"
+  },
+  {
+   "name": "CloudVpc"
+  },
+  {
+   "name": "CloudVpcPeeringConnection"
+  },
+  {
+   "name": "CloudVPNConnection"
+  },
+  {
+   "name": "CloudVpnGateway"
+  },
+  {
+   "name": "CloudWAFRegional"
+  },
+  {
+   "name": "CloudWatchEventsRule",
+   "description": "CloudWatchEventsRule"
+  },
+  {
+   "name": "ComplianceExclusion",
+   "description": "Compliance Exclusions"
+  },
+  {
+   "name": "CompliancePolicy"
+  },
+  {
+   "name": "ComplianceRemediation",
+   "description": "Compliance Remediation"
+  },
+  {
+   "name": "ComplianceRemediationOld",
+   "description": "Compliance Remediation - DEPRECATED - please use /Compliance/Remediation instead"
+  },
+  {
+   "name": "ComplianceRuleset",
+   "description": "ComplianceRuleset"
+  },
+  {
+   "name": "ContinuousComplianceNotification",
+   "description": "Continuous Compliance Notification Policies"
+  },
+  {
+   "name": "ContinuousCompliancePolicy"
+  },
+  {
+   "name": "ContinuousCompliancePolicyV2",
+   "description": "Continuous Compliance Policies"
+  },
+  {
+   "name": "EmergencyPolicy"
+  },
+  {
+   "name": "EntityFetchStatus"
+  },
+  {
+   "name": "EntityReport"
+  },
+  {
+   "name": "ExclusionOld",
+   "description": "Compliance Exclusions - DEPRECATED - please use /Compliance/Exclusion instead"
+  },
+  {
+   "name": "ExternalFindings",
+   "description": "Findings from External (3rd-party) systems"
+  },
+  {
+   "name": "Fim"
+  },
+  {
+   "name": "Finding",
+   "description": "Compliance Findings"
+  },
+  {
+   "name": "FindingsReport",
+   "description": "Compliance Findings csv reports"
+  },
+  {
+   "name": "GcpBigQuery"
+  },
+  {
+   "name": "GcpDisk"
+  },
+  {
+   "name": "GcpGkeCluster"
+  },
+  {
+   "name": "GcpImage"
+  },
+  {
+   "name": "GcpKmsKeyRing"
+  },
+  {
+   "name": "GcpProjectInfo",
+   "description": "Google Cloud Project Info"
+  },
+  {
+   "name": "GcpPubSub"
+  },
+  {
+   "name": "GcpSecurityGroup"
+  },
+  {
+   "name": "GcpServiceAccount"
+  },
+  {
+   "name": "GcpStorageBucket"
+  },
+  {
+   "name": "GenericList",
+   "description": "Generic Lists"
+  },
+  {
+   "name": "GlobalSearch",
+   "description": "Global search for all CloudGuard services"
+  },
+  {
+   "name": "GoogleCloudAccount",
+   "description": "Google Cloud Accounts"
+  },
+  {
+   "name": "GoogleCloudFirewallRule"
+  },
+  {
+   "name": "GoogleCloudFunction"
+  },
+  {
+   "name": "GoogleCloudIamPolicy"
+  },
+  {
+   "name": "GoogleCloudNetwork",
+   "description": "Google Cloud Network"
+  },
+  {
+   "name": "GoogleCloudSubnet"
+  },
+  {
+   "name": "GoogleCloudVMInstance"
+  },
+  {
+   "name": "Home"
+  },
+  {
+   "name": "IamSafeLease",
+   "description": "IAM Safety Leases"
+  },
+  {
+   "name": "IncidentsStatus"
+  },
+  {
+   "name": "InfrastructureAssessment"
+  },
+  {
+   "name": "Intelligence",
+   "description": "CloudGuard Intelligence allows you to visualize and analyze Account Activity and Network Traffic into and out of your cloud environment."
+  },
+  {
+   "name": "IpAddressMetadata",
+   "description": "IP Address Metadata"
+  },
+  {
+   "name": "IpList",
+   "description": "IP Lists"
+  },
+  {
+   "name": "LicenseActivator"
+  },
+  {
+   "name": "Licensing"
+  },
+  {
+   "name": "ManagedGenericList"
+  },
+  {
+   "name": "Msp"
+  },
+  {
+   "name": "OrganizationalUnit",
+   "description": "Manage Organizational Units"
+  },
+  {
+   "name": "Permission"
+  },
+  {
+   "name": "ProtectedAsset"
+  },
+  {
+   "name": "ProtectedAssetsReport",
+   "description": "Compliance Protected Asset csv reports"
+  },
+  {
+   "name": "ProtegoStatistics",
+   "description": "Protego statistics by dates"
+  },
+  {
+   "name": "Role",
+   "description": "CloudGuard Roles"
+  },
+  {
+   "name": "RulesEngine"
+  },
+  {
+   "name": "SecurityGroup"
+  },
+  {
+   "name": "Serverless"
+  },
+  {
+   "name": "ServerlessPolicy",
+   "description": "Serverless policy"
+  },
+  {
+   "name": "ServiceAccount",
+   "description": "CloudGuard Service Accounts"
+  },
+  {
+   "name": "ServicePort"
+  },
+  {
+   "name": "Settings",
+   "description": "Account Settings"
+  },
+  {
+   "name": "ShiftLeft",
+   "description": "ShiftLeft"
+  },
+  {
+   "name": "SystemHealth"
+  },
+  {
+   "name": "TenableAccount",
+   "description": "Onboard Tenable accounts"
+  },
+  {
+   "name": "User",
+   "description": "CloudGuard account users"
+  },
+  {
+   "name": "BaseImage",
+   "description": ""
+  },
+  {
+   "name": "ContainerRegistryAccount",
+   "description": "Container Registry Account"
+  },
+  {
+   "name": "ContainerRegistryAccountInternal",
+   "description": ""
+  },
+  {
+   "name": "ContainerRegistryImageAssurancePolicy",
+   "description": "(deprecated: move to use /v2/vulnerability/policy)"
+  },
+  {
+   "name": "Dashboard",
+   "description": ""
+  },
+  {
+   "name": "EcsConfiguration",
+   "description": ""
+  },
+  {
+   "name": "EcsImageAssurancePolicy",
+   "description": "(deprecated: move to use /v2/vulnerability/policy)"
+  },
+  {
+   "name": "EcsImageScan",
+   "description": "ECS Image Scan Configuration"
+  },
+  {
+   "name": "Environment",
+   "description": ""
+  },
+  {
+   "name": "ImageAdmissionExclusion",
+   "description": "[Preview feature] Kubernetes Image admission exclusions"
+  },
+  {
+   "name": "ImageAssuranceDashboard",
+   "description": ""
+  },
+  {
+   "name": "ImageAssuranceReport",
+   "description": ""
+  },
+  {
+   "name": "KubernetesAccount",
+   "description": "Kubernetes Accounts"
+  },
+  {
+   "name": "KubernetesAccountInternal",
+   "description": ""
+  },
+  {
+   "name": "KubernetesAccountOld",
+   "description": "(deprecated: this api is deprecated, please use '/v2/kubernetes/account' instead)"
+  },
+  {
+   "name": "KubernetesAdmissionControl",
+   "description": "Kubernetes Admission Control"
+  },
+  {
+   "name": "KubernetesAdmissionControlPoliciesSummary",
+   "description": ""
+  },
+  {
+   "name": "KubernetesClusterRole",
+   "description": ""
+  },
+  {
+   "name": "KubernetesImage",
+   "description": ""
+  },
+  {
+   "name": "KubernetesImageAdmissionExclusion",
+   "description": "[Preview feature] Kubernetes Image admission exclusions (deprecated: this api is deprecated, please use '/v2/kubernetes/admissionControl/imageAdmissionExclusion' instead)"
+  },
+  {
+   "name": "KubernetesImageAssurance",
+   "description": "Kubernetes Image Assurance"
+  },
+  {
+   "name": "KubernetesImageAssurancePolicy",
+   "description": "Kubernetes Image Assurance Policy (deprecated: move to use /v2/vulnerability/policy)"
+  },
+  {
+   "name": "KubernetesIngress",
+   "description": ""
+  },
+  {
+   "name": "KubernetesNetworkPolicy",
+   "description": ""
+  },
+  {
+   "name": "KubernetesNode",
+   "description": ""
+  },
+  {
+   "name": "KubernetesPod",
+   "description": ""
+  },
+  {
+   "name": "KubernetesPodGroup",
+   "description": "Kubernetes Pod Groups"
+  },
+  {
+   "name": "KubernetesPodGroupOwner",
+   "description": ""
+  },
+  {
+   "name": "KubernetesPodSecurityPolicy",
+   "description": ""
+  },
+  {
+   "name": "KubernetesRole",
+   "description": ""
+  },
+  {
+   "name": "KubernetesRuntimeAssurance",
+   "description": ""
+  },
+  {
+   "name": "KubernetesService",
+   "description": ""
+  },
+  {
+   "name": "KubernetesServiceAccount",
+   "description": ""
+  },
+  {
+   "name": "Shiftleft",
+   "description": ""
+  },
+  {
+   "name": "ShiftLeftAccount",
+   "description": "ShiftLeft"
+  },
+  {
+   "name": "ShiftLeftPolicy",
+   "description": "ShiftLeft Policy (deprecated: move to use /v2/vulnerability/policy)"
+  },
+  {
+   "name": "Workload",
+   "description": ""
+  },
+  {
+   "name": "WorkloadAccountSetting",
+   "description": "Workload Account Setting"
+  },
+  {
+   "name": "WorkloadChangeMonitoring",
+   "description": ""
+  },
+  {
+   "name": "WorkloadImageAssurance",
+   "description": "Workload Image Assurance"
+  },
+  {
+   "name": "WorkloadImageAssuranceInternal",
+   "description": ""
+  },
+  {
+   "name": "WorkloadInternal",
+   "description": ""
+  },
+  {
+   "name": "WorkloadRuntimeProtection",
+   "description": ""
+  },
+  {
+   "name": "Alerts",
+   "description": ""
+  },
+  {
+   "name": "Azure",
+   "description": ""
+  },
+  {
+   "name": "FindingOrchestration",
+   "description": ""
+  },
+  {
+   "name": "FindingsUpdate",
+   "description": ""
+  },
+  {
+   "name": "Gcp",
+   "description": ""
+  },
+  {
+   "name": "Remediation",
+   "description": "Remediation Actions"
+  },
+  {
+   "name": "Reports",
+   "description": ""
+  },
+  {
+   "name": "CloudInfraMigration",
+   "description": "infinity-portal-connect"
+  },
+  {
+   "name": "GslBuilder",
+   "description": ""
+  },
+  {
+   "name": "Infrastructure",
+   "description": ""
+  },
+  {
+   "name": "InternalLicense",
+   "description": ""
+  },
+  {
+   "name": "NotificationIntegrationInternal",
+   "description": "(deprecated: This controller is deprecated and will be removed in the future)"
+  },
+  {
+   "name": "OciCloudAccount",
+   "description": "Onboard OCI accounts"
+  },
+  {
+   "name": "PlatformReports",
+   "description": ""
+  },
+  {
+   "name": "Regions",
+   "description": ""
+  },
+  {
+   "name": "Spectral",
+   "description": ""
+  },
+  {
+   "name": "RestrictedWorkloadClientModules",
+   "description": ""
+  },
+  {
+   "name": "WorkloadClientModules",
+   "description": ""
+  },
+  {
+   "name": "WorkloadTelemetry",
+   "description": ""
+  },
+  {
+   "name": "Integration",
+   "description": "Integration"
+  },
+  {
+   "name": "IntegrationInternal",
+   "description": ""
+  },
+  {
+   "name": "Notification",
+   "description": "Notification"
+  },
+  {
+   "name": "NotificationInternal",
+   "description": ""
+  },
+  {
+   "name": "AssetMetadataSyncNow",
+   "description": ""
+  },
+  {
+   "name": "BusinessPriorityModifier",
+   "description": "Business Priority Rules"
+  },
+  {
+   "name": "CustomRuleset",
+   "description": "Risk Management Rulesets"
+  },
+  {
+   "name": "Dspm",
+   "description": "DSPM Controller"
+  },
+  {
+   "name": "Exposure",
+   "description": ""
+  },
+  {
+   "name": "GroupRiskManagement",
+   "description": "Groups Risk Management"
+  },
+  {
+   "name": "RemediationActions",
+   "description": "Remediation Actions"
+  },
+  {
+   "name": "RiskModifiers",
+   "description": "Risk Modifiers"
+  },
+  {
+   "name": "SecurityEvents",
+   "description": ""
+  },
+  {
+   "name": "SimilarAssetGroups",
+   "description": ""
+  },
+  {
+   "name": "Waf",
+   "description": "WAF Protection"
+  },
+  {
+   "name": "AwsOrganizationManagement",
+   "description": "AwsOrganizationManagement"
+  },
+  {
+   "name": "AwsOrganizationManagementOnboarding",
+   "description": "AwsOrganizationManagementOnboarding"
+  },
+  {
+   "name": "AzureOrganizationManagement",
+   "description": "AzureOrganizationManagement"
+  },
+  {
+   "name": "GcpOrganizationManagement",
+   "description": "GcpOrganizationManagement"
+  },
+  {
+   "name": "OnboardingManagement",
+   "description": "OnboardingManagement"
+  },
+  {
+   "name": "InternalSBOM",
+   "description": ""
+  },
+  {
+   "name": "InternalVulnerabilityAccountStatsBatch",
+   "description": ""
+  },
+  {
+   "name": "InternalVulnerabilityCleanup",
+   "description": ""
+  },
+  {
+   "name": "InternalVulnerabilityPolicy",
+   "description": ""
+  },
+  {
+   "name": "InternalVulnerabilityScanResults",
+   "description": ""
+  },
+  {
+   "name": "SBOM",
+   "description": ""
+  },
+  {
+   "name": "SBOMExport",
+   "description": "SBOM Export"
+  },
+  {
+   "name": "Vulnerabilities",
+   "description": "Vulnerabilities"
+  },
+  {
+   "name": "VulnerabilityAssessment",
+   "description": ""
+  },
+  {
+   "name": "VulnerabilityExclusions",
+   "description": "Vulnerability Exclusions"
+  },
+  {
+   "name": "VulnerabilityPolicy",
+   "description": "Vulnerability Policy"
+  },
+  {
+   "name": "VulnerabilitySBOM",
+   "description": ""
+  },
+  {
+   "name": "CloudApplicationLoadBalancer",
+   "description": ""
+  },
+  {
+   "name": "CloudNetworkLoadBalancer",
+   "description": ""
+  },
+  {
+   "name": "GcpMachineImage",
+   "description": ""
+  },
+  {
+   "name": "OciCompartment",
+   "description": ""
+  },
+  {
+   "name": "AssetLabelsService",
+   "description": ""
+  },
+  {
+   "name": "AssetOpenFindings",
+   "description": ""
+  },
+  {
+   "name": "EntityTypes",
+   "description": "The entity types endpoint allows you to get the supported entity types and the platform they're supported for."
+  },
+  {
+   "name": "EvidencePath",
+   "description": "The evidence path endpoint allows you to get the evidence path for a given findingId."
+  },
+  {
+   "name": "Exclusions",
+   "description": "The exclusion endpoint provides API to perform CRUD operations on the resource."
+  },
+  {
+   "name": "IgnoreCves",
+   "description": "The ignore CVEs endpoint provides API to perform CRUD operations on the resource."
+  },
+  {
+   "name": "IgnoreMalwares",
+   "description": "The ignore malwares endpoint provides API to perform CRUD operations on the resource."
+  },
+  {
+   "name": "Rules",
+   "description": "The rules endpoint provides APIs to get the security rules data"
+  },
+  {
+   "name": "SecurityGraphIssues",
+   "description": "API for issue enrichments"
+  },
+  {
+   "name": "SecurityGraphQuery",
+   "description": "The query endpoint provides APIs to run queries (rules) to preview possible issues."
+  },
+  {
+   "name": "EntitySchema",
+   "description": "The entity schema endpoint presents schema of toxic issues entities."
+  },
+  {
+   "name": "SecurityIssues",
+   "description": "The Findings endpoint provides APIs query the findings store which contains findings such as security issues. It provides APIs to get, search and group findings."
+  },
+  {
+   "name": "AutomatedActions",
+   "description": "The Automated Actions resource provides API to perform CRUD operations on the resource."
+  }
+ ],
+ "components": {
+  "schemas": {
+   "Dome9.Web.Api.CloudEcsTask.AwsEcsTaskViewModel": {
+    "type": "object",
+    "properties": {
+     "attachments": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.CloudEcsTask.AwsEcsAttachmentViewModel"
+      }
+     },
+     "securityGroups": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "clusterArn": {
+      "type": "string"
+     },
+     "connectivity": {
+      "type": "string"
+     },
+     "connectivityAt": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "containerInstanceArn": {
+      "type": "string"
+     },
+     "containers": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.CloudEcsTask.AwsEcsContainerViewModel"
+      }
+     },
+     "cpu": {
+      "type": "string"
+     },
+     "createdAt": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "desiredStatus": {
+      "type": "string"
+     },
+     "executionStoppedAt": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "group": {
+      "type": "string"
+     },
+     "healthStatus": {
+      "type": "string"
+     },
+     "lastStatus": {
+      "type": "string"
+     },
+     "launchType": {
+      "type": "string"
+     },
+     "memory": {
+      "type": "string"
+     },
+     "overrides": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.CloudEcsTask.AwsEcsTaskOverrideViewModel"
+     },
+     "platformVersion": {
+      "type": "string"
+     },
+     "platformFamily": {
+      "type": "string"
+     },
+     "pullStartedAt": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "pullStoppedAt": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "startedAt": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "startedBy": {
+      "type": "string"
+     },
+     "stoppedAt": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "stoppedReason": {
+      "type": "string"
+     },
+     "stoppingAt": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "taskArn": {
+      "type": "string"
+     },
+     "taskDefinitionArn": {
+      "type": "string"
+     },
+     "version": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "tags": {
+      "type": "object",
+      "additionalProperties": {
+       "type": "string"
+      }
+     },
+     "service": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.CloudECSServiceViewModel"
+     },
+     "name": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudEcsTask.AwsEcsAttachmentViewModel": {
+    "type": "object",
+    "properties": {
+     "details": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.CloudEcsTask.AwsEcsKeyValuePairViewModel"
+      }
+     },
+     "id": {
+      "type": "string"
+     },
+     "status": {
+      "type": "string"
+     },
+     "type": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudEcsTask.AwsEcsContainerViewModel": {
+    "type": "object",
+    "properties": {
+     "containerArn": {
+      "type": "string"
+     },
+     "exitCode": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "healthStatus": {
+      "type": "string"
+     },
+     "lastStatus": {
+      "type": "string"
+     },
+     "name": {
+      "type": "string"
+     },
+     "networkBindings": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.CloudEcsTask.AwsEcsNetworkBindingViewModel"
+      }
+     },
+     "networkInterfaces": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.CloudEcsTask.AwsEcsNetworkInterfaceViewModel"
+      }
+     },
+     "reason": {
+      "type": "string"
+     },
+     "taskArn": {
+      "type": "string"
+     },
+     "image": {
+      "type": "string"
+     },
+     "imageDigest": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudEcsTask.AwsEcsTaskOverrideViewModel": {
+    "type": "object",
+    "properties": {
+     "containerOverrides": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.CloudEcsTask.AwsEcsContainerOverrideViewModel"
+      }
+     },
+     "executionRoleArn": {
+      "type": "string"
+     },
+     "taskRoleArn": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudECSServiceViewModel": {
+    "type": "object",
+    "properties": {
+     "deploymentConfiguration": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.AwsECSDeploymentConfigurationViewModel"
+     },
+     "deployments": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.AwsECSDeploymentViewModel"
+      }
+     },
+     "desiredCount": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "loadBalancers": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.AwsECSLoadBalancerViewModel"
+      }
+     },
+     "pendingCount": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "placementConstraints": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.AwsECSPlacementConstraintViewModel"
+      }
+     },
+     "placementStrategy": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.AwsECSPlacementStrategyViewModel"
+      }
+     },
+     "roleArn": {
+      "type": "string"
+     },
+     "runningCount": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "serviceArn": {
+      "type": "string"
+     },
+     "serviceName": {
+      "type": "string"
+     },
+     "status": {
+      "type": "string"
+     },
+     "clusterArn": {
+      "type": "string"
+     },
+     "createdAt": {
+      "format": "date-time",
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudEcsTask.AwsEcsKeyValuePairViewModel": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "value": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudEcsTask.AwsEcsNetworkBindingViewModel": {
+    "type": "object",
+    "properties": {
+     "bindIP": {
+      "type": "string"
+     },
+     "containerPort": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "hostPort": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "protocol": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudEcsTask.AwsEcsNetworkInterfaceViewModel": {
+    "type": "object",
+    "properties": {
+     "attachmentId": {
+      "type": "string"
+     },
+     "ipv6Address": {
+      "type": "string"
+     },
+     "privateIpv4Address": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudEcsTask.AwsEcsContainerOverrideViewModel": {
+    "type": "object",
+    "properties": {
+     "command": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "cpu": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "environment": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.CloudEcsTask.AwsEcsKeyValuePairViewModel"
+      }
+     },
+     "memory": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "memoryReservation": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "name": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsECSDeploymentConfigurationViewModel": {
+    "type": "object",
+    "properties": {
+     "maximumPercent": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "minimumHealthyPercent": {
+      "format": "int32",
+      "type": "integer"
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsECSDeploymentViewModel": {
+    "type": "object",
+    "properties": {
+     "createdAt": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "desiredCount": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "id": {
+      "type": "string"
+     },
+     "pendingCount": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "runningCount": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "status": {
+      "type": "string"
+     },
+     "taskDefinition": {
+      "type": "string"
+     },
+     "updatedAt": {
+      "format": "date-time",
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsECSLoadBalancerViewModel": {
+    "type": "object",
+    "properties": {
+     "containerName": {
+      "type": "string"
+     },
+     "containerPort": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "loadBalancerName": {
+      "type": "string"
+     },
+     "targetGroupArn": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsECSPlacementConstraintViewModel": {
+    "type": "object",
+    "properties": {
+     "expression": {
+      "type": "string"
+     },
+     "type": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsECSPlacementStrategyViewModel": {
+    "type": "object",
+    "properties": {
+     "field": {
+      "type": "string"
+     },
+     "type": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsEks.AwsEksClusterViewModel": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "externalId": {
+      "type": "string"
+     },
+     "region": {
+      "enum": [
+       "us_east_1",
+       "us_west_1",
+       "eu_west_1",
+       "ap_southeast_1",
+       "ap_northeast_1",
+       "us_west_2",
+       "sa_east_1",
+       "az_1_region_a_geo_1",
+       "az_2_region_a_geo_1",
+       "az_3_region_a_geo_1",
+       "ap_southeast_2",
+       "mellanox_region",
+       "us_gov_west_1",
+       "eu_central_1",
+       "ap_northeast_2",
+       "ap_south_1",
+       "us_east_2",
+       "ca_central_1",
+       "eu_west_2",
+       "eu_west_3",
+       "eu_north_1",
+       "cn_north_1",
+       "cn_northwest_1",
+       "us_gov_east_1",
+       "ap_east_1",
+       "me_south_1",
+       "af_south_1",
+       "eu_south_1",
+       "ap_northeast_3",
+       "me_central_1",
+       "ap_south_2",
+       "ap_southeast_3",
+       "ap_southeast_4",
+       "eu_central_2",
+       "eu_south_2",
+       "il_central_1",
+       "ca_west_1",
+       "mx_central_1",
+       "ap_southeast_5",
+       "ap_southeast_7",
+       "westus",
+       "eastus",
+       "eastus2",
+       "northcentralus",
+       "westus2",
+       "southcentralus",
+       "centralus",
+       "usgovlowa",
+       "usgovvirginia",
+       "northeurope",
+       "westeurope",
+       "eastasia",
+       "southeastasia",
+       "japaneast",
+       "japanwest",
+       "brazilsouth",
+       "australiaeast",
+       "australiasoutheast",
+       "centralindia",
+       "southindia",
+       "westindia",
+       "canadaeast",
+       "westcentralus",
+       "chinaeast",
+       "chinanorth",
+       "canadacentral",
+       "germanycentral",
+       "germanynortheast",
+       "koreacentral",
+       "uksouth",
+       "ukwest",
+       "koreasouth",
+       "francecentral",
+       "francesouth",
+       "germanywestcentral",
+       "usdodcentral",
+       "usdodeast",
+       "usgovarizona",
+       "usgovtexas",
+       "australiacentral",
+       "australiacentral2",
+       "chinaeast2",
+       "chinanorth2",
+       "southafricanorth",
+       "southafricawest",
+       "uaecentral",
+       "uaenorth",
+       "ussecwest",
+       "usseceast",
+       "germanynorth",
+       "switzerlandwest",
+       "norwaywest",
+       "norwayeast",
+       "switzerlandnorth",
+       "westus3",
+       "swedencentral",
+       "chinanorth3",
+       "brazilsoutheast",
+       "eastus2euap",
+       "jioindiawest",
+       "jioindiacentral",
+       "qatarcentral",
+       "spaincentral",
+       "italynorth",
+       "polandcentral",
+       "mexicocentral",
+       "asia",
+       "asia_east1",
+       "asia_northeast1",
+       "asia_south1",
+       "asia_southeast1",
+       "australia_southeast1",
+       "europe",
+       "europe_north1",
+       "europe_west1",
+       "europe_west2",
+       "europe_west3",
+       "europe_west4",
+       "northamerica_northeast1",
+       "southamerica_east1",
+       "us",
+       "us_central1",
+       "us_east1",
+       "us_east4",
+       "us_west1",
+       "us_west2",
+       "global",
+       "asia_east2",
+       "eur4",
+       "nam4",
+       "europe_west6",
+       "japan_west",
+       "asia_northeast2",
+       "asia_northeast3",
+       "us_west3",
+       "us_west4",
+       "asia_southeast2",
+       "nam3",
+       "nam5",
+       "nam6",
+       "nam7",
+       "nam10",
+       "nam_eur_asia1",
+       "eur3",
+       "eur5",
+       "asia1",
+       "nam11",
+       "eu",
+       "northamerica_northeast2",
+       "southamerica_west1",
+       "us_east5",
+       "us_south1",
+       "europe_central2",
+       "europe_southwest1",
+       "europe_west8",
+       "europe_west9",
+       "europe_west10",
+       "europe_west12",
+       "asia_south2",
+       "australia_southeast2",
+       "me_central1",
+       "me_central2",
+       "me_west1",
+       "ap_sydney_1",
+       "ap_melbourne_1",
+       "sa_saopaulo_1",
+       "sa_vinhedo_1",
+       "ca_montreal_1",
+       "ca_toronto_1",
+       "sa_santiago_1",
+       "eu_paris_1",
+       "eu_marseille_1",
+       "eu_frankfurt_1",
+       "ap_hyderabad_1",
+       "ap_mumbai_1",
+       "il_jerusalem_1",
+       "eu_milan_1",
+       "ap_osaka_1",
+       "ap_tokyo_1",
+       "mx_queretaro_1",
+       "eu_amsterdam_1",
+       "me_jeddah_1",
+       "ap_singapore_1",
+       "af_johannesburg_1",
+       "ap_seoul_1",
+       "ap_chuncheon_1",
+       "eu_madrid_1",
+       "eu_stockholm_1",
+       "eu_zurich_1",
+       "me_abudhabi_1",
+       "me_dubai_1",
+       "uk_london_1",
+       "uk_cardiff_1",
+       "us_ashburn_1",
+       "us_phoenix_1",
+       "us_sanjose_1",
+       "us_gov_ashburn_1",
+       "us_gov_chicago_1",
+       "us_gov_phoenix_1",
+       "us_langley_1",
+       "us_luke_1",
+       "uk_gov_london_1",
+       "uk_gov_cardiff_1",
+       "sa_bogota_1",
+       "us_chicago_1",
+       "sa_valparaiso_1",
+       "mx_monterrey_1",
+       "eu_jovanovac_1",
+       "ap_singapore_2"
+      ],
+      "type": "string"
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "accountId": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "arn": {
+      "type": "string"
+     },
+     "createdAt": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "endpoint": {
+      "type": "string"
+     },
+     "identity": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.IdentityViewModel"
+     },
+     "logging": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.LoggingViewModel"
+     },
+     "clusterName": {
+      "type": "string"
+     },
+     "resourcesVpcConfig": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.ResourcesVpcConfigViewModel"
+     },
+     "roleArn": {
+      "type": "string"
+     },
+     "status": {
+      "type": "string"
+     },
+     "version": {
+      "type": "string"
+     },
+     "tags": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.TagViewModel"
+      }
+     },
+     "nodeGroups": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.NodeGroupViewModel"
+      }
+     },
+     "fargateProfiles": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.FargateProfileViewModel"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.IdentityViewModel": {
+    "type": "object",
+    "properties": {
+     "oidc": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.OidcViewModel"
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.LoggingViewModel": {
+    "type": "object",
+    "properties": {
+     "clusterLogging": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.LoggingLogSetupViewModel"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.ResourcesVpcConfigViewModel": {
+    "type": "object",
+    "properties": {
+     "clusterSecurityGroupId": {
+      "type": "string"
+     },
+     "endpointPrivateAccess": {
+      "type": "boolean"
+     },
+     "endpointPublicAccess": {
+      "type": "boolean"
+     },
+     "publicAccessCidrs": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "securityGroupIds": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "subnetIds": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "vpcId": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Shared.SharedViewModels.TagViewModel": {
+    "type": "object",
+    "properties": {
+     "key": {
+      "type": "string"
+     },
+     "value": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.NodeGroupViewModel": {
+    "type": "object",
+    "properties": {
+     "subnets": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "status": {
+      "type": "string"
+     },
+     "scalingConfig": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.NodegroupScalingConfigViewModel"
+     },
+     "resources": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.NodegroupResourcesViewModel"
+     },
+     "remoteAccess": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.RemoteAccessConfigViewModel"
+     },
+     "releaseVersion": {
+      "type": "string"
+     },
+     "nodeRole": {
+      "type": "string"
+     },
+     "nodegroupName": {
+      "type": "string"
+     },
+     "nodegroupArn": {
+      "type": "string"
+     },
+     "labels": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.TagViewModel"
+      }
+     },
+     "instanceTypes": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "health": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.NodegroupHealthViewModel"
+     },
+     "diskSize": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "createdAt": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "clusterName": {
+      "type": "string"
+     },
+     "amiType": {
+      "type": "string"
+     },
+     "tags": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.TagViewModel"
+      }
+     },
+     "version": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.FargateProfileViewModel": {
+    "type": "object",
+    "properties": {
+     "clusterName": {
+      "type": "string"
+     },
+     "createdAt": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "fargateProfileArn": {
+      "type": "string"
+     },
+     "fargateProfileName": {
+      "type": "string"
+     },
+     "podExecutionRoleArn": {
+      "type": "string"
+     },
+     "selectors": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.FargateProfileSelectorViewModel"
+      }
+     },
+     "status": {
+      "type": "string"
+     },
+     "subnets": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "tags": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.TagViewModel"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.OidcViewModel": {
+    "type": "object",
+    "properties": {
+     "issuer": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.LoggingLogSetupViewModel": {
+    "type": "object",
+    "properties": {
+     "enabled": {
+      "type": "boolean"
+     },
+     "types": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.NodegroupScalingConfigViewModel": {
+    "type": "object",
+    "properties": {
+     "desiredSize": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "maxSize": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "minSize": {
+      "format": "int32",
+      "type": "integer"
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.NodegroupResourcesViewModel": {
+    "type": "object",
+    "properties": {
+     "autoScalingGroups": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.AutoScalingGroupViewModel"
+      }
+     },
+     "remoteAccessSecurityGroup": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.RemoteAccessConfigViewModel": {
+    "type": "object",
+    "properties": {
+     "ec2SshKey": {
+      "type": "string"
+     },
+     "sourceSecurityGroups": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.NodegroupHealthViewModel": {
+    "type": "object",
+    "properties": {
+     "issues": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.IssueViewModel"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.FargateProfileSelectorViewModel": {
+    "type": "object",
+    "properties": {
+     "labels": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.TagViewModel"
+      }
+     },
+     "namespace": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.AutoScalingGroupViewModel": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.IssueViewModel": {
+    "type": "object",
+    "properties": {
+     "code": {
+      "type": "string"
+     },
+     "message": {
+      "type": "string"
+     },
+     "resourceIds": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.Models.CloudLambdaFunctionViewModel": {
+    "type": "object",
+    "properties": {
+     "externalId": {
+      "type": "string",
+      "readOnly": true
+     },
+     "id": {
+      "type": "string",
+      "readOnly": true
+     },
+     "name": {
+      "type": "string",
+      "readOnly": true
+     },
+     "accountId": {
+      "format": "int64",
+      "type": "integer",
+      "readOnly": true
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "type": "string",
+      "readOnly": true,
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "region": {
+      "enum": [
+       "us_east_1",
+       "us_west_1",
+       "eu_west_1",
+       "ap_southeast_1",
+       "ap_northeast_1",
+       "us_west_2",
+       "sa_east_1",
+       "az_1_region_a_geo_1",
+       "az_2_region_a_geo_1",
+       "az_3_region_a_geo_1",
+       "ap_southeast_2",
+       "mellanox_region",
+       "us_gov_west_1",
+       "eu_central_1",
+       "ap_northeast_2",
+       "ap_south_1",
+       "us_east_2",
+       "ca_central_1",
+       "eu_west_2",
+       "eu_west_3",
+       "eu_north_1",
+       "cn_north_1",
+       "cn_northwest_1",
+       "us_gov_east_1",
+       "ap_east_1",
+       "me_south_1",
+       "af_south_1",
+       "eu_south_1",
+       "ap_northeast_3",
+       "me_central_1",
+       "ap_south_2",
+       "ap_southeast_3",
+       "ap_southeast_4",
+       "eu_central_2",
+       "eu_south_2",
+       "il_central_1",
+       "ca_west_1",
+       "mx_central_1",
+       "ap_southeast_5",
+       "ap_southeast_7",
+       "westus",
+       "eastus",
+       "eastus2",
+       "northcentralus",
+       "westus2",
+       "southcentralus",
+       "centralus",
+       "usgovlowa",
+       "usgovvirginia",
+       "northeurope",
+       "westeurope",
+       "eastasia",
+       "southeastasia",
+       "japaneast",
+       "japanwest",
+       "brazilsouth",
+       "australiaeast",
+       "australiasoutheast",
+       "centralindia",
+       "southindia",
+       "westindia",
+       "canadaeast",
+       "westcentralus",
+       "chinaeast",
+       "chinanorth",
+       "canadacentral",
+       "germanycentral",
+       "germanynortheast",
+       "koreacentral",
+       "uksouth",
+       "ukwest",
+       "koreasouth",
+       "francecentral",
+       "francesouth",
+       "germanywestcentral",
+       "usdodcentral",
+       "usdodeast",
+       "usgovarizona",
+       "usgovtexas",
+       "australiacentral",
+       "australiacentral2",
+       "chinaeast2",
+       "chinanorth2",
+       "southafricanorth",
+       "southafricawest",
+       "uaecentral",
+       "uaenorth",
+       "ussecwest",
+       "usseceast",
+       "germanynorth",
+       "switzerlandwest",
+       "norwaywest",
+       "norwayeast",
+       "switzerlandnorth",
+       "westus3",
+       "swedencentral",
+       "chinanorth3",
+       "brazilsoutheast",
+       "eastus2euap",
+       "jioindiawest",
+       "jioindiacentral",
+       "qatarcentral",
+       "spaincentral",
+       "italynorth",
+       "polandcentral",
+       "mexicocentral",
+       "asia",
+       "asia_east1",
+       "asia_northeast1",
+       "asia_south1",
+       "asia_southeast1",
+       "australia_southeast1",
+       "europe",
+       "europe_north1",
+       "europe_west1",
+       "europe_west2",
+       "europe_west3",
+       "europe_west4",
+       "northamerica_northeast1",
+       "southamerica_east1",
+       "us",
+       "us_central1",
+       "us_east1",
+       "us_east4",
+       "us_west1",
+       "us_west2",
+       "global",
+       "asia_east2",
+       "eur4",
+       "nam4",
+       "europe_west6",
+       "japan_west",
+       "asia_northeast2",
+       "asia_northeast3",
+       "us_west3",
+       "us_west4",
+       "asia_southeast2",
+       "nam3",
+       "nam5",
+       "nam6",
+       "nam7",
+       "nam10",
+       "nam_eur_asia1",
+       "eur3",
+       "eur5",
+       "asia1",
+       "nam11",
+       "eu",
+       "northamerica_northeast2",
+       "southamerica_west1",
+       "us_east5",
+       "us_south1",
+       "europe_central2",
+       "europe_southwest1",
+       "europe_west8",
+       "europe_west9",
+       "europe_west10",
+       "europe_west12",
+       "asia_south2",
+       "australia_southeast2",
+       "me_central1",
+       "me_central2",
+       "me_west1",
+       "ap_sydney_1",
+       "ap_melbourne_1",
+       "sa_saopaulo_1",
+       "sa_vinhedo_1",
+       "ca_montreal_1",
+       "ca_toronto_1",
+       "sa_santiago_1",
+       "eu_paris_1",
+       "eu_marseille_1",
+       "eu_frankfurt_1",
+       "ap_hyderabad_1",
+       "ap_mumbai_1",
+       "il_jerusalem_1",
+       "eu_milan_1",
+       "ap_osaka_1",
+       "ap_tokyo_1",
+       "mx_queretaro_1",
+       "eu_amsterdam_1",
+       "me_jeddah_1",
+       "ap_singapore_1",
+       "af_johannesburg_1",
+       "ap_seoul_1",
+       "ap_chuncheon_1",
+       "eu_madrid_1",
+       "eu_stockholm_1",
+       "eu_zurich_1",
+       "me_abudhabi_1",
+       "me_dubai_1",
+       "uk_london_1",
+       "uk_cardiff_1",
+       "us_ashburn_1",
+       "us_phoenix_1",
+       "us_sanjose_1",
+       "us_gov_ashburn_1",
+       "us_gov_chicago_1",
+       "us_gov_phoenix_1",
+       "us_langley_1",
+       "us_luke_1",
+       "uk_gov_london_1",
+       "uk_gov_cardiff_1",
+       "sa_bogota_1",
+       "us_chicago_1",
+       "sa_valparaiso_1",
+       "mx_monterrey_1",
+       "eu_jovanovac_1",
+       "ap_singapore_2"
+      ],
+      "type": "string",
+      "readOnly": true
+     },
+     "vpc": {
+      "type": "string",
+      "readOnly": true
+     },
+     "securityGroups": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "readOnly": true
+     },
+     "subnets": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "readOnly": true
+     },
+     "description": {
+      "type": "string",
+      "readOnly": true
+     },
+     "functionArn": {
+      "type": "string",
+      "readOnly": true
+     },
+     "runtimeEnvironment": {
+      "type": "string",
+      "readOnly": true
+     },
+     "executionRoleArn": {
+      "type": "string",
+      "readOnly": true
+     },
+     "functionHandler": {
+      "type": "string",
+      "readOnly": true
+     },
+     "codeSize": {
+      "format": "int64",
+      "type": "integer",
+      "readOnly": true
+     },
+     "memorySize": {
+      "format": "int32",
+      "type": "integer",
+      "readOnly": true
+     },
+     "executionTimeout": {
+      "format": "int32",
+      "type": "integer",
+      "readOnly": true
+     },
+     "lastModified": {
+      "format": "date-time",
+      "type": "string",
+      "readOnly": true
+     },
+     "version": {
+      "type": "string",
+      "readOnly": true
+     },
+     "codeSha256": {
+      "type": "string",
+      "readOnly": true
+     },
+     "kmsKeyArn": {
+      "type": "string",
+      "readOnly": true
+     },
+     "deadLetterConfig": {
+      "$ref": "#/components/schemas/CGN.Inventory.Aws.Model.WrapperModels.AwsDeadLetterConfig",
+      "readOnly": true
+     },
+     "tracingConfig": {
+      "$ref": "#/components/schemas/CGN.Inventory.Aws.Model.WrapperModels.AwsTracingConfigResponse",
+      "readOnly": true
+     },
+     "environmentVariables": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/CGN.Inventory.Aws.Model.WrapperModels.AwsEnvironmentVariable"
+      }
+     },
+     "tags": {
+      "type": "object",
+      "additionalProperties": {
+       "type": "string"
+      }
+     },
+     "resourcePolicy": {
+      "type": "object"
+     },
+     "urlConfigs": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Falconetix.Model.CloudLambdaFunctionUrlConfigViewModel"
+      }
+     }
+    }
+   },
+   "CGN.Inventory.Aws.Model.WrapperModels.AwsDeadLetterConfig": {
+    "type": "object",
+    "properties": {
+     "targetArn": {
+      "type": "string"
+     }
+    }
+   },
+   "CGN.Inventory.Aws.Model.WrapperModels.AwsTracingConfigResponse": {
+    "type": "object",
+    "properties": {
+     "mode": {
+      "type": "string"
+     }
+    }
+   },
+   "CGN.Inventory.Aws.Model.WrapperModels.AwsEnvironmentVariable": {
+    "type": "object",
+    "properties": {
+     "key": {
+      "type": "string"
+     },
+     "value": {
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.CloudLambdaFunctionUrlConfigViewModel": {
+    "type": "object",
+    "properties": {
+     "authType": {
+      "type": "string"
+     },
+     "cors": {
+      "$ref": "#/components/schemas/Falconetix.Model.CloudLambdaFunctionCorsViewModel"
+     },
+     "creationTime": {
+      "type": "string"
+     },
+     "functionArn": {
+      "type": "string"
+     },
+     "functionUrl": {
+      "type": "string"
+     },
+     "lastModifiedTime": {
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.CloudLambdaFunctionCorsViewModel": {
+    "type": "object",
+    "properties": {
+     "allowCredentials": {
+      "type": "boolean"
+     },
+     "allowHeaders": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "allowMethods": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "allowOrigins": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "exposeHeaders": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "maxAge": {
+      "format": "int32",
+      "type": "integer"
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudAmi.CloudEc2ImageViewModel": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "accountId": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "imageId": {
+      "type": "string"
+     },
+     "name": {
+      "type": "string"
+     },
+     "ownerId": {
+      "type": "string"
+     },
+     "imageLocation": {
+      "type": "string"
+     },
+     "isPublic": {
+      "type": "boolean"
+     },
+     "state": {
+      "type": "string"
+     },
+     "description": {
+      "type": "string"
+     },
+     "creationDate": {
+      "type": "string"
+     },
+     "hypervisor": {
+      "type": "string"
+     },
+     "platform": {
+      "type": "string"
+     },
+     "architecture": {
+      "type": "string"
+     },
+     "rootDeviceName": {
+      "type": "string"
+     },
+     "rootDeviceType": {
+      "type": "string"
+     },
+     "virtualizationType": {
+      "type": "string"
+     },
+     "ramdiskId": {
+      "type": "string"
+     },
+     "imageOwnerAlias": {
+      "type": "string"
+     },
+     "imageType": {
+      "type": "string"
+     },
+     "kernelId": {
+      "type": "string"
+     },
+     "blockDeviceMappings": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.CloudAmi.CloudEc2BlockDeviceMappingViewModel"
+      }
+     },
+     "productCodes": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.CloudAmi.CloudEc2ProductCodeViewModel"
+      }
+     },
+     "enaSupport": {
+      "type": "boolean"
+     },
+     "sriovNetSupport": {
+      "type": "string"
+     },
+     "stateReason": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.CloudAmi.CloudEc2StateReasonViewModel"
+     },
+     "tags": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.CloudAmi.CloudEc2TagViewModel"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudAmi.CloudEc2BlockDeviceMappingViewModel": {
+    "type": "object",
+    "properties": {
+     "deviceName": {
+      "type": "string"
+     },
+     "ebs": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.CloudAmi.CloudEc2EbsBlockDeviceViewModel"
+     },
+     "noDevice": {
+      "type": "string"
+     },
+     "virtualName": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudAmi.CloudEc2ProductCodeViewModel": {
+    "type": "object",
+    "properties": {
+     "productCodeId": {
+      "type": "string"
+     },
+     "productCodeType": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudAmi.CloudEc2StateReasonViewModel": {
+    "type": "object",
+    "properties": {
+     "code": {
+      "type": "string"
+     },
+     "message": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudAmi.CloudEc2TagViewModel": {
+    "type": "object",
+    "properties": {
+     "key": {
+      "type": "string"
+     },
+     "value": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudAmi.CloudEc2EbsBlockDeviceViewModel": {
+    "type": "object",
+    "properties": {
+     "deleteOnTermination": {
+      "type": "boolean"
+     },
+     "encrypted": {
+      "type": "boolean"
+     },
+     "iops": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "snapshotId": {
+      "type": "string"
+     },
+     "volumeSize": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "volumeType": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudAutoScalingGroup.CloudAutoScalingGroupViewModel": {
+    "type": "object",
+    "properties": {
+     "externalId": {
+      "type": "string",
+      "readOnly": true
+     },
+     "name": {
+      "type": "string",
+      "readOnly": true
+     },
+     "accountId": {
+      "format": "int64",
+      "type": "integer",
+      "readOnly": true
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "type": "string",
+      "readOnly": true,
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "region": {
+      "enum": [
+       "us_east_1",
+       "us_west_1",
+       "eu_west_1",
+       "ap_southeast_1",
+       "ap_northeast_1",
+       "us_west_2",
+       "sa_east_1",
+       "az_1_region_a_geo_1",
+       "az_2_region_a_geo_1",
+       "az_3_region_a_geo_1",
+       "ap_southeast_2",
+       "mellanox_region",
+       "us_gov_west_1",
+       "eu_central_1",
+       "ap_northeast_2",
+       "ap_south_1",
+       "us_east_2",
+       "ca_central_1",
+       "eu_west_2",
+       "eu_west_3",
+       "eu_north_1",
+       "cn_north_1",
+       "cn_northwest_1",
+       "us_gov_east_1",
+       "ap_east_1",
+       "me_south_1",
+       "af_south_1",
+       "eu_south_1",
+       "ap_northeast_3",
+       "me_central_1",
+       "ap_south_2",
+       "ap_southeast_3",
+       "ap_southeast_4",
+       "eu_central_2",
+       "eu_south_2",
+       "il_central_1",
+       "ca_west_1",
+       "mx_central_1",
+       "ap_southeast_5",
+       "ap_southeast_7",
+       "westus",
+       "eastus",
+       "eastus2",
+       "northcentralus",
+       "westus2",
+       "southcentralus",
+       "centralus",
+       "usgovlowa",
+       "usgovvirginia",
+       "northeurope",
+       "westeurope",
+       "eastasia",
+       "southeastasia",
+       "japaneast",
+       "japanwest",
+       "brazilsouth",
+       "australiaeast",
+       "australiasoutheast",
+       "centralindia",
+       "southindia",
+       "westindia",
+       "canadaeast",
+       "westcentralus",
+       "chinaeast",
+       "chinanorth",
+       "canadacentral",
+       "germanycentral",
+       "germanynortheast",
+       "koreacentral",
+       "uksouth",
+       "ukwest",
+       "koreasouth",
+       "francecentral",
+       "francesouth",
+       "germanywestcentral",
+       "usdodcentral",
+       "usdodeast",
+       "usgovarizona",
+       "usgovtexas",
+       "australiacentral",
+       "australiacentral2",
+       "chinaeast2",
+       "chinanorth2",
+       "southafricanorth",
+       "southafricawest",
+       "uaecentral",
+       "uaenorth",
+       "ussecwest",
+       "usseceast",
+       "germanynorth",
+       "switzerlandwest",
+       "norwaywest",
+       "norwayeast",
+       "switzerlandnorth",
+       "westus3",
+       "swedencentral",
+       "chinanorth3",
+       "brazilsoutheast",
+       "eastus2euap",
+       "jioindiawest",
+       "jioindiacentral",
+       "qatarcentral",
+       "spaincentral",
+       "italynorth",
+       "polandcentral",
+       "mexicocentral",
+       "asia",
+       "asia_east1",
+       "asia_northeast1",
+       "asia_south1",
+       "asia_southeast1",
+       "australia_southeast1",
+       "europe",
+       "europe_north1",
+       "europe_west1",
+       "europe_west2",
+       "europe_west3",
+       "europe_west4",
+       "northamerica_northeast1",
+       "southamerica_east1",
+       "us",
+       "us_central1",
+       "us_east1",
+       "us_east4",
+       "us_west1",
+       "us_west2",
+       "global",
+       "asia_east2",
+       "eur4",
+       "nam4",
+       "europe_west6",
+       "japan_west",
+       "asia_northeast2",
+       "asia_northeast3",
+       "us_west3",
+       "us_west4",
+       "asia_southeast2",
+       "nam3",
+       "nam5",
+       "nam6",
+       "nam7",
+       "nam10",
+       "nam_eur_asia1",
+       "eur3",
+       "eur5",
+       "asia1",
+       "nam11",
+       "eu",
+       "northamerica_northeast2",
+       "southamerica_west1",
+       "us_east5",
+       "us_south1",
+       "europe_central2",
+       "europe_southwest1",
+       "europe_west8",
+       "europe_west9",
+       "europe_west10",
+       "europe_west12",
+       "asia_south2",
+       "australia_southeast2",
+       "me_central1",
+       "me_central2",
+       "me_west1",
+       "ap_sydney_1",
+       "ap_melbourne_1",
+       "sa_saopaulo_1",
+       "sa_vinhedo_1",
+       "ca_montreal_1",
+       "ca_toronto_1",
+       "sa_santiago_1",
+       "eu_paris_1",
+       "eu_marseille_1",
+       "eu_frankfurt_1",
+       "ap_hyderabad_1",
+       "ap_mumbai_1",
+       "il_jerusalem_1",
+       "eu_milan_1",
+       "ap_osaka_1",
+       "ap_tokyo_1",
+       "mx_queretaro_1",
+       "eu_amsterdam_1",
+       "me_jeddah_1",
+       "ap_singapore_1",
+       "af_johannesburg_1",
+       "ap_seoul_1",
+       "ap_chuncheon_1",
+       "eu_madrid_1",
+       "eu_stockholm_1",
+       "eu_zurich_1",
+       "me_abudhabi_1",
+       "me_dubai_1",
+       "uk_london_1",
+       "uk_cardiff_1",
+       "us_ashburn_1",
+       "us_phoenix_1",
+       "us_sanjose_1",
+       "us_gov_ashburn_1",
+       "us_gov_chicago_1",
+       "us_gov_phoenix_1",
+       "us_langley_1",
+       "us_luke_1",
+       "uk_gov_london_1",
+       "uk_gov_cardiff_1",
+       "sa_bogota_1",
+       "us_chicago_1",
+       "sa_valparaiso_1",
+       "mx_monterrey_1",
+       "eu_jovanovac_1",
+       "ap_singapore_2"
+      ],
+      "type": "string",
+      "readOnly": true
+     },
+     "vpc": {
+      "type": "string",
+      "readOnly": true
+     },
+     "availabilityZones": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "readOnly": true
+     },
+     "createTime": {
+      "format": "date-time",
+      "type": "string",
+      "readOnly": true
+     },
+     "defaultCooldown": {
+      "format": "int32",
+      "type": "integer",
+      "readOnly": true
+     },
+     "desiredCapacity": {
+      "format": "int32",
+      "type": "integer",
+      "readOnly": true
+     },
+     "domainName": {
+      "type": "string",
+      "readOnly": true
+     },
+     "healthCheckGracePeriod": {
+      "format": "int32",
+      "type": "integer",
+      "readOnly": true
+     },
+     "healthCheckType": {
+      "type": "string",
+      "readOnly": true
+     },
+     "instances": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupInstance"
+      },
+      "readOnly": true
+     },
+     "launchConfigurationName": {
+      "type": "string",
+      "readOnly": true
+     },
+     "launchTemplate": {
+      "type": "string",
+      "readOnly": true
+     },
+     "loadBalancerNames": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "readOnly": true
+     },
+     "maxSize": {
+      "format": "int32",
+      "type": "integer",
+      "readOnly": true
+     },
+     "minSize": {
+      "format": "int32",
+      "type": "integer",
+      "readOnly": true
+     },
+     "mixedInstancesPolicy": {
+      "$ref": "#/components/schemas/CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupMixedInstancePolicy",
+      "readOnly": true
+     },
+     "newInstancesProtectedFromScaleIn": {
+      "type": "boolean",
+      "readOnly": true
+     },
+     "placementGroup": {
+      "type": "string",
+      "readOnly": true
+     },
+     "serviceLinkedRoleARN": {
+      "type": "string",
+      "readOnly": true
+     },
+     "status": {
+      "type": "string",
+      "readOnly": true
+     },
+     "suspendedProcesses": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupSuspendedProcess"
+      },
+      "readOnly": true
+     },
+     "tags": {
+      "type": "object",
+      "additionalProperties": {
+       "type": "string"
+      },
+      "readOnly": true
+     },
+     "terminationPolicies": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "readOnly": true
+     },
+     "targetGroupARNs": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "readOnly": true
+     },
+     "vpcZoneIdentifier": {
+      "type": "string",
+      "readOnly": true
+     }
+    }
+   },
+   "CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupInstance": {
+    "type": "object",
+    "properties": {
+     "availabilityZone": {
+      "type": "string"
+     },
+     "healthStatus": {
+      "type": "string"
+     },
+     "instanceID": {
+      "type": "string"
+     },
+     "externalId": {
+      "type": "string",
+      "readOnly": true
+     },
+     "launchConfigurationName": {
+      "type": "string"
+     },
+     "launchTemplate": {
+      "type": "string"
+     },
+     "lifeCycle": {
+      "type": "string"
+     },
+     "protectionFromScaleIn": {
+      "type": "boolean"
+     }
+    }
+   },
+   "CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupMixedInstancePolicy": {
+    "type": "object",
+    "properties": {
+     "instancesDistribution": {
+      "$ref": "#/components/schemas/CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupInstancesDistribution"
+     },
+     "launchTemplateName": {
+      "type": "string"
+     },
+     "launchTemplateSpecification": {
+      "$ref": "#/components/schemas/CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupLaunchTemplateSpecification"
+     },
+     "launchTemplate": {
+      "$ref": "#/components/schemas/CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingLaunchTemplate"
+     }
+    }
+   },
+   "CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupSuspendedProcess": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "reason": {
+      "type": "string"
+     }
+    }
+   },
+   "CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupInstancesDistribution": {
+    "type": "object",
+    "properties": {
+     "onDemandAllocationStrategy": {
+      "type": "string"
+     },
+     "onDemandBaseCapacity": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "onDemandPercentageAboveBaseCapacity": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "spotAllocationStrategy": {
+      "type": "string"
+     },
+     "spotInstancePools": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "spotMaxPrice": {
+      "type": "string"
+     }
+    }
+   },
+   "CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupLaunchTemplateSpecification": {
+    "type": "object",
+    "properties": {
+     "launchTemplateId": {
+      "type": "string"
+     },
+     "launchTemplateName": {
+      "type": "string"
+     },
+     "version": {
+      "type": "string"
+     }
+    }
+   },
+   "CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingLaunchTemplate": {
+    "type": "object",
+    "properties": {
+     "launchTemplateSpecification": {
+      "$ref": "#/components/schemas/CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupLaunchTemplateSpecification"
+     },
+     "overrides": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupLaunchTemplateOverrides"
+      }
+     }
+    }
+   },
+   "CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupLaunchTemplateOverrides": {
+    "type": "object",
+    "properties": {
+     "launchTemplateSpecification": {
+      "$ref": "#/components/schemas/CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupLaunchTemplateSpecification"
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudDbInstances.CloudDbInstanceViewModel": {
+    "type": "object",
+    "properties": {
+     "externalId": {
+      "type": "string",
+      "readOnly": true
+     },
+     "name": {
+      "type": "string",
+      "readOnly": true
+     },
+     "accountId": {
+      "format": "int64",
+      "type": "integer",
+      "readOnly": true
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "type": "string",
+      "readOnly": true,
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "region": {
+      "enum": [
+       "us_east_1",
+       "us_west_1",
+       "eu_west_1",
+       "ap_southeast_1",
+       "ap_northeast_1",
+       "us_west_2",
+       "sa_east_1",
+       "az_1_region_a_geo_1",
+       "az_2_region_a_geo_1",
+       "az_3_region_a_geo_1",
+       "ap_southeast_2",
+       "mellanox_region",
+       "us_gov_west_1",
+       "eu_central_1",
+       "ap_northeast_2",
+       "ap_south_1",
+       "us_east_2",
+       "ca_central_1",
+       "eu_west_2",
+       "eu_west_3",
+       "eu_north_1",
+       "cn_north_1",
+       "cn_northwest_1",
+       "us_gov_east_1",
+       "ap_east_1",
+       "me_south_1",
+       "af_south_1",
+       "eu_south_1",
+       "ap_northeast_3",
+       "me_central_1",
+       "ap_south_2",
+       "ap_southeast_3",
+       "ap_southeast_4",
+       "eu_central_2",
+       "eu_south_2",
+       "il_central_1",
+       "ca_west_1",
+       "mx_central_1",
+       "ap_southeast_5",
+       "ap_southeast_7",
+       "westus",
+       "eastus",
+       "eastus2",
+       "northcentralus",
+       "westus2",
+       "southcentralus",
+       "centralus",
+       "usgovlowa",
+       "usgovvirginia",
+       "northeurope",
+       "westeurope",
+       "eastasia",
+       "southeastasia",
+       "japaneast",
+       "japanwest",
+       "brazilsouth",
+       "australiaeast",
+       "australiasoutheast",
+       "centralindia",
+       "southindia",
+       "westindia",
+       "canadaeast",
+       "westcentralus",
+       "chinaeast",
+       "chinanorth",
+       "canadacentral",
+       "germanycentral",
+       "germanynortheast",
+       "koreacentral",
+       "uksouth",
+       "ukwest",
+       "koreasouth",
+       "francecentral",
+       "francesouth",
+       "germanywestcentral",
+       "usdodcentral",
+       "usdodeast",
+       "usgovarizona",
+       "usgovtexas",
+       "australiacentral",
+       "australiacentral2",
+       "chinaeast2",
+       "chinanorth2",
+       "southafricanorth",
+       "southafricawest",
+       "uaecentral",
+       "uaenorth",
+       "ussecwest",
+       "usseceast",
+       "germanynorth",
+       "switzerlandwest",
+       "norwaywest",
+       "norwayeast",
+       "switzerlandnorth",
+       "westus3",
+       "swedencentral",
+       "chinanorth3",
+       "brazilsoutheast",
+       "eastus2euap",
+       "jioindiawest",
+       "jioindiacentral",
+       "qatarcentral",
+       "spaincentral",
+       "italynorth",
+       "polandcentral",
+       "mexicocentral",
+       "asia",
+       "asia_east1",
+       "asia_northeast1",
+       "asia_south1",
+       "asia_southeast1",
+       "australia_southeast1",
+       "europe",
+       "europe_north1",
+       "europe_west1",
+       "europe_west2",
+       "europe_west3",
+       "europe_west4",
+       "northamerica_northeast1",
+       "southamerica_east1",
+       "us",
+       "us_central1",
+       "us_east1",
+       "us_east4",
+       "us_west1",
+       "us_west2",
+       "global",
+       "asia_east2",
+       "eur4",
+       "nam4",
+       "europe_west6",
+       "japan_west",
+       "asia_northeast2",
+       "asia_northeast3",
+       "us_west3",
+       "us_west4",
+       "asia_southeast2",
+       "nam3",
+       "nam5",
+       "nam6",
+       "nam7",
+       "nam10",
+       "nam_eur_asia1",
+       "eur3",
+       "eur5",
+       "asia1",
+       "nam11",
+       "eu",
+       "northamerica_northeast2",
+       "southamerica_west1",
+       "us_east5",
+       "us_south1",
+       "europe_central2",
+       "europe_southwest1",
+       "europe_west8",
+       "europe_west9",
+       "europe_west10",
+       "europe_west12",
+       "asia_south2",
+       "australia_southeast2",
+       "me_central1",
+       "me_central2",
+       "me_west1",
+       "ap_sydney_1",
+       "ap_melbourne_1",
+       "sa_saopaulo_1",
+       "sa_vinhedo_1",
+       "ca_montreal_1",
+       "ca_toronto_1",
+       "sa_santiago_1",
+       "eu_paris_1",
+       "eu_marseille_1",
+       "eu_frankfurt_1",
+       "ap_hyderabad_1",
+       "ap_mumbai_1",
+       "il_jerusalem_1",
+       "eu_milan_1",
+       "ap_osaka_1",
+       "ap_tokyo_1",
+       "mx_queretaro_1",
+       "eu_amsterdam_1",
+       "me_jeddah_1",
+       "ap_singapore_1",
+       "af_johannesburg_1",
+       "ap_seoul_1",
+       "ap_chuncheon_1",
+       "eu_madrid_1",
+       "eu_stockholm_1",
+       "eu_zurich_1",
+       "me_abudhabi_1",
+       "me_dubai_1",
+       "uk_london_1",
+       "uk_cardiff_1",
+       "us_ashburn_1",
+       "us_phoenix_1",
+       "us_sanjose_1",
+       "us_gov_ashburn_1",
+       "us_gov_chicago_1",
+       "us_gov_phoenix_1",
+       "us_langley_1",
+       "us_luke_1",
+       "uk_gov_london_1",
+       "uk_gov_cardiff_1",
+       "sa_bogota_1",
+       "us_chicago_1",
+       "sa_valparaiso_1",
+       "mx_monterrey_1",
+       "eu_jovanovac_1",
+       "ap_singapore_2"
+      ],
+      "type": "string",
+      "readOnly": true
+     },
+     "vpc": {
+      "type": "string",
+      "readOnly": true
+     },
+     "isPublicAccessible": {
+      "type": "boolean",
+      "readOnly": true
+     },
+     "isMultiAZ": {
+      "type": "boolean",
+      "readOnly": true
+     },
+     "availabilityZone": {
+      "type": "string",
+      "readOnly": true
+     },
+     "secondaryAvailabilityZone": {
+      "type": "string",
+      "readOnly": true
+     },
+     "status": {
+      "type": "string",
+      "readOnly": true
+     },
+     "dbType": {
+      "type": "string",
+      "readOnly": true
+     },
+     "instanceType": {
+      "type": "string",
+      "readOnly": true
+     },
+     "endpoint": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.CloudDbInstances.CloudDbInstanceEndpointViewModel",
+      "readOnly": true
+     },
+     "subnetGroup": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.CloudDbInstances.CloudDbInstanceSubnetGroupViewModel",
+      "readOnly": true
+     },
+     "securityGroups": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "readOnly": true
+     },
+     "dbSecurityGroups": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "readOnly": true
+     },
+     "caCertificate": {
+      "type": "string",
+      "readOnly": true
+     },
+     "dbClusterName": {
+      "type": "string",
+      "readOnly": true
+     },
+     "dbInstanceSlaves": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "readOnly": true
+     },
+     "masterDbInstance": {
+      "type": "string",
+      "readOnly": true
+     },
+     "kmsKeyId": {
+      "type": "string",
+      "readOnly": true
+     },
+     "isStorageEncrypted": {
+      "type": "boolean",
+      "readOnly": true
+     },
+     "storageType": {
+      "type": "string",
+      "readOnly": true
+     },
+     "regionDbInstanceId": {
+      "type": "string",
+      "readOnly": true
+     },
+     "tags": {
+      "type": "object",
+      "additionalProperties": {
+       "type": "string"
+      },
+      "readOnly": true
+     },
+     "timeStamp": {
+      "format": "date-time",
+      "type": "string",
+      "readOnly": true
+     },
+     "id": {
+      "type": "string",
+      "readOnly": true
+     },
+     "isBillable": {
+      "type": "boolean"
+     },
+     "isRunning": {
+      "type": "boolean"
+     },
+     "iamDatabaseAuthenticationEnabled": {
+      "type": "boolean"
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudDbInstances.CloudDbInstanceEndpointViewModel": {
+    "type": "object",
+    "properties": {
+     "address": {
+      "type": "string",
+      "readOnly": true
+     },
+     "port": {
+      "format": "int32",
+      "type": "integer",
+      "readOnly": true
+     },
+     "hostedZoneId": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudDbInstances.CloudDbInstanceSubnetGroupViewModel": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string",
+      "readOnly": true
+     },
+     "description": {
+      "type": "string",
+      "readOnly": true
+     },
+     "vpcId": {
+      "type": "string",
+      "readOnly": true
+     },
+     "subnets": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "readOnly": true
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudEcsClusterViewModel": {
+    "type": "object",
+    "properties": {
+     "containerInstances": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.CloudEcsClusterViewModel.ContainerInstance"
+      }
+     },
+     "services": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.CloudECSServiceViewModel"
+      }
+     },
+     "id": {
+      "description": "Id",
+      "type": "string"
+     },
+     "externalId": {
+      "description": "ExternalId",
+      "type": "string"
+     },
+     "name": {
+      "description": "Name",
+      "type": "string"
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "description": "CloudAccountId",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "region": {
+      "enum": [
+       "us_east_1",
+       "us_west_1",
+       "eu_west_1",
+       "ap_southeast_1",
+       "ap_northeast_1",
+       "us_west_2",
+       "sa_east_1",
+       "az_1_region_a_geo_1",
+       "az_2_region_a_geo_1",
+       "az_3_region_a_geo_1",
+       "ap_southeast_2",
+       "mellanox_region",
+       "us_gov_west_1",
+       "eu_central_1",
+       "ap_northeast_2",
+       "ap_south_1",
+       "us_east_2",
+       "ca_central_1",
+       "eu_west_2",
+       "eu_west_3",
+       "eu_north_1",
+       "cn_north_1",
+       "cn_northwest_1",
+       "us_gov_east_1",
+       "ap_east_1",
+       "me_south_1",
+       "af_south_1",
+       "eu_south_1",
+       "ap_northeast_3",
+       "me_central_1",
+       "ap_south_2",
+       "ap_southeast_3",
+       "ap_southeast_4",
+       "eu_central_2",
+       "eu_south_2",
+       "il_central_1",
+       "ca_west_1",
+       "mx_central_1",
+       "ap_southeast_5",
+       "ap_southeast_7",
+       "westus",
+       "eastus",
+       "eastus2",
+       "northcentralus",
+       "westus2",
+       "southcentralus",
+       "centralus",
+       "usgovlowa",
+       "usgovvirginia",
+       "northeurope",
+       "westeurope",
+       "eastasia",
+       "southeastasia",
+       "japaneast",
+       "japanwest",
+       "brazilsouth",
+       "australiaeast",
+       "australiasoutheast",
+       "centralindia",
+       "southindia",
+       "westindia",
+       "canadaeast",
+       "westcentralus",
+       "chinaeast",
+       "chinanorth",
+       "canadacentral",
+       "germanycentral",
+       "germanynortheast",
+       "koreacentral",
+       "uksouth",
+       "ukwest",
+       "koreasouth",
+       "francecentral",
+       "francesouth",
+       "germanywestcentral",
+       "usdodcentral",
+       "usdodeast",
+       "usgovarizona",
+       "usgovtexas",
+       "australiacentral",
+       "australiacentral2",
+       "chinaeast2",
+       "chinanorth2",
+       "southafricanorth",
+       "southafricawest",
+       "uaecentral",
+       "uaenorth",
+       "ussecwest",
+       "usseceast",
+       "germanynorth",
+       "switzerlandwest",
+       "norwaywest",
+       "norwayeast",
+       "switzerlandnorth",
+       "westus3",
+       "swedencentral",
+       "chinanorth3",
+       "brazilsoutheast",
+       "eastus2euap",
+       "jioindiawest",
+       "jioindiacentral",
+       "qatarcentral",
+       "spaincentral",
+       "italynorth",
+       "polandcentral",
+       "mexicocentral",
+       "asia",
+       "asia_east1",
+       "asia_northeast1",
+       "asia_south1",
+       "asia_southeast1",
+       "australia_southeast1",
+       "europe",
+       "europe_north1",
+       "europe_west1",
+       "europe_west2",
+       "europe_west3",
+       "europe_west4",
+       "northamerica_northeast1",
+       "southamerica_east1",
+       "us",
+       "us_central1",
+       "us_east1",
+       "us_east4",
+       "us_west1",
+       "us_west2",
+       "global",
+       "asia_east2",
+       "eur4",
+       "nam4",
+       "europe_west6",
+       "japan_west",
+       "asia_northeast2",
+       "asia_northeast3",
+       "us_west3",
+       "us_west4",
+       "asia_southeast2",
+       "nam3",
+       "nam5",
+       "nam6",
+       "nam7",
+       "nam10",
+       "nam_eur_asia1",
+       "eur3",
+       "eur5",
+       "asia1",
+       "nam11",
+       "eu",
+       "northamerica_northeast2",
+       "southamerica_west1",
+       "us_east5",
+       "us_south1",
+       "europe_central2",
+       "europe_southwest1",
+       "europe_west8",
+       "europe_west9",
+       "europe_west10",
+       "europe_west12",
+       "asia_south2",
+       "australia_southeast2",
+       "me_central1",
+       "me_central2",
+       "me_west1",
+       "ap_sydney_1",
+       "ap_melbourne_1",
+       "sa_saopaulo_1",
+       "sa_vinhedo_1",
+       "ca_montreal_1",
+       "ca_toronto_1",
+       "sa_santiago_1",
+       "eu_paris_1",
+       "eu_marseille_1",
+       "eu_frankfurt_1",
+       "ap_hyderabad_1",
+       "ap_mumbai_1",
+       "il_jerusalem_1",
+       "eu_milan_1",
+       "ap_osaka_1",
+       "ap_tokyo_1",
+       "mx_queretaro_1",
+       "eu_amsterdam_1",
+       "me_jeddah_1",
+       "ap_singapore_1",
+       "af_johannesburg_1",
+       "ap_seoul_1",
+       "ap_chuncheon_1",
+       "eu_madrid_1",
+       "eu_stockholm_1",
+       "eu_zurich_1",
+       "me_abudhabi_1",
+       "me_dubai_1",
+       "uk_london_1",
+       "uk_cardiff_1",
+       "us_ashburn_1",
+       "us_phoenix_1",
+       "us_sanjose_1",
+       "us_gov_ashburn_1",
+       "us_gov_chicago_1",
+       "us_gov_phoenix_1",
+       "us_langley_1",
+       "us_luke_1",
+       "uk_gov_london_1",
+       "uk_gov_cardiff_1",
+       "sa_bogota_1",
+       "us_chicago_1",
+       "sa_valparaiso_1",
+       "mx_monterrey_1",
+       "eu_jovanovac_1",
+       "ap_singapore_2"
+      ],
+      "type": "string",
+      "readOnly": true
+     },
+     "accountId": {
+      "format": "int64",
+      "description": "AccountId",
+      "type": "integer"
+     },
+     "externalAccountNumber": {
+      "description": "External account number",
+      "type": "string"
+     },
+     "activeServicesCount": {
+      "format": "int32",
+      "description": "Gets and sets the property ActiveServicesCount. \r\n<para>\r\nThe number of services that are running on the cluster in an <code>ACTIVE</code> state.\r\nYou can view these services with <a>ListServices</a>.\r\n</para>",
+      "type": "integer"
+     },
+     "clusterArn": {
+      "description": "Gets and sets the property ClusterArn. \r\n<para>\r\nThe Amazon Resource Name (ARN) that identifies the cluster. The ARN contains the <code>arn:aws:ecs</code>\r\nnamespace, followed by the region of the cluster, the AWS account ID of the cluster\r\nowner, the <code>cluster</code> namespace, and then the cluster name. For example,\r\n<code>arn:aws:ecs:<i>region</i>:<i>012345678910</i>:cluster/<i>test</i></code>..\r\n</para>",
+      "type": "string"
+     },
+     "clusterName": {
+      "description": "Gets and sets the property ClusterName. \r\n<para>\r\nA user-generated string that you use to identify your cluster.\r\n</para>",
+      "type": "string"
+     },
+     "pendingTasksCount": {
+      "format": "int32",
+      "description": "Gets and sets the property PendingTasksCount. \r\n<para>\r\nThe number of tasks in the cluster that are in the <code>PENDING</code> state.\r\n</para>",
+      "type": "integer"
+     },
+     "registeredContainerInstancesCount": {
+      "format": "int32",
+      "description": "Gets and sets the property RegisteredContainerInstancesCount. \r\n<para>\r\nThe number of container instances registered into the cluster.\r\n</para>",
+      "type": "integer"
+     },
+     "runningTasksCount": {
+      "format": "int32",
+      "description": "Gets and sets the property RunningTasksCount. \r\n<para>\r\nThe number of tasks in the cluster that are in the <code>RUNNING</code> state.\r\n</para>",
+      "type": "integer"
+     },
+     "status": {
+      "description": "Gets and sets the property Status. \r\n<para>\r\nThe status of the cluster. The valid values are <code>ACTIVE</code> or <code>INACTIVE</code>.\r\n<code>ACTIVE</code> indicates that you can register container instances with the cluster\r\nand the associated instances can accept tasks.\r\n</para>",
+      "type": "string"
+     },
+     "tags": {
+      "type": "object",
+      "additionalProperties": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudEcsClusterViewModel.ContainerInstance": {
+    "type": "object",
+    "properties": {
+     "agentConnected": {
+      "type": "boolean"
+     },
+     "agentUpdateStatus": {
+      "type": "string"
+     },
+     "containerInstanceArn": {
+      "type": "string"
+     },
+     "ec2InstanceId": {
+      "type": "string"
+     },
+     "pendingTasksCount": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "registeredResources": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.CloudEcsClusterViewModel.ContainerInstance.Resource"
+      }
+     },
+     "remainingResources": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.CloudEcsClusterViewModel.ContainerInstance.Resource"
+      }
+     },
+     "runningTasksCount": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "status": {
+      "type": "string"
+     },
+     "version": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "versionInfo": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.CloudEcsClusterViewModel.ContainerInstance.ContainerInstanceVersionInfo"
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudEcsClusterViewModel.ContainerInstance.Resource": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "value": {
+      "type": "object"
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudEcsClusterViewModel.ContainerInstance.ContainerInstanceVersionInfo": {
+    "type": "object",
+    "properties": {
+     "agentHash": {
+      "type": "string"
+     },
+     "agentVersion": {
+      "type": "string"
+     },
+     "dockerVersion": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudEcsTaskDefinitionViewModel": {
+    "type": "object",
+    "properties": {
+     "containerDefinitions": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.AwsECSContainerDefinitionViewModel"
+      }
+     },
+     "family": {
+      "type": "string"
+     },
+     "networkMode": {
+      "type": "string"
+     },
+     "placementConstraints": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.AwsECSTaskDefinitionPlacementConstraintViewModel"
+      }
+     },
+     "requiresAttributes": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.AwsECSAttributeViewModel"
+      }
+     },
+     "revision": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "status": {
+      "type": "string"
+     },
+     "taskDefinitionArn": {
+      "type": "string"
+     },
+     "taskRoleArn": {
+      "type": "string"
+     },
+     "volumes": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.AwsECSVolumeViewModel"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsECSContainerDefinitionViewModel": {
+    "type": "object",
+    "properties": {
+     "command": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "cpu": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "disableNetworking": {
+      "type": "boolean"
+     },
+     "dnsSearchDomains": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "dnsServers": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "dockerLabels": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/System.Collections.Generic.KeyValuePair_System.String_System.String_"
+      }
+     },
+     "dockerSecurityOptions": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "entryPoint": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "environment": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.AwsECSKeyValuePairViewModel"
+      }
+     },
+     "essential": {
+      "type": "boolean"
+     },
+     "extraHosts": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.AwsECSHostEntryViewModel"
+      }
+     },
+     "hostname": {
+      "type": "string"
+     },
+     "image": {
+      "type": "string"
+     },
+     "links": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "logConfiguration": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.AwsECSLogConfigurationViewModel"
+     },
+     "memory": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "memoryReservation": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "mountPoints": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.AwsECSMountPointViewModel"
+      }
+     },
+     "name": {
+      "type": "string"
+     },
+     "portMappings": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.AwsECSPortMappingViewModel"
+      }
+     },
+     "privileged": {
+      "type": "boolean"
+     },
+     "readonlyRootFilesystem": {
+      "type": "boolean"
+     },
+     "ulimits": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.AwsECSUlimitViewModel"
+      }
+     },
+     "user": {
+      "type": "string"
+     },
+     "volumesFrom": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.AwsECSVolumeFromViewModel"
+      }
+     },
+     "workingDirectory": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsECSTaskDefinitionPlacementConstraintViewModel": {
+    "type": "object",
+    "properties": {
+     "expression": {
+      "type": "string"
+     },
+     "type": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsECSAttributeViewModel": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "targetId": {
+      "type": "string"
+     },
+     "targetType": {
+      "type": "string"
+     },
+     "value": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsECSVolumeViewModel": {
+    "type": "object",
+    "properties": {
+     "host": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.AwsECSHostVolumePropertiesViewModel"
+     },
+     "name": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsECSKeyValuePairViewModel": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "value": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsECSHostEntryViewModel": {
+    "type": "object",
+    "properties": {
+     "hostname": {
+      "type": "string"
+     },
+     "ipAddress": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsECSLogConfigurationViewModel": {
+    "type": "object",
+    "properties": {
+     "logDriver": {
+      "type": "string"
+     },
+     "options": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/System.Collections.Generic.KeyValuePair_System.String_System.String_"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsECSMountPointViewModel": {
+    "type": "object",
+    "properties": {
+     "containerPath": {
+      "type": "string"
+     },
+     "readOnly": {
+      "type": "boolean"
+     },
+     "sourceVolume": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsECSPortMappingViewModel": {
+    "type": "object",
+    "properties": {
+     "containerPort": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "hostPort": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "protocol": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsECSUlimitViewModel": {
+    "type": "object",
+    "properties": {
+     "hardLimit": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "name": {
+      "type": "string"
+     },
+     "softLimit": {
+      "format": "int32",
+      "type": "integer"
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsECSVolumeFromViewModel": {
+    "type": "object",
+    "properties": {
+     "readOnly": {
+      "type": "boolean"
+     },
+     "sourceContainer": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.AwsECSHostVolumePropertiesViewModel": {
+    "type": "object",
+    "properties": {
+     "sourcePath": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Models.CloudInstanceViewModel": {
+    "type": "object",
+    "properties": {
+     "externalId": {
+      "type": "string"
+     },
+     "name": {
+      "type": "string"
+     },
+     "region": {
+      "enum": [
+       "us_east_1",
+       "us_west_1",
+       "eu_west_1",
+       "ap_southeast_1",
+       "ap_northeast_1",
+       "us_west_2",
+       "sa_east_1",
+       "az_1_region_a_geo_1",
+       "az_2_region_a_geo_1",
+       "az_3_region_a_geo_1",
+       "ap_southeast_2",
+       "mellanox_region",
+       "us_gov_west_1",
+       "eu_central_1",
+       "ap_northeast_2",
+       "ap_south_1",
+       "us_east_2",
+       "ca_central_1",
+       "eu_west_2",
+       "eu_west_3",
+       "eu_north_1",
+       "cn_north_1",
+       "cn_northwest_1",
+       "us_gov_east_1",
+       "ap_east_1",
+       "me_south_1",
+       "af_south_1",
+       "eu_south_1",
+       "ap_northeast_3",
+       "me_central_1",
+       "ap_south_2",
+       "ap_southeast_3",
+       "ap_southeast_4",
+       "eu_central_2",
+       "eu_south_2",
+       "il_central_1",
+       "ca_west_1",
+       "mx_central_1",
+       "ap_southeast_5",
+       "ap_southeast_7",
+       "westus",
+       "eastus",
+       "eastus2",
+       "northcentralus",
+       "westus2",
+       "southcentralus",
+       "centralus",
+       "usgovlowa",
+       "usgovvirginia",
+       "northeurope",
+       "westeurope",
+       "eastasia",
+       "southeastasia",
+       "japaneast",
+       "japanwest",
+       "brazilsouth",
+       "australiaeast",
+       "australiasoutheast",
+       "centralindia",
+       "southindia",
+       "westindia",
+       "canadaeast",
+       "westcentralus",
+       "chinaeast",
+       "chinanorth",
+       "canadacentral",
+       "germanycentral",
+       "germanynortheast",
+       "koreacentral",
+       "uksouth",
+       "ukwest",
+       "koreasouth",
+       "francecentral",
+       "francesouth",
+       "germanywestcentral",
+       "usdodcentral",
+       "usdodeast",
+       "usgovarizona",
+       "usgovtexas",
+       "australiacentral",
+       "australiacentral2",
+       "chinaeast2",
+       "chinanorth2",
+       "southafricanorth",
+       "southafricawest",
+       "uaecentral",
+       "uaenorth",
+       "ussecwest",
+       "usseceast",
+       "germanynorth",
+       "switzerlandwest",
+       "norwaywest",
+       "norwayeast",
+       "switzerlandnorth",
+       "westus3",
+       "swedencentral",
+       "chinanorth3",
+       "brazilsoutheast",
+       "eastus2euap",
+       "jioindiawest",
+       "jioindiacentral",
+       "qatarcentral",
+       "spaincentral",
+       "italynorth",
+       "polandcentral",
+       "mexicocentral",
+       "asia",
+       "asia_east1",
+       "asia_northeast1",
+       "asia_south1",
+       "asia_southeast1",
+       "australia_southeast1",
+       "europe",
+       "europe_north1",
+       "europe_west1",
+       "europe_west2",
+       "europe_west3",
+       "europe_west4",
+       "northamerica_northeast1",
+       "southamerica_east1",
+       "us",
+       "us_central1",
+       "us_east1",
+       "us_east4",
+       "us_west1",
+       "us_west2",
+       "global",
+       "asia_east2",
+       "eur4",
+       "nam4",
+       "europe_west6",
+       "japan_west",
+       "asia_northeast2",
+       "asia_northeast3",
+       "us_west3",
+       "us_west4",
+       "asia_southeast2",
+       "nam3",
+       "nam5",
+       "nam6",
+       "nam7",
+       "nam10",
+       "nam_eur_asia1",
+       "eur3",
+       "eur5",
+       "asia1",
+       "nam11",
+       "eu",
+       "northamerica_northeast2",
+       "southamerica_west1",
+       "us_east5",
+       "us_south1",
+       "europe_central2",
+       "europe_southwest1",
+       "europe_west8",
+       "europe_west9",
+       "europe_west10",
+       "europe_west12",
+       "asia_south2",
+       "australia_southeast2",
+       "me_central1",
+       "me_central2",
+       "me_west1",
+       "ap_sydney_1",
+       "ap_melbourne_1",
+       "sa_saopaulo_1",
+       "sa_vinhedo_1",
+       "ca_montreal_1",
+       "ca_toronto_1",
+       "sa_santiago_1",
+       "eu_paris_1",
+       "eu_marseille_1",
+       "eu_frankfurt_1",
+       "ap_hyderabad_1",
+       "ap_mumbai_1",
+       "il_jerusalem_1",
+       "eu_milan_1",
+       "ap_osaka_1",
+       "ap_tokyo_1",
+       "mx_queretaro_1",
+       "eu_amsterdam_1",
+       "me_jeddah_1",
+       "ap_singapore_1",
+       "af_johannesburg_1",
+       "ap_seoul_1",
+       "ap_chuncheon_1",
+       "eu_madrid_1",
+       "eu_stockholm_1",
+       "eu_zurich_1",
+       "me_abudhabi_1",
+       "me_dubai_1",
+       "uk_london_1",
+       "uk_cardiff_1",
+       "us_ashburn_1",
+       "us_phoenix_1",
+       "us_sanjose_1",
+       "us_gov_ashburn_1",
+       "us_gov_chicago_1",
+       "us_gov_phoenix_1",
+       "us_langley_1",
+       "us_luke_1",
+       "uk_gov_london_1",
+       "uk_gov_cardiff_1",
+       "sa_bogota_1",
+       "us_chicago_1",
+       "sa_valparaiso_1",
+       "mx_monterrey_1",
+       "eu_jovanovac_1",
+       "ap_singapore_2"
+      ],
+      "type": "string"
+     },
+     "vpc": {
+      "type": "string"
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "isRunning": {
+      "type": "boolean"
+     },
+     "instanceType": {
+      "type": "string"
+     },
+     "publicDnsName": {
+      "type": "string"
+     },
+     "nics": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Models.CloudInstanceNicViewModel"
+      }
+     },
+     "tags": {
+      "type": "object",
+      "additionalProperties": {
+       "type": "string"
+      }
+     },
+     "accountId": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "image": {
+      "type": "string"
+     },
+     "kernelId": {
+      "type": "string"
+     },
+     "launchTime": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "platform": {
+      "type": "string"
+     },
+     "profileArn": {
+      "type": "string"
+     },
+     "roleArns": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "isBillable": {
+      "type": "boolean"
+     },
+     "ssmAgentInstanceInformation": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Models.CloudSsmInstanceInformationViewModel"
+     },
+     "metadataOptions": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Models.CloudInstanceMetadataOptionsViewModel"
+     },
+     "imageDetails": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Models.CloudInstanceImageDetailsViewModel"
+     },
+     "ssmInstancePatchState": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Models.AwsSsmInstancePatchStateViewModel"
+     }
+    }
+   },
+   "Dome9.Web.Api.Models.CloudInstanceNicViewModel": {
+    "type": "object",
+    "properties": {
+     "publicIpAddress": {
+      "type": "string"
+     },
+     "privateIpAddress": {
+      "type": "string"
+     },
+     "securityGroupIds": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "privateDnsName": {
+      "type": "string"
+     },
+     "name": {
+      "type": "string"
+     },
+     "externalId": {
+      "type": "string"
+     },
+     "subnetId": {
+      "type": "string"
+     },
+     "macAddress": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Models.CloudSsmInstanceInformationViewModel": {
+    "type": "object",
+    "properties": {
+     "activationId": {
+      "type": "string"
+     },
+     "agentVersion": {
+      "type": "string"
+     },
+     "associationOverview": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Models.AwsSsmInstanceInformationAssociationOverviewViewModel"
+     },
+     "associationStatus": {
+      "type": "string"
+     },
+     "computerName": {
+      "type": "string"
+     },
+     "iamRole": {
+      "type": "string"
+     },
+     "instanceId": {
+      "type": "string"
+     },
+     "ipAddress": {
+      "type": "string"
+     },
+     "isLatestVersion": {
+      "type": "boolean"
+     },
+     "lastAssociationExecutionDate": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "lastSuccessfulAssociationExecutionDate": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "name": {
+      "type": "string"
+     },
+     "pingStatus": {
+      "type": "string"
+     },
+     "platformName": {
+      "type": "string"
+     },
+     "platformType": {
+      "type": "string"
+     },
+     "platformVersion": {
+      "type": "string"
+     },
+     "registrationDate": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "resourceType": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Models.CloudInstanceMetadataOptionsViewModel": {
+    "type": "object",
+    "properties": {
+     "httpEndpoint": {
+      "type": "string"
+     },
+     "httpPutResponseHopLimit": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "httpTokens": {
+      "type": "string"
+     },
+     "state": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Models.CloudInstanceImageDetailsViewModel": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "ownerId": {
+      "type": "string"
+     },
+     "imageLocation": {
+      "type": "string"
+     },
+     "isPublic": {
+      "type": "boolean"
+     },
+     "state": {
+      "type": "string"
+     },
+     "description": {
+      "type": "string"
+     },
+     "creationDate": {
+      "type": "string"
+     },
+     "hypervisor": {
+      "type": "string"
+     },
+     "platform": {
+      "type": "string"
+     },
+     "architecture": {
+      "type": "string"
+     },
+     "rootDeviceName": {
+      "type": "string"
+     },
+     "rootDeviceType": {
+      "type": "string"
+     },
+     "virtualizationType": {
+      "type": "string"
+     },
+     "ramdiskId": {
+      "type": "string"
+     },
+     "imageOwnerAlias": {
+      "type": "string"
+     },
+     "imageType": {
+      "type": "string"
+     },
+     "kernelId": {
+      "type": "string"
+     },
+     "productCodes": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Models.AwsEc2ProductCodeViewModel"
+      }
+     },
+     "enaSupport": {
+      "type": "boolean"
+     },
+     "sriovNetSupport": {
+      "type": "string"
+     },
+     "stateReason": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Models.AwsEc2StateReasonViewModel"
+     },
+     "tags": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.CloudAmi.CloudEc2TagViewModel"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.Models.AwsSsmInstancePatchStateViewModel": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "patchGroup": {
+      "type": "string"
+     },
+     "baselineId": {
+      "type": "string"
+     },
+     "installedCount": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "missingCount": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "failedCount": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "installedOtherCount": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "notApplicableCount": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "securityNonCompliantCount": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "unreportedNotApplicableCount": {
+      "format": "int32",
+      "type": "integer"
+     }
+    }
+   },
+   "Dome9.Web.Api.Models.AwsSsmInstanceInformationAssociationOverviewViewModel": {
+    "type": "object",
+    "properties": {
+     "detailedStatus": {
+      "type": "string"
+     },
+     "instanceAssociationStatusAggregatedCount": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Models.AwsSsmInstanceAssociationStatusAggregatedCountViewModel"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.Models.AwsEc2ProductCodeViewModel": {
+    "type": "object",
+    "properties": {
+     "productCodeId": {
+      "type": "string"
+     },
+     "productCodeType": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Models.AwsEc2StateReasonViewModel": {
+    "type": "object",
+    "properties": {
+     "code": {
+      "type": "string"
+     },
+     "message": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Models.AwsSsmInstanceAssociationStatusAggregatedCountViewModel": {
+    "type": "object",
+    "properties": {
+     "key": {
+      "type": "string"
+     },
+     "value": {
+      "format": "int32",
+      "type": "integer"
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutyFindingsResponse": {
+    "type": "object",
+    "properties": {
+     "findings": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyFindingViewModel"
+      }
+     },
+     "guardDutyState": {
+      "enum": [
+       "Enabled",
+       "Disabled"
+      ],
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutyFindingViewModel": {
+    "type": "object",
+    "properties": {
+     "accountId": {
+      "type": "string"
+     },
+     "arn": {
+      "type": "string"
+     },
+     "confidence": {
+      "format": "double",
+      "type": "number"
+     },
+     "createdAt": {
+      "type": "string"
+     },
+     "description": {
+      "type": "string"
+     },
+     "id": {
+      "type": "string"
+     },
+     "partition": {
+      "type": "string"
+     },
+     "region": {
+      "type": "string"
+     },
+     "resource": {
+      "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyResourceViewModel"
+     },
+     "schemaVersion": {
+      "type": "string"
+     },
+     "service": {
+      "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyServiceViewModel"
+     },
+     "severity": {
+      "format": "double",
+      "type": "number"
+     },
+     "title": {
+      "type": "string"
+     },
+     "type": {
+      "type": "string"
+     },
+     "updatedAt": {
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutyResourceViewModel": {
+    "type": "object",
+    "properties": {
+     "accessKeyDetails": {
+      "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyAccessKeyDetailsViewModel"
+     },
+     "instanceDetails": {
+      "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyInstanceDetailsViewModel"
+     },
+     "resourceType": {
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutyServiceViewModel": {
+    "type": "object",
+    "properties": {
+     "action": {
+      "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyActionViewModel"
+     },
+     "archived": {
+      "type": "boolean"
+     },
+     "count": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "detectorId": {
+      "type": "string"
+     },
+     "eventFirstSeen": {
+      "type": "string"
+     },
+     "eventLastSeen": {
+      "type": "string"
+     },
+     "resourceRole": {
+      "type": "string"
+     },
+     "serviceName": {
+      "type": "string"
+     },
+     "userFeedback": {
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutyAccessKeyDetailsViewModel": {
+    "type": "object",
+    "properties": {
+     "accessKeyId": {
+      "type": "string"
+     },
+     "principalId": {
+      "type": "string"
+     },
+     "userName": {
+      "type": "string"
+     },
+     "userType": {
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutyInstanceDetailsViewModel": {
+    "type": "object",
+    "properties": {
+     "availabilityZone": {
+      "type": "string"
+     },
+     "iamInstanceProfile": {
+      "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyIamInstanceProfileViewModel"
+     },
+     "imageId": {
+      "type": "string"
+     },
+     "instanceId": {
+      "type": "string"
+     },
+     "instanceState": {
+      "type": "string"
+     },
+     "instanceType": {
+      "type": "string"
+     },
+     "launchTime": {
+      "type": "string"
+     },
+     "networkInterfaces": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyNetworkInterfaceViewModel"
+      }
+     },
+     "platform": {
+      "type": "string"
+     },
+     "productCodes": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyProductCodeViewModel"
+      }
+     },
+     "tags": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyTagViewModel"
+      }
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutyActionViewModel": {
+    "type": "object",
+    "properties": {
+     "actionType": {
+      "type": "string"
+     },
+     "awsApiCallAction": {
+      "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyAwsApiCallActionViewModel"
+     },
+     "dnsRequestAction": {
+      "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyDnsRequestActionViewModel"
+     },
+     "networkConnectionAction": {
+      "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyNetworkConnectionActionViewModel"
+     },
+     "portProbeAction": {
+      "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyPortProbeActionViewModel"
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutyIamInstanceProfileViewModel": {
+    "type": "object",
+    "properties": {
+     "arn": {
+      "type": "string"
+     },
+     "id": {
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutyNetworkInterfaceViewModel": {
+    "type": "object",
+    "properties": {
+     "ipv6Addresses": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "privateDnsName": {
+      "type": "string"
+     },
+     "privateIpAddress": {
+      "type": "string"
+     },
+     "privateIpAddresses": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyPrivateIpAddressDetailsViewModel"
+      }
+     },
+     "publicDnsName": {
+      "type": "string"
+     },
+     "publicIp": {
+      "type": "string"
+     },
+     "securityGroups": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutySecurityGroupViewModel"
+      }
+     },
+     "subnetId": {
+      "type": "string"
+     },
+     "vpcId": {
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutyProductCodeViewModel": {
+    "type": "object",
+    "properties": {
+     "code": {
+      "type": "string"
+     },
+     "productType": {
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutyTagViewModel": {
+    "type": "object",
+    "properties": {
+     "key": {
+      "type": "string"
+     },
+     "value": {
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutyAwsApiCallActionViewModel": {
+    "type": "object",
+    "properties": {
+     "api": {
+      "type": "string"
+     },
+     "callerType": {
+      "type": "string"
+     },
+     "domainDetails": {
+      "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyDomainDetailsViewModel"
+     },
+     "remoteIpDetails": {
+      "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyRemoteIpDetailsViewModel"
+     },
+     "serviceName": {
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutyDnsRequestActionViewModel": {
+    "type": "object",
+    "properties": {
+     "domain": {
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutyNetworkConnectionActionViewModel": {
+    "type": "object",
+    "properties": {
+     "blocked": {
+      "type": "boolean"
+     },
+     "connectionDirection": {
+      "type": "string"
+     },
+     "localPortDetails": {
+      "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyLocalPortDetailsViewModel"
+     },
+     "protocol": {
+      "type": "string"
+     },
+     "remoteIpDetails": {
+      "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyRemoteIpDetailsViewModel"
+     },
+     "remotePortDetails": {
+      "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyRemotePortDetailsViewModel"
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutyPortProbeActionViewModel": {
+    "type": "object",
+    "properties": {
+     "blocked": {
+      "type": "boolean"
+     },
+     "portProbeDetails": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyPortProbeDetailViewModel"
+      }
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutyPrivateIpAddressDetailsViewModel": {
+    "type": "object",
+    "properties": {
+     "privateDnsName": {
+      "type": "string"
+     },
+     "privateIpAddress": {
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutySecurityGroupViewModel": {
+    "type": "object",
+    "properties": {
+     "groupId": {
+      "type": "string"
+     },
+     "groupName": {
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutyDomainDetailsViewModel": {
+    "type": "object",
+    "properties": {}
+   },
+   "Falconetix.Model.AwsGuardDutyRemoteIpDetailsViewModel": {
+    "type": "object",
+    "properties": {
+     "city": {
+      "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyCityViewModel"
+     },
+     "country": {
+      "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyCountryViewModel"
+     },
+     "geoLocation": {
+      "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyGeoLocationViewModel"
+     },
+     "ipAddressV4": {
+      "type": "string"
+     },
+     "organization": {
+      "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyOrganizationViewModel"
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutyLocalPortDetailsViewModel": {
+    "type": "object",
+    "properties": {
+     "port": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "portName": {
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutyRemotePortDetailsViewModel": {
+    "type": "object",
+    "properties": {
+     "port": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "portName": {
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutyPortProbeDetailViewModel": {
+    "type": "object",
+    "properties": {
+     "localPortDetails": {
+      "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyLocalPortDetailsViewModel"
+     },
+     "remoteIpDetails": {
+      "$ref": "#/components/schemas/Falconetix.Model.AwsGuardDutyRemoteIpDetailsViewModel"
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutyCityViewModel": {
+    "type": "object",
+    "properties": {
+     "cityName": {
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutyCountryViewModel": {
+    "type": "object",
+    "properties": {
+     "countryCode": {
+      "type": "string"
+     },
+     "countryName": {
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutyGeoLocationViewModel": {
+    "type": "object",
+    "properties": {
+     "lat": {
+      "format": "double",
+      "type": "number"
+     },
+     "lon": {
+      "format": "double",
+      "type": "number"
+     }
+    }
+   },
+   "Falconetix.Model.AwsGuardDutyOrganizationViewModel": {
+    "type": "object",
+    "properties": {
+     "asn": {
+      "type": "string"
+     },
+     "asnOrg": {
+      "type": "string"
+     },
+     "isp": {
+      "type": "string"
+     },
+     "org": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Models.CloudInstanceSecurityGroupAttachDetachViewModel": {
+    "type": "object",
+    "properties": {
+     "groupid": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "nicname": {
+      "type": "string"
+     },
+     "policyGroupId": {
+      "format": "uuid",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     }
+    }
+   },
+   "Dome9.Web.Api.Models.CloudLoadBalancerViewModel": {
+    "type": "object",
+    "properties": {
+     "externalId": {
+      "type": "string"
+     },
+     "name": {
+      "type": "string"
+     },
+     "region": {
+      "enum": [
+       "us_east_1",
+       "us_west_1",
+       "eu_west_1",
+       "ap_southeast_1",
+       "ap_northeast_1",
+       "us_west_2",
+       "sa_east_1",
+       "az_1_region_a_geo_1",
+       "az_2_region_a_geo_1",
+       "az_3_region_a_geo_1",
+       "ap_southeast_2",
+       "mellanox_region",
+       "us_gov_west_1",
+       "eu_central_1",
+       "ap_northeast_2",
+       "ap_south_1",
+       "us_east_2",
+       "ca_central_1",
+       "eu_west_2",
+       "eu_west_3",
+       "eu_north_1",
+       "cn_north_1",
+       "cn_northwest_1",
+       "us_gov_east_1",
+       "ap_east_1",
+       "me_south_1",
+       "af_south_1",
+       "eu_south_1",
+       "ap_northeast_3",
+       "me_central_1",
+       "ap_south_2",
+       "ap_southeast_3",
+       "ap_southeast_4",
+       "eu_central_2",
+       "eu_south_2",
+       "il_central_1",
+       "ca_west_1",
+       "mx_central_1",
+       "ap_southeast_5",
+       "ap_southeast_7",
+       "westus",
+       "eastus",
+       "eastus2",
+       "northcentralus",
+       "westus2",
+       "southcentralus",
+       "centralus",
+       "usgovlowa",
+       "usgovvirginia",
+       "northeurope",
+       "westeurope",
+       "eastasia",
+       "southeastasia",
+       "japaneast",
+       "japanwest",
+       "brazilsouth",
+       "australiaeast",
+       "australiasoutheast",
+       "centralindia",
+       "southindia",
+       "westindia",
+       "canadaeast",
+       "westcentralus",
+       "chinaeast",
+       "chinanorth",
+       "canadacentral",
+       "germanycentral",
+       "germanynortheast",
+       "koreacentral",
+       "uksouth",
+       "ukwest",
+       "koreasouth",
+       "francecentral",
+       "francesouth",
+       "germanywestcentral",
+       "usdodcentral",
+       "usdodeast",
+       "usgovarizona",
+       "usgovtexas",
+       "australiacentral",
+       "australiacentral2",
+       "chinaeast2",
+       "chinanorth2",
+       "southafricanorth",
+       "southafricawest",
+       "uaecentral",
+       "uaenorth",
+       "ussecwest",
+       "usseceast",
+       "germanynorth",
+       "switzerlandwest",
+       "norwaywest",
+       "norwayeast",
+       "switzerlandnorth",
+       "westus3",
+       "swedencentral",
+       "chinanorth3",
+       "brazilsoutheast",
+       "eastus2euap",
+       "jioindiawest",
+       "jioindiacentral",
+       "qatarcentral",
+       "spaincentral",
+       "italynorth",
+       "polandcentral",
+       "mexicocentral",
+       "asia",
+       "asia_east1",
+       "asia_northeast1",
+       "asia_south1",
+       "asia_southeast1",
+       "australia_southeast1",
+       "europe",
+       "europe_north1",
+       "europe_west1",
+       "europe_west2",
+       "europe_west3",
+       "europe_west4",
+       "northamerica_northeast1",
+       "southamerica_east1",
+       "us",
+       "us_central1",
+       "us_east1",
+       "us_east4",
+       "us_west1",
+       "us_west2",
+       "global",
+       "asia_east2",
+       "eur4",
+       "nam4",
+       "europe_west6",
+       "japan_west",
+       "asia_northeast2",
+       "asia_northeast3",
+       "us_west3",
+       "us_west4",
+       "asia_southeast2",
+       "nam3",
+       "nam5",
+       "nam6",
+       "nam7",
+       "nam10",
+       "nam_eur_asia1",
+       "eur3",
+       "eur5",
+       "asia1",
+       "nam11",
+       "eu",
+       "northamerica_northeast2",
+       "southamerica_west1",
+       "us_east5",
+       "us_south1",
+       "europe_central2",
+       "europe_southwest1",
+       "europe_west8",
+       "europe_west9",
+       "europe_west10",
+       "europe_west12",
+       "asia_south2",
+       "australia_southeast2",
+       "me_central1",
+       "me_central2",
+       "me_west1",
+       "ap_sydney_1",
+       "ap_melbourne_1",
+       "sa_saopaulo_1",
+       "sa_vinhedo_1",
+       "ca_montreal_1",
+       "ca_toronto_1",
+       "sa_santiago_1",
+       "eu_paris_1",
+       "eu_marseille_1",
+       "eu_frankfurt_1",
+       "ap_hyderabad_1",
+       "ap_mumbai_1",
+       "il_jerusalem_1",
+       "eu_milan_1",
+       "ap_osaka_1",
+       "ap_tokyo_1",
+       "mx_queretaro_1",
+       "eu_amsterdam_1",
+       "me_jeddah_1",
+       "ap_singapore_1",
+       "af_johannesburg_1",
+       "ap_seoul_1",
+       "ap_chuncheon_1",
+       "eu_madrid_1",
+       "eu_stockholm_1",
+       "eu_zurich_1",
+       "me_abudhabi_1",
+       "me_dubai_1",
+       "uk_london_1",
+       "uk_cardiff_1",
+       "us_ashburn_1",
+       "us_phoenix_1",
+       "us_sanjose_1",
+       "us_gov_ashburn_1",
+       "us_gov_chicago_1",
+       "us_gov_phoenix_1",
+       "us_langley_1",
+       "us_luke_1",
+       "uk_gov_london_1",
+       "uk_gov_cardiff_1",
+       "sa_bogota_1",
+       "us_chicago_1",
+       "sa_valparaiso_1",
+       "mx_monterrey_1",
+       "eu_jovanovac_1",
+       "ap_singapore_2"
+      ],
+      "type": "string"
+     },
+     "vpc": {
+      "type": "string"
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "tags": {
+      "type": "object",
+      "additionalProperties": {
+       "type": "string"
+      }
+     },
+     "timeStamp": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "accountId": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "securityGroups": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "listeners": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Models.CloudLoadBalancerListenerViewModel"
+      }
+     },
+     "dnsName": {
+      "type": "string"
+     },
+     "id": {
+      "type": "string"
+     },
+     "instances": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "scheme": {
+      "type": "string"
+     },
+     "accessLog": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Models.CloudLoadBalancerAccessLogViewModel"
+     }
+    }
+   },
+   "Dome9.Web.Api.Models.CloudLoadBalancerListenerViewModel": {
+    "type": "object",
+    "properties": {
+     "sourcePort": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "instancePort": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "sourceProtocol": {
+      "type": "string"
+     },
+     "instanceProtocol": {
+      "type": "string"
+     },
+     "sslCertificateId": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Models.CloudLoadBalancerAccessLogViewModel": {
+    "type": "object",
+    "properties": {
+     "emitInterval": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "enabled": {
+      "type": "boolean"
+     },
+     "s3BucketName": {
+      "type": "string"
+     },
+     "s3BucketPrefix": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudVolume.CloudVolumeViewModel": {
+    "type": "object",
+    "properties": {
+     "attachments": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.CloudVolume.CloudVolumeAttachmentViewModel"
+      }
+     },
+     "availabilityZone": {
+      "type": "string"
+     },
+     "createTime": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "encrypted": {
+      "type": "boolean"
+     },
+     "iops": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "kmsKeyId": {
+      "type": "string"
+     },
+     "size": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "snapshotId": {
+      "type": "string"
+     },
+     "state": {
+      "type": "string"
+     },
+     "tags": {
+      "type": "object",
+      "additionalProperties": {
+       "type": "string"
+      }
+     },
+     "volumeId": {
+      "type": "string"
+     },
+     "volumeType": {
+      "type": "string"
+     },
+     "region": {
+      "type": "string"
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "externalAccountNumber": {
+      "type": "string"
+     },
+     "id": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.CloudVolume.CloudVolumeAttachmentViewModel": {
+    "type": "object",
+    "properties": {
+     "attachTime": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "deleteOnTermination": {
+      "type": "boolean"
+     },
+     "device": {
+      "type": "string"
+     },
+     "instanceId": {
+      "type": "string"
+     },
+     "state": {
+      "type": "string"
+     },
+     "volumeId": {
+      "type": "string"
+     }
+    }
+   },
+   "System.Collections.Generic.KeyValuePair_System.String_System.String_": {
+    "type": "object",
+    "properties": {
+     "key": {
+      "type": "string",
+      "readOnly": true
+     },
+     "value": {
+      "type": "string",
+      "readOnly": true
+     }
+    }
+   }
+  },
+  "securitySchemes": {
+   "basic": {
+    "type": "http",
+    "scheme": "basic"
+   }
+  }
+ },
+ "security": [
+  {
+   "basic": []
+  }
+ ],
+ "x-readme": {
+  "explorer-enabled": true,
+  "proxy-enabled": true
+ }
+}

@@ -1,15 +1,58 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/cloudguard-openapi.yml
+generated: '2026-09-05'
+method: searched
+source: https://docs.cgn.portal.checkpoint.com/reference/authentication
+docs: https://docs.cgn.portal.checkpoint.com/reference/authentication
+description: Authentication profile for the CloudGuard (Dome9) v2 REST API, read from the provider-published authentication
+  reference and confirmed against the securitySchemes of all 23 published OpenAPI definitions.
 summary:
   types:
   - http
+  schemes: 1
+  oauth2: false
+  scopes: false
+  mtls: false
 schemes:
-- name: basicAuth
+- name: basic
   type: http
   scheme: basic
-  description: |-
-    CloudGuard authentication uses HTTP Basic with the CloudGuard API
-    key id as the username and the API key secret as the password.
+  in: header
+  header: Authorization
+  description: The CloudGuard REST API uses HTTP Basic Authentication. The username is the CloudGuard V2 API key
+    id and the password is the API key secret. Keys are created in the CloudGuard portal under Settings > Credentials;
+    creating one requires a user with All System Resources permission.
+  credential_creation: https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/Settings/Credentials.htm
+  example: curl -u your-api-key-id:your-api-key-secret https://api.dome9.com/v2/CloudAccounts
+  applied_to: all operations (root-level security requirement in every published definition)
   sources:
-  - openapi/cloudguard-openapi.yml
+  - https://docs.cgn.portal.checkpoint.com/reference/authentication
+  - openapi/cloudguard-onboarding-openapi.yml
+authorization_model:
+  style: inherited-user-permissions
+  note: There are no API scopes. "Your permissions when using the REST API with the key will be the same as the
+    permissions of the CloudGuard user who generated the key from the CloudGuard web application." Authorization
+    is therefore governed by CloudGuard roles and organizational-unit scoping, managed through the Administration
+    API (/v2/role, /v2/user, /v2/organizationalUnit).
+  consequence_for_agents: A CloudGuard API key cannot be least-privileged at the API layer; it is least-privileged
+    by creating it as a purpose-built user with a narrow role.
+secondary_flows:
+- name: assume-role JWT
+  endpoint: https://api.dome9.com/v2/auth/assume-role/jwt
+  used_by: Image Scan CI/CD tooling
+  note: Named in the connectivity table of the API reference introduction as an endpoint that must be reachable.
+    Not documented as a general-purpose developer auth flow.
+  source: https://docs.cgn.portal.checkpoint.com/reference/introduction
+- name: Infinity Portal external auth
+  endpoint: https://cloudinfra-gw.portal.checkpoint.com/auth/external
+  used_by: CloudGuard in Infinity Portal tenants and Check Point WAF
+  note: Client-id / access-key exchange at the Infinity Portal gateway. The Check Point WAF MCP server authenticates
+    this way (WAF_CLIENT_ID + WAF_ACCESS_KEY).
+  source: https://github.com/CheckPointSW/mcp-servers/tree/main/packages/checkpoint-waf
+probes:
+- url: https://api.dome9.com/v2/CloudAccounts
+  http_status: 401
+  body: '{"message":"Authorization has been denied for this request."}'
+  note: No WWW-Authenticate challenge header is returned.
+- url: https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/API-Authentication.html
+  http_status: 404
+  note: The authentication URL previously carried in apis.yml is dead; it has been replaced with the developer-hub
+    page above.

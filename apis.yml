@@ -2,13 +2,18 @@ aid: cloudguard
 url: https://raw.githubusercontent.com/api-evangelist/cloudguard/refs/heads/main/apis.yml
 name: CloudGuard
 tags:
-  - Check Point
-  - CNAPP
-  - Cloud Security
-  - Compliance
-  - CSPM
-  - CWPP
-  - Posture Management
+- Check Point
+- CNAPP
+- Cloud Security
+- Cloud Security Posture Management
+- Compliance
+- CSPM
+- CWPP
+- Kubernetes Security
+- Multi-Cloud
+- Posture Management
+- Workload Protection
+- Dome9
 type: Index
 deliveryModel:
   model: unknown
@@ -38,190 +43,670 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
 access: 3rd-Party
 created: '2024-01-01'
-modified: '2026-04-26'
+modified: '2026-09-05'
 position: Consuming
 kind: company
 x-company: Check Point Software Technologies
-description: >-
-  Check Point CloudGuard is a Cloud Native Application Protection Platform (CNAPP) that delivers cloud security posture
-  management (CSPM), cloud workload protection (CWPP), code security, network security, and intelligence/CDR
-  capabilities across AWS, Azure, GCP, Alibaba, Oracle, Kubernetes, and on-premises environments. The CloudGuard public
-  REST API (originally Dome9) is used to onboard cloud accounts, run posture assessments, manage compliance bundles,
-  retrieve findings, and configure policies and alerts.
+description: 'Check Point CloudGuard is a Cloud Native Application Protection Platform (CNAPP) delivering cloud security
+  posture management (CSPM), cloud workload protection (CWPP), code security, cloud network security and cloud detection
+  and response across AWS, Azure, GCP, Alibaba Cloud, Oracle Cloud, Kubernetes and on-premises environments. The public
+  CloudGuard REST API - originally Dome9, still served from api.dome9.com and mirrored on the Infinity Portal regional hosts
+  - is documented across 23 first-party OpenAPI definitions covering 823 operations: onboarding cloud accounts, running
+  compliance assessments, managing rulesets and policies, triaging findings, routing notifications, protecting Kubernetes
+  and serverless workloads, and reading a cross-cloud protected-asset inventory. Authentication is HTTP Basic with a V2
+  API key id and secret created in the CloudGuard portal.'
 apis:
+- aid: cloudguard:cloudguard-cloudaccounts-api
+  name: CloudGuard Onboarding API
+  description: Onboard and manage cloud accounts across AWS, Azure, GCP, Alibaba, OCI and Kubernetes - registration, credentials,
+    missing-permission checks, data sync and organizational-unit placement. 160 operations across 133 paths.
+  humanURL: https://docs.cgn.portal.checkpoint.com/reference
+  tags:
+  - Cloud Accounts
+  - Onboarding
+  - Multi-Cloud
+  - Kubernetes
+  baseURL: https://api.dome9.com
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudguard-onboarding-openapi.yml
+  - type: Overlay
+    url: overlays/cloudguard-onboarding-overlay.yaml
+  - type: Documentation
+    url: https://docs.cgn.portal.checkpoint.com/reference
+  - type: APIReference
+    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+  - type: Authentication
+    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
+- aid: cloudguard:cloudguard-compliance-api
+  name: CloudGuard Posture Management API
+  description: Run compliance rulesets against cloud accounts, read assessment history and trends, export executive reports,
+    and manage continuous compliance policies. 56 operations across 35 paths.
+  humanURL: https://docs.cgn.portal.checkpoint.com/reference
+  tags:
+  - Compliance
+  - CSPM
+  - Posture Management
+  - Assessments
+  baseURL: https://api.dome9.com
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudguard-posture-management-openapi.yml
+  - type: Overlay
+    url: overlays/cloudguard-posture-management-overlay.yaml
+  - type: Documentation
+    url: https://docs.cgn.portal.checkpoint.com/reference
+  - type: APIReference
+    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+  - type: Authentication
+    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
+- aid: cloudguard:cloudguard-findings-api
+  name: CloudGuard Events API
+  description: Search, acknowledge, assign, comment on, re-prioritise, archive and close compliance findings, and push third-party
+    findings in through the External Findings surface. 44 operations across 42 paths.
+  humanURL: https://docs.cgn.portal.checkpoint.com/reference
+  tags:
+  - Findings
+  - Events
+  - Alerts
+  - Triage
+  baseURL: https://api.dome9.com
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudguard-events-openapi.yml
+  - type: Overlay
+    url: overlays/cloudguard-events-overlay.yaml
+  - type: Documentation
+    url: https://docs.cgn.portal.checkpoint.com/reference
+  - type: APIReference
+    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+  - type: Authentication
+    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
+- aid: cloudguard:cloudguard-notifications-api
+  name: CloudGuard Administration API
+  description: Tenant administration - users, roles, IAM Safe entities, delivery integrations, and the Continuous Compliance
+    Notification surface that routes findings to webhooks, SNS, Slack, Teams, ticketing systems and cloud security hubs.
+    77 operations across 50 paths.
+  humanURL: https://docs.cgn.portal.checkpoint.com/reference
+  tags:
+  - Administration
+  - Notification
+  - Integrations
+  - Users
+  - Roles
+  baseURL: https://api.dome9.com
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudguard-administration-openapi.yml
+  - type: Overlay
+    url: overlays/cloudguard-administration-overlay.yaml
+  - type: Documentation
+    url: https://docs.cgn.portal.checkpoint.com/reference
+  - type: APIReference
+    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+  - type: Authentication
+    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
+- aid: cloudguard:cloudguard-policies-api
+  name: CloudGuard Risk Management API
+  description: Effective Risk Management - DSPM account registration, custom rulesets, the security graph query surface
+    and toxic-combination evidence paths. 67 operations across 49 paths.
+  humanURL: https://docs.cgn.portal.checkpoint.com/reference
+  tags:
+  - Risk Management
+  - DSPM
+  - Security Graph
+  - Rulesets
+  baseURL: https://api.dome9.com
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudguard-risk-management-openapi.yml
+  - type: Overlay
+    url: overlays/cloudguard-risk-management-overlay.yaml
+  - type: Documentation
+    url: https://docs.cgn.portal.checkpoint.com/reference
+  - type: APIReference
+    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+  - type: Authentication
+    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
 - aid: cloudguard:cloudguard-workload-api
   name: CloudGuard Workload Protection (CWPP) API
+  description: Workload protection - Kubernetes image assurance, admission control, runtime protection, agentless workload
+    posture, serverless function protection and ShiftLeft/Code Security accounts. 168 operations across 124 paths.
+  humanURL: https://docs.cgn.portal.checkpoint.com/reference
   tags:
   - Container Security
   - CWPP
   - Image Assurance
   - Kubernetes
-  humanURL: >-
-    https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/Workload/Overview.htm
+  - Serverless
+  baseURL: https://api.dome9.com
   properties:
-  - url: >-
-      https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/Workload/Overview.htm
-    type: Documentation
-  description: >-
-    Workload protection capabilities exposed through the CloudGuard platform for Kubernetes admission
-    control, image assurance/CI scanning, runtime protection, and serverless function security.
-- aid: cloudguard:cloudguard-code-security-api
-  name: CloudGuard Code Security (Spectral) API
+  - type: OpenAPI
+    url: openapi/cloudguard-workload-protection-openapi.yml
+  - type: Overlay
+    url: overlays/cloudguard-workload-protection-overlay.yaml
+  - type: Documentation
+    url: https://docs.cgn.portal.checkpoint.com/reference
+  - type: APIReference
+    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+  - type: Authentication
+    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
+- aid: cloudguard:cloudguard-network-security-api
+  name: CloudGuard Network Security API
+  description: Cloud network security - AWS/Azure security group policies, cloud security groups, IP lists, IP address metadata
+    and access leases for just-in-time network access.
+  humanURL: https://docs.cgn.portal.checkpoint.com/reference
   tags:
-  - Code Security
-  - Secrets Detection
-  - SAST
-  humanURL: https://docs.spectralops.io/
+  - Cloud Firewall
+  - Network Security
+  - Security Groups
+  - Access Lease
+  baseURL: https://api.dome9.com
   properties:
-  - url: https://docs.spectralops.io/
-    type: Documentation
-  description: >-
-    CloudGuard Code Security (formerly Spectral) provides developer-first SAST, infrastructure-as-code
-    scanning, secrets detection, and SCA via CLI and API integrations into CI/CD pipelines.
+  - type: OpenAPI
+    url: openapi/cloudguard-network-security-openapi.yml
+  - type: Overlay
+    url: overlays/cloudguard-network-security-overlay.yaml
+  - type: Documentation
+    url: https://docs.cgn.portal.checkpoint.com/reference
+  - type: APIReference
+    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+  - type: Authentication
+    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
+- aid: cloudguard:cloudguard-identity-api
+  name: CloudGuard Identity API
+  description: IAM Safe identity protection - lease-based elevation of IAM entities and the identity surface CloudGuard
+    uses to broker temporary cloud permissions.
+  humanURL: https://docs.cgn.portal.checkpoint.com/reference
+  tags:
+  - Identity
+  - IAM
+  - Least Privilege
+  baseURL: https://api.dome9.com
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudguard-identity-openapi.yml
+  - type: Overlay
+    url: overlays/cloudguard-identity-overlay.yaml
+  - type: Documentation
+    url: https://docs.cgn.portal.checkpoint.com/reference
+  - type: APIReference
+    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+  - type: Authentication
+    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
+- aid: cloudguard:cloudguard-intelligence-api
+  name: CloudGuard Intelligence API
+  description: Cloud intelligence and CDR - account onboarding for the Intelligence (Magellan) service, usage quota notification
+    rates and intelligence views over cloud activity logs.
+  humanURL: https://docs.cgn.portal.checkpoint.com/reference
+  tags:
+  - Intelligence
+  - CDR
+  - Threat Detection
+  - Logs
+  baseURL: https://api.dome9.com
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudguard-intelligence-openapi.yml
+  - type: Overlay
+    url: overlays/cloudguard-intelligence-overlay.yaml
+  - type: Documentation
+    url: https://docs.cgn.portal.checkpoint.com/reference
+  - type: APIReference
+    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+  - type: Authentication
+    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
+- aid: cloudguard:cloudguard-inventory-api
+  name: CloudGuard Inventory API
+  description: Cross-cloud protected-asset inventory - entity reports and the generic inventory surface CloudGuard exposes
+    over everything it has fetched from onboarded accounts.
+  humanURL: https://docs.cgn.portal.checkpoint.com/reference
+  tags:
+  - Inventory
+  - Protected Assets
+  - Multi-Cloud
+  baseURL: https://api.dome9.com
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudguard-inventory-openapi.yml
+  - type: Overlay
+    url: overlays/cloudguard-inventory-overlay.yaml
+  - type: Documentation
+    url: https://docs.cgn.portal.checkpoint.com/reference
+  - type: APIReference
+    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+  - type: Authentication
+    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
+- aid: cloudguard:cloudguard-inventory-aws-global-api
+  name: CloudGuard Inventory - AWS Global API
+  description: Global AWS inventory entities - organizational units, regions and account-wide objects CloudGuard fetches
+    from onboarded AWS accounts.
+  humanURL: https://docs.cgn.portal.checkpoint.com/reference
+  tags:
+  - Inventory
+  - AWS
+  - Organizational Units
+  baseURL: https://api.dome9.com
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudguard-inventory-aws-global-openapi.yml
+  - type: Overlay
+    url: overlays/cloudguard-inventory-aws-global-overlay.yaml
+  - type: Documentation
+    url: https://docs.cgn.portal.checkpoint.com/reference
+  - type: APIReference
+    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+  - type: Authentication
+    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
+- aid: cloudguard:cloudguard-inventory-aws-iam-api
+  name: CloudGuard Inventory - AWS IAM API
+  description: AWS IAM inventory - users, roles, policies, virtual MFA devices and credential objects CloudGuard fetches
+    for identity posture analysis.
+  humanURL: https://docs.cgn.portal.checkpoint.com/reference
+  tags:
+  - Inventory
+  - AWS
+  - IAM
+  - Identity
+  baseURL: https://api.dome9.com
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudguard-inventory-aws-iam-openapi.yml
+  - type: Overlay
+    url: overlays/cloudguard-inventory-aws-iam-overlay.yaml
+  - type: Documentation
+    url: https://docs.cgn.portal.checkpoint.com/reference
+  - type: APIReference
+    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+  - type: Authentication
+    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
+- aid: cloudguard:cloudguard-inventory-aws-compute-api
+  name: CloudGuard Inventory - AWS Compute and Containers API
+  description: AWS compute and container inventory - EC2 instances, Lambda functions, ECS/EKS objects and the images and
+    configurations attached to them.
+  humanURL: https://docs.cgn.portal.checkpoint.com/reference
+  tags:
+  - Inventory
+  - AWS
+  - Compute
+  - Containers
+  - Lambda
+  baseURL: https://api.dome9.com
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudguard-inventory-aws-compute-and-containers-openapi.yml
+  - type: Overlay
+    url: overlays/cloudguard-inventory-aws-compute-and-containers-overlay.yaml
+  - type: Documentation
+    url: https://docs.cgn.portal.checkpoint.com/reference
+  - type: APIReference
+    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+  - type: Authentication
+    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
+- aid: cloudguard:cloudguard-inventory-aws-networking-api
+  name: CloudGuard Inventory - AWS Networking and Content Delivery API
+  description: AWS networking inventory - VPCs, subnets, route tables, load balancers, Route 53 domains and CloudFront distributions.
+  humanURL: https://docs.cgn.portal.checkpoint.com/reference
+  tags:
+  - Inventory
+  - AWS
+  - Networking
+  - VPC
+  - Route 53
+  baseURL: https://api.dome9.com
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudguard-inventory-aws-networking-and-content-delivery-openapi.yml
+  - type: Overlay
+    url: overlays/cloudguard-inventory-aws-networking-and-content-delivery-overlay.yaml
+  - type: Documentation
+    url: https://docs.cgn.portal.checkpoint.com/reference
+  - type: APIReference
+    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+  - type: Authentication
+    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
+- aid: cloudguard:cloudguard-inventory-aws-storage-api
+  name: CloudGuard Inventory - AWS Storage API
+  description: AWS storage inventory - S3 buckets, EBS volumes and backup vaults as CloudGuard protected assets.
+  humanURL: https://docs.cgn.portal.checkpoint.com/reference
+  tags:
+  - Inventory
+  - AWS
+  - Storage
+  - S3
+  baseURL: https://api.dome9.com
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudguard-inventory-aws-storage-openapi.yml
+  - type: Overlay
+    url: overlays/cloudguard-inventory-aws-storage-overlay.yaml
+  - type: Documentation
+    url: https://docs.cgn.portal.checkpoint.com/reference
+  - type: APIReference
+    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+  - type: Authentication
+    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
+- aid: cloudguard:cloudguard-inventory-aws-analytics-api
+  name: CloudGuard Inventory - AWS Analytics API
+  description: AWS analytics inventory - EMR clusters, Kinesis streams, Athena and related analytics services CloudGuard
+    tracks as protected assets.
+  humanURL: https://docs.cgn.portal.checkpoint.com/reference
+  tags:
+  - Inventory
+  - AWS
+  - Analytics
+  - EMR
+  baseURL: https://api.dome9.com
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudguard-inventory-aws-analytics-openapi.yml
+  - type: Overlay
+    url: overlays/cloudguard-inventory-aws-analytics-overlay.yaml
+  - type: Documentation
+    url: https://docs.cgn.portal.checkpoint.com/reference
+  - type: APIReference
+    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+  - type: Authentication
+    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
+- aid: cloudguard:cloudguard-inventory-aws-management-tools-api
+  name: CloudGuard Inventory - AWS Management Tools API
+  description: AWS management-tooling inventory - AWS Config settings, CloudTrail and related governance services.
+  humanURL: https://docs.cgn.portal.checkpoint.com/reference
+  tags:
+  - Inventory
+  - AWS
+  - Governance
+  - CloudTrail
+  baseURL: https://api.dome9.com
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudguard-inventory-aws-management-tools-openapi.yml
+  - type: Overlay
+    url: overlays/cloudguard-inventory-aws-management-tools-overlay.yaml
+  - type: Documentation
+    url: https://docs.cgn.portal.checkpoint.com/reference
+  - type: APIReference
+    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+  - type: Authentication
+    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
+- aid: cloudguard:cloudguard-inventory-aws-ml-api
+  name: CloudGuard Inventory - AWS Machine Learning API
+  description: AWS machine-learning inventory - SageMaker resources CloudGuard tracks as protected assets.
+  humanURL: https://docs.cgn.portal.checkpoint.com/reference
+  tags:
+  - Inventory
+  - AWS
+  - Machine Learning
+  - SageMaker
+  baseURL: https://api.dome9.com
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudguard-inventory-aws-machine-learning-openapi.yml
+  - type: Overlay
+    url: overlays/cloudguard-inventory-aws-machine-learning-overlay.yaml
+  - type: Documentation
+    url: https://docs.cgn.portal.checkpoint.com/reference
+  - type: APIReference
+    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+  - type: Authentication
+    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
+- aid: cloudguard:cloudguard-inventory-aws-app-integration-api
+  name: CloudGuard Inventory - AWS Application Integration API
+  description: AWS application-integration inventory - SNS topics, SQS queues and related messaging services.
+  humanURL: https://docs.cgn.portal.checkpoint.com/reference
+  tags:
+  - Inventory
+  - AWS
+  - Messaging
+  - SNS
+  - SQS
+  baseURL: https://api.dome9.com
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudguard-inventory-aws-application-integration-openapi.yml
+  - type: Overlay
+    url: overlays/cloudguard-inventory-aws-application-integration-overlay.yaml
+  - type: Documentation
+    url: https://docs.cgn.portal.checkpoint.com/reference
+  - type: APIReference
+    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+  - type: Authentication
+    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
+- aid: cloudguard:cloudguard-inventory-aws-security-api
+  name: CloudGuard Inventory - AWS Security, Identity and Compliance API
+  description: AWS security-service inventory - KMS keys, Secrets Manager and related security services as CloudGuard protected
+    assets.
+  humanURL: https://docs.cgn.portal.checkpoint.com/reference
+  tags:
+  - Inventory
+  - AWS
+  - Security
+  - KMS
+  baseURL: https://api.dome9.com
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudguard-inventory-aws-security-identity-and-compliance-openapi.yml
+  - type: Overlay
+    url: overlays/cloudguard-inventory-aws-security-identity-and-compliance-overlay.yaml
+  - type: Documentation
+    url: https://docs.cgn.portal.checkpoint.com/reference
+  - type: APIReference
+    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+  - type: Authentication
+    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
+- aid: cloudguard:cloudguard-inventory-azure-api
+  name: CloudGuard Inventory - Azure API
+  description: Azure inventory - virtual machines, web apps, storage, networking, policy assignments, analysis services
+    and 45 more Azure resource types CloudGuard fetches as protected assets. 52 operations.
+  humanURL: https://docs.cgn.portal.checkpoint.com/reference
+  tags:
+  - Inventory
+  - Azure
+  - Protected Assets
+  baseURL: https://api.dome9.com
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudguard-inventory-azure-openapi.yml
+  - type: Overlay
+    url: overlays/cloudguard-inventory-azure-overlay.yaml
+  - type: Documentation
+    url: https://docs.cgn.portal.checkpoint.com/reference
+  - type: APIReference
+    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+  - type: Authentication
+    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
+- aid: cloudguard:cloudguard-inventory-gcp-api
+  name: CloudGuard Inventory - GCP API
+  description: Google Cloud inventory - networks, Pub/Sub topics, compute, storage and IAM objects CloudGuard fetches from
+    onboarded GCP projects.
+  humanURL: https://docs.cgn.portal.checkpoint.com/reference
+  tags:
+  - Inventory
+  - GCP
+  - Google Cloud
+  - Protected Assets
+  baseURL: https://api.dome9.com
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudguard-inventory-gcp-openapi.yml
+  - type: Overlay
+    url: overlays/cloudguard-inventory-gcp-overlay.yaml
+  - type: Documentation
+    url: https://docs.cgn.portal.checkpoint.com/reference
+  - type: APIReference
+    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+  - type: Authentication
+    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
+- aid: cloudguard:cloudguard-inventory-oci-api
+  name: CloudGuard Inventory - OCI API
+  description: Oracle Cloud Infrastructure inventory - compartments and OCI resources CloudGuard fetches from onboarded
+    OCI tenancies.
+  humanURL: https://docs.cgn.portal.checkpoint.com/reference
+  tags:
+  - Inventory
+  - OCI
+  - Oracle Cloud
+  baseURL: https://api.dome9.com
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudguard-inventory-oci-openapi.yml
+  - type: Overlay
+    url: overlays/cloudguard-inventory-oci-overlay.yaml
+  - type: Documentation
+    url: https://docs.cgn.portal.checkpoint.com/reference
+  - type: APIReference
+    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+  - type: Authentication
+    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
 - aid: cloudguard:cloudguard-waf-api
   name: CloudGuard WAF API
+  description: CloudGuard WAF (formerly CloudGuard AppSec) protects web applications and APIs with contextual machine-learning
+    threat prevention. Its management API is GraphQL, reached through the Check Point Infinity Portal gateway; Check Point
+    publishes no GraphQL schema document or REST contract for it, but does ship an official MCP server that wraps it.
+  humanURL: https://waf-doc.inext.checkpoint.com/
   tags:
   - API Security
   - WAF
   - Web Application Firewall
-  humanURL: https://sc1.checkpoint.com/documents/CloudGuard_AppSec/Documentation/Default.htm
+  - GraphQL
   properties:
-  - url: https://sc1.checkpoint.com/documents/CloudGuard_AppSec/Documentation/Default.htm
-    type: Documentation
-  description: >-
-    CloudGuard WAF (CloudGuard AppSec) protects web applications and APIs with contextual machine-learning-based
-    threat prevention; the platform exposes management APIs for policy, asset, and event configuration.
-- aid: cloudguard:cloudguard-network-security-api
-  name: CloudGuard Network Security API
-  tags:
-  - Cloud Firewall
-  - Network Security
-  humanURL: https://www.checkpoint.com/cloudguard/cloud-network-security/
-  properties:
-  - url: https://www.checkpoint.com/cloudguard/cloud-network-security/
-    type: Documentation
-  description: >-
-    CloudGuard Network Security delivers cloud-native firewalling and threat prevention with management
-    APIs for gateway provisioning, rule management, and integrations with CI/CD pipelines.
-- aid: cloudguard:cloudguard-cloudaccounts-api
-  name: CloudGuard CloudAccounts API
-  description: The CloudAccounts API from CloudGuard — 4 operation(s) for cloudaccounts.
-  humanURL: https://docs.cgn.portal.checkpoint.com/reference
-  tags:
-  - Cloud Accounts
-  tags_raw:
-  - CloudAccounts
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudguard-cloudaccounts-api-openapi.yml
   - type: Documentation
-    url: https://docs.cgn.portal.checkpoint.com/reference
-  - type: Authentication
-    url: >-
-      https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/API-Authentication.html
-  - type: Terraform Provider
-    url: https://registry.terraform.io/providers/dome9/dome9/latest/docs
-- aid: cloudguard:cloudguard-compliance-api
-  name: CloudGuard Compliance API
-  description: The Compliance API from CloudGuard — 1 operation(s) for compliance.
-  humanURL: https://docs.cgn.portal.checkpoint.com/reference
+    url: https://waf-doc.inext.checkpoint.com/
+  - type: MCPServer
+    url: mcp/cloudguard-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/cloudguard-tool-crosswalk.yml
+  - type: SourceCode
+    url: https://github.com/CheckPointSW/mcp-servers/tree/main/packages/checkpoint-waf
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
+  baseURL: https://cloudinfra-gw.portal.checkpoint.com
+  x-baseURL-note: Regional Infinity Portal gateway. The Check Point WAF API is GraphQL behind this host; the regional variants
+    (cloudinfra-gw-us, cloudinfra-gw.ap, cloudinfra-gw.in, cloudinfra-gw.ae, cloudinfra-gw.ca) are documented in the official
+    @chkp/checkpoint-waf-mcp README. No GraphQL schema document is published.
+- aid: cloudguard:cloudguard-code-security-api
+  name: CloudGuard Code Security (Spectral) API
+  description: CloudGuard Code Security (formerly Spectral) provides developer-first secrets detection, infrastructure-as-code
+    scanning and SCA. It is a CLI-driven toolchain wired into CI/CD rather than a REST API; the platform side is reached
+    through the ShiftLeft account and policy operations of the CloudGuard Workload Protection API.
+  humanURL: https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/Code-Security-Spectral/Code-Security-Introduction.htm
   tags:
-  - Compliance
+  - Code Security
+  - Secrets Detection
+  - SAST
+  - IaC
+  - CI/CD
   properties:
-  - type: OpenAPI
-    url: openapi/cloudguard-compliance-api-openapi.yml
   - type: Documentation
-    url: https://docs.cgn.portal.checkpoint.com/reference
-  - type: Authentication
-    url: >-
-      https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/API-Authentication.html
-  - type: Terraform Provider
-    url: https://registry.terraform.io/providers/dome9/dome9/latest/docs
-- aid: cloudguard:cloudguard-findings-api
-  name: CloudGuard Findings API
-  description: The Findings API from CloudGuard — 5 operation(s) for findings.
-  humanURL: https://docs.cgn.portal.checkpoint.com/reference
-  tags:
-  - Findings
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudguard-findings-api-openapi.yml
-  - type: Documentation
-    url: https://docs.cgn.portal.checkpoint.com/reference
-  - type: Authentication
-    url: >-
-      https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/API-Authentication.html
-  - type: Terraform Provider
-    url: https://registry.terraform.io/providers/dome9/dome9/latest/docs
-- aid: cloudguard:cloudguard-notifications-api
-  name: CloudGuard Notifications API
-  description: The Notifications API from CloudGuard — 2 operation(s) for notifications.
-  humanURL: https://docs.cgn.portal.checkpoint.com/reference
-  tags:
-  - Notification
-  tags_raw:
-  - Notifications
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudguard-notifications-api-openapi.yml
-  - type: Documentation
-    url: https://docs.cgn.portal.checkpoint.com/reference
-  - type: Authentication
-    url: >-
-      https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/API-Authentication.html
-  - type: Terraform Provider
-    url: https://registry.terraform.io/providers/dome9/dome9/latest/docs
-- aid: cloudguard:cloudguard-policies-api
-  name: CloudGuard Policies API
-  description: The Policies API from CloudGuard — 1 operation(s) for policies.
-  humanURL: https://docs.cgn.portal.checkpoint.com/reference
-  tags:
-  - Policies
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudguard-policies-api-openapi.yml
-  - type: Documentation
-    url: https://docs.cgn.portal.checkpoint.com/reference
-  - type: Authentication
-    url: >-
-      https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/API-Authentication.html
-  - type: Terraform Provider
-    url: https://registry.terraform.io/providers/dome9/dome9/latest/docs
-common:
-  - type: AgenticAccess
-    url: agentic-access/cloudguard-agentic-access.yml
-  - type: DomainSecurity
-    url: security/cloudguard-domain-security.yml
-  - type: Authentication
-    url: authentication/cloudguard-authentication.yml
-  - type: Website
-    url: https://www.checkpoint.com/cloudguard/
-  - type: Documentation
-    url: https://docs.cgn.portal.checkpoint.com/
-  - type: DeveloperPortal
-    url: https://docs.cgn.portal.checkpoint.com/reference
+    url: https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/Code-Security-Spectral/Code-Security-Introduction.htm
+  - type: CLI
+    url: cli/cloudguard-cli.yml
   - type: GettingStarted
-    url: >-
-      https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/Getting-Started/Getting-started-with-CloudGuard.htm
-  - type: Authentication
-    url: https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/API-Authentication.html
-  - type: Support
-    url: https://support.checkpoint.com/
-  - type: Community
-    url: https://community.checkpoint.com/
-  - type: StatusPage
-    url: https://status.dome9.com/
-  - type: PrivacyPolicy
-    url: https://www.checkpoint.com/privacy/
-  - type: Terraform Provider
-    url: https://registry.terraform.io/providers/dome9/dome9/latest/docs
-  - type: JSONLD
-    url: json-ld/cloudguard-context.jsonld
-  - type: Spectral
-    url: rules/cloudguard-rules.yml
-  - type: Blog
-    url: https://blog.checkpoint.com/feed/
+    url: https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/Code-Security-Spectral/Get-Started-ShiftLeft.htm
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudguard.png
+common:
+- type: Website
+  url: https://www.checkpoint.com/cloudguard/
+- type: Documentation
+  url: https://docs.cgn.portal.checkpoint.com/
+- type: DeveloperPortal
+  url: https://docs.cgn.portal.checkpoint.com/reference
+- type: APIReference
+  url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+- type: GettingStarted
+  url: https://docs.cgn.portal.checkpoint.com/docs/getting-started-with-cloudguard
+- type: Authentication
+  url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+- type: SignUp
+  url: https://portal.checkpoint.com/create-account
+- type: Support
+  url: https://support.checkpoint.com/
+- type: Community
+  url: https://community.checkpoint.com/
+- type: Blog
+  url: https://blog.checkpoint.com/feed/
+- type: StatusPage
+  url: https://status.checkpoint.com/
+- type: PrivacyPolicy
+  url: https://www.checkpoint.com/privacy/
+- type: GitHubOrganization
+  url: https://github.com/CheckPointSW
+- type: Terraform Provider
+  url: https://registry.terraform.io/providers/dome9/dome9/latest/docs
+- type: Authentication
+  url: authentication/cloudguard-authentication.yml
+- type: AgenticAccess
+  url: agentic-access/cloudguard-agentic-access.yml
+- type: DomainSecurity
+  url: security/cloudguard-domain-security.yml
+- type: Packages
+  url: packages/cloudguard-packages.yml
+- type: SDKs
+  url: packages/cloudguard-packages.yml
+- type: CLI
+  url: cli/cloudguard-cli.yml
+- type: MCPServer
+  url: mcp/cloudguard-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/cloudguard-tool-crosswalk.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/cloudguard-llms.txt
+- type: Conventions
+  url: conventions/cloudguard-conventions.yml
+- type: ErrorCatalog
+  url: errors/cloudguard-problem-types.yml
+- type: DataModel
+  url: data-model/cloudguard-data-model.yml
+- type: Conformance
+  url: conformance/cloudguard-conformance.yml
+- type: Lifecycle
+  url: lifecycle/cloudguard-lifecycle.yml
+- type: ChangeLog
+  url: changelog/cloudguard-changelog.yml
+- type: Webhooks
+  url: asyncapi/cloudguard-webhooks.yml
+- type: RateLimits
+  url: rate-limits/cloudguard-rate-limits.yml
+- type: Plans
+  url: plans/cloudguard-plans-pricing.yml
+- type: FinOps
+  url: finops/cloudguard-finops.yml
+- type: JSONLD
+  url: json-ld/cloudguard-context.jsonld
+- type: Spectral
+  url: rules/cloudguard-rules.yml
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
 specificationVersion: '0.23'
+x-enrichment:
+  date: '2026-09-05'
+  status: enriched
+  artifacts_added: 88
+  pass: local-v3
+x-parent: checkpoint
+x-relationship: product

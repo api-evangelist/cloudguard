@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Check Point CloudGuard CNAPP REST CloudAccounts Policies API
+  title: Check Point CloudGuard CNAPP REST CloudAccounts Compliance API
   description: 'Best-effort OpenAPI 3.1 description of the Check Point CloudGuard CNAPP
 
     REST API (originally Dome9). The API is used to onboard cloud accounts,
@@ -24,25 +24,23 @@ servers:
 security:
 - basicAuth: []
 tags:
-- name: Policies
+- name: Compliance
 paths:
-  /v2/awssecuritygroup:
+  /v2/compliance/finding/bundle/{bundleId}:
+    parameters:
+    - in: path
+      name: bundleId
+      required: true
+      schema:
+        type: string
     get:
-      summary: List AWS security group entities
-      operationId: listAwsSecurityGroups
+      summary: Get findings for a compliance bundle / rule
+      operationId: getBundleFindings
       tags:
-      - Policies
+      - Compliance
       responses:
         '200':
-          description: List of security groups
-    post:
-      summary: Create AWS security group policy
-      operationId: createAwsSecurityGroup
-      tags:
-      - Policies
-      responses:
-        '201':
-          description: Security group created
+          description: Bundle findings
 components:
   securitySchemes:
     basicAuth:

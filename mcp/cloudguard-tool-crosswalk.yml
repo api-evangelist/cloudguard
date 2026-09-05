@@ -1,0 +1,90 @@
+generated: '2026-09-05'
+method: derived
+source: mcp/cloudguard-mcp.yml + openapi/ (23 CloudGuard OpenAPI definitions)
+description: 'Binding between the published CloudGuard MCP tools and the published CloudGuard REST operations. The
+  headline finding is that they do not overlap at all: the one CloudGuard MCP server covers CloudGuard WAF and talks
+  to a GraphQL API that has no public contract, while the 823 published REST operations cover CNAPP/CSPM and have
+  no MCP tool. Every tool is mcp_only and every operation is rest_only.'
+surfaces:
+  openapi:
+    files:
+    - openapi/cloudguard-administration-openapi.yml
+    - openapi/cloudguard-events-openapi.yml
+    - openapi/cloudguard-identity-openapi.yml
+    - openapi/cloudguard-intelligence-openapi.yml
+    - openapi/cloudguard-inventory-aws-analytics-openapi.yml
+    - openapi/cloudguard-inventory-aws-application-integration-openapi.yml
+    - openapi/cloudguard-inventory-aws-compute-and-containers-openapi.yml
+    - openapi/cloudguard-inventory-aws-global-openapi.yml
+    - openapi/cloudguard-inventory-aws-iam-openapi.yml
+    - openapi/cloudguard-inventory-aws-machine-learning-openapi.yml
+    - openapi/cloudguard-inventory-aws-management-tools-openapi.yml
+    - openapi/cloudguard-inventory-aws-networking-and-content-delivery-openapi.yml
+    - openapi/cloudguard-inventory-aws-security-identity-and-compliance-openapi.yml
+    - openapi/cloudguard-inventory-aws-storage-openapi.yml
+    - openapi/cloudguard-inventory-azure-openapi.yml
+    - openapi/cloudguard-inventory-gcp-openapi.yml
+    - openapi/cloudguard-inventory-oci-openapi.yml
+    - openapi/cloudguard-inventory-openapi.yml
+    - openapi/cloudguard-network-security-openapi.yml
+    - openapi/cloudguard-onboarding-openapi.yml
+    - openapi/cloudguard-posture-management-openapi.yml
+    - openapi/cloudguard-risk-management-openapi.yml
+    - openapi/cloudguard-workload-protection-openapi.yml
+    operations: 823
+    host: https://api.dome9.com
+    gated: false
+    note: Contract is public; calling it requires a V2 API key.
+  graphql:
+    endpoint: Infinity Portal gateway (cloudinfra-gw*.portal.checkpoint.com)
+    schema_published: false
+    gated: true
+    note: The Check Point WAF GraphQL API is reached through call_waf_api. No SDL, no introspection endpoint and
+      no schema document is published; the schema could not be introspected anonymously.
+  mcp:
+    url: null
+    mode: local-stdio
+    install: npx -y @chkp/checkpoint-waf-mcp
+    gated: true
+    note: No hosted endpoint to POST tools/list to. Tool names and descriptions were read from the published source.
+crosswalk: []
+mcp_only:
+- tool: call_waf_api
+  reason: Generic GraphQL passthrough to the Check Point WAF API. No public REST equivalent and no published GraphQL
+    schema.
+- tool: get_enforcement_status
+  reason: CloudGuard WAF session/publish state. The CNAPP REST API has no publish-session concept.
+- tool: publish_and_enforce
+  reason: CloudGuard WAF configuration publish. No REST equivalent in any published definition.
+- tool: get_objects
+  reason: CloudGuard WAF assets/practices/profiles/agents/zones/behaviors/triggers. These entities do not appear
+    in the CNAPP REST contract.
+- tool: manage_objects
+  reason: CloudGuard WAF object CRUD. No REST equivalent.
+- tool: waf_consultant
+  reason: Documentation-grounded advisory tool. Not an API operation at all.
+rest_only_summary:
+  count: 823
+  note: All 823 published REST operations are rest_only. The largest unbridged groups are Onboarding (160 ops),
+    Workload Protection (168), Administration (77), Risk Management (67), Posture Management (56), Network Security
+    (49) and Events (44). Anything an agent needs from CloudGuard CNAPP has to be reached through the REST API directly.
+  top_groups:
+    Workload Protection: 168
+    Onboarding: 160
+    Administration: 77
+    Risk Management: 67
+    Posture Management: 56
+    Network Security: 49
+    Events: 44
+    Inventory (all clouds): 177
+    Intelligence: 20
+    Identity: 5
+coverage:
+  mcp_tools: 6
+  mcp_tools_bound_to_rest: 0
+  rest_operations: 823
+  rest_operations_with_a_tool: 0
+  binding_rate: 0.0
+  confidence: high
+  note: 'Zero binding is a measured fact here, not an unmapped gap: the two surfaces belong to different CloudGuard
+    products.'

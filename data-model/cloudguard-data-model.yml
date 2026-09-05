@@ -1,0 +1,339 @@
+generated: '2026-09-05'
+method: derived
+source: openapi/ (23 first-party CloudGuard OpenAPI documents; 1,430 component schemas)
+description: Entity-relationship view of the CloudGuard (Dome9) v2 REST API, derived from the provider-published
+  OpenAPI component schemas and the id-reference fields that link them. CloudGuard models a cloud estate as cloud
+  accounts grouped into organizational units, evaluated by compliance rulesets whose rules produce assessments and
+  findings, with policies binding a ruleset to a target and routing results to notifications and integrations.
+notes:
+- Schema names are .NET CLR names (Dome9.Web.Api.*ViewModel); the entity names here are the domain concepts they
+  project.
+- The published definitions declare no explicit foreign-key metadata; relationships are read from id-reference field
+  names and path structure.
+identifier_convention:
+  style: opaque string id
+  primary_field: id
+  foreign_key_pattern: <entity>Id (cloudAccountId, organizationalUnitId, rulesetId, ruleId, bundleId)
+  external_ids: externalId / externalAccountNumber carry the cloud provider native account identifier (AWS account
+    number, Azure subscription, GCP project)
+entity_count: 19
+entities:
+- name: Policy
+  schema_count: 77
+  common_fields:
+  - name
+  - id
+  - notificationIds
+  - targetType
+  - rulesetId
+  - description
+  - cloudAccountId
+  - targetId
+  - externalId
+  - eTag
+  relationships:
+  - to: Ruleset
+    type: belongs_to
+    via: rulesetId
+  - to: CloudAccount
+    type: belongs_to
+    via: targetId
+  - to: Notification
+    type: has_many
+    via: notificationIds
+- name: Rule
+  schema_count: 68
+  common_fields:
+  - name
+  - id
+  - description
+  - priority
+  - logicHash
+  - externalId
+  - rlmId
+  - key
+  - value
+  - severity
+  relationships: []
+- name: Finding
+  schema_count: 39
+  common_fields:
+  - description
+  - id
+  - findingKey
+  - name
+  - filter
+  - orgUnitIdsFilter
+  - severity
+  - ruleId
+  - region
+  - resultSetSize
+  relationships:
+  - to: Rule
+    type: belongs_to
+    via: ruleId
+  - to: CloudAccount
+    type: belongs_to
+    via: cloudAccountId
+  - to: Remediation
+    type: has_many
+    via: findingId
+- name: Image
+  schema_count: 39
+  common_fields:
+  - id
+  - name
+  - externalId
+  - imageId
+  - type
+  - cloudAccountId
+  - description
+  - tags
+  - labels
+  - environmentId
+  relationships: []
+- name: Notification
+  schema_count: 35
+  common_fields:
+  - name
+  - description
+  - alertsConsole
+  - filter
+  - sendOnEachOccurrence
+  - scheduledReport
+  - changeDetection
+  - gcpSecurityCommandCenterIntegration
+  - url
+  - id
+  relationships:
+  - to: Integration
+    type: has_many
+    via: integrationId
+- name: Assessment
+  schema_count: 26
+  common_fields:
+  - id
+  - name
+  - requestId
+  - cloudAccountType
+  - dome9CloudAccountId
+  - externalCloudAccountId
+  - cloudAccountId
+  - shouldMinimizeResult
+  - failedTests
+  - assessmentId
+  relationships:
+  - to: Finding
+    type: has_many
+    via: assessmentId
+  - to: Ruleset
+    type: belongs_to
+    via: rulesetId
+  - to: CloudAccount
+    type: belongs_to
+    via: cloudAccountId
+- name: Exclusion
+  schema_count: 26
+  common_fields:
+  - comment
+  - id
+  - name
+  - filter
+  - rulesetId
+  - organizationalUnitIds
+  - includeInAssessment
+  - rules
+  - logicExpressions
+  - cloudAccountIds
+  relationships: []
+- name: User
+  schema_count: 24
+  common_fields:
+  - name
+  - id
+  - email
+  - arn
+  - role
+  - lastLogin
+  - roleIds
+  - user
+  - userName
+  - accountId
+  relationships:
+  - to: Role
+    type: has_many
+    via: roleIds
+- name: SecurityGroup
+  schema_count: 15
+  common_fields:
+  - cloudAccountId
+  - externalId
+  - cloudAccountName
+  - tags
+  - description
+  - regionId
+  - securityGroupName
+  - vpcId
+  - name
+  - id
+  relationships: []
+- name: Role
+  schema_count: 12
+  common_fields:
+  - name
+  - roleLastUsed
+  - accountId
+  - description
+  - permissions
+  - id
+  - externalId
+  - srl
+  - cloudAccountId
+  - arn
+  relationships: []
+- name: Remediation
+  schema_count: 12
+  common_fields:
+  - platform
+  - rulesetId
+  - comment
+  - cloudBots
+  - id
+  - rules
+  - logicExpressions
+  - cloudAccountIds
+  - organizationalUnitIds
+  - dateRange
+  relationships: []
+- name: OrganizationalUnit
+  schema_count: 10
+  common_fields:
+  - id
+  - name
+  - path
+  - parentId
+  - sourceOrganizationalUnitId
+  - targetOrganizationalUnitId
+  - children
+  - accountId
+  - created
+  - updated
+  relationships:
+  - to: OrganizationalUnit
+    type: has_many
+    via: parentId
+  - to: CloudAccount
+    type: has_many
+    via: organizationalUnitId
+- name: Vulnerability
+  schema_count: 7
+  common_fields:
+  - knownExploit
+  - cve
+  - cveFixable
+  - threat
+  - secret
+  - cveExcluded
+  - threatsExcluded
+  - secretExcluded
+  - all
+  - critical
+  relationships: []
+- name: CloudAccount
+  schema_count: 7
+  common_fields:
+  - name
+  - organizationalUnitId
+  - id
+  - creationDate
+  - credentials
+  - organizationalUnitPath
+  - organizationalUnitName
+  - vendor
+  - error
+  - magellan
+  relationships:
+  - to: OrganizationalUnit
+    type: belongs_to
+    via: organizationalUnitId
+  - to: SecurityGroup
+    type: has_many
+    via: cloudAccountId
+  - to: Finding
+    type: has_many
+    via: cloudAccountId
+  - to: Assessment
+    type: has_many
+    via: cloudAccountId
+  - to: KubernetesAccount
+    type: has_many
+    via: cloudAccountId
+- name: KubernetesAccount
+  schema_count: 6
+  common_fields:
+  - id
+  - name
+  - threatIntelligenceEnabled
+  - imageAssuranceEnabled
+  - runtimeProtectionEnabled
+  - admissionControlEnabled
+  - clusterVersion
+  - description
+  - agentsStatus
+  - agentsStatusDescription
+  relationships: []
+- name: Integration
+  schema_count: 5
+  common_fields:
+  - name
+  - type
+  - configuration
+  - id
+  - state
+  - projectId
+  - sourceId
+  - createdAt
+  relationships: []
+- name: Ruleset
+  schema_count: 5
+  common_fields:
+  - rulesetId
+  - cloudAccountIds
+  - platform
+  - bypass
+  - defaultAction
+  - ipRules
+  - virtualNetworkRules
+  relationships:
+  - to: Rule
+    type: has_many
+    via: rulesetId
+  - to: Assessment
+    type: has_many
+    via: rulesetId
+- name: AccessLease
+  schema_count: 5
+  common_fields:
+  - id
+  - created
+  - length
+  - accountId
+  - name
+  - ip
+  - note
+  - user
+  - protocol
+  - portFrom
+  relationships: []
+- name: ShiftLeftAccount
+  schema_count: 1
+  common_fields:
+  - id
+  - name
+  - description
+  - creationDate
+  - vendor
+  - organizationalUnitId
+  - organizationalUnitPath
+  - organizationalUnitName
+  relationships: []

@@ -1,0 +1,65 @@
+generated: '2026-09-05'
+method: searched
+source: https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/Code-Security-Spectral/Using-CLI.htm
+description: CloudGuard Code Security (Spectral) is a CLI-driven toolchain used to scan repositories and CI/CD pipelines
+  for secrets, IaC misconfiguration and open-source risk. It is the only first-party CloudGuard CLI found; the CNAPP/CSPM
+  surface is driven through the REST API and the portal, not a dedicated CLI.
+name: spectral
+product: CloudGuard Code Security
+binary: $HOME/.spectral/spectral
+install:
+- method: installer script
+  note: The Code Security engine is downloaded from the CloudGuard portal and installed under $HOME/.spectral. See
+    the Getting Started page.
+  docs: https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/Code-Security-Spectral/Get-Started-ShiftLeft.htm
+authentication:
+  style: environment variable
+  variable: SPECTRAL_DSN
+  description: Private Code Security DSN that connects the CLI to the CloudGuard account.
+environment_variables:
+- name: SPECTRAL_DSN
+  description: Your private Code Security DSN, which connects to your account.
+- name: SPECTRAL_SHOW_MATCH
+  description: Set to 1 to show matched secrets in scan output (off by default).
+commands:
+- command: run
+  description: Run a scan interactively for exploring or auditing.
+- command: scan
+  description: Run a scan from your CI/CD pipeline.
+- command: init
+  description: Initialize configuration in your repo (creates a hidden .spectral folder for ignores, detectors and
+    more).
+- command: fingerprint
+  description: Encode a one-way fingerprint from a secret, for ignoring content.
+- command: github
+  description: Audit a GitHub organization, user, or repo.
+- command: gitlab
+  description: Audit a GitLab organization, group, user, or repo.
+- command: history
+  description: Run a git history scan; issues found show locally only and are not sent to the dashboard.
+- command: custom-rules
+  description: Manage custom rules.
+flags:
+- flag: -t, --token
+  description: Supply a token for GitHub, GitLab, or other host for auditing.
+- flag: -h, --host
+  description: Supply a git host (where relevant, for example GitLab).
+- flag: -d, --dest
+  description: Destination for git repos in case of auditing.
+- flag: -k, --kind
+  description: Type of audit, for example group, user, or org.
+- flag: --engines
+  description: 'Engines to run in the current scan. Options: secrets (default), iac, oss.'
+- flag: --include-tags
+  description: Include additional detector tags, for example base, audit, iac.
+- flag: --include / --exclude
+  description: Scan for or exclude specific detectors by id (for example CLD001).
+- flag: --unstaged
+  description: Scan with pre-commit and pre-receive hooks and send data to Code Security.
+- flag: -f, --fail-on-error
+  description: Fail with a non-zero exit code on error-severity matches.
+- flag: --fail-on-critical
+  description: Fail with a non-zero exit code only on critical-severity matches.
+related:
+- type: CI/CD integrations
+  url: https://sc1.checkpoint.com/documents/Infinity_Portal/WebAdminGuides/EN/CloudGuard-PM-Admin-Guide/Documentation/Code-Security-Spectral/Code-Security-CI-CD-Integrations.htm

@@ -1,0 +1,4759 @@
+info:
+  title: Administration
+  version: v2
+openapi: 3.0.0
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+paths:
+  /v2/AccountTrust/assumable-roles:
+    get:
+      tags:
+      - Account Trust
+      summary: Get Assumable Roles
+      operationId: AccountTrust_GetAssumableRoles_get_/v2/AccountTrust/assumable-roles
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Account.AccountTrustAssumableRolesViewModel'
+      description: Get a list of objects that represent a trusted account and its assumebale roles
+  /v2/AccountTrust:
+    get:
+      tags:
+      - Account Trust
+      summary: Get
+      operationId: AccountTrust_Get_get_/v2/AccountTrust
+      parameters:
+      - name: trustDirection
+        in: query
+        description: Determines whether the accounts result list are the trusted/trustee accounts
+        required: true
+        schema:
+          type: string
+          enum:
+          - MyAccountIsTarget
+          - MyAccountIsSource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Account.AccountTrustViewModel'
+      description: Get a list of accounts which are trusted by or trust this account according to the given "trustDirection"
+    post:
+      tags:
+      - Account Trust
+      summary: Post
+      operationId: AccountTrust_Post_post_/v2/AccountTrust
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Account.AccountTrustPostViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Account.AccountTrustPostViewModel'
+        required: true
+      description: Create a new account trust where this account is the target based on the given "SourceAccountId", i.e.
+        this account trusts the source account
+  /v2/AccountTrust/{id}:
+    put:
+      tags:
+      - Account Trust
+      summary: Put
+      operationId: AccountTrust_Put_put_/v2/AccountTrust/{id}
+      parameters:
+      - name: id
+        in: path
+        description: Account trust id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Account.AccountTrustPutViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Account.AccountTrustPutViewModel'
+        required: true
+      description: Update the account trust description or restrictions
+    delete:
+      tags:
+      - Account Trust
+      summary: Delete
+      operationId: AccountTrust_Delete_delete_/v2/AccountTrust/{id}
+      parameters:
+      - name: id
+        in: path
+        description: The trust id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      description: Delete an account trust
+  /v2/audit/event-types:
+    get:
+      tags:
+      - Audit
+      summary: Get Event Types
+      operationId: Audit_GetEventTypes_get_/v2/audit/event-types
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+      description: Get a list of available audit event types
+  /v2/audit/awsgroup/{groupId}:
+    get:
+      tags:
+      - Audit
+      summary: Get Audit Events For Aws Sec Group
+      operationId: Audit_GetAuditEventsForAwsSecGroup_get_/v2/audit/awsgroup/{groupId}
+      parameters:
+      - name: groupId
+        in: path
+        description: the Security Group id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: startTimestamp
+        in: query
+        description: the time of the first event to be fetched
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: endTimestamp
+        in: query
+        description: the time of the last event to be fetched
+        required: false
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Models.AuditEntryViewModel'
+      description: Get audit events for a specific AWS Security Group
+  /v2/audit/export:
+    get:
+      tags:
+      - Audit
+      summary: Get Export
+      operationId: Audit_GetExport_get_/v2/audit/export
+      parameters:
+      - name: startTimestamp
+        in: query
+        description: the time of the first event to be exported in the report
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: endTimestamp
+        in: query
+        description: the time of the last event to be exported in the report
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: userNameFilter
+        in: query
+        description: only events for this specific user will be exported
+        required: false
+        schema:
+          type: string
+      - name: eventType
+        in: query
+        description: only events of this specific type will be exported
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      description: Export an audit events report in a csv format
+  /v2/audit/row-data-api:
+    get:
+      tags:
+      - Audit
+      summary: Get Row Data Api
+      operationId: Audit_GetRowDataApi_get_/v2/audit/row-data-api
+      parameters:
+      - name: startTimestamp
+        in: query
+        description: the time of the first event  in the report- Epoch time in milliseconds
+        required: false
+        schema:
+          type: string
+      - name: endTimestamp
+        in: query
+        description: the time of the last event in the report - Epoch time in milliseconds
+        required: false
+        schema:
+          type: string
+      - name: filter
+        in: query
+        description: qsl query filter
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Falconetix.Model.Audit.ApiAuditResult'
+      description: get api events audit row data
+  /v2/audit/row-data-system:
+    get:
+      tags:
+      - Audit
+      summary: Get Row Data System
+      operationId: Audit_GetRowDataSystem_get_/v2/audit/row-data-system
+      parameters:
+      - name: startTimestamp
+        in: query
+        description: the time of the first event  in the report - Epoch time in milliseconds
+        required: false
+        schema:
+          type: string
+      - name: endTimestamp
+        in: query
+        description: the time of the last event in the report - Epoch time in milliseconds
+        required: false
+        schema:
+          type: string
+      - name: filter
+        in: query
+        description: qsl query filter
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Falconetix.Model.Audit.SystemAuditResult'
+      description: get system events audit row data
+  /v2/audit/data-count:
+    get:
+      tags:
+      - Audit
+      summary: Get Row Data Count
+      operationId: Audit_GetRowDataCount_get_/v2/audit/data-count
+      parameters:
+      - name: startTimestamp
+        in: query
+        description: the time of the first event  in the report - Epoch time in milliseconds
+        required: false
+        schema:
+          type: string
+      - name: endTimestamp
+        in: query
+        description: the time of the last event in the report- Epoch time in milliseconds
+        required: false
+        schema:
+          type: string
+      - name: filter
+        in: query
+        description: qsl query filter
+        required: false
+        schema:
+          type: string
+      - name: eventType
+        in: query
+        description: system events or api events
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Falconetix.Model.Audit.CountAuditResult'
+      description: get row data result count by type api/system
+  /v2/Audit:
+    get:
+      tags:
+      - Audit
+      summary: Get
+      operationId: Audit_Get_get_/v2/Audit
+      parameters:
+      - name: pageNum
+        in: query
+        description: 'page # in the sequence of audit pages'
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: eventsPerPage
+        in: query
+        description: no. of audit events in the page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: startTimestamp
+        in: query
+        description: the time of first audit to be fetched
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: endTimestamp
+        in: query
+        description: the time of the last audit to be fetched
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: userName
+        in: query
+        description: only events for this specific user will be fetched
+        required: false
+        schema:
+          type: string
+      - name: eventType
+        in: query
+        description: only events of this specific type will be fetched
+        required: false
+        schema:
+          type: string
+      - name: fim
+        in: query
+        description: ''
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Models.AuditViewModel'
+      description: Get audit events with optional filters
+  /v2/Audit/{id}:
+    get:
+      tags:
+      - Audit
+      summary: Get Audit Event Metadata
+      operationId: Audit_GetAuditEventMetadata_get_/v2/Audit/{id}
+      parameters:
+      - name: id
+        in: path
+        description: The audit event id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Models.AuditEntryViewModel'
+      description: Get audit metadata
+  /v2/BillableAssets:
+    get:
+      tags:
+      - Billable Assets
+      operationId: BillableAssets_Get_get_/v2/BillableAssets
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.BillableAssets.AccountBillableAssetsViewModel'
+      description: ''
+      summary: Get
+  /v2/billableAssetsReport/dailyUsage:
+    get:
+      tags:
+      - Billable Assets Report
+      summary: Get Daily Usage Billable Assets Report
+      operationId: BillableAssetsReport_GetDailyUsageBillableAssetsReport_get_/v2/billableAssetsReport/dailyUsage
+      parameters:
+      - name: fromDate
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: toDate
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      description: Get daily usage billable assets report
+  /v2/BillableAssetsReport:
+    get:
+      tags:
+      - Billable Assets Report
+      summary: Get Billable Assets Report
+      operationId: BillableAssetsReport_GetBillableAssetsReport_get_/v2/BillableAssetsReport
+      parameters:
+      - name: month
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: year
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      description: Get last month billable assets report
+  /v2/CloudInfraUser:
+    get:
+      tags:
+      - Cloud Infra User
+      operationId: CloudInfraUser_Get_get_/v2/CloudInfraUser
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Falconetix.Model.CloudInfra.CloudInfraUserViewModel'
+      description: ''
+      summary: Get
+    post:
+      tags:
+      - Cloud Infra User
+      operationId: CloudInfraUser_Post_post_/v2/CloudInfraUser
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.UserAndRole.CreateDome9CloudInfraUserResponseViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.UserAndRole.CreateDome9CloudInfraUserRequestViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.UserAndRole.CreateDome9CloudInfraUserRequestViewModel'
+        required: true
+      description: ''
+      summary: Post
+  /v2/Compliance/ContinuousComplianceNotification/{id}:
+    get:
+      tags:
+      - Continuous Compliance Notification
+      summary: Get
+      operationId: ContinuousComplianceNotification_Get_get_/v2/Compliance/ContinuousComplianceNotification/{id}
+      parameters:
+      - name: id
+        in: path
+        description: the policy id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.ContinuousComplianceNotificationGetViewModel'
+      description: Get a Notification policy
+    put:
+      tags:
+      - Continuous Compliance Notification
+      summary: Put
+      operationId: ContinuousComplianceNotification_Put_put_/v2/Compliance/ContinuousComplianceNotification/{id}
+      parameters:
+      - name: id
+        in: path
+        description: the policy id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.ContinuousComplianceNotificationGetViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.ContinuousComplianceNotificationPutViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.ContinuousComplianceNotificationPutViewModel'
+        description: updated details for the policy
+        required: true
+      description: Update a Notification policy
+    delete:
+      tags:
+      - Continuous Compliance Notification
+      summary: Delete
+      operationId: ContinuousComplianceNotification_Delete_delete_/v2/Compliance/ContinuousComplianceNotification/{id}
+      parameters:
+      - name: id
+        in: path
+        description: the policy id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      description: Delete a Notification policy
+  /v2/Compliance/ContinuousComplianceNotification:
+    get:
+      tags:
+      - Continuous Compliance Notification
+      summary: Get
+      operationId: ContinuousComplianceNotification_Get_get_/v2/Compliance/ContinuousComplianceNotification
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.ContinuousComplianceNotificationGetViewModel'
+      description: Get all Notification policies
+    post:
+      tags:
+      - Continuous Compliance Notification
+      summary: Post
+      operationId: ContinuousComplianceNotification_Post_post_/v2/Compliance/ContinuousComplianceNotification
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.ContinuousComplianceNotificationGetViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.ContinuousComplianceNotificationPostViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.ContinuousComplianceNotificationPostViewModel'
+        description: details for the policy
+        required: true
+      description: Create a new Notification policy
+  /v2/Compliance/ContinuousComplianceNotification/get-by-name:
+    get:
+      tags:
+      - Continuous Compliance Notification
+      summary: Get By Name
+      operationId: ContinuousComplianceNotification_GetByName_get_/v2/Compliance/ContinuousComplianceNotification/get-by-name
+      parameters:
+      - name: name
+        in: query
+        description: the notification name
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      description: Get a Notification policy
+  /v2/Compliance/ContinuousComplianceNotification/PublishOpenedFindings/{id}:
+    post:
+      tags:
+      - Continuous Compliance Notification
+      summary: Publish Opened Findings By Policy Id
+      operationId: ContinuousComplianceNotification_PublishOpenedFindingsByPolicyIdAsync_post_/v2/Compliance/ContinuousComplianceNotification/PublishOpenedFindings/{id}
+      parameters:
+      - name: id
+        in: path
+        description: The policy id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.BL.Std.Services.ContinuousAssessment.ContinuousComplianceNotificationService.PublishResult'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.ContinuousComplianceNotificationSyncViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.ContinuousComplianceNotificationSyncViewModel'
+        description: Updated details for the policy
+        required: true
+      description: "Publish (notify) all findings for a specific policy.\r\nThis method is used to sync (send) all existing\
+        \ findings via the designated SNS topic assigned to this notification policy.<br />\r\nIt is mostly used for testing\
+        \ of automatic remediation actions (see: https://cloudbots.dome9.com/)"
+  /v2/Compliance/ContinuousComplianceNotification/webhookJiraTokens:
+    get:
+      tags:
+      - Continuous Compliance Notification
+      summary: Webhook Jira Tokens
+      operationId: ContinuousComplianceNotification_WebhookJiraTokens_get_/v2/Compliance/ContinuousComplianceNotification/webhookJiraTokens
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+      description: Gets all the webhook Jira's tokens
+  /v2/Compliance/ContinuousComplianceNotification/CircuitBreaker:
+    get:
+      tags:
+      - Continuous Compliance Notification
+      summary: Get All Circuit Breaker
+      operationId: ContinuousComplianceNotification_GetAllCircuitBreakerAsync_get_/v2/Compliance/ContinuousComplianceNotification/CircuitBreaker
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.ContinuousComplianceCircuitBreakerGetAllViewModel'
+      description: Gets all the notifications that have at least one integration issue
+  /v2/Compliance/ContinuousComplianceNotification/CircuitBreaker/{id}:
+    get:
+      tags:
+      - Continuous Compliance Notification
+      summary: Get Circuit Breaker
+      operationId: ContinuousComplianceNotification_GetCircuitBreakerAsync_get_/v2/Compliance/ContinuousComplianceNotification/CircuitBreaker/{id}
+      parameters:
+      - name: id
+        in: path
+        description: notification id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.ContinuousComplianceCircuitBreakerGetViewModel'
+      description: Gets all the integration issues of the given notification
+  /v2/Compliance/ContinuousComplianceNotification/CircuitBreaker/{id}/{integrationType}:
+    delete:
+      tags:
+      - Continuous Compliance Notification
+      summary: Delete Circuit Breaker
+      operationId: ContinuousComplianceNotification_DeleteCircuitBreakerAsync_delete_/v2/Compliance/ContinuousComplianceNotification/CircuitBreaker/{id}/{integrationType}
+      parameters:
+      - name: id
+        in: path
+        description: notification id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: integrationType
+        in: path
+        description: the integration, eg. AwsSecurityHub
+        required: true
+        schema:
+          type: string
+          enum:
+          - Sns
+          - EmailPerFinding
+          - IndexElasticSearch
+          - PagerDuty
+          - AwsSecurityHub
+          - GcpSecurityCommandCenter
+          - Webhook
+          - AzureSecurityCenter
+          - Slack
+          - AggregatedEmail
+          - Teams
+          - Eventarc
+          - SlackSingleMessage
+          - TeamsSingleMessage
+      responses:
+        '204':
+          description: No Content
+      description: Deletes the integration issue of the given notification and integration
+  /v2/GlobalSearch:
+    get:
+      tags:
+      - Global Search
+      summary: Get
+      operationId: GlobalSearch_Get_get_/v2/GlobalSearch
+      parameters:
+      - name: freeText
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+      description: Get top results for each service
+  /{id}/external:
+    put:
+      tags:
+      - Role
+      summary: Put Role By External Account Id
+      operationId: Role_PutRoleByExternalAccountId_put_/{id}/external
+      parameters:
+      - name: id
+        in: path
+        description: The role id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Role.EditRoleViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Role.EditRoleViewModel'
+        description: The role info
+        required: true
+      description: Update a role
+  /v2/Role:
+    get:
+      tags:
+      - Role
+      summary: Get
+      operationId: Role_Get_get_/v2/Role
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Role.RoleGetViewModel'
+      description: Get all roles for the account.
+    post:
+      tags:
+      - Role
+      summary: Post
+      operationId: Role_Post_post_/v2/Role
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        $ref: '#/components/requestBodies/Dome9.Web.Api.Role.RoleViewModel'
+      description: Create a new role
+  /v2/Role/{id}:
+    get:
+      tags:
+      - Role
+      summary: Get
+      operationId: Role_Get_get_/v2/Role/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Role.RoleViewModel'
+      description: Get the specific role with the specified id
+    put:
+      tags:
+      - Role
+      summary: Put
+      operationId: Role_Put_put_/v2/Role/{id}
+      parameters:
+      - name: id
+        in: path
+        description: The role id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Role.RoleViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Role.RoleViewModel'
+        description: The role info
+        required: true
+      description: Update a role
+    delete:
+      tags:
+      - Role
+      summary: Delete
+      operationId: Role_Delete_delete_/v2/Role/{id}
+      parameters:
+      - name: id
+        in: path
+        description: The role id to delete
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '204':
+          description: No Content
+      description: Delete a role
+  /v2/service-account/update:
+    post:
+      tags:
+      - Service Account
+      summary: Update Service Account
+      operationId: ServiceAccount_UpdateServiceAccount_post_/v2/service-account/update
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.ServiceAccountViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.ServiceAccountViewModel'
+        description: Includes the role ID to update and the new name and role IDs to apply
+        required: true
+      description: Update a Service Account (Name and Roles)
+  /v2/service-account/{id}:
+    get:
+      tags:
+      - Service Account
+      summary: Get
+      operationId: ServiceAccount_Get_get_/v2/service-account/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.ServiceAccountGetViewModel'
+      description: Get details on all service accounts in the account
+  /v2/service-account/{serviceAccountId}:
+    delete:
+      tags:
+      - Service Account
+      summary: Delete Service Account
+      operationId: ServiceAccount_DeleteServiceAccount_delete_/v2/service-account/{serviceAccountId}
+      parameters:
+      - name: serviceAccountId
+        in: path
+        description: The ID of the Service Account to delete
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      description: Delete a specific Service Account by ID
+  /v2/service-account/generate-key:
+    post:
+      tags:
+      - Service Account
+      summary: Generate Secret For Service Account
+      operationId: ServiceAccount_GenerateSecretForServiceAccount_post_/v2/service-account/generate-key
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.ServiceAccountViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.ServiceAccountViewModel'
+        description: Details on the Service Account. Only the ID is required
+        required: true
+      description: Generate a new access key and secret for a specific Service Account
+  /v2/service-account:
+    get:
+      tags:
+      - Service Account
+      summary: Get Service Accounts
+      operationId: ServiceAccount_GetServiceAccounts_get_/v2/service-account
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.ServiceAccountGetViewModel'
+      description: Get details on all service accounts in the account
+    post:
+      tags:
+      - Service Account
+      summary: Post Service Account
+      operationId: ServiceAccount_PostServiceAccount_post_/v2/service-account
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.ServiceAccountViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.ServiceAccountViewModel'
+        description: The name of the Service Account and the role IDs to assign it.
+        required: true
+      description: Create a new Service Account
+    delete:
+      tags:
+      - Service Account
+      summary: Delete All Service Accounts For User
+      operationId: ServiceAccount_DeleteAllServiceAccountsForUser_delete_/v2/service-account
+      responses:
+        '204':
+          description: No Content
+      description: Delete all Service Accounts in the account
+  /v2/settings/lease-time:
+    put:
+      tags:
+      - Settings
+      summary: Update Lease Time
+      operationId: Settings_UpdateLeaseTime_put_/v2/settings/lease-time
+      responses:
+        '204':
+          description: No Content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              format: double
+              type: number
+          application/x-www-form-urlencoded:
+            schema:
+              format: double
+              type: number
+        description: default lease time duraion
+        required: true
+      description: Update default lease time duration
+  /v2/settings/email-notifications:
+    put:
+      tags:
+      - Settings
+      summary: Update Email Notifications
+      operationId: Settings_UpdateEmailNotifications_put_/v2/settings/email-notifications
+      responses:
+        '204':
+          description: No Content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Falconetix.Model.EmailNotificationsDescriptor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Falconetix.Model.EmailNotificationsDescriptor'
+        required: true
+      description: "Update email notifications\r\n<para>Set what entities related notifications will be sent by email</para>"
+  /v2/settings/Sns:
+    put:
+      tags:
+      - Settings
+      summary: Update Sns Integration
+      operationId: Settings_UpdateSnsIntegration_put_/v2/settings/Sns
+      responses:
+        '204':
+          description: No Content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.SnsSettingsViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.SnsSettingsViewModel'
+        description: ARN for AWS SNS Topic
+        required: true
+      description: Update AWS SNS settings for account
+    post:
+      tags:
+      - Settings
+      summary: Add Sns Integration
+      operationId: Settings_AddSnsIntegration_post_/v2/settings/Sns
+      responses:
+        '204':
+          description: No Content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.SnsSettingsViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.SnsSettingsViewModel'
+        description: ARN for AWS SNS topic
+        required: true
+      description: Create new AWS SNS settings for account
+    delete:
+      tags:
+      - Settings
+      summary: Delete Sns Integration
+      operationId: Settings_DeleteSnsIntegration_delete_/v2/settings/Sns
+      responses:
+        '204':
+          description: No Content
+      description: Delete SNS notifications for account
+  /v2/settings/email-notification-filters/cloudAccounts:
+    get:
+      tags:
+      - Settings
+      summary: Get Email Notification Filters
+      operationId: Settings_GetEmailNotificationFilters_get_/v2/settings/email-notification-filters/cloudAccounts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Models.EmailNotificationFiltersViewModel'
+      description: Get the cloud acounts set to receive email notifications
+    put:
+      tags:
+      - Settings
+      operationId: Settings_UpdateEmailNotificationFilters_put_/v2/settings/email-notification-filters/cloudAccounts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Models.EmailNotificationFiltersViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.EmailNotificationFiltersViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.EmailNotificationFiltersViewModel'
+        required: true
+      description: ''
+      summary: Update Email Notification Filters
+    delete:
+      tags:
+      - Settings
+      summary: Delete Email Notification Filters
+      operationId: Settings_DeleteEmailNotificationFilters_delete_/v2/settings/email-notification-filters/cloudAccounts
+      responses:
+        '204':
+          description: No Content
+      description: Set the cloud accounts to null so all events emails will be sent for all cloud accounts
+  /v2/Settings:
+    get:
+      tags:
+      - Settings
+      summary: Get
+      operationId: Settings_Get_get_/v2/Settings
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Models.SettingsViewModel'
+      description: Get account settings
+    patch:
+      tags:
+      - Settings
+      summary: Update Settings
+      operationId: Settings_UpdateSettings_patch_/v2/Settings
+      responses:
+        '204':
+          description: No Content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.SettingsViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.SettingsViewModel'
+        required: true
+      description: Update account settings (partial)
+  /v2/TenableAccount/{id}/Validate:
+    post:
+      tags:
+      - Tenable Account
+      operationId: TenableAccount_ValidatePermissions_post_/v2/TenableAccount/{id}/Validate
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      description: ''
+      summary: Validate Permissions
+  /v2/TenableAccount/Sync:
+    post:
+      tags:
+      - Tenable Account
+      operationId: TenableAccount_SyncVulnerabilities_post_/v2/TenableAccount/Sync
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Tenable.Account.TenableVulnerabilitySyncResultViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Tenable.Account.TenableVulnerabilitySyncViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Tenable.Account.TenableVulnerabilitySyncViewModel'
+        required: true
+      description: ''
+      summary: Sync Vulnerabilities
+  /v2/TenableAccount:
+    get:
+      tags:
+      - Tenable Account
+      operationId: TenableAccount_Get_get_/v2/TenableAccount
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Tenable.Account.TenableAccountStatusViewModel'
+      description: ''
+      summary: Get
+    post:
+      tags:
+      - Tenable Account
+      operationId: TenableAccount_Post_post_/v2/TenableAccount
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Tenable.Account.TenableAccountViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Tenable.Account.TenableAccountViewModel'
+        required: true
+      description: ''
+      summary: Post
+    delete:
+      tags:
+      - Tenable Account
+      operationId: TenableAccount_Delete_delete_/v2/TenableAccount
+      responses:
+        '204':
+          description: No Content
+      description: ''
+      summary: Delete
+  /v2/user/{id}:
+    get:
+      tags:
+      - User
+      summary: Get
+      operationId: User_Get_get_/v2/user/{id}
+      parameters:
+      - name: id
+        in: path
+        description: Can be 'me' or a numeric value
+        required: true
+        schema:
+          type: string
+          default: me
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.User.UserViewModel'
+      description: Get the user with the specified id.
+    put:
+      tags:
+      - User
+      summary: Put
+      operationId: User_Put_put_/v2/user/{id}
+      parameters:
+      - name: id
+        in: path
+        description: Can be 'me' or a numeric value
+        required: true
+        schema:
+          type: string
+          default: me
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.User.UserViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.User.UserViewModel'
+        description: Can update permissions with "Permissions", roles with "RoleIds" and SSO Enabled with "SsoEnabled"
+        required: true
+      description: Update the user with the specified id
+    delete:
+      tags:
+      - User
+      summary: Delete
+      operationId: User_Delete_delete_/v2/user/{id}
+      parameters:
+      - name: id
+        in: path
+        description: Can be 'me' or a numeric value
+        required: true
+        schema:
+          type: string
+          default: me
+      responses:
+        '204':
+          description: No Content
+      description: Delete a user
+  /v2/user/{id}/unlock:
+    put:
+      tags:
+      - User
+      summary: Unlock User
+      operationId: User_UnlockUser_put_/v2/user/{id}/unlock
+      parameters:
+      - name: id
+        in: path
+        description: Can be 'me' or a numeric value
+        required: true
+        schema:
+          type: string
+          default: me
+      responses:
+        '204':
+          description: No Content
+      description: Unlock a user that was locked out after a certain number of failed authentications.
+  /v2/user/{id}/iam-safe/accounts/{accountId}/iamEntities:
+    put:
+      tags:
+      - User
+      summary: Put Iam Safe Account Iam Entities
+      operationId: User_PutIamSafeAccountIamEntities_put_/v2/user/{id}/iam-safe/accounts/{accountId}/iamEntities
+      parameters:
+      - name: id
+        in: path
+        description: Can be 'me' or a numeric value
+        required: true
+        schema:
+          type: string
+          default: me
+      - name: accountId
+        in: path
+        description: The cloud account id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.UserAndRole.IamSafe.UserIamSafeAccountPutViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.UserAndRole.IamSafe.UserIamSafeAccountPutViewModel'
+        description: The IAM entities to link
+        required: true
+      description: Update IAM Safe entities for a user.
+  /v2/user/{id}/iam-safe/accounts/{cloudAccountId}/iamEntities:
+    post:
+      tags:
+      - User
+      summary: Post Iam Safe Account Iam Entities
+      operationId: User_PostIamSafeAccountIamEntitiesAsync_post_/v2/user/{id}/iam-safe/accounts/{cloudAccountId}/iamEntities
+      parameters:
+      - name: id
+        in: path
+        description: Can be 'me' or a numeric value
+        required: true
+        schema:
+          type: string
+          default: me
+      - name: cloudAccountId
+        in: path
+        description: Dome9 internal ID or AWS ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.UserAndRole.IamSafe.UserIamSafeAccountPutViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.UserAndRole.IamSafe.UserIamSafeAccountPutViewModel'
+        description: The IAM entities to link
+        required: true
+      description: Add IAM Safe entities for a user.
+  /v2/user/{id}/iam-safe/accounts/{accountId}/deleteIamEntities:
+    post:
+      tags:
+      - User
+      summary: Delete Iam Safe Entities For User
+      operationId: User_DeleteIamSafeEntitiesForUser_post_/v2/user/{id}/iam-safe/accounts/{accountId}/deleteIamEntities
+      parameters:
+      - name: id
+        in: path
+        description: Can be 'me' or a numeric value
+        required: true
+        schema:
+          type: string
+          default: me
+      - name: accountId
+        in: path
+        description: The cloud account id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.UserAndRole.IamSafe.UserIamSafeAccountPutViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.UserAndRole.IamSafe.UserIamSafeAccountPutViewModel'
+        description: The IAM entities to remove
+        required: true
+      description: Delete iam entities for user
+  /v2/user:
+    get:
+      tags:
+      - User
+      summary: Get
+      operationId: User_Get_get_/v2/user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.User.UserViewModel'
+      description: Get all Dome9 users for the Dome9 account.
+    post:
+      tags:
+      - User
+      summary: Post
+      operationId: User_Post_post_/v2/user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.User.UserPostViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.User.UserPostViewModel'
+        description: The new user
+        required: true
+      description: Create a new Dome9 user
+  /v2/integration:
+    post:
+      tags:
+      - Integration
+      operationId: Integration_CreateIntegration_post_/v2/integration
+      requestBody:
+        x-name: request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntegrationPostRequestModel'
+        required: true
+        x-position: 1
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntegrationViewModel'
+      description: ''
+      summary: Create Integration
+    get:
+      tags:
+      - Integration
+      operationId: Integration_GetAllIntegrations_get_/v2/integration
+      parameters:
+      - name: type
+        in: query
+        style: form
+        explode: true
+        schema:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/IntegrationType'
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IntegrationViewModel'
+      description: ''
+      summary: Get All Integrations
+    put:
+      tags:
+      - Integration
+      operationId: Integration_UpdateIntegration_put_/v2/integration
+      requestBody:
+        x-name: request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntegrationUpdateRequestModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntegrationViewModel'
+      description: ''
+      summary: Update Integration
+  /v2/integration/{id}:
+    get:
+      tags:
+      - Integration
+      operationId: Integration_GetIntegrationById_get_/v2/integration/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntegrationViewModel'
+      description: ''
+      summary: Get Integration By Id
+    delete:
+      tags:
+      - Integration
+      operationId: Integration_DeleteIntegration_delete_/v2/integration/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: ''
+      summary: Delete Integration
+  /v2/notification/{id}:
+    get:
+      tags:
+      - Notification
+      operationId: Notification_Get_get_/v2/notification/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseNotificationViewModel'
+      description: ''
+      summary: Get
+    delete:
+      tags:
+      - Notification
+      operationId: Notification_Delete_delete_/v2/notification/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: ''
+      summary: Delete
+  /v2/notification:
+    get:
+      tags:
+      - Notification
+      operationId: Notification_GetAll_get_/v2/notification
+      parameters:
+      - name: name
+        in: query
+        schema:
+          type: string
+          nullable: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResponseNotificationViewModel'
+      description: ''
+      summary: Get All
+    post:
+      tags:
+      - Notification
+      operationId: Notification_Create_post_/v2/notification
+      requestBody:
+        x-name: notification
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostNotificationViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseNotificationViewModel'
+      description: ''
+      summary: Create
+    put:
+      tags:
+      - Notification
+      operationId: Notification_Update_put_/v2/notification
+      requestBody:
+        x-name: notification
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutNotificationViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseNotificationViewModel'
+      description: ''
+      summary: Update
+tags:
+- name: AccessLease
+  description: Access Leases
+- name: AccessLeaseInvitation
+  description: Access Lease Invitations
+- name: Account
+- name: AccountLimitation
+- name: AccountPollingInterval
+- name: AccountRegistration
+- name: AccountTrust
+  description: "Allow you to define a trust between accounts in order to allow users in a certain account to make changes\
+    \ and operation on another account.\nActions can be taken on a trustee account via a role which is defined on it. \nThe\
+    \ role should be assumed by a user from the trusted account."
+- name: Agent
+- name: Agentless
+  description: Agentless Workload Posture
+- name: Alert
+- name: AlibabaCloudAccount
+  description: Alibaba Cloud Accounts
+- name: Application
+- name: Assessment
+  description: Run and View Compliance Assessments
+- name: AssessmentHistory
+- name: AssessmentHistoryV2
+  description: Compliance Assessment History
+- name: Audit
+  description: Audit logs
+- name: Auth
+- name: Aws Cloud Account
+  description: Manage AWS Cloud Accounts
+- name: AwsAppSync
+- name: AwsBackupVault
+- name: AwsConfigSettings
+- name: AwsCustomerGateway
+- name: AwsEcsTask
+- name: AwsEks
+- name: AwsElasticIp
+- name: AwsElasticsearchDomain
+- name: AwsEmrCluster
+- name: AwsInspectorFindings
+- name: AwsInspectorRuns
+- name: AwsLoadBalancersNetworkInterfaces
+- name: AwsOrganizations
+- name: AwsQuickSightAccount
+- name: AwsQuickSightGroup
+- name: AwsQuickSightUser
+- name: AwsQuickSightVpcConnections
+- name: AwsSageMaker
+- name: AwsSecurityGroup
+- name: AwsSecurityGroupPolicy
+- name: AwsSecurityGroupsIndex
+- name: AwsUnifiedOnboarding
+  description: Aws Unified Onboarding
+- name: AwsVpcEndpoint
+- name: AzureAnalysisService
+- name: AzureApplicationGateway
+- name: AzureApplicationSecurityGroup
+- name: AzureCloudAccount
+  description: Onboard Azure accounts
+- name: AzureComputeGalleryImage
+- name: AzureCosmosDbAccount
+- name: AzureDisk
+- name: AzureFunction
+- name: AzureKeyVault
+- name: AzureKubernetes
+- name: AzureLoadBalancer
+- name: AzureLock
+- name: AzureLogicApp
+- name: AzureLogProfile
+- name: AzurePolicyAssignment
+- name: AzureRedisCache
+- name: AzureResourceGroup
+- name: AzureRouteTable
+- name: AzureSecurityGroup
+- name: AzureSecurityGroupPolicy
+  description: Azure Network Security Group Policies
+- name: AzureSnapshot
+- name: AzureSqlDb
+- name: AzureSqlServer
+- name: AzureStorageAccounts
+- name: AzureStorageBlobContainer
+- name: AzureSubnet
+- name: AzureUser
+- name: AzureVirtualMachine
+- name: AzureVirtualMachineImage
+- name: AzureVirtualMachineScaleSet
+- name: AzureVirtualNetworkPeering
+- name: AzureWebApp
+- name: BigTable
+- name: BillableAssets
+  description: Retrieve billable assets data
+- name: BillableAssetsReport
+  description: Billable Assets Report
+- name: Billing
+- name: Clarity
+- name: CloudAcmCertificate
+- name: CloudAmi
+- name: CloudAutoScalingGroup
+- name: CloudDbInstance
+- name: CloudDirectConnect
+- name: CloudDynamoDb
+- name: CloudEcsCluster
+- name: CloudEcsService
+  description: Cloud Ecs Service
+- name: CloudEcsTaskDefinition
+- name: CloudEfs
+- name: CloudElastiCacheCluster
+- name: CloudFlowLogs
+- name: CloudFrontDistribution
+- name: CloudGuardDutyDetector
+- name: CloudIamAccountSummary
+- name: CloudIamCredentialReport
+- name: CloudIamGroup
+- name: CloudIamPasswordPolicy
+- name: CloudIamPolicy
+- name: CloudIamRole
+- name: CloudIamServerCertificate
+- name: CloudIamUser
+- name: CloudIamVirtualMfaDevice
+- name: CloudInfraUser
+  description: CloudInfra Users
+- name: CloudInstance
+  description: Cloud Instances
+- name: CloudInternetGateway
+- name: CloudKinesisStream
+- name: CloudKms
+- name: CloudKmsAlias
+- name: CloudLambdaFunction
+  description: Cloud Lambda Function
+- name: CloudLoadBalancer
+- name: CloudLogGroups
+- name: CloudMetricAlarm
+- name: CloudNacl
+- name: CloudNetworkInterfaces
+- name: CloudRedshiftCluster
+- name: CloudRegion
+- name: CloudRoute53Domain
+- name: CloudRoute53HostedZone
+- name: CloudRoute53RecordSetGroup
+- name: CloudRouteTable
+- name: CloudS3Bucket
+  description: ''
+- name: CloudSecurityGroup
+  description: AWS Security Groups
+- name: CloudSnsSubscription
+- name: CloudSnsTopic
+- name: CloudSql
+- name: CloudSqs
+  description: ''
+- name: CloudSubnet
+- name: CloudTrail
+  description: CloudTrail
+- name: CloudVolume
+- name: CloudVpc
+- name: CloudVpcPeeringConnection
+- name: CloudVPNConnection
+- name: CloudVpnGateway
+- name: CloudWAFRegional
+- name: CloudWatchEventsRule
+  description: CloudWatchEventsRule
+- name: ComplianceExclusion
+  description: Compliance Exclusions
+- name: CompliancePolicy
+- name: ComplianceRemediation
+  description: Compliance Remediation
+- name: ComplianceRemediationOld
+  description: Compliance Remediation - DEPRECATED - please use /Compliance/Remediation instead
+- name: ComplianceRuleset
+  description: ComplianceRuleset
+- name: ContinuousComplianceNotification
+  description: Continuous Compliance Notification Policies
+- name: ContinuousCompliancePolicy
+- name: ContinuousCompliancePolicyV2
+  description: Continuous Compliance Policies
+- name: EmergencyPolicy
+- name: EntityFetchStatus
+- name: EntityReport
+- name: ExclusionOld
+  description: Compliance Exclusions - DEPRECATED - please use /Compliance/Exclusion instead
+- name: ExternalFindings
+  description: Findings from External (3rd-party) systems
+- name: Fim
+- name: Finding
+  description: Compliance Findings
+- name: FindingsReport
+  description: Compliance Findings csv reports
+- name: GcpBigQuery
+- name: GcpDisk
+- name: GcpGkeCluster
+- name: GcpImage
+- name: GcpKmsKeyRing
+- name: GcpProjectInfo
+  description: Google Cloud Project Info
+- name: GcpPubSub
+- name: GcpSecurityGroup
+- name: GcpServiceAccount
+- name: GcpStorageBucket
+- name: GenericList
+  description: Generic Lists
+- name: GlobalSearch
+  description: Global search for all CloudGuard services
+- name: GoogleCloudAccount
+  description: Google Cloud Accounts
+- name: GoogleCloudFirewallRule
+- name: GoogleCloudFunction
+- name: GoogleCloudIamPolicy
+- name: GoogleCloudNetwork
+  description: Google Cloud Network
+- name: GoogleCloudSubnet
+- name: GoogleCloudVMInstance
+- name: Home
+- name: IamSafeLease
+  description: IAM Safety Leases
+- name: IncidentsStatus
+- name: InfrastructureAssessment
+- name: Intelligence
+  description: CloudGuard Intelligence allows you to visualize and analyze Account Activity and Network Traffic into and out
+    of your cloud environment.
+- name: IpAddressMetadata
+  description: IP Address Metadata
+- name: IpList
+  description: IP Lists
+- name: LicenseActivator
+- name: Licensing
+- name: ManagedGenericList
+- name: Msp
+- name: OrganizationalUnit
+  description: Manage Organizational Units
+- name: Permission
+- name: ProtectedAsset
+- name: ProtectedAssetsReport
+  description: Compliance Protected Asset csv reports
+- name: ProtegoStatistics
+  description: Protego statistics by dates
+- name: Role
+  description: CloudGuard Roles
+- name: RulesEngine
+- name: SecurityGroup
+- name: Serverless
+- name: ServerlessPolicy
+  description: Serverless policy
+- name: ServiceAccount
+  description: CloudGuard Service Accounts
+- name: ServicePort
+- name: Settings
+  description: Account Settings
+- name: ShiftLeft
+  description: ShiftLeft
+- name: SystemHealth
+- name: TenableAccount
+  description: Onboard Tenable accounts
+- name: User
+  description: CloudGuard account users
+- name: BaseImage
+  description: ''
+- name: ContainerRegistryAccount
+  description: Container Registry Account
+- name: ContainerRegistryAccountInternal
+  description: ''
+- name: ContainerRegistryImageAssurancePolicy
+  description: '(deprecated: move to use /v2/vulnerability/policy)'
+- name: Dashboard
+  description: ''
+- name: EcsConfiguration
+  description: ''
+- name: EcsImageAssurancePolicy
+  description: '(deprecated: move to use /v2/vulnerability/policy)'
+- name: EcsImageScan
+  description: ECS Image Scan Configuration
+- name: Environment
+  description: ''
+- name: ImageAdmissionExclusion
+  description: '[Preview feature] Kubernetes Image admission exclusions'
+- name: ImageAssuranceDashboard
+  description: ''
+- name: ImageAssuranceReport
+  description: ''
+- name: KubernetesAccount
+  description: Kubernetes Accounts
+- name: KubernetesAccountInternal
+  description: ''
+- name: KubernetesAccountOld
+  description: '(deprecated: this api is deprecated, please use ''/v2/kubernetes/account'' instead)'
+- name: KubernetesAdmissionControl
+  description: Kubernetes Admission Control
+- name: KubernetesAdmissionControlPoliciesSummary
+  description: ''
+- name: KubernetesClusterRole
+  description: ''
+- name: KubernetesImage
+  description: ''
+- name: KubernetesImageAdmissionExclusion
+  description: '[Preview feature] Kubernetes Image admission exclusions (deprecated: this api is deprecated, please use ''/v2/kubernetes/admissionControl/imageAdmissionExclusion''
+    instead)'
+- name: KubernetesImageAssurance
+  description: Kubernetes Image Assurance
+- name: KubernetesImageAssurancePolicy
+  description: 'Kubernetes Image Assurance Policy (deprecated: move to use /v2/vulnerability/policy)'
+- name: KubernetesIngress
+  description: ''
+- name: KubernetesNetworkPolicy
+  description: ''
+- name: KubernetesNode
+  description: ''
+- name: KubernetesPod
+  description: ''
+- name: KubernetesPodGroup
+  description: Kubernetes Pod Groups
+- name: KubernetesPodGroupOwner
+  description: ''
+- name: KubernetesPodSecurityPolicy
+  description: ''
+- name: KubernetesRole
+  description: ''
+- name: KubernetesRuntimeAssurance
+  description: ''
+- name: KubernetesService
+  description: ''
+- name: KubernetesServiceAccount
+  description: ''
+- name: Shiftleft
+  description: ''
+- name: ShiftLeftAccount
+  description: ShiftLeft
+- name: ShiftLeftPolicy
+  description: 'ShiftLeft Policy (deprecated: move to use /v2/vulnerability/policy)'
+- name: Workload
+  description: ''
+- name: WorkloadAccountSetting
+  description: Workload Account Setting
+- name: WorkloadChangeMonitoring
+  description: ''
+- name: WorkloadImageAssurance
+  description: Workload Image Assurance
+- name: WorkloadImageAssuranceInternal
+  description: ''
+- name: WorkloadInternal
+  description: ''
+- name: WorkloadRuntimeProtection
+  description: ''
+- name: Alerts
+  description: ''
+- name: Azure
+  description: ''
+- name: FindingOrchestration
+  description: ''
+- name: FindingsUpdate
+  description: ''
+- name: Gcp
+  description: ''
+- name: Remediation
+  description: Remediation Actions
+- name: Reports
+  description: ''
+- name: CloudInfraMigration
+  description: infinity-portal-connect
+- name: GslBuilder
+  description: ''
+- name: Infrastructure
+  description: ''
+- name: InternalLicense
+  description: ''
+- name: NotificationIntegrationInternal
+  description: '(deprecated: This controller is deprecated and will be removed in the future)'
+- name: OciCloudAccount
+  description: Onboard OCI accounts
+- name: PlatformReports
+  description: ''
+- name: Regions
+  description: ''
+- name: Spectral
+  description: ''
+- name: RestrictedWorkloadClientModules
+  description: ''
+- name: WorkloadClientModules
+  description: ''
+- name: WorkloadTelemetry
+  description: ''
+- name: Integration
+  description: Integration
+- name: IntegrationInternal
+  description: ''
+- name: Notification
+  description: Notification
+- name: NotificationInternal
+  description: ''
+- name: AssetMetadataSyncNow
+  description: ''
+- name: BusinessPriorityModifier
+  description: Business Priority Rules
+- name: CustomRuleset
+  description: Risk Management Rulesets
+- name: Dspm
+  description: DSPM Controller
+- name: Exposure
+  description: ''
+- name: GroupRiskManagement
+  description: Groups Risk Management
+- name: RemediationActions
+  description: Remediation Actions
+- name: RiskModifiers
+  description: Risk Modifiers
+- name: SecurityEvents
+  description: ''
+- name: SimilarAssetGroups
+  description: ''
+- name: Waf
+  description: WAF Protection
+- name: AwsOrganizationManagement
+  description: AwsOrganizationManagement
+- name: AwsOrganizationManagementOnboarding
+  description: AwsOrganizationManagementOnboarding
+- name: AzureOrganizationManagement
+  description: AzureOrganizationManagement
+- name: GcpOrganizationManagement
+  description: GcpOrganizationManagement
+- name: OnboardingManagement
+  description: OnboardingManagement
+- name: InternalSBOM
+  description: ''
+- name: InternalVulnerabilityAccountStatsBatch
+  description: ''
+- name: InternalVulnerabilityCleanup
+  description: ''
+- name: InternalVulnerabilityPolicy
+  description: ''
+- name: InternalVulnerabilityScanResults
+  description: ''
+- name: SBOM
+  description: ''
+- name: SBOMExport
+  description: SBOM Export
+- name: Vulnerabilities
+  description: Vulnerabilities
+- name: VulnerabilityAssessment
+  description: ''
+- name: VulnerabilityExclusions
+  description: Vulnerability Exclusions
+- name: VulnerabilityPolicy
+  description: Vulnerability Policy
+- name: VulnerabilitySBOM
+  description: ''
+- name: CloudApplicationLoadBalancer
+  description: ''
+- name: CloudNetworkLoadBalancer
+  description: ''
+- name: GcpMachineImage
+  description: ''
+- name: OciCompartment
+  description: ''
+- name: AssetLabelsService
+  description: ''
+- name: AssetOpenFindings
+  description: ''
+- name: EntityTypes
+  description: The entity types endpoint allows you to get the supported entity types and the platform they're supported for.
+- name: EvidencePath
+  description: The evidence path endpoint allows you to get the evidence path for a given findingId.
+- name: Exclusions
+  description: The exclusion endpoint provides API to perform CRUD operations on the resource.
+- name: IgnoreCves
+  description: The ignore CVEs endpoint provides API to perform CRUD operations on the resource.
+- name: IgnoreMalwares
+  description: The ignore malwares endpoint provides API to perform CRUD operations on the resource.
+- name: Rules
+  description: The rules endpoint provides APIs to get the security rules data
+- name: SecurityGraphIssues
+  description: API for issue enrichments
+- name: SecurityGraphQuery
+  description: The query endpoint provides APIs to run queries (rules) to preview possible issues.
+- name: EntitySchema
+  description: The entity schema endpoint presents schema of toxic issues entities.
+- name: SecurityIssues
+  description: The Findings endpoint provides APIs query the findings store which contains findings such as security issues.
+    It provides APIs to get, search and group findings.
+- name: AutomatedActions
+  description: The Automated Actions resource provides API to perform CRUD operations on the resource.
+components:
+  schemas:
+    Dome9.Web.Api.Account.AccountTrustAssumableRolesViewModel:
+      type: object
+      properties:
+        accountName:
+          description: The trsuted account name
+          type: string
+        accountId:
+          format: int64
+          description: The trsuted account Id
+          type: integer
+        roles:
+          description: List of roles that can be assumed by a user in the trusted account
+          type: array
+          items:
+            type: string
+    Dome9.Web.Api.Account.AccountTrustViewModel:
+      required:
+      - sourceAccountId
+      - description
+      type: object
+      properties:
+        id:
+          format: uuid
+          description: Account trust id
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        targetAccountName:
+          description: The trusting account name
+          type: string
+        sourceAccountName:
+          description: The trsuted account name
+          type: string
+        sourceAccountId:
+          format: uuid
+          description: The Dome9 account id to trust
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        description:
+          description: Description for the trust (a way to document the justification of the trust)
+          type: string
+        restrictions:
+          $ref: '#/components/schemas/Dome9.Web.Api.Account.AccountTrustRestrictionsViewModel'
+    Dome9.Web.Api.Account.AccountTrustRestrictionsViewModel:
+      type: object
+      properties:
+        roles:
+          description: A list of role names that can be assumed by a user in the trusted account, leave empty to allow all
+            roles to be assumed
+          type: array
+          items:
+            type: string
+    Dome9.Web.Api.Account.AccountTrustPostViewModel:
+      required:
+      - sourceAccountId
+      - description
+      type: object
+      properties:
+        sourceAccountId:
+          format: uuid
+          description: The Dome9 account id to trust
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        description:
+          description: Description for the trust (a way to document the justification of the trust)
+          type: string
+        restrictions:
+          $ref: '#/components/schemas/Dome9.Web.Api.Account.AccountTrustRestrictionsViewModel'
+    Dome9.Web.Api.Account.AccountTrustPutViewModel:
+      required:
+      - description
+      type: object
+      properties:
+        description:
+          description: A description for the account trust
+          type: string
+        restrictions:
+          $ref: '#/components/schemas/Dome9.Web.Api.Account.AccountTrustRestrictionsViewModel'
+          description: Restrictions configuration for the account trust
+    Falconetix.Model.RuleEngine.Entities.TagRuleEntity:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    Dome9.Web.Api.Models.AuditEntryViewModel:
+      type: object
+      properties:
+        id:
+          type: object
+        cell:
+          type: array
+          items:
+            type: object
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+    Falconetix.Model.Audit.ApiAuditResult:
+      type: object
+      properties:
+        user_name:
+          type: string
+        request_url:
+          type: string
+        http_method:
+          type: string
+        http_status:
+          type: string
+        time:
+          format: date-time
+          type: string
+        request_body:
+          type: string
+        request_parameters:
+          type: string
+        event_name:
+          type: string
+        client_ip:
+          type: string
+    Falconetix.Model.Audit.SystemAuditResult:
+      type: object
+      properties:
+        description:
+          type: string
+        time:
+          format: date-time
+          type: string
+        event_name:
+          type: string
+        cloud_account_id:
+          type: string
+    Falconetix.Model.Audit.CountAuditResult:
+      type: object
+      properties:
+        count:
+          format: int32
+          type: integer
+    Dome9.Web.Api.Models.AuditViewModel:
+      type: object
+      properties:
+        total:
+          format: int32
+          description: the number of pages in the view
+          type: integer
+        page:
+          format: int32
+          description: the current page number
+          type: integer
+        records:
+          format: int64
+          description: the total number of records (events) in all the pages
+          type: integer
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Models.AuditEntryViewModel'
+    Dome9.Web.Api.BillableAssets.AccountBillableAssetsViewModel:
+      type: object
+      properties:
+        accountId:
+          format: int64
+          type: integer
+        accountName:
+          type: string
+        purcahseOrderInstances:
+          format: int32
+          type: integer
+        cloudAccountsData:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.BillableAssets.CloudAccountBillableAssetsViewModel'
+        totals:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.BillableAssets.AccountAssetsTotalData'
+        grandTotals:
+          $ref: '#/components/schemas/Falconetix.Model.BillableAssets.GrandTotalData'
+    Dome9.Web.Api.BillableAssets.CloudAccountBillableAssetsViewModel:
+      type: object
+      properties:
+        cloudVendor:
+          type: string
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        assetsCount:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.BillableAssets.AssetsViewModel'
+    Falconetix.Model.BillableAssets.AccountAssetsTotalData:
+      type: object
+      properties:
+        vendor:
+          type: string
+        assetType:
+          type: string
+        totalCount:
+          format: int32
+          type: integer
+        totalBillable:
+          format: int32
+          type: integer
+        totalNonBillable:
+          format: int32
+          type: integer
+        totalOnLineCount:
+          format: int32
+          type: integer
+    Falconetix.Model.BillableAssets.GrandTotalData:
+      type: object
+      properties:
+        grandTotalCount:
+          format: int32
+          type: integer
+        grandTotalBillable:
+          format: int32
+          type: integer
+        grandTotalNonBillable:
+          format: int32
+          type: integer
+        grandTotalOnLineCount:
+          format: int32
+          type: integer
+    Dome9.Web.Api.BillableAssets.AssetsViewModel:
+      type: object
+      properties:
+        assetType:
+          type: string
+        totalCount:
+          format: int32
+          type: integer
+        billableCount:
+          format: int32
+          type: integer
+        nonBillableCount:
+          format: int32
+          type: integer
+    Falconetix.Model.CloudInfra.CloudInfraUserViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          format: email
+          description: Email Address
+          type: string
+          example: MyName@gmail.com
+        name:
+          type: string
+        role:
+          type: string
+        phone:
+          type: string
+        lastLogin:
+          format: date-time
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        existInDome9:
+          type: boolean
+    Dome9.Web.Api.UserAndRole.CreateDome9CloudInfraUserRequestViewModel:
+      type: object
+      properties:
+        usersToCreate:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.CloudInfra.CloudInfraUserViewModel'
+        roleIds:
+          type: array
+          items:
+            format: int64
+            type: integer
+    Dome9.Web.Api.UserAndRole.CreateDome9CloudInfraUserResponseViewModel:
+      type: object
+      properties:
+        failedRecords:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.UserAndRole.CloudInfraUserCreationFailureResult'
+        totalFailedRecords:
+          format: int32
+          type: integer
+          readOnly: true
+        totalSuccessfulRecords:
+          format: int32
+          type: integer
+    Dome9.Web.Api.UserAndRole.CloudInfraUserCreationFailureResult:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/Falconetix.Model.CloudInfra.CloudInfraUserViewModel'
+        errorMessage:
+          type: string
+    Dome9.Web.Api.Compliance.ContinuousCompliance.ContinuousComplianceNotificationGetViewModel:
+      required:
+      - name
+      type: object
+      properties:
+        id:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          maxLength: 100
+          minLength: 0
+          type: string
+        description:
+          maxLength: 500
+          minLength: 0
+          type: string
+        alertsConsole:
+          type: boolean
+        scheduledReport:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.ScheduledReportNotificationViewModel'
+        changeDetection:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.ChangeDetectionNotificationViewModel'
+        gcpSecurityCommandCenterIntegration:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.GcpSecurityCommandCenterIntegrationViewModel'
+        filter:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.ContinuousComplianceNotificationFilterViewModel'
+        sendOnEachOccurrence:
+          type: boolean
+    Dome9.Web.Api.Compliance.ContinuousCompliance.ScheduledReportNotificationViewModel:
+      type: object
+      properties:
+        emailSendingState:
+          format: email
+          description: Email Address
+          enum:
+          - Disabled
+          - Enabled
+          type: string
+          example: MyName@gmail.com
+        scheduleData:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.ContinuousComplianceNotificationEntity.ReportScheduleData'
+          description: Set or Get Notification schedule
+    Dome9.Web.Api.Compliance.ContinuousCompliance.ChangeDetectionNotificationViewModel:
+      type: object
+      properties:
+        emailSendingState:
+          format: email
+          description: Email Address
+          enum:
+          - Disabled
+          - Enabled
+          type: string
+          example: MyName@gmail.com
+        emailPerFindingSendingState:
+          format: email
+          description: Email Address
+          enum:
+          - Disabled
+          - Enabled
+          type: string
+          example: MyName@gmail.com
+        snsSendingState:
+          enum:
+          - Disabled
+          - Enabled
+          type: string
+        externalTicketCreatingState:
+          enum:
+          - Disabled
+          - Enabled
+          type: string
+        awsSecurityHubIntegrationState:
+          enum:
+          - Disabled
+          - Enabled
+          type: string
+        azureSecurityCenterIntegrationState:
+          enum:
+          - Disabled
+          - Enabled
+          type: string
+        webhookIntegrationState:
+          enum:
+          - Disabled
+          - Enabled
+          type: string
+        slackIntegrationState:
+          enum:
+          - Disabled
+          - Enabled
+          type: string
+        teamsIntegrationState:
+          enum:
+          - Disabled
+          - Enabled
+          type: string
+        eventarcIntegrationState:
+          enum:
+          - Disabled
+          - Enabled
+          type: string
+        emailData:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.ContinuousComplianceNotificationEntity.EmailNotificationData'
+        emailPerFindingData:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.ContinuousComplianceNotificationEntity.EmailPerFindingNotificationData'
+        snsData:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.SnsDataNotificationViewModel'
+        ticketingSystemData:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.TicketingSystemNotificationDataViewModel'
+        awsSecurityHubIntegration:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.AwsSecurityHubIntegrationNotificationViewModel'
+        azureSecurityCenterIntegration:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.AzureSecurityCenterIntegrationNotificationViewModel'
+        webhookData:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.WebhookNotificationDataViewModel'
+        slackData:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.SlackNotificationDataViewModel'
+        teamsData:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.TeamsNotificationDataViewModel'
+        eventarcData:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.EventarcNotificationDataViewModel'
+    Dome9.Web.Api.Compliance.ContinuousCompliance.GcpSecurityCommandCenterIntegrationViewModel:
+      type: object
+      properties:
+        state:
+          enum:
+          - Disabled
+          - Enabled
+          type: string
+        projectId:
+          type: string
+        sourceId:
+          type: string
+    Dome9.Web.Api.Compliance.ContinuousCompliance.ContinuousComplianceNotificationFilterViewModel:
+      type: object
+      properties:
+        severities:
+          type: array
+          items:
+            enum:
+            - Informational
+            - Low
+            - Medium
+            - High
+            - Critical
+            type: string
+        entityTypes:
+          type: array
+          items:
+            type: string
+        entityTags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.TagRuleEntity'
+        entityNames:
+          type: array
+          items:
+            type: string
+        entityIds:
+          type: array
+          items:
+            type: string
+    Falconetix.Model.RuleEngine.Entities.ContinuousComplianceNotificationEntity.ReportScheduleData:
+      required:
+      - cronExpression
+      - recipients
+      type: object
+      properties:
+        cronExpression:
+          type: string
+        type:
+          enum:
+          - Detailed
+          - Summary
+          - FullCsv
+          - FullCsvZip
+          - ExecutivePlatform
+          type: string
+        isIntelligence:
+          type: boolean
+        recipients:
+          type: array
+          items:
+            type: string
+    Falconetix.Model.RuleEngine.Entities.ContinuousComplianceNotificationEntity.EmailNotificationData:
+      required:
+      - recipients
+      type: object
+      properties:
+        recipients:
+          type: array
+          items:
+            type: string
+    Falconetix.Model.RuleEngine.Entities.ContinuousComplianceNotificationEntity.EmailPerFindingNotificationData:
+      required:
+      - recipients
+      type: object
+      properties:
+        recipients:
+          type: array
+          items:
+            type: string
+        notificationOutputFormat:
+          enum:
+          - JsonWithFullEntity
+          - JsonWithBasicEntity
+          - Json
+          - PlainText
+          - SplunkBasic
+          - ServiceNow
+          - QRadar
+          - JsonFirstLevelEntity
+          - Jira
+          type: string
+    Dome9.Web.Api.Compliance.ContinuousCompliance.SnsDataNotificationViewModel:
+      type: object
+      properties:
+        snsTopicArn:
+          description: Set and Get SNS Topic ARN
+          pattern: ^arn:(?<partition>(aws[\w\-]*)):(?<service>[\w]*):(?<region>[\w\d-]*):(?<accountId>[\d]*):(((?<resource>[\w+=,\.@\-_
+            ]+)[\/:]?)+)$
+          type: string
+        snsOutputFormat:
+          enum:
+          - JsonWithFullEntity
+          - JsonWithBasicEntity
+          - Json
+          - PlainText
+          - SplunkBasic
+          - ServiceNow
+          - QRadar
+          - JsonFirstLevelEntity
+          - Jira
+          type: string
+    Dome9.Web.Api.Compliance.ContinuousCompliance.TicketingSystemNotificationDataViewModel:
+      type: object
+      properties:
+        systemType:
+          description: Set and Get Ticketing System type (ServiceNow)
+          enum:
+          - ServiceNow
+          - Jira
+          - PagerDuty
+          type: string
+        shouldCloseTickets:
+          type: boolean
+        domain:
+          description: Set and Get ticketing system domain name
+          type: string
+        user:
+          description: Set and Get Ticketing system user name
+          type: string
+        pass:
+          description: Set and Get Ticketing system password (for the user used for access)
+          type: string
+        projectKey:
+          description: Set and Get Ticketing system access key
+          type: string
+        issueType:
+          description: Set and Get Ticketing system default issue type (optional). Tickets opened for Compliance issues will
+            use this issue type.
+          type: string
+    Dome9.Web.Api.Compliance.ContinuousCompliance.AwsSecurityHubIntegrationNotificationViewModel:
+      required:
+      - externalAccountId
+      - region
+      type: object
+      properties:
+        externalAccountId:
+          pattern: ^\d{12}$
+          type: string
+        region:
+          type: string
+    Dome9.Web.Api.Compliance.ContinuousCompliance.AzureSecurityCenterIntegrationNotificationViewModel:
+      required:
+      - subscription
+      type: object
+      properties:
+        subscription:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+    Dome9.Web.Api.Compliance.ContinuousCompliance.WebhookNotificationDataViewModel:
+      required:
+      - url
+      - httpMethod
+      - authMethod
+      - formatType
+      type: object
+      properties:
+        url:
+          type: string
+        httpMethod:
+          enum:
+          - Post
+          - Put
+          - Get
+          type: string
+        authMethod:
+          enum:
+          - NoAuth
+          - BasicAuth
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+        formatType:
+          enum:
+          - JsonWithFullEntity
+          - JsonWithBasicEntity
+          - Json
+          - PlainText
+          - SplunkBasic
+          - ServiceNow
+          - QRadar
+          - JsonFirstLevelEntity
+          - Jira
+          type: string
+        payloadFormat:
+          type: object
+        ignoreCertificate:
+          type: boolean
+        advancedUrl:
+          type: boolean
+    Dome9.Web.Api.Compliance.ContinuousCompliance.SlackNotificationDataViewModel:
+      type: object
+      properties:
+        url:
+          type: string
+    Dome9.Web.Api.Compliance.ContinuousCompliance.TeamsNotificationDataViewModel:
+      type: object
+      properties:
+        url:
+          type: string
+    Dome9.Web.Api.Compliance.ContinuousCompliance.EventarcNotificationDataViewModel:
+      type: object
+      properties:
+        channelConnectionId:
+          type: string
+    Dome9.Web.Api.Compliance.ContinuousCompliance.ContinuousComplianceNotificationPutViewModel:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 100
+          minLength: 0
+          type: string
+        description:
+          maxLength: 500
+          minLength: 0
+          type: string
+        alertsConsole:
+          type: boolean
+        scheduledReport:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.ScheduledReportNotificationViewModel'
+        changeDetection:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.ChangeDetectionNotificationViewModel'
+        gcpSecurityCommandCenterIntegration:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.GcpSecurityCommandCenterIntegrationViewModel'
+        filter:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.ContinuousComplianceNotificationFilterViewModel'
+        sendOnEachOccurrence:
+          type: boolean
+    Dome9.Web.Api.Compliance.ContinuousCompliance.ContinuousComplianceNotificationPostViewModel:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 100
+          minLength: 0
+          type: string
+        description:
+          maxLength: 500
+          minLength: 0
+          type: string
+        alertsConsole:
+          type: boolean
+        scheduledReport:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.ScheduledReportNotificationViewModel'
+        changeDetection:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.ChangeDetectionNotificationViewModel'
+        gcpSecurityCommandCenterIntegration:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.GcpSecurityCommandCenterIntegrationViewModel'
+        filter:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.ContinuousComplianceNotificationFilterViewModel'
+        sendOnEachOccurrence:
+          type: boolean
+    Dome9.Web.Api.Compliance.ContinuousCompliance.ContinuousComplianceNotificationSyncViewModel:
+      type: object
+      properties:
+        notificationTargets:
+          type: array
+          items:
+            enum:
+            - Sns
+            - EmailPerFinding
+            - IndexElasticSearch
+            - PagerDuty
+            - AwsSecurityHub
+            - GcpSecurityCommandCenter
+            - Webhook
+            - AzureSecurityCenter
+            - Slack
+            - AggregatedEmail
+            - Teams
+            - Eventarc
+            - SlackSingleMessage
+            - TeamsSingleMessage
+            type: string
+        specificPolicies:
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+    Dome9.BL.Std.Services.ContinuousAssessment.ContinuousComplianceNotificationService.PublishResult:
+      type: object
+      properties:
+        workflowId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        handledPolicies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.BL.Std.Services.ContinuousAssessment.ContinuousComplianceNotificationService.PublishResultItem'
+    Dome9.BL.Std.Services.ContinuousAssessment.ContinuousComplianceNotificationService.PublishResultItem:
+      type: object
+      properties:
+        policyId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        histories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.BL.Std.Services.ContinuousAssessment.ContinuousComplianceNotificationService.PolicyHistoryMetadata'
+    Dome9.BL.Std.Services.ContinuousAssessment.ContinuousComplianceNotificationService.PolicyHistoryMetadata:
+      type: object
+      properties:
+        historyId:
+          format: int64
+          type: integer
+        historyCreationTime:
+          format: date-time
+          type: string
+    Dome9.Web.Api.Compliance.ContinuousCompliance.ContinuousComplianceCircuitBreakerGetAllViewModel:
+      type: object
+      properties:
+        accountId:
+          format: int64
+          type: integer
+        notificationId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        integrationsIssues:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliance.CircuitBreakerIntgrationViewModel'
+    Dome9.Web.Api.Compliance.ContinuousCompliance.CircuitBreakerIntgrationViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        intgrationType:
+          enum:
+          - Sns
+          - EmailPerFinding
+          - IndexElasticSearch
+          - PagerDuty
+          - AwsSecurityHub
+          - GcpSecurityCommandCenter
+          - Webhook
+          - AzureSecurityCenter
+          - Slack
+          - AggregatedEmail
+          - Teams
+          - Eventarc
+          - SlackSingleMessage
+          - TeamsSingleMessage
+          type: string
+        errorCode:
+          type: string
+        errorDescription:
+          type: string
+        update:
+          format: date-time
+          type: string
+        numOfTries:
+          format: int32
+          type: integer
+    Dome9.Web.Api.Compliance.ContinuousCompliance.ContinuousComplianceCircuitBreakerGetViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        accountId:
+          format: int64
+          type: integer
+        notificationId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        intgrationType:
+          enum:
+          - Sns
+          - EmailPerFinding
+          - IndexElasticSearch
+          - PagerDuty
+          - AwsSecurityHub
+          - GcpSecurityCommandCenter
+          - Webhook
+          - AzureSecurityCenter
+          - Slack
+          - AggregatedEmail
+          - Teams
+          - Eventarc
+          - SlackSingleMessage
+          - TeamsSingleMessage
+          type: string
+        errorCode:
+          type: string
+        errorDescription:
+          type: string
+        update:
+          format: date-time
+          type: string
+        numOfTries:
+          format: int32
+          type: integer
+    Dome9.Web.Api.Role.EditRoleViewModel:
+      required:
+      - name
+      - permissions
+      type: object
+      properties:
+        name:
+          description: Role Name
+          type: string
+        description:
+          description: Role Description
+          type: string
+        permissions:
+          $ref: '#/components/schemas/Dome9.Web.Api.User.PermissionsViewModel'
+          description: Permissions of the role
+    Dome9.Web.Api.User.PermissionsViewModel:
+      type: object
+      properties:
+        access:
+          description: Access permission list (list of SRLs)
+          type: array
+          items:
+            type: string
+        manage:
+          description: Manage permission list (list of SRLs)
+          type: array
+          items:
+            type: string
+        rulesets:
+          description: Compliance permission list (list of SRLs)
+          type: array
+          items:
+            type: string
+        notifications:
+          description: Compliance permission list (list of SRLs)
+          type: array
+          items:
+            type: string
+        policies:
+          description: Compliance permission list (list of SRLs)
+          type: array
+          items:
+            type: string
+        alertActions:
+          description: Compliance permission list (list of SRLs)
+          type: array
+          items:
+            type: string
+        create:
+          description: Create permission list (list of SRLs)
+          type: array
+          items:
+            type: string
+        view:
+          description: View permission list (list of SRLs)
+          type: array
+          items:
+            type: string
+        onBoarding:
+          description: View permission SRL
+          type: array
+          items:
+            type: string
+        crossAccountAccess:
+          type: array
+          items:
+            type: string
+    Dome9.Web.Api.Role.RoleGetViewModel:
+      required:
+      - name
+      - permissions
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Role.RoleGetUserViewModel'
+        serviceAccounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Role.RoleGetServiceAccountViewModel'
+        id:
+          format: int64
+          description: Role Id
+          type: integer
+        name:
+          description: Role Name
+          type: string
+        description:
+          description: Role Description
+          type: string
+        permissions:
+          $ref: '#/components/schemas/Dome9.Web.Api.User.PermissionsViewModel'
+          description: Permissions of the role
+    Dome9.Web.Api.Role.RoleGetUserViewModel:
+      type: object
+      properties:
+        userId:
+          format: int32
+          type: integer
+        userName:
+          type: string
+    Dome9.Web.Api.Role.RoleGetServiceAccountViewModel:
+      type: object
+      properties:
+        serviceAccountName:
+          type: string
+        serviceAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+    Dome9.Web.Api.Role.RoleViewModel:
+      required:
+      - name
+      - permissions
+      type: object
+      properties:
+        id:
+          format: int64
+          description: Role Id
+          type: integer
+        name:
+          description: Role Name
+          type: string
+        description:
+          description: Role Description
+          type: string
+        permissions:
+          $ref: '#/components/schemas/Dome9.Web.Api.User.PermissionsViewModel'
+          description: Permissions of the role
+    Dome9.Web.Api.ServiceAccountViewModel:
+      type: object
+      properties:
+        name:
+          maxLength: 50
+          minLength: 0
+          pattern: '[^/]+$'
+          type: string
+        id:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        roleIds:
+          type: array
+          items:
+            format: int64
+            type: integer
+    Dome9.Web.Api.ServiceAccountGetViewModel:
+      type: object
+      properties:
+        name:
+          maxLength: 50
+          minLength: 0
+          pattern: '[^/]+$'
+          type: string
+        id:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        apiKeyId:
+          type: string
+        roleIds:
+          type: array
+          items:
+            format: int64
+            type: integer
+        dateCreated:
+          format: date-time
+          type: string
+        lastUsed:
+          format: date-time
+          type: string
+    Falconetix.Model.EmailNotificationsDescriptor:
+      type: object
+      properties:
+        state:
+          enum:
+          - Active
+          - Suspended
+          - Deferred
+          type: string
+        serverCreatedOrDeleted:
+          type: boolean
+        serverStatusChange:
+          type: boolean
+        serverUpdated:
+          type: boolean
+        awsProfileCreatedOrDeleted:
+          type: boolean
+        cloudTamperDetected:
+          type: boolean
+        awsInvalidCredentials:
+          type: boolean
+        policyChanges:
+          type: boolean
+        cloudExternalChanges:
+          type: boolean
+        fimChanges:
+          type: boolean
+        invitationEvent:
+          type: boolean
+        leaseEvent:
+          type: boolean
+        userCreatedOrDeleted:
+          type: boolean
+        userPermissionsChange:
+          type: boolean
+        userLogonSuccessfully:
+          type: boolean
+        userLogonFailure:
+          type: boolean
+        userLockOut:
+          type: boolean
+        userForgotPassword:
+          type: boolean
+        userPasswordChange:
+          type: boolean
+        alertEventsNotifyLevel:
+          enum:
+          - None
+          - Low
+          - Med
+          - High
+          type: string
+        usersNotificationsOthers:
+          type: boolean
+        accessNotificationsOthers:
+          type: boolean
+        azureCloudAccountDeleted:
+          type: boolean
+        azureInvalidCredentials:
+          type: boolean
+        alibabaProfileCreatedOrDeleted:
+          type: boolean
+        ociProfileCreatedOrDeleted:
+          type: boolean
+        iamSafe:
+          $ref: '#/components/schemas/Falconetix.Model.IamSafeEmailNotificationsDescriptor'
+        compliance:
+          $ref: '#/components/schemas/Falconetix.Model.ComplianceEmailNotificationsDescriptor'
+        kubernetes:
+          $ref: '#/components/schemas/Falconetix.Model.KubernetesEmailNotificationsDescriptor'
+    Falconetix.Model.IamSafeEmailNotificationsDescriptor:
+      type: object
+      properties:
+        leaseEvent:
+          type: boolean
+        leaseNotificationsOthers:
+          type: boolean
+        tamperDetected:
+          type: boolean
+        enrollmentEvent:
+          type: boolean
+        iamSafetyAccount:
+          type: boolean
+        iamSafetyInvalidCredentials:
+          type: boolean
+    Falconetix.Model.ComplianceEmailNotificationsDescriptor:
+      type: object
+      properties:
+        bundleAdded:
+          type: boolean
+        bundleDeleted:
+          type: boolean
+        ruleAdded:
+          type: boolean
+        ruleChanged:
+          type: boolean
+        ruleDeleted:
+          type: boolean
+    Falconetix.Model.KubernetesEmailNotificationsDescriptor:
+      type: object
+      properties:
+        agentStatusDegradation:
+          type: boolean
+    Dome9.Web.Api.Models.SnsSettingsViewModel:
+      type: object
+      properties:
+        topicArn:
+          description: AWS SNS Topic ARN value
+          type: string
+    Dome9.Web.Api.Models.EmailNotificationFiltersViewModel:
+      type: object
+      properties:
+        cloudAccounts:
+          type: array
+          items:
+            type: string
+    Dome9.Web.Api.Models.SettingsViewModel:
+      type: object
+      properties:
+        pairingKey:
+          description: pairing key
+          type: string
+        emailNotifications:
+          $ref: '#/components/schemas/Falconetix.Model.EmailNotificationsDescriptor'
+          description: email notification details
+        defaultLeaseTime:
+          format: double
+          description: default lease time
+          type: number
+        snsTopicArn:
+          description: ARN for SNS Topic
+          type: string
+        mfaEnabled:
+          description: MFA is enabled
+          type: boolean
+        apiKey:
+          description: API Key
+          type: string
+    Dome9.Web.Api.Tenable.Account.TenableVulnerabilitySyncViewModel:
+      required:
+      - tenableDome9Id
+      type: object
+      properties:
+        since:
+          format: date-time
+          type: string
+        tenableDome9Id:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+    Dome9.Web.Api.Tenable.Account.TenableVulnerabilitySyncResultViewModel:
+      type: object
+      properties:
+        workFlow:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+    Dome9.Web.Api.Tenable.Account.TenableAccountStatusViewModel:
+      type: object
+      properties:
+        tenableDome9Id:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          type: string
+        tenableExternalAccountNumber:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        lastAssetSync:
+          format: date-time
+          type: string
+        lastMatchedAssetsCount:
+          format: int32
+          type: integer
+        status:
+          type: string
+        lastVulnerabilitySync:
+          format: date-time
+          type: string
+        lastMatchedVulnerabilitiesCount:
+          format: int32
+          type: integer
+        accessKey:
+          type: string
+        secretKey:
+          type: string
+    Dome9.Web.Api.Tenable.Account.TenableAccountViewModel:
+      required:
+      - name
+      - accessKey
+      - secretKey
+      type: object
+      properties:
+        name:
+          description: Tenable account name in Dome9
+          type: string
+        accessKey:
+          description: Tenable API Access Key
+          type: string
+        secretKey:
+          description: Tenable  API Secret Key
+          type: string
+    Dome9.Web.Api.User.UserViewModel:
+      required:
+      - permissions
+      type: object
+      properties:
+        id:
+          format: int32
+          description: user id
+          type: integer
+          readOnly: true
+        name:
+          description: user name
+          type: string
+          readOnly: true
+        email:
+          format: email
+          description: Email Address
+          type: string
+          readOnly: true
+          example: MyName@gmail.com
+        accountId:
+          format: int64
+          description: The account id of the user
+          type: integer
+          readOnly: true
+        isSuspended:
+          description: user is suspended
+          type: boolean
+          readOnly: true
+        isOwner:
+          description: user is account owner
+          type: boolean
+          readOnly: true
+        isSuperUser:
+          description: user is Super User
+          type: boolean
+          readOnly: true
+        isAuditor:
+          description: user is auditor user
+          type: boolean
+          readOnly: true
+        hasApiKey:
+          description: user has generated an API Key - V1 or V2
+          type: boolean
+          readOnly: true
+        hasApiKeyV1:
+          description: user has generated an API Key - V1
+          type: boolean
+          readOnly: true
+        hasApiKeyV2:
+          description: user has generated an API Key - V2
+          type: boolean
+          readOnly: true
+        isMfaEnabled:
+          description: user has enabled MFA authentication
+          type: boolean
+          readOnly: true
+        ssoEnabled:
+          description: user has enabled SSO sign-on
+          type: boolean
+        roleIds:
+          description: list of roles for the user
+          type: array
+          items:
+            format: int64
+            type: integer
+        iamSafe:
+          $ref: '#/components/schemas/Dome9.Web.Api.UserAndRole.IamSafe.UserIamSafeConfigViewModel'
+          description: IAM safety details for the user
+        canSwitchRole:
+          description: user can switch roles
+          type: boolean
+        isLocked:
+          type: boolean
+        lastLogin:
+          format: date-time
+          type: string
+        permissions:
+          $ref: '#/components/schemas/Dome9.Web.Api.User.PermissionsViewModel'
+          description: User direct permissions
+        calculatedPermissions:
+          $ref: '#/components/schemas/Dome9.Web.Api.User.PermissionsViewModel'
+        isMobileDevicePaired:
+          description: user has paired mobile device
+          type: boolean
+        mfaEnforcement:
+          $ref: '#/components/schemas/Dome9.Web.Api.UserAndRole.MfaUserEnforcementViewModel'
+        apiKeys:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.UserAndRole.IamSafe.UserApiKeyViewModel'
+    Dome9.Web.Api.UserAndRole.IamSafe.UserIamSafeConfigViewModel:
+      type: object
+      properties:
+        cloudAccounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.UserAndRole.IamSafe.UserIamSafeAccountViewModel'
+    Dome9.Web.Api.UserAndRole.MfaUserEnforcementViewModel:
+      type: object
+      properties:
+        mfaCoercingDate:
+          type: string
+        isEnforced:
+          type: boolean
+        enforcerFullName:
+          type: string
+    Dome9.Web.Api.UserAndRole.IamSafe.UserApiKeyViewModel:
+      required:
+      - id
+      type: object
+      properties:
+        name:
+          maxLength: 50
+          minLength: 0
+          pattern: '[^/]+$'
+          type: string
+        id:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        dateCreated:
+          format: date-time
+          type: string
+        lastUsed:
+          format: date-time
+          type: string
+    Dome9.Web.Api.UserAndRole.IamSafe.UserIamSafeAccountViewModel:
+      type: object
+      properties:
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          type: string
+        externalAccountNumber:
+          type: string
+        lastLeaseTime:
+          format: date-time
+          type: string
+        state:
+          type: string
+        iamEntities:
+          type: array
+          items:
+            type: string
+        iamEntitiesLastLeaseTime:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.UserAndRole.IamSafe.IamEntityLastLeaseTimeViewModel'
+        cloudAccountState:
+          type: string
+        iamEntity:
+          type: string
+          readOnly: true
+    Dome9.Web.Api.UserAndRole.IamSafe.IamEntityLastLeaseTimeViewModel:
+      type: object
+      properties:
+        iamEntity:
+          type: string
+        lastLeaseTime:
+          format: date-time
+          type: string
+    Dome9.Web.Api.UserAndRole.IamSafe.UserIamSafeAccountPutViewModel:
+      required:
+      - iamEntities
+      type: object
+      properties:
+        iamEntities:
+          type: array
+          items:
+            type: string
+    Dome9.Web.Api.User.UserPostViewModel:
+      required:
+      - email
+      - firstName
+      - lastName
+      type: object
+      properties:
+        email:
+          format: email
+          description: Email Address
+          pattern: ^([0-9a-zA-Z]([-.'\w\+]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*\.)+[a-zA-Z]{2,})$
+          type: string
+          example: MyName@gmail.com
+        firstName:
+          description: '[Required]'
+          maxLength: 50
+          minLength: 0
+          type: string
+        lastName:
+          description: '[Required]'
+          maxLength: 50
+          minLength: 0
+          type: string
+        ssoEnabled:
+          description: Determines whether this user is an SSO user (as opposed to Dome9 native authentication)
+          type: boolean
+    RuleSeverity:
+      type: string
+      description: ''
+      x-enumNames:
+      - Informational
+      - Low
+      - Medium
+      - High
+      - Critical
+      enum:
+      - Informational
+      - Low
+      - Medium
+      - High
+      - Critical
+    CloudRegion:
+      type: string
+      description: ''
+      x-enumNames:
+      - us_east_1
+      - us_west_1
+      - eu_west_1
+      - ap_southeast_1
+      - ap_northeast_1
+      - us_west_2
+      - sa_east_1
+      - az_1_region_a_geo_1
+      - az_2_region_a_geo_1
+      - az_3_region_a_geo_1
+      - ap_southeast_2
+      - mellanox_region
+      - us_gov_west_1
+      - eu_central_1
+      - ap_northeast_2
+      - ap_south_1
+      - us_east_2
+      - ca_central_1
+      - eu_west_2
+      - eu_west_3
+      - eu_north_1
+      - cn_north_1
+      - cn_northwest_1
+      - us_gov_east_1
+      - ap_east_1
+      - me_south_1
+      - af_south_1
+      - eu_south_1
+      - ap_northeast_3
+      - me_central_1
+      - ap_south_2
+      - ap_southeast_3
+      - ap_southeast_4
+      - eu_central_2
+      - eu_south_2
+      - il_central_1
+      - ca_west_1
+      - mx_central_1
+      - ap_southeast_5
+      - ap_southeast_7
+      - westus
+      - eastus
+      - eastus2
+      - northcentralus
+      - westus2
+      - southcentralus
+      - centralus
+      - usgovlowa
+      - usgovvirginia
+      - northeurope
+      - westeurope
+      - eastasia
+      - southeastasia
+      - japaneast
+      - japanwest
+      - brazilsouth
+      - australiaeast
+      - australiasoutheast
+      - centralindia
+      - southindia
+      - westindia
+      - canadaeast
+      - westcentralus
+      - chinaeast
+      - chinanorth
+      - canadacentral
+      - germanycentral
+      - germanynortheast
+      - koreacentral
+      - uksouth
+      - ukwest
+      - koreasouth
+      - francecentral
+      - francesouth
+      - germanywestcentral
+      - usdodcentral
+      - usdodeast
+      - usgovarizona
+      - usgovtexas
+      - australiacentral
+      - australiacentral2
+      - chinaeast2
+      - chinanorth2
+      - southafricanorth
+      - southafricawest
+      - uaecentral
+      - uaenorth
+      - ussecwest
+      - usseceast
+      - germanynorth
+      - switzerlandwest
+      - norwaywest
+      - norwayeast
+      - switzerlandnorth
+      - westus3
+      - swedencentral
+      - chinanorth3
+      - brazilsoutheast
+      - eastus2euap
+      - jioindiawest
+      - jioindiacentral
+      - qatarcentral
+      - spaincentral
+      - italynorth
+      - polandcentral
+      - mexicocentral
+      - asia
+      - asia_east1
+      - asia_northeast1
+      - asia_south1
+      - asia_southeast1
+      - australia_southeast1
+      - europe
+      - europe_north1
+      - europe_west1
+      - europe_west2
+      - europe_west3
+      - europe_west4
+      - northamerica_northeast1
+      - southamerica_east1
+      - us
+      - us_central1
+      - us_east1
+      - us_east4
+      - us_west1
+      - us_west2
+      - global
+      - asia_east2
+      - eur4
+      - nam4
+      - europe_west6
+      - japan_west
+      - asia_northeast2
+      - asia_northeast3
+      - us_west3
+      - us_west4
+      - asia_southeast2
+      - nam3
+      - nam5
+      - nam6
+      - nam7
+      - nam10
+      - nam_eur_asia1
+      - eur3
+      - eur5
+      - asia1
+      - nam11
+      - eu
+      - northamerica_northeast2
+      - southamerica_west1
+      - us_east5
+      - us_south1
+      - europe_central2
+      - europe_southwest1
+      - europe_west8
+      - europe_west9
+      - europe_west10
+      - europe_west12
+      - asia_south2
+      - australia_southeast2
+      - me_central1
+      - me_central2
+      - me_west1
+      - ap_sydney_1
+      - ap_melbourne_1
+      - sa_saopaulo_1
+      - sa_vinhedo_1
+      - ca_montreal_1
+      - ca_toronto_1
+      - sa_santiago_1
+      - eu_paris_1
+      - eu_marseille_1
+      - eu_frankfurt_1
+      - ap_hyderabad_1
+      - ap_mumbai_1
+      - il_jerusalem_1
+      - eu_milan_1
+      - ap_osaka_1
+      - ap_tokyo_1
+      - mx_queretaro_1
+      - eu_amsterdam_1
+      - me_jeddah_1
+      - ap_singapore_1
+      - af_johannesburg_1
+      - ap_seoul_1
+      - ap_chuncheon_1
+      - eu_madrid_1
+      - eu_stockholm_1
+      - eu_zurich_1
+      - me_abudhabi_1
+      - me_dubai_1
+      - uk_london_1
+      - uk_cardiff_1
+      - us_ashburn_1
+      - us_phoenix_1
+      - us_sanjose_1
+      - us_gov_ashburn_1
+      - us_gov_chicago_1
+      - us_gov_phoenix_1
+      - us_langley_1
+      - us_luke_1
+      - uk_gov_london_1
+      - uk_gov_cardiff_1
+      - sa_bogota_1
+      - us_chicago_1
+      - sa_valparaiso_1
+      - mx_monterrey_1
+      - eu_jovanovac_1
+      - ap_singapore_2
+      enum:
+      - us_east_1
+      - us_west_1
+      - eu_west_1
+      - ap_southeast_1
+      - ap_northeast_1
+      - us_west_2
+      - sa_east_1
+      - az_1_region_a_geo_1
+      - az_2_region_a_geo_1
+      - az_3_region_a_geo_1
+      - ap_southeast_2
+      - mellanox_region
+      - us_gov_west_1
+      - eu_central_1
+      - ap_northeast_2
+      - ap_south_1
+      - us_east_2
+      - ca_central_1
+      - eu_west_2
+      - eu_west_3
+      - eu_north_1
+      - cn_north_1
+      - cn_northwest_1
+      - us_gov_east_1
+      - ap_east_1
+      - me_south_1
+      - af_south_1
+      - eu_south_1
+      - ap_northeast_3
+      - me_central_1
+      - ap_south_2
+      - ap_southeast_3
+      - ap_southeast_4
+      - eu_central_2
+      - eu_south_2
+      - il_central_1
+      - ca_west_1
+      - mx_central_1
+      - ap_southeast_5
+      - ap_southeast_7
+      - westus
+      - eastus
+      - eastus2
+      - northcentralus
+      - westus2
+      - southcentralus
+      - centralus
+      - usgovlowa
+      - usgovvirginia
+      - northeurope
+      - westeurope
+      - eastasia
+      - southeastasia
+      - japaneast
+      - japanwest
+      - brazilsouth
+      - australiaeast
+      - australiasoutheast
+      - centralindia
+      - southindia
+      - westindia
+      - canadaeast
+      - westcentralus
+      - chinaeast
+      - chinanorth
+      - canadacentral
+      - germanycentral
+      - germanynortheast
+      - koreacentral
+      - uksouth
+      - ukwest
+      - koreasouth
+      - francecentral
+      - francesouth
+      - germanywestcentral
+      - usdodcentral
+      - usdodeast
+      - usgovarizona
+      - usgovtexas
+      - australiacentral
+      - australiacentral2
+      - chinaeast2
+      - chinanorth2
+      - southafricanorth
+      - southafricawest
+      - uaecentral
+      - uaenorth
+      - ussecwest
+      - usseceast
+      - germanynorth
+      - switzerlandwest
+      - norwaywest
+      - norwayeast
+      - switzerlandnorth
+      - westus3
+      - swedencentral
+      - chinanorth3
+      - brazilsoutheast
+      - eastus2euap
+      - jioindiawest
+      - jioindiacentral
+      - qatarcentral
+      - spaincentral
+      - italynorth
+      - polandcentral
+      - mexicocentral
+      - asia
+      - asia_east1
+      - asia_northeast1
+      - asia_south1
+      - asia_southeast1
+      - australia_southeast1
+      - europe
+      - europe_north1
+      - europe_west1
+      - europe_west2
+      - europe_west3
+      - europe_west4
+      - northamerica_northeast1
+      - southamerica_east1
+      - us
+      - us_central1
+      - us_east1
+      - us_east4
+      - us_west1
+      - us_west2
+      - global
+      - asia_east2
+      - eur4
+      - nam4
+      - europe_west6
+      - japan_west
+      - asia_northeast2
+      - asia_northeast3
+      - us_west3
+      - us_west4
+      - asia_southeast2
+      - nam3
+      - nam5
+      - nam6
+      - nam7
+      - nam10
+      - nam_eur_asia1
+      - eur3
+      - eur5
+      - asia1
+      - nam11
+      - eu
+      - northamerica_northeast2
+      - southamerica_west1
+      - us_east5
+      - us_south1
+      - europe_central2
+      - europe_southwest1
+      - europe_west8
+      - europe_west9
+      - europe_west10
+      - europe_west12
+      - asia_south2
+      - australia_southeast2
+      - me_central1
+      - me_central2
+      - me_west1
+      - ap_sydney_1
+      - ap_melbourne_1
+      - sa_saopaulo_1
+      - sa_vinhedo_1
+      - ca_montreal_1
+      - ca_toronto_1
+      - sa_santiago_1
+      - eu_paris_1
+      - eu_marseille_1
+      - eu_frankfurt_1
+      - ap_hyderabad_1
+      - ap_mumbai_1
+      - il_jerusalem_1
+      - eu_milan_1
+      - ap_osaka_1
+      - ap_tokyo_1
+      - mx_queretaro_1
+      - eu_amsterdam_1
+      - me_jeddah_1
+      - ap_singapore_1
+      - af_johannesburg_1
+      - ap_seoul_1
+      - ap_chuncheon_1
+      - eu_madrid_1
+      - eu_stockholm_1
+      - eu_zurich_1
+      - me_abudhabi_1
+      - me_dubai_1
+      - uk_london_1
+      - uk_cardiff_1
+      - us_ashburn_1
+      - us_phoenix_1
+      - us_sanjose_1
+      - us_gov_ashburn_1
+      - us_gov_chicago_1
+      - us_gov_phoenix_1
+      - us_langley_1
+      - us_luke_1
+      - uk_gov_london_1
+      - uk_gov_cardiff_1
+      - sa_bogota_1
+      - us_chicago_1
+      - sa_valparaiso_1
+      - mx_monterrey_1
+      - eu_jovanovac_1
+      - ap_singapore_2
+    TagRuleEntity:
+      type: object
+      additionalProperties: false
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          nullable: true
+        value:
+          type: string
+          nullable: true
+    ComplianceNotificationFilter:
+      type: object
+      additionalProperties: false
+      required:
+      - severities
+      - ruleEntityTypes
+      - entityTags
+      - entityNames
+      - entityIds
+      - entityCategories
+      properties:
+        severities:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/RuleSeverity'
+        ruleEntityTypes:
+          type: array
+          nullable: true
+          items:
+            type: string
+        entityTags:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/TagRuleEntity'
+        entityNames:
+          type: array
+          nullable: true
+          items:
+            type: string
+        entityIds:
+          type: array
+          nullable: true
+          items:
+            type: string
+        entityCategories:
+          type: array
+          nullable: true
+          items:
+            type: string
+    IntegrationViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - name
+      - type
+      - configuration
+      - createdAt
+      properties:
+        id:
+          type: string
+          description: Integration Id
+          format: guid
+          minLength: 1
+        name:
+          type: string
+          maxLength: 50
+          minLength: 0
+        type:
+          $ref: '#/components/schemas/IntegrationType'
+        createdAt:
+          type: string
+          format: date-time
+        configuration:
+          anyOf:
+          - title: WebhookConfiguration
+            allOf:
+            - $ref: '#/components/schemas/BaseConfiguration'
+            - type: object
+              additionalProperties: false
+              required:
+              - url
+              - methodType
+              - authType
+              - username
+              - password
+              - ignoreCertificate
+              properties:
+                url:
+                  type: string
+                  minLength: 1
+                methodType:
+                  $ref: '#/components/schemas/MethodType'
+                authType:
+                  $ref: '#/components/schemas/AuthType'
+                username:
+                  type: string
+                password:
+                  type: string
+                ignoreCertificate:
+                  type: boolean
+          - title: TeamsConfiguration
+            allOf:
+            - $ref: '#/components/schemas/BaseConfiguration'
+            - type: object
+              additionalProperties: false
+              required:
+              - url
+              properties:
+                url:
+                  type: string
+                  minLength: 1
+          - title: SumoLogicConfiguration
+            allOf:
+            - $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/0'
+            - type: object
+              additionalProperties: false
+          - title: SplunkConfiguration
+            allOf:
+            - $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/0'
+            - type: object
+              additionalProperties: false
+          - title: SnsConfiguration
+            allOf:
+            - $ref: '#/components/schemas/BaseConfiguration'
+            - type: object
+              additionalProperties: false
+              required:
+              - topicArn
+              properties:
+                topicArn:
+                  type: string
+                  minLength: 1
+                  pattern: ^arn:(?<partition>(aws[\w\-]*)):(?<service>[\w]*):(?<region>[\w\d-]*):(?<accountId>[\d]*):(((?<resource>[\w+=,\.@\-_
+                    ]+)[\/:]?)+)$
+          - title: SlackConfiguration
+            allOf:
+            - $ref: '#/components/schemas/BaseConfiguration'
+            - type: object
+              additionalProperties: false
+              required:
+              - url
+              properties:
+                url:
+                  type: string
+                  minLength: 1
+          - title: ServiceNowConfiguration
+            allOf:
+            - $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/0'
+            - type: object
+              additionalProperties: false
+          - title: QradarConfiguration
+            allOf:
+            - $ref: '#/components/schemas/BaseConfiguration'
+            - type: object
+              additionalProperties: false
+              required:
+              - url
+              - password
+              - ignoreCertificate
+              properties:
+                url:
+                  type: string
+                  minLength: 1
+                password:
+                  type: string
+                  minLength: 1
+                ignoreCertificate:
+                  type: boolean
+          - title: PagerDutyConfiguration
+            allOf:
+            - $ref: '#/components/schemas/BaseConfiguration'
+            - type: object
+              additionalProperties: false
+              required:
+              - serviceKey
+              properties:
+                serviceKey:
+                  type: string
+                  minLength: 1
+          - title: JiraConfiguration
+            allOf:
+            - $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/0'
+            - type: object
+              additionalProperties: false
+              required:
+              - advancedUrl
+              properties:
+                advancedUrl:
+                  type: boolean
+          - title: GcpSecurityCommandCenterConfiguration
+            allOf:
+            - $ref: '#/components/schemas/BaseConfiguration'
+            - type: object
+              additionalProperties: false
+              required:
+              - projectId
+              - sourceId
+              properties:
+                projectId:
+                  type: string
+                sourceId:
+                  type: string
+          - title: EventarcConfiguration
+            allOf:
+            - $ref: '#/components/schemas/BaseConfiguration'
+            - type: object
+              additionalProperties: false
+              required:
+              - channelConnectionId
+              properties:
+                channelConnectionId:
+                  type: string
+                  minLength: 1
+          - title: EmailConfiguration
+            allOf:
+            - $ref: '#/components/schemas/BaseConfiguration'
+            - type: object
+              additionalProperties: false
+              required:
+              - recipients
+              properties:
+                recipients:
+                  type: array
+                  items:
+                    type: string
+          - title: AzureDefenderConfiguration
+            allOf:
+            - $ref: '#/components/schemas/BaseConfiguration'
+            - type: object
+              additionalProperties: false
+              required:
+              - subscription
+              properties:
+                subscription:
+                  type: string
+                  format: guid
+                  minLength: 1
+          - title: AwsSecurityHubConfiguration
+            allOf:
+            - $ref: '#/components/schemas/BaseConfiguration'
+            - type: object
+              additionalProperties: false
+              required:
+              - externalAccountId
+              - region
+              - defaultRegion
+              - includeAllAccounts
+              - includeAllRegions
+              properties:
+                externalAccountId:
+                  type: string
+                region:
+                  nullable: true
+                  oneOf:
+                  - $ref: '#/components/schemas/CloudRegion'
+                defaultRegion:
+                  nullable: true
+                  oneOf:
+                  - $ref: '#/components/schemas/CloudRegion'
+                includeAllAccounts:
+                  type: boolean
+                includeAllRegions:
+                  type: boolean
+    IntegrationType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Undefined
+      - SNS
+      - Email
+      - PagerDuty
+      - AwsSecurityHub
+      - AzureDefender
+      - GcpSecurityCommandCenter
+      - Webhook
+      - ServiceNow
+      - Splunk
+      - Jira
+      - SumoLogic
+      - QRadar
+      - Slack
+      - Teams
+      - EventArc
+      enum:
+      - Undefined
+      - SNS
+      - Email
+      - PagerDuty
+      - AwsSecurityHub
+      - AzureDefender
+      - GcpSecurityCommandCenter
+      - Webhook
+      - ServiceNow
+      - Splunk
+      - Jira
+      - SumoLogic
+      - QRadar
+      - Slack
+      - Teams
+      - EventArc
+    MethodType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Post
+      - Put
+      enum:
+      - Post
+      - Put
+    AuthType:
+      type: string
+      description: ''
+      x-enumNames:
+      - NoAuth
+      - BasicAuth
+      enum:
+      - NoAuth
+      - BasicAuth
+    BaseConfiguration:
+      type: object
+      x-abstract: true
+      additionalProperties: false
+    NotificationOrigin:
+      type: string
+      description: ''
+      x-enumNames:
+      - Any
+      - ComplianceEngine
+      enum:
+      - Any
+      - ComplianceEngine
+    NotificationOutputType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Default
+      - Detailed
+      - Summary
+      - FullCsv
+      - FullCsvZip
+      - ExecutivePlatform
+      - JsonFullEntity
+      - JsonSimpleEntity
+      - PlainText
+      - TemplateBased
+      - CustomOutputFormat
+      enum:
+      - Default
+      - Detailed
+      - Summary
+      - FullCsv
+      - FullCsvZip
+      - ExecutivePlatform
+      - JsonFullEntity
+      - JsonSimpleEntity
+      - PlainText
+      - TemplateBased
+      - CustomOutputFormat
+    IntegrationPostRequestModel:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - type
+      - configuration
+      properties:
+        name:
+          type: string
+          description: Integration name, should be unique
+          maxLength: 50
+          minLength: 0
+        type:
+          description: Integration type
+          oneOf:
+          - $ref: '#/components/schemas/IntegrationType'
+        configuration:
+          description: Integration configuration, should be a valid JSON object according to the integration type
+          anyOf:
+          - title: WebhookConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/0'
+          - title: TeamsConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/1'
+          - title: SumoLogicConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/2'
+          - title: SplunkConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/3'
+          - title: SnsConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/4'
+          - title: SlackConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/5'
+          - title: ServiceNowConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/6'
+          - title: QradarConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/7'
+          - title: PagerDutyConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/8'
+          - title: JiraConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/9'
+          - title: GcpSecurityCommandCenterConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/10'
+          - title: EventarcConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/11'
+          - title: EmailConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/12'
+          - title: AzureDefenderConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/13'
+          - title: AwsSecurityHubConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/14'
+    IntegrationUpdateRequestModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - name
+      - type
+      - configuration
+      properties:
+        id:
+          type: string
+          format: guid
+          minLength: 1
+        name:
+          type: string
+          description: 'Name should be unique across all integration of the same type '
+          maxLength: 50
+          minLength: 0
+        type:
+          $ref: '#/components/schemas/IntegrationType'
+        configuration:
+          description: Integration configuration, should be a valid JSON object according to the integration type
+          anyOf:
+          - title: WebhookConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/0'
+          - title: TeamsConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/1'
+          - title: SumoLogicConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/2'
+          - title: SplunkConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/3'
+          - title: SnsConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/4'
+          - title: SlackConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/5'
+          - title: ServiceNowConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/6'
+          - title: QradarConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/7'
+          - title: PagerDutyConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/8'
+          - title: JiraConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/9'
+          - title: GcpSecurityCommandCenterConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/10'
+          - title: EventarcConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/11'
+          - title: EmailConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/12'
+          - title: AzureDefenderConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/13'
+          - title: AwsSecurityHubConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/14'
+    ResponseNotificationViewModel:
+      allOf:
+      - $ref: '#/components/schemas/BaseNotificationViewModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - id
+        - createdAt
+        properties:
+          id:
+            type: string
+            description: Notification Id
+            format: guid
+          createdAt:
+            type: string
+            description: Notification created time
+            format: date-time
+    BaseNotificationViewModel:
+      type: object
+      x-abstract: true
+      additionalProperties: false
+      required:
+      - name
+      - integrationSettingsModel
+      - description
+      - alertsConsole
+      - sendOnEachOccurrence
+      - origin
+      properties:
+        name:
+          type: string
+          description: Notification name, should be unique
+          minLength: 1
+        description:
+          type: string
+        alertsConsole:
+          type: boolean
+          description: (*Optional) - Enable alert Console, default is true
+        sendOnEachOccurrence:
+          type: boolean
+          description: Send a notification on each security event occurrence, default is false
+        origin:
+          description: Notification origin of data
+          oneOf:
+          - $ref: '#/components/schemas/NotificationOrigin'
+        integrationSettingsModel:
+          description: Notification integration settings
+          oneOf:
+          - $ref: '#/components/schemas/NotificationIntegrationSettingsViewModel'
+    NotificationIntegrationSettingsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - reportsIntegrationSettings
+      - singleNotificationIntegrationSettings
+      - scheduledIntegrationSettings
+      properties:
+        reportsIntegrationSettings:
+          type: array
+          description: "List of the integration settings which are used to send a report notification\nThis currently only\
+            \ supports 3 integrations types: Teams, Slack and Email. \nConstraints: You can create and attach all 3 types\
+            \ of integrations, but can attach only one of each type \nExample: \n      ReportIntegrationSetting can have 1\
+            \ Slack integration, 1 Email integration and 1 Teams integration \n      ReportIntegrationSetting can NOT have\
+            \ 1 Slack integration and 2 Email integrations"
+          default: []
+          items:
+            $ref: '#/components/schemas/ReportNotificationIntegrationSettingsViewModel'
+        singleNotificationIntegrationSettings:
+          type: array
+          description: "List of the integration settings which are used to send immediate notifications\nConstraints:  \n\
+            \    This currently supports a one integration setting for each integration setting for the following integration\
+            \ types: \n    one 'Http endpoint integration', Http endpoint can be of the following types: Webhook, Splunk,\
+            \ ServiceNow, QRadar, SumoLogic, Jira\n    one of type: {SNS}\n    one of type: {Email}\n    one of type: {EventArc}\n\
+            \    one of type: {Slack}\n    one of type: {Teams}\n    one of type: Security Management System {GcpSecurityCommandCenter}\n\
+            \    one of type: Security Management System {AwsSecurityHub}\n    one of type: Security Management System {AzureDefender}\n\
+            \    one of type: Ticketing system {PagerDuty} "
+          default: []
+          items:
+            $ref: '#/components/schemas/SingleNotificationIntegrationSettingsViewModel'
+        scheduledIntegrationSettings:
+          type: array
+          description: "This is a list of the integration settings which are used to schedule a reports notification\nConstraints:\
+            \ \n    This currently only support a single item in the list.  \n    This supports integration of type: Email"
+          default: []
+          items:
+            $ref: '#/components/schemas/ScheduledNotificationIntegrationSettingsViewModel'
+    ReportNotificationIntegrationSettingsViewModel:
+      allOf:
+      - $ref: '#/components/schemas/BaseNotificationIntegrationSettingsViewModel'
+      - type: object
+        additionalProperties: false
+    BaseNotificationIntegrationSettingsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - integrationId
+      - outputType
+      - filter
+      properties:
+        integrationId:
+          type: string
+          description: Integration Id attached
+          format: guid
+          minLength: 1
+        outputType:
+          description: '(*Optional) - Notification integration setting output type Required for some integrations '
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/NotificationOutputType'
+        filter:
+          description: '(*Optional) - Notification integration setting filter, should be the same for all integration settings
+
+            Constraints:
+
+            Scheduled notification integration settings should have null filter.'
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/ComplianceNotificationFilter'
+    SingleNotificationIntegrationSettingsViewModel:
+      allOf:
+      - $ref: '#/components/schemas/BaseNotificationIntegrationSettingsViewModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - payload
+        properties:
+          payload:
+            type: string
+            description: Payload of Jira integration
+            nullable: true
+    ScheduledNotificationIntegrationSettingsViewModel:
+      allOf:
+      - $ref: '#/components/schemas/BaseNotificationIntegrationSettingsViewModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - cronExpression
+        properties:
+          cronExpression:
+            type: string
+            minLength: 1
+    PostNotificationViewModel:
+      allOf:
+      - $ref: '#/components/schemas/BaseNotificationViewModel'
+      - type: object
+        additionalProperties: false
+    PutNotificationViewModel:
+      allOf:
+      - $ref: '#/components/schemas/BaseNotificationViewModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - id
+        properties:
+          id:
+            type: string
+            format: guid
+            minLength: 1
+  requestBodies:
+    Dome9.Web.Api.Role.RoleViewModel:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Dome9.Web.Api.Role.RoleViewModel'
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/Dome9.Web.Api.Role.RoleViewModel'
+      description: The role info
+      required: true
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+security:
+- basic: []
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

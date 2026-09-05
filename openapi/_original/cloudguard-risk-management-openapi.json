@@ -1,0 +1,6354 @@
+{
+ "info": {
+  "title": "Risk Management",
+  "version": "v2"
+ },
+ "openapi": "3.0.0",
+ "servers": [
+  {
+   "url": "https://api.dome9.com/",
+   "description": "US region"
+  },
+  {
+   "url": "https://api.{region}.dome9.com/",
+   "description": "Other regions",
+   "variables": {
+    "region": {
+     "enum": [
+      "eu1",
+      "ap1",
+      "ap2",
+      "ap3",
+      "cace1"
+     ],
+     "default": "eu1"
+    }
+   }
+  }
+ ],
+ "paths": {
+  "/v2/erm/businesspriority/add-rule": {
+   "post": {
+    "tags": [
+     "Business Priority Modifier"
+    ],
+    "summary": "Add Rule",
+    "operationId": "BusinessPriorityModifier_AddRule_post_/v2/erm/businesspriority/add-rule",
+    "requestBody": {
+     "x-name": "addRule",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/BusinessPriorityModifierAddRuleRequestViewModel"
+       }
+      }
+     },
+     "required": true,
+     "x-position": 1
+    },
+    "responses": {
+     "200": {
+      "description": "",
+      "content": {
+       "application/octet-stream": {
+        "schema": {
+         "type": "string",
+         "format": "binary"
+        }
+       }
+      }
+     }
+    },
+    "description": "Create a new Business Priority rule"
+   }
+  },
+  "/v2/erm/businesspriority/update-rule": {
+   "put": {
+    "tags": [
+     "Business Priority Modifier"
+    ],
+    "summary": "Update Rule",
+    "operationId": "BusinessPriorityModifier_UpdateRule_put_/v2/erm/businesspriority/update-rule",
+    "requestBody": {
+     "x-name": "rule",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/BusinessPriorityModifierUpdateRuleRequestViewModel"
+       }
+      }
+     },
+     "required": true,
+     "x-position": 1
+    },
+    "responses": {
+     "200": {
+      "description": "",
+      "content": {
+       "application/octet-stream": {
+        "schema": {
+         "type": "string",
+         "format": "binary"
+        }
+       }
+      }
+     }
+    },
+    "description": "Update an existing Business Priority rule"
+   }
+  },
+  "/v2/erm/businesspriority/delete-rule": {
+   "delete": {
+    "tags": [
+     "Business Priority Modifier"
+    ],
+    "summary": "Delete Rule",
+    "operationId": "BusinessPriorityModifier_DeleteRule_delete_/v2/erm/businesspriority/delete-rule",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "query",
+      "description": "The rule ID to delete",
+      "schema": {
+       "type": "string",
+       "format": "guid"
+      },
+      "x-position": 1
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": ""
+     }
+    },
+    "description": "Delete an existing Business Priority rule"
+   }
+  },
+  "/v2/erm/businesspriority/get-rules": {
+   "get": {
+    "tags": [
+     "Business Priority Modifier"
+    ],
+    "summary": "Get Rules",
+    "operationId": "BusinessPriorityModifier_GetRules_get_/v2/erm/businesspriority/get-rules",
+    "responses": {
+     "200": {
+      "description": "",
+      "content": {
+       "application/octet-stream": {
+        "schema": {
+         "type": "string",
+         "format": "binary"
+        }
+       }
+      }
+     }
+    },
+    "description": "Get all configured Business Priority rules"
+   }
+  },
+  "/v2/erm/ruleset/set-custom-ruleset": {
+   "post": {
+    "tags": [
+     "Custom Ruleset"
+    ],
+    "summary": "Set",
+    "operationId": "CustomRuleset_Set_post_/v2/erm/ruleset/set-custom-ruleset",
+    "requestBody": {
+     "x-name": "customRulesetSetRequestViewModel",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/CustomRulesetSetRequestViewModel"
+       }
+      }
+     },
+     "required": true,
+     "x-position": 1
+    },
+    "responses": {
+     "200": {
+      "description": ""
+     }
+    },
+    "description": "Define platform specific ruleset for Risk Managemnet (Currently one ruleset per platform is supported)"
+   }
+  },
+  "/v2/erm/ruleset/get-custom-ruleset": {
+   "get": {
+    "tags": [
+     "Custom Ruleset"
+    ],
+    "summary": "Get",
+    "operationId": "CustomRuleset_Get_get_/v2/erm/ruleset/get-custom-ruleset",
+    "responses": {
+     "200": {
+      "description": "",
+      "content": {
+       "application/octet-stream": {
+        "schema": {
+         "type": "string",
+         "format": "binary"
+        }
+       }
+      }
+     }
+    },
+    "description": "Get all configured rulesets for Risk Managemnet"
+   }
+  },
+  "/v2/erm/ruleset/remove-custom-ruleset": {
+   "delete": {
+    "tags": [
+     "Custom Ruleset"
+    ],
+    "summary": "Remove",
+    "operationId": "CustomRuleset_Remove_delete_/v2/erm/ruleset/remove-custom-ruleset",
+    "requestBody": {
+     "x-name": "customRulesetRemoveRequestViewModel",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/CustomRulesetRemoveRequestViewModel"
+       }
+      }
+     },
+     "required": true,
+     "x-position": 1
+    },
+    "responses": {
+     "200": {
+      "description": ""
+     }
+    },
+    "description": "Delete platform specific ruleset from Risk Managemnet"
+   }
+  },
+  "/v2/erm/ruleset/remove-all-custom-rulesets": {
+   "delete": {
+    "tags": [
+     "Custom Ruleset"
+    ],
+    "summary": "Remove All",
+    "operationId": "CustomRuleset_RemoveAll_delete_/v2/erm/ruleset/remove-all-custom-rulesets",
+    "requestBody": {
+     "x-name": "customRulesetRemoveRequestViewModel",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/CustomRulesetRemoveRequestViewModel"
+       }
+      }
+     },
+     "required": true,
+     "x-position": 1
+    },
+    "responses": {
+     "200": {
+      "description": ""
+     }
+    },
+    "description": "Delete all platform specific rulesets from Risk Managemnet (Currently one ruleset per platform is supported)"
+   }
+  },
+  "/v2/erm/dspm/sentra-account": {
+   "get": {
+    "tags": [
+     "Dspm"
+    ],
+    "summary": "Get Sentra Accounts",
+    "operationId": "Dspm_GetSentraAccounts_get_/v2/erm/dspm/sentra-account",
+    "responses": {
+     "200": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SentraGetAllResponseViewModel"
+        }
+       }
+      }
+     }
+    },
+    "description": "Retrieves all the Sentra accounts associated with the current account"
+   },
+   "post": {
+    "tags": [
+     "Dspm"
+    ],
+    "summary": "Add Sentra Account",
+    "operationId": "Dspm_AddSentraAccount_post_/v2/erm/dspm/sentra-account",
+    "requestBody": {
+     "x-name": "sentraCreateRequestViewModel",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/SentraCreateRequestViewModel"
+       }
+      }
+     },
+     "required": true,
+     "x-position": 1
+    },
+    "responses": {
+     "200": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SentraCreateResponseViewModel"
+        }
+       }
+      }
+     }
+    },
+    "description": "Adds a new Sentra account"
+   }
+  },
+  "/v2/erm/dspm/sentra-account/{id}": {
+   "get": {
+    "tags": [
+     "Dspm"
+    ],
+    "summary": "Get Sentra Account",
+    "operationId": "Dspm_GetSentraAccount_get_/v2/erm/dspm/sentra-account/{id}",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "guid"
+      },
+      "x-position": 1
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SentraAccountResponseViewModel"
+        }
+       }
+      }
+     }
+    },
+    "description": "Retrieves a specific Sentra account by id"
+   },
+   "put": {
+    "tags": [
+     "Dspm"
+    ],
+    "summary": "Update Sentra Account",
+    "operationId": "Dspm_UpdateSentraAccount_put_/v2/erm/dspm/sentra-account/{id}",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "guid"
+      },
+      "x-position": 1
+     }
+    ],
+    "requestBody": {
+     "x-name": "sentraUpdateRequestViewModel",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/SentraUpdateRequestViewModel"
+       }
+      }
+     },
+     "required": true,
+     "x-position": 2
+    },
+    "responses": {
+     "200": {
+      "description": "",
+      "content": {
+       "application/octet-stream": {
+        "schema": {
+         "type": "string",
+         "format": "binary"
+        }
+       }
+      }
+     }
+    },
+    "description": "Updates credentials in Sentra account"
+   },
+   "delete": {
+    "tags": [
+     "Dspm"
+    ],
+    "summary": "Delete Sentra Account",
+    "operationId": "Dspm_DeleteSentraAccount_delete_/v2/erm/dspm/sentra-account/{id}",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "guid"
+      },
+      "x-position": 1
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "",
+      "content": {
+       "application/octet-stream": {
+        "schema": {
+         "type": "string",
+         "format": "binary"
+        }
+       }
+      }
+     }
+    },
+    "description": "Deletes a Sentra account by id"
+   }
+  },
+  "/v2/erm/dspm/cyera-account": {
+   "get": {
+    "tags": [
+     "Dspm"
+    ],
+    "summary": "Get Cyera Accounts",
+    "operationId": "Dspm_GetCyeraAccounts_get_/v2/erm/dspm/cyera-account",
+    "responses": {
+     "200": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/CyeraGetAllResponseViewModel"
+        }
+       }
+      }
+     }
+    },
+    "description": "Retrieves all the Cyera accounts associated with the current account"
+   },
+   "post": {
+    "tags": [
+     "Dspm"
+    ],
+    "summary": "Add Cyera Account",
+    "operationId": "Dspm_AddCyeraAccount_post_/v2/erm/dspm/cyera-account",
+    "requestBody": {
+     "x-name": "cyeraCreateRequestViewModel",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/CyeraCreateAccountRequestViewModel"
+       }
+      }
+     },
+     "required": true,
+     "x-position": 1
+    },
+    "responses": {
+     "200": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/CyeraCreateRessponseViewModel"
+        }
+       }
+      }
+     }
+    },
+    "description": "Adds a new Cyera account"
+   }
+  },
+  "/v2/erm/dspm/cyera-account/{id}": {
+   "get": {
+    "tags": [
+     "Dspm"
+    ],
+    "summary": "Get Cyera Account",
+    "operationId": "Dspm_GetCyeraAccount_get_/v2/erm/dspm/cyera-account/{id}",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "guid"
+      },
+      "x-position": 1
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/CyeraAccountResponseViewModel"
+        }
+       }
+      }
+     }
+    },
+    "description": "Retrieves a specific Cyera account by id"
+   },
+   "put": {
+    "tags": [
+     "Dspm"
+    ],
+    "summary": "Update Cyera Account",
+    "operationId": "Dspm_UpdateCyeraAccount_put_/v2/erm/dspm/cyera-account/{id}",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "guid"
+      },
+      "x-position": 1
+     }
+    ],
+    "requestBody": {
+     "x-name": "cyeraUpdateRequestViewModel",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/CyeraUpdateAccountRequestViewModel"
+       }
+      }
+     },
+     "required": true,
+     "x-position": 2
+    },
+    "responses": {
+     "200": {
+      "description": "",
+      "content": {
+       "application/octet-stream": {
+        "schema": {
+         "type": "string",
+         "format": "binary"
+        }
+       }
+      }
+     }
+    },
+    "description": "Updates credentials in Cyera account"
+   },
+   "delete": {
+    "tags": [
+     "Dspm"
+    ],
+    "summary": "Delete Cyera Account",
+    "operationId": "Dspm_DeleteCyeraAccount_delete_/v2/erm/dspm/cyera-account/{id}",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "guid"
+      },
+      "x-position": 1
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "",
+      "content": {
+       "application/octet-stream": {
+        "schema": {
+         "type": "string",
+         "format": "binary"
+        }
+       }
+      }
+     }
+    },
+    "description": "Deletes a Cyera account by id"
+   }
+  },
+  "/v2/erm/groups/risk-data": {
+   "post": {
+    "tags": [
+     "Group Risk Management"
+    ],
+    "summary": "Get Groups Risk Data",
+    "operationId": "GroupRiskManagement_GetGroupsRiskData_post_/v2/erm/groups/risk-data",
+    "requestBody": {
+     "x-name": "request",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/GetGroupsRiskRequestViewModel"
+       }
+      }
+     },
+     "required": true,
+     "x-position": 1
+    },
+    "responses": {
+     "200": {
+      "description": "",
+      "content": {
+       "application/octet-stream": {
+        "schema": {
+         "type": "string",
+         "format": "binary"
+        }
+       }
+      }
+     }
+    },
+    "description": "List groups risk data by Group Type. Risk Data includes Risk Score and Level and the distribution of the risk level among the group's assets.\nThe list is ordered descending by the group Risk Score"
+   }
+  },
+  "/v2/erm/remediation/top-actions": {
+   "post": {
+    "tags": [
+     "Remediation Actions"
+    ],
+    "summary": "Get Top Remediation Actions",
+    "operationId": "RemediationActions_GetTopRemediationActions_post_/v2/erm/remediation/top-actions",
+    "requestBody": {
+     "x-name": "requestViewModel",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/RemediationActionsRequestViewModel"
+       }
+      }
+     },
+     "required": true,
+     "x-position": 1
+    },
+    "responses": {
+     "200": {
+      "description": "",
+      "content": {
+       "application/octet-stream": {
+        "schema": {
+         "type": "string",
+         "format": "binary"
+        }
+       }
+      }
+     }
+    },
+    "description": "Get top X remediation actions of an asset ordered by severity and remediation type"
+   }
+  },
+  "/v2/erm/asset-types/supported-types": {
+   "get": {
+    "tags": [
+     "Risk Modifiers"
+    ],
+    "summary": "Get",
+    "operationId": "RiskModifiers_Get_get_/v2/erm/asset-types/supported-types",
+    "responses": {
+     "200": {
+      "description": "",
+      "content": {
+       "application/octet-stream": {
+        "schema": {
+         "type": "string",
+         "format": "binary"
+        }
+       }
+      }
+     }
+    },
+    "description": "Get all supported assets per risk modifiers"
+   }
+  },
+  "/v2/erm/waf/stats": {
+   "post": {
+    "tags": [
+     "Waf"
+    ],
+    "summary": "Get Stats",
+    "operationId": "Waf_GetStats_post_/v2/erm/waf/stats",
+    "requestBody": {
+     "x-name": "filter",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/StatsFilterViewModel"
+       }
+      }
+     },
+     "required": true,
+     "x-position": 1
+    },
+    "responses": {
+     "200": {
+      "description": "",
+      "content": {
+       "application/octet-stream": {
+        "schema": {
+         "type": "string",
+         "format": "binary"
+        }
+       }
+      }
+     }
+    },
+    "description": "Get statistics of Cloud Guard WAF coverage and risk distribution of publicly exposed assets"
+   }
+  },
+  "/v2/security-graph/entity-types": {
+   "get": {
+    "operationId": "EntityTypesController_getAll_get_/v2/security-graph/entity-types",
+    "summary": "Get All",
+    "parameters": [],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/EntityTypePlatformViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Entity Types"
+    ],
+    "description": "Get all supported entity types with the supported platform"
+   }
+  },
+  "/v2/security-graph/evidence-path": {
+   "get": {
+    "operationId": "EvidencePathController_get_get_/v2/security-graph/evidence-path",
+    "summary": "Get",
+    "parameters": [
+     {
+      "name": "findingId",
+      "required": true,
+      "in": "query",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/EvidencePathViewModel"
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Evidence Path"
+    ],
+    "description": "Get the evidence path for a given findingId"
+   }
+  },
+  "/v2/security-graph/exclusions/{id}": {
+   "get": {
+    "operationId": "ExclusionController_get_get_/v2/security-graph/exclusions/{id}",
+    "summary": "Get",
+    "parameters": [
+     {
+      "name": "id",
+      "required": true,
+      "in": "path",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SecurityGraphExclusionViewModel"
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Exclusions"
+    ],
+    "description": "Get an exclusion by ID"
+   },
+   "delete": {
+    "operationId": "ExclusionController_delete_delete_/v2/security-graph/exclusions/{id}",
+    "summary": "Delete",
+    "parameters": [
+     {
+      "name": "id",
+      "required": true,
+      "in": "path",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "204": {
+      "description": ""
+     }
+    },
+    "tags": [
+     "Exclusions"
+    ],
+    "description": "Delete an exclusion by ID"
+   },
+   "put": {
+    "operationId": "ExclusionController_update_put_/v2/security-graph/exclusions/{id}",
+    "summary": "Update",
+    "parameters": [
+     {
+      "name": "id",
+      "required": true,
+      "in": "path",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/SecurityGraphExclusionRequestModel"
+       }
+      }
+     }
+    },
+    "responses": {
+     "204": {
+      "description": ""
+     }
+    },
+    "tags": [
+     "Exclusions"
+    ],
+    "description": "Update an exclusion by ID"
+   }
+  },
+  "/v2/security-graph/exclusions": {
+   "get": {
+    "operationId": "ExclusionController_getAll_get_/v2/security-graph/exclusions",
+    "summary": "Get All",
+    "parameters": [],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/SecurityGraphExclusionViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Exclusions"
+    ],
+    "description": "Get all exclusions"
+   },
+   "post": {
+    "operationId": "ExclusionController_insert_post_/v2/security-graph/exclusions",
+    "summary": "Insert",
+    "parameters": [],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/SecurityGraphExclusionRequestModel"
+       }
+      }
+     }
+    },
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/IdViewModel"
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Exclusions"
+    ],
+    "description": "Insert a new exclusion by ID"
+   }
+  },
+  "/v2/security-graph/ignore-cves/{id}": {
+   "get": {
+    "operationId": "IgnoreCvesController_get_get_/v2/security-graph/ignore-cves/{id}",
+    "summary": "Get",
+    "parameters": [
+     {
+      "name": "id",
+      "required": true,
+      "in": "path",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SecurityGraphIgnoreCveViewModel"
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Ignore Cves"
+    ],
+    "description": "Get an ignored CVE by ID"
+   },
+   "delete": {
+    "operationId": "IgnoreCvesController_delete_delete_/v2/security-graph/ignore-cves/{id}",
+    "summary": "Delete",
+    "parameters": [
+     {
+      "name": "id",
+      "required": true,
+      "in": "path",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "204": {
+      "description": ""
+     }
+    },
+    "tags": [
+     "Ignore Cves"
+    ],
+    "description": "Delete an ignored CVE by ID"
+   },
+   "put": {
+    "operationId": "IgnoreCvesController_update_put_/v2/security-graph/ignore-cves/{id}",
+    "summary": "Update",
+    "parameters": [
+     {
+      "name": "id",
+      "required": true,
+      "in": "path",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/SecurityGraphIgnoreCveRequestModel"
+       }
+      }
+     }
+    },
+    "responses": {
+     "204": {
+      "description": ""
+     }
+    },
+    "tags": [
+     "Ignore Cves"
+    ],
+    "description": "Update an ignored CVE by ID"
+   }
+  },
+  "/v2/security-graph/ignore-cves": {
+   "get": {
+    "operationId": "IgnoreCvesController_getAll_get_/v2/security-graph/ignore-cves",
+    "summary": "Get All",
+    "parameters": [],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/SecurityGraphIgnoreCveViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Ignore Cves"
+    ],
+    "description": "Get all ignored CVEs"
+   },
+   "post": {
+    "operationId": "IgnoreCvesController_insert_post_/v2/security-graph/ignore-cves",
+    "summary": "Insert",
+    "parameters": [],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/SecurityGraphIgnoreCveRequestModel"
+       }
+      }
+     }
+    },
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/IdViewModel"
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Ignore Cves"
+    ],
+    "description": "Insert a new ignored CVE by ID"
+   }
+  },
+  "/v2/security-graph/ignore-malwares/{id}": {
+   "get": {
+    "operationId": "IgnoreMalwaresController_get_get_/v2/security-graph/ignore-malwares/{id}",
+    "summary": "Get",
+    "parameters": [
+     {
+      "name": "id",
+      "required": true,
+      "in": "path",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SecurityGraphIgnoreMalwareViewModel"
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Ignore Malwares"
+    ],
+    "description": "Get an ignored malware by ID"
+   },
+   "delete": {
+    "operationId": "IgnoreMalwaresController_delete_delete_/v2/security-graph/ignore-malwares/{id}",
+    "summary": "Delete",
+    "parameters": [
+     {
+      "name": "id",
+      "required": true,
+      "in": "path",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "204": {
+      "description": ""
+     }
+    },
+    "tags": [
+     "Ignore Malwares"
+    ],
+    "description": "Delete an ignored malware by ID"
+   },
+   "put": {
+    "operationId": "IgnoreMalwaresController_update_put_/v2/security-graph/ignore-malwares/{id}",
+    "summary": "Update",
+    "parameters": [
+     {
+      "name": "id",
+      "required": true,
+      "in": "path",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/SecurityGraphIgnoreMalwareRequestModel"
+       }
+      }
+     }
+    },
+    "responses": {
+     "204": {
+      "description": ""
+     }
+    },
+    "tags": [
+     "Ignore Malwares"
+    ],
+    "description": "Update an ignored malware by ID"
+   }
+  },
+  "/v2/security-graph/ignore-malwares": {
+   "get": {
+    "operationId": "IgnoreMalwaresController_getAll_get_/v2/security-graph/ignore-malwares",
+    "summary": "Get All",
+    "parameters": [],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/SecurityGraphIgnoreMalwareViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Ignore Malwares"
+    ],
+    "description": "Get all ignored malwares"
+   },
+   "post": {
+    "operationId": "IgnoreMalwaresController_insert_post_/v2/security-graph/ignore-malwares",
+    "summary": "Insert",
+    "parameters": [],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/SecurityGraphIgnoreMalwareRequestModel"
+       }
+      }
+     }
+    },
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/IdViewModel"
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Ignore Malwares"
+    ],
+    "description": "Insert a new ignored malware by ID"
+   }
+  },
+  "/v2/security-graph/issues/vulnerabilities": {
+   "get": {
+    "operationId": "IssueController_getVulnerabilities_get_/v2/security-graph/issues/vulnerabilities",
+    "summary": "Get Vulnerabilities",
+    "parameters": [
+     {
+      "name": "issueId",
+      "required": true,
+      "in": "query",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "srl",
+      "required": true,
+      "in": "query",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/CveVulnerabilityResponse"
+         }
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Security Graph Issues"
+    ],
+    "description": "Get vulnerabilities of an issue's asset"
+   }
+  },
+  "/v2/security-graph/issues/iam-sensitivity": {
+   "get": {
+    "operationId": "IssueController_getIamSensitivity_get_/v2/security-graph/issues/iam-sensitivity",
+    "summary": "Get Iam Sensitivity",
+    "parameters": [
+     {
+      "name": "issueId",
+      "required": true,
+      "in": "query",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "srl",
+      "required": true,
+      "in": "query",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/IamSensitivityResponse"
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Security Graph Issues"
+    ],
+    "description": "Get IAM sensitivity of an issue's asset"
+   }
+  },
+  "/v2/security-graph/issues/main-entities": {
+   "get": {
+    "operationId": "IssueController_getMainEntities_get_/v2/security-graph/issues/main-entities",
+    "summary": "Get Main Entities",
+    "parameters": [
+     {
+      "name": "issueId",
+      "required": true,
+      "in": "query",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/ProtectedAssetViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Security Graph Issues"
+    ],
+    "description": "Get main entities of an issue"
+   }
+  },
+  "/v2/security-graph/issues/security-event": {
+   "get": {
+    "operationId": "IssueController_getSecurityEvents_get_/v2/security-graph/issues/security-event",
+    "summary": "Get Security Events",
+    "parameters": [
+     {
+      "name": "issueId",
+      "required": true,
+      "in": "query",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/SecurityEventPartialViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Security Graph Issues"
+    ],
+    "description": "Get security events of an issue's asset"
+   }
+  },
+  "/v2/security-graph/issues/data-sensitivity": {
+   "get": {
+    "operationId": "IssueController_getDataSensitivity_get_/v2/security-graph/issues/data-sensitivity",
+    "summary": "Get Data Sensitivity",
+    "parameters": [
+     {
+      "name": "issueId",
+      "required": true,
+      "in": "query",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/DataSensitivityViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Security Graph Issues"
+    ],
+    "description": "Get data sensitivity of an issue's asset"
+   }
+  },
+  "/v2/security-graph/issues/container-images": {
+   "get": {
+    "operationId": "IssueController_getContainerImages_get_/v2/security-graph/issues/container-images",
+    "summary": "Get Container Images",
+    "parameters": [
+     {
+      "name": "issueId",
+      "required": true,
+      "in": "query",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/ContainerImageIssueViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Security Graph Issues"
+    ],
+    "description": "Get container images of an issue's asset"
+   }
+  },
+  "/v2/security-graph/issues/malware": {
+   "get": {
+    "operationId": "IssueController_getMalware_get_/v2/security-graph/issues/malware",
+    "summary": "Get Malware",
+    "parameters": [
+     {
+      "name": "issueId",
+      "required": true,
+      "in": "query",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "srl",
+      "required": true,
+      "in": "query",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/MalwareViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Security Graph Issues"
+    ],
+    "description": "Get Malware of an issue's asset"
+   }
+  },
+  "/v2/security-graph/issues/enrichment-categories": {
+   "get": {
+    "operationId": "IssueController_getEnrichmentCategories_get_/v2/security-graph/issues/enrichment-categories",
+    "summary": "Get Enrichment Categories",
+    "parameters": [
+     {
+      "name": "issueId",
+      "required": true,
+      "in": "query",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "type": "string"
+         }
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Security Graph Issues"
+    ],
+    "description": "Get all enrichment categories for an issue"
+   }
+  },
+  "/v2/security-graph/rules/{id}": {
+   "get": {
+    "operationId": "RuleController_get_get_/v2/security-graph/rules/{id}",
+    "summary": "Get",
+    "parameters": [
+     {
+      "name": "id",
+      "required": true,
+      "in": "path",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SecurityGraphRuleViewModel"
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Rules"
+    ],
+    "description": "Get a rule by ID"
+   }
+  },
+  "/v2/security-graph/rules/query/{id}": {
+   "get": {
+    "operationId": "RuleController_getQuery_get_/v2/security-graph/rules/query/{id}",
+    "summary": "Get Query",
+    "parameters": [
+     {
+      "name": "id",
+      "required": true,
+      "in": "path",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SecurityGraphQueryDefinition"
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Rules"
+    ],
+    "description": "Get a rule query by ID"
+   }
+  },
+  "/v2/security-graph/rules": {
+   "get": {
+    "operationId": "RuleController_getAll_get_/v2/security-graph/rules",
+    "summary": "Get All",
+    "parameters": [
+     {
+      "name": "ids",
+      "required": true,
+      "in": "query",
+      "schema": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      }
+     },
+     {
+      "name": "platforms",
+      "required": true,
+      "in": "query",
+      "schema": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      }
+     }
+    ],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/SecurityGraphRuleViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Rules"
+    ],
+    "description": "Get all rules by filter"
+   }
+  },
+  "/v2/security-graph/query": {
+   "post": {
+    "operationId": "QueryController_executeToxicCombinationQuery_post_/v2/security-graph/query",
+    "summary": "Execute Toxic Combination Query",
+    "parameters": [],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/SgqlQueryRunRequestModel"
+       }
+      }
+     }
+    },
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "string"
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Security Graph Query"
+    ],
+    "description": "Execute a query for toxic combination entities preview"
+   }
+  },
+  "/v2/security-graph/query/evidence-path/{queryRunRequestId}": {
+   "post": {
+    "operationId": "QueryController_executeToxicCombinationEvidenceQuery_post_/v2/security-graph/query/evidence-path/{queryRunRequestId}",
+    "summary": "Execute Toxic Combination Evidence Query",
+    "parameters": [
+     {
+      "name": "queryRunRequestId",
+      "required": true,
+      "in": "path",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/SgqlQueryRunEvidencePathRequestModel"
+       }
+      }
+     }
+    },
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "string"
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Security Graph Query"
+    ],
+    "description": "Execute a query for toxic combination evidence path preview"
+   }
+  },
+  "/v2/security-graph/query/evidence-path/sync/{queryRunRequestId}/{srl}": {
+   "get": {
+    "operationId": "QueryController_getToxicCombinationEvidenceSync_get_/v2/security-graph/query/evidence-path/sync/{queryRunRequestId}/{srl}",
+    "summary": "Get Toxic Combination Evidence Sync",
+    "parameters": [
+     {
+      "name": "queryRunRequestId",
+      "required": true,
+      "in": "path",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "srl",
+      "required": true,
+      "in": "path",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/QueryExecutionEvidencePathResponseViewModel"
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Security Graph Query"
+    ],
+    "description": "Execute a query for toxic combination issue preview immediately"
+   }
+  },
+  "/v2/security-graph/query/evidence-path/{requestId}": {
+   "get": {
+    "operationId": "QueryController_getToxicCombinationEvidence_get_/v2/security-graph/query/evidence-path/{requestId}",
+    "summary": "Get Toxic Combination Evidence",
+    "parameters": [
+     {
+      "name": "requestId",
+      "required": true,
+      "in": "path",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SgqlQueryRunEvidenceResponseViewModel"
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Security Graph Query"
+    ],
+    "description": "Get a query result SRLs by request ID"
+   }
+  },
+  "/v2/security-graph/query/sync": {
+   "post": {
+    "operationId": "QueryController_executeToxicCombinationQuerySync_post_/v2/security-graph/query/sync",
+    "summary": "Execute Toxic Combination Query Sync",
+    "parameters": [],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/SgqlQueryRunRequestModel"
+       }
+      }
+     }
+    },
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SgqlQueryRunSrlsEnhancedResponseViewModel"
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Security Graph Query"
+    ],
+    "description": "Execute a query for toxic combination issue preview immediately"
+   }
+  },
+  "/v2/security-graph/query/{requestId}": {
+   "get": {
+    "operationId": "QueryController_getToxicCombinationEntitySrls_get_/v2/security-graph/query/{requestId}",
+    "summary": "Get Toxic Combination Entity Srls",
+    "parameters": [
+     {
+      "name": "requestId",
+      "required": true,
+      "in": "path",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SgqlQueryRunSrlsResponseViewModel"
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Security Graph Query"
+    ],
+    "description": "Get a query result SRLs by request ID"
+   }
+  },
+  "/v2/security-graph/entity-schema": {
+   "get": {
+    "operationId": "EntitySchemaController_getEntitySchema_get_/v2/security-graph/entity-schema",
+    "summary": "Get Entity Schema",
+    "parameters": [],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/EntitySchemaViewModel"
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Security Graph Query"
+    ],
+    "description": "Get the schema of entities and relationships"
+   }
+  },
+  "/v2/findings/{id}": {
+   "get": {
+    "operationId": "FindingsController_getFinding_get_/v2/findings/{id}",
+    "summary": "Get Finding",
+    "parameters": [
+     {
+      "name": "id",
+      "required": true,
+      "in": "path",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/FindingViewModel"
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Security Issues"
+    ],
+    "description": "Get a finding by ID"
+   }
+  },
+  "/v2/findings/search": {
+   "post": {
+    "operationId": "FindingsController_search_post_/v2/findings/search",
+    "summary": "Search",
+    "parameters": [],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/FindingSearchRequestModel"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/FindingSearchResultsViewModel"
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Security Issues"
+    ],
+    "description": "Search findings"
+   }
+  },
+  "/v2/findings/group": {
+   "post": {
+    "operationId": "FindingsController_group_post_/v2/findings/group",
+    "summary": "Group",
+    "parameters": [],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/FindingSearchGroupRequestModel"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": ""
+     }
+    },
+    "tags": [
+     "Security Issues"
+    ],
+    "description": "Group findings"
+   }
+  },
+  "/v2/findings/search-adv": {
+   "post": {
+    "operationId": "FindingsController_searchAdv_post_/v2/findings/search-adv",
+    "summary": "Search Adv",
+    "parameters": [],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/FindingSearchAdvRequestModel"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/FindingSearchResultsViewModel"
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Security Issues"
+    ],
+    "description": "Search findings with recursive filter"
+   }
+  },
+  "/v2/findings/group-adv": {
+   "post": {
+    "operationId": "FindingsController_groupAdv_post_/v2/findings/group-adv",
+    "summary": "Group Adv",
+    "parameters": [],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/FindingSearchAdvGroupRequestModel"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": ""
+     }
+    },
+    "tags": [
+     "Security Issues"
+    ],
+    "description": "Group findings with recursive filter"
+   }
+  },
+  "/v2/findings-policies": {
+   "get": {
+    "operationId": "FindingsPoliciesController_getAll_get_/v2/findings-policies",
+    "summary": "Get All",
+    "parameters": [],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/FindingsPolicyViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Automated Actions"
+    ],
+    "description": "Get all automated actions"
+   },
+   "post": {
+    "operationId": "FindingsPoliciesController_createFindingsPolicy_post_/v2/findings-policies",
+    "summary": "Create Findings Policy",
+    "parameters": [],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/FindingsPolicyRequestModel"
+       }
+      }
+     }
+    },
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/FindingsPolicyCreationViewModel"
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Automated Actions"
+    ],
+    "description": "Create a new automated action"
+   }
+  },
+  "/v2/findings-policies/{id}": {
+   "get": {
+    "operationId": "FindingsPoliciesController_getSingle_get_/v2/findings-policies/{id}",
+    "summary": "Get Single",
+    "parameters": [
+     {
+      "name": "id",
+      "required": true,
+      "in": "path",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "default": {
+      "description": "",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/FindingsPolicyViewModel"
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Automated Actions"
+    ],
+    "description": "Get an automated action by ID"
+   },
+   "put": {
+    "operationId": "FindingsPoliciesController_updateFindingsPolicy_put_/v2/findings-policies/{id}",
+    "summary": "Update Findings Policy",
+    "parameters": [
+     {
+      "name": "id",
+      "required": true,
+      "in": "path",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/FindingsPolicyRequestModel"
+       }
+      }
+     }
+    },
+    "responses": {
+     "204": {
+      "description": ""
+     }
+    },
+    "tags": [
+     "Automated Actions"
+    ],
+    "description": "Update an automated action by ID"
+   },
+   "delete": {
+    "operationId": "FindingsPoliciesController_deleteFindingsPolicy_delete_/v2/findings-policies/{id}",
+    "summary": "Delete Findings Policy",
+    "parameters": [
+     {
+      "name": "id",
+      "required": true,
+      "in": "path",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "default": {
+      "description": ""
+     }
+    },
+    "tags": [
+     "Automated Actions"
+    ],
+    "description": "Delete an automated action by ID"
+   }
+  }
+ },
+ "tags": [
+  {
+   "name": "AccessLease",
+   "description": "Access Leases"
+  },
+  {
+   "name": "AccessLeaseInvitation",
+   "description": "Access Lease Invitations"
+  },
+  {
+   "name": "Account"
+  },
+  {
+   "name": "AccountLimitation"
+  },
+  {
+   "name": "AccountPollingInterval"
+  },
+  {
+   "name": "AccountRegistration"
+  },
+  {
+   "name": "AccountTrust",
+   "description": "Allow you to define a trust between accounts in order to allow users in a certain account to make changes and operation on another account.\nActions can be taken on a trustee account via a role which is defined on it. \nThe role should be assumed by a user from the trusted account."
+  },
+  {
+   "name": "Agent"
+  },
+  {
+   "name": "Agentless",
+   "description": "Agentless Workload Posture"
+  },
+  {
+   "name": "Alert"
+  },
+  {
+   "name": "AlibabaCloudAccount",
+   "description": "Alibaba Cloud Accounts"
+  },
+  {
+   "name": "Application"
+  },
+  {
+   "name": "Assessment",
+   "description": "Run and View Compliance Assessments"
+  },
+  {
+   "name": "AssessmentHistory"
+  },
+  {
+   "name": "AssessmentHistoryV2",
+   "description": "Compliance Assessment History"
+  },
+  {
+   "name": "Audit",
+   "description": "Audit logs"
+  },
+  {
+   "name": "Auth"
+  },
+  {
+   "name": "Aws Cloud Account",
+   "description": "Manage AWS Cloud Accounts"
+  },
+  {
+   "name": "AwsAppSync"
+  },
+  {
+   "name": "AwsBackupVault"
+  },
+  {
+   "name": "AwsConfigSettings"
+  },
+  {
+   "name": "AwsCustomerGateway"
+  },
+  {
+   "name": "AwsEcsTask"
+  },
+  {
+   "name": "AwsEks"
+  },
+  {
+   "name": "AwsElasticIp"
+  },
+  {
+   "name": "AwsElasticsearchDomain"
+  },
+  {
+   "name": "AwsEmrCluster"
+  },
+  {
+   "name": "AwsInspectorFindings"
+  },
+  {
+   "name": "AwsInspectorRuns"
+  },
+  {
+   "name": "AwsLoadBalancersNetworkInterfaces"
+  },
+  {
+   "name": "AwsOrganizations"
+  },
+  {
+   "name": "AwsQuickSightAccount"
+  },
+  {
+   "name": "AwsQuickSightGroup"
+  },
+  {
+   "name": "AwsQuickSightUser"
+  },
+  {
+   "name": "AwsQuickSightVpcConnections"
+  },
+  {
+   "name": "AwsSageMaker"
+  },
+  {
+   "name": "AwsSecurityGroup"
+  },
+  {
+   "name": "AwsSecurityGroupPolicy"
+  },
+  {
+   "name": "AwsSecurityGroupsIndex"
+  },
+  {
+   "name": "AwsUnifiedOnboarding",
+   "description": "Aws Unified Onboarding"
+  },
+  {
+   "name": "AwsVpcEndpoint"
+  },
+  {
+   "name": "AzureAnalysisService"
+  },
+  {
+   "name": "AzureApplicationGateway"
+  },
+  {
+   "name": "AzureApplicationSecurityGroup"
+  },
+  {
+   "name": "AzureCloudAccount",
+   "description": "Onboard Azure accounts"
+  },
+  {
+   "name": "AzureComputeGalleryImage"
+  },
+  {
+   "name": "AzureCosmosDbAccount"
+  },
+  {
+   "name": "AzureDisk"
+  },
+  {
+   "name": "AzureFunction"
+  },
+  {
+   "name": "AzureKeyVault"
+  },
+  {
+   "name": "AzureKubernetes"
+  },
+  {
+   "name": "AzureLoadBalancer"
+  },
+  {
+   "name": "AzureLock"
+  },
+  {
+   "name": "AzureLogicApp"
+  },
+  {
+   "name": "AzureLogProfile"
+  },
+  {
+   "name": "AzurePolicyAssignment"
+  },
+  {
+   "name": "AzureRedisCache"
+  },
+  {
+   "name": "AzureResourceGroup"
+  },
+  {
+   "name": "AzureRouteTable"
+  },
+  {
+   "name": "AzureSecurityGroup"
+  },
+  {
+   "name": "AzureSecurityGroupPolicy",
+   "description": "Azure Network Security Group Policies"
+  },
+  {
+   "name": "AzureSnapshot"
+  },
+  {
+   "name": "AzureSqlDb"
+  },
+  {
+   "name": "AzureSqlServer"
+  },
+  {
+   "name": "AzureStorageAccounts"
+  },
+  {
+   "name": "AzureStorageBlobContainer"
+  },
+  {
+   "name": "AzureSubnet"
+  },
+  {
+   "name": "AzureUser"
+  },
+  {
+   "name": "AzureVirtualMachine"
+  },
+  {
+   "name": "AzureVirtualMachineImage"
+  },
+  {
+   "name": "AzureVirtualMachineScaleSet"
+  },
+  {
+   "name": "AzureVirtualNetworkPeering"
+  },
+  {
+   "name": "AzureWebApp"
+  },
+  {
+   "name": "BigTable"
+  },
+  {
+   "name": "BillableAssets",
+   "description": "Retrieve billable assets data"
+  },
+  {
+   "name": "BillableAssetsReport",
+   "description": "Billable Assets Report"
+  },
+  {
+   "name": "Billing"
+  },
+  {
+   "name": "Clarity"
+  },
+  {
+   "name": "CloudAcmCertificate"
+  },
+  {
+   "name": "CloudAmi"
+  },
+  {
+   "name": "CloudAutoScalingGroup"
+  },
+  {
+   "name": "CloudDbInstance"
+  },
+  {
+   "name": "CloudDirectConnect"
+  },
+  {
+   "name": "CloudDynamoDb"
+  },
+  {
+   "name": "CloudEcsCluster"
+  },
+  {
+   "name": "CloudEcsService",
+   "description": "Cloud Ecs Service"
+  },
+  {
+   "name": "CloudEcsTaskDefinition"
+  },
+  {
+   "name": "CloudEfs"
+  },
+  {
+   "name": "CloudElastiCacheCluster"
+  },
+  {
+   "name": "CloudFlowLogs"
+  },
+  {
+   "name": "CloudFrontDistribution"
+  },
+  {
+   "name": "CloudGuardDutyDetector"
+  },
+  {
+   "name": "CloudIamAccountSummary"
+  },
+  {
+   "name": "CloudIamCredentialReport"
+  },
+  {
+   "name": "CloudIamGroup"
+  },
+  {
+   "name": "CloudIamPasswordPolicy"
+  },
+  {
+   "name": "CloudIamPolicy"
+  },
+  {
+   "name": "CloudIamRole"
+  },
+  {
+   "name": "CloudIamServerCertificate"
+  },
+  {
+   "name": "CloudIamUser"
+  },
+  {
+   "name": "CloudIamVirtualMfaDevice"
+  },
+  {
+   "name": "CloudInfraUser",
+   "description": "CloudInfra Users"
+  },
+  {
+   "name": "CloudInstance",
+   "description": "Cloud Instances"
+  },
+  {
+   "name": "CloudInternetGateway"
+  },
+  {
+   "name": "CloudKinesisStream"
+  },
+  {
+   "name": "CloudKms"
+  },
+  {
+   "name": "CloudKmsAlias"
+  },
+  {
+   "name": "CloudLambdaFunction",
+   "description": "Cloud Lambda Function"
+  },
+  {
+   "name": "CloudLoadBalancer"
+  },
+  {
+   "name": "CloudLogGroups"
+  },
+  {
+   "name": "CloudMetricAlarm"
+  },
+  {
+   "name": "CloudNacl"
+  },
+  {
+   "name": "CloudNetworkInterfaces"
+  },
+  {
+   "name": "CloudRedshiftCluster"
+  },
+  {
+   "name": "CloudRegion"
+  },
+  {
+   "name": "CloudRoute53Domain"
+  },
+  {
+   "name": "CloudRoute53HostedZone"
+  },
+  {
+   "name": "CloudRoute53RecordSetGroup"
+  },
+  {
+   "name": "CloudRouteTable"
+  },
+  {
+   "name": "CloudS3Bucket",
+   "description": ""
+  },
+  {
+   "name": "CloudSecurityGroup",
+   "description": "AWS Security Groups"
+  },
+  {
+   "name": "CloudSnsSubscription"
+  },
+  {
+   "name": "CloudSnsTopic"
+  },
+  {
+   "name": "CloudSql"
+  },
+  {
+   "name": "CloudSqs",
+   "description": ""
+  },
+  {
+   "name": "CloudSubnet"
+  },
+  {
+   "name": "CloudTrail",
+   "description": "CloudTrail"
+  },
+  {
+   "name": "CloudVolume"
+  },
+  {
+   "name": "CloudVpc"
+  },
+  {
+   "name": "CloudVpcPeeringConnection"
+  },
+  {
+   "name": "CloudVPNConnection"
+  },
+  {
+   "name": "CloudVpnGateway"
+  },
+  {
+   "name": "CloudWAFRegional"
+  },
+  {
+   "name": "CloudWatchEventsRule",
+   "description": "CloudWatchEventsRule"
+  },
+  {
+   "name": "ComplianceExclusion",
+   "description": "Compliance Exclusions"
+  },
+  {
+   "name": "CompliancePolicy"
+  },
+  {
+   "name": "ComplianceRemediation",
+   "description": "Compliance Remediation"
+  },
+  {
+   "name": "ComplianceRemediationOld",
+   "description": "Compliance Remediation - DEPRECATED - please use /Compliance/Remediation instead"
+  },
+  {
+   "name": "ComplianceRuleset",
+   "description": "ComplianceRuleset"
+  },
+  {
+   "name": "ContinuousComplianceNotification",
+   "description": "Continuous Compliance Notification Policies"
+  },
+  {
+   "name": "ContinuousCompliancePolicy"
+  },
+  {
+   "name": "ContinuousCompliancePolicyV2",
+   "description": "Continuous Compliance Policies"
+  },
+  {
+   "name": "EmergencyPolicy"
+  },
+  {
+   "name": "EntityFetchStatus"
+  },
+  {
+   "name": "EntityReport"
+  },
+  {
+   "name": "ExclusionOld",
+   "description": "Compliance Exclusions - DEPRECATED - please use /Compliance/Exclusion instead"
+  },
+  {
+   "name": "ExternalFindings",
+   "description": "Findings from External (3rd-party) systems"
+  },
+  {
+   "name": "Fim"
+  },
+  {
+   "name": "Finding",
+   "description": "Compliance Findings"
+  },
+  {
+   "name": "FindingsReport",
+   "description": "Compliance Findings csv reports"
+  },
+  {
+   "name": "GcpBigQuery"
+  },
+  {
+   "name": "GcpDisk"
+  },
+  {
+   "name": "GcpGkeCluster"
+  },
+  {
+   "name": "GcpImage"
+  },
+  {
+   "name": "GcpKmsKeyRing"
+  },
+  {
+   "name": "GcpProjectInfo",
+   "description": "Google Cloud Project Info"
+  },
+  {
+   "name": "GcpPubSub"
+  },
+  {
+   "name": "GcpSecurityGroup"
+  },
+  {
+   "name": "GcpServiceAccount"
+  },
+  {
+   "name": "GcpStorageBucket"
+  },
+  {
+   "name": "GenericList",
+   "description": "Generic Lists"
+  },
+  {
+   "name": "GlobalSearch",
+   "description": "Global search for all CloudGuard services"
+  },
+  {
+   "name": "GoogleCloudAccount",
+   "description": "Google Cloud Accounts"
+  },
+  {
+   "name": "GoogleCloudFirewallRule"
+  },
+  {
+   "name": "GoogleCloudFunction"
+  },
+  {
+   "name": "GoogleCloudIamPolicy"
+  },
+  {
+   "name": "GoogleCloudNetwork",
+   "description": "Google Cloud Network"
+  },
+  {
+   "name": "GoogleCloudSubnet"
+  },
+  {
+   "name": "GoogleCloudVMInstance"
+  },
+  {
+   "name": "Home"
+  },
+  {
+   "name": "IamSafeLease",
+   "description": "IAM Safety Leases"
+  },
+  {
+   "name": "IncidentsStatus"
+  },
+  {
+   "name": "InfrastructureAssessment"
+  },
+  {
+   "name": "Intelligence",
+   "description": "CloudGuard Intelligence allows you to visualize and analyze Account Activity and Network Traffic into and out of your cloud environment."
+  },
+  {
+   "name": "IpAddressMetadata",
+   "description": "IP Address Metadata"
+  },
+  {
+   "name": "IpList",
+   "description": "IP Lists"
+  },
+  {
+   "name": "LicenseActivator"
+  },
+  {
+   "name": "Licensing"
+  },
+  {
+   "name": "ManagedGenericList"
+  },
+  {
+   "name": "Msp"
+  },
+  {
+   "name": "OrganizationalUnit",
+   "description": "Manage Organizational Units"
+  },
+  {
+   "name": "Permission"
+  },
+  {
+   "name": "ProtectedAsset"
+  },
+  {
+   "name": "ProtectedAssetsReport",
+   "description": "Compliance Protected Asset csv reports"
+  },
+  {
+   "name": "ProtegoStatistics",
+   "description": "Protego statistics by dates"
+  },
+  {
+   "name": "Role",
+   "description": "CloudGuard Roles"
+  },
+  {
+   "name": "RulesEngine"
+  },
+  {
+   "name": "SecurityGroup"
+  },
+  {
+   "name": "Serverless"
+  },
+  {
+   "name": "ServerlessPolicy",
+   "description": "Serverless policy"
+  },
+  {
+   "name": "ServiceAccount",
+   "description": "CloudGuard Service Accounts"
+  },
+  {
+   "name": "ServicePort"
+  },
+  {
+   "name": "Settings",
+   "description": "Account Settings"
+  },
+  {
+   "name": "ShiftLeft",
+   "description": "ShiftLeft"
+  },
+  {
+   "name": "SystemHealth"
+  },
+  {
+   "name": "TenableAccount",
+   "description": "Onboard Tenable accounts"
+  },
+  {
+   "name": "User",
+   "description": "CloudGuard account users"
+  },
+  {
+   "name": "BaseImage",
+   "description": ""
+  },
+  {
+   "name": "ContainerRegistryAccount",
+   "description": "Container Registry Account"
+  },
+  {
+   "name": "ContainerRegistryAccountInternal",
+   "description": ""
+  },
+  {
+   "name": "ContainerRegistryImageAssurancePolicy",
+   "description": "(deprecated: move to use /v2/vulnerability/policy)"
+  },
+  {
+   "name": "Dashboard",
+   "description": ""
+  },
+  {
+   "name": "EcsConfiguration",
+   "description": ""
+  },
+  {
+   "name": "EcsImageAssurancePolicy",
+   "description": "(deprecated: move to use /v2/vulnerability/policy)"
+  },
+  {
+   "name": "EcsImageScan",
+   "description": "ECS Image Scan Configuration"
+  },
+  {
+   "name": "Environment",
+   "description": ""
+  },
+  {
+   "name": "ImageAdmissionExclusion",
+   "description": "[Preview feature] Kubernetes Image admission exclusions"
+  },
+  {
+   "name": "ImageAssuranceDashboard",
+   "description": ""
+  },
+  {
+   "name": "ImageAssuranceReport",
+   "description": ""
+  },
+  {
+   "name": "KubernetesAccount",
+   "description": "Kubernetes Accounts"
+  },
+  {
+   "name": "KubernetesAccountInternal",
+   "description": ""
+  },
+  {
+   "name": "KubernetesAccountOld",
+   "description": "(deprecated: this api is deprecated, please use '/v2/kubernetes/account' instead)"
+  },
+  {
+   "name": "KubernetesAdmissionControl",
+   "description": "Kubernetes Admission Control"
+  },
+  {
+   "name": "KubernetesAdmissionControlPoliciesSummary",
+   "description": ""
+  },
+  {
+   "name": "KubernetesClusterRole",
+   "description": ""
+  },
+  {
+   "name": "KubernetesImage",
+   "description": ""
+  },
+  {
+   "name": "KubernetesImageAdmissionExclusion",
+   "description": "[Preview feature] Kubernetes Image admission exclusions (deprecated: this api is deprecated, please use '/v2/kubernetes/admissionControl/imageAdmissionExclusion' instead)"
+  },
+  {
+   "name": "KubernetesImageAssurance",
+   "description": "Kubernetes Image Assurance"
+  },
+  {
+   "name": "KubernetesImageAssurancePolicy",
+   "description": "Kubernetes Image Assurance Policy (deprecated: move to use /v2/vulnerability/policy)"
+  },
+  {
+   "name": "KubernetesIngress",
+   "description": ""
+  },
+  {
+   "name": "KubernetesNetworkPolicy",
+   "description": ""
+  },
+  {
+   "name": "KubernetesNode",
+   "description": ""
+  },
+  {
+   "name": "KubernetesPod",
+   "description": ""
+  },
+  {
+   "name": "KubernetesPodGroup",
+   "description": "Kubernetes Pod Groups"
+  },
+  {
+   "name": "KubernetesPodGroupOwner",
+   "description": ""
+  },
+  {
+   "name": "KubernetesPodSecurityPolicy",
+   "description": ""
+  },
+  {
+   "name": "KubernetesRole",
+   "description": ""
+  },
+  {
+   "name": "KubernetesRuntimeAssurance",
+   "description": ""
+  },
+  {
+   "name": "KubernetesService",
+   "description": ""
+  },
+  {
+   "name": "KubernetesServiceAccount",
+   "description": ""
+  },
+  {
+   "name": "Shiftleft",
+   "description": ""
+  },
+  {
+   "name": "ShiftLeftAccount",
+   "description": "ShiftLeft"
+  },
+  {
+   "name": "ShiftLeftPolicy",
+   "description": "ShiftLeft Policy (deprecated: move to use /v2/vulnerability/policy)"
+  },
+  {
+   "name": "Workload",
+   "description": ""
+  },
+  {
+   "name": "WorkloadAccountSetting",
+   "description": "Workload Account Setting"
+  },
+  {
+   "name": "WorkloadChangeMonitoring",
+   "description": ""
+  },
+  {
+   "name": "WorkloadImageAssurance",
+   "description": "Workload Image Assurance"
+  },
+  {
+   "name": "WorkloadImageAssuranceInternal",
+   "description": ""
+  },
+  {
+   "name": "WorkloadInternal",
+   "description": ""
+  },
+  {
+   "name": "WorkloadRuntimeProtection",
+   "description": ""
+  },
+  {
+   "name": "Alerts",
+   "description": ""
+  },
+  {
+   "name": "Azure",
+   "description": ""
+  },
+  {
+   "name": "FindingOrchestration",
+   "description": ""
+  },
+  {
+   "name": "FindingsUpdate",
+   "description": ""
+  },
+  {
+   "name": "Gcp",
+   "description": ""
+  },
+  {
+   "name": "Remediation",
+   "description": "Remediation Actions"
+  },
+  {
+   "name": "Reports",
+   "description": ""
+  },
+  {
+   "name": "CloudInfraMigration",
+   "description": "infinity-portal-connect"
+  },
+  {
+   "name": "GslBuilder",
+   "description": ""
+  },
+  {
+   "name": "Infrastructure",
+   "description": ""
+  },
+  {
+   "name": "InternalLicense",
+   "description": ""
+  },
+  {
+   "name": "NotificationIntegrationInternal",
+   "description": "(deprecated: This controller is deprecated and will be removed in the future)"
+  },
+  {
+   "name": "OciCloudAccount",
+   "description": "Onboard OCI accounts"
+  },
+  {
+   "name": "PlatformReports",
+   "description": ""
+  },
+  {
+   "name": "Regions",
+   "description": ""
+  },
+  {
+   "name": "Spectral",
+   "description": ""
+  },
+  {
+   "name": "RestrictedWorkloadClientModules",
+   "description": ""
+  },
+  {
+   "name": "WorkloadClientModules",
+   "description": ""
+  },
+  {
+   "name": "WorkloadTelemetry",
+   "description": ""
+  },
+  {
+   "name": "Integration",
+   "description": "Integration"
+  },
+  {
+   "name": "IntegrationInternal",
+   "description": ""
+  },
+  {
+   "name": "Notification",
+   "description": "Notification"
+  },
+  {
+   "name": "NotificationInternal",
+   "description": ""
+  },
+  {
+   "name": "AssetMetadataSyncNow",
+   "description": ""
+  },
+  {
+   "name": "BusinessPriorityModifier",
+   "description": "Business Priority Rules"
+  },
+  {
+   "name": "CustomRuleset",
+   "description": "Risk Management Rulesets"
+  },
+  {
+   "name": "Dspm",
+   "description": "DSPM Controller"
+  },
+  {
+   "name": "Exposure",
+   "description": ""
+  },
+  {
+   "name": "GroupRiskManagement",
+   "description": "Groups Risk Management"
+  },
+  {
+   "name": "RemediationActions",
+   "description": "Remediation Actions"
+  },
+  {
+   "name": "RiskModifiers",
+   "description": "Risk Modifiers"
+  },
+  {
+   "name": "SecurityEvents",
+   "description": ""
+  },
+  {
+   "name": "SimilarAssetGroups",
+   "description": ""
+  },
+  {
+   "name": "Waf",
+   "description": "WAF Protection"
+  },
+  {
+   "name": "AwsOrganizationManagement",
+   "description": "AwsOrganizationManagement"
+  },
+  {
+   "name": "AwsOrganizationManagementOnboarding",
+   "description": "AwsOrganizationManagementOnboarding"
+  },
+  {
+   "name": "AzureOrganizationManagement",
+   "description": "AzureOrganizationManagement"
+  },
+  {
+   "name": "GcpOrganizationManagement",
+   "description": "GcpOrganizationManagement"
+  },
+  {
+   "name": "OnboardingManagement",
+   "description": "OnboardingManagement"
+  },
+  {
+   "name": "InternalSBOM",
+   "description": ""
+  },
+  {
+   "name": "InternalVulnerabilityAccountStatsBatch",
+   "description": ""
+  },
+  {
+   "name": "InternalVulnerabilityCleanup",
+   "description": ""
+  },
+  {
+   "name": "InternalVulnerabilityPolicy",
+   "description": ""
+  },
+  {
+   "name": "InternalVulnerabilityScanResults",
+   "description": ""
+  },
+  {
+   "name": "SBOM",
+   "description": ""
+  },
+  {
+   "name": "SBOMExport",
+   "description": "SBOM Export"
+  },
+  {
+   "name": "Vulnerabilities",
+   "description": "Vulnerabilities"
+  },
+  {
+   "name": "VulnerabilityAssessment",
+   "description": ""
+  },
+  {
+   "name": "VulnerabilityExclusions",
+   "description": "Vulnerability Exclusions"
+  },
+  {
+   "name": "VulnerabilityPolicy",
+   "description": "Vulnerability Policy"
+  },
+  {
+   "name": "VulnerabilitySBOM",
+   "description": ""
+  },
+  {
+   "name": "CloudApplicationLoadBalancer",
+   "description": ""
+  },
+  {
+   "name": "CloudNetworkLoadBalancer",
+   "description": ""
+  },
+  {
+   "name": "GcpMachineImage",
+   "description": ""
+  },
+  {
+   "name": "OciCompartment",
+   "description": ""
+  },
+  {
+   "name": "AssetLabelsService",
+   "description": ""
+  },
+  {
+   "name": "AssetOpenFindings",
+   "description": ""
+  },
+  {
+   "name": "EntityTypes",
+   "description": "The entity types endpoint allows you to get the supported entity types and the platform they're supported for."
+  },
+  {
+   "name": "EvidencePath",
+   "description": "The evidence path endpoint allows you to get the evidence path for a given findingId."
+  },
+  {
+   "name": "Exclusions",
+   "description": "The exclusion endpoint provides API to perform CRUD operations on the resource."
+  },
+  {
+   "name": "IgnoreCves",
+   "description": "The ignore CVEs endpoint provides API to perform CRUD operations on the resource."
+  },
+  {
+   "name": "IgnoreMalwares",
+   "description": "The ignore malwares endpoint provides API to perform CRUD operations on the resource."
+  },
+  {
+   "name": "Rules",
+   "description": "The rules endpoint provides APIs to get the security rules data"
+  },
+  {
+   "name": "SecurityGraphIssues",
+   "description": "API for issue enrichments"
+  },
+  {
+   "name": "SecurityGraphQuery",
+   "description": "The query endpoint provides APIs to run queries (rules) to preview possible issues."
+  },
+  {
+   "name": "EntitySchema",
+   "description": "The entity schema endpoint presents schema of toxic issues entities."
+  },
+  {
+   "name": "SecurityIssues",
+   "description": "The Findings endpoint provides APIs query the findings store which contains findings such as security issues. It provides APIs to get, search and group findings."
+  },
+  {
+   "name": "AutomatedActions",
+   "description": "The Automated Actions resource provides API to perform CRUD operations on the resource."
+  }
+ ],
+ "components": {
+  "schemas": {
+   "AssessmentCloudAccountType": {
+    "type": "string",
+    "description": "",
+    "x-enumNames": [
+     "Aws",
+     "Azure",
+     "Google",
+     "Kubernetes",
+     "Terraform",
+     "Generic",
+     "KubernetesRuntimeAssurance",
+     "ShiftLeft",
+     "SourceCodeAssurance",
+     "ImageAssurance",
+     "Alibaba",
+     "Cft",
+     "ContainerRegistry",
+     "Oci",
+     "CIEM"
+    ],
+    "enum": [
+     "Aws",
+     "Azure",
+     "Google",
+     "Kubernetes",
+     "Terraform",
+     "Generic",
+     "KubernetesRuntimeAssurance",
+     "ShiftLeft",
+     "SourceCodeAssurance",
+     "ImageAssurance",
+     "Alibaba",
+     "Cft",
+     "ContainerRegistry",
+     "Oci",
+     "CIEM"
+    ]
+   },
+   "CloudVendor": {
+    "type": "string",
+    "description": "",
+    "x-enumNames": [
+     "aws",
+     "hp",
+     "mellanox",
+     "awsgov",
+     "azure",
+     "google",
+     "awschina",
+     "azuregov",
+     "kubernetes",
+     "azurechina",
+     "terraform",
+     "generic",
+     "kubernetesruntimeassurance",
+     "shiftleft",
+     "sourcecodeassurance",
+     "imageassurance",
+     "alibaba",
+     "cft",
+     "containerregistry",
+     "oci",
+     "ocigov",
+     "ocigovuk",
+     "CIEM"
+    ],
+    "enum": [
+     "aws",
+     "hp",
+     "mellanox",
+     "awsgov",
+     "azure",
+     "google",
+     "awschina",
+     "azuregov",
+     "kubernetes",
+     "azurechina",
+     "terraform",
+     "generic",
+     "kubernetesruntimeassurance",
+     "shiftleft",
+     "sourcecodeassurance",
+     "imageassurance",
+     "alibaba",
+     "cft",
+     "containerregistry",
+     "oci",
+     "ocigov",
+     "ocigovuk",
+     "CIEM"
+    ]
+   },
+   "BusinessPriorityModifierAddRuleRequestViewModel": {
+    "allOf": [
+     {
+      "$ref": "#/components/schemas/BusinessPriorityModifierRuleViewModel"
+     },
+     {
+      "type": "object",
+      "additionalProperties": false
+     }
+    ]
+   },
+   "BusinessPriorityModifierRuleViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "ruleName",
+     "ruleDefinition",
+     "priority"
+    ],
+    "properties": {
+     "ruleName": {
+      "type": "string",
+      "description": "Custom rule name",
+      "maxLength": 255,
+      "minLength": 1
+     },
+     "priority": {
+      "type": "string",
+      "description": "The priority to set for matched assets (\"Undefined\" / \"Minor Importance\" / \"Important\" / \"High Importance\" / \"Crown Jewel\")",
+      "nullable": true
+     },
+     "ruleDefinition": {
+      "description": "The rule definition to use when matching assets",
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/BusinessPriorityModifierRuleDefinitionViewModel"
+       }
+      ]
+     }
+    }
+   },
+   "BusinessPriorityModifierRuleDefinitionViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "assetNameContains",
+     "environments",
+     "organizationalUnits",
+     "assetTags"
+    ],
+    "properties": {
+     "assetNameContains": {
+      "type": "array",
+      "description": "Match assets with a name that contains one of the provided strings",
+      "nullable": true,
+      "items": {
+       "type": "string"
+      }
+     },
+     "environments": {
+      "type": "array",
+      "description": "Match assets from the provided environments",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/BusinessPriorityModifierRuleEnvironmentViewModel"
+      }
+     },
+     "organizationalUnits": {
+      "type": "array",
+      "description": "Match assets from the provided environments",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/BusinessPriorityModifierRuleOrganizationalUnitViewModel"
+      }
+     },
+     "assetTags": {
+      "type": "array",
+      "description": "Match assets with at least one tag from the provided list of tags",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/BusinessPriorityModifierTagViewModel"
+      }
+     }
+    }
+   },
+   "BusinessPriorityModifierRuleEnvironmentViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "cloudAccountId",
+     "platform"
+    ],
+    "properties": {
+     "cloudAccountId": {
+      "type": "string",
+      "description": "The environment ID",
+      "format": "guid",
+      "minLength": 1
+     },
+     "platform": {
+      "description": "The environment platform (\"aws\" / \"azure\" / \"google\")",
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/AssessmentCloudAccountType"
+       }
+      ]
+     }
+    }
+   },
+   "BusinessPriorityModifierRuleOrganizationalUnitViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "id"
+    ],
+    "properties": {
+     "id": {
+      "type": "string",
+      "description": "The ID of the OU",
+      "format": "guid",
+      "minLength": 1
+     }
+    }
+   },
+   "BusinessPriorityModifierTagViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "key",
+     "value"
+    ],
+    "properties": {
+     "key": {
+      "type": "string",
+      "maxLength": 127,
+      "nullable": true
+     },
+     "value": {
+      "type": "string",
+      "maxLength": 255,
+      "nullable": true
+     }
+    }
+   },
+   "BusinessPriorityModifierUpdateRuleRequestViewModel": {
+    "allOf": [
+     {
+      "$ref": "#/components/schemas/BusinessPriorityModifierRuleWithIdViewModel"
+     },
+     {
+      "type": "object",
+      "additionalProperties": false
+     }
+    ]
+   },
+   "BusinessPriorityModifierRuleWithIdViewModel": {
+    "allOf": [
+     {
+      "$ref": "#/components/schemas/BusinessPriorityModifierRuleViewModel"
+     },
+     {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "id"
+      ],
+      "properties": {
+       "id": {
+        "type": "string",
+        "format": "guid",
+        "minLength": 1
+       }
+      }
+     }
+    ]
+   },
+   "CustomRulesetSetRequestViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "platform",
+     "rulesetId"
+    ],
+    "properties": {
+     "platform": {
+      "$ref": "#/components/schemas/PlatformViewModel"
+     },
+     "rulesetId": {
+      "type": "integer",
+      "format": "int32"
+     }
+    }
+   },
+   "PlatformViewModel": {
+    "type": "string",
+    "description": "",
+    "x-enumNames": [
+     "Aws",
+     "Azure",
+     "Google",
+     "Kubernetes"
+    ],
+    "enum": [
+     "Aws",
+     "Azure",
+     "Google",
+     "Kubernetes"
+    ]
+   },
+   "CustomRulesetRemoveRequestViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "platform"
+    ],
+    "properties": {
+     "platform": {
+      "$ref": "#/components/schemas/PlatformViewModel"
+     }
+    }
+   },
+   "SentraGetAllResponseViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "accounts"
+    ],
+    "properties": {
+     "accounts": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/SentraAccountResponseViewModel"
+      }
+     }
+    }
+   },
+   "SentraAccountResponseViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "id",
+     "sentraOrganizationName",
+     "name",
+     "accountCredentials",
+     "syncError",
+     "created",
+     "updated",
+     "lastSuccessfulSync"
+    ],
+    "properties": {
+     "id": {
+      "type": "string",
+      "format": "guid"
+     },
+     "sentraOrganizationName": {
+      "type": "string",
+      "nullable": true
+     },
+     "name": {
+      "type": "string",
+      "nullable": true
+     },
+     "accountCredentials": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/SentraCredentialsViewModel"
+       }
+      ]
+     },
+     "syncError": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/SentraAccountErrorViewModel"
+       }
+      ]
+     },
+     "created": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+     },
+     "updated": {
+      "type": "string",
+      "format": "date-time"
+     },
+     "lastSuccessfulSync": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+     }
+    }
+   },
+   "SentraCredentialsViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "apiKey",
+     "apiKeyName",
+     "email"
+    ],
+    "properties": {
+     "apiKey": {
+      "type": "string",
+      "nullable": true
+     },
+     "apiKeyName": {
+      "type": "string",
+      "nullable": true
+     },
+     "email": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "SentraAccountErrorViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "errorTimestamp",
+     "error"
+    ],
+    "properties": {
+     "errorTimestamp": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+     },
+     "error": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "SentraCreateResponseViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "id"
+    ],
+    "properties": {
+     "id": {
+      "type": "string",
+      "format": "guid"
+     }
+    }
+   },
+   "SentraCreateRequestViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "apiKey",
+     "name"
+    ],
+    "properties": {
+     "apiKey": {
+      "type": "string",
+      "maxLength": 100,
+      "minLength": 1
+     },
+     "name": {
+      "type": "string",
+      "maxLength": 100,
+      "minLength": 1
+     }
+    }
+   },
+   "SentraUpdateRequestViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "apiKey",
+     "name"
+    ],
+    "properties": {
+     "apiKey": {
+      "type": "string",
+      "maxLength": 100,
+      "nullable": true
+     },
+     "name": {
+      "type": "string",
+      "maxLength": 100,
+      "nullable": true
+     }
+    }
+   },
+   "CyeraGetAllResponseViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "accounts"
+    ],
+    "properties": {
+     "accounts": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/CyeraAccountResponseViewModel"
+      }
+     }
+    }
+   },
+   "CyeraAccountResponseViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "id",
+     "name",
+     "accountCredentials",
+     "syncError",
+     "created",
+     "updated",
+     "lastSuccessfulSync"
+    ],
+    "properties": {
+     "id": {
+      "type": "string",
+      "format": "guid"
+     },
+     "name": {
+      "type": "string",
+      "nullable": true
+     },
+     "accountCredentials": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/CyeraCredentialsViewModel"
+       }
+      ]
+     },
+     "syncError": {
+      "nullable": true,
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/CyeraAccountErrorViewModel"
+       }
+      ]
+     },
+     "created": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+     },
+     "updated": {
+      "type": "string",
+      "format": "date-time"
+     },
+     "lastSuccessfulSync": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+     }
+    }
+   },
+   "CyeraCredentialsViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "clientId"
+    ],
+    "properties": {
+     "clientId": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "CyeraAccountErrorViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "errorTimestamp",
+     "error"
+    ],
+    "properties": {
+     "errorTimestamp": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+     },
+     "error": {
+      "type": "string",
+      "nullable": true
+     }
+    }
+   },
+   "CyeraCreateRessponseViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "id"
+    ],
+    "properties": {
+     "id": {
+      "type": "string",
+      "format": "guid"
+     }
+    }
+   },
+   "CyeraCreateAccountRequestViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "clientId",
+     "secret",
+     "name"
+    ],
+    "properties": {
+     "clientId": {
+      "type": "string",
+      "maxLength": 100,
+      "minLength": 1
+     },
+     "secret": {
+      "type": "string",
+      "maxLength": 100,
+      "minLength": 1
+     },
+     "name": {
+      "type": "string",
+      "maxLength": 100,
+      "minLength": 1
+     }
+    }
+   },
+   "CyeraUpdateAccountRequestViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "clientId",
+     "secret",
+     "name"
+    ],
+    "properties": {
+     "clientId": {
+      "type": "string",
+      "maxLength": 100,
+      "nullable": true
+     },
+     "secret": {
+      "type": "string",
+      "maxLength": 100,
+      "nullable": true
+     },
+     "name": {
+      "type": "string",
+      "maxLength": 100,
+      "nullable": true
+     }
+    }
+   },
+   "GetGroupsRiskRequestViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "groupType",
+     "groupsIds",
+     "limit"
+    ],
+    "properties": {
+     "groupType": {
+      "type": "string",
+      "description": "Group Type ",
+      "minLength": 1
+     },
+     "groupsIds": {
+      "type": "array",
+      "description": "Set Group Ids to get Risk Data for specific groups ",
+      "nullable": true,
+      "items": {
+       "type": "string"
+      }
+     },
+     "limit": {
+      "type": "integer",
+      "description": "Limit the response list size.  ",
+      "format": "int32",
+      "maximum": 2147483647,
+      "minimum": 1,
+      "nullable": true
+     }
+    }
+   },
+   "RemediationActionsRequestViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "id",
+     "dome9Id",
+     "platform",
+     "type",
+     "cloudAccountId",
+     "region",
+     "size"
+    ],
+    "properties": {
+     "id": {
+      "type": "string",
+      "description": "Rule Engine Id of the entity",
+      "minLength": 1
+     },
+     "dome9Id": {
+      "type": "string",
+      "description": "The dome9 id in SRL-accountId format",
+      "minLength": 1
+     },
+     "platform": {
+      "type": "string",
+      "description": "aws, azure, google, kubernetes",
+      "minLength": 1
+     },
+     "type": {
+      "type": "string",
+      "description": "Entity type ",
+      "minLength": 1
+     },
+     "cloudAccountId": {
+      "type": "string",
+      "description": "Dome9 cloud account id",
+      "format": "guid",
+      "minLength": 1
+     },
+     "region": {
+      "type": "string",
+      "description": "Cloud region",
+      "nullable": true
+     },
+     "size": {
+      "type": "integer",
+      "description": "The maximum size of remediation actions to be returned",
+      "format": "int32",
+      "default": 10,
+      "maximum": 20,
+      "minimum": 1
+     }
+    }
+   },
+   "StatsFilterViewModel": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "platform",
+     "environment"
+    ],
+    "properties": {
+     "platform": {
+      "type": "array",
+      "description": "Filter the results for the selected platforms",
+      "nullable": true,
+      "items": {
+       "$ref": "#/components/schemas/CloudVendor"
+      }
+     },
+     "environment": {
+      "type": "array",
+      "description": "Filter the results for the selected environments",
+      "nullable": true,
+      "items": {
+       "type": "string",
+       "format": "guid"
+      }
+     }
+    }
+   },
+   "EntityTypePlatformViewModel": {
+    "type": "object",
+    "properties": {
+     "entityType": {
+      "type": "string"
+     },
+     "platform": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "entityType",
+     "platform"
+    ]
+   },
+   "NodeViewModel": {
+    "type": "object",
+    "properties": {
+     "srl": {
+      "type": "string"
+     },
+     "label": {
+      "type": "string",
+      "enum": [
+       "AutoScalingGroup",
+       "Bucket",
+       "ContainerImage",
+       "ContainerWorkload",
+       "Cve",
+       "Database",
+       "Function",
+       "IamRole",
+       "IamUser",
+       "KubernetesService",
+       "Malware",
+       "SecurityEvent",
+       "VirtualMachine"
+      ]
+     },
+     "environmentId": {
+      "type": "string"
+     },
+     "properties": {
+      "type": "object"
+     }
+    },
+    "required": [
+     "srl",
+     "label",
+     "properties"
+    ]
+   },
+   "RelationshipViewModel": {
+    "type": "object",
+    "properties": {
+     "fromId": {
+      "type": "string"
+     },
+     "toId": {
+      "type": "string"
+     },
+     "label": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "fromId",
+     "toId",
+     "label"
+    ]
+   },
+   "EvidencePathViewModel": {
+    "type": "object",
+    "properties": {
+     "nodes": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/NodeViewModel"
+      }
+     },
+     "relationships": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/RelationshipViewModel"
+      }
+     }
+    },
+    "required": [
+     "nodes",
+     "relationships"
+    ]
+   },
+   "ExclusionFilterOperator": {
+    "type": "string",
+    "description": "eq: equal, in: equal to one of the values, between: between values, has_any: field has any of the values, like_any: like any",
+    "enum": [
+     "in",
+     "eq",
+     "like_any",
+     "has_any",
+     "between"
+    ]
+   },
+   "ExclusionSearchFieldFilterViewModel": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string",
+      "enum": [
+       "environmentId",
+       "ruleId",
+       "severity",
+       "entityExternalId",
+       "entityName",
+       "entityTags",
+       "entityTypeByPlatform",
+       "timestamp"
+      ]
+     },
+     "values": {
+      "oneOf": [
+       {
+        "type": "array",
+        "items": {
+         "type": "string"
+        }
+       },
+       {
+        "type": "array",
+        "items": {
+         "type": "number"
+        }
+       },
+       {
+        "type": "array",
+        "items": {
+         "type": "boolean"
+        }
+       }
+      ],
+      "uniqueItems": true,
+      "minItems": 1,
+      "maxItems": 50
+     },
+     "operator": {
+      "$ref": "#/components/schemas/ExclusionFilterOperator"
+     }
+    },
+    "required": [
+     "name",
+     "values",
+     "operator"
+    ]
+   },
+   "ExclusionSearchAdvFilterViewModel": {
+    "type": "object",
+    "properties": {
+     "logicalOperator": {
+      "type": "string",
+      "enum": [
+       "and"
+      ],
+      "description": "Logical operator to apply on operands."
+     },
+     "operands": {
+      "minItems": 1,
+      "maxItems": 50,
+      "description": "Array of filter operands. An operand is an array of type SearchFieldFilterViewModel.",
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/ExclusionSearchFieldFilterViewModel"
+      }
+     }
+    },
+    "required": [
+     "logicalOperator",
+     "operands"
+    ]
+   },
+   "SecurityGraphExclusionViewModel": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+     },
+     "description": {
+      "type": "string",
+      "maxLength": 200
+     },
+     "filter": {
+      "description": "Filter object. A recursive filter object which provides complex filters.",
+      "allOf": [
+       {
+        "$ref": "#/components/schemas/ExclusionSearchAdvFilterViewModel"
+       }
+      ]
+     },
+     "organizationalUnitIdsFilter": {
+      "uniqueItems": true,
+      "maxItems": 50,
+      "description": "List of organizational unit IDs filter.             Filters findings which their environment ID is under the organizational unit IDs or any of their descendants.",
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "_id": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "name",
+     "_id"
+    ]
+   },
+   "SecurityGraphExclusionRequestModel": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+     },
+     "description": {
+      "type": "string",
+      "maxLength": 200
+     },
+     "filter": {
+      "description": "Filter object. A recursive filter object which provides complex filters.",
+      "allOf": [
+       {
+        "$ref": "#/components/schemas/ExclusionSearchAdvFilterViewModel"
+       }
+      ]
+     },
+     "organizationalUnitIdsFilter": {
+      "uniqueItems": true,
+      "maxItems": 50,
+      "description": "List of organizational unit IDs filter.             Filters findings which their environment ID is under the organizational unit IDs or any of their descendants.",
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    },
+    "required": [
+     "name"
+    ]
+   },
+   "IdViewModel": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "id"
+    ]
+   },
+   "IgnoreCveFilterOperator": {
+    "type": "string",
+    "description": "lt: less than, in: equal to one of the values, like_any: like any",
+    "enum": [
+     "in",
+     "like_any",
+     "lt"
+    ]
+   },
+   "IgnoreCveSearchFieldFilterViewModel": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string",
+      "enum": [
+       "targetExternalId",
+       "sourceExternalId",
+       "sourceEnvironmentId",
+       "sourceName",
+       "timestamp",
+       "packageName",
+       "packagePath"
+      ]
+     },
+     "values": {
+      "oneOf": [
+       {
+        "type": "array",
+        "items": {
+         "type": "string"
+        }
+       },
+       {
+        "type": "array",
+        "items": {
+         "type": "number"
+        }
+       },
+       {
+        "type": "array",
+        "items": {
+         "type": "boolean"
+        }
+       }
+      ],
+      "uniqueItems": true,
+      "minItems": 1,
+      "maxItems": 50
+     },
+     "operator": {
+      "$ref": "#/components/schemas/IgnoreCveFilterOperator"
+     }
+    },
+    "required": [
+     "name",
+     "values",
+     "operator"
+    ]
+   },
+   "IgnoreCveSearchAdvFilterViewModel": {
+    "type": "object",
+    "properties": {
+     "logicalOperator": {
+      "type": "string",
+      "enum": [
+       "and"
+      ],
+      "description": "Logical operator to apply on operands."
+     },
+     "operands": {
+      "minItems": 1,
+      "maxItems": 50,
+      "description": "Array of filter operands. An operand is an array of type SearchFieldFilterViewModel.",
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/IgnoreCveSearchFieldFilterViewModel"
+      }
+     }
+    },
+    "required": [
+     "logicalOperator",
+     "operands"
+    ]
+   },
+   "SecurityGraphIgnoreCveViewModel": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+     },
+     "description": {
+      "type": "string",
+      "maxLength": 200
+     },
+     "filter": {
+      "description": "Filter object. A recursive filter object which provides complex filters.",
+      "allOf": [
+       {
+        "$ref": "#/components/schemas/IgnoreCveSearchAdvFilterViewModel"
+       }
+      ]
+     },
+     "organizationalUnitIdsFilter": {
+      "uniqueItems": true,
+      "maxItems": 50,
+      "description": "List of organizational unit IDs filter.",
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "_id": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "name",
+     "_id"
+    ]
+   },
+   "SecurityGraphIgnoreCveRequestModel": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+     },
+     "description": {
+      "type": "string",
+      "maxLength": 200
+     },
+     "filter": {
+      "description": "Filter object. A recursive filter object which provides complex filters.",
+      "allOf": [
+       {
+        "$ref": "#/components/schemas/IgnoreCveSearchAdvFilterViewModel"
+       }
+      ]
+     },
+     "organizationalUnitIdsFilter": {
+      "uniqueItems": true,
+      "maxItems": 50,
+      "description": "List of organizational unit IDs filter.",
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    },
+    "required": [
+     "name"
+    ]
+   },
+   "IgnoreMalwareFilterOperator": {
+    "type": "string",
+    "description": "lt: less than, in: equal to one of the values, like_any: like any",
+    "enum": [
+     "in",
+     "like_any",
+     "lt"
+    ]
+   },
+   "IgnoreMalwareSearchFieldFilterViewModel": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string",
+      "enum": [
+       "targetExternalId",
+       "sourceExternalId",
+       "sourceEnvironmentId",
+       "sourceName",
+       "timestamp",
+       "malwareHash"
+      ]
+     },
+     "values": {
+      "oneOf": [
+       {
+        "type": "array",
+        "items": {
+         "type": "string"
+        }
+       },
+       {
+        "type": "array",
+        "items": {
+         "type": "number"
+        }
+       },
+       {
+        "type": "array",
+        "items": {
+         "type": "boolean"
+        }
+       }
+      ],
+      "uniqueItems": true,
+      "minItems": 1,
+      "maxItems": 50
+     },
+     "operator": {
+      "$ref": "#/components/schemas/IgnoreMalwareFilterOperator"
+     }
+    },
+    "required": [
+     "name",
+     "values",
+     "operator"
+    ]
+   },
+   "IgnoreMalwareSearchAdvFilterViewModel": {
+    "type": "object",
+    "properties": {
+     "logicalOperator": {
+      "type": "string",
+      "enum": [
+       "and"
+      ],
+      "description": "Logical operator to apply on operands."
+     },
+     "operands": {
+      "minItems": 1,
+      "maxItems": 50,
+      "description": "Array of filter operands. An operand is an array of type SearchFieldFilterViewModel.",
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/IgnoreMalwareSearchFieldFilterViewModel"
+      }
+     }
+    },
+    "required": [
+     "logicalOperator",
+     "operands"
+    ]
+   },
+   "SecurityGraphIgnoreMalwareViewModel": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+     },
+     "description": {
+      "type": "string",
+      "maxLength": 200
+     },
+     "filter": {
+      "description": "Filter object. A recursive filter object which provides complex filters.",
+      "allOf": [
+       {
+        "$ref": "#/components/schemas/IgnoreMalwareSearchAdvFilterViewModel"
+       }
+      ]
+     },
+     "organizationalUnitIdsFilter": {
+      "uniqueItems": true,
+      "maxItems": 50,
+      "description": "List of organizational unit IDs filter.",
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "_id": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "name",
+     "_id"
+    ]
+   },
+   "SecurityGraphIgnoreMalwareRequestModel": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+     },
+     "description": {
+      "type": "string",
+      "maxLength": 200
+     },
+     "filter": {
+      "description": "Filter object. A recursive filter object which provides complex filters.",
+      "allOf": [
+       {
+        "$ref": "#/components/schemas/IgnoreMalwareSearchAdvFilterViewModel"
+       }
+      ]
+     },
+     "organizationalUnitIdsFilter": {
+      "uniqueItems": true,
+      "maxItems": 50,
+      "description": "List of organizational unit IDs filter.",
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    },
+    "required": [
+     "name"
+    ]
+   },
+   "PackageDetailsResponse": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "filePath": {
+      "type": "string"
+     },
+     "upgradeTo": {
+      "type": "string"
+     },
+     "packageId": {
+      "type": "string"
+     }
+    }
+   },
+   "CveVulnerabilityResponse": {
+    "type": "object",
+    "properties": {
+     "cveId": {
+      "type": "string"
+     },
+     "baseScore": {
+      "type": "object"
+     },
+     "baseScoreVector": {
+      "type": "object"
+     },
+     "description": {
+      "type": "object"
+     },
+     "severity": {
+      "type": "string",
+      "enum": [
+       "Critical",
+       "High",
+       "Medium",
+       "Low"
+      ]
+     },
+     "fixable": {
+      "type": "object"
+     },
+     "knownExploit": {
+      "type": "boolean"
+     },
+     "epssScore": {
+      "type": "object"
+     },
+     "packages": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/PackageDetailsResponse"
+      }
+     }
+    },
+    "required": [
+     "cveId",
+     "severity",
+     "knownExploit",
+     "packages"
+    ]
+   },
+   "IamSensitivityResponse": {
+    "type": "object",
+    "properties": {
+     "roleScopeActions": {
+      "type": "object"
+     },
+     "entityType": {
+      "type": "string",
+      "enum": [
+       "Instance",
+       "EcsService",
+       "Lambda",
+       "RDS",
+       "S3Bucket",
+       "EcrRepository",
+       "EksCluster",
+       "IamRole",
+       "IamUser",
+       "AutoScalingGroup",
+       "RDSDBCluster",
+       "NeptuneCluster",
+       "DocDbCluster",
+       "Redshift",
+       "EcsImage",
+       "DynamoDbTable",
+       "EcsTask",
+       "VirtualMachine",
+       "FunctionApp",
+       "AppRegistration",
+       "StorageAccount",
+       "User",
+       "AzureGroup",
+       "UserAssignedIdentity",
+       "VirtualMachineScaleSet",
+       "SQLServer",
+       "CosmosDbAccount",
+       "PostgreSQL",
+       "MySQLDBSingleServer",
+       "MySQLDBFlexibleServer",
+       "PostgreSQLFlexibleServer",
+       "AzureContainerInstance",
+       "AzureRoleDefinition",
+       "AksCluster",
+       "SqlManagedInstance",
+       "RedisCache",
+       "StorageBlobContainer",
+       "ContainerRegistryImage",
+       "KubernetesImage",
+       "KubernetesPod",
+       "KubernetesDaemonSet",
+       "KubernetesDeployment",
+       "KubernetesStatefulSet",
+       "KubernetesCronJob",
+       "KubernetesReplicaSet"
+      ]
+     }
+    },
+    "required": [
+     "roleScopeActions",
+     "entityType"
+    ]
+   },
+   "ProtectedAssetViewModel": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "entityId": {
+      "type": "string"
+     },
+     "externalCloudAccountId": {
+      "type": "string"
+     },
+     "cloudAccountId": {
+      "type": "string"
+     },
+     "srl": {
+      "type": "string"
+     },
+     "type": {
+      "type": "string"
+     },
+     "name": {
+      "type": "string"
+     },
+     "tags": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "platform": {
+      "type": "string"
+     },
+     "typeByPlatform": {
+      "type": "string"
+     },
+     "network": {
+      "type": "string"
+     },
+     "region": {
+      "type": "string"
+     },
+     "resourceGroup": {
+      "type": "string"
+     },
+     "additionalFields": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "externalAdditionalFields": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "riskScore": {
+      "type": "number"
+     },
+     "businessPriority": {
+      "type": "string"
+     },
+     "postureFindings": {
+      "type": "object"
+     },
+     "cvEs": {
+      "type": "object"
+     },
+     "malware": {
+      "type": "object"
+     },
+     "malwarePerSeverity": {
+      "type": "object"
+     },
+     "secrets": {
+      "type": "number"
+     },
+     "secretsPerSeverity": {
+      "type": "object"
+     },
+     "context": {
+      "type": "object"
+     }
+    },
+    "required": [
+     "id",
+     "entityId",
+     "externalCloudAccountId",
+     "cloudAccountId",
+     "srl",
+     "type",
+     "name",
+     "tags",
+     "platform",
+     "typeByPlatform",
+     "network",
+     "region",
+     "resourceGroup",
+     "additionalFields",
+     "externalAdditionalFields"
+    ]
+   },
+   "SecurityEventPartialViewModel": {
+    "type": "object",
+    "properties": {
+     "findingKey": {
+      "type": "string"
+     },
+     "accountId": {
+      "type": "string"
+     },
+     "cloudAccountId": {
+      "type": "string"
+     },
+     "cloudAccountExternalId": {
+      "type": "string"
+     },
+     "cloudAccountName": {
+      "type": "string"
+     },
+     "bundleId": {
+      "type": "string"
+     },
+     "bundleName": {
+      "type": "string"
+     },
+     "ruleId": {
+      "type": "string"
+     },
+     "ruleName": {
+      "type": "string"
+     },
+     "ruleLogic": {
+      "type": "string"
+     },
+     "severity": {
+      "type": "string"
+     },
+     "entityExternalId": {
+      "type": "string"
+     },
+     "entityDome9Id": {
+      "type": "string"
+     },
+     "createdTime": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "findingKey",
+     "accountId",
+     "cloudAccountId",
+     "cloudAccountExternalId",
+     "cloudAccountName",
+     "bundleId",
+     "bundleName",
+     "ruleId",
+     "ruleName",
+     "ruleLogic",
+     "severity",
+     "entityExternalId",
+     "createdTime"
+    ]
+   },
+   "DataSensitivityViewModel": {
+    "type": "object",
+    "properties": {
+     "entityId": {
+      "type": "string"
+     },
+     "name": {
+      "type": "string"
+     },
+     "typeByPlatform": {
+      "type": "string"
+     },
+     "platform": {
+      "type": "string"
+     },
+     "cloudAccountId": {
+      "type": "string"
+     },
+     "context": {
+      "type": "object"
+     }
+    },
+    "required": [
+     "entityId",
+     "name",
+     "typeByPlatform",
+     "platform",
+     "cloudAccountId",
+     "context"
+    ]
+   },
+   "ContainerImageIssueViewModel": {
+    "type": "object",
+    "properties": {
+     "cloudAccountId": {
+      "type": "string"
+     },
+     "platform": {
+      "type": "string"
+     },
+     "imageId": {
+      "type": "string"
+     },
+     "imageType": {
+      "type": "string"
+     },
+     "typeByPlatform": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "cloudAccountId",
+     "platform",
+     "imageId",
+     "imageType",
+     "typeByPlatform"
+    ]
+   },
+   "MalwareScanEnrichment": {
+    "type": "object",
+    "properties": {
+     "filePath": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "filePath"
+    ]
+   },
+   "MalwareViewModel": {
+    "type": "object",
+    "properties": {
+     "malwareId": {
+      "type": "string"
+     },
+     "severity": {
+      "type": "string"
+     },
+     "family": {
+      "type": "string",
+      "enum": [
+       "Adware",
+       "Botnet",
+       "Dropper",
+       "Exploit",
+       "Generic",
+       "HackTool",
+       "Infostealer",
+       "Ransomware",
+       "RiskTool",
+       "Trojan",
+       "Virus",
+       "HEUR:Backdoor",
+       "HEUR:Trojan"
+      ]
+     },
+     "hash": {
+      "type": "string"
+     },
+     "scanData": {
+      "$ref": "#/components/schemas/MalwareScanEnrichment"
+     }
+    },
+    "required": [
+     "malwareId",
+     "severity",
+     "family",
+     "hash",
+     "scanData"
+    ]
+   },
+   "SecurityGraphRuleViewModel": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "name": {
+      "type": "string"
+     },
+     "description": {
+      "type": "string"
+     },
+     "severity": {
+      "type": "string",
+      "enum": [
+       "low",
+       "medium",
+       "high",
+       "critical"
+      ]
+     },
+     "systemLabels": {
+      "type": "array",
+      "items": {
+       "type": "string",
+       "enum": [
+        "High IAM Privileges",
+        "IAM Exposure",
+        "Network Exposure",
+        "Sensitive Data",
+        "Third-Party",
+        "Vulnerabilities",
+        "WAF Advised",
+        "Security Event",
+        "Malware"
+       ]
+      }
+     },
+     "entityLabels": {
+      "type": "array",
+      "items": {
+       "type": "string",
+       "enum": [
+        "AutoScalingGroup",
+        "Bucket",
+        "ContainerImage",
+        "ContainerWorkload",
+        "Cve",
+        "Database",
+        "Function",
+        "IamRole",
+        "IamUser",
+        "KubernetesService",
+        "Malware",
+        "SecurityEvent",
+        "VirtualMachine"
+       ]
+      }
+     },
+     "platforms": {
+      "type": "array",
+      "items": {
+       "type": "string",
+       "enum": [
+        "aws",
+        "azure",
+        "kubernetes"
+       ]
+      }
+     },
+     "frameworks": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "remediation": {
+      "type": "string"
+     },
+     "concatRemediation": {
+      "type": "boolean"
+     },
+     "metadata": {
+      "type": "string"
+     },
+     "deleted": {
+      "type": "boolean"
+     }
+    },
+    "required": [
+     "id",
+     "name",
+     "description",
+     "severity",
+     "systemLabels",
+     "entityLabels",
+     "platforms",
+     "frameworks"
+    ]
+   },
+   "SecurityGraphQueryDefinition": {
+    "type": "object",
+    "properties": {
+     "nodeLabel": {
+      "type": "string",
+      "enum": [
+       "AutoScalingGroup",
+       "Bucket",
+       "ContainerImage",
+       "ContainerWorkload",
+       "Cve",
+       "Database",
+       "Function",
+       "IamRole",
+       "IamUser",
+       "KubernetesService",
+       "Malware",
+       "SecurityEvent",
+       "VirtualMachine"
+      ]
+     },
+     "type": {
+      "type": "string",
+      "enum": [
+       "GraphMainEntity",
+       "GraphMainEntityGroup"
+      ]
+     },
+     "filter": {
+      "type": "object"
+     },
+     "relationships": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    },
+    "required": [
+     "nodeLabel",
+     "type",
+     "filter",
+     "relationships"
+    ]
+   },
+   "SgqlQueryRunRequestModel": {
+    "type": "object",
+    "properties": {}
+   },
+   "SgqlQueryRunEvidencePathRequestModel": {
+    "type": "object",
+    "properties": {}
+   },
+   "GraphDataViewModel": {
+    "type": "object",
+    "properties": {}
+   },
+   "QueryExecutionEvidencePathResponseViewModel": {
+    "type": "object",
+    "properties": {
+     "evidencePath": {
+      "$ref": "#/components/schemas/GraphDataViewModel"
+     },
+     "error": {
+      "type": "string"
+     }
+    }
+   },
+   "SgqlQueryRunEvidenceResponseViewModel": {
+    "type": "object",
+    "properties": {
+     "evidencePerSrl": {
+      "type": "object"
+     },
+     "error": {
+      "type": "string"
+     }
+    }
+   },
+   "SgqlQueryRunSrlsEnhancedResponseViewModel": {
+    "type": "object",
+    "properties": {
+     "srlResults": {
+      "type": "array",
+      "items": {
+       "type": "array"
+      }
+     },
+     "error": {
+      "type": "string"
+     },
+     "queryRunRequestId": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "queryRunRequestId"
+    ]
+   },
+   "SgqlQueryRunSrlsResponseViewModel": {
+    "type": "object",
+    "properties": {
+     "srlResults": {
+      "type": "array",
+      "items": {
+       "type": "array"
+      }
+     },
+     "error": {
+      "type": "string"
+     }
+    }
+   },
+   "EntitySchemaViewModel": {
+    "type": "object",
+    "properties": {
+     "EntitySchemas": {
+      "type": "object"
+     },
+     "RelationshipSchemas": {
+      "type": "object"
+     }
+    },
+    "required": [
+     "EntitySchemas",
+     "RelationshipSchemas"
+    ]
+   },
+   "SeverityLevel": {
+    "type": "number",
+    "description": "0: Unknown, 1: Informational, 2: Low, 3: Medium, 4: High, 5: Critical, 6: Fatal, 99: Other",
+    "enum": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     99
+    ]
+   },
+   "FindingViewModel": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "findingKey": {
+      "type": "string"
+     },
+     "createdTime": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "updatedTime": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "accountId": {
+      "type": "string"
+     },
+     "platform": {
+      "type": "string",
+      "enum": [
+       "aws",
+       "hp",
+       "mellanox",
+       "awsgov",
+       "azure",
+       "google",
+       "containerregistry",
+       "awschina",
+       "azuregov",
+       "kubernetes",
+       "azurechina",
+       "terraform",
+       "generic",
+       "kubernetesruntimeassurance",
+       "shiftleft",
+       "sourcecodeassurance",
+       "imageassurance",
+       "alibaba",
+       "cft",
+       "oci"
+      ]
+     },
+     "environmentId": {
+      "type": "string"
+     },
+     "environmentExternalId": {
+      "type": "string"
+     },
+     "organizationalUnitId": {
+      "type": "string"
+     },
+     "status": {
+      "type": "string",
+      "enum": [
+       "Open",
+       "Closed"
+      ]
+     },
+     "statusReason": {
+      "type": "string",
+      "enum": [
+       "",
+       "Fixed",
+       "Resource Deleted",
+       "User Closed",
+       "Rule Deleted",
+       "Unknown"
+      ]
+     },
+     "isExcluded": {
+      "type": "boolean"
+     },
+     "origin": {
+      "type": "string",
+      "enum": [
+       "security-graph"
+      ]
+     },
+     "alertType": {
+      "type": "string",
+      "enum": [
+       "security-event",
+       "task",
+       "finding"
+      ]
+     },
+     "ruleId": {
+      "type": "string"
+     },
+     "ruleTitle": {
+      "type": "string"
+     },
+     "ruleLogic": {
+      "type": "string"
+     },
+     "description": {
+      "type": "string"
+     },
+     "severity": {
+      "$ref": "#/components/schemas/SeverityLevel"
+     },
+     "frameworks": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "systemLabels": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "remediation": {
+      "type": "string"
+     },
+     "entityId": {
+      "type": "string"
+     },
+     "entityIdType": {
+      "type": "string"
+     },
+     "entityExternalId": {
+      "type": "string"
+     },
+     "entityType": {
+      "type": "string"
+     },
+     "entityLabels": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "entityName": {
+      "type": "string"
+     },
+     "region": {
+      "type": "string"
+     },
+     "payload": {
+      "type": "object"
+     },
+     "entityTypeByPlatform": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "id",
+     "findingKey",
+     "createdTime",
+     "updatedTime",
+     "accountId",
+     "platform",
+     "environmentId",
+     "environmentExternalId",
+     "organizationalUnitId",
+     "status",
+     "statusReason",
+     "isExcluded",
+     "origin",
+     "alertType",
+     "ruleId",
+     "ruleTitle",
+     "ruleLogic",
+     "description",
+     "severity",
+     "frameworks",
+     "systemLabels",
+     "remediation",
+     "entityId",
+     "entityIdType",
+     "entityType",
+     "entityLabels",
+     "entityName",
+     "payload",
+     "entityTypeByPlatform"
+    ]
+   },
+   "FindingsFilterOperator": {
+    "type": "string",
+    "description": "eq: equal, !eq: not equal, gt: greater than, gte: greater than equal, lt: less than, lte: less than equal, has: field contains the value as a word, !has: not has, hasprefix: field contains the value as prefix, !hasprefix: not hasprefix, in: equal to one of the values, !in: not in, between: between values, !between: not between, has_any: field has any of the values, !has_any: not has_any, has_all: field has all the values, !has_all: not has_all",
+    "enum": [
+     "eq",
+     "!eq",
+     "in",
+     "!in",
+     "between",
+     "!between",
+     "gt",
+     "gte",
+     "lt",
+     "lte",
+     "has",
+     "!has",
+     "hasprefix",
+     "!hasprefix",
+     "has_any",
+     "!has_any",
+     "has_all",
+     "!has_all"
+    ]
+   },
+   "SearchFieldFilterViewModel": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string",
+      "enum": [
+       "id",
+       "findingKey",
+       "createdTime",
+       "updatedTime",
+       "platform",
+       "environmentId",
+       "environmentExternalId",
+       "organizationalUnitId",
+       "status",
+       "statusReason",
+       "isExcluded",
+       "origin",
+       "alertType",
+       "ruleId",
+       "ruleTitle",
+       "description",
+       "severity",
+       "frameworks",
+       "systemLabels",
+       "entityId",
+       "entityExternalId",
+       "entityType",
+       "entityLabels",
+       "entityName",
+       "region",
+       "entityTypeByPlatform"
+      ],
+      "description": "Field name."
+     },
+     "values": {
+      "oneOf": [
+       {
+        "type": "array",
+        "items": {
+         "type": "string"
+        }
+       },
+       {
+        "type": "array",
+        "items": {
+         "type": "number"
+        }
+       },
+       {
+        "type": "array",
+        "items": {
+         "type": "boolean"
+        }
+       }
+      ],
+      "minItems": 1,
+      "maxItems": 50
+     },
+     "operator": {
+      "$ref": "#/components/schemas/FindingsFilterOperator"
+     }
+    },
+    "required": [
+     "name",
+     "values",
+     "operator"
+    ]
+   },
+   "SearchFreeTextViewModel": {
+    "type": "object",
+    "properties": {
+     "text": {
+      "type": "string"
+     },
+     "fieldNames": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "maxItems": 15,
+      "items": {
+       "type": "string",
+       "enum": [
+        "ruleTitle",
+        "description",
+        "frameworks",
+        "systemLabels",
+        "entityType",
+        "entityLabels",
+        "entityName",
+        "region",
+        "entityTypeByPlatform"
+       ]
+      }
+     }
+    },
+    "required": [
+     "text",
+     "fieldNames"
+    ]
+   },
+   "SearchSortViewModel": {
+    "type": "object",
+    "properties": {
+     "fieldName": {
+      "type": "string",
+      "enum": [
+       "createdTime",
+       "updatedTime",
+       "platform",
+       "environmentId",
+       "environmentExternalId",
+       "organizationalUnitId",
+       "status",
+       "statusReason",
+       "isExcluded",
+       "origin",
+       "alertType",
+       "ruleId",
+       "ruleTitle",
+       "severity",
+       "entityExternalId",
+       "entityType",
+       "entityName",
+       "region",
+       "entityTypeByPlatform"
+      ]
+     },
+     "direction": {
+      "type": "string",
+      "enum": [
+       "asc",
+       "desc"
+      ]
+     }
+    },
+    "required": [
+     "fieldName",
+     "direction"
+    ]
+   },
+   "FindingSearchRequestModel": {
+    "type": "object",
+    "properties": {
+     "resultSetSize": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10000,
+      "default": 10000,
+      "description": "Number of items to return."
+     },
+     "filter": {
+      "maxItems": 15,
+      "description": "Filter objects. A logical AND operator is applied on the filter objects.",
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/SearchFieldFilterViewModel"
+      }
+     },
+     "orgUnitIdsFilter": {
+      "uniqueItems": true,
+      "maxItems": 50,
+      "description": "List of organizational unit IDs filter.             Filters findings which their environment ID is under the organizational unit IDs or any of their descendants.",
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "freeText": {
+      "description": "Additional free text filter which applies on the specified fields names. A logical OR operator is applied on the fields values.",
+      "allOf": [
+       {
+        "$ref": "#/components/schemas/SearchFreeTextViewModel"
+       }
+      ]
+     },
+     "sort": {
+      "maxItems": 10,
+      "description": "Array of field names to sort by.",
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/SearchSortViewModel"
+      }
+     },
+     "facets": {
+      "type": "array",
+      "uniqueItems": true,
+      "maxItems": 10,
+      "description": "Array of field names to facet by. Facets will return as additional data.",
+      "items": {
+       "type": "string",
+       "enum": [
+        "platform",
+        "environmentId",
+        "environmentExternalId",
+        "organizationalUnitId",
+        "status",
+        "statusReason",
+        "isExcluded",
+        "origin",
+        "alertType",
+        "ruleId",
+        "ruleTitle",
+        "severity",
+        "entityId",
+        "entityExternalId",
+        "entityType",
+        "entityName",
+        "region",
+        "entityTypeByPlatform"
+       ]
+      }
+     },
+     "facetResultSetSize": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 250,
+      "default": 250,
+      "description": "Number of items per facet."
+     },
+     "includeFields": {
+      "type": "array",
+      "uniqueItems": true,
+      "description": "Array of field names to return. Only these fields will be returned.",
+      "items": {
+       "type": "string",
+       "enum": [
+        "id",
+        "findingKey",
+        "createdTime",
+        "updatedTime",
+        "platform",
+        "environmentId",
+        "environmentExternalId",
+        "organizationalUnitId",
+        "status",
+        "statusReason",
+        "isExcluded",
+        "origin",
+        "alertType",
+        "ruleId",
+        "ruleTitle",
+        "ruleLogic",
+        "description",
+        "severity",
+        "frameworks",
+        "systemLabels",
+        "remediation",
+        "entityId",
+        "entityIdType",
+        "entityExternalId",
+        "entityType",
+        "entityLabels",
+        "entityName",
+        "region",
+        "entityTypeByPlatform"
+       ]
+      }
+     },
+     "totalCount": {
+      "type": "boolean",
+      "description": "Return total count of results. This value is affected by the requested filters."
+     }
+    }
+   },
+   "FacetResultDataViewModel": {
+    "type": "object",
+    "properties": {
+     "value": {
+      "oneOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "number"
+       },
+       {
+        "type": "boolean"
+       }
+      ]
+     },
+     "count": {
+      "type": "number"
+     }
+    },
+    "required": [
+     "value",
+     "count"
+    ]
+   },
+   "FacetsResultsViewModel": {
+    "type": "object",
+    "properties": {
+     "facet": {
+      "type": "string",
+      "enum": [
+       "platform",
+       "environmentId",
+       "environmentExternalId",
+       "organizationalUnitId",
+       "status",
+       "statusReason",
+       "isExcluded",
+       "origin",
+       "alertType",
+       "ruleId",
+       "ruleTitle",
+       "severity",
+       "entityId",
+       "entityExternalId",
+       "entityType",
+       "entityName",
+       "region",
+       "entityTypeByPlatform"
+      ]
+     },
+     "data": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/FacetResultDataViewModel"
+      }
+     }
+    },
+    "required": [
+     "facet",
+     "data"
+    ]
+   },
+   "FindingSearchResultsViewModel": {
+    "type": "object",
+    "properties": {
+     "results": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/FindingViewModel"
+      }
+     },
+     "facets": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/FacetsResultsViewModel"
+      }
+     },
+     "totalCount": {
+      "type": "number"
+     }
+    },
+    "required": [
+     "results",
+     "totalCount"
+    ]
+   },
+   "SearchGroupSortViewModel": {
+    "type": "object",
+    "properties": {
+     "fieldName": {
+      "type": "string",
+      "enum": [
+       "platform",
+       "environmentId",
+       "environmentExternalId",
+       "organizationalUnitId",
+       "status",
+       "statusReason",
+       "isExcluded",
+       "origin",
+       "alertType",
+       "ruleId",
+       "ruleTitle",
+       "severity",
+       "entityId",
+       "entityExternalId",
+       "entityType",
+       "entityName",
+       "region",
+       "entityTypeByPlatform",
+       "count"
+      ]
+     },
+     "direction": {
+      "type": "string",
+      "enum": [
+       "asc",
+       "desc"
+      ]
+     }
+    },
+    "required": [
+     "fieldName",
+     "direction"
+    ]
+   },
+   "FindingSearchGroupRequestModel": {
+    "type": "object",
+    "properties": {
+     "resultSetSize": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10000,
+      "default": 10000,
+      "description": "Number of items to return."
+     },
+     "filter": {
+      "maxItems": 15,
+      "description": "Filter objects. A logical AND operator is applied on the filter objects.",
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/SearchFieldFilterViewModel"
+      }
+     },
+     "orgUnitIdsFilter": {
+      "uniqueItems": true,
+      "maxItems": 50,
+      "description": "List of organizational unit IDs filter.             Filters findings which their environment ID is under the organizational unit IDs or any of their descendants.",
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "freeText": {
+      "description": "Additional free text filter which applies on the specified fields names. A logical OR operator is applied on the fields values.",
+      "allOf": [
+       {
+        "$ref": "#/components/schemas/SearchFreeTextViewModel"
+       }
+      ]
+     },
+     "groups": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "maxItems": 10,
+      "description": "Array of field names to group by.",
+      "items": {
+       "type": "string",
+       "enum": [
+        "platform",
+        "environmentId",
+        "environmentExternalId",
+        "organizationalUnitId",
+        "status",
+        "statusReason",
+        "isExcluded",
+        "origin",
+        "alertType",
+        "ruleId",
+        "ruleTitle",
+        "severity",
+        "entityId",
+        "entityExternalId",
+        "entityType",
+        "entityName",
+        "region",
+        "entityTypeByPlatform"
+       ]
+      }
+     },
+     "sort": {
+      "maxItems": 10,
+      "description": "Array of field names to sort by.",
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/SearchGroupSortViewModel"
+      }
+     }
+    },
+    "required": [
+     "groups"
+    ]
+   },
+   "SearchAdvFilterViewModel": {
+    "type": "object",
+    "properties": {
+     "logicalOperator": {
+      "type": "string",
+      "enum": [
+       "and",
+       "or"
+      ],
+      "description": "Logical operator to apply on operands."
+     },
+     "operands": {
+      "type": "array",
+      "items": {
+       "anyOf": [
+        {
+         "$ref": "#/components/schemas/SearchFieldFilterViewModel"
+        },
+        {
+         "$ref": "#/components/schemas/SearchAdvFilterViewModel"
+        }
+       ]
+      },
+      "minItems": 1,
+      "maxItems": 15,
+      "description": "Array of filter operands. An operand can either be an array of SearchFieldFilterViewModel or a recursive SearchFieldFilterViewModel."
+     }
+    },
+    "required": [
+     "logicalOperator",
+     "operands"
+    ]
+   },
+   "FindingSearchAdvRequestModel": {
+    "type": "object",
+    "properties": {
+     "resultSetSize": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10000,
+      "default": 10000,
+      "description": "Number of items to return."
+     },
+     "filter": {
+      "description": "Filter object. A recursive filter object which provides complex filters.",
+      "allOf": [
+       {
+        "$ref": "#/components/schemas/SearchAdvFilterViewModel"
+       }
+      ]
+     },
+     "orgUnitIdsFilter": {
+      "uniqueItems": true,
+      "maxItems": 50,
+      "description": "List of organizational unit IDs filter.             Filters findings which their environment ID is under the organizational unit IDs or any of their descendants.",
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "sort": {
+      "maxItems": 10,
+      "description": "Array of field names to sort by.",
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/SearchSortViewModel"
+      }
+     },
+     "facets": {
+      "type": "array",
+      "uniqueItems": true,
+      "maxItems": 10,
+      "description": "Array of field names to facet by. Facets will return as additional data.",
+      "items": {
+       "type": "string",
+       "enum": [
+        "platform",
+        "environmentId",
+        "environmentExternalId",
+        "organizationalUnitId",
+        "status",
+        "statusReason",
+        "isExcluded",
+        "origin",
+        "alertType",
+        "ruleId",
+        "ruleTitle",
+        "severity",
+        "entityId",
+        "entityExternalId",
+        "entityType",
+        "entityName",
+        "region",
+        "entityTypeByPlatform"
+       ]
+      }
+     },
+     "facetResultSetSize": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 250,
+      "default": 250,
+      "description": "Number of items per facet."
+     },
+     "includeFields": {
+      "type": "array",
+      "uniqueItems": true,
+      "description": "Array of field names to return. Only these fields will be returned.",
+      "items": {
+       "type": "string",
+       "enum": [
+        "id",
+        "findingKey",
+        "createdTime",
+        "updatedTime",
+        "platform",
+        "environmentId",
+        "environmentExternalId",
+        "organizationalUnitId",
+        "status",
+        "statusReason",
+        "isExcluded",
+        "origin",
+        "alertType",
+        "ruleId",
+        "ruleTitle",
+        "ruleLogic",
+        "description",
+        "severity",
+        "frameworks",
+        "systemLabels",
+        "remediation",
+        "entityId",
+        "entityIdType",
+        "entityExternalId",
+        "entityType",
+        "entityLabels",
+        "entityName",
+        "region",
+        "entityTypeByPlatform"
+       ]
+      }
+     },
+     "totalCount": {
+      "type": "boolean",
+      "description": "Return total count of results. This value is affected by the requested filters."
+     }
+    }
+   },
+   "FindingSearchAdvGroupRequestModel": {
+    "type": "object",
+    "properties": {
+     "resultSetSize": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10000,
+      "default": 10000,
+      "description": "Number of items to return."
+     },
+     "filter": {
+      "description": "Filter object. A recursive filter object which provides complex filters.",
+      "allOf": [
+       {
+        "$ref": "#/components/schemas/SearchAdvFilterViewModel"
+       }
+      ]
+     },
+     "orgUnitIdsFilter": {
+      "uniqueItems": true,
+      "maxItems": 50,
+      "description": "List of organizational unit IDs filter.             Filters findings which their environment ID is under the organizational unit IDs or any of their descendants.",
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "groups": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "maxItems": 10,
+      "description": "Array of field names to group by.",
+      "items": {
+       "type": "string",
+       "enum": [
+        "platform",
+        "environmentId",
+        "environmentExternalId",
+        "organizationalUnitId",
+        "status",
+        "statusReason",
+        "isExcluded",
+        "origin",
+        "alertType",
+        "ruleId",
+        "ruleTitle",
+        "severity",
+        "entityId",
+        "entityExternalId",
+        "entityType",
+        "entityName",
+        "region",
+        "entityTypeByPlatform"
+       ]
+      }
+     },
+     "sort": {
+      "maxItems": 10,
+      "description": "Array of field names to sort by.",
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/SearchGroupSortViewModel"
+      }
+     }
+    }
+   },
+   "FindingsPoliciesFilterOperator": {
+    "type": "string",
+    "description": "eq: equal, !eq: not equal, has: field contains the value as a word, !has: not has, hasprefix: field contains the value as prefix, !hasprefix: not hasprefix, in: equal to one of the values, !in: not in, has_any: field has any of the values, !has_any: not has_any, has_all: field has all the values, !has_all: not has_all",
+    "enum": [
+     "eq",
+     "!eq",
+     "in",
+     "!in",
+     "has",
+     "!has",
+     "hasprefix",
+     "!hasprefix",
+     "has_any",
+     "!has_any",
+     "has_all",
+     "!has_all"
+    ]
+   },
+   "FindingsPolicySearchFieldFilterViewModel": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string",
+      "enum": [
+       "platform",
+       "environmentId",
+       "statusReason",
+       "isExcluded",
+       "origin",
+       "ruleId",
+       "severity",
+       "systemLabels",
+       "entityType",
+       "entityLabels",
+       "region",
+       "entityTypeByPlatform"
+      ],
+      "description": "Field name."
+     },
+     "values": {
+      "oneOf": [
+       {
+        "type": "array",
+        "items": {
+         "type": "string"
+        }
+       },
+       {
+        "type": "array",
+        "items": {
+         "type": "number"
+        }
+       },
+       {
+        "type": "array",
+        "items": {
+         "type": "boolean"
+        }
+       }
+      ],
+      "minItems": 1,
+      "maxItems": 50
+     },
+     "operator": {
+      "$ref": "#/components/schemas/FindingsPoliciesFilterOperator"
+     }
+    },
+    "required": [
+     "name",
+     "values",
+     "operator"
+    ]
+   },
+   "FindingsPolicySearchAdvFilterViewModel": {
+    "type": "object",
+    "properties": {
+     "logicalOperator": {
+      "type": "string",
+      "enum": [
+       "and",
+       "or"
+      ],
+      "description": "Logical operator to apply on operands."
+     },
+     "operands": {
+      "type": "array",
+      "items": {
+       "anyOf": [
+        {
+         "$ref": "#/components/schemas/FindingsPolicySearchFieldFilterViewModel"
+        },
+        {
+         "$ref": "#/components/schemas/FindingsPolicySearchAdvFilterViewModel"
+        }
+       ]
+      },
+      "minItems": 1,
+      "maxItems": 15,
+      "description": "Array of filter operands. An operand can either be an array of FindingsPolicySearchAdvFilterViewModel or a recursive FindingsPolicySearchFieldFilterViewModel."
+     }
+    },
+    "required": [
+     "logicalOperator",
+     "operands"
+    ]
+   },
+   "FindingsPolicyViewModel": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "name": {
+      "type": "string"
+     },
+     "description": {
+      "type": "string"
+     },
+     "filter": {
+      "$ref": "#/components/schemas/FindingsPolicySearchAdvFilterViewModel"
+     },
+     "triggers": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "integrationIds": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "orgUnitIdsFilter": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "created": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "updated": {
+      "format": "date-time",
+      "type": "string"
+     }
+    },
+    "required": [
+     "id",
+     "name",
+     "triggers",
+     "integrationIds",
+     "created"
+    ]
+   },
+   "FindingsPolicyRequestModel": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "description": {
+      "type": "string"
+     },
+     "triggers": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "description": "Filter on finding change type.",
+      "items": {
+       "type": "string",
+       "enum": [
+        "Created",
+        "Updated",
+        "Closed"
+       ]
+      }
+     },
+     "filter": {
+      "description": "Filter object. A recursive filter object which provides complex filters.",
+      "allOf": [
+       {
+        "$ref": "#/components/schemas/FindingsPolicySearchAdvFilterViewModel"
+       }
+      ]
+     },
+     "orgUnitIdsFilter": {
+      "uniqueItems": true,
+      "maxItems": 50,
+      "description": "List of organizational unit IDs filter.             Filters findings which their environment ID is under the organizational unit IDs or any of their descendants.",
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "integrationIds": {
+      "minItems": 1,
+      "maxItems": 10,
+      "uniqueItems": true,
+      "description": "List of integration IDs to invoke.",
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    },
+    "required": [
+     "name",
+     "triggers",
+     "integrationIds"
+    ]
+   },
+   "FindingsPolicyCreationViewModel": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "id"
+    ]
+   }
+  },
+  "securitySchemes": {
+   "basic": {
+    "type": "http",
+    "scheme": "basic"
+   }
+  }
+ },
+ "security": [
+  {
+   "basic": []
+  }
+ ],
+ "x-readme": {
+  "explorer-enabled": true,
+  "proxy-enabled": true
+ }
+}

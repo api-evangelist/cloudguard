@@ -1,0 +1,172 @@
+generated: '2026-09-05'
+method: searched
+source: registry.npmjs.org, registry.terraform.io, proxy.golang.org, pypi.org, github.com/CheckPointSW, github.com/dome9
+description: 'First-party client libraries, providers and MCP packages for CloudGuard and the wider Check Point
+  platform. Versions and dates are read from each registry''s metadata endpoint on 2026-09-05. Currency is the headline
+  finding: the CloudGuard REST SDKs are stale (Go SDK last released 2025-01-26, the two Python SDKs have no registry
+  distribution at all and were last pushed in 2022 and 2019) while the MCP packages - a different, newer surface
+  - all shipped in the last three weeks.'
+counts:
+  total: 11
+  official: 11
+  cloudguard_specific: 5
+  with_registry_version: 9
+not_official:
+- name: dome9
+  registry: pypi
+  version: 0.6.1
+  published: '2022-06-03'
+  url: https://pypi.org/project/dome9/
+  official: false
+  note: Community SDK by David Amrani Hernandez (github.com/davidmoremad), not published by Check Point. Recorded
+    so it is not mistaken for a first-party package.
+- name: cloudguard
+  registry: pypi
+  version: 1.0.0
+  published: '2026-01-22'
+  url: https://pypi.org/project/cloudguard/
+  official: false
+  note: Unrelated third-party "AWS Security Compliance Scanner" that happens to hold the name. Nothing to do with
+    Check Point CloudGuard.
+packages:
+- name: '@chkp/checkpoint-waf-mcp'
+  registry: npm
+  language: javascript
+  official: true
+  version: 0.2.1
+  published: '2026-08-20'
+  url: https://www.npmjs.com/package/@chkp/checkpoint-waf-mcp
+  repository: https://github.com/CheckPointSW/mcp-servers
+  kind: mcp-server
+  cloudguard_surface: true
+  description: CloudGuard WAF (Check Point WAF) MCP server - assets, practices, profiles, zones, behaviors, publish
+    and enforce.
+  source: https://registry.npmjs.org/@chkp/checkpoint-waf-mcp (dist-tags.latest + time, read 2026-09-05)
+- name: '@chkp/argos-erm-mcp'
+  registry: npm
+  language: javascript
+  official: true
+  version: 0.5.5
+  published: '2026-08-20'
+  url: https://www.npmjs.com/package/@chkp/argos-erm-mcp
+  repository: https://github.com/CheckPointSW/mcp-servers
+  kind: mcp-server
+  cloudguard_surface: false
+  description: Exposure / external risk management MCP server - alerts, IOCs, assets, vulnerabilities, credential
+    exposure.
+  source: https://registry.npmjs.org/@chkp/argos-erm-mcp (dist-tags.latest + time, read 2026-09-05)
+- name: '@chkp/quantum-management-mcp'
+  registry: npm
+  language: javascript
+  official: true
+  version: 1.4.10
+  published: '2026-08-20'
+  url: https://www.npmjs.com/package/@chkp/quantum-management-mcp
+  repository: https://github.com/CheckPointSW/mcp-servers
+  kind: mcp-server
+  cloudguard_surface: false
+  description: Quantum Management MCP server - policies, rules, objects, network topology.
+  source: https://registry.npmjs.org/@chkp/quantum-management-mcp (dist-tags.latest + time, read 2026-09-05)
+- name: '@chkp/harmony-sase-mcp'
+  registry: npm
+  language: javascript
+  official: true
+  version: 1.3.2
+  published: '2026-08-20'
+  url: https://www.npmjs.com/package/@chkp/harmony-sase-mcp
+  repository: https://github.com/CheckPointSW/mcp-servers
+  kind: mcp-server
+  cloudguard_surface: false
+  description: Harmony SASE MCP server.
+  source: https://registry.npmjs.org/@chkp/harmony-sase-mcp (dist-tags.latest + time, read 2026-09-05)
+- name: '@chkp/documentation-mcp'
+  registry: npm
+  language: javascript
+  official: true
+  version: 1.4.10
+  published: '2026-08-20'
+  url: https://www.npmjs.com/package/@chkp/documentation-mcp
+  repository: https://github.com/CheckPointSW/mcp-servers
+  kind: mcp-server
+  cloudguard_surface: false
+  description: Check Point documentation assistant MCP server.
+  source: https://registry.npmjs.org/@chkp/documentation-mcp (dist-tags.latest + time, read 2026-09-05)
+- name: '@chkp/policy-insights-mcp'
+  registry: npm
+  language: javascript
+  official: true
+  version: 0.4.1
+  published: '2026-08-20'
+  url: https://www.npmjs.com/package/@chkp/policy-insights-mcp
+  repository: https://github.com/CheckPointSW/mcp-servers
+  kind: mcp-server
+  cloudguard_surface: false
+  description: Policy Insights MCP server.
+  source: https://registry.npmjs.org/@chkp/policy-insights-mcp (dist-tags.latest + time, read 2026-09-05)
+- name: dome9/dome9
+  registry: terraform
+  language: hcl
+  official: true
+  version: 1.40.4
+  published: '2025-10-30'
+  url: https://registry.terraform.io/providers/dome9/dome9/latest
+  repository: https://github.com/dome9/terraform-provider-dome9
+  kind: terraform-provider
+  cloudguard_surface: true
+  description: Check Point CloudGuard Dome9 Terraform provider - manages cloud accounts, rulesets, policies, notifications
+    and IP lists through the CloudGuard v2 REST API.
+  source: https://registry.terraform.io/v1/providers/dome9/dome9 (read 2026-09-05)
+- name: github.com/dome9/dome9-sdk-go
+  registry: go
+  language: go
+  official: true
+  version: v1.23.12
+  published: '2025-01-26'
+  url: https://pkg.go.dev/github.com/dome9/dome9-sdk-go
+  repository: https://github.com/dome9/dome9-sdk-go
+  kind: sdk
+  cloudguard_surface: true
+  description: First-party Go SDK for the CloudGuard (Dome9) v2 REST API. Backs the Terraform provider.
+  source: https://proxy.golang.org/github.com/dome9/dome9-sdk-go/@latest (read 2026-09-05)
+- name: dome9-sdk-python
+  registry: null
+  language: python
+  official: true
+  version: null
+  published: null
+  url: https://github.com/dome9/dome9-sdk-python
+  repository: https://github.com/dome9/dome9-sdk-python
+  kind: sdk
+  cloudguard_surface: true
+  description: First-party Python SDK for CloudGuard (Dome9), published as source on GitHub only.
+  note: 'Checked, nothing to record: there is no PyPI distribution under this name (pypi.org/pypi/dome9-sdk-python/json
+    returns 404), so there is no registry version or release date. The repository last saw a push on 2022-07-25
+    - the SDK predates most of the API surface it wraps.'
+  source: https://pypi.org/pypi/dome9-sdk-python/json (HTTP 404, read 2026-09-05)
+- name: Python_API_SDK
+  registry: null
+  language: python
+  official: true
+  version: null
+  published: null
+  url: https://github.com/dome9/Python_API_SDK
+  repository: https://github.com/dome9/Python_API_SDK
+  kind: sdk
+  cloudguard_surface: true
+  description: Older first-party Python API SDK and sample implementations; referenced from the CloudAccounts_SyncNow
+    operation description in the published OpenAPI.
+  note: 'Checked, nothing to record: no registry distribution. Last pushed 2019-11-14.'
+  source: https://github.com/dome9/Python_API_SDK (read 2026-09-05)
+- name: CheckPointSW/checkpoint
+  registry: terraform
+  language: hcl
+  official: true
+  version: 3.3.1
+  published: '2026-09-01'
+  url: https://registry.terraform.io/providers/CheckPointSW/checkpoint/latest
+  repository: https://github.com/CheckPointSW/terraform-provider-checkpoint
+  kind: terraform-provider
+  cloudguard_surface: false
+  description: Check Point Management (Quantum) Terraform provider. Listed for completeness - it targets the Management
+    API, not the CloudGuard v2 REST API.
+  source: https://registry.terraform.io/v1/providers/CheckPointSW/checkpoint (read 2026-09-05)

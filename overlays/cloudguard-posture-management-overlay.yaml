@@ -1,0 +1,28 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements - CloudGuard Posture Management
+  version: 1.0.0
+extends: cloudguard-posture-management-openapi.yml
+x-generated: '2026-09-05'
+x-method: generated
+x-source: openapi/cloudguard-posture-management-openapi.yml
+actions:
+- target: $.info
+  description: Attach provider contact and documentation the published definition omits.
+  update:
+    contact:
+      name: Check Point CloudGuard
+      url: https://docs.cgn.portal.checkpoint.com/reference
+    x-provider: Check Point Software Technologies
+    x-product: CloudGuard CNAPP
+- target: $
+  description: Attach external documentation for the CloudGuard Developer Hub.
+  update:
+    externalDocs:
+      description: CloudGuard Developer Hub - API reference
+      url: https://docs.cgn.portal.checkpoint.com/reference
+- target: $.components.securitySchemes['basic']
+  description: Document how the HTTP Basic credential pair is obtained (API key id / secret from Settings > Credentials).
+  update:
+    description: HTTP Basic. Username is the CloudGuard V2 API key id, password is the API key secret, created in
+      the CloudGuard portal under Settings > Credentials. See https://docs.cgn.portal.checkpoint.com/reference/authentication

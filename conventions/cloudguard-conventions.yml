@@ -1,0 +1,124 @@
+generated: '2026-09-05'
+method: derived
+source: openapi/ (23 first-party CloudGuard OpenAPI documents) + https://docs.cgn.portal.checkpoint.com/reference/authentication
+  + live probe of https://api.dome9.com/v2/CloudAccounts
+description: Cross-cutting runtime semantics of the CloudGuard (Dome9) v2 REST API. Everything below is read from
+  the provider-published contract, the provider-published API reference, or a live unauthenticated probe. Where
+  CloudGuard publishes nothing, that absence is recorded rather than filled in.
+base_url:
+  primary: https://api.dome9.com/v2/
+  regional_template: https://api.{region}.dome9.com/
+  regions:
+  - eu1
+  - ap1
+  - ap2
+  - ap3
+  - cace1
+  infinity_portal_hosts:
+  - https://api.us1.cgn.portal.checkpoint.com
+  - https://api.eu1.cgn.portal.checkpoint.com
+  - https://api.ap2.cgn.portal.checkpoint.com
+  - https://api.ap3.cgn.portal.checkpoint.com
+  - https://api.cace1.cgn.portal.checkpoint.com
+  source: https://docs.cgn.portal.checkpoint.com/reference/introduction
+auth:
+  style: http-basic
+  credential: V2 API key id (username) + API key secret (password)
+  scopes: none - the key inherits the permissions of the CloudGuard user that created it
+  docs: https://docs.cgn.portal.checkpoint.com/reference/authentication
+media_types:
+  request:
+  - application/json
+  - application/x-www-form-urlencoded
+  response:
+  - application/json
+  - application/octet-stream
+idempotency:
+  coverage: none
+  mechanism: null
+  header: null
+  note: No Idempotency-Key header, request-id de-duplication, or replay window is documented anywhere in the API
+    reference or declared in any of the 23 published OpenAPI definitions. Of 396 mutating operations, none declares
+    replay protection. A retried POST /v2/CloudAccounts creates a second onboarding attempt.
+  mutating_operation_count: 396
+  protected_operation_count: 0
+reversibility:
+  grade: documented
+  note: CloudGuard exposes real reversal paths for several write surfaces, but publishes no window for any of them.
+    Nothing in the reference or the contract states how long a deleted cloud account, an archived finding or a removed
+    policy can be recovered, so the grade stops at `documented` rather than `verified`. Do NOT assume a window exists.
+  surfaces:
+  - write: CloudAccounts_Delete_delete_/v2/CloudAccounts/{id}
+    reversal: null
+    note: Deleting a cloud account detaches it from CloudGuard. Re-onboarding is a fresh POST /v2/CloudAccounts,
+      not a restore - historical findings and assessment history for the account are not documented as recoverable.
+    window: null
+  - write: CloudAccounts_DeleteForce_delete_/v2/CloudAccounts/{id}/DeleteForce
+    reversal: null
+    note: Force-delete removes the cloud account AND its linked entities. No undo is published. Highest-consequence
+      operation on the surface.
+    window: null
+  - write: Finding_SelectAllClose_post_/v2/Compliance/Finding/SelectAll/Archive/Close
+    reversal: Findings can be re-opened from the Events surface; the reference documents archive/close and re-open
+      as complementary actions on the same finding.
+    window: null
+  - write: ContinuousCompliancePolicy write operations
+    reversal: DELETE then re-POST the policy; there is no versioned rollback.
+    window: null
+  - write: User_UnlockUser_put_/v2/user/{id}/unlock
+    reversal: This IS the reversal for an account locked out after failed authentications.
+    window: null
+  - write: MissingPermissions Reset (per cloud provider)
+    reversal: Reset re-validates credentials and clears the missing-permissions state; it is a re-run, not an undo.
+    window: null
+  reversal_candidate_operations: 22
+dry_run_mode:
+  supported: false
+  note: No dry-run, preview or validate-only parameter is declared on any mutating operation. The closest published
+    surface is AzureCloudAccount_GetOnboardingScriptForPreviewAsync, which returns the onboarding script for inspection
+    before it is run - a preview of a script, not of an API write.
+pagination:
+  style: none-documented
+  note: No page/limit/offset/cursor parameter appears on any collection GET in any published definition, and no
+    pagination envelope is described. Collection reads such as GET /v2/CloudAccounts return a bare JSON array. Several
+    search surfaces (POST /v2/ExternalFindings/search, POST /v2/Compliance/Finding/search) accept a request body
+    that the reference does not fully document; agents should treat result-set size as unbounded.
+  parameters: []
+filtering:
+  style: path and query scoping
+  note: Filtering is expressed as resource-scoped paths (/v2/CloudAccounts/{id}/MissingPermissions) and a handful
+    of named query parameters (cloudAccountId, cloudProvider, entityType, startTimestamp/endTimestamp, showIgnored).
+    There is no generic filter grammar.
+field_expansion:
+  supported: false
+  note: No expand / fields / include parameter is declared. One recurring flag, withPayloadObject, toggles inclusion
+    of a nested payload on 12 operations.
+metadata:
+  supported: true
+  note: Cloud accounts and entities carry provider tags; several operations manage them (AwsSecurityGroupPolicy_UpdateTags).
+    There is no generic user-defined metadata bag on API objects.
+request_id_tracing:
+  supported: false
+  note: No X-Request-Id, X-Correlation-Id or trace header is documented or returned on the unauthenticated probe.
+    There is a Security Graph query surface with a runRequestId path parameter, but that identifies an async query
+    run, not an HTTP request.
+versioning:
+  style: path
+  current: v2
+  see: lifecycle/cloudguard-lifecycle.yml
+error_envelope:
+  media_type: application/json
+  shape: '{"message": "..."}'
+  rfc9457: false
+  see: errors/cloudguard-problem-types.yml
+rate_limit_signaling:
+  published: false
+  see: rate-limits/cloudguard-rate-limits.yml
+  note: No RateLimit-*, X-RateLimit-* or Retry-After header is documented, and none is returned on the unauthenticated
+    401.
+cross_links:
+  errors: errors/cloudguard-problem-types.yml
+  lifecycle: lifecycle/cloudguard-lifecycle.yml
+  authentication: authentication/cloudguard-authentication.yml
+  rate_limits: rate-limits/cloudguard-rate-limits.yml
+  data_model: data-model/cloudguard-data-model.yml

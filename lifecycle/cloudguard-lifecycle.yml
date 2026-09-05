@@ -1,0 +1,139 @@
+generated: '2026-09-05'
+method: searched
+source: https://docs.cgn.portal.checkpoint.com/reference/introduction
+description: Versioning, deprecation, status and strategic-direction signals for the CloudGuard (Dome9) v2 REST
+  API, read from the provider-published API reference, the provider-published OpenAPI documents, the CloudGuard
+  release notes wiki, and Check Point press releases.
+versioning:
+  style: path
+  current: v2
+  pattern: https://api.dome9.com/v2/...
+  note: The API reference states "With version 2 of this API, developers can access functions using RESTful HTTP
+    requests." Every published definition carries info.version "v2" and every path is rooted at /v2/. No header
+    or query version negotiation is documented.
+  source: https://docs.cgn.portal.checkpoint.com/reference/introduction
+release_scheme:
+  style: dated deployments
+  note: CloudGuard ships dated deployments rather than numbered API releases; the release-notes wiki indexes them
+    by date with internal case IDs (CNAPP-*, DFT-*, AL-*).
+  source: https://dome9-security.atlassian.net/wiki/spaces/RN/pages/784400389/Release+Notes
+  http_status: 200
+status_page:
+  url: https://status.checkpoint.com/
+  provider: Atlassian Statuspage
+  http_status: 200
+  verified: '2026-09-05'
+  note: Check Point Services Status. The status page previously recorded for this profile, https://status.dome9.com/,
+    now redirects to https://dome9security.statuspage.io/inactive and renders "Dome9 Security Status - Page Inactive"
+    - it is decommissioned and has been removed from apis.yml.
+deprecation_policy:
+  published: false
+  headers:
+    sunset: false
+    deprecation: false
+    link: false
+  note: 'No RFC 8594 Sunset/Deprecation header policy and no written deprecation policy page were found. Deprecation
+    is signalled only inside the contract: 19 operations carry OpenAPI `deprecated: true`. No removal date is published
+    for any of them.'
+  in_contract:
+    deprecated_operation_count: 19
+    operations:
+    - operationId: KubernetesImageAssurance_GetImageVulnerabilities_get_/v2/kubernetes/imageAssurance/image/vulnerabilities
+      path: /v2/kubernetes/imageAssurance/image/vulnerabilities
+      method: get
+      spec: openapi/cloudguard-workload-protection-openapi.yml
+    - operationId: KubernetesImageAssurancePolicy_Get_get_/v2/kubernetes/imageAssurance/policy/{id}
+      path: /v2/kubernetes/imageAssurance/policy/{id}
+      method: get
+      spec: openapi/cloudguard-workload-protection-openapi.yml
+    - operationId: KubernetesImageAssurancePolicy_Delete_delete_/v2/kubernetes/imageAssurance/policy/{id}
+      path: /v2/kubernetes/imageAssurance/policy/{id}
+      method: delete
+      spec: openapi/cloudguard-workload-protection-openapi.yml
+    - operationId: KubernetesImageAssurancePolicy_GetAll_get_/v2/kubernetes/imageAssurance/policy
+      path: /v2/kubernetes/imageAssurance/policy
+      method: get
+      spec: openapi/cloudguard-workload-protection-openapi.yml
+    - operationId: KubernetesImageAssurancePolicy_Post_post_/v2/kubernetes/imageAssurance/policy
+      path: /v2/kubernetes/imageAssurance/policy
+      method: post
+      spec: openapi/cloudguard-workload-protection-openapi.yml
+    - operationId: KubernetesImageAssurancePolicy_Put_put_/v2/kubernetes/imageAssurance/policy
+      path: /v2/kubernetes/imageAssurance/policy
+      method: put
+      spec: openapi/cloudguard-workload-protection-openapi.yml
+    - operationId: ShiftLeftAccount_DeleteForce_delete_/v2/ShiftLeftAccount/{id}/DeleteForce
+      path: /v2/ShiftLeftAccount/{id}/DeleteForce
+      method: delete
+      spec: openapi/cloudguard-workload-protection-openapi.yml
+    - operationId: ShiftLeftPolicy_Get_get_/v2/ShiftLeftPolicy/{id}
+      path: /v2/ShiftLeftPolicy/{id}
+      method: get
+      spec: openapi/cloudguard-workload-protection-openapi.yml
+    - operationId: ShiftLeftPolicy_GetAll_get_/v2/ShiftLeftPolicy
+      path: /v2/ShiftLeftPolicy
+      method: get
+      spec: openapi/cloudguard-workload-protection-openapi.yml
+    - operationId: ShiftLeftPolicy_Post_post_/v2/ShiftLeftPolicy
+      path: /v2/ShiftLeftPolicy
+      method: post
+      spec: openapi/cloudguard-workload-protection-openapi.yml
+    - operationId: ShiftLeftPolicy_Put_put_/v2/ShiftLeftPolicy
+      path: /v2/ShiftLeftPolicy
+      method: put
+      spec: openapi/cloudguard-workload-protection-openapi.yml
+    - operationId: ShiftLeftPolicy_Delete_delete_/v2/ShiftLeftPolicy
+      path: /v2/ShiftLeftPolicy
+      method: delete
+      spec: openapi/cloudguard-workload-protection-openapi.yml
+    - operationId: KubernetesImageAdmissionExclusion_Get_get_/v2/kubernetes/imageAssurance/admissionExclusion/{id}
+      path: /v2/kubernetes/imageAssurance/admissionExclusion/{id}
+      method: get
+      spec: openapi/cloudguard-workload-protection-openapi.yml
+    - operationId: KubernetesImageAdmissionExclusion_Delete_delete_/v2/kubernetes/imageAssurance/admissionExclusion/{id}
+      path: /v2/kubernetes/imageAssurance/admissionExclusion/{id}
+      method: delete
+      spec: openapi/cloudguard-workload-protection-openapi.yml
+    - operationId: KubernetesImageAdmissionExclusion_GetAll_get_/v2/kubernetes/imageAssurance/admissionExclusion
+      path: /v2/kubernetes/imageAssurance/admissionExclusion
+      method: get
+      spec: openapi/cloudguard-workload-protection-openapi.yml
+    - operationId: KubernetesImageAdmissionExclusion_Put_put_/v2/kubernetes/imageAssurance/admissionExclusion
+      path: /v2/kubernetes/imageAssurance/admissionExclusion
+      method: put
+      spec: openapi/cloudguard-workload-protection-openapi.yml
+    - operationId: Vulnerabilities_GetScanResults_get_/v2/vulnerability/scan-results
+      path: /v2/vulnerability/scan-results
+      method: get
+      spec: openapi/cloudguard-workload-protection-openapi.yml
+    - operationId: Vulnerabilities_GetScanResultsMetadata_get_/v2/vulnerability/scan-results-metadata
+      path: /v2/vulnerability/scan-results-metadata
+      method: get
+      spec: openapi/cloudguard-workload-protection-openapi.yml
+    - operationId: Vulnerabilities_ExportScanResultsToCsv_get_/v2/vulnerability/scan-results-export-csvs
+      path: /v2/vulnerability/scan-results-export-csvs
+      method: get
+      spec: openapi/cloudguard-workload-protection-openapi.yml
+sla:
+  published: false
+  note: No public API SLA or uptime commitment was found on the developer hub or the support site.
+strategic_direction:
+  signal: product-succession
+  summary: Check Point announced a strategic partnership with Wiz on 2025-02-11 that includes "the assisted migration
+    of Check Point's CNAPP customers to Wiz". A follow-on announcement on 2025-09-29 brought the integrated Check
+    Point cloud network security + Wiz CNAPP solution to general availability. CloudGuard Network Security, CloudGuard
+    WAF and CloudGuard Code Security are named as continuing investment areas; the CNAPP/CSPM surface described
+    by this API is the part being succeeded.
+  quote: The mutually beneficial partnership includes joint integration and the assisted migration of Check Point's
+    CNAPP customers to Wiz.
+  evidence:
+  - url: https://www.checkpoint.com/press-releases/check-point-software-technologies-and-wiz-enter-strategic-partnership-to-deliver-end-to-end-cloud-security/
+    http_status: 202
+    note: First-party press release. www.checkpoint.com answers our crawler with a 202 bot challenge and an empty
+      body; the page is served to browsers.
+  - url: https://www.globenewswire.com/news-release/2025/02/11/3024125/0/en/Check-Point-and-Wiz-Enter-Strategic-Partnership-to-Deliver-End-to-End-Cloud-Security.html
+    http_status: 200
+    note: The same Check Point release on the wire, readable; the quote above is taken from it.
+  caveat: No deprecation, sunset or end-of-life date has been published for the CloudGuard v2 REST API itself. The
+    API remains documented and live (401 on an unauthenticated call, not 410). This is recorded as direction, not
+    as a retirement.

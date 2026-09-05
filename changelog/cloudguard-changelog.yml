@@ -1,0 +1,60 @@
+generated: '2026-09-05'
+method: searched
+source: https://dome9-security.atlassian.net/wiki/spaces/RN/pages/784400389/Release+Notes
+description: CloudGuard publishes a dated release-notes wiki (Confluence) rather than a developer-hub changelog.
+  The CloudGuard Developer Hub itself serves no /changelog (HTTP 404).
+scheme: date-based deployments with internal case identifiers (CNAPP-*, DFT-*, AL-*)
+current_version: v2 (API), dated deployments (platform)
+home: https://dome9-security.atlassian.net/wiki/spaces/RN/overview
+feed:
+  type: rss
+  note: Check Point CheckMates announced an RSS feed for the CloudGuard release notes; the feed URL is served by
+    the Confluence space above.
+probes:
+- url: https://docs.cgn.portal.checkpoint.com/changelog
+  http_status: 404
+- url: https://dome9-security.atlassian.net/wiki/spaces/RN/pages/784400389/Release+Notes
+  http_status: 200
+entries:
+- date: '2026-03-10'
+  title: Compliance Rulesets Update
+  type: additions
+  highlights:
+  - General maintenance and compliance ruleset content updates
+  refs:
+  - DFT-5433
+  - CNAPP-16732
+  - CNAPP-16725
+- date: '2026-03-05'
+  title: Compliance ruleset improvements
+  type: additions
+  highlights:
+  - Managed-list alignment for server ports and managed Kubernetes services
+  refs:
+  - CNAPP-16687
+  - CNAPP-16697
+  - CNAPP-16698
+- date: '2026-03-02'
+  title: General maintenance
+  type: fixes
+  highlights:
+  - Compliance ruleset updates
+  refs:
+  - DFT-5434
+  - CNAPP-16730
+- date: '2026-02-25'
+  title: Compliance ruleset update
+  type: additions
+  highlights:
+  - Ruleset content update
+  refs:
+  - CNAPP-16717
+- date: '2026-01-30'
+  title: Serverless fix
+  type: fixes
+  highlights:
+  - Fixed crash in dotnet layer affecting serverless components
+  refs:
+  - AL-3210
+note: Entries are the most recent visible on the release-notes wiki at the time of harvest. None of the recent entries
+  carries a breaking-change or deprecation notice.

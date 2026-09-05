@@ -17,6 +17,13 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
+  "notes": [
+    "cloudguard-cloudaccounts-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "cloudguard-compliance-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "cloudguard-findings-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "cloudguard-notifications-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "cloudguard-policies-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
   "skipped": []
 }

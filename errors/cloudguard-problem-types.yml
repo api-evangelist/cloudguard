@@ -1,0 +1,62 @@
+generated: '2026-09-05'
+method: derived
+source: openapi/ + live probe of https://api.dome9.com/v2/CloudAccounts (unauthenticated, 2026-09-05)
+format: proprietary-json
+description: Error surface of the CloudGuard (Dome9) v2 REST API. The provider-published OpenAPI documents an exclusively
+  2xx response surface - across 823 operations not one 4xx or 5xx response is declared - so the error contract here
+  is recorded from the live API envelope and the documented behaviour, not derived from the spec.
+spec_coverage:
+  operations: 823
+  documented_response_codes:
+    '200': 716
+    '204': 64
+    '201': 5
+    '207': 6
+    default: 33
+  operations_with_4xx_or_5xx: 0
+  note: Only 200/201/204/207 and a bare "default" are declared. An agent cannot learn the failure modes from this
+    contract.
+envelope:
+  media_type: application/json
+  fields:
+  - name: message
+    type: string
+    description: Human-readable failure description returned by the ASP.NET Web API pipeline.
+  example:
+    message: Authorization has been denied for this request.
+  evidence:
+    url: https://api.dome9.com/v2/CloudAccounts
+    http_status: 401
+    fetched: '2026-09-05'
+    body: '{"message":"Authorization has been denied for this request."}'
+rfc9457:
+  conforms: false
+  note: No application/problem+json media type appears in any published definition, and the live 401 returns application/json
+    with a bare message field.
+problem_types:
+- status: 401
+  title: Authorization has been denied for this request
+  detail: The HTTP Basic credential pair (V2 API key id / secret) is missing, malformed, or revoked.
+  remediation: Create or rotate a V2 API key in the CloudGuard portal under Settings > Credentials, then retry with
+    HTTP Basic auth.
+  evidence: https://api.dome9.com/v2/CloudAccounts (probed 2026-09-05, HTTP 401)
+  method: probed
+- status: 403
+  title: Insufficient permissions
+  detail: The API key inherits the permissions of the CloudGuard user that created it; the operation requires a
+    permission that user does not hold.
+  remediation: Grant the generating user the required role, or create the key as a user with All System Resources
+    permission.
+  evidence: https://docs.cgn.portal.checkpoint.com/reference/authentication
+  method: searched
+- status: 404
+  title: No HTTP resource was found that matches the request URI
+  detail: Routing failure returned by the ASP.NET Web API host for an unknown path.
+  remediation: Check the path against the API reference; CloudGuard paths are case-sensitive and rooted at /v2/.
+  evidence: https://api.dome9.com/v2/swagger.json (probed 2026-09-05, HTTP 404, body {"message":"No HTTP resource
+    was found that matches the request URI ..."})
+  method: probed
+gaps:
+- No published error-code registry.
+- No 4xx/5xx responses in any of the 23 published OpenAPI definitions.
+- No rate-limit / 429 semantics published.

@@ -1,0 +1,245 @@
+generated: '2026-09-05'
+method: probed
+source: live HTTPS probes, 2026-09-05
+description: 'Well-known discovery probe across every host this record knows: the registrable domain and www, the
+  API host and its regional siblings, the developer-hub host, the documentation host, and the two console hosts.
+  CloudGuard and Check Point serve NONE of these documents. Two hosts (secure.dome9.com, portal.checkpoint.com)
+  answer 200 for every /.well-known/* path with an identical single-page-app HTML shell - that is a catch-all, not
+  a served document, and it is recorded as a miss. www.checkpoint.com answers our crawler with a 202 bot challenge
+  and an empty body, which is neither a hit nor proof of absence. No WellKnown or SecurityTxt pointer is emitted
+  in apis.yml, because the provider publishes none of these surfaces.'
+result: no documents served
+hosts:
+- host: www.checkpoint.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+    note: nginx 404
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+    note: WordPress 404 page
+  - path: /.well-known/oauth-authorization-server
+    status: 202
+    file: null
+    note: bot challenge, empty body
+  - path: /.well-known/api-catalog
+    status: 202
+    file: null
+    note: bot challenge, empty body
+  - path: /.well-known/ai-plugin.json
+    status: 202
+    file: null
+    note: bot challenge, empty body
+  - path: /.well-known/agent-card.json
+    status: 202
+    file: null
+    note: bot challenge, empty body
+  - path: /.well-known/agent.json
+    status: 202
+    file: null
+    note: bot challenge, empty body
+- host: checkpoint.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 202
+    file: null
+    note: bot challenge, empty body
+  - path: /.well-known/openid-configuration
+    status: 202
+    file: null
+    note: bot challenge, empty body
+  - path: /.well-known/oauth-authorization-server
+    status: 202
+    file: null
+    note: bot challenge, empty body
+  - path: /.well-known/api-catalog
+    status: 202
+    file: null
+    note: bot challenge, empty body
+  - path: /.well-known/ai-plugin.json
+    status: 202
+    file: null
+    note: bot challenge, empty body
+  - path: /.well-known/agent-card.json
+    status: 202
+    file: null
+    note: bot challenge, empty body
+  - path: /.well-known/agent.json
+    status: 202
+    file: null
+    note: bot challenge, empty body
+- host: api.dome9.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+    note: ASP.NET 404 HTML
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+    note: ASP.NET 404 HTML
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+    note: ASP.NET 404 HTML
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+    note: ASP.NET 404 HTML
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+    note: ASP.NET 404 HTML
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+    note: ASP.NET 404 HTML
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+    note: ASP.NET 404 HTML
+- host: docs.cgn.portal.checkpoint.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+    note: ReadMe SPA 404 page
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+    note: empty body
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+    note: empty body
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+    note: empty body
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+    note: ReadMe SPA 404 page
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+    note: ReadMe SPA 404 page
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+    note: ReadMe SPA 404 page
+- host: sc1.checkpoint.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+    note: plain-text "Not found"
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+    note: plain-text "Not found"
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+    note: plain-text "Not found"
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+    note: plain-text "Not found"
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+    note: plain-text "Not found"
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+    note: plain-text "Not found"
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+    note: plain-text "Not found"
+- host: secure.dome9.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: null
+    note: 'SPA catch-all: identical 1,674-byte HTML shell for every path - NOT a document'
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: null
+    note: 'SPA catch-all: identical 1,674-byte HTML shell for every path - NOT a document'
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: null
+    note: 'SPA catch-all: identical 1,674-byte HTML shell for every path - NOT a document'
+  - path: /.well-known/api-catalog
+    status: 200
+    file: null
+    note: 'SPA catch-all: identical 1,674-byte HTML shell for every path - NOT a document'
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    file: null
+    note: 'SPA catch-all: identical 1,674-byte HTML shell for every path - NOT a document'
+  - path: /.well-known/agent-card.json
+    status: 200
+    file: null
+    note: 'SPA catch-all: identical 1,674-byte HTML shell for every path - NOT a document'
+  - path: /.well-known/agent.json
+    status: 200
+    file: null
+    note: 'SPA catch-all: identical 1,674-byte HTML shell for every path - NOT a document'
+- host: portal.checkpoint.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: null
+    note: 'SPA catch-all: identical 4,051-byte HTML shell for every path - NOT a document'
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: null
+    note: 'SPA catch-all: identical 4,051-byte HTML shell for every path - NOT a document'
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: null
+    note: 'SPA catch-all: identical 4,051-byte HTML shell for every path - NOT a document'
+  - path: /.well-known/api-catalog
+    status: 200
+    file: null
+    note: 'SPA catch-all: identical 4,051-byte HTML shell for every path - NOT a document'
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    file: null
+    note: 'SPA catch-all: identical 4,051-byte HTML shell for every path - NOT a document'
+  - path: /.well-known/agent-card.json
+    status: 200
+    file: null
+    note: 'SPA catch-all: identical 4,051-byte HTML shell for every path - NOT a document'
+  - path: /.well-known/agent.json
+    status: 200
+    file: null
+    note: 'SPA catch-all: identical 4,051-byte HTML shell for every path - NOT a document'
+also_probed:
+- url: https://api.dome9.com/openapi.json
+  status: 404
+- url: https://api.dome9.com/swagger.json
+  status: 404
+- url: https://api.dome9.com/v2/swagger.json
+  status: 404
+  note: 'ASP.NET JSON 404: {"message":"No HTTP resource was found that matches the request URI ..."}'
+- url: https://api.dome9.com/swagger/v1/swagger.json
+  status: 404
+- url: https://api.dome9.com/api-docs
+  status: 404
+- url: https://docs.cgn.portal.checkpoint.com/openapi.json
+  status: 404
+  note: ReadMe SPA shell, not a spec
+- url: https://docs.cgn.portal.checkpoint.com/openapi.yaml
+  status: 404
+- url: https://api.dome9.com/?wsdl
+  status: 403
+  note: No SOAP surface
+- url: https://docs.cgn.portal.checkpoint.com/llms.txt
+  status: 200
+  note: HIT - saved to llms/cloudguard-llms.txt

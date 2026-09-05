@@ -1,158 +1,36 @@
 specification: API Commons Plans
 specificationVersion: '0.1'
-schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
 provider: CloudGuard
 providerId: cloudguard
-created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-tags:
-  - Check Point
-  - CNAPP
-  - Cloud Security
-  - Compliance
-  - CSPM
-  - CWPP
-  - Posture Management
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
-plans:
-  - id: cloudguard-free
-    name: Free
-    type: freemium
-    description: Free entry tier for the CloudGuard API surface. Intended for evaluation, prototyping,
-      and low-volume integrations. Real limits and pricing must be reconciled with the provider's published
-      plan documentation.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 1000
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-    elements:
-      - name: Public Documentation
-      - name: Community Support
-      - name: Sandbox Access
-      - name: CloudGuard CNAPP REST API
-      - name: CloudGuard Workload Protection (CWPP) API
-      - name: CloudGuard Code Security (Spectral) API
-      - name: CloudGuard WAF API
-      - name: CloudGuard Network Security API
-  - id: cloudguard-pro
-    name: Professional
-    type: paid
-    description: Production tier for CloudGuard. Provides higher quotas, priority support, and access
-      to the broader API portfolio. Pricing placeholder; align with the provider's pricing page.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
-        type: metered
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1000
-        price: TBD
-        userMultiplied: false
-    elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: CloudGuard CNAPP REST API
-      - name: CloudGuard Workload Protection (CWPP) API
-      - name: CloudGuard Code Security (Spectral) API
-      - name: CloudGuard WAF API
-      - name: CloudGuard Network Security API
-  - id: cloudguard-enterprise
-    name: Enterprise
-    type: enterprise
-    description: Custom-negotiated tier for CloudGuard. Includes dedicated capacity, contractual SLAs,
-      security review, data residency options, and named technical account management.
-    entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: configurable
-        domains: []
-        unit: 1
-        price: custom
-        userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains: []
-        unit: 1
-        price: custom
-        userMultiplied: false
-    elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
-      - name: Contractual SLA
-      - name: Security & Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: CloudGuard CNAPP REST API
-      - name: CloudGuard Workload Protection (CWPP) API
-      - name: CloudGuard Code Security (Spectral) API
-      - name: CloudGuard WAF API
-      - name: CloudGuard Network Security API
-maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+generated: '2026-09-05'
+modified: '2026-09-05'
+method: searched
+source: https://www.checkpoint.com/cloudguard/ and https://docs.cgn.portal.checkpoint.com/docs/getting-started-with-cloudguard
+description: 'Check Point publishes no list price or public plan table for CloudGuard. Licensing is quote-based
+  and module-scoped (posture/CSPM, workload/CWPP, WAF, code security), tied to the number of billable protected
+  assets and linked to a Check Point User Center contract. This artifact records plan_count: 0 honestly; it replaces
+  a 2026-05-04 scaffold that asserted invented Free/Pro/Enterprise tiers and prices the provider has never published.'
+plan_count: 0
+plans: []
+access_model:
+  signup: https://portal.checkpoint.com/create-account
+  self_serve: true
+  free_entry: A CloudGuard tenant can be enabled in the Infinity Portal without a licence and the free CloudGuard
+    CheckUp assessment can be run; full functionality requires linking a Check Point User Center account that holds
+    the licence. "If you don't have a licence yet, you can skip ahead to Gain visibility and run the free CloudGuard
+    CheckUp." - Getting Started with CloudGuard.
+  licence_binding: Global Settings > Services & Contracts > Link A User Center Account; the licence takes effect
+    within 30 minutes.
+  source: https://docs.cgn.portal.checkpoint.com/docs/getting-started-with-cloudguard
+api_metering:
+  billed_separately: false
+  note: API access is included with the product licence. No per-call API pricing, API plan or API quota is published.
+evidence:
+- url: https://docs.cgn.portal.checkpoint.com/docs/getting-started-with-cloudguard
+  http_status: 200
+  finding: Describes licence linking via User Center; no prices.
+- url: https://www.checkpoint.com/cloudguard/pricing/
+  http_status: 202
+  finding: www.checkpoint.com answers our crawler with a 202 bot challenge and an empty body on every path, so the
+    marketing site could not be read directly. No public CloudGuard price list was found from any readable first-party
+    surface.

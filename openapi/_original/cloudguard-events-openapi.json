@@ -1,0 +1,4514 @@
+{
+ "info": {
+  "title": "Events",
+  "version": "v2"
+ },
+ "openapi": "3.0.0",
+ "servers": [
+  {
+   "url": "https://api.dome9.com/",
+   "description": "US region"
+  },
+  {
+   "url": "https://api.{region}.dome9.com/",
+   "description": "Other regions",
+   "variables": {
+    "region": {
+     "enum": [
+      "eu1",
+      "ap1",
+      "ap2",
+      "ap3",
+      "cace1"
+     ],
+     "default": "eu1"
+    }
+   }
+  }
+ ],
+ "paths": {
+  "/v2/ExternalFindings/{id}/Archive": {
+   "post": {
+    "tags": [
+     "External Findings"
+    ],
+    "summary": "Archive External Finding",
+    "operationId": "ExternalFindings_ArchiveExternalFinding_post_/v2/ExternalFindings/{id}/Archive",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "description": "the id of the alert (in Dome9)",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      }
+     }
+    ],
+    "responses": {
+     "204": {
+      "description": "No Content"
+     }
+    },
+    "description": "Archive a specific external finding. The finding in Dome9 will be marked as 'archived', but not deleted. It will be searchable."
+   }
+  },
+  "/v2/ExternalFindings/Archive": {
+   "post": {
+    "tags": [
+     "External Findings"
+    ],
+    "summary": "Archive External Findings",
+    "operationId": "ExternalFindings_ArchiveExternalFindings_post_/v2/ExternalFindings/Archive",
+    "responses": {
+     "204": {
+      "description": "No Content"
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Falconetix.Model.ExternalFindings.ExternalFindingsOperationRequestViewModel"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Falconetix.Model.ExternalFindings.ExternalFindingsOperationRequestViewModel"
+       }
+      }
+     },
+     "description": "filter block, selecting external system, resource, cloud account id, and finding id",
+     "required": true
+    },
+    "description": "Archive selected external findings according filter settings. The findings will be marked as 'archived', but not deleted. They will be searchable."
+   }
+  },
+  "/v2/ExternalFindings/search": {
+   "post": {
+    "tags": [
+     "External Findings"
+    ],
+    "operationId": "ExternalFindings_Search_post_/v2/ExternalFindings/search",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.ExternalFindings.ExternalFindingPaginationViewModel"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel"
+       }
+      }
+     },
+     "required": true
+    },
+    "description": "",
+    "summary": "Search"
+   }
+  },
+  "/v2/ExternalFindings": {
+   "post": {
+    "tags": [
+     "External Findings"
+    ],
+    "summary": "Post",
+    "operationId": "ExternalFindings_Post_post_/v2/ExternalFindings",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Falconetix.Model.ExternalFindings.ExternalFindingsResponseViewModel"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "array",
+        "items": {
+         "$ref": "#/components/schemas/Falconetix.Model.ExternalFindings.ExternalFindingUpsertRequestViewModel"
+        }
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "type": "array",
+        "items": {
+         "$ref": "#/components/schemas/Falconetix.Model.ExternalFindings.ExternalFindingUpsertRequestViewModel"
+        }
+       }
+      }
+     },
+     "description": "list of findings",
+     "required": true
+    },
+    "description": "Add a list  of findings to Dome9, from an external source. The findings will be labelled as external, but will be searchable as any other finding.\r\nFindings much have a unique findingId (per source)."
+   },
+   "delete": {
+    "tags": [
+     "External Findings"
+    ],
+    "summary": "Delete External Findings",
+    "operationId": "ExternalFindings_DeleteExternalFindings_delete_/v2/ExternalFindings",
+    "responses": {
+     "204": {
+      "description": "No Content"
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Falconetix.Model.ExternalFindings.ExternalFindingsOperationRequestViewModel"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Falconetix.Model.ExternalFindings.ExternalFindingsOperationRequestViewModel"
+       }
+      }
+     },
+     "description": "&gt;filter block, selecting external system, resource, cloud account id, and finding id",
+     "required": true
+    },
+    "description": "Delete selected external findings in Dome9. The findings will be permanently removed from Dome9 and will not be searchable."
+   }
+  },
+  "/v2/ExternalFindings/{id}": {
+   "delete": {
+    "tags": [
+     "External Findings"
+    ],
+    "summary": "Delete External Finding",
+    "operationId": "ExternalFindings_DeleteExternalFinding_delete_/v2/ExternalFindings/{id}",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "description": "the  id of the alert (in Dome9)",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      }
+     }
+    ],
+    "responses": {
+     "204": {
+      "description": "No Content"
+     }
+    },
+    "description": "Delete a specific finding in Dome9. The finding will be permanently deleted, and will not be searchable."
+   }
+  },
+  "/v2/Compliance/Finding/stats/aggregatedbyproperty": {
+   "get": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Get Stats By Property",
+    "operationId": "Finding_GetStatsByProperty_get_/v2/Compliance/Finding/stats/aggregatedbyproperty",
+    "parameters": [
+     {
+      "name": "fromDateTime",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "date-time"
+      }
+     },
+     {
+      "name": "toDateTime",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "date-time"
+      }
+     },
+     {
+      "name": "origin",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "enum": [
+        "ComplianceEngine",
+        "Magellan",
+        "MagellanAwsGuardDuty",
+        "Serverless",
+        "Agentless",
+        "AwsInspector",
+        "ServerlessSecurityAnalyzer",
+        "ExternalFindingSource",
+        "Qualys",
+        "Tenable",
+        "AwsGuardDuty",
+        "KubernetesImageScanning",
+        "KubernetesRuntimeAssurance",
+        "ContainersRuntimeProtection",
+        "WorkloadChangeMonitoring",
+        "ImageAssurance",
+        "SourceCodeAssurance",
+        "InfrastructureAsCode",
+        "CIEM",
+        "Incident"
+       ]
+      }
+     },
+     {
+      "name": "aggProperty",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingsStatsBySeverityViewModel"
+        }
+       }
+      }
+     }
+    },
+    "description": "Get aggregation per property"
+   }
+  },
+  "/v2/Compliance/Finding/bundle/{bundleId}/stats": {
+   "get": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Get Bundle Stats",
+    "operationId": "Finding_GetBundleStats_get_/v2/Compliance/Finding/bundle/{bundleId}/stats",
+    "parameters": [
+     {
+      "name": "bundleId",
+      "in": "path",
+      "description": "",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "format": "int64"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingsStatsViewModel"
+        }
+       }
+      }
+     }
+    },
+    "description": "Get statistics for each rule in a bundle (number failures)"
+   }
+  },
+  "/v2/Compliance/Finding/bundle/{bundleId}": {
+   "get": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Get Findings",
+    "operationId": "Finding_GetFindings_get_/v2/Compliance/Finding/bundle/{bundleId}",
+    "parameters": [
+     {
+      "name": "bundleId",
+      "in": "path",
+      "description": "the bundle id",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "format": "int64"
+      }
+     },
+     {
+      "name": "ruleLogicHash",
+      "in": "query",
+      "description": "MD5 hash of the rule GSL string",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "pageNumber",
+      "in": "query",
+      "description": "the findings page (findings are returned in pages, with pageSize findings in each page)",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "format": "int32"
+      }
+     },
+     {
+      "name": "pageSize",
+      "in": "query",
+      "description": "the number of findings in a page",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "format": "int32"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.BaseFindingViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "Get the findings for a specific rule in a bundle, for all of the user's accounts. Results are paged, so each request returns findings for a specific page."
+   }
+  },
+  "/v2/Compliance/Finding/{id}": {
+   "get": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Get Finding",
+    "operationId": "Finding_GetFinding_get_/v2/Compliance/Finding/{id}",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "description": "the finding id",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingViewModel"
+        }
+       }
+      }
+     }
+    },
+    "description": "Get details for a specific finding, identified by its id."
+   },
+   "delete": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Delete",
+    "operationId": "Finding_DeleteAsync_delete_/v2/Compliance/Finding/{id}",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "description": "Finding ID (Guid)",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object"
+        }
+       }
+      }
+     }
+    },
+    "description": "Delete finding originated in Magellan by id (Guid)"
+   }
+  },
+  "/v2/Compliance/Finding/getByKey": {
+   "post": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Get Finding By Key",
+    "operationId": "Finding_GetFindingByKey_post_/v2/Compliance/Finding/getByKey",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingViewModel"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.GetFindingByKeyViewModel"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.GetFindingByKeyViewModel"
+       }
+      }
+     },
+     "description": "finding key",
+     "required": true
+    },
+    "description": "Get details for a specific finding, identified by finding key."
+   }
+  },
+  "/v2/Compliance/Finding/archive/{id}": {
+   "delete": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Delete",
+    "operationId": "Finding_DeleteAsync_delete_/v2/Compliance/Finding/archive/{id}",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "description": "Finding ID (Guid)",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object"
+        }
+       }
+      }
+     }
+    },
+    "description": "Delete finding originated in Magellan by id (Guid)"
+   }
+  },
+  "/v2/Compliance/Finding/bulk/close": {
+   "post": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Bulk Delete",
+    "operationId": "Finding_BulkDeleteAsync_post_/v2/Compliance/Finding/bulk/close",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "$ref": "#/components/requestBodies/Finding_BulkDeleteAsyncIds"
+    },
+    "description": "Delete findings originated in Magellan by ids (Guid)"
+   }
+  },
+  "/v2/Compliance/Finding/bulk/archive/close": {
+   "post": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Bulk Delete",
+    "operationId": "Finding_BulkDeleteAsync_post_/v2/Compliance/Finding/bulk/archive/close",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "$ref": "#/components/requestBodies/Finding_BulkDeleteAsyncIds"
+    },
+    "description": "Delete findings originated in Magellan by ids (Guid)"
+   }
+  },
+  "/v2/Compliance/Finding/selectAll/close": {
+   "post": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Select All Close",
+    "operationId": "Finding_SelectAllClose_post_/v2/Compliance/Finding/selectAll/close",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllResponseViewModel"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "$ref": "#/components/requestBodies/Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Compliance.Models.ActionType_"
+    },
+    "description": "Filter findings by account, region, VPC, IP, instance name..\r\nThen perform the action that selected - Delete findings originated in Magellan by ids (Guid)."
+   }
+  },
+  "/v2/Compliance/Finding/selectAll/archive/close": {
+   "post": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Select All Close",
+    "operationId": "Finding_SelectAllClose_post_/v2/Compliance/Finding/selectAll/archive/close",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllResponseViewModel"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "$ref": "#/components/requestBodies/Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Compliance.Models.ActionType_"
+    },
+    "description": "Filter findings by account, region, VPC, IP, instance name..\r\nThen perform the action that selected - Delete findings originated in Magellan by ids (Guid)."
+   }
+  },
+  "/v2/Compliance/Finding/search": {
+   "post": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Search",
+    "operationId": "Finding_Search_post_/v2/Compliance/Finding/search",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingPaganationViewModel"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "$ref": "#/components/requestBodies/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel"
+    },
+    "description": "Filter findings by account, region, VPC, IP, or instance name"
+   }
+  },
+  "/v2/Compliance/Finding/searchAggregate": {
+   "post": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Search Aggregate",
+    "operationId": "Finding_SearchAggregate_post_/v2/Compliance/Finding/searchAggregate",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingPaganationViewModel"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "$ref": "#/components/requestBodies/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel"
+    },
+    "description": "Filter findings by account, region, VPC, IP, or instance name , returns only aggregations appear in the searchRequest's filter"
+   }
+  },
+  "/v2/Compliance/Finding/Sources": {
+   "get": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Get Supported Sources",
+    "operationId": "Finding_GetSupportedSources_get_/v2/Compliance/Finding/Sources",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingController.FindingSourceViewModel"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "returns all the supported sources and their metadata"
+   }
+  },
+  "/v2/Compliance/Finding/{id}/acknowledge": {
+   "put": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Acknowledge",
+    "operationId": "Finding_Acknowledge_put_/v2/Compliance/Finding/{id}/acknowledge",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "description": "the finding id",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingViewModel"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel"
+       }
+      }
+     },
+     "description": "updated information about the finding, including the acknowledgement",
+     "required": true
+    },
+    "description": "Acknowledge a finding. Acknowledging a finding indicates it was viewed (or retrieved), but does not indicate it was resolved."
+   }
+  },
+  "/v2/Compliance/Finding/bulk/acknowledge": {
+   "put": {
+    "tags": [
+     "Finding"
+    ],
+    "operationId": "Finding_BulkAcknowledge_put_/v2/Compliance/Finding/bulk/acknowledge",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel_"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel_"
+       }
+      }
+     },
+     "required": true
+    },
+    "description": "",
+    "summary": "Bulk Acknowledge"
+   }
+  },
+  "/v2/Compliance/Finding/selectAll/acknowledge": {
+   "put": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Select All Acknowledge",
+    "operationId": "Finding_SelectAllAcknowledge_put_/v2/Compliance/Finding/selectAll/acknowledge",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllResponseViewModel"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel_"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel_"
+       }
+      }
+     },
+     "description": "the filter selections and updated information about the findings, including the acknowledgement",
+     "required": true
+    },
+    "description": "Filter findings by account, region, VPC, IP, instance name..\r\nThen perform the action that selected - Acknowledge a finding. Acknowledging a finding indicates it was viewed (or retrieved), but does not indicate it was resolved.."
+   }
+  },
+  "/v2/Compliance/Finding/{id}/severity": {
+   "put": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Change Severity",
+    "operationId": "Finding_ChangeSeverity_put_/v2/Compliance/Finding/{id}/severity",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "description": "the finding id",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingViewModel"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel"
+       }
+      }
+     },
+     "description": "updated information about the finding, including the new severity",
+     "required": true
+    },
+    "description": "Change the severity of a specific finding"
+   }
+  },
+  "/v2/Compliance/Finding/bulk/severity": {
+   "put": {
+    "tags": [
+     "Finding"
+    ],
+    "operationId": "Finding_BulkSeverity_put_/v2/Compliance/Finding/bulk/severity",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel_"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel_"
+       }
+      }
+     },
+     "required": true
+    },
+    "description": "",
+    "summary": "Bulk Severity"
+   }
+  },
+  "/v2/Compliance/Finding/selectAll/severity": {
+   "put": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Select All Severity",
+    "operationId": "Finding_SelectAllSeverity_put_/v2/Compliance/Finding/selectAll/severity",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllResponseViewModel"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel_"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel_"
+       }
+      }
+     },
+     "description": "the filter selections and updated information about the findings, including the new severity",
+     "required": true
+    },
+    "description": "Filter findings by account, region, VPC, IP, instance name..\r\nThen perform the action that selected - Change the severity of all specific findings."
+   }
+  },
+  "/v2/Compliance/Finding/{id}/assign": {
+   "put": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Assign",
+    "operationId": "Finding_Assign_put_/v2/Compliance/Finding/{id}/assign",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "description": "the finding id",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingViewModel"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel"
+       }
+      }
+     },
+     "description": "updated information about the finding, including the assigned user",
+     "required": true
+    },
+    "description": "Assign a finding to a user."
+   }
+  },
+  "/v2/Compliance/Finding/bulk/assign": {
+   "put": {
+    "tags": [
+     "Finding"
+    ],
+    "operationId": "Finding_BulkAssign_put_/v2/Compliance/Finding/bulk/assign",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel_"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel_"
+       }
+      }
+     },
+     "required": true
+    },
+    "description": "",
+    "summary": "Bulk Assign"
+   }
+  },
+  "/v2/Compliance/Finding/selectAll/assign": {
+   "put": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Select All Assign",
+    "operationId": "Finding_SelectAllAssign_put_/v2/Compliance/Finding/selectAll/assign",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllResponseViewModel"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel_"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel_"
+       }
+      }
+     },
+     "description": "the filter selections and updated information about the findings, including the assigned user",
+     "required": true
+    },
+    "description": "Filter findings by account, region, VPC, IP, instance name..\r\nThen perform the action - Assign a finding to a user."
+   }
+  },
+  "/v2/Compliance/Finding/{id}/comment": {
+   "post": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Add Comment",
+    "operationId": "Finding_AddComment_post_/v2/Compliance/Finding/{id}/comment",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "description": "the finding id (or key)",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingViewModel"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.PostCommentViewModel"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.PostCommentViewModel"
+       }
+      }
+     },
+     "description": "updated information about the finding, including the comment",
+     "required": true
+    },
+    "description": "Add a comment for a finding"
+   }
+  },
+  "/v2/Compliance/Finding/bulk/comment": {
+   "put": {
+    "tags": [
+     "Finding"
+    ],
+    "operationId": "Finding_BulkComment_put_/v2/Compliance/Finding/bulk/comment",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PostCommentViewModel_"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PostCommentViewModel_"
+       }
+      }
+     },
+     "required": true
+    },
+    "description": "",
+    "summary": "Bulk Comment"
+   }
+  },
+  "/v2/Compliance/Finding/selectAll/comment": {
+   "put": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Select All Comment",
+    "operationId": "Finding_SelectAllComment_put_/v2/Compliance/Finding/selectAll/comment",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllResponseViewModel"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PostCommentViewModel_"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PostCommentViewModel_"
+       }
+      }
+     },
+     "description": "the filter selections and updated the findings comment",
+     "required": true
+    },
+    "description": "Filter findings by account, region, VPC, IP, instance name..\r\nThen perform the action that selected - Add a comment for the findings."
+   }
+  },
+  "/v2/Compliance/Finding/{id}/archive": {
+   "post": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Archive",
+    "operationId": "Finding_Archive_post_/v2/Compliance/Finding/{id}/archive",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "description": "",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllResponseViewModel"
+        }
+       }
+      }
+     }
+    },
+    "description": "Archive/unarchive a specific finding"
+   }
+  },
+  "/v2/Compliance/Finding/{id}/unarchive": {
+   "post": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Archive",
+    "operationId": "Finding_Archive_post_/v2/Compliance/Finding/{id}/unarchive",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "description": "",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllResponseViewModel"
+        }
+       }
+      }
+     }
+    },
+    "description": "Archive/unarchive a specific finding"
+   }
+  },
+  "/v2/Compliance/Finding/bulk/archive": {
+   "put": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Bulk Archive",
+    "operationId": "Finding_BulkArchive_put_/v2/Compliance/Finding/bulk/archive",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllResponseViewModel"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "$ref": "#/components/requestBodies/Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.ArchiveFindingModel_"
+    },
+    "description": "Bulk archive/unarchive findings"
+   }
+  },
+  "/v2/Compliance/Finding/bulk/unarchive": {
+   "put": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Bulk Archive",
+    "operationId": "Finding_BulkArchive_put_/v2/Compliance/Finding/bulk/unarchive",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllResponseViewModel"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "$ref": "#/components/requestBodies/Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.ArchiveFindingModel_"
+    },
+    "description": "Bulk archive/unarchive findings"
+   }
+  },
+  "/v2/Compliance/Finding/comment": {
+   "post": {
+    "tags": [
+     "Finding"
+    ],
+    "summary": "Add Comment By Finding Key",
+    "operationId": "Finding_AddCommentByFindingKey_post_/v2/Compliance/Finding/comment",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingViewModel"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.PostCommentByFindingKeyViewModel"
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.PostCommentByFindingKeyViewModel"
+       }
+      }
+     },
+     "description": "updated information about the finding, including the comment and the finding key",
+     "required": true
+    },
+    "description": "Add a comment for a finding"
+   }
+  },
+  "/v2/Compliance/Finding/origins": {
+   "get": {
+    "tags": [
+     "Finding"
+    ],
+    "operationId": "Finding_GetOrigins_get_/v2/Compliance/Finding/origins",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingController.AssessmentFindingOriginProperties"
+         }
+        }
+       }
+      }
+     }
+    },
+    "description": "",
+    "summary": "Get Origins"
+   }
+  },
+  "/v2/findingsReport/exportToCsv": {
+   "post": {
+    "tags": [
+     "Findings Report"
+    ],
+    "operationId": "FindingsReport_ExportToCsv_post_/v2/findingsReport/exportToCsv",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "format": "uuid",
+         "type": "string",
+         "example": "00000000-0000-0000-0000-000000000000"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "$ref": "#/components/requestBodies/Dome9.Web.Api.Compliance.Report.FindingsReportViewModel"
+    },
+    "description": "",
+    "summary": "Export To Csv"
+   }
+  },
+  "/v2/findingsReport/exportToCsv/downloadLink": {
+   "post": {
+    "tags": [
+     "Findings Report"
+    ],
+    "operationId": "FindingsReport_ExportToCsvDownloadLink_post_/v2/findingsReport/exportToCsv/downloadLink",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "string"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "$ref": "#/components/requestBodies/Dome9.Web.Api.Compliance.Report.FindingsReportViewModel"
+    },
+    "description": "",
+    "summary": "Export To Csv Download Link"
+   }
+  },
+  "/v2/findingsReport/exportToCsv/downloadCSV": {
+   "post": {
+    "tags": [
+     "Findings Report"
+    ],
+    "operationId": "FindingsReport_ExportToCsvDownloadCSV_post_/v2/findingsReport/exportToCsv/downloadCSV",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "$ref": "#/components/requestBodies/Dome9.Web.Api.Compliance.Report.FindingsReportViewModel"
+    },
+    "description": "",
+    "summary": "Export To Csv DownloadCSV"
+   }
+  },
+  "/v2/ProtectedAssetsReport/exportToCsv": {
+   "post": {
+    "tags": [
+     "Protected Assets Report"
+    ],
+    "operationId": "ProtectedAssetsReport_ExportToCsv_post_/v2/ProtectedAssetsReport/exportToCsv",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "format": "uuid",
+         "type": "string",
+         "example": "00000000-0000-0000-0000-000000000000"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "$ref": "#/components/requestBodies/Falconetix.Model.ProtectedAssetsReport.ProtectedAssetsReportViewModel_Dome9.Web.Api.ProtectedAsset.SearchRequestViewModel_"
+    },
+    "description": "",
+    "summary": "Export To Csv"
+   }
+  },
+  "/v2/ProtectedAssetsReport/exportToCsv/downloadLink": {
+   "post": {
+    "tags": [
+     "Protected Assets Report"
+    ],
+    "operationId": "ProtectedAssetsReport_ExportToCsvDownloadLink_post_/v2/ProtectedAssetsReport/exportToCsv/downloadLink",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "string"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "$ref": "#/components/requestBodies/Falconetix.Model.ProtectedAssetsReport.ProtectedAssetsReportViewModel_Dome9.Web.Api.ProtectedAsset.SearchRequestViewModel_"
+    },
+    "description": "",
+    "summary": "Export To Csv Download Link"
+   }
+  },
+  "/v2/ProtectedAssetsReport/exportToCsv/downloadCSV": {
+   "post": {
+    "tags": [
+     "Protected Assets Report"
+    ],
+    "operationId": "ProtectedAssetsReport_ExportToCsvDownloadCSV_post_/v2/ProtectedAssetsReport/exportToCsv/downloadCSV",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object"
+        }
+       }
+      }
+     }
+    },
+    "requestBody": {
+     "$ref": "#/components/requestBodies/Falconetix.Model.ProtectedAssetsReport.ProtectedAssetsReportViewModel_Dome9.Web.Api.ProtectedAsset.SearchRequestViewModel_"
+    },
+    "description": "",
+    "summary": "Export To Csv DownloadCSV"
+   }
+  }
+ },
+ "tags": [
+  {
+   "name": "AccessLease",
+   "description": "Access Leases"
+  },
+  {
+   "name": "AccessLeaseInvitation",
+   "description": "Access Lease Invitations"
+  },
+  {
+   "name": "Account"
+  },
+  {
+   "name": "AccountLimitation"
+  },
+  {
+   "name": "AccountPollingInterval"
+  },
+  {
+   "name": "AccountRegistration"
+  },
+  {
+   "name": "AccountTrust",
+   "description": "Allow you to define a trust between accounts in order to allow users in a certain account to make changes and operation on another account.\nActions can be taken on a trustee account via a role which is defined on it. \nThe role should be assumed by a user from the trusted account."
+  },
+  {
+   "name": "Agent"
+  },
+  {
+   "name": "Agentless",
+   "description": "Agentless Workload Posture"
+  },
+  {
+   "name": "Alert"
+  },
+  {
+   "name": "AlibabaCloudAccount",
+   "description": "Alibaba Cloud Accounts"
+  },
+  {
+   "name": "Application"
+  },
+  {
+   "name": "Assessment",
+   "description": "Run and View Compliance Assessments"
+  },
+  {
+   "name": "AssessmentHistory"
+  },
+  {
+   "name": "AssessmentHistoryV2",
+   "description": "Compliance Assessment History"
+  },
+  {
+   "name": "Audit",
+   "description": "Audit logs"
+  },
+  {
+   "name": "Auth"
+  },
+  {
+   "name": "Aws Cloud Account",
+   "description": "Manage AWS Cloud Accounts"
+  },
+  {
+   "name": "AwsAppSync"
+  },
+  {
+   "name": "AwsBackupVault"
+  },
+  {
+   "name": "AwsConfigSettings"
+  },
+  {
+   "name": "AwsCustomerGateway"
+  },
+  {
+   "name": "AwsEcsTask"
+  },
+  {
+   "name": "AwsEks"
+  },
+  {
+   "name": "AwsElasticIp"
+  },
+  {
+   "name": "AwsElasticsearchDomain"
+  },
+  {
+   "name": "AwsEmrCluster"
+  },
+  {
+   "name": "AwsInspectorFindings"
+  },
+  {
+   "name": "AwsInspectorRuns"
+  },
+  {
+   "name": "AwsLoadBalancersNetworkInterfaces"
+  },
+  {
+   "name": "AwsOrganizations"
+  },
+  {
+   "name": "AwsQuickSightAccount"
+  },
+  {
+   "name": "AwsQuickSightGroup"
+  },
+  {
+   "name": "AwsQuickSightUser"
+  },
+  {
+   "name": "AwsQuickSightVpcConnections"
+  },
+  {
+   "name": "AwsSageMaker"
+  },
+  {
+   "name": "AwsSecurityGroup"
+  },
+  {
+   "name": "AwsSecurityGroupPolicy"
+  },
+  {
+   "name": "AwsSecurityGroupsIndex"
+  },
+  {
+   "name": "AwsUnifiedOnboarding",
+   "description": "Aws Unified Onboarding"
+  },
+  {
+   "name": "AwsVpcEndpoint"
+  },
+  {
+   "name": "AzureAnalysisService"
+  },
+  {
+   "name": "AzureApplicationGateway"
+  },
+  {
+   "name": "AzureApplicationSecurityGroup"
+  },
+  {
+   "name": "AzureCloudAccount",
+   "description": "Onboard Azure accounts"
+  },
+  {
+   "name": "AzureComputeGalleryImage"
+  },
+  {
+   "name": "AzureCosmosDbAccount"
+  },
+  {
+   "name": "AzureDisk"
+  },
+  {
+   "name": "AzureFunction"
+  },
+  {
+   "name": "AzureKeyVault"
+  },
+  {
+   "name": "AzureKubernetes"
+  },
+  {
+   "name": "AzureLoadBalancer"
+  },
+  {
+   "name": "AzureLock"
+  },
+  {
+   "name": "AzureLogicApp"
+  },
+  {
+   "name": "AzureLogProfile"
+  },
+  {
+   "name": "AzurePolicyAssignment"
+  },
+  {
+   "name": "AzureRedisCache"
+  },
+  {
+   "name": "AzureResourceGroup"
+  },
+  {
+   "name": "AzureRouteTable"
+  },
+  {
+   "name": "AzureSecurityGroup"
+  },
+  {
+   "name": "AzureSecurityGroupPolicy",
+   "description": "Azure Network Security Group Policies"
+  },
+  {
+   "name": "AzureSnapshot"
+  },
+  {
+   "name": "AzureSqlDb"
+  },
+  {
+   "name": "AzureSqlServer"
+  },
+  {
+   "name": "AzureStorageAccounts"
+  },
+  {
+   "name": "AzureStorageBlobContainer"
+  },
+  {
+   "name": "AzureSubnet"
+  },
+  {
+   "name": "AzureUser"
+  },
+  {
+   "name": "AzureVirtualMachine"
+  },
+  {
+   "name": "AzureVirtualMachineImage"
+  },
+  {
+   "name": "AzureVirtualMachineScaleSet"
+  },
+  {
+   "name": "AzureVirtualNetworkPeering"
+  },
+  {
+   "name": "AzureWebApp"
+  },
+  {
+   "name": "BigTable"
+  },
+  {
+   "name": "BillableAssets",
+   "description": "Retrieve billable assets data"
+  },
+  {
+   "name": "BillableAssetsReport",
+   "description": "Billable Assets Report"
+  },
+  {
+   "name": "Billing"
+  },
+  {
+   "name": "Clarity"
+  },
+  {
+   "name": "CloudAcmCertificate"
+  },
+  {
+   "name": "CloudAmi"
+  },
+  {
+   "name": "CloudAutoScalingGroup"
+  },
+  {
+   "name": "CloudDbInstance"
+  },
+  {
+   "name": "CloudDirectConnect"
+  },
+  {
+   "name": "CloudDynamoDb"
+  },
+  {
+   "name": "CloudEcsCluster"
+  },
+  {
+   "name": "CloudEcsService",
+   "description": "Cloud Ecs Service"
+  },
+  {
+   "name": "CloudEcsTaskDefinition"
+  },
+  {
+   "name": "CloudEfs"
+  },
+  {
+   "name": "CloudElastiCacheCluster"
+  },
+  {
+   "name": "CloudFlowLogs"
+  },
+  {
+   "name": "CloudFrontDistribution"
+  },
+  {
+   "name": "CloudGuardDutyDetector"
+  },
+  {
+   "name": "CloudIamAccountSummary"
+  },
+  {
+   "name": "CloudIamCredentialReport"
+  },
+  {
+   "name": "CloudIamGroup"
+  },
+  {
+   "name": "CloudIamPasswordPolicy"
+  },
+  {
+   "name": "CloudIamPolicy"
+  },
+  {
+   "name": "CloudIamRole"
+  },
+  {
+   "name": "CloudIamServerCertificate"
+  },
+  {
+   "name": "CloudIamUser"
+  },
+  {
+   "name": "CloudIamVirtualMfaDevice"
+  },
+  {
+   "name": "CloudInfraUser",
+   "description": "CloudInfra Users"
+  },
+  {
+   "name": "CloudInstance",
+   "description": "Cloud Instances"
+  },
+  {
+   "name": "CloudInternetGateway"
+  },
+  {
+   "name": "CloudKinesisStream"
+  },
+  {
+   "name": "CloudKms"
+  },
+  {
+   "name": "CloudKmsAlias"
+  },
+  {
+   "name": "CloudLambdaFunction",
+   "description": "Cloud Lambda Function"
+  },
+  {
+   "name": "CloudLoadBalancer"
+  },
+  {
+   "name": "CloudLogGroups"
+  },
+  {
+   "name": "CloudMetricAlarm"
+  },
+  {
+   "name": "CloudNacl"
+  },
+  {
+   "name": "CloudNetworkInterfaces"
+  },
+  {
+   "name": "CloudRedshiftCluster"
+  },
+  {
+   "name": "CloudRegion"
+  },
+  {
+   "name": "CloudRoute53Domain"
+  },
+  {
+   "name": "CloudRoute53HostedZone"
+  },
+  {
+   "name": "CloudRoute53RecordSetGroup"
+  },
+  {
+   "name": "CloudRouteTable"
+  },
+  {
+   "name": "CloudS3Bucket",
+   "description": ""
+  },
+  {
+   "name": "CloudSecurityGroup",
+   "description": "AWS Security Groups"
+  },
+  {
+   "name": "CloudSnsSubscription"
+  },
+  {
+   "name": "CloudSnsTopic"
+  },
+  {
+   "name": "CloudSql"
+  },
+  {
+   "name": "CloudSqs",
+   "description": ""
+  },
+  {
+   "name": "CloudSubnet"
+  },
+  {
+   "name": "CloudTrail",
+   "description": "CloudTrail"
+  },
+  {
+   "name": "CloudVolume"
+  },
+  {
+   "name": "CloudVpc"
+  },
+  {
+   "name": "CloudVpcPeeringConnection"
+  },
+  {
+   "name": "CloudVPNConnection"
+  },
+  {
+   "name": "CloudVpnGateway"
+  },
+  {
+   "name": "CloudWAFRegional"
+  },
+  {
+   "name": "CloudWatchEventsRule",
+   "description": "CloudWatchEventsRule"
+  },
+  {
+   "name": "ComplianceExclusion",
+   "description": "Compliance Exclusions"
+  },
+  {
+   "name": "CompliancePolicy"
+  },
+  {
+   "name": "ComplianceRemediation",
+   "description": "Compliance Remediation"
+  },
+  {
+   "name": "ComplianceRemediationOld",
+   "description": "Compliance Remediation - DEPRECATED - please use /Compliance/Remediation instead"
+  },
+  {
+   "name": "ComplianceRuleset",
+   "description": "ComplianceRuleset"
+  },
+  {
+   "name": "ContinuousComplianceNotification",
+   "description": "Continuous Compliance Notification Policies"
+  },
+  {
+   "name": "ContinuousCompliancePolicy"
+  },
+  {
+   "name": "ContinuousCompliancePolicyV2",
+   "description": "Continuous Compliance Policies"
+  },
+  {
+   "name": "EmergencyPolicy"
+  },
+  {
+   "name": "EntityFetchStatus"
+  },
+  {
+   "name": "EntityReport"
+  },
+  {
+   "name": "ExclusionOld",
+   "description": "Compliance Exclusions - DEPRECATED - please use /Compliance/Exclusion instead"
+  },
+  {
+   "name": "ExternalFindings",
+   "description": "Findings from External (3rd-party) systems"
+  },
+  {
+   "name": "Fim"
+  },
+  {
+   "name": "Finding",
+   "description": "Compliance Findings"
+  },
+  {
+   "name": "FindingsReport",
+   "description": "Compliance Findings csv reports"
+  },
+  {
+   "name": "GcpBigQuery"
+  },
+  {
+   "name": "GcpDisk"
+  },
+  {
+   "name": "GcpGkeCluster"
+  },
+  {
+   "name": "GcpImage"
+  },
+  {
+   "name": "GcpKmsKeyRing"
+  },
+  {
+   "name": "GcpProjectInfo",
+   "description": "Google Cloud Project Info"
+  },
+  {
+   "name": "GcpPubSub"
+  },
+  {
+   "name": "GcpSecurityGroup"
+  },
+  {
+   "name": "GcpServiceAccount"
+  },
+  {
+   "name": "GcpStorageBucket"
+  },
+  {
+   "name": "GenericList",
+   "description": "Generic Lists"
+  },
+  {
+   "name": "GlobalSearch",
+   "description": "Global search for all CloudGuard services"
+  },
+  {
+   "name": "GoogleCloudAccount",
+   "description": "Google Cloud Accounts"
+  },
+  {
+   "name": "GoogleCloudFirewallRule"
+  },
+  {
+   "name": "GoogleCloudFunction"
+  },
+  {
+   "name": "GoogleCloudIamPolicy"
+  },
+  {
+   "name": "GoogleCloudNetwork",
+   "description": "Google Cloud Network"
+  },
+  {
+   "name": "GoogleCloudSubnet"
+  },
+  {
+   "name": "GoogleCloudVMInstance"
+  },
+  {
+   "name": "Home"
+  },
+  {
+   "name": "IamSafeLease",
+   "description": "IAM Safety Leases"
+  },
+  {
+   "name": "IncidentsStatus"
+  },
+  {
+   "name": "InfrastructureAssessment"
+  },
+  {
+   "name": "Intelligence",
+   "description": "CloudGuard Intelligence allows you to visualize and analyze Account Activity and Network Traffic into and out of your cloud environment."
+  },
+  {
+   "name": "IpAddressMetadata",
+   "description": "IP Address Metadata"
+  },
+  {
+   "name": "IpList",
+   "description": "IP Lists"
+  },
+  {
+   "name": "LicenseActivator"
+  },
+  {
+   "name": "Licensing"
+  },
+  {
+   "name": "ManagedGenericList"
+  },
+  {
+   "name": "Msp"
+  },
+  {
+   "name": "OrganizationalUnit",
+   "description": "Manage Organizational Units"
+  },
+  {
+   "name": "Permission"
+  },
+  {
+   "name": "ProtectedAsset"
+  },
+  {
+   "name": "ProtectedAssetsReport",
+   "description": "Compliance Protected Asset csv reports"
+  },
+  {
+   "name": "ProtegoStatistics",
+   "description": "Protego statistics by dates"
+  },
+  {
+   "name": "Role",
+   "description": "CloudGuard Roles"
+  },
+  {
+   "name": "RulesEngine"
+  },
+  {
+   "name": "SecurityGroup"
+  },
+  {
+   "name": "Serverless"
+  },
+  {
+   "name": "ServerlessPolicy",
+   "description": "Serverless policy"
+  },
+  {
+   "name": "ServiceAccount",
+   "description": "CloudGuard Service Accounts"
+  },
+  {
+   "name": "ServicePort"
+  },
+  {
+   "name": "Settings",
+   "description": "Account Settings"
+  },
+  {
+   "name": "ShiftLeft",
+   "description": "ShiftLeft"
+  },
+  {
+   "name": "SystemHealth"
+  },
+  {
+   "name": "TenableAccount",
+   "description": "Onboard Tenable accounts"
+  },
+  {
+   "name": "User",
+   "description": "CloudGuard account users"
+  },
+  {
+   "name": "BaseImage",
+   "description": ""
+  },
+  {
+   "name": "ContainerRegistryAccount",
+   "description": "Container Registry Account"
+  },
+  {
+   "name": "ContainerRegistryAccountInternal",
+   "description": ""
+  },
+  {
+   "name": "ContainerRegistryImageAssurancePolicy",
+   "description": "(deprecated: move to use /v2/vulnerability/policy)"
+  },
+  {
+   "name": "Dashboard",
+   "description": ""
+  },
+  {
+   "name": "EcsConfiguration",
+   "description": ""
+  },
+  {
+   "name": "EcsImageAssurancePolicy",
+   "description": "(deprecated: move to use /v2/vulnerability/policy)"
+  },
+  {
+   "name": "EcsImageScan",
+   "description": "ECS Image Scan Configuration"
+  },
+  {
+   "name": "Environment",
+   "description": ""
+  },
+  {
+   "name": "ImageAdmissionExclusion",
+   "description": "[Preview feature] Kubernetes Image admission exclusions"
+  },
+  {
+   "name": "ImageAssuranceDashboard",
+   "description": ""
+  },
+  {
+   "name": "ImageAssuranceReport",
+   "description": ""
+  },
+  {
+   "name": "KubernetesAccount",
+   "description": "Kubernetes Accounts"
+  },
+  {
+   "name": "KubernetesAccountInternal",
+   "description": ""
+  },
+  {
+   "name": "KubernetesAccountOld",
+   "description": "(deprecated: this api is deprecated, please use '/v2/kubernetes/account' instead)"
+  },
+  {
+   "name": "KubernetesAdmissionControl",
+   "description": "Kubernetes Admission Control"
+  },
+  {
+   "name": "KubernetesAdmissionControlPoliciesSummary",
+   "description": ""
+  },
+  {
+   "name": "KubernetesClusterRole",
+   "description": ""
+  },
+  {
+   "name": "KubernetesImage",
+   "description": ""
+  },
+  {
+   "name": "KubernetesImageAdmissionExclusion",
+   "description": "[Preview feature] Kubernetes Image admission exclusions (deprecated: this api is deprecated, please use '/v2/kubernetes/admissionControl/imageAdmissionExclusion' instead)"
+  },
+  {
+   "name": "KubernetesImageAssurance",
+   "description": "Kubernetes Image Assurance"
+  },
+  {
+   "name": "KubernetesImageAssurancePolicy",
+   "description": "Kubernetes Image Assurance Policy (deprecated: move to use /v2/vulnerability/policy)"
+  },
+  {
+   "name": "KubernetesIngress",
+   "description": ""
+  },
+  {
+   "name": "KubernetesNetworkPolicy",
+   "description": ""
+  },
+  {
+   "name": "KubernetesNode",
+   "description": ""
+  },
+  {
+   "name": "KubernetesPod",
+   "description": ""
+  },
+  {
+   "name": "KubernetesPodGroup",
+   "description": "Kubernetes Pod Groups"
+  },
+  {
+   "name": "KubernetesPodGroupOwner",
+   "description": ""
+  },
+  {
+   "name": "KubernetesPodSecurityPolicy",
+   "description": ""
+  },
+  {
+   "name": "KubernetesRole",
+   "description": ""
+  },
+  {
+   "name": "KubernetesRuntimeAssurance",
+   "description": ""
+  },
+  {
+   "name": "KubernetesService",
+   "description": ""
+  },
+  {
+   "name": "KubernetesServiceAccount",
+   "description": ""
+  },
+  {
+   "name": "Shiftleft",
+   "description": ""
+  },
+  {
+   "name": "ShiftLeftAccount",
+   "description": "ShiftLeft"
+  },
+  {
+   "name": "ShiftLeftPolicy",
+   "description": "ShiftLeft Policy (deprecated: move to use /v2/vulnerability/policy)"
+  },
+  {
+   "name": "Workload",
+   "description": ""
+  },
+  {
+   "name": "WorkloadAccountSetting",
+   "description": "Workload Account Setting"
+  },
+  {
+   "name": "WorkloadChangeMonitoring",
+   "description": ""
+  },
+  {
+   "name": "WorkloadImageAssurance",
+   "description": "Workload Image Assurance"
+  },
+  {
+   "name": "WorkloadImageAssuranceInternal",
+   "description": ""
+  },
+  {
+   "name": "WorkloadInternal",
+   "description": ""
+  },
+  {
+   "name": "WorkloadRuntimeProtection",
+   "description": ""
+  },
+  {
+   "name": "Alerts",
+   "description": ""
+  },
+  {
+   "name": "Azure",
+   "description": ""
+  },
+  {
+   "name": "FindingOrchestration",
+   "description": ""
+  },
+  {
+   "name": "FindingsUpdate",
+   "description": ""
+  },
+  {
+   "name": "Gcp",
+   "description": ""
+  },
+  {
+   "name": "Remediation",
+   "description": "Remediation Actions"
+  },
+  {
+   "name": "Reports",
+   "description": ""
+  },
+  {
+   "name": "CloudInfraMigration",
+   "description": "infinity-portal-connect"
+  },
+  {
+   "name": "GslBuilder",
+   "description": ""
+  },
+  {
+   "name": "Infrastructure",
+   "description": ""
+  },
+  {
+   "name": "InternalLicense",
+   "description": ""
+  },
+  {
+   "name": "NotificationIntegrationInternal",
+   "description": "(deprecated: This controller is deprecated and will be removed in the future)"
+  },
+  {
+   "name": "OciCloudAccount",
+   "description": "Onboard OCI accounts"
+  },
+  {
+   "name": "PlatformReports",
+   "description": ""
+  },
+  {
+   "name": "Regions",
+   "description": ""
+  },
+  {
+   "name": "Spectral",
+   "description": ""
+  },
+  {
+   "name": "RestrictedWorkloadClientModules",
+   "description": ""
+  },
+  {
+   "name": "WorkloadClientModules",
+   "description": ""
+  },
+  {
+   "name": "WorkloadTelemetry",
+   "description": ""
+  },
+  {
+   "name": "Integration",
+   "description": "Integration"
+  },
+  {
+   "name": "IntegrationInternal",
+   "description": ""
+  },
+  {
+   "name": "Notification",
+   "description": "Notification"
+  },
+  {
+   "name": "NotificationInternal",
+   "description": ""
+  },
+  {
+   "name": "AssetMetadataSyncNow",
+   "description": ""
+  },
+  {
+   "name": "BusinessPriorityModifier",
+   "description": "Business Priority Rules"
+  },
+  {
+   "name": "CustomRuleset",
+   "description": "Risk Management Rulesets"
+  },
+  {
+   "name": "Dspm",
+   "description": "DSPM Controller"
+  },
+  {
+   "name": "Exposure",
+   "description": ""
+  },
+  {
+   "name": "GroupRiskManagement",
+   "description": "Groups Risk Management"
+  },
+  {
+   "name": "RemediationActions",
+   "description": "Remediation Actions"
+  },
+  {
+   "name": "RiskModifiers",
+   "description": "Risk Modifiers"
+  },
+  {
+   "name": "SecurityEvents",
+   "description": ""
+  },
+  {
+   "name": "SimilarAssetGroups",
+   "description": ""
+  },
+  {
+   "name": "Waf",
+   "description": "WAF Protection"
+  },
+  {
+   "name": "AwsOrganizationManagement",
+   "description": "AwsOrganizationManagement"
+  },
+  {
+   "name": "AwsOrganizationManagementOnboarding",
+   "description": "AwsOrganizationManagementOnboarding"
+  },
+  {
+   "name": "AzureOrganizationManagement",
+   "description": "AzureOrganizationManagement"
+  },
+  {
+   "name": "GcpOrganizationManagement",
+   "description": "GcpOrganizationManagement"
+  },
+  {
+   "name": "OnboardingManagement",
+   "description": "OnboardingManagement"
+  },
+  {
+   "name": "InternalSBOM",
+   "description": ""
+  },
+  {
+   "name": "InternalVulnerabilityAccountStatsBatch",
+   "description": ""
+  },
+  {
+   "name": "InternalVulnerabilityCleanup",
+   "description": ""
+  },
+  {
+   "name": "InternalVulnerabilityPolicy",
+   "description": ""
+  },
+  {
+   "name": "InternalVulnerabilityScanResults",
+   "description": ""
+  },
+  {
+   "name": "SBOM",
+   "description": ""
+  },
+  {
+   "name": "SBOMExport",
+   "description": "SBOM Export"
+  },
+  {
+   "name": "Vulnerabilities",
+   "description": "Vulnerabilities"
+  },
+  {
+   "name": "VulnerabilityAssessment",
+   "description": ""
+  },
+  {
+   "name": "VulnerabilityExclusions",
+   "description": "Vulnerability Exclusions"
+  },
+  {
+   "name": "VulnerabilityPolicy",
+   "description": "Vulnerability Policy"
+  },
+  {
+   "name": "VulnerabilitySBOM",
+   "description": ""
+  },
+  {
+   "name": "CloudApplicationLoadBalancer",
+   "description": ""
+  },
+  {
+   "name": "CloudNetworkLoadBalancer",
+   "description": ""
+  },
+  {
+   "name": "GcpMachineImage",
+   "description": ""
+  },
+  {
+   "name": "OciCompartment",
+   "description": ""
+  },
+  {
+   "name": "AssetLabelsService",
+   "description": ""
+  },
+  {
+   "name": "AssetOpenFindings",
+   "description": ""
+  },
+  {
+   "name": "EntityTypes",
+   "description": "The entity types endpoint allows you to get the supported entity types and the platform they're supported for."
+  },
+  {
+   "name": "EvidencePath",
+   "description": "The evidence path endpoint allows you to get the evidence path for a given findingId."
+  },
+  {
+   "name": "Exclusions",
+   "description": "The exclusion endpoint provides API to perform CRUD operations on the resource."
+  },
+  {
+   "name": "IgnoreCves",
+   "description": "The ignore CVEs endpoint provides API to perform CRUD operations on the resource."
+  },
+  {
+   "name": "IgnoreMalwares",
+   "description": "The ignore malwares endpoint provides API to perform CRUD operations on the resource."
+  },
+  {
+   "name": "Rules",
+   "description": "The rules endpoint provides APIs to get the security rules data"
+  },
+  {
+   "name": "SecurityGraphIssues",
+   "description": "API for issue enrichments"
+  },
+  {
+   "name": "SecurityGraphQuery",
+   "description": "The query endpoint provides APIs to run queries (rules) to preview possible issues."
+  },
+  {
+   "name": "EntitySchema",
+   "description": "The entity schema endpoint presents schema of toxic issues entities."
+  },
+  {
+   "name": "SecurityIssues",
+   "description": "The Findings endpoint provides APIs query the findings store which contains findings such as security issues. It provides APIs to get, search and group findings."
+  },
+  {
+   "name": "AutomatedActions",
+   "description": "The Automated Actions resource provides API to perform CRUD operations on the resource."
+  }
+ ],
+ "components": {
+  "schemas": {
+   "Falconetix.Model.RuleEngine.Entities.TagRuleEntity": {
+    "type": "object",
+    "properties": {
+     "key": {
+      "type": "string"
+     },
+     "value": {
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.ExternalFindings.ExternalFindingsOperationRequestViewModel": {
+    "required": [
+     "findingSource",
+     "externalCloudAccountId"
+    ],
+    "type": "object",
+    "properties": {
+     "findingSource": {
+      "description": "the external system sending the finding (e.g, Qualys)",
+      "maxLength": 30,
+      "minLength": 0,
+      "type": "string"
+     },
+     "resourceId": {
+      "description": "The id of the cloud entity related to the finding, as identified by the cloud provider (e.g., an instanceId for AWS)",
+      "maxLength": 250,
+      "minLength": 0,
+      "type": "string"
+     },
+     "findingId": {
+      "description": "a unique id for the finding, set by the external source. This must be unique for all findings from this source.",
+      "maxLength": 250,
+      "minLength": 0,
+      "type": "string"
+     },
+     "externalCloudAccountId": {
+      "description": "the cloud id of the entity, as identified by the cloud provider (e.g., the AWS account number, or Azure subscription id)",
+      "maxLength": 250,
+      "minLength": 0,
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel": {
+    "type": "object",
+    "properties": {
+     "searchAfter": {
+      "description": "token for the page of findings (first page if not specified)",
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "pageSize": {
+      "format": "int32",
+      "description": "page size (number of findings returned per page). default: 10.",
+      "maximum": 10000,
+      "minimum": 0,
+      "type": "integer"
+     },
+     "skipAggregations": {
+      "type": "boolean"
+     },
+     "lowAggregationsSize": {
+      "type": "boolean"
+     },
+     "sorting": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SortingViewModel",
+      "description": "sort data"
+     },
+     "multiSorting": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SortingViewModel"
+      }
+     },
+     "filter": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchFilterViewModel",
+      "description": "filter"
+     },
+     "dataSource": {
+      "enum": [
+       "Finding",
+       "Archive"
+      ],
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.SortingViewModel": {
+    "type": "object",
+    "properties": {
+     "fieldName": {
+      "description": "Field name",
+      "type": "string"
+     },
+     "direction": {
+      "format": "int32",
+      "description": "direction. 1 is asc, -1 desc",
+      "type": "integer"
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.SearchFilterViewModel": {
+    "type": "object",
+    "properties": {
+     "freeTextPhrase": {
+      "description": "free text",
+      "type": "string"
+     },
+     "fields": {
+      "description": "fields",
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.FieldFilterViewModel"
+      }
+     },
+     "onlyCIEM": {
+      "type": "boolean"
+     },
+     "onlyCustomPolicy": {
+      "description": "Filtering all findings created by custom policy",
+      "type": "boolean"
+     },
+     "creationTime": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.DateRangeViewModel"
+     },
+     "updatedTime": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.DateRangeViewModel"
+     },
+     "hasRemediation": {
+      "type": "boolean"
+     }
+    }
+   },
+   "CGN.OpenSearch.Model.CommonViewModels.FieldFilterViewModel": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "value": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Shared.SharedViewModels.DateRangeViewModel": {
+    "type": "object",
+    "properties": {
+     "from": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "to": {
+      "format": "date-time",
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.ExternalFindings.ExternalFindingPaginationViewModel": {
+    "type": "object",
+    "properties": {
+     "searchRequest": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel",
+      "description": "search request for findings"
+     },
+     "findings": {
+      "description": "current page of findings",
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingViewModel"
+      }
+     },
+     "totalFindingsCount": {
+      "format": "int64",
+      "description": "total number of findings",
+      "type": "integer"
+     },
+     "aggregations": {
+      "description": "aggregate findings per search or filter entity (facet)",
+      "type": "object",
+      "additionalProperties": {
+       "type": "array",
+       "items": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.FieldAggregationViewModel"
+       }
+      }
+     },
+     "searchAfter": {
+      "description": "token for next page of results",
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.FindingViewModel": {
+    "type": "object",
+    "properties": {
+     "entityObject": {
+      "description": "details for the entity in the cloud provider",
+      "type": "object"
+     },
+     "id": {
+      "format": "uuid",
+      "description": "finding id",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "findingKey": {
+      "description": "finding key",
+      "type": "string"
+     },
+     "createdTime": {
+      "format": "date-time",
+      "description": "date finding was first found",
+      "type": "string"
+     },
+     "updatedTime": {
+      "format": "date-time",
+      "description": "date of last update for the finding",
+      "type": "string"
+     },
+     "cloudAccountType": {
+      "description": "cloud account provider (AWS/Azure/GCP)",
+      "enum": [
+       "Aws",
+       "Azure",
+       "Google",
+       "Kubernetes",
+       "Terraform",
+       "Generic",
+       "KubernetesRuntimeAssurance",
+       "ShiftLeft",
+       "SourceCodeAssurance",
+       "ImageAssurance",
+       "Alibaba",
+       "Cft",
+       "ContainerRegistry",
+       "Oci",
+       "CIEM"
+      ],
+      "type": "string"
+     },
+     "comments": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingCommentViewModel"
+      }
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "description": "cloud account id (on AWS/Azure/GCP)",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "cloudAccountExternalId": {
+      "description": "cloud account id on the cloud provider",
+      "type": "string"
+     },
+     "organizationalUnitId": {
+      "format": "uuid",
+      "description": "the Organizational Unit id",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "organizationalUnitPath": {
+      "description": "the Organizational Unit path",
+      "type": "string"
+     },
+     "bundleId": {
+      "format": "int64",
+      "description": "the bundle id",
+      "type": "integer"
+     },
+     "bundleVersion": {
+      "type": "string"
+     },
+     "alertType": {
+      "description": "the bundle id",
+      "enum": [
+       "SecurityEvent",
+       "Task"
+      ],
+      "type": "string"
+     },
+     "ruleId": {
+      "description": "id of the specific rule that failed",
+      "type": "string"
+     },
+     "ruleName": {
+      "description": "name of the specific rule that failed (text string)",
+      "type": "string"
+     },
+     "ruleLogic": {
+      "description": "the GSL logic for the rule",
+      "type": "string"
+     },
+     "entityDome9Id": {
+      "description": "the Dome9 entity id (representing a cloud entity) that was tested by the rule",
+      "type": "string"
+     },
+     "entityExternalId": {
+      "description": "the cloud provider entity id for the entity tested by the rule",
+      "type": "string"
+     },
+     "entityType": {
+      "description": "the type of entity tested (e.g. S3, or EC2)",
+      "type": "string"
+     },
+     "entityTypeByEnvironmentType": {
+      "description": "the type of entity tested by the environment type in format of {EnvironmentType}|{EntityType}",
+      "type": "string"
+     },
+     "entityName": {
+      "description": "the entity name (on the cloud provider), as a text string, in the specific cloud provider format",
+      "type": "string"
+     },
+     "entityNetwork": {
+      "type": "string"
+     },
+     "entityTags": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Falconetix.Model.RuleEngine.Entities.TagRuleEntity"
+      }
+     },
+     "severity": {
+      "description": "the severity of the finding (H/M/L)",
+      "type": "string"
+     },
+     "description": {
+      "description": "text description of the finding (the failure reason)",
+      "type": "string"
+     },
+     "remediation": {
+      "description": "the recommended remediation (if any) for the failure",
+      "type": "string"
+     },
+     "tag": {
+      "description": "tags assigned to the finding (list string)",
+      "type": "string"
+     },
+     "region": {
+      "description": "the region in which the entity was located",
+      "type": "string"
+     },
+     "bundleName": {
+      "description": "the name of the bundle with the rule",
+      "type": "string"
+     },
+     "acknowledged": {
+      "description": "indicates the finding was acknowledged",
+      "type": "boolean"
+     },
+     "origin": {
+      "description": "Dome9 source of the finding (Compliance or Magellan)",
+      "enum": [
+       "ComplianceEngine",
+       "Magellan",
+       "MagellanAwsGuardDuty",
+       "Serverless",
+       "Agentless",
+       "AwsInspector",
+       "ServerlessSecurityAnalyzer",
+       "ExternalFindingSource",
+       "Qualys",
+       "Tenable",
+       "AwsGuardDuty",
+       "KubernetesImageScanning",
+       "KubernetesRuntimeAssurance",
+       "ContainersRuntimeProtection",
+       "WorkloadChangeMonitoring",
+       "ImageAssurance",
+       "SourceCodeAssurance",
+       "InfrastructureAsCode",
+       "CIEM",
+       "Incident"
+      ],
+      "type": "string"
+     },
+     "lastSeenTime": {
+      "format": "date-time",
+      "description": "Date when the finding was last seen",
+      "type": "string"
+     },
+     "ownerUserName": {
+      "description": "Dome9 user assigned to the finding",
+      "type": "string"
+     },
+     "magellan": {
+      "$ref": "#/components/schemas/Falconetix.Model.RuleEngine.Entities.Compliance.AssessmentFinding.MagellanData",
+      "description": "Extra data for Magellan findings"
+     },
+     "isExcluded": {
+      "description": "Indicates the finding was excluded from the assessment",
+      "type": "boolean"
+     },
+     "webhookResponses": {
+      "description": "Consists of Webhook type and the response of that webhook, if response defined",
+      "type": "object",
+      "properties": {
+       "none": {
+        "$ref": "#/components/schemas/Falconetix.Model.ElasticSearch.WebhookResponse.WebhookResponseMessage"
+       },
+       "serviceNow": {
+        "$ref": "#/components/schemas/Falconetix.Model.ElasticSearch.WebhookResponse.WebhookResponseMessage"
+       },
+       "jira": {
+        "$ref": "#/components/schemas/Falconetix.Model.ElasticSearch.WebhookResponse.WebhookResponseMessage"
+       }
+      }
+     },
+     "remediationActions": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "additionalFields": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Falconetix.Model.RuleEngine.Entities.FindingAdditionalFieldViewModel"
+      }
+     },
+     "occurrences": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "scanId": {
+      "type": "string"
+     },
+     "status": {
+      "enum": [
+       "Active",
+       "Archived"
+      ],
+      "type": "string"
+     },
+     "statusReason": {
+      "enum": [
+       "Unspecified",
+       "RuleViolation",
+       "ConfigurationFixed",
+       "AssetDeleted",
+       "RulesetDeleted",
+       "RuleDeleted",
+       "PolicyDeleted",
+       "UserClosed",
+       "CloudAccountDeleted"
+      ],
+      "type": "string"
+     },
+     "category": {
+      "type": "string"
+     },
+     "action": {
+      "enum": [
+       "Detect",
+       "Prevent"
+      ],
+      "type": "string"
+     },
+     "labels": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.FieldAggregationViewModel": {
+    "type": "object",
+    "properties": {
+     "value": {
+      "type": "object"
+     },
+     "count": {
+      "format": "int64",
+      "type": "integer"
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.FindingCommentViewModel": {
+    "description": "comments for a finding (listed by user)",
+    "type": "object",
+    "properties": {
+     "text": {
+      "type": "string"
+     },
+     "timestamp": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "userName": {
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.RuleEngine.Entities.Compliance.AssessmentFinding.MagellanData": {
+    "type": "object",
+    "properties": {
+     "alertWindowStartTime": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "alertWindowEndTime": {
+      "format": "date-time",
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.ElasticSearch.WebhookResponse.WebhookResponseMessage": {
+    "type": "object",
+    "properties": {
+     "requestTime": {
+      "format": "date-time",
+      "type": "string"
+     },
+     "responseContent": {
+      "type": "object"
+     }
+    }
+   },
+   "Falconetix.Model.RuleEngine.Entities.FindingAdditionalFieldViewModel": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "value": {
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.ExternalFindings.ExternalFindingUpsertRequestViewModel": {
+    "required": [
+     "resourceId",
+     "resourceType",
+     "externalCloudAccountId",
+     "vendor",
+     "findingSource",
+     "findingSeverity",
+     "findingId",
+     "findingCreatedAt",
+     "findingTitle"
+    ],
+    "type": "object",
+    "properties": {
+     "resourceId": {
+      "description": "cloud entity resource Id such as AWS ec2 instance id, or  Azure vm id etc",
+      "maxLength": 250,
+      "minLength": 0,
+      "type": "string"
+     },
+     "resourceName": {
+      "description": "[optional] cloud entity resource name such as AWS lambda name",
+      "maxLength": 250,
+      "minLength": 0,
+      "type": "string"
+     },
+     "resourceType": {
+      "description": "the entityType, as used by the Dome9 Rule engine.",
+      "type": "string"
+     },
+     "externalCloudAccountId": {
+      "description": "the cloud account id, i.e., Aws account id, Azure subscriptionId, or GCP projectId",
+      "maxLength": 100,
+      "minLength": 0,
+      "type": "string"
+     },
+     "vendor": {
+      "description": "the cloud vendor, Aws, Azure, or Gcp",
+      "enum": [
+       "aws",
+       "hp",
+       "mellanox",
+       "awsgov",
+       "azure",
+       "google",
+       "awschina",
+       "azuregov",
+       "kubernetes",
+       "azurechina",
+       "terraform",
+       "generic",
+       "kubernetesruntimeassurance",
+       "shiftleft",
+       "sourcecodeassurance",
+       "imageassurance",
+       "alibaba",
+       "cft",
+       "containerregistry",
+       "oci",
+       "ocigov",
+       "ocigovuk",
+       "CIEM"
+      ],
+      "type": "string"
+     },
+     "findingSource": {
+      "description": "the name of the external source, e.g., qualys , tenable etc",
+      "maxLength": 30,
+      "minLength": 0,
+      "type": "string"
+     },
+     "findingSourceDescription": {
+      "description": "[optional] additional description of external source",
+      "maxLength": 250,
+      "minLength": 0,
+      "type": "string"
+     },
+     "findingSourceUrl": {
+      "description": "external URL describing the finding",
+      "maxLength": 250,
+      "minLength": 0,
+      "type": "string"
+     },
+     "findingSeverity": {
+      "description": "the Dome9 Severity level for the finding, Low, Medium, or High",
+      "enum": [
+       "Low",
+       "Medium",
+       "High",
+       "Critical",
+       "Informational"
+      ],
+      "type": "string"
+     },
+     "originalFindingSeverity": {
+      "description": "original external source  severity for the finding",
+      "maxLength": 30,
+      "minLength": 0,
+      "type": "string"
+     },
+     "findingId": {
+      "description": "unique identifier for the finding. This must be unique for all findings from this source.",
+      "maxLength": 250,
+      "minLength": 0,
+      "type": "string"
+     },
+     "scanId": {
+      "description": "[optional] refering scan id",
+      "maxLength": 250,
+      "minLength": 0,
+      "type": "string"
+     },
+     "findingCreatedAt": {
+      "format": "date-time",
+      "description": "date finding was created, in ISO8601 Date String format",
+      "type": "string"
+     },
+     "findingTitle": {
+      "description": "short description of the finding",
+      "maxLength": 250,
+      "minLength": 0,
+      "type": "string"
+     },
+     "findingDescription": {
+      "description": "description of the finding",
+      "maxLength": 500,
+      "minLength": 0,
+      "type": "string"
+     },
+     "findingStatus": {
+      "description": "Finding status text",
+      "maxLength": 30,
+      "minLength": 0,
+      "type": "string"
+     },
+     "findingCategory": {
+      "description": "Finding Category text",
+      "maxLength": 50,
+      "minLength": 0,
+      "type": "string"
+     },
+     "findingRecommendation": {
+      "description": "Finding Recommendation/remediation  text",
+      "maxLength": 500,
+      "minLength": 0,
+      "type": "string"
+     },
+     "relatedFindingsRef": {
+      "description": "FindingIds that are related to this finding",
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "ruleId": {
+      "description": "[optional] Rule id or Plugin id that is used to generate the finding",
+      "maxLength": 250,
+      "minLength": 0,
+      "type": "string"
+     },
+     "findingRulesPackage": {
+      "$ref": "#/components/schemas/Falconetix.Model.ExternalFindings.ExternalFindingsRulesPackageViewModel",
+      "description": ""
+     },
+     "additionalFields": {
+      "description": "Additional fields that can be added as part of the finding object, as  (name, value) pairs",
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Falconetix.Model.ExternalFindings.ExternalFindingsFieldViewModel"
+      }
+     },
+     "findingAlertType": {
+      "description": "Alert Type for Events page possible values SecurityEvent, Task(POSTURE FINDINGS) if no value provided using default SecurityEvent",
+      "maxLength": 50,
+      "minLength": 0,
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.ExternalFindings.ExternalFindingsRulesPackageViewModel": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "maxLength": 30,
+      "minLength": 0,
+      "type": "string"
+     },
+     "name": {
+      "maxLength": 100,
+      "minLength": 0,
+      "type": "string"
+     },
+     "provider": {
+      "maxLength": 30,
+      "minLength": 0,
+      "type": "string"
+     },
+     "version": {
+      "maxLength": 30,
+      "minLength": 0,
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.ExternalFindings.ExternalFindingsFieldViewModel": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "maxLength": 30,
+      "minLength": 0,
+      "type": "string"
+     },
+     "value": {
+      "maxLength": 100,
+      "minLength": 0,
+      "type": "string"
+     },
+     "comment": {
+      "maxLength": 100,
+      "minLength": 0,
+      "type": "string"
+     }
+    }
+   },
+   "Falconetix.Model.ExternalFindings.ExternalFindingsResponseViewModel": {
+    "type": "object",
+    "properties": {
+     "failedRecords": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Falconetix.Model.ExternalFindings.FailedExternalFindingsResponse"
+      }
+     },
+     "totalFailedRecords": {
+      "format": "int32",
+      "type": "integer",
+      "readOnly": true
+     },
+     "totalSuccessfulRecords": {
+      "format": "int32",
+      "type": "integer"
+     }
+    }
+   },
+   "Falconetix.Model.ExternalFindings.FailedExternalFindingsResponse": {
+    "type": "object",
+    "properties": {
+     "request": {
+      "$ref": "#/components/schemas/Falconetix.Model.ExternalFindings.ExternalFindingUpsertRequestViewModel"
+     },
+     "reason": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.FindingsStatsBySeverityViewModel": {
+    "description": "Statistics (passes/fails) per severity",
+    "type": "object",
+    "properties": {
+     "aggByProperty": {
+      "type": "string"
+     },
+     "aggStatistics": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.ElasticSearch.Std.Base.AggKeyStatistics"
+      }
+     }
+    }
+   },
+   "Dome9.ElasticSearch.Std.Base.AggKeyStatistics": {
+    "type": "object",
+    "properties": {
+     "key": {
+      "type": "string"
+     },
+     "numberOfDocuments": {
+      "format": "int64",
+      "type": "integer"
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.FindingsStatsViewModel": {
+    "description": "Statistics (passes/fails) for a bundle",
+    "type": "object",
+    "properties": {
+     "rules": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.ElasticSearch.Std.Finding.RuleStatistics"
+      }
+     }
+    }
+   },
+   "Dome9.ElasticSearch.Std.Finding.RuleStatistics": {
+    "type": "object",
+    "properties": {
+     "ruleLogicHash": {
+      "type": "string"
+     },
+     "numberOfFindings": {
+      "format": "int64",
+      "type": "integer"
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.BaseFindingViewModel": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "format": "uuid",
+      "description": "finding id",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "findingKey": {
+      "description": "finding key",
+      "type": "string"
+     },
+     "createdTime": {
+      "format": "date-time",
+      "description": "date finding was first found",
+      "type": "string"
+     },
+     "updatedTime": {
+      "format": "date-time",
+      "description": "date of last update for the finding",
+      "type": "string"
+     },
+     "cloudAccountType": {
+      "description": "cloud account provider (AWS/Azure/GCP)",
+      "enum": [
+       "Aws",
+       "Azure",
+       "Google",
+       "Kubernetes",
+       "Terraform",
+       "Generic",
+       "KubernetesRuntimeAssurance",
+       "ShiftLeft",
+       "SourceCodeAssurance",
+       "ImageAssurance",
+       "Alibaba",
+       "Cft",
+       "ContainerRegistry",
+       "Oci",
+       "CIEM"
+      ],
+      "type": "string"
+     },
+     "comments": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingCommentViewModel"
+      }
+     },
+     "cloudAccountId": {
+      "format": "uuid",
+      "description": "cloud account id (on AWS/Azure/GCP)",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "cloudAccountExternalId": {
+      "description": "cloud account id on the cloud provider",
+      "type": "string"
+     },
+     "organizationalUnitId": {
+      "format": "uuid",
+      "description": "the Organizational Unit id",
+      "type": "string",
+      "example": "00000000-0000-0000-0000-000000000000"
+     },
+     "organizationalUnitPath": {
+      "description": "the Organizational Unit path",
+      "type": "string"
+     },
+     "bundleId": {
+      "format": "int64",
+      "description": "the bundle id",
+      "type": "integer"
+     },
+     "bundleVersion": {
+      "type": "string"
+     },
+     "alertType": {
+      "description": "the bundle id",
+      "enum": [
+       "SecurityEvent",
+       "Task"
+      ],
+      "type": "string"
+     },
+     "ruleId": {
+      "description": "id of the specific rule that failed",
+      "type": "string"
+     },
+     "ruleName": {
+      "description": "name of the specific rule that failed (text string)",
+      "type": "string"
+     },
+     "ruleLogic": {
+      "description": "the GSL logic for the rule",
+      "type": "string"
+     },
+     "entityDome9Id": {
+      "description": "the Dome9 entity id (representing a cloud entity) that was tested by the rule",
+      "type": "string"
+     },
+     "entityExternalId": {
+      "description": "the cloud provider entity id for the entity tested by the rule",
+      "type": "string"
+     },
+     "entityType": {
+      "description": "the type of entity tested (e.g. S3, or EC2)",
+      "type": "string"
+     },
+     "entityTypeByEnvironmentType": {
+      "description": "the type of entity tested by the environment type in format of {EnvironmentType}|{EntityType}",
+      "type": "string"
+     },
+     "entityName": {
+      "description": "the entity name (on the cloud provider), as a text string, in the specific cloud provider format",
+      "type": "string"
+     },
+     "entityNetwork": {
+      "type": "string"
+     },
+     "entityTags": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Falconetix.Model.RuleEngine.Entities.TagRuleEntity"
+      }
+     },
+     "severity": {
+      "description": "the severity of the finding (H/M/L)",
+      "type": "string"
+     },
+     "description": {
+      "description": "text description of the finding (the failure reason)",
+      "type": "string"
+     },
+     "remediation": {
+      "description": "the recommended remediation (if any) for the failure",
+      "type": "string"
+     },
+     "tag": {
+      "description": "tags assigned to the finding (list string)",
+      "type": "string"
+     },
+     "region": {
+      "description": "the region in which the entity was located",
+      "type": "string"
+     },
+     "bundleName": {
+      "description": "the name of the bundle with the rule",
+      "type": "string"
+     },
+     "acknowledged": {
+      "description": "indicates the finding was acknowledged",
+      "type": "boolean"
+     },
+     "origin": {
+      "description": "Dome9 source of the finding (Compliance or Magellan)",
+      "enum": [
+       "ComplianceEngine",
+       "Magellan",
+       "MagellanAwsGuardDuty",
+       "Serverless",
+       "Agentless",
+       "AwsInspector",
+       "ServerlessSecurityAnalyzer",
+       "ExternalFindingSource",
+       "Qualys",
+       "Tenable",
+       "AwsGuardDuty",
+       "KubernetesImageScanning",
+       "KubernetesRuntimeAssurance",
+       "ContainersRuntimeProtection",
+       "WorkloadChangeMonitoring",
+       "ImageAssurance",
+       "SourceCodeAssurance",
+       "InfrastructureAsCode",
+       "CIEM",
+       "Incident"
+      ],
+      "type": "string"
+     },
+     "lastSeenTime": {
+      "format": "date-time",
+      "description": "Date when the finding was last seen",
+      "type": "string"
+     },
+     "ownerUserName": {
+      "description": "Dome9 user assigned to the finding",
+      "type": "string"
+     },
+     "magellan": {
+      "$ref": "#/components/schemas/Falconetix.Model.RuleEngine.Entities.Compliance.AssessmentFinding.MagellanData",
+      "description": "Extra data for Magellan findings"
+     },
+     "isExcluded": {
+      "description": "Indicates the finding was excluded from the assessment",
+      "type": "boolean"
+     },
+     "webhookResponses": {
+      "description": "Consists of Webhook type and the response of that webhook, if response defined",
+      "type": "object",
+      "properties": {
+       "none": {
+        "$ref": "#/components/schemas/Falconetix.Model.ElasticSearch.WebhookResponse.WebhookResponseMessage"
+       },
+       "serviceNow": {
+        "$ref": "#/components/schemas/Falconetix.Model.ElasticSearch.WebhookResponse.WebhookResponseMessage"
+       },
+       "jira": {
+        "$ref": "#/components/schemas/Falconetix.Model.ElasticSearch.WebhookResponse.WebhookResponseMessage"
+       }
+      }
+     },
+     "remediationActions": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "additionalFields": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Falconetix.Model.RuleEngine.Entities.FindingAdditionalFieldViewModel"
+      }
+     },
+     "occurrences": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "scanId": {
+      "type": "string"
+     },
+     "status": {
+      "enum": [
+       "Active",
+       "Archived"
+      ],
+      "type": "string"
+     },
+     "statusReason": {
+      "enum": [
+       "Unspecified",
+       "RuleViolation",
+       "ConfigurationFixed",
+       "AssetDeleted",
+       "RulesetDeleted",
+       "RuleDeleted",
+       "PolicyDeleted",
+       "UserClosed",
+       "CloudAccountDeleted"
+      ],
+      "type": "string"
+     },
+     "category": {
+      "type": "string"
+     },
+     "action": {
+      "enum": [
+       "Detect",
+       "Prevent"
+      ],
+      "type": "string"
+     },
+     "labels": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.GetFindingByKeyViewModel": {
+    "required": [
+     "findingKey"
+    ],
+    "type": "object",
+    "properties": {
+     "findingKey": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.SelectAllResponseViewModel": {
+    "type": "object",
+    "properties": {
+     "accountId": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "statusCode": {
+      "enum": [
+       "Continue",
+       "SwitchingProtocols",
+       "OK",
+       "Created",
+       "Accepted",
+       "NonAuthoritativeInformation",
+       "NoContent",
+       "ResetContent",
+       "PartialContent",
+       "MultipleChoices",
+       "Ambiguous",
+       "MovedPermanently",
+       "Moved",
+       "Found",
+       "Redirect",
+       "SeeOther",
+       "RedirectMethod",
+       "NotModified",
+       "UseProxy",
+       "Unused",
+       "TemporaryRedirect",
+       "RedirectKeepVerb",
+       "BadRequest",
+       "Unauthorized",
+       "PaymentRequired",
+       "Forbidden",
+       "NotFound",
+       "MethodNotAllowed",
+       "NotAcceptable",
+       "ProxyAuthenticationRequired",
+       "RequestTimeout",
+       "Conflict",
+       "Gone",
+       "LengthRequired",
+       "PreconditionFailed",
+       "RequestEntityTooLarge",
+       "RequestUriTooLong",
+       "UnsupportedMediaType",
+       "RequestedRangeNotSatisfiable",
+       "ExpectationFailed",
+       "UpgradeRequired",
+       "InternalServerError",
+       "NotImplemented",
+       "BadGateway",
+       "ServiceUnavailable",
+       "GatewayTimeout",
+       "HttpVersionNotSupported"
+      ],
+      "type": "string"
+     },
+     "status": {
+      "enum": [
+       "ActionBegin",
+       "ActionError",
+       "ActionTimeout",
+       "FinishRunningAction"
+      ],
+      "type": "string"
+     },
+     "completed": {
+      "type": "boolean"
+     },
+     "total": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "updated": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "failed": {
+      "format": "int64",
+      "type": "integer"
+     },
+     "error": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.FindingPaganationViewModel": {
+    "type": "object",
+    "properties": {
+     "searchRequest": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel",
+      "description": "search request for findings"
+     },
+     "findings": {
+      "description": "current page of findings",
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.BaseFindingViewModel"
+      }
+     },
+     "totalFindingsCount": {
+      "format": "int64",
+      "description": "total number of findings",
+      "type": "integer"
+     },
+     "aggregations": {
+      "description": "aggregate findings per search or filter entity (facet)",
+      "type": "object",
+      "additionalProperties": {
+       "type": "array",
+       "items": {
+        "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.FieldAggregationViewModel"
+       }
+      }
+     },
+     "searchAfter": {
+      "description": "token for next page of results",
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.FindingController.FindingSourceViewModel": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "description": {
+      "type": "string"
+     },
+     "value": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "originType": {
+      "enum": [
+       "ComplianceEngine",
+       "Magellan",
+       "ExternalFindings",
+       "Serverless",
+       "KubernetesRuntimeAssurance",
+       "ContainersRuntimeProtection",
+       "ImageAssurance",
+       "SourceCodeAssurance",
+       "InfrastructureAsCode",
+       "CIEM",
+       "Incident",
+       "WorkloadChangeMonitoring",
+       "Agentless"
+      ],
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel": {
+    "type": "object",
+    "properties": {
+     "acknowledged": {
+      "description": "acknowledge finding",
+      "type": "boolean"
+     },
+     "comment": {
+      "description": "acknowledge comment",
+      "maxLength": 200,
+      "minLength": 0,
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel": {
+    "required": [
+     "severity"
+    ],
+    "type": "object",
+    "properties": {
+     "severity": {
+      "description": "finding severity (H/M/L)",
+      "enum": [
+       "Informational",
+       "Low",
+       "Medium",
+       "High",
+       "Critical"
+      ],
+      "type": "string"
+     },
+     "comment": {
+      "description": "severity comment (if severity is changed)",
+      "maxLength": 200,
+      "minLength": 0,
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel": {
+    "type": "object",
+    "properties": {
+     "assigneeUserName": {
+      "description": "assigned Dome9 user name (email address)",
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.PostCommentViewModel": {
+    "required": [
+     "text"
+    ],
+    "type": "object",
+    "properties": {
+     "text": {
+      "description": "general comment for finding",
+      "maxLength": 200,
+      "minLength": 1,
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.ArchiveFindingModel": {
+    "type": "object",
+    "properties": {}
+   },
+   "Dome9.Web.Api.Compliance.Finding.PostCommentByFindingKeyViewModel": {
+    "required": [
+     "findingKey",
+     "text"
+    ],
+    "type": "object",
+    "properties": {
+     "findingKey": {
+      "type": "string"
+     },
+     "text": {
+      "description": "general comment for finding",
+      "maxLength": 200,
+      "minLength": 1,
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.FindingController.AssessmentFindingOriginProperties": {
+    "type": "object",
+    "properties": {
+     "origin": {
+      "type": "string"
+     },
+     "originNumber": {
+      "format": "int32",
+      "type": "integer"
+     },
+     "originDescription": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Report.FindingsReportViewModel": {
+    "type": "object",
+    "properties": {
+     "searchRequest": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel",
+      "description": "search request for findings"
+     },
+     "recipents": {
+      "description": "recipents for mail",
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "selectedColumns": {
+      "description": "Selected Columns",
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "showExcluded": {
+      "description": "Show Excluded Column",
+      "type": "boolean"
+     }
+    }
+   },
+   "Dome9.Web.Api.ProtectedAsset.SearchRequestViewModel": {
+    "description": "Search or filter parameters. This object is passed via url so the field names are short because quary params are limited (about 2000 chars)",
+    "type": "object",
+    "properties": {
+     "pageSize": {
+      "format": "int32",
+      "description": "page size (number of findings returned per page). default: 10.",
+      "maximum": 1000,
+      "minimum": 0,
+      "type": "integer"
+     },
+     "skipAggregations": {
+      "type": "boolean"
+     },
+     "aggregations": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "sorting": {
+      "$ref": "#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.SortingViewModel",
+      "description": "sort data"
+     },
+     "filter": {
+      "$ref": "#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.SearchFilterViewModel",
+      "description": "filter"
+     },
+     "searchAfter": {
+      "description": "token for the page of findings (first page if not specified)",
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "additionalFields": {
+      "$ref": "#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.AdditionalFieldsRequestViewModel"
+     },
+     "optionalAggregationFields": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "externalAdditionalFields": {
+      "$ref": "#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.AdditionalFieldsRequestViewModel"
+     },
+     "filterEntitiesWithoutRiskScore": {
+      "type": "boolean"
+     }
+    }
+   },
+   "CGN.OpenSearch.Model.CommonViewModels.SortingViewModel": {
+    "type": "object",
+    "properties": {
+     "fieldName": {
+      "type": "string"
+     },
+     "direction": {
+      "format": "int32",
+      "type": "integer"
+     }
+    }
+   },
+   "CGN.OpenSearch.Model.CommonViewModels.SearchFilterViewModel": {
+    "type": "object",
+    "properties": {
+     "freeTextPhrase": {
+      "type": "string"
+     },
+     "freeTextNamePhrase": {
+      "type": "string"
+     },
+     "freeTextForIdsPhrase": {
+      "type": "string"
+     },
+     "fields": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.FieldFilterViewModel"
+      }
+     },
+     "tags": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.TagViewModel"
+      }
+     },
+     "includedEntityTypes": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "excludedEntityTypes": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "CGN.OpenSearch.Model.CommonViewModels.AdditionalFieldsRequestViewModel": {
+    "type": "object",
+    "properties": {
+     "source": {
+      "type": "string"
+     },
+     "filterFields": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.FieldFilterViewModel"
+      }
+     },
+     "sortField": {
+      "$ref": "#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.SortingViewModel"
+     }
+    }
+   },
+   "CGN.OpenSearch.Model.CommonViewModels.TagViewModel": {
+    "type": "object",
+    "properties": {
+     "key": {
+      "type": "string"
+     },
+     "value": {
+      "type": "string"
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Compliance.Models.ActionType_": {
+    "type": "object",
+    "properties": {
+     "searchRequest": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel"
+     },
+     "actionRequest": {
+      "enum": [
+       "Undefined",
+       "Acknowledge",
+       "Severity",
+       "Assign",
+       "Comment",
+       "Close",
+       "Archive",
+       "Delete",
+       "Unarchive"
+      ],
+      "type": "string"
+     },
+     "excludedFindingsIds": {
+      "type": "array",
+      "items": {
+       "format": "uuid",
+       "type": "string",
+       "example": "00000000-0000-0000-0000-000000000000"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel_": {
+    "type": "object",
+    "properties": {
+     "ids": {
+      "type": "array",
+      "items": {
+       "format": "uuid",
+       "type": "string",
+       "example": "00000000-0000-0000-0000-000000000000"
+      }
+     },
+     "details": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel"
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel_": {
+    "type": "object",
+    "properties": {
+     "searchRequest": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel"
+     },
+     "actionRequest": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel"
+     },
+     "excludedFindingsIds": {
+      "type": "array",
+      "items": {
+       "format": "uuid",
+       "type": "string",
+       "example": "00000000-0000-0000-0000-000000000000"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel_": {
+    "type": "object",
+    "properties": {
+     "ids": {
+      "type": "array",
+      "items": {
+       "format": "uuid",
+       "type": "string",
+       "example": "00000000-0000-0000-0000-000000000000"
+      }
+     },
+     "details": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel"
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel_": {
+    "type": "object",
+    "properties": {
+     "searchRequest": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel"
+     },
+     "actionRequest": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel"
+     },
+     "excludedFindingsIds": {
+      "type": "array",
+      "items": {
+       "format": "uuid",
+       "type": "string",
+       "example": "00000000-0000-0000-0000-000000000000"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel_": {
+    "type": "object",
+    "properties": {
+     "ids": {
+      "type": "array",
+      "items": {
+       "format": "uuid",
+       "type": "string",
+       "example": "00000000-0000-0000-0000-000000000000"
+      }
+     },
+     "details": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel"
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel_": {
+    "type": "object",
+    "properties": {
+     "searchRequest": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel"
+     },
+     "actionRequest": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel"
+     },
+     "excludedFindingsIds": {
+      "type": "array",
+      "items": {
+       "format": "uuid",
+       "type": "string",
+       "example": "00000000-0000-0000-0000-000000000000"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PostCommentViewModel_": {
+    "type": "object",
+    "properties": {
+     "ids": {
+      "type": "array",
+      "items": {
+       "format": "uuid",
+       "type": "string",
+       "example": "00000000-0000-0000-0000-000000000000"
+      }
+     },
+     "details": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.PostCommentViewModel"
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PostCommentViewModel_": {
+    "type": "object",
+    "properties": {
+     "searchRequest": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel"
+     },
+     "actionRequest": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.PostCommentViewModel"
+     },
+     "excludedFindingsIds": {
+      "type": "array",
+      "items": {
+       "format": "uuid",
+       "type": "string",
+       "example": "00000000-0000-0000-0000-000000000000"
+      }
+     }
+    }
+   },
+   "Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.ArchiveFindingModel_": {
+    "type": "object",
+    "properties": {
+     "ids": {
+      "type": "array",
+      "items": {
+       "format": "uuid",
+       "type": "string",
+       "example": "00000000-0000-0000-0000-000000000000"
+      }
+     },
+     "details": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.ArchiveFindingModel"
+     }
+    }
+   },
+   "Falconetix.Model.ProtectedAssetsReport.ProtectedAssetsReportViewModel_Dome9.Web.Api.ProtectedAsset.SearchRequestViewModel_": {
+    "type": "object",
+    "properties": {
+     "searchRequest": {
+      "$ref": "#/components/schemas/Dome9.Web.Api.ProtectedAsset.SearchRequestViewModel",
+      "description": "Search request for protected assets"
+     },
+     "recipients": {
+      "description": "Recipients for email",
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   }
+  },
+  "requestBodies": {
+   "Finding_BulkDeleteAsyncIds": {
+    "content": {
+     "application/json": {
+      "schema": {
+       "type": "array",
+       "items": {
+        "format": "uuid",
+        "type": "string",
+        "example": "00000000-0000-0000-0000-000000000000"
+       }
+      }
+     },
+     "application/x-www-form-urlencoded": {
+      "schema": {
+       "type": "array",
+       "items": {
+        "format": "uuid",
+        "type": "string",
+        "example": "00000000-0000-0000-0000-000000000000"
+       }
+      }
+     }
+    },
+    "description": "Finding IDs list (Guid)",
+    "required": true
+   },
+   "Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Compliance.Models.ActionType_": {
+    "content": {
+     "application/json": {
+      "schema": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Compliance.Models.ActionType_"
+      }
+     },
+     "application/x-www-form-urlencoded": {
+      "schema": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Compliance.Models.ActionType_"
+      }
+     }
+    },
+    "description": "the filter selections - which findings to close",
+    "required": true
+   },
+   "Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel": {
+    "content": {
+     "application/json": {
+      "schema": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel"
+      }
+     },
+     "application/x-www-form-urlencoded": {
+      "schema": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel"
+      }
+     }
+    },
+    "description": "the filter selections",
+    "required": true
+   },
+   "Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.ArchiveFindingModel_": {
+    "content": {
+     "application/json": {
+      "schema": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.ArchiveFindingModel_"
+      }
+     },
+     "application/x-www-form-urlencoded": {
+      "schema": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.ArchiveFindingModel_"
+      }
+     }
+    },
+    "required": true
+   },
+   "Dome9.Web.Api.Compliance.Report.FindingsReportViewModel": {
+    "content": {
+     "application/json": {
+      "schema": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Report.FindingsReportViewModel"
+      }
+     },
+     "application/x-www-form-urlencoded": {
+      "schema": {
+       "$ref": "#/components/schemas/Dome9.Web.Api.Compliance.Report.FindingsReportViewModel"
+      }
+     }
+    },
+    "required": true
+   },
+   "Falconetix.Model.ProtectedAssetsReport.ProtectedAssetsReportViewModel_Dome9.Web.Api.ProtectedAsset.SearchRequestViewModel_": {
+    "content": {
+     "application/json": {
+      "schema": {
+       "$ref": "#/components/schemas/Falconetix.Model.ProtectedAssetsReport.ProtectedAssetsReportViewModel_Dome9.Web.Api.ProtectedAsset.SearchRequestViewModel_"
+      }
+     },
+     "application/x-www-form-urlencoded": {
+      "schema": {
+       "$ref": "#/components/schemas/Falconetix.Model.ProtectedAssetsReport.ProtectedAssetsReportViewModel_Dome9.Web.Api.ProtectedAsset.SearchRequestViewModel_"
+      }
+     }
+    },
+    "required": true
+   }
+  },
+  "securitySchemes": {
+   "basic": {
+    "type": "http",
+    "scheme": "basic"
+   }
+  }
+ },
+ "security": [
+  {
+   "basic": []
+  }
+ ],
+ "x-readme": {
+  "explorer-enabled": true,
+  "proxy-enabled": true
+ }
+}
