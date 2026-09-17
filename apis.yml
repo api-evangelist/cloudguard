@@ -3112,22 +3112,6 @@ apis:
     url: https://docs.cgn.portal.checkpoint.com/reference/introduction
   - type: Authentication
     url: https://docs.cgn.portal.checkpoint.com/reference/authentication
-- aid: cloudguard:cloudguard-sbom-export-api
-  name: CloudGuard SBOM Export API
-  description: The SBOM Export API from CloudGuard — 2 operation(s) for sbom export.
-  humanURL: https://docs.cgn.portal.checkpoint.com/reference
-  baseURL: https://api.dome9.com
-  tags:
-  - SBOM Export
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudguard-sbom-export-api-openapi.yml
-  - type: Documentation
-    url: https://docs.cgn.portal.checkpoint.com/reference
-  - type: APIReference
-    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
-  - type: Authentication
-    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
 - aid: cloudguard:cloudguard-security-graph-issues-api
   name: CloudGuard Security Graph Issues API
   description: >-
@@ -3414,6 +3398,22 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/cloudguard-workload-image-assurance-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cgn.portal.checkpoint.com/reference
+  - type: APIReference
+    url: https://docs.cgn.portal.checkpoint.com/reference/introduction
+  - type: Authentication
+    url: https://docs.cgn.portal.checkpoint.com/reference/authentication
+- aid: cloudguard:cloudguard-sbomexport-api
+  name: CloudGuard Sbomexport API
+  description: The Sbomexport API from CloudGuard — 2 operation(s) for sbomexport.
+  humanURL: https://waf-doc.inext.checkpoint.com/
+  baseURL: https://cloudinfra-gw.portal.checkpoint.com
+  tags:
+  - Sbomexport
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudguard-sbomexport-api-openapi.yml
   - type: Documentation
     url: https://docs.cgn.portal.checkpoint.com/reference
   - type: APIReference
