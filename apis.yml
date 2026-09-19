@@ -1185,6 +1185,8 @@ apis:
   humanURL: https://docs.cgn.portal.checkpoint.com/reference
   baseURL: https://api.dome9.com
   tags:
+  - Bigtable
+  tags_raw:
   - Big Table
   properties:
   - type: OpenAPI
@@ -1957,6 +1959,8 @@ apis:
   humanURL: https://docs.cgn.portal.checkpoint.com/reference
   baseURL: https://api.dome9.com
   tags:
+  - CloudTrail
+  tags_raw:
   - Cloud Trail
   properties:
   - type: OpenAPI
@@ -2222,6 +2226,8 @@ apis:
   humanURL: https://docs.cgn.portal.checkpoint.com/reference
   baseURL: https://api.dome9.com
   tags:
+  - DSPM
+  tags_raw:
   - Dspm
   properties:
   - type: OpenAPI
@@ -2791,6 +2797,8 @@ apis:
   humanURL: https://docs.cgn.portal.checkpoint.com/reference
   baseURL: https://api.dome9.com
   tags:
+  - IP List
+  tags_raw:
   - Ip List
   properties:
   - type: OpenAPI
@@ -3199,6 +3207,8 @@ apis:
   humanURL: https://docs.cgn.portal.checkpoint.com/reference
   baseURL: https://api.dome9.com
   tags:
+  - ServiceAccount
+  tags_raw:
   - Service Account
   properties:
   - type: OpenAPI
@@ -3247,6 +3257,8 @@ apis:
   humanURL: https://docs.cgn.portal.checkpoint.com/reference
   baseURL: https://api.dome9.com
   tags:
+  - shiftleft
+  tags_raw:
   - Shift Left
   properties:
   - type: OpenAPI
@@ -3360,6 +3372,8 @@ apis:
   humanURL: https://docs.cgn.portal.checkpoint.com/reference
   baseURL: https://api.dome9.com
   tags:
+  - WAF
+  tags_raw:
   - Waf
   properties:
   - type: OpenAPI
