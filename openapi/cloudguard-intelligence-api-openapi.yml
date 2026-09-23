@@ -1,0 +1,720 @@
+openapi: 3.2.0
+info:
+  title: Intelligence API
+  version: v2
+  description: CloudGuard Intelligence allows you to visualize and analyze Account Activity and Network Traffic into and out of your cloud environment.
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Intelligence
+  description: CloudGuard Intelligence allows you to visualize and analyze Account Activity and Network Traffic into and out of your cloud environment.
+paths:
+  /v2/view/magellan/disable-magellan-for-cloud-account:
+    post:
+      tags:
+      - Intelligence
+      summary: Offboard Account
+      operationId: Intelligence_OffboardAccount_post_/v2/view/magellan/disable-magellan-for-cloud-account
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                enum:
+                - Continue
+                - SwitchingProtocols
+                - OK
+                - Created
+                - Accepted
+                - NonAuthoritativeInformation
+                - NoContent
+                - ResetContent
+                - PartialContent
+                - MultipleChoices
+                - Ambiguous
+                - MovedPermanently
+                - Moved
+                - Found
+                - Redirect
+                - SeeOther
+                - RedirectMethod
+                - NotModified
+                - UseProxy
+                - Unused
+                - TemporaryRedirect
+                - RedirectKeepVerb
+                - BadRequest
+                - Unauthorized
+                - PaymentRequired
+                - Forbidden
+                - NotFound
+                - MethodNotAllowed
+                - NotAcceptable
+                - ProxyAuthenticationRequired
+                - RequestTimeout
+                - Conflict
+                - Gone
+                - LengthRequired
+                - PreconditionFailed
+                - RequestEntityTooLarge
+                - RequestUriTooLong
+                - UnsupportedMediaType
+                - RequestedRangeNotSatisfiable
+                - ExpectationFailed
+                - UpgradeRequired
+                - InternalServerError
+                - NotImplemented
+                - BadGateway
+                - ServiceUnavailable
+                - GatewayTimeout
+                - HttpVersionNotSupported
+                type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Falconetix.Model.Magellan.MagellanAccountOffboardingModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Falconetix.Model.Magellan.MagellanAccountOffboardingModel'
+        description: Block indicating cloud account id and vendor to be offboarded from Intelligence
+        required: true
+      description: Offboard cloud account from Intelligence. The cloud account must already be onboarded to Intelligence.
+  /v2/view/magellan/usage-notification-rate:
+    put:
+      tags:
+      - Intelligence
+      summary: Set Usage Notification Rate
+      operationId: Intelligence_SetUsageNotificationRate_put_/v2/view/magellan/usage-notification-rate
+      parameters:
+      - name: rate
+        in: query
+        description: Emails will be sent every {rate} % reached.
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                enum:
+                - Continue
+                - SwitchingProtocols
+                - OK
+                - Created
+                - Accepted
+                - NonAuthoritativeInformation
+                - NoContent
+                - ResetContent
+                - PartialContent
+                - MultipleChoices
+                - Ambiguous
+                - MovedPermanently
+                - Moved
+                - Found
+                - Redirect
+                - SeeOther
+                - RedirectMethod
+                - NotModified
+                - UseProxy
+                - Unused
+                - TemporaryRedirect
+                - RedirectKeepVerb
+                - BadRequest
+                - Unauthorized
+                - PaymentRequired
+                - Forbidden
+                - NotFound
+                - MethodNotAllowed
+                - NotAcceptable
+                - ProxyAuthenticationRequired
+                - RequestTimeout
+                - Conflict
+                - Gone
+                - LengthRequired
+                - PreconditionFailed
+                - RequestEntityTooLarge
+                - RequestUriTooLong
+                - UnsupportedMediaType
+                - RequestedRangeNotSatisfiable
+                - ExpectationFailed
+                - UpgradeRequired
+                - InternalServerError
+                - NotImplemented
+                - BadGateway
+                - ServiceUnavailable
+                - GatewayTimeout
+                - HttpVersionNotSupported
+                type: string
+      description: 'Set usage notification emails rate.
+
+        By default, the system will send an email notification when Intelligence usage reaches 80%, 90% and 100% of your allowed quota.
+
+        Use this API call to configure sending an email notification every time you consumed the defined % of your quota.'
+  /v2/view/magellan/usage-notification-update-ancestors:
+    put:
+      tags:
+      - Intelligence
+      summary: Set Usage Notification Ancestors Update
+      operationId: Intelligence_SetUsageNotificationAncestorsUpdate_put_/v2/view/magellan/usage-notification-update-ancestors
+      parameters:
+      - name: shouldUpdate
+        in: query
+        description: Indicating if emails should be sent to ancestors.
+        required: true
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                enum:
+                - Continue
+                - SwitchingProtocols
+                - OK
+                - Created
+                - Accepted
+                - NonAuthoritativeInformation
+                - NoContent
+                - ResetContent
+                - PartialContent
+                - MultipleChoices
+                - Ambiguous
+                - MovedPermanently
+                - Moved
+                - Found
+                - Redirect
+                - SeeOther
+                - RedirectMethod
+                - NotModified
+                - UseProxy
+                - Unused
+                - TemporaryRedirect
+                - RedirectKeepVerb
+                - BadRequest
+                - Unauthorized
+                - PaymentRequired
+                - Forbidden
+                - NotFound
+                - MethodNotAllowed
+                - NotAcceptable
+                - ProxyAuthenticationRequired
+                - RequestTimeout
+                - Conflict
+                - Gone
+                - LengthRequired
+                - PreconditionFailed
+                - RequestEntityTooLarge
+                - RequestUriTooLong
+                - UnsupportedMediaType
+                - RequestedRangeNotSatisfiable
+                - ExpectationFailed
+                - UpgradeRequired
+                - InternalServerError
+                - NotImplemented
+                - BadGateway
+                - ServiceUnavailable
+                - GatewayTimeout
+                - HttpVersionNotSupported
+                type: string
+      description: Enable sending usage notification updates to parent accounts (all levels).
+  /v2/view/magellan/magellan-flowlogs-onboarding:
+    post:
+      tags:
+      - Intelligence
+      summary: Aws Network Traffic Onboarding
+      operationId: Intelligence_AwsNetworkTrafficOnboarding_post_/v2/view/magellan/magellan-flowlogs-onboarding
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Views.Magellan.AwsLogicLogViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Falconetix.Model.Magellan.MagellanOnboardingModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Falconetix.Model.Magellan.MagellanOnboardingModel'
+        description: Block indicating cloud account id and bucket name to be onboarded to Intelligence Network Traffic
+        required: true
+      description: 'Onboard an account for Network Traffic. The account must already be onboarded to CloudGuard
+
+        Please follow the Intelligence onboarding "Prerequisites" screen and the "Prepare IAM Policy for CloudGuard Intelligence" screen on the CloudGuard portal.'
+  /v2/view/magellan/magellan-cloudtrail-onboarding:
+    post:
+      tags:
+      - Intelligence
+      summary: Aws Account Activity Onboarding
+      operationId: Intelligence_AwsAccountActivityOnboarding_post_/v2/view/magellan/magellan-cloudtrail-onboarding
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Views.Magellan.AwsLogicLogViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Falconetix.Model.Magellan.MagellanOnboardingModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Falconetix.Model.Magellan.MagellanOnboardingModel'
+        description: Block indicating cloud account id and bucket name to be onboarded to Intelligence Account Activity
+        required: true
+      description: 'Onboard an account for Account Activity. The account must already be onboarded to CloudGuard.
+
+        Please follow the Intelligence onboarding "Prerequisites" screen and the "Prepare IAM Policy for CloudGuard Intelligence" screen on the CloudGuard portal.'
+  /v2/view/magellan/magellan-custom-onboarding:
+    post:
+      tags:
+      - Intelligence
+      summary: Aws Custom Onboarding
+      operationId: Intelligence_AwsCustomOnboarding_post_/v2/view/magellan/magellan-custom-onboarding
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                enum:
+                - Continue
+                - SwitchingProtocols
+                - OK
+                - Created
+                - Accepted
+                - NonAuthoritativeInformation
+                - NoContent
+                - ResetContent
+                - PartialContent
+                - MultipleChoices
+                - Ambiguous
+                - MovedPermanently
+                - Moved
+                - Found
+                - Redirect
+                - SeeOther
+                - RedirectMethod
+                - NotModified
+                - UseProxy
+                - Unused
+                - TemporaryRedirect
+                - RedirectKeepVerb
+                - BadRequest
+                - Unauthorized
+                - PaymentRequired
+                - Forbidden
+                - NotFound
+                - MethodNotAllowed
+                - NotAcceptable
+                - ProxyAuthenticationRequired
+                - RequestTimeout
+                - Conflict
+                - Gone
+                - LengthRequired
+                - PreconditionFailed
+                - RequestEntityTooLarge
+                - RequestUriTooLong
+                - UnsupportedMediaType
+                - RequestedRangeNotSatisfiable
+                - ExpectationFailed
+                - UpgradeRequired
+                - InternalServerError
+                - NotImplemented
+                - BadGateway
+                - ServiceUnavailable
+                - GatewayTimeout
+                - HttpVersionNotSupported
+                type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Falconetix.Model.Magellan.MagellanCustomOnboardingModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Falconetix.Model.Magellan.MagellanCustomOnboardingModel'
+        description: Block indicating custom onboarding data to be onboarded to Intelligence
+        required: true
+      description: 'Custom onboard Account Activity or Network Traffic of your cloud environment to Intelligence.
+
+        The cloud accounts must already be onboarded to CloudGuard.
+
+        Please follow the Intelligence onboarding "Prerequisites" screen and the "Prepare IAM Policy for CloudGuard Intelligence" screen on the CloudGuard portal.'
+  /v2/view/magellan/magellan-alibaba-actiontrail-onboarding:
+    post:
+      tags:
+      - Intelligence
+      summary: Alibaba Accoount Activity Onboarding
+      operationId: Intelligence_AlibabaAccoountActivityOnboarding_post_/v2/view/magellan/magellan-alibaba-actiontrail-onboarding
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                enum:
+                - Continue
+                - SwitchingProtocols
+                - OK
+                - Created
+                - Accepted
+                - NonAuthoritativeInformation
+                - NoContent
+                - ResetContent
+                - PartialContent
+                - MultipleChoices
+                - Ambiguous
+                - MovedPermanently
+                - Moved
+                - Found
+                - Redirect
+                - SeeOther
+                - RedirectMethod
+                - NotModified
+                - UseProxy
+                - Unused
+                - TemporaryRedirect
+                - RedirectKeepVerb
+                - BadRequest
+                - Unauthorized
+                - PaymentRequired
+                - Forbidden
+                - NotFound
+                - MethodNotAllowed
+                - NotAcceptable
+                - ProxyAuthenticationRequired
+                - RequestTimeout
+                - Conflict
+                - Gone
+                - LengthRequired
+                - PreconditionFailed
+                - RequestEntityTooLarge
+                - RequestUriTooLong
+                - UnsupportedMediaType
+                - RequestedRangeNotSatisfiable
+                - ExpectationFailed
+                - UpgradeRequired
+                - InternalServerError
+                - NotImplemented
+                - BadGateway
+                - ServiceUnavailable
+                - GatewayTimeout
+                - HttpVersionNotSupported
+                type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Falconetix.Model.Magellan.MagellanOnboardingAzurePricingStorage.MagellanAlibabaActionTrailOnboardingModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Falconetix.Model.Magellan.MagellanOnboardingAzurePricingStorage.MagellanAlibabaActionTrailOnboardingModel'
+        description: Block indicating data to be onboarded to Intelligence Event Activity
+        required: true
+      description: 'Onboard Alibaba account for Account Activity. The account must already be onboarded to CloudGuard.
+
+        Please follow Intelligence onboarding "Prerequisites" screen on CloudGuard portal.'
+  /v2/view/magellan/provide-azure-storage-details:
+    post:
+      tags:
+      - Intelligence
+      summary: Azure Network Traffic New Storage Onboarding
+      operationId: Intelligence_AzureNetworkTrafficNewStorageOnboarding_post_/v2/view/magellan/provide-azure-storage-details
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                enum:
+                - Continue
+                - SwitchingProtocols
+                - OK
+                - Created
+                - Accepted
+                - NonAuthoritativeInformation
+                - NoContent
+                - ResetContent
+                - PartialContent
+                - MultipleChoices
+                - Ambiguous
+                - MovedPermanently
+                - Moved
+                - Found
+                - Redirect
+                - SeeOther
+                - RedirectMethod
+                - NotModified
+                - UseProxy
+                - Unused
+                - TemporaryRedirect
+                - RedirectKeepVerb
+                - BadRequest
+                - Unauthorized
+                - PaymentRequired
+                - Forbidden
+                - NotFound
+                - MethodNotAllowed
+                - NotAcceptable
+                - ProxyAuthenticationRequired
+                - RequestTimeout
+                - Conflict
+                - Gone
+                - LengthRequired
+                - PreconditionFailed
+                - RequestEntityTooLarge
+                - RequestUriTooLong
+                - UnsupportedMediaType
+                - RequestedRangeNotSatisfiable
+                - ExpectationFailed
+                - UpgradeRequired
+                - InternalServerError
+                - NotImplemented
+                - BadGateway
+                - ServiceUnavailable
+                - GatewayTimeout
+                - HttpVersionNotSupported
+                type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Falconetix.Model.Magellan.MagellanOnboardingAzurePricingStorage.MagellanAzureNewStorageDetailsAfterArmModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Falconetix.Model.Magellan.MagellanOnboardingAzurePricingStorage.MagellanAzureNewStorageDetailsAfterArmModel'
+        description: Block indicating data of storage keys to be onboarded to Intelligence Network Traffic
+        required: true
+      description: After calling AzureNetworkTrafficOnboardingWithArm and creating the required resources in Azure using the ARM template, Intelligence needs access to the storage keys.
+  /v2/view/magellan/magellan-gcp-onboarding:
+    post:
+      tags:
+      - Intelligence
+      summary: Gcp Onboarding
+      operationId: Intelligence_GcpOnboarding_post_/v2/view/magellan/magellan-gcp-onboarding
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                enum:
+                - Continue
+                - SwitchingProtocols
+                - OK
+                - Created
+                - Accepted
+                - NonAuthoritativeInformation
+                - NoContent
+                - ResetContent
+                - PartialContent
+                - MultipleChoices
+                - Ambiguous
+                - MovedPermanently
+                - Moved
+                - Found
+                - Redirect
+                - SeeOther
+                - RedirectMethod
+                - NotModified
+                - UseProxy
+                - Unused
+                - TemporaryRedirect
+                - RedirectKeepVerb
+                - BadRequest
+                - Unauthorized
+                - PaymentRequired
+                - Forbidden
+                - NotFound
+                - MethodNotAllowed
+                - NotAcceptable
+                - ProxyAuthenticationRequired
+                - RequestTimeout
+                - Conflict
+                - Gone
+                - LengthRequired
+                - PreconditionFailed
+                - RequestEntityTooLarge
+                - RequestUriTooLong
+                - UnsupportedMediaType
+                - RequestedRangeNotSatisfiable
+                - ExpectationFailed
+                - UpgradeRequired
+                - InternalServerError
+                - NotImplemented
+                - BadGateway
+                - ServiceUnavailable
+                - GatewayTimeout
+                - HttpVersionNotSupported
+                type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Falconetix.Model.Magellan.MagellanGcpOnboardingModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Falconetix.Model.Magellan.MagellanGcpOnboardingModel'
+        description: Block indicating data to be onboarded to Intelligence
+        required: true
+      description: 'Onboard Gcp project. The project must already be onboarded to CloudGuard.
+
+        For network traffic please follow the Intelligence onboarding "Prerequisites" screen on the CloudGuard portal.
+
+        This is the API for onboarding your gcp project in CloudGuard side. In addition, you need to create some
+
+        resources in GCP as part of the onboarding. The following GIT contains a code that you can run on your computer.
+
+        The code creates the needed resources and makes an API call to CloudGuard:
+
+        https://github.com/dome9/gcp-onboarding/tree/main/onboarding-api'
+components:
+  schemas:
+    Falconetix.Model.Magellan.MagellanGcpOnboardingModel:
+      type: object
+      properties:
+        cloudAccounts:
+          type: array
+          items:
+            type: string
+        logType:
+          enum:
+          - NetworkTraffic
+          - AccountActivity
+          - Both
+          type: string
+    Falconetix.Model.Magellan.MagellanCustomOnboardingModel:
+      type: object
+      properties:
+        bucketName:
+          type: string
+        bucketAccountId:
+          type: string
+        topicArn:
+          type: string
+        cloudAccountIds:
+          type: array
+          items:
+            type: string
+        onboardingType:
+          enum:
+          - flowlogs
+          - CloudTrail
+          - Both
+          - GuardDuty
+          type: string
+        isUnifiedOnboarding:
+          description: Boolean that check if the request was from UnifiedOnboarding method. not needed for API.
+          type: boolean
+        rulesetsIds:
+          description: List of rule sets.  not needed for API.
+          type: array
+          items:
+            format: int64
+            type: integer
+        isSubscribedAlready:
+          description: Boolean that check if the account connect to centralized bucket on other account.
+          type: boolean
+        isAutoDiscoveryEnabled:
+          description: Boolean that check if the bucket should support auto discovery of additional accounts
+          type: boolean
+    Falconetix.Model.Magellan.MagellanOnboardingAzurePricingStorage.MagellanAlibabaActionTrailOnboardingModel:
+      type: object
+      properties:
+        cloudAccountNumbers:
+          type: array
+          items:
+            type: string
+    Falconetix.Model.Magellan.MagellanOnboardingAzurePricingStorage.MagellanAzureNewStorageDetailsAfterArmModel:
+      type: object
+      properties:
+        storageDetails:
+          type: array
+          items:
+            type: string
+        subscriptionId:
+          type: string
+    Falconetix.Model.Magellan.MagellanOnboardingModel:
+      type: object
+      properties:
+        cloudAccountId:
+          description: AWS cloud account id
+          type: string
+        bucketName:
+          description: The name of the bucket that Magellan (logic) will use for the onboarding [case sensitive]
+          type: string
+        isUnifiedOnboarding:
+          type: boolean
+        rulesetsIds:
+          type: array
+          items:
+            format: int64
+            type: integer
+    Dome9.Web.Api.Views.Magellan.AwsLogicLogViewModel:
+      type: object
+      properties:
+        cloudAccountId:
+          description: AWS cloud account id
+          type: string
+        isOnboarded:
+          description: indicates whether the account was successfully onboarded to Magellan (Log.ic)
+          type: boolean
+        bucketName:
+          description: The name of the bucket that Magellan (logic) will use for the onboarding [case sensitive]
+          type: string
+    Falconetix.Model.Magellan.MagellanAccountOffboardingModel:
+      type: object
+      properties:
+        cloudAccountId:
+          type: string
+        vendor:
+          enum:
+          - AWS
+          - Azure
+          - GCP
+          - Kubernetes
+          - Alibaba
+          - OCI
+          type: string
+        logTypes:
+          type: array
+          items:
+            enum:
+            - flowlogs
+            - CloudTrail
+            - Both
+            - GuardDuty
+            type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

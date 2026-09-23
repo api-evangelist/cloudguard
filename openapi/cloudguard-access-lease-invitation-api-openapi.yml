@@ -1,0 +1,152 @@
+openapi: 3.2.0
+info:
+  title: Network Security Access Lease Invitation API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Access Lease Invitation
+paths:
+  /v2/access-lease-invitation/access/{invitationId}:
+    get:
+      tags:
+      - Access Lease Invitation
+      summary: Access Invitation
+      operationId: AccessLeaseInvitation_AccessInvitation_get_/v2/access-lease-invitation/access/{invitationId}
+      parameters:
+      - name: invitationId
+        in: path
+        description: the id of the invitation
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      description: Get a specific invitation
+  /v2/AccessLeaseInvitation:
+    get:
+      tags:
+      - Access Lease Invitation
+      summary: Get Pending Invitations
+      description: Get a list of pending invitations (invitations not yet activated)
+      operationId: AccessLeaseInvitation_GetPendingInvitations_get_/v2/AccessLeaseInvitation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Models.AccessLeaseInvitationViewModel'
+    post:
+      tags:
+      - Access Lease Invitation
+      summary: Create Invitation
+      operationId: AccessLeaseInvitation_CreateInvitationAsync_post_/v2/AccessLeaseInvitation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.AccessLeaseInvitationViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.AccessLeaseInvitationViewModel'
+        description: lease invitation details
+        required: true
+      description: Create a new Lease Invitation
+  /v2/AccessLeaseInvitation/{id}:
+    delete:
+      tags:
+      - Access Lease Invitation
+      summary: Delete
+      operationId: AccessLeaseInvitation_Delete_delete_/v2/AccessLeaseInvitation/{id}
+      parameters:
+      - name: id
+        in: path
+        description: the id of the lease to delete
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      description: Delete a lease invitation
+components:
+  schemas:
+    Dome9.Web.Api.Models.AccessLeaseInvitationViewModel:
+      type: object
+      properties:
+        notifyEmail:
+          format: email
+          description: Email Address
+          type: string
+          example: MyName@gmail.com
+        length:
+          description: the duration of the lease ([D].H:M:S)
+          type: string
+        recipientName:
+          description: email of invitation recipient
+          type: string
+        targetSrl:
+          description: internal use
+          type: string
+        body:
+          type: string
+        id:
+          format: uuid
+          description: lease id
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        expirationTime:
+          format: date-time
+          description: invitation expiration time (YYYY-MM-DD HH:MM:SS.MS TZ)
+          type: string
+        pivotEntity:
+          description: Security Group name
+          type: string
+        serviceName:
+          description: Security Group service for which the lease will be opened
+          type: string
+        issuerName:
+          description: email of Dome9 user issuing the lease
+          type: string
+        created:
+          format: date-time
+          description: time lease was created
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

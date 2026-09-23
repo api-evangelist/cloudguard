@@ -1,0 +1,443 @@
+openapi: 3.2.0
+info:
+  title: Intelligence Azure API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Azure
+  description: ''
+paths:
+  /v2/intelligence/azure/onboarding-account-activity:
+    post:
+      tags:
+      - Azure
+      summary: Azure Account Activity New Storage Onboarding
+      operationId: Azure_AzureAccountActivityNewStorageOnboarding_post_/v2/intelligence/azure/onboarding-account-activity
+      requestBody:
+        x-name: model
+        description: All required details to be onboarded to Intelligence Account Activity
+        content:
+          application/json:
+            schema:
+              type: object
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: Http status code 200 if onboarding succeeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpStatusCode'
+      description: 'After calling get-arm-to-onboard-resources-account-activity API and creating the
+
+        required resources in Azure using the ARM template,
+
+        need to onboard the storages and the subscriptions to Intelligence.'
+  /v2/intelligence/azure/onboarding-network-traffic:
+    post:
+      tags:
+      - Azure
+      summary: Azure Network Traffic New Centralized Storage Onboarding
+      operationId: Azure_AzureNetworkTrafficNewCentralizedStorageOnboarding_post_/v2/intelligence/azure/onboarding-network-traffic
+      requestBody:
+        x-name: model
+        description: All required details to be onboarded to Intelligence Network Traffic
+        content:
+          application/json:
+            schema:
+              type: object
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: Http status code 200 if onboarding succeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpStatusCode'
+      description: After calling get-arm-to-onboard-resources-network-traffic-centralized API and creating the required resources in Azure using the ARM template, need to onboard the storages and the subscriptions to Intelligence.
+  /v2/intelligence/azure/get-arm-to-onboard-resources-network-traffic-centralized:
+    post:
+      tags:
+      - Azure
+      summary: Get Arm To Onboard Resources Network Traffic Centralized
+      operationId: Azure_GetArmToOnboardResourcesNetworkTrafficCentralized_post_/v2/intelligence/azure/get-arm-to-onboard-resources-network-traffic-centralized
+      requestBody:
+        x-name: data
+        description: The data that going to be onboarded to Intelligence Network Traffic.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CentralizedNetworkTrafficArmApiRequest'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: Http status code 200, ARM URL if succeeded and warnings list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArmApiResponseDetails'
+      description: 'Onboard Centralized Network Traffic for your Azure environment. The function creates an ARM template that you need to run in your Azure environment.
+
+        The function returns the url of the ARM template.
+
+        The Azure environment must already be onboarded to CloudGuard.
+
+        Please follow the Intelligence onboarding "Prerequisites" screen on the CloudGuard portal.'
+  /v2/intelligence/azure/get-arm-to-onboard-resources-account-activity:
+    post:
+      tags:
+      - Azure
+      summary: Get Arm To Onboard Resources Account Activity
+      operationId: Azure_GetArmToOnboardResourcesAccountActivity_post_/v2/intelligence/azure/get-arm-to-onboard-resources-account-activity
+      requestBody:
+        x-name: data
+        description: The data that going to be onboarded to Intelligence Account Activity.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountActivityArmApiRequest'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: Http status code 200, ARM URL if succeeded and warnings list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArmApiResponseDetails'
+      description: 'Onboard Account Activity for your Azure environment.
+
+        The function creates an ARM template that you need to run in your Azure environment.
+
+        The Azure environment must already be onboarded to CloudGuard.
+
+        Make the first call to get the ARM: https://docs.cgn.portal.checkpoint.com/reference/azure_getarmtoonboardresourcesaccountactivity_post_v2intelligenceazureget-arm-to-onboard-resources-account-activity.
+
+        Make sure that {{returnJsonUrl }} is set to false.
+
+        The function returns the URL of the ARM template.
+
+        Use the ARM URL to run the ARM deployment
+
+        When the deployment is finished, make the second API call to onboard the account and the storages to the databases:
+
+        https://docs.cgn.portal.checkpoint.com/reference/azure_azureaccountactivitynewstorageonboarding_post_v2intelligenceazureonboarding-account-activity
+
+        Please follow the Intelligence onboarding "Prerequisites" screen on the CloudGuard portal.'
+  /v2/intelligence/azure/magellan-azure-flowlogs-onboarding-with-arm:
+    post:
+      tags:
+      - Azure
+      summary: Azure Network Traffic Nsg Onboarding With Arm
+      operationId: Azure_AzureNetworkTrafficNsgOnboardingWithArm_post_/v2/intelligence/azure/magellan-azure-flowlogs-onboarding-with-arm
+      requestBody:
+        x-name: model
+        description: Block indicating the data to be onboarded to Intelligence Network Traffic
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MagellanAzureNetworkActivityOnboardingArmModelForApi'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ARM url if onboarding succeded
+          content:
+            application/json:
+              schema:
+                type: string
+      description: 'This API is for onboarding azure from the context of NSG, to onboard storage account use: /v2/intelligence/azure/get-arm-to-onboard-resources-network-traffic-centralized
+
+        Onboard Network Traffic for your Azure environment. Using NSG information, the function creates an ARM template that you need to run in your Azure environment.
+
+        The function returns the url of the ARM template.
+
+        The Azure environment must already be onboarded to CloudGuard.
+
+        Please follow the Intelligence onboarding "Prerequisites" screen on the CloudGuard portal.'
+components:
+  schemas:
+    CentralizedNetworkTrafficArmApiRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - subscriptionId
+      - storagesNames
+      - returnJsonUrl
+      properties:
+        subscriptionId:
+          type: string
+          description: Azure Subscription ID of the Storage Accounts
+        storagesNames:
+          type: array
+          description: List of storages to be onboarded to Intelligence Network Traffic
+          items:
+            type: string
+        returnJsonUrl:
+          type: boolean
+          description: Indicates if to return json or full ARM template URL. Deault value is true, so the API will return a json URL.
+          default: true
+    ArmApiResponseDetails:
+      type: object
+      additionalProperties: false
+      required:
+      - arm
+      - warnings
+      properties:
+        arm:
+          type: string
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArmApiWarning'
+    AccountActivityStorageDetails:
+      type: object
+      additionalProperties: false
+      required:
+      - logTypes
+      - storageName
+      properties:
+        logTypes:
+          type: array
+          description: '[Required] List of log types to be onboarded to Intelligence Account Activity'
+          items:
+            $ref: '#/components/schemas/CdrAzureActivityLogTypeEnum'
+        storageName:
+          type: string
+          description: '[Required] Storage Account Name'
+    MagellanAzureFlowLogsParamsFromCliForApi:
+      type: object
+      additionalProperties: false
+      required:
+      - rgName
+      - nsgsNames
+      properties:
+        rgName:
+          type: string
+        nsgsNames:
+          type: array
+          items:
+            type: string
+    AccountActivityArmApiRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - subscriptionId
+      - storagesDetails
+      - returnJsonUrl
+      properties:
+        subscriptionId:
+          type: string
+          description: Azure Subscription ID of the Storage Accounts
+        storagesDetails:
+          type: array
+          description: List of storages to be onboarded to Intelligence Account Activity
+          items:
+            $ref: '#/components/schemas/AccountActivityStorageDetails'
+        returnJsonUrl:
+          type: boolean
+          description: Indicates whether to return json or full ARM template URL. The deault value is true, meaning the API will return a json URL.
+          default: true
+    MagellanAzureNetworkActivityOnboardingArmModelForApi:
+      type: object
+      additionalProperties: false
+      required:
+      - subscriptionId
+      - nsgsDetails
+      properties:
+        subscriptionId:
+          type: string
+        nsgsDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/MagellanAzureFlowLogsParamsFromCliForApi'
+    ArmApiWarning:
+      type: object
+      additionalProperties: false
+      required:
+      - warning
+      - storagesNames
+      properties:
+        warning:
+          type: string
+        storagesNames:
+          type: array
+          items:
+            type: string
+    CdrAzureActivityLogTypeEnum:
+      type: string
+      description: ''
+      x-enumNames:
+      - ActivityLogs
+      - SignIns
+      - AuditLogs
+      - StorageAccounts
+      enum:
+      - ActivityLogs
+      - SignIns
+      - AuditLogs
+      - StorageAccounts
+    HttpStatusCode:
+      type: string
+      description: ''
+      x-enumNames:
+      - Continue
+      - SwitchingProtocols
+      - Processing
+      - EarlyHints
+      - OK
+      - Created
+      - Accepted
+      - NonAuthoritativeInformation
+      - NoContent
+      - ResetContent
+      - PartialContent
+      - MultiStatus
+      - AlreadyReported
+      - IMUsed
+      - MultipleChoices
+      - Ambiguous
+      - MovedPermanently
+      - Moved
+      - Found
+      - Redirect
+      - SeeOther
+      - RedirectMethod
+      - NotModified
+      - UseProxy
+      - Unused
+      - TemporaryRedirect
+      - RedirectKeepVerb
+      - PermanentRedirect
+      - BadRequest
+      - Unauthorized
+      - PaymentRequired
+      - Forbidden
+      - NotFound
+      - MethodNotAllowed
+      - NotAcceptable
+      - ProxyAuthenticationRequired
+      - RequestTimeout
+      - Conflict
+      - Gone
+      - LengthRequired
+      - PreconditionFailed
+      - RequestEntityTooLarge
+      - RequestUriTooLong
+      - UnsupportedMediaType
+      - RequestedRangeNotSatisfiable
+      - ExpectationFailed
+      - MisdirectedRequest
+      - UnprocessableEntity
+      - UnprocessableContent
+      - Locked
+      - FailedDependency
+      - UpgradeRequired
+      - PreconditionRequired
+      - TooManyRequests
+      - RequestHeaderFieldsTooLarge
+      - UnavailableForLegalReasons
+      - InternalServerError
+      - NotImplemented
+      - BadGateway
+      - ServiceUnavailable
+      - GatewayTimeout
+      - HttpVersionNotSupported
+      - VariantAlsoNegotiates
+      - InsufficientStorage
+      - LoopDetected
+      - NotExtended
+      - NetworkAuthenticationRequired
+      enum:
+      - Continue
+      - SwitchingProtocols
+      - Processing
+      - EarlyHints
+      - OK
+      - Created
+      - Accepted
+      - NonAuthoritativeInformation
+      - NoContent
+      - ResetContent
+      - PartialContent
+      - MultiStatus
+      - AlreadyReported
+      - IMUsed
+      - MultipleChoices
+      - MultipleChoices
+      - MovedPermanently
+      - MovedPermanently
+      - Found
+      - Found
+      - SeeOther
+      - SeeOther
+      - NotModified
+      - UseProxy
+      - Unused
+      - RedirectKeepVerb
+      - RedirectKeepVerb
+      - PermanentRedirect
+      - BadRequest
+      - Unauthorized
+      - PaymentRequired
+      - Forbidden
+      - NotFound
+      - MethodNotAllowed
+      - NotAcceptable
+      - ProxyAuthenticationRequired
+      - RequestTimeout
+      - Conflict
+      - Gone
+      - LengthRequired
+      - PreconditionFailed
+      - RequestEntityTooLarge
+      - RequestUriTooLong
+      - UnsupportedMediaType
+      - RequestedRangeNotSatisfiable
+      - ExpectationFailed
+      - MisdirectedRequest
+      - UnprocessableEntity
+      - UnprocessableEntity
+      - Locked
+      - FailedDependency
+      - UpgradeRequired
+      - PreconditionRequired
+      - TooManyRequests
+      - RequestHeaderFieldsTooLarge
+      - UnavailableForLegalReasons
+      - InternalServerError
+      - NotImplemented
+      - BadGateway
+      - ServiceUnavailable
+      - GatewayTimeout
+      - HttpVersionNotSupported
+      - VariantAlsoNegotiates
+      - InsufficientStorage
+      - LoopDetected
+      - NotExtended
+      - NetworkAuthenticationRequired
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

@@ -1,0 +1,141 @@
+openapi: 3.2.0
+info:
+  title: Inventory - Azure Azure User API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Azure User
+paths:
+  /v2/AzureUser:
+    get:
+      tags:
+      - Azure User
+      operationId: AzureUser_Get_get_/v2/AzureUser
+      parameters:
+      - name: cloudAccountId
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Azure.User.AzureUserViewModel'
+      description: ''
+      summary: Get
+  /v2/AzureUser/{id}:
+    get:
+      tags:
+      - Azure User
+      operationId: AzureUser_Get_get_/v2/AzureUser/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Azure.User.AzureUserViewModel'
+      description: ''
+      summary: Get
+components:
+  schemas:
+    Dome9.Web.Api.Azure.User.AzureUserViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        externalId:
+          type: string
+        userPrincipalName:
+          type: string
+        displayName:
+          type: string
+        userType:
+          type: string
+        createdDateTime:
+          format: date-time
+          type: string
+        lastPasswordChangeDateTime:
+          format: date-time
+          type: string
+        passwordPolicies:
+          type: string
+        userCredentialRegistionDetails:
+          $ref: '#/components/schemas/Dome9.Web.Api.Azure.User.AzureUserCredentialViewModel'
+        passwordProfile:
+          $ref: '#/components/schemas/Dome9.Web.Api.Azure.User.AzureUserPasswordProfileViewModel'
+        licenseAssignmentStates:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Azure.User.AzureUserLicenseAssignmentStatesViewModel'
+    Dome9.Web.Api.Azure.User.AzureUserPasswordProfileViewModel:
+      type: object
+      properties:
+        forceChangePasswordNextSignIn:
+          type: boolean
+        forceChangePasswordNextSignInWithMfa:
+          type: boolean
+    Dome9.Web.Api.Azure.User.AzureUserCredentialViewModel:
+      type: object
+      properties:
+        isEnableToRegisterForSelfServicePasswordReset:
+          type: boolean
+        isRegisterForSelfServicePasswordReset:
+          type: boolean
+        isRegisterWithMfa:
+          type: boolean
+        selfServicePasswordResetAuthMethods:
+          type: array
+          items:
+            type: string
+    Dome9.Web.Api.Azure.User.AzureUserLicenseAssignmentStatesViewModel:
+      type: object
+      properties:
+        assignedByGroup:
+          type: string
+        error:
+          type: string
+        skuId:
+          type: string
+        state:
+          type: string
+        disabledPlans:
+          type: array
+          items:
+            type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

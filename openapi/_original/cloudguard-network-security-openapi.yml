@@ -1,0 +1,5105 @@
+# x-archived-from: cloudguard-network-security-openapi.yml
+# x-archived-on: 2026-09-16
+info:
+  title: Network Security
+  version: v2
+openapi: 3.0.0
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+paths:
+  /v2/accesslease/aws:
+    post:
+      tags:
+      - Access Lease
+      summary: Acquire Aws Lease
+      operationId: AccessLease_AcquireAwsLease_post_/v2/accesslease/aws
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.AwsAccessLeasePostViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.AwsAccessLeasePostViewModel'
+        description: details for the lease
+        required: true
+      description: Create a new Access Lease for an AWS service
+  /v2/AccessLease:
+    get:
+      tags:
+      - Access Lease
+      summary: Get
+      operationId: AccessLease_Get_get_/v2/AccessLease
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Models.AccessLeasesGroupedViewModel'
+      description: Get a list of all active Access Leases
+  /v2/AccessLease/{id}:
+    delete:
+      tags:
+      - Access Lease
+      summary: Delete
+      operationId: AccessLease_Delete_delete_/v2/AccessLease/{id}
+      parameters:
+      - name: id
+        in: path
+        description: the id of the lease to terminate
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      description: Terminate an Access Lease
+  /v2/access-lease-invitation/access/{invitationId}:
+    get:
+      tags:
+      - Access Lease Invitation
+      summary: Access Invitation
+      operationId: AccessLeaseInvitation_AccessInvitation_get_/v2/access-lease-invitation/access/{invitationId}
+      parameters:
+      - name: invitationId
+        in: path
+        description: the id of the invitation
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      description: Get a specific invitation
+  /v2/AccessLeaseInvitation:
+    get:
+      tags:
+      - Access Lease Invitation
+      summary: Get Pending Invitations
+      description: Get a list of pending invitations (invitations not yet activated)
+      operationId: AccessLeaseInvitation_GetPendingInvitations_get_/v2/AccessLeaseInvitation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Models.AccessLeaseInvitationViewModel'
+    post:
+      tags:
+      - Access Lease Invitation
+      summary: Create Invitation
+      operationId: AccessLeaseInvitation_CreateInvitationAsync_post_/v2/AccessLeaseInvitation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.AccessLeaseInvitationViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.AccessLeaseInvitationViewModel'
+        description: lease invitation details
+        required: true
+      description: Create a new Lease Invitation
+  /v2/AccessLeaseInvitation/{id}:
+    delete:
+      tags:
+      - Access Lease Invitation
+      summary: Delete
+      operationId: AccessLeaseInvitation_Delete_delete_/v2/AccessLeaseInvitation/{id}
+      parameters:
+      - name: id
+        in: path
+        description: the id of the lease to delete
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      description: Delete a lease invitation
+  /v2/AwsSecurityGroup/{id}/ReferencingGroups:
+    get:
+      tags:
+      - Aws Security Group
+      summary: Get All Referenced Security Groups
+      operationId: AwsSecurityGroup_GetAllReferencedSecurityGroups_get_/v2/AwsSecurityGroup/{id}/ReferencingGroups
+      parameters:
+      - name: id
+        in: path
+        description: Aws security group id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.AwsSecurityGroup.AwsSecurityGroupViewModel'
+      description: Get all referenced security groups
+  /v2/AwsSecurityGroup:
+    get:
+      tags:
+      - Aws Security Group
+      summary: Get All Security Groups
+      operationId: AwsSecurityGroup_GetAllSecurityGroups_get_/v2/AwsSecurityGroup
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.AwsSecurityGroup.AwsSecurityGroupViewModel'
+      description: Get all Aws security group Entities
+  /v2/AwsSecurityGroupPolicy/CloudAccount/{id}:
+    get:
+      tags:
+      - Aws Security Group Policy
+      summary: Get By Cloud Account
+      operationId: AwsSecurityGroupPolicy_GetByCloudAccount_get_/v2/AwsSecurityGroupPolicy/CloudAccount/{id}
+      parameters:
+      - name: id
+        in: path
+        description: cloud account id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupPolicyViewModel'
+      description: Get all security groups policies of cloud account by cloud account id
+  /v2/AwsSecurityGroupPolicy/CloudAccount/{cloudAccountId}/Policy/{externalId}:
+    get:
+      tags:
+      - Aws Security Group Policy
+      summary: Get By External Security Group Id
+      operationId: AwsSecurityGroupPolicy_GetByExternalSecurityGroupId_get_/v2/AwsSecurityGroupPolicy/CloudAccount/{cloudAccountId}/Policy/{externalId}
+      parameters:
+      - name: cloudAccountId
+        in: path
+        description: Cloud account id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: externalId
+        in: path
+        description: Aws security group id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupPolicyViewModel'
+      description: Get security group policy by external security group id and cloud account id
+    delete:
+      tags:
+      - Aws Security Group Policy
+      summary: Delete Cloud Security Group
+      operationId: AwsSecurityGroupPolicy_DeleteCloudSecurityGroup_delete_/v2/AwsSecurityGroupPolicy/CloudAccount/{cloudAccountId}/Policy/{externalId}
+      parameters:
+      - name: cloudAccountId
+        in: path
+        description: Cloud account id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: externalId
+        in: path
+        description: Aws security group id
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      description: Delete an AWS security group
+  /v2/AwsSecurityGroupPolicy/CloudAccount/{cloudAccountId}/Policy/{externalId}/ProtectionMode:
+    post:
+      tags:
+      - Aws Security Group Policy
+      summary: Post Protection Mode
+      operationId: AwsSecurityGroupPolicy_PostProtectionMode_post_/v2/AwsSecurityGroupPolicy/CloudAccount/{cloudAccountId}/Policy/{externalId}/ProtectionMode
+      parameters:
+      - name: cloudAccountId
+        in: path
+        description: Cloud account id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: externalId
+        in: path
+        description: Aws security group id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupProtectionModeChangeViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupProtectionModeChangeViewModel'
+        description: 'protectionMode: FullManage / ReadOnly'
+        required: true
+      description: Update protection mode to security group
+  /v2/AwsSecurityGroupPolicy/CloudAccount/{cloudAccountId}/Policy/{externalId}/Services/{policyType}:
+    put:
+      tags:
+      - Aws Security Group Policy
+      summary: Update Service In Security Group
+      operationId: AwsSecurityGroupPolicy_UpdateServiceInSecurityGroup_put_/v2/AwsSecurityGroupPolicy/CloudAccount/{cloudAccountId}/Policy/{externalId}/Services/{policyType}
+      parameters:
+      - name: cloudAccountId
+        in: path
+        description: Cloud account id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: externalId
+        in: path
+        description: Aws security group id
+        required: true
+        schema:
+          type: string
+      - name: policyType
+        in: path
+        description: the service type (Inbound / Outbound)
+        required: true
+        schema:
+          type: string
+          enum:
+          - Inbound
+          - Outbound
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupServiceViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupServiceViewModel'
+        description: updated details for the service
+        required: true
+      description: Update a service (rule) for an AWS security group
+    post:
+      tags:
+      - Aws Security Group Policy
+      summary: Add Service To Security Group
+      operationId: AwsSecurityGroupPolicy_AddServiceToSecurityGroup_post_/v2/AwsSecurityGroupPolicy/CloudAccount/{cloudAccountId}/Policy/{externalId}/Services/{policyType}
+      parameters:
+      - name: cloudAccountId
+        in: path
+        description: Cloud account id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: externalId
+        in: path
+        description: Aws security group id
+        required: true
+        schema:
+          type: string
+      - name: policyType
+        in: path
+        description: the service type (Inbound / Outbound))
+        required: true
+        schema:
+          type: string
+          enum:
+          - Inbound
+          - Outbound
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupPolicyServiceViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupPolicyServiceViewModel'
+        description: details for the service
+        required: true
+      description: Creat a new Service (rule) for the security group
+  /v2/AwsSecurityGroupPolicy/CloudAccount/{cloudAccountId}/Policy/{externalId}/Services/{policyType}/{serviceId}:
+    delete:
+      tags:
+      - Aws Security Group Policy
+      summary: Delete Service From Security Group
+      operationId: AwsSecurityGroupPolicy_DeleteServiceFromSecurityGroup_delete_/v2/AwsSecurityGroupPolicy/CloudAccount/{cloudAccountId}/Policy/{externalId}/Services/{policyType}/{serviceId}
+      parameters:
+      - name: cloudAccountId
+        in: path
+        description: Cloud account id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: externalId
+        in: path
+        description: Aws security group id
+        required: true
+        schema:
+          type: string
+      - name: policyType
+        in: path
+        description: the service type (Inbound / Outbound)
+        required: true
+        schema:
+          type: string
+          enum:
+          - Inbound
+          - Outbound
+      - name: serviceId
+        in: path
+        description: the service id
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      description: Delete a service (rule) from an AWS security group
+  /v2/AwsSecurityGroupPolicy/CloudAccount/{cloudAccountId}/Policy/{externalId}/tags:
+    post:
+      tags:
+      - Aws Security Group Policy
+      summary: Update Tags
+      operationId: AwsSecurityGroupPolicy_UpdateTags_post_/v2/AwsSecurityGroupPolicy/CloudAccount/{cloudAccountId}/Policy/{externalId}/tags
+      parameters:
+      - name: cloudAccountId
+        in: path
+        description: Cloud account id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: externalId
+        in: path
+        description: Aws security group id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupTagsChangeViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupTagsChangeViewModel'
+        description: 'Tags model - {{ "key" : "value" }}'
+        required: true
+      description: Update tags
+  /v2/AwsSecurityGroupPolicy:
+    get:
+      tags:
+      - Aws Security Group Policy
+      summary: Get All Security Groups Of Account
+      operationId: AwsSecurityGroupPolicy_GetAllSecurityGroupsOfAccount_get_/v2/AwsSecurityGroupPolicy
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupPolicyViewModel'
+      description: Get a list of all security groups
+    post:
+      tags:
+      - Aws Security Group Policy
+      summary: Create Aws Security Group
+      operationId: AwsSecurityGroupPolicy_CreateAwsSecurityGroup_post_/v2/AwsSecurityGroupPolicy
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupBaseViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupBaseViewModel'
+        description: details for the new AWS security group
+        required: true
+      description: Create a new AWS security group
+  /v2/AzureSecurityGroup/{id}:
+    get:
+      tags:
+      - Azure Security Group
+      operationId: AzureSecurityGroup_Get_get_/v2/AzureSecurityGroup/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Models.AzureSecurityGroupViewModel'
+      description: ''
+      summary: Get
+  /v2/AzureSecurityGroup:
+    get:
+      tags:
+      - Azure Security Group
+      operationId: AzureSecurityGroup_Get_get_/v2/AzureSecurityGroup
+      parameters:
+      - name: cloudAccountId
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Models.AzureSecurityGroupViewModel'
+      description: ''
+      summary: Get
+  /v2/AzureSecurityGroupPolicy/{id}:
+    get:
+      tags:
+      - Azure Security Group Policy
+      summary: Get
+      operationId: AzureSecurityGroupPolicy_Get_get_/v2/AzureSecurityGroupPolicy/{id}
+      parameters:
+      - name: id
+        in: path
+        description: the policy id (in Dome9)
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyGetViewModel'
+      description: Get details for a specific Azure Network Security Group policy
+    put:
+      tags:
+      - Azure Security Group Policy
+      summary: Put
+      operationId: AzureSecurityGroupPolicy_Put_put_/v2/AzureSecurityGroupPolicy/{id}
+      parameters:
+      - name: id
+        in: path
+        description: the security group policy id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyGetViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyPostViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyPostViewModel'
+        description: details for the policy, including the changes
+        required: true
+      description: Update a security group policy
+    delete:
+      tags:
+      - Azure Security Group Policy
+      summary: Delete
+      operationId: AzureSecurityGroupPolicy_Delete_delete_/v2/AzureSecurityGroupPolicy/{id}
+      parameters:
+      - name: id
+        in: path
+        description: the security group policy id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      description: Delete a security group policy
+  /v2/AzureSecurityGroupPolicy/{policyId}/TamperProtected:
+    put:
+      tags:
+      - Azure Security Group Policy
+      summary: Update Protection Mode
+      operationId: AzureSecurityGroupPolicy_UpdateProtectionMode_put_/v2/AzureSecurityGroupPolicy/{policyId}/TamperProtected
+      parameters:
+      - name: policyId
+        in: path
+        description: the security group policy id&gt;
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: tamperProtected
+        in: query
+        description: enable/disable Tamper protection
+        required: true
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyGetViewModel'
+      description: Enable or disable Tamper Protetion for a specific security group policy
+  /v2/AzureSecurityGroupPolicy/Stats:
+    get:
+      tags:
+      - Azure Security Group Policy
+      summary: Get Stats
+      operationId: AzureSecurityGroupPolicy_GetStats_get_/v2/AzureSecurityGroupPolicy/Stats
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyStatsViewModel'
+      description: Get statistics for the security group policies for the Dome9 user
+  /v2/AzureSecurityGroupPolicy:
+    get:
+      tags:
+      - Azure Security Group Policy
+      summary: Get
+      operationId: AzureSecurityGroupPolicy_Get_get_/v2/AzureSecurityGroupPolicy
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyGetViewModel'
+      description: Get a list of all Network Security Group Policies for the Azure accounts in the Dome9 account
+    post:
+      tags:
+      - Azure Security Group Policy
+      summary: Post
+      operationId: AzureSecurityGroupPolicy_Post_post_/v2/AzureSecurityGroupPolicy
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyGetViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyPostViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyPostViewModel'
+        description: details for the policy
+        required: true
+      description: Create a security group policy
+  /v2/cloudsecuritygroup/{id}:
+    get:
+      tags:
+      - Cloud Security Group
+      summary: Get
+      operationId: CloudSecurityGroup_Get_get_/v2/cloudsecuritygroup/{id}
+      parameters:
+      - name: id
+        in: path
+        description: the AWS security group id (Dome9 internal ID / AWS securiy group ID)
+        required: true
+        schema:
+          type: string
+      - name: cloudAccountId
+        in: query
+        description: the security group cloud account ID (Optional)
+        required: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupWithSrlViewModel'
+      description: Get a specific AWS security group
+    put:
+      tags:
+      - Cloud Security Group
+      summary: Put
+      operationId: CloudSecurityGroup_Put_put_/v2/cloudsecuritygroup/{id}
+      parameters:
+      - name: id
+        in: path
+        description: the AWS security group id (Dome9 Internal Id / AWS Security group id)
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupViewModel'
+        description: updated details for the security group
+        required: true
+      description: Update an AWS security group
+    delete:
+      tags:
+      - Cloud Security Group
+      summary: Delete Cloud Security Group
+      operationId: CloudSecurityGroup_DeleteCloudSecurityGroup_delete_/v2/cloudsecuritygroup/{id}
+      parameters:
+      - name: id
+        in: path
+        description: the AWS security group id (Dome9 Internal Id / AWS Security group id)
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      description: Delete an AWS security group
+    patch:
+      tags:
+      - Cloud Security Group
+      summary: Update Sec Group
+      operationId: CloudSecurityGroup_UpdateSecGroup_patch_/v2/cloudsecuritygroup/{id}
+      parameters:
+      - name: id
+        in: path
+        description: the AWS security group id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '204':
+          description: No Content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupViewModel'
+        description: updated details for the security group. only 'IsProtected' is used in this call which defines whether
+          to protect or unprotect the security group.
+        required: true
+      description: Updates an AWS security group protection mode
+  /v2/cloudsecuritygroup/{id}/protection-mode:
+    post:
+      tags:
+      - Cloud Security Group
+      summary: Change Protection Mode
+      operationId: CloudSecurityGroup_ChangeProtectionMode_post_/v2/cloudsecuritygroup/{id}/protection-mode
+      parameters:
+      - name: id
+        in: path
+        description: the AWS security group id (Dome9 internal ID / AWS security group ID)
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupProtectionModeChangeViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupProtectionModeChangeViewModel'
+        description: details for the security group, including the protection mode. Only 'ProtectionMode' is required in this
+          call (FullManage or ReadOnly).
+        required: true
+      description: Change the protection mode for an AWS security group
+  /v2/cloudsecuritygroup/{groupid}/services/{policyType}:
+    put:
+      tags:
+      - Cloud Security Group
+      summary: Update Service For Cloud To Security Group
+      operationId: CloudSecurityGroup_UpdateServiceForCloudToSecurityGroup_put_/v2/cloudsecuritygroup/{groupid}/services/{policyType}
+      parameters:
+      - name: groupid
+        in: path
+        description: the security group id (Dome9 internal ID / AWS security group id)
+        required: true
+        schema:
+          type: string
+      - name: policyType
+        in: path
+        description: the service type (Inbound / Outbound)
+        required: true
+        schema:
+          type: string
+          enum:
+          - Inbound
+          - Outbound
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupServiceViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupServiceViewModel'
+        description: updated details for the service
+        required: true
+      description: Update a service (rule) for an AWS security group
+    post:
+      tags:
+      - Cloud Security Group
+      summary: Add Service Cloud To Security Group
+      operationId: CloudSecurityGroup_AddServiceCloudToSecurityGroup_post_/v2/cloudsecuritygroup/{groupid}/services/{policyType}
+      parameters:
+      - name: groupid
+        in: path
+        description: the security group id (Dome9 internal ID / AWS security group id)
+        required: true
+        schema:
+          type: string
+      - name: policyType
+        in: path
+        description: the service type (Inbound / Outbound))
+        required: true
+        schema:
+          type: string
+          enum:
+          - Inbound
+          - Outbound
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupServiceViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupServiceViewModel'
+        description: details for the service
+        required: true
+      description: Creat a new Service (rule) for the security group
+  /v2/cloudsecuritygroup/{groupid}/services/{policyType}/{serviceid}:
+    delete:
+      tags:
+      - Cloud Security Group
+      summary: Delete Service For Cloud To Security Group
+      operationId: CloudSecurityGroup_DeleteServiceForCloudToSecurityGroup_delete_/v2/cloudsecuritygroup/{groupid}/services/{policyType}/{serviceid}
+      parameters:
+      - name: groupid
+        in: path
+        description: the security group id (Dome9 internal ID / AWS security group id)
+        required: true
+        schema:
+          type: string
+      - name: policyType
+        in: path
+        description: the service type (Inbound / Outbound)
+        required: true
+        schema:
+          type: string
+          enum:
+          - Inbound
+          - Outbound
+      - name: serviceid
+        in: path
+        description: the service id
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      description: Delete a service from an AWS security group
+  /v2/cloudsecuritygroup/{groupid}/tags:
+    post:
+      tags:
+      - Cloud Security Group
+      summary: Update Tags
+      operationId: CloudSecurityGroup_UpdateTags_post_/v2/cloudsecuritygroup/{groupid}/tags
+      parameters:
+      - name: groupid
+        in: path
+        description: the security group id (Dome9 internal ID / AWS security group id)
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupTagsChangeViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupTagsChangeViewModel'
+        description: the updated list of tags and their values
+        required: true
+      description: Update the list of tags for an AWS securitry group
+  /v2/cloudsecuritygroup/{groupid}/history:
+    get:
+      tags:
+      - Cloud Security Group
+      summary: Get Security Group Revision History
+      operationId: CloudSecurityGroup_GetSecurityGroupRevisionHistory_get_/v2/cloudsecuritygroup/{groupid}/history
+      parameters:
+      - name: groupid
+        in: path
+        description: the security group id (Dome9 internal ID / AWS security group id)
+        required: true
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: max number of revisions to return
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupRevisionViewModel'
+      description: Get the list of group revisions and their corresponding events for an AWS security group.
+  /v2/CloudSecurityGroup:
+    get:
+      tags:
+      - Cloud Security Group
+      summary: Get
+      operationId: CloudSecurityGroup_Get_get_/v2/CloudSecurityGroup
+      parameters:
+      - name: cloudAccountId
+        in: query
+        description: the cloud account id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: regionId
+        in: query
+        description: the region
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupViewModel'
+      description: Get AWS security groups for a specific cloud account and region
+    post:
+      tags:
+      - Cloud Security Group
+      summary: Create Cloud Security Group
+      operationId: CloudSecurityGroup_CreateCloudSecurityGroup_post_/v2/CloudSecurityGroup
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupViewModel'
+        description: details for the new AWS security group
+        required: true
+      description: Create a new AWS security group
+  /v2/IpAddressMetadata:
+    get:
+      tags:
+      - Ip Address Metadata
+      summary: Get
+      description: Get all IP addresses metadata
+      operationId: IpAddressMetadata_Get_get_/v2/IpAddressMetadata
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Models.IpAddressMetadataViewModel'
+    put:
+      tags:
+      - Ip Address Metadata
+      summary: Put
+      description: Update an existing IP address metadata
+      operationId: IpAddressMetadata_Put_put_/v2/IpAddressMetadata
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.IpAddressMetadataViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.IpAddressMetadataViewModel'
+        description: updated metadata
+        required: true
+    post:
+      tags:
+      - Ip Address Metadata
+      summary: Post
+      description: Add a new IP address metadata
+      operationId: IpAddressMetadata_Post_post_/v2/IpAddressMetadata
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.IpAddressMetadataViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Models.IpAddressMetadataViewModel'
+        description: metadata for the IP address
+        required: true
+    delete:
+      tags:
+      - Ip Address Metadata
+      summary: Delete
+      description: delete an IP address metadata with a specific CIDR
+      operationId: IpAddressMetadata_Delete_delete_/v2/IpAddressMetadata
+      parameters:
+      - name: accountId
+        in: query
+        description: the account id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: address
+        in: query
+        description: the IP address to delete
+        required: true
+        schema:
+          type: string
+      - name: mask
+        in: query
+        description: the subnet mask
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+  /v2/IpList:
+    get:
+      tags:
+      - Ip List
+      summary: Get
+      operationId: IpList_Get_get_/v2/IpList
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.IPList.IpListViewModel'
+      description: Get all IP Lists for the account
+    post:
+      tags:
+      - Ip List
+      summary: Post
+      operationId: IpList_Post_post_/v2/IpList
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.IPList.IpListViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.IPList.IpListViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.IPList.IpListViewModel'
+        description: 'iplist info: "Name" for name, "Description" for description and Items are list of addresses.'
+        required: true
+      description: Add a new IP List
+  /v2/IpList/{id}:
+    get:
+      tags:
+      - Ip List
+      summary: Get
+      operationId: IpList_Get_get_/v2/IpList/{id}
+      parameters:
+      - name: id
+        in: path
+        description: the IP List id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.IPList.IpListViewModel'
+      description: Get an IP List by id
+    put:
+      tags:
+      - Ip List
+      summary: Put
+      operationId: IpList_Put_put_/v2/IpList/{id}
+      parameters:
+      - name: id
+        in: path
+        description: The id of the IP List to update
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '204':
+          description: No Content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.IPList.IpListPutViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.IPList.IpListPutViewModel'
+        description: 'iplist info: "Name" for name, "Description" for description and Items are list of addresses.'
+        required: true
+      description: Update an IP List. This will override the exisitng ip list
+    delete:
+      tags:
+      - Ip List
+      summary: Delete
+      operationId: IpList_Delete_delete_/v2/IpList/{id}
+      parameters:
+      - name: id
+        in: path
+        description: id of the IP list ot delete.
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '204':
+          description: No Content
+      description: Delete an IP List by id
+tags:
+- name: AccessLease
+  description: Access Leases
+- name: AccessLeaseInvitation
+  description: Access Lease Invitations
+- name: Account
+- name: AccountLimitation
+- name: AccountPollingInterval
+- name: AccountRegistration
+- name: AccountTrust
+  description: "Allow you to define a trust between accounts in order to allow users in a certain account to make changes\
+    \ and operation on another account.\nActions can be taken on a trustee account via a role which is defined on it. \nThe\
+    \ role should be assumed by a user from the trusted account."
+- name: Agent
+- name: Agentless
+  description: Agentless Workload Posture
+- name: Alert
+- name: AlibabaCloudAccount
+  description: Alibaba Cloud Accounts
+- name: Application
+- name: Assessment
+  description: Run and View Compliance Assessments
+- name: AssessmentHistory
+- name: AssessmentHistoryV2
+  description: Compliance Assessment History
+- name: Audit
+  description: Audit logs
+- name: Auth
+- name: Aws Cloud Account
+  description: Manage AWS Cloud Accounts
+- name: AwsAppSync
+- name: AwsBackupVault
+- name: AwsConfigSettings
+- name: AwsCustomerGateway
+- name: AwsEcsTask
+- name: AwsEks
+- name: AwsElasticIp
+- name: AwsElasticsearchDomain
+- name: AwsEmrCluster
+- name: AwsInspectorFindings
+- name: AwsInspectorRuns
+- name: AwsLoadBalancersNetworkInterfaces
+- name: AwsOrganizations
+- name: AwsQuickSightAccount
+- name: AwsQuickSightGroup
+- name: AwsQuickSightUser
+- name: AwsQuickSightVpcConnections
+- name: AwsSageMaker
+- name: AwsSecurityGroup
+- name: AwsSecurityGroupPolicy
+- name: AwsSecurityGroupsIndex
+- name: AwsUnifiedOnboarding
+  description: Aws Unified Onboarding
+- name: AwsVpcEndpoint
+- name: AzureAnalysisService
+- name: AzureApplicationGateway
+- name: AzureApplicationSecurityGroup
+- name: AzureCloudAccount
+  description: Onboard Azure accounts
+- name: AzureComputeGalleryImage
+- name: AzureCosmosDbAccount
+- name: AzureDisk
+- name: AzureFunction
+- name: AzureKeyVault
+- name: AzureKubernetes
+- name: AzureLoadBalancer
+- name: AzureLock
+- name: AzureLogicApp
+- name: AzureLogProfile
+- name: AzurePolicyAssignment
+- name: AzureRedisCache
+- name: AzureResourceGroup
+- name: AzureRouteTable
+- name: AzureSecurityGroup
+- name: AzureSecurityGroupPolicy
+  description: Azure Network Security Group Policies
+- name: AzureSnapshot
+- name: AzureSqlDb
+- name: AzureSqlServer
+- name: AzureStorageAccounts
+- name: AzureStorageBlobContainer
+- name: AzureSubnet
+- name: AzureUser
+- name: AzureVirtualMachine
+- name: AzureVirtualMachineImage
+- name: AzureVirtualMachineScaleSet
+- name: AzureVirtualNetworkPeering
+- name: AzureWebApp
+- name: BigTable
+- name: BillableAssets
+  description: Retrieve billable assets data
+- name: BillableAssetsReport
+  description: Billable Assets Report
+- name: Billing
+- name: Clarity
+- name: CloudAcmCertificate
+- name: CloudAmi
+- name: CloudAutoScalingGroup
+- name: CloudDbInstance
+- name: CloudDirectConnect
+- name: CloudDynamoDb
+- name: CloudEcsCluster
+- name: CloudEcsService
+  description: Cloud Ecs Service
+- name: CloudEcsTaskDefinition
+- name: CloudEfs
+- name: CloudElastiCacheCluster
+- name: CloudFlowLogs
+- name: CloudFrontDistribution
+- name: CloudGuardDutyDetector
+- name: CloudIamAccountSummary
+- name: CloudIamCredentialReport
+- name: CloudIamGroup
+- name: CloudIamPasswordPolicy
+- name: CloudIamPolicy
+- name: CloudIamRole
+- name: CloudIamServerCertificate
+- name: CloudIamUser
+- name: CloudIamVirtualMfaDevice
+- name: CloudInfraUser
+  description: CloudInfra Users
+- name: CloudInstance
+  description: Cloud Instances
+- name: CloudInternetGateway
+- name: CloudKinesisStream
+- name: CloudKms
+- name: CloudKmsAlias
+- name: CloudLambdaFunction
+  description: Cloud Lambda Function
+- name: CloudLoadBalancer
+- name: CloudLogGroups
+- name: CloudMetricAlarm
+- name: CloudNacl
+- name: CloudNetworkInterfaces
+- name: CloudRedshiftCluster
+- name: CloudRegion
+- name: CloudRoute53Domain
+- name: CloudRoute53HostedZone
+- name: CloudRoute53RecordSetGroup
+- name: CloudRouteTable
+- name: CloudS3Bucket
+  description: ''
+- name: CloudSecurityGroup
+  description: AWS Security Groups
+- name: CloudSnsSubscription
+- name: CloudSnsTopic
+- name: CloudSql
+- name: CloudSqs
+  description: ''
+- name: CloudSubnet
+- name: CloudTrail
+  description: CloudTrail
+- name: CloudVolume
+- name: CloudVpc
+- name: CloudVpcPeeringConnection
+- name: CloudVPNConnection
+- name: CloudVpnGateway
+- name: CloudWAFRegional
+- name: CloudWatchEventsRule
+  description: CloudWatchEventsRule
+- name: ComplianceExclusion
+  description: Compliance Exclusions
+- name: CompliancePolicy
+- name: ComplianceRemediation
+  description: Compliance Remediation
+- name: ComplianceRemediationOld
+  description: Compliance Remediation - DEPRECATED - please use /Compliance/Remediation instead
+- name: ComplianceRuleset
+  description: ComplianceRuleset
+- name: ContinuousComplianceNotification
+  description: Continuous Compliance Notification Policies
+- name: ContinuousCompliancePolicy
+- name: ContinuousCompliancePolicyV2
+  description: Continuous Compliance Policies
+- name: EmergencyPolicy
+- name: EntityFetchStatus
+- name: EntityReport
+- name: ExclusionOld
+  description: Compliance Exclusions - DEPRECATED - please use /Compliance/Exclusion instead
+- name: ExternalFindings
+  description: Findings from External (3rd-party) systems
+- name: Fim
+- name: Finding
+  description: Compliance Findings
+- name: FindingsReport
+  description: Compliance Findings csv reports
+- name: GcpBigQuery
+- name: GcpDisk
+- name: GcpGkeCluster
+- name: GcpImage
+- name: GcpKmsKeyRing
+- name: GcpProjectInfo
+  description: Google Cloud Project Info
+- name: GcpPubSub
+- name: GcpSecurityGroup
+- name: GcpServiceAccount
+- name: GcpStorageBucket
+- name: GenericList
+  description: Generic Lists
+- name: GlobalSearch
+  description: Global search for all CloudGuard services
+- name: GoogleCloudAccount
+  description: Google Cloud Accounts
+- name: GoogleCloudFirewallRule
+- name: GoogleCloudFunction
+- name: GoogleCloudIamPolicy
+- name: GoogleCloudNetwork
+  description: Google Cloud Network
+- name: GoogleCloudSubnet
+- name: GoogleCloudVMInstance
+- name: Home
+- name: IamSafeLease
+  description: IAM Safety Leases
+- name: IncidentsStatus
+- name: InfrastructureAssessment
+- name: Intelligence
+  description: CloudGuard Intelligence allows you to visualize and analyze Account Activity and Network Traffic into and out
+    of your cloud environment.
+- name: IpAddressMetadata
+  description: IP Address Metadata
+- name: IpList
+  description: IP Lists
+- name: LicenseActivator
+- name: Licensing
+- name: ManagedGenericList
+- name: Msp
+- name: OrganizationalUnit
+  description: Manage Organizational Units
+- name: Permission
+- name: ProtectedAsset
+- name: ProtectedAssetsReport
+  description: Compliance Protected Asset csv reports
+- name: ProtegoStatistics
+  description: Protego statistics by dates
+- name: Role
+  description: CloudGuard Roles
+- name: RulesEngine
+- name: SecurityGroup
+- name: Serverless
+- name: ServerlessPolicy
+  description: Serverless policy
+- name: ServiceAccount
+  description: CloudGuard Service Accounts
+- name: ServicePort
+- name: Settings
+  description: Account Settings
+- name: ShiftLeft
+  description: ShiftLeft
+- name: SystemHealth
+- name: TenableAccount
+  description: Onboard Tenable accounts
+- name: User
+  description: CloudGuard account users
+- name: BaseImage
+  description: ''
+- name: ContainerRegistryAccount
+  description: Container Registry Account
+- name: ContainerRegistryAccountInternal
+  description: ''
+- name: ContainerRegistryImageAssurancePolicy
+  description: '(deprecated: move to use /v2/vulnerability/policy)'
+- name: Dashboard
+  description: ''
+- name: EcsConfiguration
+  description: ''
+- name: EcsImageAssurancePolicy
+  description: '(deprecated: move to use /v2/vulnerability/policy)'
+- name: EcsImageScan
+  description: ECS Image Scan Configuration
+- name: Environment
+  description: ''
+- name: ImageAdmissionExclusion
+  description: '[Preview feature] Kubernetes Image admission exclusions'
+- name: ImageAssuranceDashboard
+  description: ''
+- name: ImageAssuranceReport
+  description: ''
+- name: KubernetesAccount
+  description: Kubernetes Accounts
+- name: KubernetesAccountInternal
+  description: ''
+- name: KubernetesAccountOld
+  description: '(deprecated: this api is deprecated, please use ''/v2/kubernetes/account'' instead)'
+- name: KubernetesAdmissionControl
+  description: Kubernetes Admission Control
+- name: KubernetesAdmissionControlPoliciesSummary
+  description: ''
+- name: KubernetesClusterRole
+  description: ''
+- name: KubernetesImage
+  description: ''
+- name: KubernetesImageAdmissionExclusion
+  description: '[Preview feature] Kubernetes Image admission exclusions (deprecated: this api is deprecated, please use ''/v2/kubernetes/admissionControl/imageAdmissionExclusion''
+    instead)'
+- name: KubernetesImageAssurance
+  description: Kubernetes Image Assurance
+- name: KubernetesImageAssurancePolicy
+  description: 'Kubernetes Image Assurance Policy (deprecated: move to use /v2/vulnerability/policy)'
+- name: KubernetesIngress
+  description: ''
+- name: KubernetesNetworkPolicy
+  description: ''
+- name: KubernetesNode
+  description: ''
+- name: KubernetesPod
+  description: ''
+- name: KubernetesPodGroup
+  description: Kubernetes Pod Groups
+- name: KubernetesPodGroupOwner
+  description: ''
+- name: KubernetesPodSecurityPolicy
+  description: ''
+- name: KubernetesRole
+  description: ''
+- name: KubernetesRuntimeAssurance
+  description: ''
+- name: KubernetesService
+  description: ''
+- name: KubernetesServiceAccount
+  description: ''
+- name: Shiftleft
+  description: ''
+- name: ShiftLeftAccount
+  description: ShiftLeft
+- name: ShiftLeftPolicy
+  description: 'ShiftLeft Policy (deprecated: move to use /v2/vulnerability/policy)'
+- name: Workload
+  description: ''
+- name: WorkloadAccountSetting
+  description: Workload Account Setting
+- name: WorkloadChangeMonitoring
+  description: ''
+- name: WorkloadImageAssurance
+  description: Workload Image Assurance
+- name: WorkloadImageAssuranceInternal
+  description: ''
+- name: WorkloadInternal
+  description: ''
+- name: WorkloadRuntimeProtection
+  description: ''
+- name: Alerts
+  description: ''
+- name: Azure
+  description: ''
+- name: FindingOrchestration
+  description: ''
+- name: FindingsUpdate
+  description: ''
+- name: Gcp
+  description: ''
+- name: Remediation
+  description: Remediation Actions
+- name: Reports
+  description: ''
+- name: CloudInfraMigration
+  description: infinity-portal-connect
+- name: GslBuilder
+  description: ''
+- name: Infrastructure
+  description: ''
+- name: InternalLicense
+  description: ''
+- name: NotificationIntegrationInternal
+  description: '(deprecated: This controller is deprecated and will be removed in the future)'
+- name: OciCloudAccount
+  description: Onboard OCI accounts
+- name: PlatformReports
+  description: ''
+- name: Regions
+  description: ''
+- name: Spectral
+  description: ''
+- name: RestrictedWorkloadClientModules
+  description: ''
+- name: WorkloadClientModules
+  description: ''
+- name: WorkloadTelemetry
+  description: ''
+- name: Integration
+  description: Integration
+- name: IntegrationInternal
+  description: ''
+- name: Notification
+  description: Notification
+- name: NotificationInternal
+  description: ''
+- name: AssetMetadataSyncNow
+  description: ''
+- name: BusinessPriorityModifier
+  description: Business Priority Rules
+- name: CustomRuleset
+  description: Risk Management Rulesets
+- name: Dspm
+  description: DSPM Controller
+- name: Exposure
+  description: ''
+- name: GroupRiskManagement
+  description: Groups Risk Management
+- name: RemediationActions
+  description: Remediation Actions
+- name: RiskModifiers
+  description: Risk Modifiers
+- name: SecurityEvents
+  description: ''
+- name: SimilarAssetGroups
+  description: ''
+- name: Waf
+  description: WAF Protection
+- name: AwsOrganizationManagement
+  description: AwsOrganizationManagement
+- name: AwsOrganizationManagementOnboarding
+  description: AwsOrganizationManagementOnboarding
+- name: AzureOrganizationManagement
+  description: AzureOrganizationManagement
+- name: GcpOrganizationManagement
+  description: GcpOrganizationManagement
+- name: OnboardingManagement
+  description: OnboardingManagement
+- name: InternalSBOM
+  description: ''
+- name: InternalVulnerabilityAccountStatsBatch
+  description: ''
+- name: InternalVulnerabilityCleanup
+  description: ''
+- name: InternalVulnerabilityPolicy
+  description: ''
+- name: InternalVulnerabilityScanResults
+  description: ''
+- name: SBOM
+  description: ''
+- name: SBOMExport
+  description: SBOM Export
+- name: Vulnerabilities
+  description: Vulnerabilities
+- name: VulnerabilityAssessment
+  description: ''
+- name: VulnerabilityExclusions
+  description: Vulnerability Exclusions
+- name: VulnerabilityPolicy
+  description: Vulnerability Policy
+- name: VulnerabilitySBOM
+  description: ''
+- name: CloudApplicationLoadBalancer
+  description: ''
+- name: CloudNetworkLoadBalancer
+  description: ''
+- name: GcpMachineImage
+  description: ''
+- name: OciCompartment
+  description: ''
+- name: AssetLabelsService
+  description: ''
+- name: AssetOpenFindings
+  description: ''
+- name: EntityTypes
+  description: The entity types endpoint allows you to get the supported entity types and the platform they're supported for.
+- name: EvidencePath
+  description: The evidence path endpoint allows you to get the evidence path for a given findingId.
+- name: Exclusions
+  description: The exclusion endpoint provides API to perform CRUD operations on the resource.
+- name: IgnoreCves
+  description: The ignore CVEs endpoint provides API to perform CRUD operations on the resource.
+- name: IgnoreMalwares
+  description: The ignore malwares endpoint provides API to perform CRUD operations on the resource.
+- name: Rules
+  description: The rules endpoint provides APIs to get the security rules data
+- name: SecurityGraphIssues
+  description: API for issue enrichments
+- name: SecurityGraphQuery
+  description: The query endpoint provides APIs to run queries (rules) to preview possible issues.
+- name: EntitySchema
+  description: The entity schema endpoint presents schema of toxic issues entities.
+- name: SecurityIssues
+  description: The Findings endpoint provides APIs query the findings store which contains findings such as security issues.
+    It provides APIs to get, search and group findings.
+- name: AutomatedActions
+  description: The Automated Actions resource provides API to perform CRUD operations on the resource.
+components:
+  schemas:
+    Dome9.Web.Api.Models.AwsAccessLeasePostViewModel:
+      type: object
+      properties:
+        cloudAccountId:
+          format: uuid
+          description: AWS account id
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        region:
+          description: AWS region
+          enum:
+          - us_east_1
+          - us_west_1
+          - eu_west_1
+          - ap_southeast_1
+          - ap_northeast_1
+          - us_west_2
+          - sa_east_1
+          - az_1_region_a_geo_1
+          - az_2_region_a_geo_1
+          - az_3_region_a_geo_1
+          - ap_southeast_2
+          - mellanox_region
+          - us_gov_west_1
+          - eu_central_1
+          - ap_northeast_2
+          - ap_south_1
+          - us_east_2
+          - ca_central_1
+          - eu_west_2
+          - eu_west_3
+          - eu_north_1
+          - cn_north_1
+          - cn_northwest_1
+          - us_gov_east_1
+          - ap_east_1
+          - me_south_1
+          - af_south_1
+          - eu_south_1
+          - ap_northeast_3
+          - me_central_1
+          - ap_south_2
+          - ap_southeast_3
+          - ap_southeast_4
+          - eu_central_2
+          - eu_south_2
+          - il_central_1
+          - ca_west_1
+          - mx_central_1
+          - ap_southeast_5
+          - ap_southeast_7
+          - westus
+          - eastus
+          - eastus2
+          - northcentralus
+          - westus2
+          - southcentralus
+          - centralus
+          - usgovlowa
+          - usgovvirginia
+          - northeurope
+          - westeurope
+          - eastasia
+          - southeastasia
+          - japaneast
+          - japanwest
+          - brazilsouth
+          - australiaeast
+          - australiasoutheast
+          - centralindia
+          - southindia
+          - westindia
+          - canadaeast
+          - westcentralus
+          - chinaeast
+          - chinanorth
+          - canadacentral
+          - germanycentral
+          - germanynortheast
+          - koreacentral
+          - uksouth
+          - ukwest
+          - koreasouth
+          - francecentral
+          - francesouth
+          - germanywestcentral
+          - usdodcentral
+          - usdodeast
+          - usgovarizona
+          - usgovtexas
+          - australiacentral
+          - australiacentral2
+          - chinaeast2
+          - chinanorth2
+          - southafricanorth
+          - southafricawest
+          - uaecentral
+          - uaenorth
+          - ussecwest
+          - usseceast
+          - germanynorth
+          - switzerlandwest
+          - norwaywest
+          - norwayeast
+          - switzerlandnorth
+          - westus3
+          - swedencentral
+          - chinanorth3
+          - brazilsoutheast
+          - eastus2euap
+          - jioindiawest
+          - jioindiacentral
+          - qatarcentral
+          - spaincentral
+          - italynorth
+          - polandcentral
+          - mexicocentral
+          - asia
+          - asia_east1
+          - asia_northeast1
+          - asia_south1
+          - asia_southeast1
+          - australia_southeast1
+          - europe
+          - europe_north1
+          - europe_west1
+          - europe_west2
+          - europe_west3
+          - europe_west4
+          - northamerica_northeast1
+          - southamerica_east1
+          - us
+          - us_central1
+          - us_east1
+          - us_east4
+          - us_west1
+          - us_west2
+          - global
+          - asia_east2
+          - eur4
+          - nam4
+          - europe_west6
+          - japan_west
+          - asia_northeast2
+          - asia_northeast3
+          - us_west3
+          - us_west4
+          - asia_southeast2
+          - nam3
+          - nam5
+          - nam6
+          - nam7
+          - nam10
+          - nam_eur_asia1
+          - eur3
+          - eur5
+          - asia1
+          - nam11
+          - eu
+          - northamerica_northeast2
+          - southamerica_west1
+          - us_east5
+          - us_south1
+          - europe_central2
+          - europe_southwest1
+          - europe_west8
+          - europe_west9
+          - europe_west10
+          - europe_west12
+          - asia_south2
+          - australia_southeast2
+          - me_central1
+          - me_central2
+          - me_west1
+          - ap_sydney_1
+          - ap_melbourne_1
+          - sa_saopaulo_1
+          - sa_vinhedo_1
+          - ca_montreal_1
+          - ca_toronto_1
+          - sa_santiago_1
+          - eu_paris_1
+          - eu_marseille_1
+          - eu_frankfurt_1
+          - ap_hyderabad_1
+          - ap_mumbai_1
+          - il_jerusalem_1
+          - eu_milan_1
+          - ap_osaka_1
+          - ap_tokyo_1
+          - mx_queretaro_1
+          - eu_amsterdam_1
+          - me_jeddah_1
+          - ap_singapore_1
+          - af_johannesburg_1
+          - ap_seoul_1
+          - ap_chuncheon_1
+          - eu_madrid_1
+          - eu_stockholm_1
+          - eu_zurich_1
+          - me_abudhabi_1
+          - me_dubai_1
+          - uk_london_1
+          - uk_cardiff_1
+          - us_ashburn_1
+          - us_phoenix_1
+          - us_sanjose_1
+          - us_gov_ashburn_1
+          - us_gov_chicago_1
+          - us_gov_phoenix_1
+          - us_langley_1
+          - us_luke_1
+          - uk_gov_london_1
+          - uk_gov_cardiff_1
+          - sa_bogota_1
+          - us_chicago_1
+          - sa_valparaiso_1
+          - mx_monterrey_1
+          - eu_jovanovac_1
+          - ap_singapore_2
+          type: string
+        securityGroupId:
+          description: Security Group id of Security Group affected by lease. Can be in internal Dome9 format (integer) or
+            external AWS format ("sg-XXXXX")
+          type: string
+        id:
+          format: uuid
+          description: '[readonly] lease id'
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        accountId:
+          format: int64
+          description: account id
+          type: integer
+        name:
+          type: string
+        ip:
+          description: IP address of the lease
+          type: string
+        note:
+          description: not used
+          type: string
+        created:
+          format: date-time
+          description: time lease was created
+          type: string
+        user:
+          description: user for whom the lease was created
+          type: string
+        length:
+          description: the duration of the lease ([D].H:M:S)
+          type: string
+        protocol:
+          description: the network protocol to be used in the lease
+          enum:
+          - ALL
+          - HOPOPT
+          - ICMP
+          - IGMP
+          - GGP
+          - IPV4
+          - ST
+          - TCP
+          - CBT
+          - EGP
+          - IGP
+          - BBN_RCC_MON
+          - NVP2
+          - PUP
+          - ARGUS
+          - EMCON
+          - XNET
+          - CHAOS
+          - UDP
+          - MUX
+          - DCN_MEAS
+          - HMP
+          - PRM
+          - XNS_IDP
+          - TRUNK1
+          - TRUNK2
+          - LEAF1
+          - LEAF2
+          - RDP
+          - IRTP
+          - ISO_TP4
+          - NETBLT
+          - MFE_NSP
+          - MERIT_INP
+          - DCCP
+          - ThreePC
+          - IDPR
+          - XTP
+          - DDP
+          - IDPR_CMTP
+          - TPplusplus
+          - IL
+          - IPV6
+          - SDRP
+          - IPV6_ROUTE
+          - IPV6_FRAG
+          - IDRP
+          - RSVP
+          - GRE
+          - DSR
+          - BNA
+          - ESP
+          - AH
+          - I_NLSP
+          - SWIPE
+          - NARP
+          - MOBILE
+          - TLSP
+          - SKIP
+          - ICMPV6
+          - IPV6_NONXT
+          - IPV6_OPTS
+          - CFTP
+          - SAT_EXPAK
+          - KRYPTOLAN
+          - RVD
+          - IPPC
+          - SAT_MON
+          - VISA
+          - IPCV
+          - CPNX
+          - CPHB
+          - WSN
+          - PVP
+          - BR_SAT_MON
+          - SUN_ND
+          - WB_MON
+          - WB_EXPAK
+          - ISO_IP
+          - VMTP
+          - SECURE_VMTP
+          - VINES
+          - TTP
+          - NSFNET_IGP
+          - DGP
+          - TCF
+          - EIGRP
+          - OSPFIGP
+          - SPRITE_RPC
+          - LARP
+          - MTP
+          - AX25
+          - IPIP
+          - MICP
+          - SCC_SP
+          - ETHERIP
+          - ENCAP
+          - GMTP
+          - IFMP
+          - PNNI
+          - PIM
+          - ARIS
+          - SCPS
+          - QNX
+          - AN
+          - IPCOMP
+          - SNP
+          - COMPAQ_PEER
+          - IPX_IN_IP
+          - VRRP
+          - PGM
+          - L2TP
+          - DDX
+          - IATP
+          - STP
+          - SRP
+          - UTI
+          - SMP
+          - SM
+          - PTP
+          - ISIS
+          - FIRE
+          - CRTP
+          - CRUDP
+          - SSCOPMCE
+          - IPLT
+          - SPS
+          - PIPE
+          - SCTP
+          - FC
+          - RSVP_E2E_IGNORE
+          - MOBILITY_HEADER
+          - UDPLITE
+          - MPLS_IN_IP
+          - MANET
+          - HIP
+          - SHIM6
+          - WESP
+          - ROHC
+          type: string
+        portFrom:
+          format: int32
+          description: the source IP port for the lease
+          type: integer
+        portTo:
+          format: int32
+          description: the destination IP port for the lease
+          type: integer
+        srl:
+          description: internal use only
+          type: string
+    Dome9.Web.Api.Models.AccessLeasesGroupedViewModel:
+      type: object
+      properties:
+        aws:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Models.AwsAccessLeaseViewModel'
+        agents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Models.AgentAccessLeaseViewModel'
+    Dome9.Web.Api.Models.AwsAccessLeaseViewModel:
+      type: object
+      properties:
+        cloudAccountId:
+          format: uuid
+          description: AWS account id
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        region:
+          description: AWS region
+          enum:
+          - us_east_1
+          - us_west_1
+          - eu_west_1
+          - ap_southeast_1
+          - ap_northeast_1
+          - us_west_2
+          - sa_east_1
+          - az_1_region_a_geo_1
+          - az_2_region_a_geo_1
+          - az_3_region_a_geo_1
+          - ap_southeast_2
+          - mellanox_region
+          - us_gov_west_1
+          - eu_central_1
+          - ap_northeast_2
+          - ap_south_1
+          - us_east_2
+          - ca_central_1
+          - eu_west_2
+          - eu_west_3
+          - eu_north_1
+          - cn_north_1
+          - cn_northwest_1
+          - us_gov_east_1
+          - ap_east_1
+          - me_south_1
+          - af_south_1
+          - eu_south_1
+          - ap_northeast_3
+          - me_central_1
+          - ap_south_2
+          - ap_southeast_3
+          - ap_southeast_4
+          - eu_central_2
+          - eu_south_2
+          - il_central_1
+          - ca_west_1
+          - mx_central_1
+          - ap_southeast_5
+          - ap_southeast_7
+          - westus
+          - eastus
+          - eastus2
+          - northcentralus
+          - westus2
+          - southcentralus
+          - centralus
+          - usgovlowa
+          - usgovvirginia
+          - northeurope
+          - westeurope
+          - eastasia
+          - southeastasia
+          - japaneast
+          - japanwest
+          - brazilsouth
+          - australiaeast
+          - australiasoutheast
+          - centralindia
+          - southindia
+          - westindia
+          - canadaeast
+          - westcentralus
+          - chinaeast
+          - chinanorth
+          - canadacentral
+          - germanycentral
+          - germanynortheast
+          - koreacentral
+          - uksouth
+          - ukwest
+          - koreasouth
+          - francecentral
+          - francesouth
+          - germanywestcentral
+          - usdodcentral
+          - usdodeast
+          - usgovarizona
+          - usgovtexas
+          - australiacentral
+          - australiacentral2
+          - chinaeast2
+          - chinanorth2
+          - southafricanorth
+          - southafricawest
+          - uaecentral
+          - uaenorth
+          - ussecwest
+          - usseceast
+          - germanynorth
+          - switzerlandwest
+          - norwaywest
+          - norwayeast
+          - switzerlandnorth
+          - westus3
+          - swedencentral
+          - chinanorth3
+          - brazilsoutheast
+          - eastus2euap
+          - jioindiawest
+          - jioindiacentral
+          - qatarcentral
+          - spaincentral
+          - italynorth
+          - polandcentral
+          - mexicocentral
+          - asia
+          - asia_east1
+          - asia_northeast1
+          - asia_south1
+          - asia_southeast1
+          - australia_southeast1
+          - europe
+          - europe_north1
+          - europe_west1
+          - europe_west2
+          - europe_west3
+          - europe_west4
+          - northamerica_northeast1
+          - southamerica_east1
+          - us
+          - us_central1
+          - us_east1
+          - us_east4
+          - us_west1
+          - us_west2
+          - global
+          - asia_east2
+          - eur4
+          - nam4
+          - europe_west6
+          - japan_west
+          - asia_northeast2
+          - asia_northeast3
+          - us_west3
+          - us_west4
+          - asia_southeast2
+          - nam3
+          - nam5
+          - nam6
+          - nam7
+          - nam10
+          - nam_eur_asia1
+          - eur3
+          - eur5
+          - asia1
+          - nam11
+          - eu
+          - northamerica_northeast2
+          - southamerica_west1
+          - us_east5
+          - us_south1
+          - europe_central2
+          - europe_southwest1
+          - europe_west8
+          - europe_west9
+          - europe_west10
+          - europe_west12
+          - asia_south2
+          - australia_southeast2
+          - me_central1
+          - me_central2
+          - me_west1
+          - ap_sydney_1
+          - ap_melbourne_1
+          - sa_saopaulo_1
+          - sa_vinhedo_1
+          - ca_montreal_1
+          - ca_toronto_1
+          - sa_santiago_1
+          - eu_paris_1
+          - eu_marseille_1
+          - eu_frankfurt_1
+          - ap_hyderabad_1
+          - ap_mumbai_1
+          - il_jerusalem_1
+          - eu_milan_1
+          - ap_osaka_1
+          - ap_tokyo_1
+          - mx_queretaro_1
+          - eu_amsterdam_1
+          - me_jeddah_1
+          - ap_singapore_1
+          - af_johannesburg_1
+          - ap_seoul_1
+          - ap_chuncheon_1
+          - eu_madrid_1
+          - eu_stockholm_1
+          - eu_zurich_1
+          - me_abudhabi_1
+          - me_dubai_1
+          - uk_london_1
+          - uk_cardiff_1
+          - us_ashburn_1
+          - us_phoenix_1
+          - us_sanjose_1
+          - us_gov_ashburn_1
+          - us_gov_chicago_1
+          - us_gov_phoenix_1
+          - us_langley_1
+          - us_luke_1
+          - uk_gov_london_1
+          - uk_gov_cardiff_1
+          - sa_bogota_1
+          - us_chicago_1
+          - sa_valparaiso_1
+          - mx_monterrey_1
+          - eu_jovanovac_1
+          - ap_singapore_2
+          type: string
+        securityGroupId:
+          format: int64
+          description: Security Group affected by lease
+          type: integer
+        id:
+          format: uuid
+          description: '[readonly] lease id'
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        accountId:
+          format: int64
+          description: account id
+          type: integer
+        name:
+          type: string
+        ip:
+          description: IP address of the lease
+          type: string
+        note:
+          description: not used
+          type: string
+        created:
+          format: date-time
+          description: time lease was created
+          type: string
+        user:
+          description: user for whom the lease was created
+          type: string
+        length:
+          description: the duration of the lease ([D].H:M:S)
+          type: string
+        protocol:
+          description: the network protocol to be used in the lease
+          enum:
+          - ALL
+          - HOPOPT
+          - ICMP
+          - IGMP
+          - GGP
+          - IPV4
+          - ST
+          - TCP
+          - CBT
+          - EGP
+          - IGP
+          - BBN_RCC_MON
+          - NVP2
+          - PUP
+          - ARGUS
+          - EMCON
+          - XNET
+          - CHAOS
+          - UDP
+          - MUX
+          - DCN_MEAS
+          - HMP
+          - PRM
+          - XNS_IDP
+          - TRUNK1
+          - TRUNK2
+          - LEAF1
+          - LEAF2
+          - RDP
+          - IRTP
+          - ISO_TP4
+          - NETBLT
+          - MFE_NSP
+          - MERIT_INP
+          - DCCP
+          - ThreePC
+          - IDPR
+          - XTP
+          - DDP
+          - IDPR_CMTP
+          - TPplusplus
+          - IL
+          - IPV6
+          - SDRP
+          - IPV6_ROUTE
+          - IPV6_FRAG
+          - IDRP
+          - RSVP
+          - GRE
+          - DSR
+          - BNA
+          - ESP
+          - AH
+          - I_NLSP
+          - SWIPE
+          - NARP
+          - MOBILE
+          - TLSP
+          - SKIP
+          - ICMPV6
+          - IPV6_NONXT
+          - IPV6_OPTS
+          - CFTP
+          - SAT_EXPAK
+          - KRYPTOLAN
+          - RVD
+          - IPPC
+          - SAT_MON
+          - VISA
+          - IPCV
+          - CPNX
+          - CPHB
+          - WSN
+          - PVP
+          - BR_SAT_MON
+          - SUN_ND
+          - WB_MON
+          - WB_EXPAK
+          - ISO_IP
+          - VMTP
+          - SECURE_VMTP
+          - VINES
+          - TTP
+          - NSFNET_IGP
+          - DGP
+          - TCF
+          - EIGRP
+          - OSPFIGP
+          - SPRITE_RPC
+          - LARP
+          - MTP
+          - AX25
+          - IPIP
+          - MICP
+          - SCC_SP
+          - ETHERIP
+          - ENCAP
+          - GMTP
+          - IFMP
+          - PNNI
+          - PIM
+          - ARIS
+          - SCPS
+          - QNX
+          - AN
+          - IPCOMP
+          - SNP
+          - COMPAQ_PEER
+          - IPX_IN_IP
+          - VRRP
+          - PGM
+          - L2TP
+          - DDX
+          - IATP
+          - STP
+          - SRP
+          - UTI
+          - SMP
+          - SM
+          - PTP
+          - ISIS
+          - FIRE
+          - CRTP
+          - CRUDP
+          - SSCOPMCE
+          - IPLT
+          - SPS
+          - PIPE
+          - SCTP
+          - FC
+          - RSVP_E2E_IGNORE
+          - MOBILITY_HEADER
+          - UDPLITE
+          - MPLS_IN_IP
+          - MANET
+          - HIP
+          - SHIM6
+          - WESP
+          - ROHC
+          type: string
+        portFrom:
+          format: int32
+          description: the source IP port for the lease
+          type: integer
+        portTo:
+          format: int32
+          description: the destination IP port for the lease
+          type: integer
+        srl:
+          description: internal use only
+          type: string
+    Dome9.Web.Api.Models.AgentAccessLeaseViewModel:
+      type: object
+      properties:
+        agentId:
+          format: int32
+          type: integer
+        id:
+          format: uuid
+          description: '[readonly] lease id'
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        accountId:
+          format: int64
+          description: account id
+          type: integer
+        name:
+          type: string
+        ip:
+          description: IP address of the lease
+          type: string
+        note:
+          description: not used
+          type: string
+        created:
+          format: date-time
+          description: time lease was created
+          type: string
+        user:
+          description: user for whom the lease was created
+          type: string
+        length:
+          description: the duration of the lease ([D].H:M:S)
+          type: string
+        protocol:
+          description: the network protocol to be used in the lease
+          enum:
+          - ALL
+          - HOPOPT
+          - ICMP
+          - IGMP
+          - GGP
+          - IPV4
+          - ST
+          - TCP
+          - CBT
+          - EGP
+          - IGP
+          - BBN_RCC_MON
+          - NVP2
+          - PUP
+          - ARGUS
+          - EMCON
+          - XNET
+          - CHAOS
+          - UDP
+          - MUX
+          - DCN_MEAS
+          - HMP
+          - PRM
+          - XNS_IDP
+          - TRUNK1
+          - TRUNK2
+          - LEAF1
+          - LEAF2
+          - RDP
+          - IRTP
+          - ISO_TP4
+          - NETBLT
+          - MFE_NSP
+          - MERIT_INP
+          - DCCP
+          - ThreePC
+          - IDPR
+          - XTP
+          - DDP
+          - IDPR_CMTP
+          - TPplusplus
+          - IL
+          - IPV6
+          - SDRP
+          - IPV6_ROUTE
+          - IPV6_FRAG
+          - IDRP
+          - RSVP
+          - GRE
+          - DSR
+          - BNA
+          - ESP
+          - AH
+          - I_NLSP
+          - SWIPE
+          - NARP
+          - MOBILE
+          - TLSP
+          - SKIP
+          - ICMPV6
+          - IPV6_NONXT
+          - IPV6_OPTS
+          - CFTP
+          - SAT_EXPAK
+          - KRYPTOLAN
+          - RVD
+          - IPPC
+          - SAT_MON
+          - VISA
+          - IPCV
+          - CPNX
+          - CPHB
+          - WSN
+          - PVP
+          - BR_SAT_MON
+          - SUN_ND
+          - WB_MON
+          - WB_EXPAK
+          - ISO_IP
+          - VMTP
+          - SECURE_VMTP
+          - VINES
+          - TTP
+          - NSFNET_IGP
+          - DGP
+          - TCF
+          - EIGRP
+          - OSPFIGP
+          - SPRITE_RPC
+          - LARP
+          - MTP
+          - AX25
+          - IPIP
+          - MICP
+          - SCC_SP
+          - ETHERIP
+          - ENCAP
+          - GMTP
+          - IFMP
+          - PNNI
+          - PIM
+          - ARIS
+          - SCPS
+          - QNX
+          - AN
+          - IPCOMP
+          - SNP
+          - COMPAQ_PEER
+          - IPX_IN_IP
+          - VRRP
+          - PGM
+          - L2TP
+          - DDX
+          - IATP
+          - STP
+          - SRP
+          - UTI
+          - SMP
+          - SM
+          - PTP
+          - ISIS
+          - FIRE
+          - CRTP
+          - CRUDP
+          - SSCOPMCE
+          - IPLT
+          - SPS
+          - PIPE
+          - SCTP
+          - FC
+          - RSVP_E2E_IGNORE
+          - MOBILITY_HEADER
+          - UDPLITE
+          - MPLS_IN_IP
+          - MANET
+          - HIP
+          - SHIM6
+          - WESP
+          - ROHC
+          type: string
+        portFrom:
+          format: int32
+          description: the source IP port for the lease
+          type: integer
+        portTo:
+          format: int32
+          description: the destination IP port for the lease
+          type: integer
+        srl:
+          description: internal use only
+          type: string
+    Dome9.Web.Api.Models.AccessLeaseInvitationViewModel:
+      type: object
+      properties:
+        notifyEmail:
+          format: email
+          description: Email Address
+          type: string
+          example: MyName@gmail.com
+        length:
+          description: the duration of the lease ([D].H:M:S)
+          type: string
+        recipientName:
+          description: email of invitation recipient
+          type: string
+        targetSrl:
+          description: internal use
+          type: string
+        body:
+          type: string
+        id:
+          format: uuid
+          description: lease id
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        expirationTime:
+          format: date-time
+          description: invitation expiration time (YYYY-MM-DD HH:MM:SS.MS TZ)
+          type: string
+        pivotEntity:
+          description: Security Group name
+          type: string
+        serviceName:
+          description: Security Group service for which the lease will be opened
+          type: string
+        issuerName:
+          description: email of Dome9 user issuing the lease
+          type: string
+        created:
+          format: date-time
+          description: time lease was created
+          type: string
+    Dome9.Web.Api.Shared.SharedViewModels.TagViewModel:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    Dome9.Web.Api.AwsSecurityGroup.AwsSecurityGroupViewModel:
+      type: object
+      properties:
+        externalId:
+          type: string
+        regionId:
+          enum:
+          - us_east_1
+          - us_west_1
+          - eu_west_1
+          - ap_southeast_1
+          - ap_northeast_1
+          - us_west_2
+          - sa_east_1
+          - az_1_region_a_geo_1
+          - az_2_region_a_geo_1
+          - az_3_region_a_geo_1
+          - ap_southeast_2
+          - mellanox_region
+          - us_gov_west_1
+          - eu_central_1
+          - ap_northeast_2
+          - ap_south_1
+          - us_east_2
+          - ca_central_1
+          - eu_west_2
+          - eu_west_3
+          - eu_north_1
+          - cn_north_1
+          - cn_northwest_1
+          - us_gov_east_1
+          - ap_east_1
+          - me_south_1
+          - af_south_1
+          - eu_south_1
+          - ap_northeast_3
+          - me_central_1
+          - ap_south_2
+          - ap_southeast_3
+          - ap_southeast_4
+          - eu_central_2
+          - eu_south_2
+          - il_central_1
+          - ca_west_1
+          - mx_central_1
+          - ap_southeast_5
+          - ap_southeast_7
+          - westus
+          - eastus
+          - eastus2
+          - northcentralus
+          - westus2
+          - southcentralus
+          - centralus
+          - usgovlowa
+          - usgovvirginia
+          - northeurope
+          - westeurope
+          - eastasia
+          - southeastasia
+          - japaneast
+          - japanwest
+          - brazilsouth
+          - australiaeast
+          - australiasoutheast
+          - centralindia
+          - southindia
+          - westindia
+          - canadaeast
+          - westcentralus
+          - chinaeast
+          - chinanorth
+          - canadacentral
+          - germanycentral
+          - germanynortheast
+          - koreacentral
+          - uksouth
+          - ukwest
+          - koreasouth
+          - francecentral
+          - francesouth
+          - germanywestcentral
+          - usdodcentral
+          - usdodeast
+          - usgovarizona
+          - usgovtexas
+          - australiacentral
+          - australiacentral2
+          - chinaeast2
+          - chinanorth2
+          - southafricanorth
+          - southafricawest
+          - uaecentral
+          - uaenorth
+          - ussecwest
+          - usseceast
+          - germanynorth
+          - switzerlandwest
+          - norwaywest
+          - norwayeast
+          - switzerlandnorth
+          - westus3
+          - swedencentral
+          - chinanorth3
+          - brazilsoutheast
+          - eastus2euap
+          - jioindiawest
+          - jioindiacentral
+          - qatarcentral
+          - spaincentral
+          - italynorth
+          - polandcentral
+          - mexicocentral
+          - asia
+          - asia_east1
+          - asia_northeast1
+          - asia_south1
+          - asia_southeast1
+          - australia_southeast1
+          - europe
+          - europe_north1
+          - europe_west1
+          - europe_west2
+          - europe_west3
+          - europe_west4
+          - northamerica_northeast1
+          - southamerica_east1
+          - us
+          - us_central1
+          - us_east1
+          - us_east4
+          - us_west1
+          - us_west2
+          - global
+          - asia_east2
+          - eur4
+          - nam4
+          - europe_west6
+          - japan_west
+          - asia_northeast2
+          - asia_northeast3
+          - us_west3
+          - us_west4
+          - asia_southeast2
+          - nam3
+          - nam5
+          - nam6
+          - nam7
+          - nam10
+          - nam_eur_asia1
+          - eur3
+          - eur5
+          - asia1
+          - nam11
+          - eu
+          - northamerica_northeast2
+          - southamerica_west1
+          - us_east5
+          - us_south1
+          - europe_central2
+          - europe_southwest1
+          - europe_west8
+          - europe_west9
+          - europe_west10
+          - europe_west12
+          - asia_south2
+          - australia_southeast2
+          - me_central1
+          - me_central2
+          - me_west1
+          - ap_sydney_1
+          - ap_melbourne_1
+          - sa_saopaulo_1
+          - sa_vinhedo_1
+          - ca_montreal_1
+          - ca_toronto_1
+          - sa_santiago_1
+          - eu_paris_1
+          - eu_marseille_1
+          - eu_frankfurt_1
+          - ap_hyderabad_1
+          - ap_mumbai_1
+          - il_jerusalem_1
+          - eu_milan_1
+          - ap_osaka_1
+          - ap_tokyo_1
+          - mx_queretaro_1
+          - eu_amsterdam_1
+          - me_jeddah_1
+          - ap_singapore_1
+          - af_johannesburg_1
+          - ap_seoul_1
+          - ap_chuncheon_1
+          - eu_madrid_1
+          - eu_stockholm_1
+          - eu_zurich_1
+          - me_abudhabi_1
+          - me_dubai_1
+          - uk_london_1
+          - uk_cardiff_1
+          - us_ashburn_1
+          - us_phoenix_1
+          - us_sanjose_1
+          - us_gov_ashburn_1
+          - us_gov_chicago_1
+          - us_gov_phoenix_1
+          - us_langley_1
+          - us_luke_1
+          - uk_gov_london_1
+          - uk_gov_cardiff_1
+          - sa_bogota_1
+          - us_chicago_1
+          - sa_valparaiso_1
+          - mx_monterrey_1
+          - eu_jovanovac_1
+          - ap_singapore_2
+          type: string
+        securityGroupName:
+          type: string
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        cloudAccountName:
+          type: string
+        vpcId:
+          type: string
+    Dome9.Web.Api.Models.CloudSecurityGroupPolicyViewModel:
+      type: object
+      properties:
+        externalId:
+          type: string
+        isProtected:
+          type: boolean
+        securityGroupName:
+          type: string
+        description:
+          type: string
+        vpcId:
+          type: string
+        vpcName:
+          type: string
+        regionId:
+          enum:
+          - us_east_1
+          - us_west_1
+          - eu_west_1
+          - ap_southeast_1
+          - ap_northeast_1
+          - us_west_2
+          - sa_east_1
+          - az_1_region_a_geo_1
+          - az_2_region_a_geo_1
+          - az_3_region_a_geo_1
+          - ap_southeast_2
+          - mellanox_region
+          - us_gov_west_1
+          - eu_central_1
+          - ap_northeast_2
+          - ap_south_1
+          - us_east_2
+          - ca_central_1
+          - eu_west_2
+          - eu_west_3
+          - eu_north_1
+          - cn_north_1
+          - cn_northwest_1
+          - us_gov_east_1
+          - ap_east_1
+          - me_south_1
+          - af_south_1
+          - eu_south_1
+          - ap_northeast_3
+          - me_central_1
+          - ap_south_2
+          - ap_southeast_3
+          - ap_southeast_4
+          - eu_central_2
+          - eu_south_2
+          - il_central_1
+          - ca_west_1
+          - mx_central_1
+          - ap_southeast_5
+          - ap_southeast_7
+          - westus
+          - eastus
+          - eastus2
+          - northcentralus
+          - westus2
+          - southcentralus
+          - centralus
+          - usgovlowa
+          - usgovvirginia
+          - northeurope
+          - westeurope
+          - eastasia
+          - southeastasia
+          - japaneast
+          - japanwest
+          - brazilsouth
+          - australiaeast
+          - australiasoutheast
+          - centralindia
+          - southindia
+          - westindia
+          - canadaeast
+          - westcentralus
+          - chinaeast
+          - chinanorth
+          - canadacentral
+          - germanycentral
+          - germanynortheast
+          - koreacentral
+          - uksouth
+          - ukwest
+          - koreasouth
+          - francecentral
+          - francesouth
+          - germanywestcentral
+          - usdodcentral
+          - usdodeast
+          - usgovarizona
+          - usgovtexas
+          - australiacentral
+          - australiacentral2
+          - chinaeast2
+          - chinanorth2
+          - southafricanorth
+          - southafricawest
+          - uaecentral
+          - uaenorth
+          - ussecwest
+          - usseceast
+          - germanynorth
+          - switzerlandwest
+          - norwaywest
+          - norwayeast
+          - switzerlandnorth
+          - westus3
+          - swedencentral
+          - chinanorth3
+          - brazilsoutheast
+          - eastus2euap
+          - jioindiawest
+          - jioindiacentral
+          - qatarcentral
+          - spaincentral
+          - italynorth
+          - polandcentral
+          - mexicocentral
+          - asia
+          - asia_east1
+          - asia_northeast1
+          - asia_south1
+          - asia_southeast1
+          - australia_southeast1
+          - europe
+          - europe_north1
+          - europe_west1
+          - europe_west2
+          - europe_west3
+          - europe_west4
+          - northamerica_northeast1
+          - southamerica_east1
+          - us
+          - us_central1
+          - us_east1
+          - us_east4
+          - us_west1
+          - us_west2
+          - global
+          - asia_east2
+          - eur4
+          - nam4
+          - europe_west6
+          - japan_west
+          - asia_northeast2
+          - asia_northeast3
+          - us_west3
+          - us_west4
+          - asia_southeast2
+          - nam3
+          - nam5
+          - nam6
+          - nam7
+          - nam10
+          - nam_eur_asia1
+          - eur3
+          - eur5
+          - asia1
+          - nam11
+          - eu
+          - northamerica_northeast2
+          - southamerica_west1
+          - us_east5
+          - us_south1
+          - europe_central2
+          - europe_southwest1
+          - europe_west8
+          - europe_west9
+          - europe_west10
+          - europe_west12
+          - asia_south2
+          - australia_southeast2
+          - me_central1
+          - me_central2
+          - me_west1
+          - ap_sydney_1
+          - ap_melbourne_1
+          - sa_saopaulo_1
+          - sa_vinhedo_1
+          - ca_montreal_1
+          - ca_toronto_1
+          - sa_santiago_1
+          - eu_paris_1
+          - eu_marseille_1
+          - eu_frankfurt_1
+          - ap_hyderabad_1
+          - ap_mumbai_1
+          - il_jerusalem_1
+          - eu_milan_1
+          - ap_osaka_1
+          - ap_tokyo_1
+          - mx_queretaro_1
+          - eu_amsterdam_1
+          - me_jeddah_1
+          - ap_singapore_1
+          - af_johannesburg_1
+          - ap_seoul_1
+          - ap_chuncheon_1
+          - eu_madrid_1
+          - eu_stockholm_1
+          - eu_zurich_1
+          - me_abudhabi_1
+          - me_dubai_1
+          - uk_london_1
+          - uk_cardiff_1
+          - us_ashburn_1
+          - us_phoenix_1
+          - us_sanjose_1
+          - us_gov_ashburn_1
+          - us_gov_chicago_1
+          - us_gov_phoenix_1
+          - us_langley_1
+          - us_luke_1
+          - uk_gov_london_1
+          - uk_gov_cardiff_1
+          - sa_bogota_1
+          - us_chicago_1
+          - sa_valparaiso_1
+          - mx_monterrey_1
+          - eu_jovanovac_1
+          - ap_singapore_2
+          type: string
+        cloudAccountId:
+          type: string
+        cloudAccountName:
+          type: string
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        securityGroupId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        srl:
+          type: string
+        inboundServices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupPolicyServiceViewModel'
+        outboundServices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupPolicyServiceViewModel'
+    Dome9.Web.Api.Models.CloudSecurityGroupPolicyServiceViewModel:
+      required:
+      - name
+      - protocolType
+      - openForAll
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        protocolType:
+          description: Service Protocol
+          enum:
+          - ALL
+          - HOPOPT
+          - ICMP
+          - IGMP
+          - GGP
+          - IPV4
+          - ST
+          - TCP
+          - CBT
+          - EGP
+          - IGP
+          - BBN_RCC_MON
+          - NVP2
+          - PUP
+          - ARGUS
+          - EMCON
+          - XNET
+          - CHAOS
+          - UDP
+          - MUX
+          - DCN_MEAS
+          - HMP
+          - PRM
+          - XNS_IDP
+          - TRUNK1
+          - TRUNK2
+          - LEAF1
+          - LEAF2
+          - RDP
+          - IRTP
+          - ISO_TP4
+          - NETBLT
+          - MFE_NSP
+          - MERIT_INP
+          - DCCP
+          - ThreePC
+          - IDPR
+          - XTP
+          - DDP
+          - IDPR_CMTP
+          - TPplusplus
+          - IL
+          - IPV6
+          - SDRP
+          - IPV6_ROUTE
+          - IPV6_FRAG
+          - IDRP
+          - RSVP
+          - GRE
+          - DSR
+          - BNA
+          - ESP
+          - AH
+          - I_NLSP
+          - SWIPE
+          - NARP
+          - MOBILE
+          - TLSP
+          - SKIP
+          - ICMPV6
+          - IPV6_NONXT
+          - IPV6_OPTS
+          - CFTP
+          - SAT_EXPAK
+          - KRYPTOLAN
+          - RVD
+          - IPPC
+          - SAT_MON
+          - VISA
+          - IPCV
+          - CPNX
+          - CPHB
+          - WSN
+          - PVP
+          - BR_SAT_MON
+          - SUN_ND
+          - WB_MON
+          - WB_EXPAK
+          - ISO_IP
+          - VMTP
+          - SECURE_VMTP
+          - VINES
+          - TTP
+          - NSFNET_IGP
+          - DGP
+          - TCF
+          - EIGRP
+          - OSPFIGP
+          - SPRITE_RPC
+          - LARP
+          - MTP
+          - AX25
+          - IPIP
+          - MICP
+          - SCC_SP
+          - ETHERIP
+          - ENCAP
+          - GMTP
+          - IFMP
+          - PNNI
+          - PIM
+          - ARIS
+          - SCPS
+          - QNX
+          - AN
+          - IPCOMP
+          - SNP
+          - COMPAQ_PEER
+          - IPX_IN_IP
+          - VRRP
+          - PGM
+          - L2TP
+          - DDX
+          - IATP
+          - STP
+          - SRP
+          - UTI
+          - SMP
+          - SM
+          - PTP
+          - ISIS
+          - FIRE
+          - CRTP
+          - CRUDP
+          - SSCOPMCE
+          - IPLT
+          - SPS
+          - PIPE
+          - SCTP
+          - FC
+          - RSVP_E2E_IGNORE
+          - MOBILITY_HEADER
+          - UDPLITE
+          - MPLS_IN_IP
+          - MANET
+          - HIP
+          - SHIM6
+          - WESP
+          - ROHC
+          type: string
+        port:
+          description: indicates a port range
+          type: string
+        openForAll:
+          description: indicates the service is open to all ports
+          type: boolean
+        scope:
+          description: List of scopes for the service (CIDR / DNS / AWS Security group / IP List / Magic IP)
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.WebApi.Models.ScopeElementViewModel'
+        icmpType:
+          description: / ICMP type (when protocol is ICMP)
+          enum:
+          - All
+          - EchoReply
+          - DestinationUnreachable
+          - SourceQuench
+          - Redirect
+          - AlternateHostAddress
+          - Echo
+          - RouterAdvertisement
+          - RouterSelection
+          - TimeExceeded
+          - ParameterProblem
+          - Timestamp
+          - TimestampReply
+          - InformationRequest
+          - InformationReply
+          - AddressMaskRequest
+          - AddressMaskReply
+          - Traceroute
+          - DatagramConversionError
+          - MobileHostRedirect
+          - IPv6WhereAreYou
+          - IPv6IAmHere
+          - MobileRegistrationRequest
+          - MobileRegistrationReply
+          - DomainNameRequest
+          - DomainNameReply
+          - SKIP
+          - Photuris
+          type: string
+        icmpv6Type:
+          description: ICMP V6 type (when protocol is ICMPV6)
+          enum:
+          - All
+          type: string
+    Falconetix.WebApi.Models.ScopeElementViewModel:
+      type: object
+      properties:
+        type:
+          enum:
+          - CIDR
+          - DNS
+          - IPList
+          - MagicIP
+          - AWS
+          - Tag
+          - ASG
+          - CIDRv6
+          - PrefixList
+          type: string
+        data:
+          type: object
+          additionalProperties:
+            type: string
+    Dome9.Web.Api.Models.CloudSecurityGroupProtectionModeChangeViewModel:
+      required:
+      - protectionMode
+      type: object
+      properties:
+        protectionMode:
+          enum:
+          - FullManage
+          - ReadOnly
+          type: string
+        securityGroupId:
+          type: string
+    Dome9.Web.Api.Models.CloudSecurityGroupServiceViewModel:
+      required:
+      - name
+      - protocolType
+      - openForAll
+      type: object
+      properties:
+        inbound:
+          type: boolean
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        protocolType:
+          description: Service Protocol
+          enum:
+          - ALL
+          - HOPOPT
+          - ICMP
+          - IGMP
+          - GGP
+          - IPV4
+          - ST
+          - TCP
+          - CBT
+          - EGP
+          - IGP
+          - BBN_RCC_MON
+          - NVP2
+          - PUP
+          - ARGUS
+          - EMCON
+          - XNET
+          - CHAOS
+          - UDP
+          - MUX
+          - DCN_MEAS
+          - HMP
+          - PRM
+          - XNS_IDP
+          - TRUNK1
+          - TRUNK2
+          - LEAF1
+          - LEAF2
+          - RDP
+          - IRTP
+          - ISO_TP4
+          - NETBLT
+          - MFE_NSP
+          - MERIT_INP
+          - DCCP
+          - ThreePC
+          - IDPR
+          - XTP
+          - DDP
+          - IDPR_CMTP
+          - TPplusplus
+          - IL
+          - IPV6
+          - SDRP
+          - IPV6_ROUTE
+          - IPV6_FRAG
+          - IDRP
+          - RSVP
+          - GRE
+          - DSR
+          - BNA
+          - ESP
+          - AH
+          - I_NLSP
+          - SWIPE
+          - NARP
+          - MOBILE
+          - TLSP
+          - SKIP
+          - ICMPV6
+          - IPV6_NONXT
+          - IPV6_OPTS
+          - CFTP
+          - SAT_EXPAK
+          - KRYPTOLAN
+          - RVD
+          - IPPC
+          - SAT_MON
+          - VISA
+          - IPCV
+          - CPNX
+          - CPHB
+          - WSN
+          - PVP
+          - BR_SAT_MON
+          - SUN_ND
+          - WB_MON
+          - WB_EXPAK
+          - ISO_IP
+          - VMTP
+          - SECURE_VMTP
+          - VINES
+          - TTP
+          - NSFNET_IGP
+          - DGP
+          - TCF
+          - EIGRP
+          - OSPFIGP
+          - SPRITE_RPC
+          - LARP
+          - MTP
+          - AX25
+          - IPIP
+          - MICP
+          - SCC_SP
+          - ETHERIP
+          - ENCAP
+          - GMTP
+          - IFMP
+          - PNNI
+          - PIM
+          - ARIS
+          - SCPS
+          - QNX
+          - AN
+          - IPCOMP
+          - SNP
+          - COMPAQ_PEER
+          - IPX_IN_IP
+          - VRRP
+          - PGM
+          - L2TP
+          - DDX
+          - IATP
+          - STP
+          - SRP
+          - UTI
+          - SMP
+          - SM
+          - PTP
+          - ISIS
+          - FIRE
+          - CRTP
+          - CRUDP
+          - SSCOPMCE
+          - IPLT
+          - SPS
+          - PIPE
+          - SCTP
+          - FC
+          - RSVP_E2E_IGNORE
+          - MOBILITY_HEADER
+          - UDPLITE
+          - MPLS_IN_IP
+          - MANET
+          - HIP
+          - SHIM6
+          - WESP
+          - ROHC
+          type: string
+        port:
+          description: indicates a port range
+          type: string
+        openForAll:
+          description: indicates the service is open to all ports
+          type: boolean
+        scope:
+          description: List of scopes for the service (CIDR / DNS / AWS Security group / IP List / Magic IP)
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.WebApi.Models.ScopeElementViewModel'
+        icmpType:
+          description: / ICMP type (when protocol is ICMP)
+          enum:
+          - All
+          - EchoReply
+          - DestinationUnreachable
+          - SourceQuench
+          - Redirect
+          - AlternateHostAddress
+          - Echo
+          - RouterAdvertisement
+          - RouterSelection
+          - TimeExceeded
+          - ParameterProblem
+          - Timestamp
+          - TimestampReply
+          - InformationRequest
+          - InformationReply
+          - AddressMaskRequest
+          - AddressMaskReply
+          - Traceroute
+          - DatagramConversionError
+          - MobileHostRedirect
+          - IPv6WhereAreYou
+          - IPv6IAmHere
+          - MobileRegistrationRequest
+          - MobileRegistrationReply
+          - DomainNameRequest
+          - DomainNameReply
+          - SKIP
+          - Photuris
+          type: string
+        icmpv6Type:
+          description: ICMP V6 type (when protocol is ICMPV6)
+          enum:
+          - All
+          type: string
+    Dome9.Web.Api.Models.CloudSecurityGroupTagsChangeViewModel:
+      type: object
+      properties:
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+    Dome9.Web.Api.Models.CloudSecurityGroupBaseViewModel:
+      type: object
+      properties:
+        externalId:
+          type: string
+        isProtected:
+          type: boolean
+        securityGroupName:
+          type: string
+        description:
+          type: string
+        vpcId:
+          type: string
+        vpcName:
+          type: string
+        regionId:
+          enum:
+          - us_east_1
+          - us_west_1
+          - eu_west_1
+          - ap_southeast_1
+          - ap_northeast_1
+          - us_west_2
+          - sa_east_1
+          - az_1_region_a_geo_1
+          - az_2_region_a_geo_1
+          - az_3_region_a_geo_1
+          - ap_southeast_2
+          - mellanox_region
+          - us_gov_west_1
+          - eu_central_1
+          - ap_northeast_2
+          - ap_south_1
+          - us_east_2
+          - ca_central_1
+          - eu_west_2
+          - eu_west_3
+          - eu_north_1
+          - cn_north_1
+          - cn_northwest_1
+          - us_gov_east_1
+          - ap_east_1
+          - me_south_1
+          - af_south_1
+          - eu_south_1
+          - ap_northeast_3
+          - me_central_1
+          - ap_south_2
+          - ap_southeast_3
+          - ap_southeast_4
+          - eu_central_2
+          - eu_south_2
+          - il_central_1
+          - ca_west_1
+          - mx_central_1
+          - ap_southeast_5
+          - ap_southeast_7
+          - westus
+          - eastus
+          - eastus2
+          - northcentralus
+          - westus2
+          - southcentralus
+          - centralus
+          - usgovlowa
+          - usgovvirginia
+          - northeurope
+          - westeurope
+          - eastasia
+          - southeastasia
+          - japaneast
+          - japanwest
+          - brazilsouth
+          - australiaeast
+          - australiasoutheast
+          - centralindia
+          - southindia
+          - westindia
+          - canadaeast
+          - westcentralus
+          - chinaeast
+          - chinanorth
+          - canadacentral
+          - germanycentral
+          - germanynortheast
+          - koreacentral
+          - uksouth
+          - ukwest
+          - koreasouth
+          - francecentral
+          - francesouth
+          - germanywestcentral
+          - usdodcentral
+          - usdodeast
+          - usgovarizona
+          - usgovtexas
+          - australiacentral
+          - australiacentral2
+          - chinaeast2
+          - chinanorth2
+          - southafricanorth
+          - southafricawest
+          - uaecentral
+          - uaenorth
+          - ussecwest
+          - usseceast
+          - germanynorth
+          - switzerlandwest
+          - norwaywest
+          - norwayeast
+          - switzerlandnorth
+          - westus3
+          - swedencentral
+          - chinanorth3
+          - brazilsoutheast
+          - eastus2euap
+          - jioindiawest
+          - jioindiacentral
+          - qatarcentral
+          - spaincentral
+          - italynorth
+          - polandcentral
+          - mexicocentral
+          - asia
+          - asia_east1
+          - asia_northeast1
+          - asia_south1
+          - asia_southeast1
+          - australia_southeast1
+          - europe
+          - europe_north1
+          - europe_west1
+          - europe_west2
+          - europe_west3
+          - europe_west4
+          - northamerica_northeast1
+          - southamerica_east1
+          - us
+          - us_central1
+          - us_east1
+          - us_east4
+          - us_west1
+          - us_west2
+          - global
+          - asia_east2
+          - eur4
+          - nam4
+          - europe_west6
+          - japan_west
+          - asia_northeast2
+          - asia_northeast3
+          - us_west3
+          - us_west4
+          - asia_southeast2
+          - nam3
+          - nam5
+          - nam6
+          - nam7
+          - nam10
+          - nam_eur_asia1
+          - eur3
+          - eur5
+          - asia1
+          - nam11
+          - eu
+          - northamerica_northeast2
+          - southamerica_west1
+          - us_east5
+          - us_south1
+          - europe_central2
+          - europe_southwest1
+          - europe_west8
+          - europe_west9
+          - europe_west10
+          - europe_west12
+          - asia_south2
+          - australia_southeast2
+          - me_central1
+          - me_central2
+          - me_west1
+          - ap_sydney_1
+          - ap_melbourne_1
+          - sa_saopaulo_1
+          - sa_vinhedo_1
+          - ca_montreal_1
+          - ca_toronto_1
+          - sa_santiago_1
+          - eu_paris_1
+          - eu_marseille_1
+          - eu_frankfurt_1
+          - ap_hyderabad_1
+          - ap_mumbai_1
+          - il_jerusalem_1
+          - eu_milan_1
+          - ap_osaka_1
+          - ap_tokyo_1
+          - mx_queretaro_1
+          - eu_amsterdam_1
+          - me_jeddah_1
+          - ap_singapore_1
+          - af_johannesburg_1
+          - ap_seoul_1
+          - ap_chuncheon_1
+          - eu_madrid_1
+          - eu_stockholm_1
+          - eu_zurich_1
+          - me_abudhabi_1
+          - me_dubai_1
+          - uk_london_1
+          - uk_cardiff_1
+          - us_ashburn_1
+          - us_phoenix_1
+          - us_sanjose_1
+          - us_gov_ashburn_1
+          - us_gov_chicago_1
+          - us_gov_phoenix_1
+          - us_langley_1
+          - us_luke_1
+          - uk_gov_london_1
+          - uk_gov_cardiff_1
+          - sa_bogota_1
+          - us_chicago_1
+          - sa_valparaiso_1
+          - mx_monterrey_1
+          - eu_jovanovac_1
+          - ap_singapore_2
+          type: string
+        cloudAccountId:
+          type: string
+        cloudAccountName:
+          type: string
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+    Dome9.Web.Api.Models.AzureSecurityGroupViewModel:
+      type: object
+      properties:
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        id:
+          type: string
+        accountId:
+          format: int64
+          type: integer
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        cloudAccountName:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        region:
+          type: string
+        resourceGroup:
+          type: string
+        isProtected:
+          type: boolean
+        services:
+          type: object
+          properties:
+            inbound:
+              type: array
+              items:
+                $ref: '#/components/schemas/Dome9.Web.Api.Models.AzureSecurityGroupServiceViewModel'
+            outbound:
+              type: array
+              items:
+                $ref: '#/components/schemas/Dome9.Web.Api.Models.AzureSecurityGroupServiceViewModel'
+    Dome9.Web.Api.Models.AzureSecurityGroupServiceViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        access:
+          enum:
+          - Allow
+          - Deny
+          type: string
+        direction:
+          enum:
+          - Inbound
+          - Outbound
+          type: string
+        priority:
+          format: int32
+          type: integer
+        protocol:
+          type: string
+        sourceAddressPrefixes:
+          type: array
+          items:
+            type: string
+        sourcePortRanges:
+          type: array
+          items:
+            type: string
+        destinationAddressPrefixes:
+          type: array
+          items:
+            type: string
+        destinationPortRanges:
+          type: array
+          items:
+            type: string
+        isDefault:
+          type: boolean
+    Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyGetViewModel:
+      required:
+      - cloudAccountId
+      - name
+      - region
+      - resourceGroup
+      type: object
+      properties:
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.TagViewModel'
+        id:
+          format: uuid
+          description: Policy id
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        externalSecurityGroupId:
+          description: Internal use only
+          type: string
+        accountId:
+          format: int64
+          description: Dome9 account id
+          type: integer
+        cloudAccountName:
+          description: Azure cloud account name
+          type: string
+        lastUpdatedByDome9:
+          type: boolean
+        error:
+          $ref: '#/components/schemas/Dome9.Web.Api.Azure.AzureErrorStateViewModel'
+        inboundServices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyServiceGetViewModel'
+        outboundServices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyServiceGetViewModel'
+        cloudAccountId:
+          format: uuid
+          description: Cloud account id for policy
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          description: policy name
+          type: string
+        description:
+          description: policy description
+          type: string
+        region:
+          description: policy region
+          type: string
+        resourceGroup:
+          description: Azure resource group name
+          type: string
+        isTamperProtected:
+          description: policy is tamper protected
+          type: boolean
+    Dome9.Web.Api.Azure.AzureErrorStateViewModel:
+      type: object
+      properties:
+        action:
+          type: string
+        errorMessage:
+          type: string
+    Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyServiceGetViewModel:
+      required:
+      - name
+      - priority
+      - access
+      - protocol
+      - sourceScopes
+      - destinationScopes
+      type: object
+      properties:
+        direction:
+          description: Service direction (Inbound / Outbound)
+          type: string
+        name:
+          description: Service name
+          type: string
+        description:
+          description: Service description
+          type: string
+        priority:
+          format: int32
+          description: Service priority (a number between 100 and 4096)
+          type: integer
+        access:
+          description: Service access (Allow / Deny)
+          type: string
+        protocol:
+          description: Service protocol (UDP / TCP / ANY)
+          type: string
+        sourcePortRanges:
+          description: Source port ranges
+          type: array
+          items:
+            type: string
+        sourceScopes:
+          description: List of source scopes for the service (CIDR / IP List / Tag)
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.WebApi.Models.ScopeElementViewModel'
+        destinationPortRanges:
+          description: Destination port ranges
+          type: array
+          items:
+            type: string
+        destinationScopes:
+          description: List of destination scopes for the service (CIDR / IP List / Tag)
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.WebApi.Models.ScopeElementViewModel'
+        isDefault:
+          type: boolean
+    Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyPostViewModel:
+      required:
+      - cloudAccountId
+      - name
+      - region
+      - resourceGroup
+      type: object
+      properties:
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.TagViewModel'
+        inboundServices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyServiceViewModel'
+        outboundServices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyServiceViewModel'
+        cloudAccountId:
+          format: uuid
+          description: Cloud account id for policy
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          description: policy name
+          type: string
+        description:
+          description: policy description
+          type: string
+        region:
+          description: policy region
+          type: string
+        resourceGroup:
+          description: Azure resource group name
+          type: string
+        isTamperProtected:
+          description: policy is tamper protected
+          type: boolean
+    Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyServiceViewModel:
+      required:
+      - name
+      - priority
+      - access
+      - protocol
+      - sourceScopes
+      - destinationScopes
+      type: object
+      properties:
+        name:
+          description: Service name
+          type: string
+        description:
+          description: Service description
+          type: string
+        priority:
+          format: int32
+          description: Service priority (a number between 100 and 4096)
+          type: integer
+        access:
+          description: Service access (Allow / Deny)
+          type: string
+        protocol:
+          description: Service protocol (UDP / TCP / ANY)
+          type: string
+        sourcePortRanges:
+          description: Source port ranges
+          type: array
+          items:
+            type: string
+        sourceScopes:
+          description: List of source scopes for the service (CIDR / IP List / Tag)
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.WebApi.Models.ScopeElementViewModel'
+        destinationPortRanges:
+          description: Destination port ranges
+          type: array
+          items:
+            type: string
+        destinationScopes:
+          description: List of destination scopes for the service (CIDR / IP List / Tag)
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.WebApi.Models.ScopeElementViewModel'
+        isDefault:
+          type: boolean
+    Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyStatsViewModel:
+      type: object
+      properties:
+        id:
+          format: uuid
+          description: Policy id
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          description: Policy name
+          type: string
+        resourceGroup:
+          description: Azure resource group name
+          type: string
+        region:
+          description: Region in which the policy is defined
+          type: string
+        cloudAccountName:
+          description: Azure cloud account name
+          type: string
+        cloudAccountId:
+          format: uuid
+          description: Azure cloud account id
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        isTamperProtected:
+          description: Tamper protection is enabled for the policy
+          type: boolean
+        alertsCount:
+          format: int32
+          description: The number of alerts opened on the policy
+          type: integer
+    Dome9.Web.Api.Models.CloudSecurityGroupViewModel:
+      type: object
+      properties:
+        securityGroupId:
+          format: int64
+          type: integer
+        services:
+          type: object
+          properties:
+            inbound:
+              type: array
+              items:
+                $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupServiceViewModel'
+            outbound:
+              type: array
+              items:
+                $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupServiceViewModel'
+        externalId:
+          type: string
+        isProtected:
+          type: boolean
+        securityGroupName:
+          type: string
+        description:
+          type: string
+        vpcId:
+          type: string
+        vpcName:
+          type: string
+        regionId:
+          enum:
+          - us_east_1
+          - us_west_1
+          - eu_west_1
+          - ap_southeast_1
+          - ap_northeast_1
+          - us_west_2
+          - sa_east_1
+          - az_1_region_a_geo_1
+          - az_2_region_a_geo_1
+          - az_3_region_a_geo_1
+          - ap_southeast_2
+          - mellanox_region
+          - us_gov_west_1
+          - eu_central_1
+          - ap_northeast_2
+          - ap_south_1
+          - us_east_2
+          - ca_central_1
+          - eu_west_2
+          - eu_west_3
+          - eu_north_1
+          - cn_north_1
+          - cn_northwest_1
+          - us_gov_east_1
+          - ap_east_1
+          - me_south_1
+          - af_south_1
+          - eu_south_1
+          - ap_northeast_3
+          - me_central_1
+          - ap_south_2
+          - ap_southeast_3
+          - ap_southeast_4
+          - eu_central_2
+          - eu_south_2
+          - il_central_1
+          - ca_west_1
+          - mx_central_1
+          - ap_southeast_5
+          - ap_southeast_7
+          - westus
+          - eastus
+          - eastus2
+          - northcentralus
+          - westus2
+          - southcentralus
+          - centralus
+          - usgovlowa
+          - usgovvirginia
+          - northeurope
+          - westeurope
+          - eastasia
+          - southeastasia
+          - japaneast
+          - japanwest
+          - brazilsouth
+          - australiaeast
+          - australiasoutheast
+          - centralindia
+          - southindia
+          - westindia
+          - canadaeast
+          - westcentralus
+          - chinaeast
+          - chinanorth
+          - canadacentral
+          - germanycentral
+          - germanynortheast
+          - koreacentral
+          - uksouth
+          - ukwest
+          - koreasouth
+          - francecentral
+          - francesouth
+          - germanywestcentral
+          - usdodcentral
+          - usdodeast
+          - usgovarizona
+          - usgovtexas
+          - australiacentral
+          - australiacentral2
+          - chinaeast2
+          - chinanorth2
+          - southafricanorth
+          - southafricawest
+          - uaecentral
+          - uaenorth
+          - ussecwest
+          - usseceast
+          - germanynorth
+          - switzerlandwest
+          - norwaywest
+          - norwayeast
+          - switzerlandnorth
+          - westus3
+          - swedencentral
+          - chinanorth3
+          - brazilsoutheast
+          - eastus2euap
+          - jioindiawest
+          - jioindiacentral
+          - qatarcentral
+          - spaincentral
+          - italynorth
+          - polandcentral
+          - mexicocentral
+          - asia
+          - asia_east1
+          - asia_northeast1
+          - asia_south1
+          - asia_southeast1
+          - australia_southeast1
+          - europe
+          - europe_north1
+          - europe_west1
+          - europe_west2
+          - europe_west3
+          - europe_west4
+          - northamerica_northeast1
+          - southamerica_east1
+          - us
+          - us_central1
+          - us_east1
+          - us_east4
+          - us_west1
+          - us_west2
+          - global
+          - asia_east2
+          - eur4
+          - nam4
+          - europe_west6
+          - japan_west
+          - asia_northeast2
+          - asia_northeast3
+          - us_west3
+          - us_west4
+          - asia_southeast2
+          - nam3
+          - nam5
+          - nam6
+          - nam7
+          - nam10
+          - nam_eur_asia1
+          - eur3
+          - eur5
+          - asia1
+          - nam11
+          - eu
+          - northamerica_northeast2
+          - southamerica_west1
+          - us_east5
+          - us_south1
+          - europe_central2
+          - europe_southwest1
+          - europe_west8
+          - europe_west9
+          - europe_west10
+          - europe_west12
+          - asia_south2
+          - australia_southeast2
+          - me_central1
+          - me_central2
+          - me_west1
+          - ap_sydney_1
+          - ap_melbourne_1
+          - sa_saopaulo_1
+          - sa_vinhedo_1
+          - ca_montreal_1
+          - ca_toronto_1
+          - sa_santiago_1
+          - eu_paris_1
+          - eu_marseille_1
+          - eu_frankfurt_1
+          - ap_hyderabad_1
+          - ap_mumbai_1
+          - il_jerusalem_1
+          - eu_milan_1
+          - ap_osaka_1
+          - ap_tokyo_1
+          - mx_queretaro_1
+          - eu_amsterdam_1
+          - me_jeddah_1
+          - ap_singapore_1
+          - af_johannesburg_1
+          - ap_seoul_1
+          - ap_chuncheon_1
+          - eu_madrid_1
+          - eu_stockholm_1
+          - eu_zurich_1
+          - me_abudhabi_1
+          - me_dubai_1
+          - uk_london_1
+          - uk_cardiff_1
+          - us_ashburn_1
+          - us_phoenix_1
+          - us_sanjose_1
+          - us_gov_ashburn_1
+          - us_gov_chicago_1
+          - us_gov_phoenix_1
+          - us_langley_1
+          - us_luke_1
+          - uk_gov_london_1
+          - uk_gov_cardiff_1
+          - sa_bogota_1
+          - us_chicago_1
+          - sa_valparaiso_1
+          - mx_monterrey_1
+          - eu_jovanovac_1
+          - ap_singapore_2
+          type: string
+        cloudAccountId:
+          type: string
+        cloudAccountName:
+          type: string
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+    Dome9.Web.Api.Models.CloudSecurityGroupWithSrlViewModel:
+      type: object
+      properties:
+        securityGroupId:
+          format: int64
+          type: integer
+        services:
+          type: object
+          properties:
+            inbound:
+              type: array
+              items:
+                $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupServiceViewModel'
+            outbound:
+              type: array
+              items:
+                $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudSecurityGroupServiceViewModel'
+        externalId:
+          type: string
+        isProtected:
+          type: boolean
+        securityGroupName:
+          type: string
+        description:
+          type: string
+        vpcId:
+          type: string
+        vpcName:
+          type: string
+        regionId:
+          enum:
+          - us_east_1
+          - us_west_1
+          - eu_west_1
+          - ap_southeast_1
+          - ap_northeast_1
+          - us_west_2
+          - sa_east_1
+          - az_1_region_a_geo_1
+          - az_2_region_a_geo_1
+          - az_3_region_a_geo_1
+          - ap_southeast_2
+          - mellanox_region
+          - us_gov_west_1
+          - eu_central_1
+          - ap_northeast_2
+          - ap_south_1
+          - us_east_2
+          - ca_central_1
+          - eu_west_2
+          - eu_west_3
+          - eu_north_1
+          - cn_north_1
+          - cn_northwest_1
+          - us_gov_east_1
+          - ap_east_1
+          - me_south_1
+          - af_south_1
+          - eu_south_1
+          - ap_northeast_3
+          - me_central_1
+          - ap_south_2
+          - ap_southeast_3
+          - ap_southeast_4
+          - eu_central_2
+          - eu_south_2
+          - il_central_1
+          - ca_west_1
+          - mx_central_1
+          - ap_southeast_5
+          - ap_southeast_7
+          - westus
+          - eastus
+          - eastus2
+          - northcentralus
+          - westus2
+          - southcentralus
+          - centralus
+          - usgovlowa
+          - usgovvirginia
+          - northeurope
+          - westeurope
+          - eastasia
+          - southeastasia
+          - japaneast
+          - japanwest
+          - brazilsouth
+          - australiaeast
+          - australiasoutheast
+          - centralindia
+          - southindia
+          - westindia
+          - canadaeast
+          - westcentralus
+          - chinaeast
+          - chinanorth
+          - canadacentral
+          - germanycentral
+          - germanynortheast
+          - koreacentral
+          - uksouth
+          - ukwest
+          - koreasouth
+          - francecentral
+          - francesouth
+          - germanywestcentral
+          - usdodcentral
+          - usdodeast
+          - usgovarizona
+          - usgovtexas
+          - australiacentral
+          - australiacentral2
+          - chinaeast2
+          - chinanorth2
+          - southafricanorth
+          - southafricawest
+          - uaecentral
+          - uaenorth
+          - ussecwest
+          - usseceast
+          - germanynorth
+          - switzerlandwest
+          - norwaywest
+          - norwayeast
+          - switzerlandnorth
+          - westus3
+          - swedencentral
+          - chinanorth3
+          - brazilsoutheast
+          - eastus2euap
+          - jioindiawest
+          - jioindiacentral
+          - qatarcentral
+          - spaincentral
+          - italynorth
+          - polandcentral
+          - mexicocentral
+          - asia
+          - asia_east1
+          - asia_northeast1
+          - asia_south1
+          - asia_southeast1
+          - australia_southeast1
+          - europe
+          - europe_north1
+          - europe_west1
+          - europe_west2
+          - europe_west3
+          - europe_west4
+          - northamerica_northeast1
+          - southamerica_east1
+          - us
+          - us_central1
+          - us_east1
+          - us_east4
+          - us_west1
+          - us_west2
+          - global
+          - asia_east2
+          - eur4
+          - nam4
+          - europe_west6
+          - japan_west
+          - asia_northeast2
+          - asia_northeast3
+          - us_west3
+          - us_west4
+          - asia_southeast2
+          - nam3
+          - nam5
+          - nam6
+          - nam7
+          - nam10
+          - nam_eur_asia1
+          - eur3
+          - eur5
+          - asia1
+          - nam11
+          - eu
+          - northamerica_northeast2
+          - southamerica_west1
+          - us_east5
+          - us_south1
+          - europe_central2
+          - europe_southwest1
+          - europe_west8
+          - europe_west9
+          - europe_west10
+          - europe_west12
+          - asia_south2
+          - australia_southeast2
+          - me_central1
+          - me_central2
+          - me_west1
+          - ap_sydney_1
+          - ap_melbourne_1
+          - sa_saopaulo_1
+          - sa_vinhedo_1
+          - ca_montreal_1
+          - ca_toronto_1
+          - sa_santiago_1
+          - eu_paris_1
+          - eu_marseille_1
+          - eu_frankfurt_1
+          - ap_hyderabad_1
+          - ap_mumbai_1
+          - il_jerusalem_1
+          - eu_milan_1
+          - ap_osaka_1
+          - ap_tokyo_1
+          - mx_queretaro_1
+          - eu_amsterdam_1
+          - me_jeddah_1
+          - ap_singapore_1
+          - af_johannesburg_1
+          - ap_seoul_1
+          - ap_chuncheon_1
+          - eu_madrid_1
+          - eu_stockholm_1
+          - eu_zurich_1
+          - me_abudhabi_1
+          - me_dubai_1
+          - uk_london_1
+          - uk_cardiff_1
+          - us_ashburn_1
+          - us_phoenix_1
+          - us_sanjose_1
+          - us_gov_ashburn_1
+          - us_gov_chicago_1
+          - us_gov_phoenix_1
+          - us_langley_1
+          - us_luke_1
+          - uk_gov_london_1
+          - uk_gov_cardiff_1
+          - sa_bogota_1
+          - us_chicago_1
+          - sa_valparaiso_1
+          - mx_monterrey_1
+          - eu_jovanovac_1
+          - ap_singapore_2
+          type: string
+        cloudAccountId:
+          type: string
+        cloudAccountName:
+          type: string
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        srl:
+          type: string
+    Dome9.Web.Api.Models.CloudSecurityGroupRevisionViewModel:
+      type: object
+      properties:
+        accountId:
+          format: int64
+          type: integer
+        externalAccountNumber:
+          type: string
+        region:
+          enum:
+          - us_east_1
+          - us_west_1
+          - eu_west_1
+          - ap_southeast_1
+          - ap_northeast_1
+          - us_west_2
+          - sa_east_1
+          - az_1_region_a_geo_1
+          - az_2_region_a_geo_1
+          - az_3_region_a_geo_1
+          - ap_southeast_2
+          - mellanox_region
+          - us_gov_west_1
+          - eu_central_1
+          - ap_northeast_2
+          - ap_south_1
+          - us_east_2
+          - ca_central_1
+          - eu_west_2
+          - eu_west_3
+          - eu_north_1
+          - cn_north_1
+          - cn_northwest_1
+          - us_gov_east_1
+          - ap_east_1
+          - me_south_1
+          - af_south_1
+          - eu_south_1
+          - ap_northeast_3
+          - me_central_1
+          - ap_south_2
+          - ap_southeast_3
+          - ap_southeast_4
+          - eu_central_2
+          - eu_south_2
+          - il_central_1
+          - ca_west_1
+          - mx_central_1
+          - ap_southeast_5
+          - ap_southeast_7
+          - westus
+          - eastus
+          - eastus2
+          - northcentralus
+          - westus2
+          - southcentralus
+          - centralus
+          - usgovlowa
+          - usgovvirginia
+          - northeurope
+          - westeurope
+          - eastasia
+          - southeastasia
+          - japaneast
+          - japanwest
+          - brazilsouth
+          - australiaeast
+          - australiasoutheast
+          - centralindia
+          - southindia
+          - westindia
+          - canadaeast
+          - westcentralus
+          - chinaeast
+          - chinanorth
+          - canadacentral
+          - germanycentral
+          - germanynortheast
+          - koreacentral
+          - uksouth
+          - ukwest
+          - koreasouth
+          - francecentral
+          - francesouth
+          - germanywestcentral
+          - usdodcentral
+          - usdodeast
+          - usgovarizona
+          - usgovtexas
+          - australiacentral
+          - australiacentral2
+          - chinaeast2
+          - chinanorth2
+          - southafricanorth
+          - southafricawest
+          - uaecentral
+          - uaenorth
+          - ussecwest
+          - usseceast
+          - germanynorth
+          - switzerlandwest
+          - norwaywest
+          - norwayeast
+          - switzerlandnorth
+          - westus3
+          - swedencentral
+          - chinanorth3
+          - brazilsoutheast
+          - eastus2euap
+          - jioindiawest
+          - jioindiacentral
+          - qatarcentral
+          - spaincentral
+          - italynorth
+          - polandcentral
+          - mexicocentral
+          - asia
+          - asia_east1
+          - asia_northeast1
+          - asia_south1
+          - asia_southeast1
+          - australia_southeast1
+          - europe
+          - europe_north1
+          - europe_west1
+          - europe_west2
+          - europe_west3
+          - europe_west4
+          - northamerica_northeast1
+          - southamerica_east1
+          - us
+          - us_central1
+          - us_east1
+          - us_east4
+          - us_west1
+          - us_west2
+          - global
+          - asia_east2
+          - eur4
+          - nam4
+          - europe_west6
+          - japan_west
+          - asia_northeast2
+          - asia_northeast3
+          - us_west3
+          - us_west4
+          - asia_southeast2
+          - nam3
+          - nam5
+          - nam6
+          - nam7
+          - nam10
+          - nam_eur_asia1
+          - eur3
+          - eur5
+          - asia1
+          - nam11
+          - eu
+          - northamerica_northeast2
+          - southamerica_west1
+          - us_east5
+          - us_south1
+          - europe_central2
+          - europe_southwest1
+          - europe_west8
+          - europe_west9
+          - europe_west10
+          - europe_west12
+          - asia_south2
+          - australia_southeast2
+          - me_central1
+          - me_central2
+          - me_west1
+          - ap_sydney_1
+          - ap_melbourne_1
+          - sa_saopaulo_1
+          - sa_vinhedo_1
+          - ca_montreal_1
+          - ca_toronto_1
+          - sa_santiago_1
+          - eu_paris_1
+          - eu_marseille_1
+          - eu_frankfurt_1
+          - ap_hyderabad_1
+          - ap_mumbai_1
+          - il_jerusalem_1
+          - eu_milan_1
+          - ap_osaka_1
+          - ap_tokyo_1
+          - mx_queretaro_1
+          - eu_amsterdam_1
+          - me_jeddah_1
+          - ap_singapore_1
+          - af_johannesburg_1
+          - ap_seoul_1
+          - ap_chuncheon_1
+          - eu_madrid_1
+          - eu_stockholm_1
+          - eu_zurich_1
+          - me_abudhabi_1
+          - me_dubai_1
+          - uk_london_1
+          - uk_cardiff_1
+          - us_ashburn_1
+          - us_phoenix_1
+          - us_sanjose_1
+          - us_gov_ashburn_1
+          - us_gov_chicago_1
+          - us_gov_phoenix_1
+          - us_langley_1
+          - us_luke_1
+          - uk_gov_london_1
+          - uk_gov_cardiff_1
+          - sa_bogota_1
+          - us_chicago_1
+          - sa_valparaiso_1
+          - mx_monterrey_1
+          - eu_jovanovac_1
+          - ap_singapore_2
+          type: string
+        vpc:
+          type: string
+        revisionId:
+          format: int64
+          type: integer
+        timestamp:
+          format: date-time
+          type: string
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        cloudSecurityGroup:
+          type: object
+        auditEvent:
+          type: object
+    Dome9.Web.Api.Models.IpAddressMetadataViewModel:
+      type: object
+      properties:
+        id:
+          description: set or get the internal id for the address
+          type: string
+        cidr:
+          description: set or get the CIDR for the address
+          type: string
+        name:
+          description: set or get the name for the IP address
+          type: string
+        classificaiton:
+          description: set or get the claasification of the IP address
+          enum:
+          - External
+          - Unsafe
+          - Dmz
+          - InternalVpc
+          - InternalDc
+          - NoClassification
+          type: string
+        classification:
+          enum:
+          - External
+          - Unsafe
+          - Dmz
+          - InternalVpc
+          - InternalDc
+          - NoClassification
+          type: string
+    Dome9.Web.Api.IPList.IpListViewModel:
+      type: object
+      properties:
+        name:
+          description: IP List Name
+          maxLength: 50
+          minLength: 0
+          pattern: '[a-zA-Z0-9/\-_:]*[a-zA-Z]+[a-zA-Z0-9/\-_:]*'
+          type: string
+        id:
+          format: int64
+          description: IP List Id
+          type: integer
+        description:
+          description: IP List Description
+          maxLength: 500
+          minLength: 0
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.IPDescriptor'
+    Falconetix.Model.IPDescriptor:
+      required:
+      - ip
+      type: object
+      properties:
+        ip:
+          type: string
+        comment:
+          maxLength: 500
+          minLength: 0
+          type: string
+    Dome9.Web.Api.IPList.IpListPutViewModel:
+      type: object
+      properties:
+        id:
+          format: int64
+          description: IP List Id
+          type: integer
+        description:
+          description: IP List Description
+          maxLength: 500
+          minLength: 0
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.IPDescriptor'
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+security:
+- basic: []
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

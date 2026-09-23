@@ -1,0 +1,76 @@
+openapi: 3.2.0
+info:
+  title: Inventory - AWS Analytics Aws Quick Sight Group API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Aws Quick Sight Group
+paths:
+  /v2/AwsQuickSightGroup:
+    get:
+      tags:
+      - Aws Quick Sight Group
+      operationId: AwsQuickSightGroup_Get_get_/v2/AwsQuickSightGroup
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.AwsQuickSight.AwsQuickSightGroupViewModel'
+      description: ''
+      summary: Get
+components:
+  schemas:
+    Dome9.Web.Api.AwsQuickSight.AwsQuickSightGroupViewModel:
+      type: object
+      properties:
+        arn:
+          type: string
+        description:
+          type: string
+        groupName:
+          type: string
+        principalId:
+          type: string
+        groupMemberList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.AwsQuickSight.QuickSightGroupMemberViewModel'
+        dome9Id:
+          type: string
+        accountNumber:
+          type: string
+        region:
+          type: string
+    Dome9.Web.Api.AwsQuickSight.QuickSightGroupMemberViewModel:
+      type: object
+      properties:
+        arn:
+          type: string
+        memberName:
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

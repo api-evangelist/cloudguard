@@ -1,0 +1,84 @@
+openapi: 3.2.0
+info:
+  title: Group Risk Management API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Group Risk Management
+paths:
+  /v2/erm/groups/risk-data:
+    post:
+      tags:
+      - Group Risk Management
+      summary: Get Groups Risk Data
+      operationId: GroupRiskManagement_GetGroupsRiskData_post_/v2/erm/groups/risk-data
+      requestBody:
+        x-name: request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetGroupsRiskRequestViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: 'List groups risk data by Group Type. Risk Data includes Risk Score and Level and the distribution of the risk level among the group''s assets.
+
+        The list is ordered descending by the group Risk Score'
+components:
+  schemas:
+    GetGroupsRiskRequestViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - groupType
+      - groupsIds
+      - limit
+      properties:
+        groupType:
+          type: string
+          description: 'Group Type '
+          minLength: 1
+        groupsIds:
+          type:
+          - array
+          - 'null'
+          description: 'Set Group Ids to get Risk Data for specific groups '
+          items:
+            type: string
+        limit:
+          type:
+          - integer
+          - 'null'
+          description: 'Limit the response list size.  '
+          format: int32
+          maximum: 2147483647
+          minimum: 1
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

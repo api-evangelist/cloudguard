@@ -1,0 +1,239 @@
+openapi: 3.2.0
+info:
+  title: Risk Management Ignore Cves API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Ignore Cves
+paths:
+  /v2/security-graph/ignore-cves/{id}:
+    get:
+      operationId: IgnoreCvesController_get_get_/v2/security-graph/ignore-cves/{id}
+      summary: Get
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGraphIgnoreCveViewModel'
+      tags:
+      - Ignore Cves
+      description: Get an ignored CVE by ID
+    delete:
+      operationId: IgnoreCvesController_delete_delete_/v2/security-graph/ignore-cves/{id}
+      summary: Delete
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - Ignore Cves
+      description: Delete an ignored CVE by ID
+    put:
+      operationId: IgnoreCvesController_update_put_/v2/security-graph/ignore-cves/{id}
+      summary: Update
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecurityGraphIgnoreCveRequestModel'
+      responses:
+        '204':
+          description: ''
+      tags:
+      - Ignore Cves
+      description: Update an ignored CVE by ID
+  /v2/security-graph/ignore-cves:
+    get:
+      operationId: IgnoreCvesController_getAll_get_/v2/security-graph/ignore-cves
+      summary: Get All
+      parameters: []
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SecurityGraphIgnoreCveViewModel'
+      tags:
+      - Ignore Cves
+      description: Get all ignored CVEs
+    post:
+      operationId: IgnoreCvesController_insert_post_/v2/security-graph/ignore-cves
+      summary: Insert
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecurityGraphIgnoreCveRequestModel'
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdViewModel'
+      tags:
+      - Ignore Cves
+      description: Insert a new ignored CVE by ID
+components:
+  schemas:
+    SecurityGraphIgnoreCveRequestModel:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 200
+        filter:
+          description: Filter object. A recursive filter object which provides complex filters.
+          allOf:
+          - $ref: '#/components/schemas/IgnoreCveSearchAdvFilterViewModel'
+        organizationalUnitIdsFilter:
+          uniqueItems: true
+          maxItems: 50
+          description: List of organizational unit IDs filter.
+          type: array
+          items:
+            type: string
+      required:
+      - name
+    IdViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+    IgnoreCveSearchFieldFilterViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+          - targetExternalId
+          - sourceExternalId
+          - sourceEnvironmentId
+          - sourceName
+          - timestamp
+          - packageName
+          - packagePath
+        values:
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: array
+            items:
+              type: number
+          - type: array
+            items:
+              type: boolean
+          uniqueItems: true
+          minItems: 1
+          maxItems: 50
+        operator:
+          $ref: '#/components/schemas/IgnoreCveFilterOperator'
+      required:
+      - name
+      - values
+      - operator
+    SecurityGraphIgnoreCveViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 200
+        filter:
+          description: Filter object. A recursive filter object which provides complex filters.
+          allOf:
+          - $ref: '#/components/schemas/IgnoreCveSearchAdvFilterViewModel'
+        organizationalUnitIdsFilter:
+          uniqueItems: true
+          maxItems: 50
+          description: List of organizational unit IDs filter.
+          type: array
+          items:
+            type: string
+        _id:
+          type: string
+      required:
+      - name
+      - _id
+    IgnoreCveSearchAdvFilterViewModel:
+      type: object
+      properties:
+        logicalOperator:
+          type: string
+          enum:
+          - and
+          description: Logical operator to apply on operands.
+        operands:
+          minItems: 1
+          maxItems: 50
+          description: Array of filter operands. An operand is an array of type SearchFieldFilterViewModel.
+          type: array
+          items:
+            $ref: '#/components/schemas/IgnoreCveSearchFieldFilterViewModel'
+      required:
+      - logicalOperator
+      - operands
+    IgnoreCveFilterOperator:
+      type: string
+      description: 'lt: less than, in: equal to one of the values, like_any: like any'
+      enum:
+      - in
+      - like_any
+      - lt
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

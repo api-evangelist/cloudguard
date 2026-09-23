@@ -1,0 +1,307 @@
+openapi: 3.2.0
+info:
+  title: Administration Role API
+  version: v2
+  description: CloudGuard Roles
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Role
+  description: CloudGuard Roles
+paths:
+  /{id}/external:
+    put:
+      tags:
+      - Role
+      summary: Put Role By External Account Id
+      operationId: Role_PutRoleByExternalAccountId_put_/{id}/external
+      parameters:
+      - name: id
+        in: path
+        description: The role id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Role.EditRoleViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Role.EditRoleViewModel'
+        description: The role info
+        required: true
+      description: Update a role
+  /v2/Role:
+    get:
+      tags:
+      - Role
+      summary: Get
+      operationId: Role_Get_get_/v2/Role
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Role.RoleGetViewModel'
+      description: Get all roles for the account.
+    post:
+      tags:
+      - Role
+      summary: Post
+      operationId: Role_Post_post_/v2/Role
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        $ref: '#/components/requestBodies/Dome9.Web.Api.Role.RoleViewModel'
+      description: Create a new role
+  /v2/Role/{id}:
+    get:
+      tags:
+      - Role
+      summary: Get
+      operationId: Role_Get_get_/v2/Role/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Role.RoleViewModel'
+      description: Get the specific role with the specified id
+    put:
+      tags:
+      - Role
+      summary: Put
+      operationId: Role_Put_put_/v2/Role/{id}
+      parameters:
+      - name: id
+        in: path
+        description: The role id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Role.RoleViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Role.RoleViewModel'
+        description: The role info
+        required: true
+      description: Update a role
+    delete:
+      tags:
+      - Role
+      summary: Delete
+      operationId: Role_Delete_delete_/v2/Role/{id}
+      parameters:
+      - name: id
+        in: path
+        description: The role id to delete
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '204':
+          description: No Content
+      description: Delete a role
+components:
+  schemas:
+    Dome9.Web.Api.Role.EditRoleViewModel:
+      required:
+      - name
+      - permissions
+      type: object
+      properties:
+        name:
+          description: Role Name
+          type: string
+        description:
+          description: Role Description
+          type: string
+        permissions:
+          $ref: '#/components/schemas/Dome9.Web.Api.User.PermissionsViewModel'
+          description: Permissions of the role
+    Dome9.Web.Api.Role.RoleGetViewModel:
+      required:
+      - name
+      - permissions
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Role.RoleGetUserViewModel'
+        serviceAccounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Role.RoleGetServiceAccountViewModel'
+        id:
+          format: int64
+          description: Role Id
+          type: integer
+        name:
+          description: Role Name
+          type: string
+        description:
+          description: Role Description
+          type: string
+        permissions:
+          $ref: '#/components/schemas/Dome9.Web.Api.User.PermissionsViewModel'
+          description: Permissions of the role
+    Dome9.Web.Api.Role.RoleGetServiceAccountViewModel:
+      type: object
+      properties:
+        serviceAccountName:
+          type: string
+        serviceAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+    Dome9.Web.Api.Role.RoleGetUserViewModel:
+      type: object
+      properties:
+        userId:
+          format: int32
+          type: integer
+        userName:
+          type: string
+    Dome9.Web.Api.User.PermissionsViewModel:
+      type: object
+      properties:
+        access:
+          description: Access permission list (list of SRLs)
+          type: array
+          items:
+            type: string
+        manage:
+          description: Manage permission list (list of SRLs)
+          type: array
+          items:
+            type: string
+        rulesets:
+          description: Compliance permission list (list of SRLs)
+          type: array
+          items:
+            type: string
+        notifications:
+          description: Compliance permission list (list of SRLs)
+          type: array
+          items:
+            type: string
+        policies:
+          description: Compliance permission list (list of SRLs)
+          type: array
+          items:
+            type: string
+        alertActions:
+          description: Compliance permission list (list of SRLs)
+          type: array
+          items:
+            type: string
+        create:
+          description: Create permission list (list of SRLs)
+          type: array
+          items:
+            type: string
+        view:
+          description: View permission list (list of SRLs)
+          type: array
+          items:
+            type: string
+        onBoarding:
+          description: View permission SRL
+          type: array
+          items:
+            type: string
+        crossAccountAccess:
+          type: array
+          items:
+            type: string
+    Dome9.Web.Api.Role.RoleViewModel:
+      required:
+      - name
+      - permissions
+      type: object
+      properties:
+        id:
+          format: int64
+          description: Role Id
+          type: integer
+        name:
+          description: Role Name
+          type: string
+        description:
+          description: Role Description
+          type: string
+        permissions:
+          $ref: '#/components/schemas/Dome9.Web.Api.User.PermissionsViewModel'
+          description: Permissions of the role
+  requestBodies:
+    Dome9.Web.Api.Role.RoleViewModel:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Dome9.Web.Api.Role.RoleViewModel'
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/Dome9.Web.Api.Role.RoleViewModel'
+      description: The role info
+      required: true
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

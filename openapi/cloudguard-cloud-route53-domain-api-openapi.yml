@@ -1,0 +1,129 @@
+openapi: 3.2.0
+info:
+  title: Inventory - AWS Networking and Content Delivery Cloud…
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Cloud Route53 Domain
+paths:
+  /v2/CloudRoute53Domain:
+    get:
+      tags:
+      - Cloud Route53 Domain
+      operationId: CloudRoute53Domain_Get_get_/v2/CloudRoute53Domain
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.CloudRoute53.CloudRoute53DomainViewModel'
+      description: ''
+      summary: Get
+  /v2/CloudRoute53Domain/{id}:
+    get:
+      tags:
+      - Cloud Route53 Domain
+      operationId: CloudRoute53Domain_Get_get_/v2/CloudRoute53Domain/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.CloudRoute53.CloudRoute53DomainViewModel'
+      description: ''
+      summary: Get
+components:
+  schemas:
+    Dome9.Web.Api.CloudRoute53.CloudRoute53DomainViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+        accountId:
+          format: int64
+          type: integer
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        domainName:
+          type: string
+        autoRenew:
+          type: boolean
+        transferLock:
+          type: boolean
+        expirationTime:
+          format: date-time
+          type: string
+        details:
+          $ref: '#/components/schemas/Dome9.Web.Api.CloudRoute53.CloudRoute53DomainDetailsViewModel'
+    Dome9.Web.Api.CloudRoute53.CloudRoute53DomainNameserverViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        glueIps:
+          type: array
+          items:
+            type: string
+    Dome9.Web.Api.CloudRoute53.CloudRoute53DomainDetailsViewModel:
+      type: object
+      properties:
+        registrarName:
+          type: string
+        registrarUrl:
+          type: string
+        registryDomainId:
+          type: string
+        reseller:
+          type: string
+        nameservers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.CloudRoute53.CloudRoute53DomainNameserverViewModel'
+        dnsSec:
+          type: string
+        statusList:
+          type: array
+          items:
+            type: string
+        whoIsServer:
+          type: string
+        creationTime:
+          format: date-time
+          type: string
+        updatedTime:
+          format: date-time
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

@@ -1,0 +1,341 @@
+openapi: 3.2.0
+info:
+  title: Inventory - AWS Global Organizational Unit API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Organizational Unit
+paths:
+  /v2/organizationalunit/view:
+    get:
+      tags:
+      - Organizational Unit
+      summary: Get Organizational Units View
+      operationId: OrganizationalUnit_GetOrganizationalUnitsViewAsync_get_/v2/organizationalunit/view
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Falconetix.Model.OrganizationalUnit.OrganizationalUnitNodeViewModel'
+      description: Get organizational unit view entities
+  /v2/organizationalunit/GetFlatOrganizationalUnits:
+    get:
+      tags:
+      - Organizational Unit
+      summary: Get Flat Organizational Units
+      operationId: OrganizationalUnit_GetFlatOrganizationalUnitsAsync_get_/v2/organizationalunit/GetFlatOrganizationalUnits
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Falconetix.Model.OrganizationalUnit.OrganizationalUnitViewModel'
+      description: Get all organizational units flat
+  /v2/organizationalunit/{id}/DeleteForce:
+    delete:
+      tags:
+      - Organizational Unit
+      summary: Delete Force Organizational Unit By Id
+      operationId: OrganizationalUnit_DeleteForceOrganizationalUnitByIdAsync_delete_/v2/organizationalunit/{id}/DeleteForce
+      parameters:
+      - name: id
+        in: path
+        description: Id (Guid) of the organizational unit
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.BL.Std.Helpers.TreeNode_Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem_System.String_'
+      description: Delete an organizational unit by its id and attach its cloud accounts to the the root organizational unit, and delete all its linked policies
+  /v2/organizationalunit/deleteAll:
+    delete:
+      tags:
+      - Organizational Unit
+      summary: Delete All Organizational Units
+      operationId: OrganizationalUnit_DeleteAllOrganizationalUnitsAsync_delete_/v2/organizationalunit/deleteAll
+      responses:
+        '204':
+          description: No Content
+      description: Delete all organizational units, detach all clouad accounts from the organizational unit they belong to and attach them to the root organizational unit
+  /v2/OrganizationalUnit:
+    get:
+      tags:
+      - Organizational Unit
+      summary: Get
+      operationId: OrganizationalUnit_Get_get_/v2/OrganizationalUnit
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.BL.Std.Helpers.TreeNode_Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem_System.String_'
+      description: Get all the organizational units of the account as tree
+    post:
+      tags:
+      - Organizational Unit
+      summary: Post Organizational Unit
+      operationId: OrganizationalUnit_PostOrganizationalUnitAsync_post_/v2/OrganizationalUnit
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.BL.Std.Helpers.TreeNode_Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem_System.String_'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.BL.Std.Services.OrganizationalUnit.UpdateOrganizationalUnitViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.BL.Std.Services.OrganizationalUnit.UpdateOrganizationalUnitViewModel'
+        description: the organizational unit data. Requires name. path is optional
+        required: true
+      description: Create a new Organizational unit. Only name is required. Path is optional and should be in the format of 'parent-id'.'parent-id'...
+  /v2/OrganizationalUnit/{id}:
+    get:
+      tags:
+      - Organizational Unit
+      summary: Get
+      operationId: OrganizationalUnit_Get_get_/v2/OrganizationalUnit/{id}
+      parameters:
+      - name: id
+        in: path
+        description: requested organizational unit id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.BL.Std.Helpers.TreeNode_Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem_System.String_'
+      description: Get an organizational unit by its id
+    put:
+      tags:
+      - Organizational Unit
+      summary: Update By Id
+      operationId: OrganizationalUnit_UpdateByIdAsync_put_/v2/OrganizationalUnit/{id}
+      parameters:
+      - name: id
+        in: path
+        description: Id (Guid) of the organizational unit
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.BL.Std.Helpers.TreeNode_Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem_System.String_'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.BL.Std.Services.OrganizationalUnit.UpdateOrganizationalUnitViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.BL.Std.Services.OrganizationalUnit.UpdateOrganizationalUnitViewModel'
+        description: update data for the organizational unit
+        required: true
+      description: Update an organizational unit by its id
+    delete:
+      tags:
+      - Organizational Unit
+      summary: Delete Organizational Unit By Id
+      operationId: OrganizationalUnit_DeleteOrganizationalUnitByIdAsync_delete_/v2/OrganizationalUnit/{id}
+      parameters:
+      - name: id
+        in: path
+        description: Id (Guid) of the organizational unit
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.BL.Std.Helpers.TreeNode_Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem_System.String_'
+      description: Delete an organizational unit by its id and attach its cloud accounts to the the root organizational unit
+components:
+  schemas:
+    Dome9.BL.Std.Helpers.TreeNode_Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem_System.String_:
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem'
+        parentId:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.BL.Std.Helpers.TreeNode_Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem_System.String_'
+    Dome9.BL.Std.Services.OrganizationalUnit.UpdateOrganizationalUnitViewModel:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 50
+          minLength: 0
+          pattern: '[^/]+$'
+          type: string
+        parentId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+    Falconetix.Model.OrganizationalUnit.OrganizationalUnitViewModel:
+      type: object
+      properties:
+        id:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          type: string
+        path:
+          type: string
+        parentId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+    Falconetix.Model.OrganizationalUnit.OrganizationalUnitNodeViewModel:
+      type: object
+      properties:
+        id:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          type: string
+        path:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.OrganizationalUnit.OrganizationalUnitNodeViewModel'
+    Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem:
+      type: object
+      properties:
+        accountId:
+          format: int64
+          type: integer
+        id:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          type: string
+        path:
+          type: string
+        parentId:
+          type: string
+        created:
+          format: date-time
+          type: string
+        updated:
+          format: date-time
+          type: string
+        awsCloudAcountsCount:
+          format: int64
+          type: integer
+        azureCloudAccountsCount:
+          format: int64
+          type: integer
+        ociCloudAccountsCount:
+          format: int64
+          type: integer
+        googleCloudAccountsCount:
+          format: int64
+          type: integer
+        k8sCloudAccountsCount:
+          format: int64
+          type: integer
+        shiftLeftCloudAccountsCount:
+          format: int64
+          type: integer
+        alibabaCloudAccountsCount:
+          format: int64
+          type: integer
+        containerRegistryAccountsCount:
+          format: int64
+          type: integer
+        awsAggregatedCloudAcountsCount:
+          format: int64
+          type: integer
+        azureAggregateCloudAccountsCount:
+          format: int64
+          type: integer
+        ociAggregateCloudAccountsCount:
+          format: int64
+          type: integer
+        googleAggregateCloudAccountsCount:
+          format: int64
+          type: integer
+        k8sAggregateCloudAccountsCount:
+          format: int64
+          type: integer
+        shiftLeftAggregateCloudAccountsCount:
+          format: int64
+          type: integer
+        alibabaAggregateCloudAccountsCount:
+          format: int64
+          type: integer
+        containerRegistryAggregateCloudAccountsCount:
+          format: int64
+          type: integer
+        subOrganizationalUnitsCount:
+          format: int32
+          type: integer
+        isRoot:
+          type: boolean
+        isParentRoot:
+          type: boolean
+        pathStr:
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

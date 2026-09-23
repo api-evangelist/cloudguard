@@ -1,0 +1,105 @@
+openapi: 3.2.0
+info:
+  title: Inventory - AWS Management Tools Cloud Watch Events Rule API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Cloud Watch Events Rule
+paths:
+  /v2/CloudWatchEventsRule:
+    get:
+      tags:
+      - Cloud Watch Events Rule
+      operationId: CloudWatchEventsRule_Get_get_/v2/CloudWatchEventsRule
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.EventRule.EventRuleViewModel'
+      description: ''
+      summary: Get
+components:
+  schemas:
+    Dome9.Web.Api.EventRule.AwsEventTargetTransformerViewModel:
+      type: object
+      properties:
+        inputPathsMap:
+          type: object
+          additionalProperties:
+            type: string
+        inputTemplate:
+          type: string
+    Dome9.Web.Api.EventRule.AwsEventTargetViewModel:
+      type: object
+      properties:
+        arn:
+          type: string
+        id:
+          type: string
+        input:
+          type: string
+        inputPath:
+          type: string
+        roleArn:
+          type: string
+        inputTransformer:
+          $ref: '#/components/schemas/Dome9.Web.Api.EventRule.AwsEventTargetTransformerViewModel'
+        sqsParameters:
+          $ref: '#/components/schemas/Dome9.Web.Api.EventRule.AwsEventTargetSqsViewModel'
+    Dome9.Web.Api.EventRule.AwsEventTargetSqsViewModel:
+      type: object
+      properties:
+        messageGroupId:
+          type: string
+    Dome9.Web.Api.EventRule.EventRuleViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        roleArn:
+          type: string
+        managedBy:
+          type: string
+        eventPattern:
+          type: string
+        description:
+          type: string
+        arn:
+          type: string
+        scheduleExpression:
+          type: string
+        state:
+          enum:
+          - Enabled
+          - Disabled
+          type: string
+        targets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.EventRule.AwsEventTargetViewModel'
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

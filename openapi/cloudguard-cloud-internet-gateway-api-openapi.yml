@@ -1,0 +1,77 @@
+openapi: 3.2.0
+info:
+  title: Inventory - AWS Networking and Content Delivery Cloud…
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Cloud Internet Gateway
+paths:
+  /v2/CloudInternetGateway:
+    get:
+      tags:
+      - Cloud Internet Gateway
+      operationId: CloudInternetGateway_Get_get_/v2/CloudInternetGateway
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.CloudInternetGateways.CloudInternetGatewayViewModel'
+      description: ''
+      summary: Get
+components:
+  schemas:
+    Dome9.Web.Api.CloudInternetGateways.CloudInternetGatewayViewModel:
+      type: object
+      properties:
+        externalId:
+          type: string
+        name:
+          type: string
+        accountId:
+          format: int64
+          type: integer
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        vpcAttachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.SubTypes.CloudVpcAttachmentViewModel'
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+    Dome9.Web.Api.SubTypes.CloudVpcAttachmentViewModel:
+      type: object
+      properties:
+        state:
+          type: string
+        vpcId:
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

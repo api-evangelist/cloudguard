@@ -1,0 +1,217 @@
+openapi: 3.2.0
+info:
+  title: Risk Management Rules API
+  version: v2
+  description: The rules endpoint provides APIs to get the security rules data
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Rules
+  description: The rules endpoint provides APIs to get the security rules data
+paths:
+  /v2/security-graph/rules/{id}:
+    get:
+      operationId: RuleController_get_get_/v2/security-graph/rules/{id}
+      summary: Get
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGraphRuleViewModel'
+      tags:
+      - Rules
+      description: Get a rule by ID
+  /v2/security-graph/rules/query/{id}:
+    get:
+      operationId: RuleController_getQuery_get_/v2/security-graph/rules/query/{id}
+      summary: Get Query
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGraphQueryDefinition'
+      tags:
+      - Rules
+      description: Get a rule query by ID
+  /v2/security-graph/rules:
+    get:
+      operationId: RuleController_getAll_get_/v2/security-graph/rules
+      summary: Get All
+      parameters:
+      - name: ids
+        required: true
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      - name: platforms
+        required: true
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SecurityGraphRuleViewModel'
+      tags:
+      - Rules
+      description: Get all rules by filter
+components:
+  schemas:
+    SecurityGraphRuleViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        severity:
+          type: string
+          enum:
+          - low
+          - medium
+          - high
+          - critical
+        systemLabels:
+          type: array
+          items:
+            type: string
+            enum:
+            - High IAM Privileges
+            - IAM Exposure
+            - Network Exposure
+            - Sensitive Data
+            - Third-Party
+            - Vulnerabilities
+            - WAF Advised
+            - Security Event
+            - Malware
+        entityLabels:
+          type: array
+          items:
+            type: string
+            enum:
+            - AutoScalingGroup
+            - Bucket
+            - ContainerImage
+            - ContainerWorkload
+            - Cve
+            - Database
+            - Function
+            - IamRole
+            - IamUser
+            - KubernetesService
+            - Malware
+            - SecurityEvent
+            - VirtualMachine
+        platforms:
+          type: array
+          items:
+            type: string
+            enum:
+            - aws
+            - azure
+            - kubernetes
+        frameworks:
+          type: array
+          items:
+            type: string
+        remediation:
+          type: string
+        concatRemediation:
+          type: boolean
+        metadata:
+          type: string
+        deleted:
+          type: boolean
+      required:
+      - id
+      - name
+      - description
+      - severity
+      - systemLabels
+      - entityLabels
+      - platforms
+      - frameworks
+    SecurityGraphQueryDefinition:
+      type: object
+      properties:
+        nodeLabel:
+          type: string
+          enum:
+          - AutoScalingGroup
+          - Bucket
+          - ContainerImage
+          - ContainerWorkload
+          - Cve
+          - Database
+          - Function
+          - IamRole
+          - IamUser
+          - KubernetesService
+          - Malware
+          - SecurityEvent
+          - VirtualMachine
+        type:
+          type: string
+          enum:
+          - GraphMainEntity
+          - GraphMainEntityGroup
+        filter:
+          type: object
+        relationships:
+          type: array
+          items:
+            type: string
+      required:
+      - nodeLabel
+      - type
+      - filter
+      - relationships
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

@@ -1,0 +1,170 @@
+openapi: 3.2.0
+info:
+  title: Inventory - Azure Azure Logic App API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Azure Logic App
+paths:
+  /v2/AzureLogicApp:
+    get:
+      tags:
+      - Azure Logic App
+      operationId: AzureLogicApp_Get_get_/v2/AzureLogicApp
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Falconetix.Model.AzureLogicAppViewModel'
+      description: ''
+      summary: Get
+  /v2/AzureLogicApp/{id}:
+    get:
+      tags:
+      - Azure Logic App
+      summary: Get
+      operationId: AzureLogicApp_Get_get_/v2/AzureLogicApp/{id}
+      parameters:
+      - name: id
+        in: path
+        description: Dome9 Id of Logic App
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Falconetix.Model.AzureLogicAppViewModel'
+      description: Get specific LogicApp by Dome9 Id
+components:
+  schemas:
+    Falconetix.Model.AzureLogicAppSkuViewModel:
+      type: object
+      properties:
+        name:
+          enum:
+          - NotSpecified
+          - Free
+          - Shared
+          - Basic
+          - Standard
+          - Premium
+          type: string
+        plan:
+          $ref: '#/components/schemas/Falconetix.Model.AzureLogicAppResourceReferenceViewModel'
+    Falconetix.Model.AzureLogicAppWorkflowParameterViewModel:
+      type: object
+      properties:
+        type:
+          type: string
+        description:
+          type: string
+        value:
+          type: object
+        metadata:
+          type: object
+    Falconetix.Model.AzureLogicAppResourceReferenceViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+    Falconetix.Model.AzureLogicAppViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+        externalId:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        location:
+          type: string
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        provisioningState:
+          enum:
+          - NotSpecified
+          - Accepted
+          - Running
+          - Ready
+          - Creating
+          - Created
+          - Deleting
+          - Deleted
+          - Canceled
+          - Failed
+          - Succeeded
+          - Moving
+          - Updating
+          - Registering
+          - Registered
+          - Unregistering
+          - Unregistered
+          - Completed
+          type: string
+        createdTime:
+          format: date-time
+          type: string
+        changedTime:
+          format: date-time
+          type: string
+        state:
+          enum:
+          - NotSpecified
+          - Completed
+          - Enabled
+          - Disabled
+          - Deleted
+          - Suspended
+          type: string
+        version:
+          type: string
+        accessEndpoint:
+          type: string
+        definition:
+          type: object
+        sku:
+          $ref: '#/components/schemas/Falconetix.Model.AzureLogicAppSkuViewModel'
+        integrationAccount:
+          $ref: '#/components/schemas/Falconetix.Model.AzureLogicAppResourceReferenceViewModel'
+        parameters:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Falconetix.Model.AzureLogicAppWorkflowParameterViewModel'
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

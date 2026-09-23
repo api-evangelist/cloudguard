@@ -1,0 +1,283 @@
+openapi: 3.2.0
+info:
+  title: Risk Management Automated Actions API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Automated Actions
+paths:
+  /v2/findings-policies:
+    get:
+      operationId: FindingsPoliciesController_getAll_get_/v2/findings-policies
+      summary: Get All
+      parameters: []
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FindingsPolicyViewModel'
+      tags:
+      - Automated Actions
+      description: Get all automated actions
+    post:
+      operationId: FindingsPoliciesController_createFindingsPolicy_post_/v2/findings-policies
+      summary: Create Findings Policy
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FindingsPolicyRequestModel'
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FindingsPolicyCreationViewModel'
+      tags:
+      - Automated Actions
+      description: Create a new automated action
+  /v2/findings-policies/{id}:
+    get:
+      operationId: FindingsPoliciesController_getSingle_get_/v2/findings-policies/{id}
+      summary: Get Single
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FindingsPolicyViewModel'
+      tags:
+      - Automated Actions
+      description: Get an automated action by ID
+    put:
+      operationId: FindingsPoliciesController_updateFindingsPolicy_put_/v2/findings-policies/{id}
+      summary: Update Findings Policy
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FindingsPolicyRequestModel'
+      responses:
+        '204':
+          description: ''
+      tags:
+      - Automated Actions
+      description: Update an automated action by ID
+    delete:
+      operationId: FindingsPoliciesController_deleteFindingsPolicy_delete_/v2/findings-policies/{id}
+      summary: Delete Findings Policy
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        default:
+          description: ''
+      tags:
+      - Automated Actions
+      description: Delete an automated action by ID
+components:
+  schemas:
+    FindingsPolicyCreationViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+    FindingsPolicySearchFieldFilterViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+          - platform
+          - environmentId
+          - statusReason
+          - isExcluded
+          - origin
+          - ruleId
+          - severity
+          - systemLabels
+          - entityType
+          - entityLabels
+          - region
+          - entityTypeByPlatform
+          description: Field name.
+        values:
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: array
+            items:
+              type: number
+          - type: array
+            items:
+              type: boolean
+          minItems: 1
+          maxItems: 50
+        operator:
+          $ref: '#/components/schemas/FindingsPoliciesFilterOperator'
+      required:
+      - name
+      - values
+      - operator
+    FindingsPolicySearchAdvFilterViewModel:
+      type: object
+      properties:
+        logicalOperator:
+          type: string
+          enum:
+          - and
+          - or
+          description: Logical operator to apply on operands.
+        operands:
+          type: array
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/FindingsPolicySearchFieldFilterViewModel'
+            - $ref: '#/components/schemas/FindingsPolicySearchAdvFilterViewModel'
+          minItems: 1
+          maxItems: 15
+          description: Array of filter operands. An operand can either be an array of FindingsPolicySearchAdvFilterViewModel or a recursive FindingsPolicySearchFieldFilterViewModel.
+      required:
+      - logicalOperator
+      - operands
+    FindingsPolicyViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        filter:
+          $ref: '#/components/schemas/FindingsPolicySearchAdvFilterViewModel'
+        triggers:
+          type: array
+          items:
+            type: string
+        integrationIds:
+          type: array
+          items:
+            type: string
+        orgUnitIdsFilter:
+          type: array
+          items:
+            type: string
+        created:
+          format: date-time
+          type: string
+        updated:
+          format: date-time
+          type: string
+      required:
+      - id
+      - name
+      - triggers
+      - integrationIds
+      - created
+    FindingsPoliciesFilterOperator:
+      type: string
+      description: 'eq: equal, !eq: not equal, has: field contains the value as a word, !has: not has, hasprefix: field contains the value as prefix, !hasprefix: not hasprefix, in: equal to one of the values, !in: not in, has_any: field has any of the values, !has_any: not has_any, has_all: field has all the values, !has_all: not has_all'
+      enum:
+      - eq
+      - '!eq'
+      - in
+      - '!in'
+      - has
+      - '!has'
+      - hasprefix
+      - '!hasprefix'
+      - has_any
+      - '!has_any'
+      - has_all
+      - '!has_all'
+    FindingsPolicyRequestModel:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        triggers:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          description: Filter on finding change type.
+          items:
+            type: string
+            enum:
+            - Created
+            - Updated
+            - Closed
+        filter:
+          description: Filter object. A recursive filter object which provides complex filters.
+          allOf:
+          - $ref: '#/components/schemas/FindingsPolicySearchAdvFilterViewModel'
+        orgUnitIdsFilter:
+          uniqueItems: true
+          maxItems: 50
+          description: List of organizational unit IDs filter.             Filters findings which their environment ID is under the organizational unit IDs or any of their descendants.
+          type: array
+          items:
+            type: string
+        integrationIds:
+          minItems: 1
+          maxItems: 10
+          uniqueItems: true
+          description: List of integration IDs to invoke.
+          type: array
+          items:
+            type: string
+      required:
+      - name
+      - triggers
+      - integrationIds
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

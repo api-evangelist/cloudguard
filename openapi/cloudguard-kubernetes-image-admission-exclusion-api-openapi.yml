@@ -1,0 +1,158 @@
+openapi: 3.2.0
+info:
+  title: Workload Protection Kubernetes Image Admission Exclusion API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Kubernetes Image Admission Exclusion
+paths:
+  /v2/kubernetes/imageAssurance/admissionExclusion/{id}:
+    get:
+      tags:
+      - Kubernetes Image Admission Exclusion
+      summary: Get
+      operationId: KubernetesImageAdmissionExclusion_Get_get_/v2/kubernetes/imageAssurance/admissionExclusion/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ruleset ID
+        schema:
+          type: integer
+          format: int64
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeprecatedKubernetesImageAdmissionExclusionViewModel'
+      deprecated: true
+      description: 'Get single exclusion by ruleset ID.
+
+        Returns a exclusion matching a given ruleset ID. (this api is deprecated, please use ''/v2/kubernetes/admissionControl/imageAdmissionExclusion'' instead)'
+    delete:
+      tags:
+      - Kubernetes Image Admission Exclusion
+      summary: Delete
+      operationId: KubernetesImageAdmissionExclusion_Delete_delete_/v2/kubernetes/imageAssurance/admissionExclusion/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ruleset ID
+        schema:
+          type: integer
+          format: int64
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      deprecated: true
+      description: Delete exclusion by ruleset ID. (this api is deprecated, please use '/v2/kubernetes/admissionControl/imageAdmissionExclusion' instead)
+  /v2/kubernetes/imageAssurance/admissionExclusion:
+    get:
+      tags:
+      - Kubernetes Image Admission Exclusion
+      summary: Get All
+      operationId: KubernetesImageAdmissionExclusion_GetAll_get_/v2/kubernetes/imageAssurance/admissionExclusion
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeprecatedKubernetesImageAdmissionExclusionViewModel'
+      deprecated: true
+      description: 'Get all exclusions for the requesting account.
+
+        Returns a collection of exclusions. (this api is deprecated, please use ''/v2/kubernetes/admissionControl/imageAdmissionExclusion'' instead)'
+    put:
+      tags:
+      - Kubernetes Image Admission Exclusion
+      summary: Put
+      operationId: KubernetesImageAdmissionExclusion_Put_put_/v2/kubernetes/imageAssurance/admissionExclusion
+      requestBody:
+        x-name: exclusionViewModel
+        description: exclusions to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeprecatedKubernetesImageAdmissionExclusionViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '207':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeprecatedKubernetesImageAdmissionExclusionViewModel'
+      deprecated: true
+      description: 'Create or update new exclusions.
+
+        Returns created\updated exclusion. (this api is deprecated, please use ''/v2/kubernetes/admissionControl/imageAdmissionExclusion'' instead)'
+components:
+  schemas:
+    DeprecatedKubernetesImageAdmissionExclusionViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - rulesetId
+      - exclusions
+      properties:
+        rulesetId:
+          type: integer
+          format: int64
+        exclusions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageAdmissionExclusionModel'
+    ImageAdmissionExclusionModel:
+      type: object
+      description: Use exclusions to bypass specific registries, specific images, usernames, roles, groups, or namespaces; Use "%" as a wildcard.
+      additionalProperties: false
+      required:
+      - imageNameExclusion
+      - usernameExclusion
+      - roleExclusion
+      - namespaceExclusion
+      - groupExclusion
+      properties:
+        imageNameExclusion:
+          type: string
+        usernameExclusion:
+          type: string
+        roleExclusion:
+          type: string
+        namespaceExclusion:
+          type: string
+        groupExclusion:
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

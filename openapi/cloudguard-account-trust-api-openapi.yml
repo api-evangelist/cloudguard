@@ -1,0 +1,221 @@
+openapi: 3.2.0
+info:
+  title: Administration Account Trust API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Account Trust
+paths:
+  /v2/AccountTrust/assumable-roles:
+    get:
+      tags:
+      - Account Trust
+      summary: Get Assumable Roles
+      operationId: AccountTrust_GetAssumableRoles_get_/v2/AccountTrust/assumable-roles
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Account.AccountTrustAssumableRolesViewModel'
+      description: Get a list of objects that represent a trusted account and its assumebale roles
+  /v2/AccountTrust:
+    get:
+      tags:
+      - Account Trust
+      summary: Get
+      operationId: AccountTrust_Get_get_/v2/AccountTrust
+      parameters:
+      - name: trustDirection
+        in: query
+        description: Determines whether the accounts result list are the trusted/trustee accounts
+        required: true
+        schema:
+          type: string
+          enum:
+          - MyAccountIsTarget
+          - MyAccountIsSource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Account.AccountTrustViewModel'
+      description: Get a list of accounts which are trusted by or trust this account according to the given "trustDirection"
+    post:
+      tags:
+      - Account Trust
+      summary: Post
+      operationId: AccountTrust_Post_post_/v2/AccountTrust
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Account.AccountTrustPostViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Account.AccountTrustPostViewModel'
+        required: true
+      description: Create a new account trust where this account is the target based on the given "SourceAccountId", i.e. this account trusts the source account
+  /v2/AccountTrust/{id}:
+    put:
+      tags:
+      - Account Trust
+      summary: Put
+      operationId: AccountTrust_Put_put_/v2/AccountTrust/{id}
+      parameters:
+      - name: id
+        in: path
+        description: Account trust id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Account.AccountTrustPutViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Account.AccountTrustPutViewModel'
+        required: true
+      description: Update the account trust description or restrictions
+    delete:
+      tags:
+      - Account Trust
+      summary: Delete
+      operationId: AccountTrust_Delete_delete_/v2/AccountTrust/{id}
+      parameters:
+      - name: id
+        in: path
+        description: The trust id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      description: Delete an account trust
+components:
+  schemas:
+    Dome9.Web.Api.Account.AccountTrustViewModel:
+      required:
+      - sourceAccountId
+      - description
+      type: object
+      properties:
+        id:
+          format: uuid
+          description: Account trust id
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        targetAccountName:
+          description: The trusting account name
+          type: string
+        sourceAccountName:
+          description: The trsuted account name
+          type: string
+        sourceAccountId:
+          format: uuid
+          description: The Dome9 account id to trust
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        description:
+          description: Description for the trust (a way to document the justification of the trust)
+          type: string
+        restrictions:
+          $ref: '#/components/schemas/Dome9.Web.Api.Account.AccountTrustRestrictionsViewModel'
+    Dome9.Web.Api.Account.AccountTrustPutViewModel:
+      required:
+      - description
+      type: object
+      properties:
+        description:
+          description: A description for the account trust
+          type: string
+        restrictions:
+          $ref: '#/components/schemas/Dome9.Web.Api.Account.AccountTrustRestrictionsViewModel'
+          description: Restrictions configuration for the account trust
+    Dome9.Web.Api.Account.AccountTrustAssumableRolesViewModel:
+      type: object
+      properties:
+        accountName:
+          description: The trsuted account name
+          type: string
+        accountId:
+          format: int64
+          description: The trsuted account Id
+          type: integer
+        roles:
+          description: List of roles that can be assumed by a user in the trusted account
+          type: array
+          items:
+            type: string
+    Dome9.Web.Api.Account.AccountTrustPostViewModel:
+      required:
+      - sourceAccountId
+      - description
+      type: object
+      properties:
+        sourceAccountId:
+          format: uuid
+          description: The Dome9 account id to trust
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        description:
+          description: Description for the trust (a way to document the justification of the trust)
+          type: string
+        restrictions:
+          $ref: '#/components/schemas/Dome9.Web.Api.Account.AccountTrustRestrictionsViewModel'
+    Dome9.Web.Api.Account.AccountTrustRestrictionsViewModel:
+      type: object
+      properties:
+        roles:
+          description: A list of role names that can be assumed by a user in the trusted account, leave empty to allow all roles to be assumed
+          type: array
+          items:
+            type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

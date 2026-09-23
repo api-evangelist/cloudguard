@@ -1,0 +1,65 @@
+openapi: 3.2.0
+info:
+  title: Inventory - AWS Networking and Content Delivery Cloud Vpn…
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Cloud Vpn Gateway
+paths:
+  /v2/CloudVpnGateway:
+    get:
+      tags:
+      - Cloud Vpn Gateway
+      operationId: CloudVpnGateway_Get_get_/v2/CloudVpnGateway
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.CloudDirectConnect.AwsVpnGatewayViewModel'
+      description: ''
+      summary: Get
+components:
+  schemas:
+    Dome9.Web.Api.CloudDirectConnect.AwsVpnGatewayViewModel:
+      type: object
+      properties:
+        availabilityZone:
+          type: string
+        state:
+          type: string
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        type:
+          type: string
+        vpcAttachment:
+          type: string
+        vpnGatewayId:
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

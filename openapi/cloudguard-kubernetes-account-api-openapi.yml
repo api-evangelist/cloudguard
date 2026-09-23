@@ -1,0 +1,1154 @@
+openapi: 3.2.0
+info:
+  title: Onboarding Kubernetes Account API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Kubernetes Account
+paths:
+  /v2/kubernetes/account:
+    get:
+      tags:
+      - Kubernetes Account
+      summary: Get All
+      operationId: KubernetesAccount_GetAll_get_/v2/kubernetes/account
+      responses:
+        '200':
+          description: A list of Kubernetes accounts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/KubernetesAccountViewModel'
+              example:
+              - id: afc490f9-f9ff-4414-83ed-44885f2f4468
+                externalAccountNumber: afc490f9-f9ff-4414-83ed-44885f2f4468
+                threatIntelligenceEnabled: false
+                imageAssuranceEnabled: false
+                imageAccessRuntimeMonitorEnabled: false
+                runtimeProtectionEnabled: false
+                runtimeProtectionNetwork: false
+                runtimeProtectionProfiling: false
+                runtimeProtectionFileReputation: false
+                admissionControlEnabled: false
+                admissionControlFailOpen: true
+                name: ''
+                creationDate: '0001-01-01T00:00:00'
+                vendor: kubernetes
+                organizationalUnitId: null
+                organizationalUnitPath: ''
+                organizationalUnitName: ''
+                clusterVersion: null
+                clusterVersionStatus: Unknown
+                clusterVersionStatusDescription: ''
+                description: null
+                platform: kubernetes
+                type: 0
+      description: Get a list of all Kubernetes accounts
+    post:
+      tags:
+      - Kubernetes Account
+      summary: Post
+      operationId: KubernetesAccount_Post_post_/v2/kubernetes/account
+      requestBody:
+        x-name: model
+        description: 'KubernetesGetViewModel that has three paramaters, Name(string), Description(string) and OrgorganizationalUnitId(Guid) '
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KubernetesPostViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KubernetesAccountViewModel'
+              example:
+                id: afc490f9-f9ff-4414-83ed-44885f2f4468
+                externalAccountNumber: afc490f9-f9ff-4414-83ed-44885f2f4468
+                threatIntelligenceEnabled: false
+                imageAssuranceEnabled: false
+                imageAccessRuntimeMonitorEnabled: false
+                runtimeProtectionEnabled: false
+                runtimeProtectionNetwork: false
+                runtimeProtectionProfiling: false
+                runtimeProtectionFileReputation: false
+                admissionControlEnabled: false
+                admissionControlFailOpen: true
+                name: ''
+                creationDate: '0001-01-01T00:00:00'
+                vendor: kubernetes
+                organizationalUnitId: null
+                organizationalUnitPath: ''
+                organizationalUnitName: ''
+                clusterVersion: null
+                clusterVersionStatus: Unknown
+                clusterVersionStatusDescription: ''
+                description: null
+                platform: kubernetes
+                type: 0
+      description: Add (onboard) a new Kubernetes account to CloudGuard
+  /v2/kubernetes/account/{id}:
+    get:
+      tags:
+      - Kubernetes Account
+      summary: Get
+      operationId: KubernetesAccount_Get_get_/v2/kubernetes/account/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the Kubernetes account id
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KubernetesAccountViewModel'
+              example:
+                id: afc490f9-f9ff-4414-83ed-44885f2f4468
+                externalAccountNumber: afc490f9-f9ff-4414-83ed-44885f2f4468
+                threatIntelligenceEnabled: false
+                imageAssuranceEnabled: false
+                imageAccessRuntimeMonitorEnabled: false
+                runtimeProtectionEnabled: false
+                runtimeProtectionNetwork: false
+                runtimeProtectionProfiling: false
+                runtimeProtectionFileReputation: false
+                admissionControlEnabled: false
+                admissionControlFailOpen: true
+                name: ''
+                creationDate: '0001-01-01T00:00:00'
+                vendor: kubernetes
+                organizationalUnitId: null
+                organizationalUnitPath: ''
+                organizationalUnitName: ''
+                clusterVersion: null
+                clusterVersionStatus: Unknown
+                clusterVersionStatusDescription: ''
+                description: null
+                platform: kubernetes
+                type: 0
+      description: Get details for a specific Kubernetes Account
+    delete:
+      tags:
+      - Kubernetes Account
+      summary: Delete
+      operationId: KubernetesAccount_Delete_delete_/v2/kubernetes/account/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The Id of the Kubernetes account
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: Delete a Kubernetes account (from CloudGuard)
+  /v2/kubernetes/account/{id}/accountName:
+    put:
+      tags:
+      - Kubernetes Account
+      summary: Update Account Name
+      operationId: KubernetesAccount_UpdateAccountName_put_/v2/kubernetes/account/{id}/accountName
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the Kubernetes account id
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      - name: name
+        in: query
+        description: the updated name as it will appear in CloudGuard
+        schema:
+          type: string
+          maxLength: 500
+          pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KubernetesAccountViewModel'
+              example:
+                id: afc490f9-f9ff-4414-83ed-44885f2f4468
+                externalAccountNumber: afc490f9-f9ff-4414-83ed-44885f2f4468
+                threatIntelligenceEnabled: false
+                imageAssuranceEnabled: false
+                imageAccessRuntimeMonitorEnabled: false
+                runtimeProtectionEnabled: false
+                runtimeProtectionNetwork: false
+                runtimeProtectionProfiling: false
+                runtimeProtectionFileReputation: false
+                admissionControlEnabled: false
+                admissionControlFailOpen: true
+                name: ''
+                creationDate: '0001-01-01T00:00:00'
+                vendor: kubernetes
+                organizationalUnitId: null
+                organizationalUnitPath: ''
+                organizationalUnitName: ''
+                clusterVersion: null
+                clusterVersionStatus: Unknown
+                clusterVersionStatusDescription: ''
+                description: null
+                platform: kubernetes
+                type: 0
+      description: Update a Kubernetes account name (as it appears in CloudGuard)
+  /v2/kubernetes/account/{id}/accountDescription:
+    put:
+      tags:
+      - Kubernetes Account
+      summary: Update Account Description
+      operationId: KubernetesAccount_UpdateAccountDescription_put_/v2/kubernetes/account/{id}/accountDescription
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the Kubernetes account id
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      - name: description
+        in: query
+        description: the updated description as it will appear in CloudGuard
+        schema:
+          type:
+          - string
+          - 'null'
+          maxLength: 1000
+          pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KubernetesAccountViewModel'
+              example:
+                id: afc490f9-f9ff-4414-83ed-44885f2f4468
+                externalAccountNumber: afc490f9-f9ff-4414-83ed-44885f2f4468
+                threatIntelligenceEnabled: false
+                imageAssuranceEnabled: false
+                imageAccessRuntimeMonitorEnabled: false
+                runtimeProtectionEnabled: false
+                runtimeProtectionNetwork: false
+                runtimeProtectionProfiling: false
+                runtimeProtectionFileReputation: false
+                admissionControlEnabled: false
+                admissionControlFailOpen: true
+                name: ''
+                creationDate: '0001-01-01T00:00:00'
+                vendor: kubernetes
+                organizationalUnitId: null
+                organizationalUnitPath: ''
+                organizationalUnitName: ''
+                clusterVersion: null
+                clusterVersionStatus: Unknown
+                clusterVersionStatusDescription: ''
+                description: null
+                platform: kubernetes
+                type: 0
+      description: Update a Kubernetes account description (as it appears in CloudGuard)
+  /v2/kubernetes/account/{id}/imageAssurance/enable:
+    post:
+      tags:
+      - Kubernetes Account
+      summary: Enable Image Assurance
+      operationId: KubernetesAccount_EnableImageAssurance_post_/v2/kubernetes/account/{id}/imageAssurance/enable
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the Kubernetes account id
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: Enable Image Assurance feature for Kubernetes (cluster) account
+  /v2/kubernetes/account/{id}/imageAssurance/disable:
+    post:
+      tags:
+      - Kubernetes Account
+      summary: Disable Image Assurance
+      operationId: KubernetesAccount_DisableImageAssurance_post_/v2/kubernetes/account/{id}/imageAssurance/disable
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the Kubernetes account id
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: Disable Image Assurance feature for Kubernetes (cluster) account
+  /v2/kubernetes/account/{id}/runtimeProtection/enable:
+    post:
+      tags:
+      - Kubernetes Account
+      summary: Enable Runtime Protection
+      operationId: KubernetesAccount_EnableRuntimeProtection_post_/v2/kubernetes/account/{id}/runtimeProtection/enable
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the Kubernetes account id
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: Enable Runtime Protection for Kubernetes account
+  /v2/kubernetes/account/{id}/admissionControl/enable:
+    post:
+      tags:
+      - Kubernetes Account
+      summary: Enable Admission Control
+      operationId: KubernetesAccount_EnableAdmissionControl_post_/v2/kubernetes/account/{id}/admissionControl/enable
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: Enable Admission Control for Kubernetes account
+  /v2/kubernetes/account/{id}/admissionControl/disable:
+    post:
+      tags:
+      - Kubernetes Account
+      summary: Disable Admission Control
+      operationId: KubernetesAccount_DisableAdmissionControl_post_/v2/kubernetes/account/{id}/admissionControl/disable
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: Disable Admission Control for Kubernetes account
+  /v2/kubernetes/account/{id}/accountSummary:
+    get:
+      tags:
+      - Kubernetes Account
+      summary: Get Account Summary
+      operationId: KubernetesAccount_GetAccountSummary_get_/v2/kubernetes/account/{id}/accountSummary
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the Kubernetes account id
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: KubernetesAccountSummaryViewModel
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KubernetesAccountSummaryViewModel'
+      description: Get Kubernetes account summary data
+  /v2/kubernetes/account/accountAgentStatus:
+    get:
+      tags:
+      - Kubernetes Account
+      summary: Get Account Agent Status
+      operationId: KubernetesAccount_GetAccountAgentStatus_get_/v2/kubernetes/account/accountAgentStatus
+      responses:
+        '200':
+          description: List of KubernetesAccountAgentStatusViewModel
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/KubernetesAccountAgentStatusViewModel'
+      description: Get Kubernetes account agent status
+  /v2/kubernetes/account/agentStatusReportCSV:
+    post:
+      tags:
+      - Kubernetes Account
+      summary: Get Csv Account Agent Status
+      operationId: KubernetesAccount_GetCsvAccountAgentStatus_post_/v2/kubernetes/account/agentStatusReportCSV
+      requestBody:
+        x-name: filtersReq
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KubernetesAccountAgentStatusFiltersViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: 'CSV table with the following data for each agent: "Cluster Id", "Cluster Name", "Organizational Unit Id", "Organizational Unit Path", "Agent Type", "Node Name", "Version", "Status", "Description", "Last Communication", "Is Agent Up To Date"'
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: Get a CSV table that provides the status of all agents in the Kubernetes account
+  /v2/kubernetes/account/{id}/agentSummary:
+    get:
+      tags:
+      - Kubernetes Account
+      summary: Get Agent Summary
+      operationId: KubernetesAccount_GetAgentSummary_get_/v2/kubernetes/account/{id}/agentSummary
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the Kubernetes account id
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: KubernetesAgentsSummaryViewModel
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/KubernetesAgentsSummaryViewModel'
+      description: Get Kubernetes account agent summary data
+  /v2/kubernetes/account/{id}/resolveMultipleOnboarding:
+    post:
+      tags:
+      - Kubernetes Account
+      summary: Resolve Multiple Onboarding
+      operationId: KubernetesAccount_ResolveMultipleOnboarding_post_/v2/kubernetes/account/{id}/resolveMultipleOnboarding
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the Kubernetes account id
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: Unblock Kubernetes account due to Multiple Onboarding
+  /v2/kubernetes/account/{id}/organizationalUnit:
+    put:
+      tags:
+      - Kubernetes Account
+      summary: Update Organizational Id
+      operationId: KubernetesAccount_UpdateOrganizationalId_put_/v2/kubernetes/account/{id}/organizationalUnit
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The Guid ID of the Kubernetes account
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      requestBody:
+        x-name: updateData
+        description: The Guid ID of the Organizational Unit to attach to. Use null in order to attach to root Organizational Unit
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateIdViewModel'
+        required: true
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KubernetesAccountViewModel'
+              example:
+                id: afc490f9-f9ff-4414-83ed-44885f2f4468
+                externalAccountNumber: afc490f9-f9ff-4414-83ed-44885f2f4468
+                threatIntelligenceEnabled: false
+                imageAssuranceEnabled: false
+                imageAccessRuntimeMonitorEnabled: false
+                runtimeProtectionEnabled: false
+                runtimeProtectionNetwork: false
+                runtimeProtectionProfiling: false
+                runtimeProtectionFileReputation: false
+                admissionControlEnabled: false
+                admissionControlFailOpen: true
+                name: ''
+                creationDate: '0001-01-01T00:00:00'
+                vendor: kubernetes
+                organizationalUnitId: null
+                organizationalUnitPath: ''
+                organizationalUnitName: ''
+                clusterVersion: null
+                clusterVersionStatus: Unknown
+                clusterVersionStatusDescription: ''
+                description: null
+                platform: kubernetes
+                type: 0
+      description: 'Update the ID of the Organizational unit that this cloud account will be attached to.
+
+        Use ''null'' for root organizational unit'
+  /v2/kubernetes/account/organizationalUnit/move:
+    put:
+      tags:
+      - Kubernetes Account
+      summary: Move Cloud Accounts To Organizational Unit
+      operationId: KubernetesAccount_MoveCloudAccountsToOrganizationalUnit_put_/v2/kubernetes/account/organizationalUnit/move
+      requestBody:
+        x-name: moveData
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MoveOrganizationalUnitViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: 'Detach cloud accounts from an Organizational unit and attach them to another Organizational unit
+
+        Use ''null'' for root organizational unit'
+  /v2/kubernetes/account/organizationalUnit/moveAll:
+    put:
+      tags:
+      - Kubernetes Account
+      summary: Move All Cloud Accounts To Organizational Unit
+      operationId: KubernetesAccount_MoveAllCloudAccountsToOrganizationalUnit_put_/v2/kubernetes/account/organizationalUnit/moveAll
+      requestBody:
+        x-name: updateData
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateIdViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: Detach all Kubernetes accounts from their current organizational unit and attach them to a new one. Default is to root organizational unit
+  /v2/kubernetes/account/organizationalUnit/attach:
+    post:
+      tags:
+      - Kubernetes Account
+      summary: Post Attach Multi
+      operationId: KubernetesAccount_PostAttachMulti_post_/v2/kubernetes/account/organizationalUnit/attach
+      requestBody:
+        x-name: attachData
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachCloudAccountsViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: Attach several Kubernetes accounts to a specific Organizational Unit. User 'null' as root Organizational Unit as target
+components:
+  schemas:
+    KubernetesAgentsSummaryViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - agentType
+      - agentSummary
+      properties:
+        agentType:
+          type: string
+        agentSummary:
+          type: array
+          items:
+            $ref: '#/components/schemas/KubernetesAgentSummaryViewModel'
+    UpdateIdViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - organizationalUnitId
+      properties:
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+    KubernetesAgentSummaryViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - isAgentUpToDate
+      - lastCommunication
+      - lastCommunicationDate
+      - status
+      - description
+      - supportUrl
+      - nodeName
+      - creationTime
+      - creationDate
+      - agentIdentifier
+      - components
+      properties:
+        version:
+          type: string
+        isAgentUpToDate:
+          type: boolean
+        lastCommunication:
+          type: string
+          deprecated: true
+          x-deprecatedMessage: use LastCommunicationDate
+        lastCommunicationDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        status:
+          type: string
+        description:
+          type: string
+        supportUrl:
+          type: string
+        nodeName:
+          type: string
+        creationTime:
+          type: string
+          deprecated: true
+          x-deprecatedMessage: use CreationDate
+        creationDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        agentIdentifier:
+          type: string
+        components:
+          type: array
+          items:
+            $ref: '#/components/schemas/KubernetesAgentComponentViewModel'
+    KubernetesAgentStatusOptions:
+      type: string
+      description: ''
+      x-enumNames:
+      - OK
+      - INITIALIZING
+      - PENDING_CLEANUP
+      - PENDING
+      - WARNING
+      - ERROR
+      - DISABLED
+      enum:
+      - OK
+      - INITIALIZING
+      - PENDING_CLEANUP
+      - PENDING
+      - WARNING
+      - ERROR
+      - DISABLED
+    KubernetesAccountAgentStatusFiltersViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - statuses
+      - isAgentUpToDate
+      - organizationalUnitIds
+      properties:
+        statuses:
+          type:
+          - array
+          - 'null'
+          description: Filter agents by status (OK/WARNING/ERROR/PENDING/PENDING_CLEANUP/INITIALIZING/DISABLED).
+          items:
+            $ref: '#/components/schemas/KubernetesAgentStatusOptions'
+        isAgentUpToDate:
+          type:
+          - boolean
+          - 'null'
+          description: Filter agents that are up to date or not. Set to 'null' to include all.
+        organizationalUnitIds:
+          type:
+          - array
+          - 'null'
+          description: Filter agents by the organizational unit.
+          items:
+            type: string
+            format: guid
+    KubernetesAgentComponentViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - lastOkTime
+      - lastOkDate
+      - id
+      - name
+      - status
+      - description
+      - supportUrl
+      - activationTime
+      - activationDate
+      properties:
+        lastOkTime:
+          type: string
+          deprecated: true
+          x-deprecatedMessage: use LastOkDate
+        lastOkDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        description:
+          type: string
+        supportUrl:
+          type: string
+        activationTime:
+          type: string
+          deprecated: true
+          x-deprecatedMessage: use ActivationDate
+        activationDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+    KubernetesAccountAgentStatusViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - agentsStatus
+      - agentsStatusDescription
+      - agentsStatusSupportUrl
+      - admissionControlEnabled
+      - imageAssuranceEnabled
+      - runtimeProtectionEnabled
+      - threatIntelligenceEnabled
+      - features
+      properties:
+        id:
+          type: string
+          description: Kubernetes account id
+          format: guid
+        agentsStatus:
+          type: string
+          description: Kubernetes cluster agent status
+        agentsStatusDescription:
+          type: string
+          description: Kubernetes cluster agent status description
+        agentsStatusSupportUrl:
+          type: string
+          description: Kubernetes cluster agent status support URL
+        admissionControlEnabled:
+          type: boolean
+          description: Kubernetes AdmissionControl Enabled
+        imageAssuranceEnabled:
+          type: boolean
+          description: Kubernetes ImageAssurance Enabled
+        runtimeProtectionEnabled:
+          type: boolean
+          description: Kubernetes RuntimeProtection Enabled
+        threatIntelligenceEnabled:
+          type: boolean
+          description: Kubernetes ThreatIntelligence Enabled
+        features:
+          type: array
+          description: Kubernetes account features status
+          items:
+            $ref: '#/components/schemas/KubernetesAccountFeatureSummaryViewModel'
+    KubernetesAccountViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - externalAccountNumber
+      - threatIntelligenceEnabled
+      - imageAssuranceEnabled
+      - imageAccessRuntimeMonitorEnabled
+      - runtimeProtectionEnabled
+      - runtimeProtectionNetwork
+      - runtimeProtectionProfiling
+      - runtimeProtectionFileReputation
+      - admissionControlEnabled
+      - admissionControlFailOpen
+      - name
+      - creationDate
+      - vendor
+      - organizationalUnitId
+      - organizationalUnitPath
+      - organizationalUnitName
+      - clusterVersion
+      - clusterVersionStatus
+      - clusterVersionStatusDescription
+      - description
+      - platform
+      - type
+      properties:
+        id:
+          type: string
+          description: Kubernetes id
+          format: guid
+        externalAccountNumber:
+          type: string
+          description: Kubernetes id
+        threatIntelligenceEnabled:
+          type: boolean
+          description: Flag to determine if Threat Intelligence is enabled/disabled for the account
+        imageAssuranceEnabled:
+          type: boolean
+          description: Flag to determine if Image Assurance is enabled/disabled for the account
+        imageAccessRuntimeMonitorEnabled:
+          type: boolean
+          description: Flag to determine if Image Access Runtime Monitor is enabled/disabled for the account
+        runtimeProtectionEnabled:
+          type: boolean
+          description: Flag to determine if Runtime Protection is enabled/disabled for the account
+        runtimeProtectionNetwork:
+          type: boolean
+          description: Flag to determine if Runtime Protection Network protection is enabled/disabled for the account
+        runtimeProtectionProfiling:
+          type: boolean
+        runtimeProtectionFileReputation:
+          type: boolean
+        admissionControlEnabled:
+          type: boolean
+          description: Flag to determine if Admission Control is enabled/disabled for the account
+        admissionControlFailOpen:
+          type: boolean
+          description: Flag to determine if Admission control FailOpen is true/false for the account
+        name:
+          type: string
+          description: Kubernetes account name in Dome9
+        creationDate:
+          type: string
+          description: creation date for project in Kubernetes
+          format: date-time
+        vendor:
+          $ref: '#/components/schemas/CloudVendor'
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        organizationalUnitPath:
+          type: string
+        organizationalUnitName:
+          type: string
+        clusterVersion:
+          type: string
+        clusterVersionStatus:
+          type: string
+        clusterVersionStatusDescription:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        platform:
+          $ref: '#/components/schemas/CloudVendor'
+        type:
+          $ref: '#/components/schemas/KubernetesPlatformType'
+    KubernetesPlatformType:
+      type: string
+      description: ''
+      x-enumNames:
+      - NA
+      - GKE
+      - EKS
+      - AKS
+      - Openshift
+      enum:
+      - NA
+      - GKE
+      - EKS
+      - AKS
+      - Openshift
+    KubernetesAccountSummaryViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - name
+      - numberOfNodes
+      - numberOfPods
+      - numberOfServices
+      - clusterVersion
+      - agentsStatus
+      - agentsStatusDescription
+      - agentsStatusSuportUrl
+      - featureStatuses
+      - isAutoUpgradeActive
+      - description
+      properties:
+        id:
+          type: string
+          description: Kubernetes id
+          format: guid
+        name:
+          type: string
+          description: Kubernetes account name in Dome9
+        numberOfNodes:
+          type: integer
+          description: Total Number of Nodes in the Kubernetes account
+          format: int32
+        numberOfPods:
+          type: integer
+          description: Total Number of Pods in the Kubernetes account
+          format: int32
+        numberOfServices:
+          type: integer
+          description: Total Number of Services in the Kubernetes account
+          format: int32
+        clusterVersion:
+          type: string
+          description: Kubernetes cluster server version
+        agentsStatus:
+          type: string
+          description: Kubernetes cluster agent version
+        agentsStatusDescription:
+          type: string
+          description: Kubernetes cluster agents status description
+        agentsStatusSuportUrl:
+          type: string
+          description: Kubernetes cluster agents status support URL
+        featureStatuses:
+          type: array
+          description: Kubernetes cluster agent feature status list
+          items:
+            $ref: '#/components/schemas/KubernetesAccountFeatureAgentStatusViewModel'
+        isAutoUpgradeActive:
+          type: boolean
+        description:
+          type: string
+          description: Kubernetes cluster description
+    KubernetesPostViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - organizationalUnitId
+      - description
+      properties:
+        name:
+          type: string
+          description: Kubernetes account name in Dome9
+          maxLength: 500
+          pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          description: Kubernetes account name in Dome9
+          format: guid
+        description:
+          type:
+          - string
+          - 'null'
+          description: Kubernetes account description in CloudGuard
+          maxLength: 1000
+          pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
+    AttachCloudAccountsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - entries
+      - organizationalUnitId
+      properties:
+        entries:
+          type:
+          - array
+          - 'null'
+          default: []
+          items:
+            type: string
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+    MoveOrganizationalUnitViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - sourceOrganizationalUnitId
+      - targetOrganizationalUnitId
+      properties:
+        sourceOrganizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        targetOrganizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+    CloudVendor:
+      type: string
+      description: ''
+      x-enumNames:
+      - aws
+      - hp
+      - mellanox
+      - awsgov
+      - azure
+      - google
+      - awschina
+      - azuregov
+      - kubernetes
+      - azurechina
+      - terraform
+      - generic
+      - kubernetesruntimeassurance
+      - shiftleft
+      - sourcecodeassurance
+      - imageassurance
+      - alibaba
+      - cft
+      - containerregistry
+      - oci
+      - ocigov
+      - ocigovuk
+      - CIEM
+      enum:
+      - aws
+      - hp
+      - mellanox
+      - awsgov
+      - azure
+      - google
+      - awschina
+      - azuregov
+      - kubernetes
+      - azurechina
+      - terraform
+      - generic
+      - kubernetesruntimeassurance
+      - shiftleft
+      - sourcecodeassurance
+      - imageassurance
+      - alibaba
+      - cft
+      - containerregistry
+      - oci
+      - ocigov
+      - ocigovuk
+      - CIEM
+    KubernetesAccountFeatureAgentStatusViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - kubernetesFeature
+      - statusOk
+      - statusError
+      - statusInit
+      - statusPending
+      properties:
+        kubernetesFeature:
+          type: string
+          description: Feature
+        statusOk:
+          type: integer
+          description: Status Ok
+          format: int32
+        statusError:
+          type: integer
+          description: Status Error
+          format: int32
+        statusInit:
+          type: integer
+          description: Status Init
+          format: int32
+        statusPending:
+          type: integer
+          description: Status Pending
+          format: int32
+    KubernetesAccountFeatureSummaryViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - status
+      - statusDescription
+      properties:
+        name:
+          type: string
+        status:
+          $ref: '#/components/schemas/KubernetesAgentStatusOptions'
+        statusDescription:
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

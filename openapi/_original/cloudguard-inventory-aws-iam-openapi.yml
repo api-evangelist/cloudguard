@@ -1,0 +1,1194 @@
+# x-archived-from: cloudguard-inventory-aws-iam-openapi.yml
+# x-archived-on: 2026-09-16
+info:
+  title: Inventory - AWS IAM
+  version: v2
+openapi: 3.0.0
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+paths:
+  /v2/CloudIamAccountSummary:
+    get:
+      tags:
+      - Cloud Iam Account Summary
+      operationId: CloudIamAccountSummary_Get_get_/v2/CloudIamAccountSummary
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.CloudIamAccountSummary.CloudIamAccountSummaryViewModel'
+      description: ''
+      summary: Get
+  /v2/CloudIamCredentialReport/user:
+    get:
+      tags:
+      - Cloud Iam Credential Report
+      operationId: CloudIamCredentialReport_GetUser_get_/v2/CloudIamCredentialReport/user
+      parameters:
+      - name: cloudAccountId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: userName
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.CloudIamCredentialReport.CloudIamCredentialReportUserViewModel'
+      description: ''
+      summary: Get User
+  /v2/CloudIamCredentialReport:
+    get:
+      tags:
+      - Cloud Iam Credential Report
+      operationId: CloudIamCredentialReport_Get_get_/v2/CloudIamCredentialReport
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.CloudIamCredentialReport.CloudIamCredentialReportViewModel'
+      description: ''
+      summary: Get
+  /v2/CloudIamGroup:
+    get:
+      tags:
+      - Cloud Iam Group
+      operationId: CloudIamGroup_Get_get_/v2/CloudIamGroup
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.CloudIamGroups.CloudIamGroupViewModel'
+      description: ''
+      summary: Get
+  /v2/CloudIamPasswordPolicy:
+    get:
+      tags:
+      - Cloud Iam Password Policy
+      summary: Get
+      operationId: CloudIamPasswordPolicy_Get_get_/v2/CloudIamPasswordPolicy
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudIamPasswordPolicy'
+      description: Fetch all IAM roles for the user from all cloud accounts.
+  /v2/CloudIamPolicy/defaults:
+    get:
+      tags:
+      - Cloud Iam Policy
+      summary: Get Defaults
+      operationId: CloudIamPolicy_GetDefaultsAsync_get_/v2/CloudIamPolicy/defaults
+      parameters:
+      - name: roleArns
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.CloudIamPolicyViewModel'
+      description: Fetch all defaults IAM policies.
+  /v2/CloudIamPolicy:
+    get:
+      tags:
+      - Cloud Iam Policy
+      summary: Get
+      operationId: CloudIamPolicy_GetAsync_get_/v2/CloudIamPolicy
+      parameters:
+      - name: roleArns
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: defaults
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.CloudIamPolicyViewModel'
+      description: Fetch all IAM policies.
+  /v2/CloudIamRole:
+    get:
+      tags:
+      - Cloud Iam Role
+      summary: Get
+      operationId: CloudIamRole_Get_get_/v2/CloudIamRole
+      parameters:
+      - name: roleArns
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudIamRoleViewModel'
+      description: Fetch all IAM roles for the user from all cloud accounts.
+  /v2/CloudIamServerCertificate:
+    get:
+      tags:
+      - Cloud Iam Server Certificate
+      operationId: CloudIamServerCertificate_Get_get_/v2/CloudIamServerCertificate
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.CloudIamServerCertificate.CloudIamServerCertificateViewModel'
+      description: ''
+      summary: Get
+  /v2/CloudIamUser:
+    get:
+      tags:
+      - Cloud Iam User
+      summary: Get
+      operationId: CloudIamUser_GetAsync_get_/v2/CloudIamUser
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudIamUserViewModel'
+      description: Fetch all IAM users for the user from all cloud accounts.
+  /v2/CloudIamVirtualMfaDevice:
+    get:
+      tags:
+      - Cloud Iam Virtual Mfa Device
+      operationId: CloudIamVirtualMfaDevice_Get_get_/v2/CloudIamVirtualMfaDevice
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.CloudIamVirtualMfaDevices.CloudIamVirtualMfaDeviceViewModel'
+      description: ''
+      summary: Get
+tags:
+- name: AccessLease
+  description: Access Leases
+- name: AccessLeaseInvitation
+  description: Access Lease Invitations
+- name: Account
+- name: AccountLimitation
+- name: AccountPollingInterval
+- name: AccountRegistration
+- name: AccountTrust
+  description: "Allow you to define a trust between accounts in order to allow users in a certain account to make changes\
+    \ and operation on another account.\nActions can be taken on a trustee account via a role which is defined on it. \nThe\
+    \ role should be assumed by a user from the trusted account."
+- name: Agent
+- name: Agentless
+  description: Agentless Workload Posture
+- name: Alert
+- name: AlibabaCloudAccount
+  description: Alibaba Cloud Accounts
+- name: Application
+- name: Assessment
+  description: Run and View Compliance Assessments
+- name: AssessmentHistory
+- name: AssessmentHistoryV2
+  description: Compliance Assessment History
+- name: Audit
+  description: Audit logs
+- name: Auth
+- name: Aws Cloud Account
+  description: Manage AWS Cloud Accounts
+- name: AwsAppSync
+- name: AwsBackupVault
+- name: AwsConfigSettings
+- name: AwsCustomerGateway
+- name: AwsEcsTask
+- name: AwsEks
+- name: AwsElasticIp
+- name: AwsElasticsearchDomain
+- name: AwsEmrCluster
+- name: AwsInspectorFindings
+- name: AwsInspectorRuns
+- name: AwsLoadBalancersNetworkInterfaces
+- name: AwsOrganizations
+- name: AwsQuickSightAccount
+- name: AwsQuickSightGroup
+- name: AwsQuickSightUser
+- name: AwsQuickSightVpcConnections
+- name: AwsSageMaker
+- name: AwsSecurityGroup
+- name: AwsSecurityGroupPolicy
+- name: AwsSecurityGroupsIndex
+- name: AwsUnifiedOnboarding
+  description: Aws Unified Onboarding
+- name: AwsVpcEndpoint
+- name: AzureAnalysisService
+- name: AzureApplicationGateway
+- name: AzureApplicationSecurityGroup
+- name: AzureCloudAccount
+  description: Onboard Azure accounts
+- name: AzureComputeGalleryImage
+- name: AzureCosmosDbAccount
+- name: AzureDisk
+- name: AzureFunction
+- name: AzureKeyVault
+- name: AzureKubernetes
+- name: AzureLoadBalancer
+- name: AzureLock
+- name: AzureLogicApp
+- name: AzureLogProfile
+- name: AzurePolicyAssignment
+- name: AzureRedisCache
+- name: AzureResourceGroup
+- name: AzureRouteTable
+- name: AzureSecurityGroup
+- name: AzureSecurityGroupPolicy
+  description: Azure Network Security Group Policies
+- name: AzureSnapshot
+- name: AzureSqlDb
+- name: AzureSqlServer
+- name: AzureStorageAccounts
+- name: AzureStorageBlobContainer
+- name: AzureSubnet
+- name: AzureUser
+- name: AzureVirtualMachine
+- name: AzureVirtualMachineImage
+- name: AzureVirtualMachineScaleSet
+- name: AzureVirtualNetworkPeering
+- name: AzureWebApp
+- name: BigTable
+- name: BillableAssets
+  description: Retrieve billable assets data
+- name: BillableAssetsReport
+  description: Billable Assets Report
+- name: Billing
+- name: Clarity
+- name: CloudAcmCertificate
+- name: CloudAmi
+- name: CloudAutoScalingGroup
+- name: CloudDbInstance
+- name: CloudDirectConnect
+- name: CloudDynamoDb
+- name: CloudEcsCluster
+- name: CloudEcsService
+  description: Cloud Ecs Service
+- name: CloudEcsTaskDefinition
+- name: CloudEfs
+- name: CloudElastiCacheCluster
+- name: CloudFlowLogs
+- name: CloudFrontDistribution
+- name: CloudGuardDutyDetector
+- name: CloudIamAccountSummary
+- name: CloudIamCredentialReport
+- name: CloudIamGroup
+- name: CloudIamPasswordPolicy
+- name: CloudIamPolicy
+- name: CloudIamRole
+- name: CloudIamServerCertificate
+- name: CloudIamUser
+- name: CloudIamVirtualMfaDevice
+- name: CloudInfraUser
+  description: CloudInfra Users
+- name: CloudInstance
+  description: Cloud Instances
+- name: CloudInternetGateway
+- name: CloudKinesisStream
+- name: CloudKms
+- name: CloudKmsAlias
+- name: CloudLambdaFunction
+  description: Cloud Lambda Function
+- name: CloudLoadBalancer
+- name: CloudLogGroups
+- name: CloudMetricAlarm
+- name: CloudNacl
+- name: CloudNetworkInterfaces
+- name: CloudRedshiftCluster
+- name: CloudRegion
+- name: CloudRoute53Domain
+- name: CloudRoute53HostedZone
+- name: CloudRoute53RecordSetGroup
+- name: CloudRouteTable
+- name: CloudS3Bucket
+  description: ''
+- name: CloudSecurityGroup
+  description: AWS Security Groups
+- name: CloudSnsSubscription
+- name: CloudSnsTopic
+- name: CloudSql
+- name: CloudSqs
+  description: ''
+- name: CloudSubnet
+- name: CloudTrail
+  description: CloudTrail
+- name: CloudVolume
+- name: CloudVpc
+- name: CloudVpcPeeringConnection
+- name: CloudVPNConnection
+- name: CloudVpnGateway
+- name: CloudWAFRegional
+- name: CloudWatchEventsRule
+  description: CloudWatchEventsRule
+- name: ComplianceExclusion
+  description: Compliance Exclusions
+- name: CompliancePolicy
+- name: ComplianceRemediation
+  description: Compliance Remediation
+- name: ComplianceRemediationOld
+  description: Compliance Remediation - DEPRECATED - please use /Compliance/Remediation instead
+- name: ComplianceRuleset
+  description: ComplianceRuleset
+- name: ContinuousComplianceNotification
+  description: Continuous Compliance Notification Policies
+- name: ContinuousCompliancePolicy
+- name: ContinuousCompliancePolicyV2
+  description: Continuous Compliance Policies
+- name: EmergencyPolicy
+- name: EntityFetchStatus
+- name: EntityReport
+- name: ExclusionOld
+  description: Compliance Exclusions - DEPRECATED - please use /Compliance/Exclusion instead
+- name: ExternalFindings
+  description: Findings from External (3rd-party) systems
+- name: Fim
+- name: Finding
+  description: Compliance Findings
+- name: FindingsReport
+  description: Compliance Findings csv reports
+- name: GcpBigQuery
+- name: GcpDisk
+- name: GcpGkeCluster
+- name: GcpImage
+- name: GcpKmsKeyRing
+- name: GcpProjectInfo
+  description: Google Cloud Project Info
+- name: GcpPubSub
+- name: GcpSecurityGroup
+- name: GcpServiceAccount
+- name: GcpStorageBucket
+- name: GenericList
+  description: Generic Lists
+- name: GlobalSearch
+  description: Global search for all CloudGuard services
+- name: GoogleCloudAccount
+  description: Google Cloud Accounts
+- name: GoogleCloudFirewallRule
+- name: GoogleCloudFunction
+- name: GoogleCloudIamPolicy
+- name: GoogleCloudNetwork
+  description: Google Cloud Network
+- name: GoogleCloudSubnet
+- name: GoogleCloudVMInstance
+- name: Home
+- name: IamSafeLease
+  description: IAM Safety Leases
+- name: IncidentsStatus
+- name: InfrastructureAssessment
+- name: Intelligence
+  description: CloudGuard Intelligence allows you to visualize and analyze Account Activity and Network Traffic into and out
+    of your cloud environment.
+- name: IpAddressMetadata
+  description: IP Address Metadata
+- name: IpList
+  description: IP Lists
+- name: LicenseActivator
+- name: Licensing
+- name: ManagedGenericList
+- name: Msp
+- name: OrganizationalUnit
+  description: Manage Organizational Units
+- name: Permission
+- name: ProtectedAsset
+- name: ProtectedAssetsReport
+  description: Compliance Protected Asset csv reports
+- name: ProtegoStatistics
+  description: Protego statistics by dates
+- name: Role
+  description: CloudGuard Roles
+- name: RulesEngine
+- name: SecurityGroup
+- name: Serverless
+- name: ServerlessPolicy
+  description: Serverless policy
+- name: ServiceAccount
+  description: CloudGuard Service Accounts
+- name: ServicePort
+- name: Settings
+  description: Account Settings
+- name: ShiftLeft
+  description: ShiftLeft
+- name: SystemHealth
+- name: TenableAccount
+  description: Onboard Tenable accounts
+- name: User
+  description: CloudGuard account users
+- name: BaseImage
+  description: ''
+- name: ContainerRegistryAccount
+  description: Container Registry Account
+- name: ContainerRegistryAccountInternal
+  description: ''
+- name: ContainerRegistryImageAssurancePolicy
+  description: '(deprecated: move to use /v2/vulnerability/policy)'
+- name: Dashboard
+  description: ''
+- name: EcsConfiguration
+  description: ''
+- name: EcsImageAssurancePolicy
+  description: '(deprecated: move to use /v2/vulnerability/policy)'
+- name: EcsImageScan
+  description: ECS Image Scan Configuration
+- name: Environment
+  description: ''
+- name: ImageAdmissionExclusion
+  description: '[Preview feature] Kubernetes Image admission exclusions'
+- name: ImageAssuranceDashboard
+  description: ''
+- name: ImageAssuranceReport
+  description: ''
+- name: KubernetesAccount
+  description: Kubernetes Accounts
+- name: KubernetesAccountInternal
+  description: ''
+- name: KubernetesAccountOld
+  description: '(deprecated: this api is deprecated, please use ''/v2/kubernetes/account'' instead)'
+- name: KubernetesAdmissionControl
+  description: Kubernetes Admission Control
+- name: KubernetesAdmissionControlPoliciesSummary
+  description: ''
+- name: KubernetesClusterRole
+  description: ''
+- name: KubernetesImage
+  description: ''
+- name: KubernetesImageAdmissionExclusion
+  description: '[Preview feature] Kubernetes Image admission exclusions (deprecated: this api is deprecated, please use ''/v2/kubernetes/admissionControl/imageAdmissionExclusion''
+    instead)'
+- name: KubernetesImageAssurance
+  description: Kubernetes Image Assurance
+- name: KubernetesImageAssurancePolicy
+  description: 'Kubernetes Image Assurance Policy (deprecated: move to use /v2/vulnerability/policy)'
+- name: KubernetesIngress
+  description: ''
+- name: KubernetesNetworkPolicy
+  description: ''
+- name: KubernetesNode
+  description: ''
+- name: KubernetesPod
+  description: ''
+- name: KubernetesPodGroup
+  description: Kubernetes Pod Groups
+- name: KubernetesPodGroupOwner
+  description: ''
+- name: KubernetesPodSecurityPolicy
+  description: ''
+- name: KubernetesRole
+  description: ''
+- name: KubernetesRuntimeAssurance
+  description: ''
+- name: KubernetesService
+  description: ''
+- name: KubernetesServiceAccount
+  description: ''
+- name: Shiftleft
+  description: ''
+- name: ShiftLeftAccount
+  description: ShiftLeft
+- name: ShiftLeftPolicy
+  description: 'ShiftLeft Policy (deprecated: move to use /v2/vulnerability/policy)'
+- name: Workload
+  description: ''
+- name: WorkloadAccountSetting
+  description: Workload Account Setting
+- name: WorkloadChangeMonitoring
+  description: ''
+- name: WorkloadImageAssurance
+  description: Workload Image Assurance
+- name: WorkloadImageAssuranceInternal
+  description: ''
+- name: WorkloadInternal
+  description: ''
+- name: WorkloadRuntimeProtection
+  description: ''
+- name: Alerts
+  description: ''
+- name: Azure
+  description: ''
+- name: FindingOrchestration
+  description: ''
+- name: FindingsUpdate
+  description: ''
+- name: Gcp
+  description: ''
+- name: Remediation
+  description: Remediation Actions
+- name: Reports
+  description: ''
+- name: CloudInfraMigration
+  description: infinity-portal-connect
+- name: GslBuilder
+  description: ''
+- name: Infrastructure
+  description: ''
+- name: InternalLicense
+  description: ''
+- name: NotificationIntegrationInternal
+  description: '(deprecated: This controller is deprecated and will be removed in the future)'
+- name: OciCloudAccount
+  description: Onboard OCI accounts
+- name: PlatformReports
+  description: ''
+- name: Regions
+  description: ''
+- name: Spectral
+  description: ''
+- name: RestrictedWorkloadClientModules
+  description: ''
+- name: WorkloadClientModules
+  description: ''
+- name: WorkloadTelemetry
+  description: ''
+- name: Integration
+  description: Integration
+- name: IntegrationInternal
+  description: ''
+- name: Notification
+  description: Notification
+- name: NotificationInternal
+  description: ''
+- name: AssetMetadataSyncNow
+  description: ''
+- name: BusinessPriorityModifier
+  description: Business Priority Rules
+- name: CustomRuleset
+  description: Risk Management Rulesets
+- name: Dspm
+  description: DSPM Controller
+- name: Exposure
+  description: ''
+- name: GroupRiskManagement
+  description: Groups Risk Management
+- name: RemediationActions
+  description: Remediation Actions
+- name: RiskModifiers
+  description: Risk Modifiers
+- name: SecurityEvents
+  description: ''
+- name: SimilarAssetGroups
+  description: ''
+- name: Waf
+  description: WAF Protection
+- name: AwsOrganizationManagement
+  description: AwsOrganizationManagement
+- name: AwsOrganizationManagementOnboarding
+  description: AwsOrganizationManagementOnboarding
+- name: AzureOrganizationManagement
+  description: AzureOrganizationManagement
+- name: GcpOrganizationManagement
+  description: GcpOrganizationManagement
+- name: OnboardingManagement
+  description: OnboardingManagement
+- name: InternalSBOM
+  description: ''
+- name: InternalVulnerabilityAccountStatsBatch
+  description: ''
+- name: InternalVulnerabilityCleanup
+  description: ''
+- name: InternalVulnerabilityPolicy
+  description: ''
+- name: InternalVulnerabilityScanResults
+  description: ''
+- name: SBOM
+  description: ''
+- name: SBOMExport
+  description: SBOM Export
+- name: Vulnerabilities
+  description: Vulnerabilities
+- name: VulnerabilityAssessment
+  description: ''
+- name: VulnerabilityExclusions
+  description: Vulnerability Exclusions
+- name: VulnerabilityPolicy
+  description: Vulnerability Policy
+- name: VulnerabilitySBOM
+  description: ''
+- name: CloudApplicationLoadBalancer
+  description: ''
+- name: CloudNetworkLoadBalancer
+  description: ''
+- name: GcpMachineImage
+  description: ''
+- name: OciCompartment
+  description: ''
+- name: AssetLabelsService
+  description: ''
+- name: AssetOpenFindings
+  description: ''
+- name: EntityTypes
+  description: The entity types endpoint allows you to get the supported entity types and the platform they're supported for.
+- name: EvidencePath
+  description: The evidence path endpoint allows you to get the evidence path for a given findingId.
+- name: Exclusions
+  description: The exclusion endpoint provides API to perform CRUD operations on the resource.
+- name: IgnoreCves
+  description: The ignore CVEs endpoint provides API to perform CRUD operations on the resource.
+- name: IgnoreMalwares
+  description: The ignore malwares endpoint provides API to perform CRUD operations on the resource.
+- name: Rules
+  description: The rules endpoint provides APIs to get the security rules data
+- name: SecurityGraphIssues
+  description: API for issue enrichments
+- name: SecurityGraphQuery
+  description: The query endpoint provides APIs to run queries (rules) to preview possible issues.
+- name: EntitySchema
+  description: The entity schema endpoint presents schema of toxic issues entities.
+- name: SecurityIssues
+  description: The Findings endpoint provides APIs query the findings store which contains findings such as security issues.
+    It provides APIs to get, search and group findings.
+- name: AutomatedActions
+  description: The Automated Actions resource provides API to perform CRUD operations on the resource.
+components:
+  schemas:
+    Dome9.Web.Api.Models.CloudIamRoleViewModel:
+      type: object
+      properties:
+        externalId:
+          type: string
+        name:
+          type: string
+        srl:
+          type: string
+        accountId:
+          format: int64
+          type: integer
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        arn:
+          type: string
+        createDate:
+          format: date-time
+          type: string
+        path:
+          type: string
+        maxSessionDuration:
+          format: int32
+          type: integer
+        roleLastUsed:
+          $ref: '#/components/schemas/Dome9.Web.Api.CloudIamRoles.AwsIamRoleLastUsedViewModel'
+        attachedManagedPolicies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.CloudIamRoles.AwsIamRolePolicyViewModel'
+        inlinePolicies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.CloudIamRoles.CloudIamRoleInlinePolicyViewModel'
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        rolePermissionsBoundary:
+          $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudIamRoleViewModel.PermissionsBoundary'
+        assumeRolePolicy:
+          type: object
+    Dome9.Web.Api.CloudIamRoles.AwsIamRoleLastUsedViewModel:
+      type: object
+      properties:
+        roleLastUsed:
+          format: date-time
+          type: string
+        region:
+          type: string
+    Dome9.Web.Api.CloudIamRoles.AwsIamRolePolicyViewModel:
+      type: object
+      properties:
+        arn:
+          type: string
+        name:
+          type: string
+    Dome9.Web.Api.CloudIamRoles.CloudIamRoleInlinePolicyViewModel:
+      type: object
+      properties:
+        policyName:
+          type: string
+        policyDocument:
+          type: object
+    Dome9.Web.Api.Models.CloudIamRoleViewModel.PermissionsBoundary:
+      type: object
+      properties:
+        permissionsBoundaryArn:
+          type: string
+        permissionsBoundaryType:
+          type: string
+    Dome9.Web.Api.CloudIamAccountSummary.CloudIamAccountSummaryViewModel:
+      type: object
+      properties:
+        id:
+          description: Id
+          type: string
+          readOnly: true
+        externalId:
+          description: ExternalId
+          type: string
+          readOnly: true
+        name:
+          description: Name
+          type: string
+          readOnly: true
+        cloudAccountId:
+          format: uuid
+          description: CloudAccountId
+          type: string
+          readOnly: true
+          example: 00000000-0000-0000-0000-000000000000
+        accountId:
+          format: int64
+          description: AccountId
+          type: integer
+          readOnly: true
+        externalAccountNumber:
+          description: External account number
+          type: string
+        summaryMap:
+          description: Summary map
+          type: object
+          additionalProperties:
+            format: int32
+            type: integer
+    Dome9.Web.Api.CloudIamCredentialReport.CloudIamCredentialReportUserViewModel:
+      type: object
+      properties:
+        user:
+          type: string
+        arn:
+          type: string
+        userCreationTime:
+          format: date-time
+          type: string
+        passwordEnabled:
+          type: boolean
+        passwordLastUsed:
+          format: date-time
+          type: string
+        passwordLastChanged:
+          format: date-time
+          type: string
+        passwordNextRotation:
+          format: date-time
+          type: string
+        mfaActive:
+          type: boolean
+        firstAccessKey:
+          $ref: '#/components/schemas/Dome9.Web.Api.CloudIamCredentialReport.CloudIamCredentialReportUserAccessKeyViewModel'
+        secondAccessKey:
+          $ref: '#/components/schemas/Dome9.Web.Api.CloudIamCredentialReport.CloudIamCredentialReportUserAccessKeyViewModel'
+        firstCertificate:
+          $ref: '#/components/schemas/Dome9.Web.Api.CloudIamCredentialReport.CloudIamCredentialReportUserCertificateViewModel'
+        secondCertificate:
+          $ref: '#/components/schemas/Dome9.Web.Api.CloudIamCredentialReport.CloudIamCredentialReportUserCertificateViewModel'
+    Dome9.Web.Api.CloudIamCredentialReport.CloudIamCredentialReportUserAccessKeyViewModel:
+      type: object
+      properties:
+        isActive:
+          type: boolean
+        lastRotated:
+          format: date-time
+          type: string
+        lastUsedDate:
+          format: date-time
+          type: string
+        lastUsedRegion:
+          type: string
+        lastUsedService:
+          type: string
+    Dome9.Web.Api.CloudIamCredentialReport.CloudIamCredentialReportUserCertificateViewModel:
+      type: object
+      properties:
+        isActive:
+          type: boolean
+        lastRotated:
+          format: date-time
+          type: string
+    Dome9.Web.Api.CloudIamCredentialReport.CloudIamCredentialReportViewModel:
+      type: object
+      properties:
+        id:
+          description: Id
+          type: string
+          readOnly: true
+        externalId:
+          description: ExternalId
+          type: string
+          readOnly: true
+        name:
+          description: Name
+          type: string
+          readOnly: true
+        cloudAccountId:
+          format: uuid
+          description: CloudAccountId
+          type: string
+          readOnly: true
+          example: 00000000-0000-0000-0000-000000000000
+        accountId:
+          format: int64
+          description: AccountId
+          type: integer
+          readOnly: true
+        externalAccountNumber:
+          description: External account number
+          type: string
+        content:
+          description: "Gets and sets the property Content.\r\nContains the credential report. The report is Base64-encoded."
+          type: string
+        generatedTime:
+          format: date-time
+          description: "Gets and sets the property GeneratedTime.\r\nThe date and time when the credential report was created,\
+            \ in ISO 8601 date-time\r\nformat."
+          type: string
+        reportFormat:
+          description: "Gets and sets the property ReportFormat.\r\nThe format (MIME type) of the credential report."
+          type: string
+        users:
+          description: ''
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.CloudIamCredentialReport.CloudIamCredentialReportUserViewModel'
+    Dome9.Web.Api.CloudIamGroups.CloudIamGroupViewModel:
+      type: object
+      properties:
+        accountId:
+          format: int64
+          description: AccountId
+          type: integer
+        cloudAccountId:
+          format: uuid
+          description: AccountId
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        externalAccoutNumber:
+          description: ExternalAccoutNumber
+          type: string
+        arn:
+          description: Arn
+          type: string
+        externalId:
+          description: ExternalId
+          type: string
+        groupId:
+          description: GroupId
+          type: string
+        groupName:
+          description: GroupName
+          type: string
+        attachedUsers:
+          type: array
+          items:
+            type: string
+        attachedManagedPolicies:
+          description: IamGroupPolicies
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.CloudIamGroupPolicy.AwsIamGroupPolicyViewModel'
+        inlinePolicies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.CloudIamGroups.CloudIamGroupInlinePolicyViewModel'
+    Dome9.Web.Api.CloudIamGroupPolicy.AwsIamGroupPolicyViewModel:
+      type: object
+      properties:
+        arn:
+          description: Arn
+          type: string
+        name:
+          description: name
+          type: string
+    Dome9.Web.Api.CloudIamGroups.CloudIamGroupInlinePolicyViewModel:
+      type: object
+      properties:
+        policyName:
+          type: string
+        policyDocument:
+          type: object
+    Dome9.Web.Api.Models.CloudIamPasswordPolicy:
+      type: object
+      properties:
+        externalId:
+          type: string
+        accountId:
+          format: int64
+          type: integer
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        enabledInAccount:
+          type: boolean
+        requireNumbers:
+          type: boolean
+        requireSymbols:
+          type: boolean
+        requireLowercaseCharacter:
+          type: boolean
+        requireUppercaseCharacter:
+          type: boolean
+        minPasswordLength:
+          format: int32
+          type: integer
+        allowUsersToChangePasswords:
+          type: boolean
+        hardExpiry:
+          type: boolean
+        maxPasswordAge:
+          format: int32
+          type: integer
+        expirePasswords:
+          type: boolean
+        passwordReusePrevention:
+          format: int32
+          type: integer
+    Dome9.Web.Api.CloudIamPolicyViewModel:
+      type: object
+      properties:
+        acccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        externalAccountId:
+          type: string
+        arn:
+          type: string
+        attachmentCount:
+          format: int32
+          type: integer
+        createDate:
+          format: date-time
+          type: string
+        defaultVersionId:
+          type: string
+        description:
+          type: string
+        isAttachable:
+          type: boolean
+        policyId:
+          type: string
+        policyName:
+          type: string
+        updateDate:
+          format: date-time
+          type: string
+        version:
+          $ref: '#/components/schemas/Dome9.Web.Api.CloudIamPolicyVersionViewModel'
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+    Dome9.Web.Api.CloudIamPolicyVersionViewModel:
+      type: object
+      properties:
+        versionId:
+          type: string
+        createDate:
+          format: date-time
+          type: string
+        document:
+          type: object
+        isDefaultVersion:
+          type: boolean
+    Dome9.Web.Api.CloudIamServerCertificate.CloudIamServerCertificateViewModel:
+      type: object
+      properties:
+        arn:
+          type: string
+        expiration:
+          format: date-time
+          type: string
+        path:
+          type: string
+        serverCertificateId:
+          type: string
+        serverCertificateName:
+          type: string
+        uploadDate:
+          format: date-time
+          type: string
+    Dome9.Web.Api.Models.CloudIamUserViewModel:
+      type: object
+      properties:
+        externalId:
+          type: string
+        name:
+          type: string
+        accountId:
+          format: int64
+          type: integer
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        arn:
+          type: string
+        createDate:
+          format: date-time
+          type: string
+        path:
+          type: string
+        passwordLastReset:
+          format: date-time
+          type: string
+        attachedManagedPolicies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.SubTypes.CloudIamUserAttachedManagedPolicyViewModel'
+        attachedGroups:
+          type: array
+          items:
+            type: string
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        inlinePolicies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.SubTypes.CloudIamUserInlinePolicyViewModel'
+        userPermissionsBoundary:
+          $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudIamUserViewModel.PermissionsBoundary'
+        sshPublicKeys:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudIamUserViewModel.SSHPublicKeyMetaDataViewModel'
+    Dome9.Web.Api.SubTypes.CloudIamUserAttachedManagedPolicyViewModel:
+      type: object
+      properties:
+        arn:
+          type: string
+        name:
+          type: string
+    Dome9.Web.Api.SubTypes.CloudIamUserInlinePolicyViewModel:
+      type: object
+      properties:
+        policyName:
+          type: string
+        policyDocument:
+          type: object
+    Dome9.Web.Api.Models.CloudIamUserViewModel.PermissionsBoundary:
+      type: object
+      properties:
+        permissionsBoundaryArn:
+          type: string
+        permissionsBoundaryType:
+          type: string
+    Dome9.Web.Api.Models.CloudIamUserViewModel.SSHPublicKeyMetaDataViewModel:
+      type: object
+      properties:
+        sshPublicKeyId:
+          type: string
+        status:
+          type: string
+        uploadDate:
+          format: date-time
+          type: string
+        userName:
+          type: string
+    Dome9.Web.Api.CloudIamVirtualMfaDevices.CloudIamVirtualMfaDeviceViewModel:
+      type: object
+      properties:
+        externalId:
+          type: string
+          readOnly: true
+        name:
+          type: string
+        accountId:
+          format: int64
+          type: integer
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        enableDate:
+          format: date-time
+          type: string
+        serialNumber:
+          type: string
+        userName:
+          type: string
+        userArn:
+          type: string
+        userId:
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+security:
+- basic: []
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

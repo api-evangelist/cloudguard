@@ -1,0 +1,108 @@
+openapi: 3.2.0
+info:
+  title: Risk Management Evidence Path API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Evidence Path
+paths:
+  /v2/security-graph/evidence-path:
+    get:
+      operationId: EvidencePathController_get_get_/v2/security-graph/evidence-path
+      summary: Get
+      parameters:
+      - name: findingId
+        required: true
+        in: query
+        schema:
+          type: string
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvidencePathViewModel'
+      tags:
+      - Evidence Path
+      description: Get the evidence path for a given findingId
+components:
+  schemas:
+    EvidencePathViewModel:
+      type: object
+      properties:
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/NodeViewModel'
+        relationships:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelationshipViewModel'
+      required:
+      - nodes
+      - relationships
+    NodeViewModel:
+      type: object
+      properties:
+        srl:
+          type: string
+        label:
+          type: string
+          enum:
+          - AutoScalingGroup
+          - Bucket
+          - ContainerImage
+          - ContainerWorkload
+          - Cve
+          - Database
+          - Function
+          - IamRole
+          - IamUser
+          - KubernetesService
+          - Malware
+          - SecurityEvent
+          - VirtualMachine
+        environmentId:
+          type: string
+        properties:
+          type: object
+      required:
+      - srl
+      - label
+      - properties
+    RelationshipViewModel:
+      type: object
+      properties:
+        fromId:
+          type: string
+        toId:
+          type: string
+        label:
+          type: string
+      required:
+      - fromId
+      - toId
+      - label
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

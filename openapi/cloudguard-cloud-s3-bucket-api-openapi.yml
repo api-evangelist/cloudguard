@@ -1,0 +1,944 @@
+openapi: 3.2.0
+info:
+  title: Inventory Cloud S3 Bucket API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Cloud S3 Bucket
+paths:
+  /v2/CloudS3Bucket:
+    get:
+      tags:
+      - Cloud S3 Bucket
+      operationId: CloudS3Bucket_Get_get_/v2/CloudS3Bucket
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CloudS3BucketViewModel'
+      description: ''
+      summary: Get
+components:
+  schemas:
+    CloudS3LifecycleRuleNoncurrentVersionTransitionViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - noncurrentDays
+      - storageClass
+      properties:
+        noncurrentDays:
+          type: integer
+          format: int32
+        storageClass:
+          type: string
+    CloudS3TagViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    CloudS3ReplicationConfigurationViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - role
+      - rules
+      properties:
+        role:
+          type: string
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudS3ReplicationRuleViewModel'
+    CloudS3RoutingRuleViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - condition
+      - redirect
+      properties:
+        condition:
+          $ref: '#/components/schemas/CloudS3RoutingRuleConditionViewModel'
+        redirect:
+          $ref: '#/components/schemas/CloudS3RoutingRuleRedirectViewModel'
+    CloudS3BucketVersioningViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - status
+      - mfaDelete
+      properties:
+        status:
+          type: string
+        mfaDelete:
+          type: boolean
+    CloudS3RoutingRuleConditionViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - httpErrorCodeReturnedEquals
+      - keyPrefixEquals
+      properties:
+        httpErrorCodeReturnedEquals:
+          type: string
+        keyPrefixEquals:
+          type: string
+    CloudS3BucketWebsiteViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - indexDocumentSuffix
+      - errorDocument
+      - routingRules
+      - redirectAllRequestsTo
+      properties:
+        indexDocumentSuffix:
+          type: string
+        errorDocument:
+          type: string
+        routingRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudS3RoutingRuleViewModel'
+        redirectAllRequestsTo:
+          $ref: '#/components/schemas/CloudS3RoutingRuleRedirectViewModel'
+    CloudS3LifecycleRuleAbortIncompleteMultipartUploadViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - daysAfterInitiation
+      properties:
+        daysAfterInitiation:
+          type: integer
+          format: int32
+    CloudS3LifecycleRuleNoncurrentVersionExpirationViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - noncurrentDays
+      properties:
+        noncurrentDays:
+          type: integer
+          format: int32
+    CloudS3BucketPolicyViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - document
+      properties:
+        document:
+          type: string
+    CloudS3ReplicationRuleViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - prefix
+      - status
+      - destination
+      properties:
+        id:
+          type: string
+        prefix:
+          type: string
+        status:
+          type: string
+        destination:
+          $ref: '#/components/schemas/CloudS3ReplicationDestinationViewModel'
+    CloudS3LifecycleFilterPredicateViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - prefixOperand
+      - tagOperands
+      properties:
+        prefixOperand:
+          $ref: '#/components/schemas/CloudS3LifecyclePrefixPredicateViewModel'
+        tagOperands:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudS3LifecycleTagPredicateViewModel'
+    CloudS3ServerSideEncryptionRuleViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - serverSideEncryptionByDefault
+      properties:
+        serverSideEncryptionByDefault:
+          $ref: '#/components/schemas/CloudS3ServerSideEncryptionByDefaultViewModel'
+    CloudS3LifecycleConfigurationViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - rules
+      properties:
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudS3LifecycleRuleViewModel'
+    CloudS3LifecycleTransitionViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - date
+      - dateUtc
+      - days
+      - storageClass
+      properties:
+        date:
+          type: string
+          format: date-time
+        dateUtc:
+          type: string
+          format: date-time
+        days:
+          type: integer
+          format: int32
+        storageClass:
+          type: string
+    CloudS3ServerSideEncryptionConfigurationViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - serverSideEncryptionRules
+      properties:
+        serverSideEncryptionRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudS3ServerSideEncryptionRuleViewModel'
+    CloudS3BucketLoggingViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - targetPrefix
+      - targetBucketName
+      - grants
+      properties:
+        targetPrefix:
+          type: string
+        targetBucketName:
+          type: string
+        grants:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudS3BucketGrantViewModel'
+    CloudS3LifecyclePrefixPredicateViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - prefix
+      properties:
+        prefix:
+          type: string
+    CloudS3BucketAclViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - ownerId
+      - ownerDisplayName
+      - grants
+      properties:
+        ownerId:
+          type: string
+        ownerDisplayName:
+          type: string
+        grants:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudS3BucketGrantViewModel'
+    CloudS3LifecycleFilterViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - lifecycleFilterPredicate
+      properties:
+        lifecycleFilterPredicate:
+          $ref: '#/components/schemas/CloudS3LifecycleFilterPredicateViewModel'
+    CloudS3BucketViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - externalId
+      - name
+      - region
+      - cloudAccountId
+      - accountId
+      - bucketName
+      - creationTime
+      - bucketLogging
+      - bucketAcl
+      - bucketPolicy
+      - bucketVersioning
+      - bucketWebsite
+      - bucketEncryption
+      - bucketReplication
+      - bucketLifecycle
+      - publicAccessBlock
+      - s3RegionName
+      - tags
+      properties:
+        id:
+          type: string
+        externalId:
+          type: string
+        name:
+          type: string
+        region:
+          oneOf:
+          - $ref: '#/components/schemas/CloudRegion'
+        cloudAccountId:
+          type: string
+          format: guid
+        accountId:
+          type: integer
+          format: int64
+        bucketName:
+          type: string
+        creationTime:
+          type: string
+          format: date-time
+        bucketLogging:
+          $ref: '#/components/schemas/CloudS3BucketLoggingViewModel'
+        bucketAcl:
+          $ref: '#/components/schemas/CloudS3BucketAclViewModel'
+        bucketPolicy:
+          $ref: '#/components/schemas/CloudS3BucketPolicyViewModel'
+        bucketVersioning:
+          $ref: '#/components/schemas/CloudS3BucketVersioningViewModel'
+        bucketWebsite:
+          $ref: '#/components/schemas/CloudS3BucketWebsiteViewModel'
+        bucketEncryption:
+          $ref: '#/components/schemas/CloudS3ServerSideEncryptionConfigurationViewModel'
+        bucketReplication:
+          $ref: '#/components/schemas/CloudS3ReplicationConfigurationViewModel'
+        bucketLifecycle:
+          $ref: '#/components/schemas/CloudS3LifecycleConfigurationViewModel'
+        publicAccessBlock:
+          $ref: '#/components/schemas/CloudS3BucketPublicAccessBlockViewModel'
+        s3RegionName:
+          type: string
+        tags:
+          $ref: '#/components/schemas/TagsDictionary'
+    TagsDictionary:
+      type: object
+      additionalProperties:
+        type: string
+    CloudS3LifecycleRuleExpirationViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - date
+      - dateUtc
+      - days
+      - expiredObjectDeleteMarker
+      properties:
+        date:
+          type: string
+          format: date-time
+        dateUtc:
+          type: string
+          format: date-time
+        days:
+          type: integer
+          format: int32
+        expiredObjectDeleteMarker:
+          type: boolean
+    CloudS3ServerSideEncryptionByDefaultViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - serverSideEncryptionAlgorithm
+      - serverSideEncryptionKeyManagementServiceKeyId
+      properties:
+        serverSideEncryptionAlgorithm:
+          type: string
+        serverSideEncryptionKeyManagementServiceKeyId:
+          type: string
+    CloudS3BucketGrantViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - granteeType
+      - granteeCanonicalUser
+      - granteeDisplayName
+      - granteeEmailAddress
+      - granteeURI
+      - granteePremissionHeaderName
+      - granteePremission
+      properties:
+        granteeType:
+          type: string
+        granteeCanonicalUser:
+          type: string
+        granteeDisplayName:
+          type: string
+        granteeEmailAddress:
+          type: string
+        granteeURI:
+          type: string
+        granteePremissionHeaderName:
+          type: string
+        granteePremission:
+          type: string
+    CloudS3ReplicationDestinationViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - bucketArn
+      - storageClass
+      properties:
+        bucketArn:
+          type: string
+        storageClass:
+          type: string
+    CloudS3LifecycleRuleViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - expiration
+      - id
+      - prefix
+      - filter
+      - status
+      - transition
+      - noncurrentVersionExpiration
+      - noncurrentVersionTransition
+      - transitions
+      - noncurrentVersionTransitions
+      - abortIncompleteMultipartUpload
+      properties:
+        expiration:
+          $ref: '#/components/schemas/CloudS3LifecycleRuleExpirationViewModel'
+        id:
+          type: string
+        prefix:
+          type: string
+        filter:
+          $ref: '#/components/schemas/CloudS3LifecycleFilterViewModel'
+        status:
+          type: string
+        transition:
+          $ref: '#/components/schemas/CloudS3LifecycleTransitionViewModel'
+        noncurrentVersionExpiration:
+          $ref: '#/components/schemas/CloudS3LifecycleRuleNoncurrentVersionExpirationViewModel'
+        noncurrentVersionTransition:
+          $ref: '#/components/schemas/CloudS3LifecycleRuleNoncurrentVersionTransitionViewModel'
+        transitions:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudS3LifecycleTransitionViewModel'
+        noncurrentVersionTransitions:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudS3LifecycleRuleNoncurrentVersionTransitionViewModel'
+        abortIncompleteMultipartUpload:
+          $ref: '#/components/schemas/CloudS3LifecycleRuleAbortIncompleteMultipartUploadViewModel'
+    CloudS3LifecycleTagPredicateViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - tag
+      properties:
+        tag:
+          $ref: '#/components/schemas/CloudS3TagViewModel'
+    CloudRegion:
+      type: string
+      description: ''
+      x-enumNames:
+      - us_east_1
+      - us_west_1
+      - eu_west_1
+      - ap_southeast_1
+      - ap_northeast_1
+      - us_west_2
+      - sa_east_1
+      - az_1_region_a_geo_1
+      - az_2_region_a_geo_1
+      - az_3_region_a_geo_1
+      - ap_southeast_2
+      - mellanox_region
+      - us_gov_west_1
+      - eu_central_1
+      - ap_northeast_2
+      - ap_south_1
+      - us_east_2
+      - ca_central_1
+      - eu_west_2
+      - eu_west_3
+      - eu_north_1
+      - cn_north_1
+      - cn_northwest_1
+      - us_gov_east_1
+      - ap_east_1
+      - me_south_1
+      - af_south_1
+      - eu_south_1
+      - ap_northeast_3
+      - me_central_1
+      - ap_south_2
+      - ap_southeast_3
+      - ap_southeast_4
+      - eu_central_2
+      - eu_south_2
+      - il_central_1
+      - ca_west_1
+      - mx_central_1
+      - ap_southeast_5
+      - ap_southeast_7
+      - westus
+      - eastus
+      - eastus2
+      - northcentralus
+      - westus2
+      - southcentralus
+      - centralus
+      - usgovlowa
+      - usgovvirginia
+      - northeurope
+      - westeurope
+      - eastasia
+      - southeastasia
+      - japaneast
+      - japanwest
+      - brazilsouth
+      - australiaeast
+      - australiasoutheast
+      - centralindia
+      - southindia
+      - westindia
+      - canadaeast
+      - westcentralus
+      - chinaeast
+      - chinanorth
+      - canadacentral
+      - germanycentral
+      - germanynortheast
+      - koreacentral
+      - uksouth
+      - ukwest
+      - koreasouth
+      - francecentral
+      - francesouth
+      - germanywestcentral
+      - usdodcentral
+      - usdodeast
+      - usgovarizona
+      - usgovtexas
+      - australiacentral
+      - australiacentral2
+      - chinaeast2
+      - chinanorth2
+      - southafricanorth
+      - southafricawest
+      - uaecentral
+      - uaenorth
+      - ussecwest
+      - usseceast
+      - germanynorth
+      - switzerlandwest
+      - norwaywest
+      - norwayeast
+      - switzerlandnorth
+      - westus3
+      - swedencentral
+      - chinanorth3
+      - brazilsoutheast
+      - eastus2euap
+      - jioindiawest
+      - jioindiacentral
+      - qatarcentral
+      - spaincentral
+      - italynorth
+      - polandcentral
+      - mexicocentral
+      - asia
+      - asia_east1
+      - asia_northeast1
+      - asia_south1
+      - asia_southeast1
+      - australia_southeast1
+      - europe
+      - europe_north1
+      - europe_west1
+      - europe_west2
+      - europe_west3
+      - europe_west4
+      - northamerica_northeast1
+      - southamerica_east1
+      - us
+      - us_central1
+      - us_east1
+      - us_east4
+      - us_west1
+      - us_west2
+      - global
+      - asia_east2
+      - eur4
+      - nam4
+      - europe_west6
+      - japan_west
+      - asia_northeast2
+      - asia_northeast3
+      - us_west3
+      - us_west4
+      - asia_southeast2
+      - nam3
+      - nam5
+      - nam6
+      - nam7
+      - nam10
+      - nam_eur_asia1
+      - eur3
+      - eur5
+      - asia1
+      - nam11
+      - eu
+      - northamerica_northeast2
+      - southamerica_west1
+      - us_east5
+      - us_south1
+      - europe_central2
+      - europe_southwest1
+      - europe_west8
+      - europe_west9
+      - europe_west10
+      - europe_west12
+      - asia_south2
+      - australia_southeast2
+      - me_central1
+      - me_central2
+      - me_west1
+      - ap_sydney_1
+      - ap_melbourne_1
+      - sa_saopaulo_1
+      - sa_vinhedo_1
+      - ca_montreal_1
+      - ca_toronto_1
+      - sa_santiago_1
+      - eu_paris_1
+      - eu_marseille_1
+      - eu_frankfurt_1
+      - ap_hyderabad_1
+      - ap_mumbai_1
+      - il_jerusalem_1
+      - eu_milan_1
+      - ap_osaka_1
+      - ap_tokyo_1
+      - mx_queretaro_1
+      - eu_amsterdam_1
+      - me_jeddah_1
+      - ap_singapore_1
+      - af_johannesburg_1
+      - ap_seoul_1
+      - ap_chuncheon_1
+      - eu_madrid_1
+      - eu_stockholm_1
+      - eu_zurich_1
+      - me_abudhabi_1
+      - me_dubai_1
+      - uk_london_1
+      - uk_cardiff_1
+      - us_ashburn_1
+      - us_phoenix_1
+      - us_sanjose_1
+      - us_gov_ashburn_1
+      - us_gov_chicago_1
+      - us_gov_phoenix_1
+      - us_langley_1
+      - us_luke_1
+      - uk_gov_london_1
+      - uk_gov_cardiff_1
+      - sa_bogota_1
+      - us_chicago_1
+      - sa_valparaiso_1
+      - mx_monterrey_1
+      - eu_jovanovac_1
+      - ap_singapore_2
+      enum:
+      - us_east_1
+      - us_west_1
+      - eu_west_1
+      - ap_southeast_1
+      - ap_northeast_1
+      - us_west_2
+      - sa_east_1
+      - az_1_region_a_geo_1
+      - az_2_region_a_geo_1
+      - az_3_region_a_geo_1
+      - ap_southeast_2
+      - mellanox_region
+      - us_gov_west_1
+      - eu_central_1
+      - ap_northeast_2
+      - ap_south_1
+      - us_east_2
+      - ca_central_1
+      - eu_west_2
+      - eu_west_3
+      - eu_north_1
+      - cn_north_1
+      - cn_northwest_1
+      - us_gov_east_1
+      - ap_east_1
+      - me_south_1
+      - af_south_1
+      - eu_south_1
+      - ap_northeast_3
+      - me_central_1
+      - ap_south_2
+      - ap_southeast_3
+      - ap_southeast_4
+      - eu_central_2
+      - eu_south_2
+      - il_central_1
+      - ca_west_1
+      - mx_central_1
+      - ap_southeast_5
+      - ap_southeast_7
+      - westus
+      - eastus
+      - eastus2
+      - northcentralus
+      - westus2
+      - southcentralus
+      - centralus
+      - usgovlowa
+      - usgovvirginia
+      - northeurope
+      - westeurope
+      - eastasia
+      - southeastasia
+      - japaneast
+      - japanwest
+      - brazilsouth
+      - australiaeast
+      - australiasoutheast
+      - centralindia
+      - southindia
+      - westindia
+      - canadaeast
+      - westcentralus
+      - chinaeast
+      - chinanorth
+      - canadacentral
+      - germanycentral
+      - germanynortheast
+      - koreacentral
+      - uksouth
+      - ukwest
+      - koreasouth
+      - francecentral
+      - francesouth
+      - germanywestcentral
+      - usdodcentral
+      - usdodeast
+      - usgovarizona
+      - usgovtexas
+      - australiacentral
+      - australiacentral2
+      - chinaeast2
+      - chinanorth2
+      - southafricanorth
+      - southafricawest
+      - uaecentral
+      - uaenorth
+      - ussecwest
+      - usseceast
+      - germanynorth
+      - switzerlandwest
+      - norwaywest
+      - norwayeast
+      - switzerlandnorth
+      - westus3
+      - swedencentral
+      - chinanorth3
+      - brazilsoutheast
+      - eastus2euap
+      - jioindiawest
+      - jioindiacentral
+      - qatarcentral
+      - spaincentral
+      - italynorth
+      - polandcentral
+      - mexicocentral
+      - asia
+      - asia_east1
+      - asia_northeast1
+      - asia_south1
+      - asia_southeast1
+      - australia_southeast1
+      - europe
+      - europe_north1
+      - europe_west1
+      - europe_west2
+      - europe_west3
+      - europe_west4
+      - northamerica_northeast1
+      - southamerica_east1
+      - us
+      - us_central1
+      - us_east1
+      - us_east4
+      - us_west1
+      - us_west2
+      - global
+      - asia_east2
+      - eur4
+      - nam4
+      - europe_west6
+      - japan_west
+      - asia_northeast2
+      - asia_northeast3
+      - us_west3
+      - us_west4
+      - asia_southeast2
+      - nam3
+      - nam5
+      - nam6
+      - nam7
+      - nam10
+      - nam_eur_asia1
+      - eur3
+      - eur5
+      - asia1
+      - nam11
+      - eu
+      - northamerica_northeast2
+      - southamerica_west1
+      - us_east5
+      - us_south1
+      - europe_central2
+      - europe_southwest1
+      - europe_west8
+      - europe_west9
+      - europe_west10
+      - europe_west12
+      - asia_south2
+      - australia_southeast2
+      - me_central1
+      - me_central2
+      - me_west1
+      - ap_sydney_1
+      - ap_melbourne_1
+      - sa_saopaulo_1
+      - sa_vinhedo_1
+      - ca_montreal_1
+      - ca_toronto_1
+      - sa_santiago_1
+      - eu_paris_1
+      - eu_marseille_1
+      - eu_frankfurt_1
+      - ap_hyderabad_1
+      - ap_mumbai_1
+      - il_jerusalem_1
+      - eu_milan_1
+      - ap_osaka_1
+      - ap_tokyo_1
+      - mx_queretaro_1
+      - eu_amsterdam_1
+      - me_jeddah_1
+      - ap_singapore_1
+      - af_johannesburg_1
+      - ap_seoul_1
+      - ap_chuncheon_1
+      - eu_madrid_1
+      - eu_stockholm_1
+      - eu_zurich_1
+      - me_abudhabi_1
+      - me_dubai_1
+      - uk_london_1
+      - uk_cardiff_1
+      - us_ashburn_1
+      - us_phoenix_1
+      - us_sanjose_1
+      - us_gov_ashburn_1
+      - us_gov_chicago_1
+      - us_gov_phoenix_1
+      - us_langley_1
+      - us_luke_1
+      - uk_gov_london_1
+      - uk_gov_cardiff_1
+      - sa_bogota_1
+      - us_chicago_1
+      - sa_valparaiso_1
+      - mx_monterrey_1
+      - eu_jovanovac_1
+      - ap_singapore_2
+    CloudS3BucketPublicAccessBlockViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - blockPublicAcls
+      - ignorePublicAcls
+      - blockPublicPolicy
+      - restrictPublicBuckets
+      properties:
+        blockPublicAcls:
+          type:
+          - boolean
+          - 'null'
+        ignorePublicAcls:
+          type:
+          - boolean
+          - 'null'
+        blockPublicPolicy:
+          type:
+          - boolean
+          - 'null'
+        restrictPublicBuckets:
+          type:
+          - boolean
+          - 'null'
+    CloudS3RoutingRuleRedirectViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - hostName
+      - httpRedirectCode
+      - protocol
+      - replaceKeyPrefixWith
+      - replaceKeyWith
+      properties:
+        hostName:
+          type: string
+        httpRedirectCode:
+          type: string
+        protocol:
+          type: string
+        replaceKeyPrefixWith:
+          type: string
+        replaceKeyWith:
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

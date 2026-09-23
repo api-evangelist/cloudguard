@@ -1,0 +1,110 @@
+openapi: 3.2.0
+info:
+  title: Inventory - OCI Oci Compartment API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Oci Compartment
+paths:
+  /v2/OciCompartment:
+    get:
+      tags:
+      - Oci Compartment
+      operationId: OciCompartment_Get_get_/v2/OciCompartment
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OciCompartmentViewModel'
+      description: ''
+      summary: Get
+  /v2/OciCompartment/{cloudAccountId}:
+    get:
+      tags:
+      - Oci Compartment
+      operationId: OciCompartment_GetAllCompartmentsByCloudAccountId_get_/v2/OciCompartment/{cloudAccountId}
+      parameters:
+      - name: cloudAccountId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OciCompartmentViewModel'
+      description: ''
+      summary: Get All Compartments By Cloud Account Id
+components:
+  schemas:
+    OciCompartmentViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - description
+      - timeCreated
+      - tags
+      - lifecycleState
+      - compartmentId
+      - name
+      - id
+      - dome9Id
+      - accountNumber
+      - region
+      properties:
+        description:
+          type: string
+        timeCreated:
+          type: string
+          format: date-time
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        lifecycleState:
+          type: string
+        compartmentId:
+          type: string
+        name:
+          type: string
+        id:
+          type: string
+        dome9Id:
+          type: string
+        accountNumber:
+          type: string
+        region:
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

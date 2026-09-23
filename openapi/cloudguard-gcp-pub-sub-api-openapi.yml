@@ -1,0 +1,178 @@
+openapi: 3.2.0
+info:
+  title: Inventory - GCP Gcp Pub Sub API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Gcp Pub Sub
+paths:
+  /topics:
+    get:
+      tags:
+      - Gcp Pub Sub
+      operationId: GcpPubSub_Get_get_/topics
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Google.PubSub.GcpPubSubTopicViewModel'
+      description: ''
+      summary: Get
+  /topics/{cloudAccountId}:
+    get:
+      tags:
+      - Gcp Pub Sub
+      operationId: GcpPubSub_Get_get_/topics/{cloudAccountId}
+      parameters:
+      - name: cloudAccountId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Google.PubSub.GcpPubSubTopicViewModel'
+      description: ''
+      summary: Get
+  /subscriptions/{cloudAccountId}/{project}/{topic}:
+    get:
+      tags:
+      - Gcp Pub Sub
+      operationId: GcpPubSub_Get_get_/subscriptions/{cloudAccountId}/{project}/{topic}
+      parameters:
+      - name: cloudAccountId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: project
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: topic
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Google.PubSub.GcpPubSubSubscriptionViewModel'
+      description: ''
+      summary: Get
+components:
+  schemas:
+    Dome9.Web.Api.Google.PubSub.GcpPubSubIamPolicyViewModel.GcpPubSubPolicyBindingViewModel:
+      type: object
+      properties:
+        condition:
+          type: object
+        members:
+          type: array
+          items:
+            type: string
+        role:
+          type: string
+    Dome9.Web.Api.Google.PubSub.GcpPubSubTopicMessageStoragePolicyViewModel:
+      type: object
+      properties:
+        allowedRegions:
+          type: array
+          items:
+            type: string
+    Dome9.Web.Api.Google.PubSub.GcpPubSubTopicViewModel:
+      type: object
+      properties:
+        messageStoragePolicy:
+          $ref: '#/components/schemas/Dome9.Web.Api.Google.PubSub.GcpPubSubTopicMessageStoragePolicyViewModel'
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+        policy:
+          $ref: '#/components/schemas/Dome9.Web.Api.Google.PubSub.GcpPubSubIamPolicyViewModel'
+        id:
+          type: string
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          type: string
+    Dome9.Web.Api.Google.PubSub.GcpPubSubIamPolicyViewModel:
+      type: object
+      properties:
+        bindings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Google.PubSub.GcpPubSubIamPolicyViewModel.GcpPubSubPolicyBindingViewModel'
+        eTag:
+          type: string
+        version:
+          format: int32
+          type: integer
+    Dome9.Web.Api.Google.PubSub.GcpPubSubSubscriptionViewModel:
+      type: object
+      properties:
+        ackDeadlineSeconds:
+          format: int32
+          type: integer
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+        messageRetentionDuration:
+          format: int64
+          type: integer
+        pushConfig:
+          type: string
+        retainAckedMessages:
+          type: boolean
+        topic:
+          type: string
+        id:
+          type: string
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

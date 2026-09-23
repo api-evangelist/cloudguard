@@ -1,0 +1,95 @@
+openapi: 3.2.0
+info:
+  title: Inventory - Azure Azure Compute Gallery Image API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Azure Compute Gallery Image
+paths:
+  /v2/AzureComputeGalleryImage:
+    get:
+      tags:
+      - Azure Compute Gallery Image
+      operationId: AzureComputeGalleryImage_GetAsync_get_/v2/AzureComputeGalleryImage
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Azure.ComputeGalleryImage.ViewModels.AzureComputeGalleryImageViewModel'
+      description: ''
+      summary: Get
+components:
+  schemas:
+    Dome9.Web.Api.Azure.ComputeGalleryImage.ViewModels.AzureComputeGalleryImageVersionViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        imageId:
+          type: string
+        publishedDate:
+          format: int64
+          type: integer
+        endOfLifeDate:
+          format: int64
+          type: integer
+    Dome9.Web.Api.Azure.ComputeGalleryImage.ViewModels.AzureComputeGalleryImageViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        location:
+          type: string
+        hyperVGeneration:
+          type: string
+        architecture:
+          type: string
+        osType:
+          type: string
+        osState:
+          type: string
+        provisioningState:
+          type: string
+        versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Azure.ComputeGalleryImage.ViewModels.AzureComputeGalleryImageVersionViewModel'
+        latestVersion:
+          $ref: '#/components/schemas/Dome9.Web.Api.Azure.ComputeGalleryImage.ViewModels.AzureComputeGalleryImageVersionViewModel'
+        accountId:
+          format: int64
+          type: integer
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

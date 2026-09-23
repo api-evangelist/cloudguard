@@ -1,0 +1,116 @@
+openapi: 3.2.0
+info:
+  title: Inventory - GCP Google Cloud Firewall Rule API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Google Cloud Firewall Rule
+paths:
+  /v2/GoogleCloudFirewallRule:
+    get:
+      tags:
+      - Google Cloud Firewall Rule
+      operationId: GoogleCloudFirewallRule_Get_get_/v2/GoogleCloudFirewallRule
+      parameters:
+      - name: cloudAccountId
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Google.Firewall.GoogleCloudFirewallRuleViewModel'
+      description: ''
+      summary: Get
+components:
+  schemas:
+    Dome9.Web.Api.Google.Firewall.GoogleFirewallRuleScopeViewModel:
+      type: object
+      properties:
+        ipProtocol:
+          type: string
+        ports:
+          type: array
+          items:
+            type: string
+    Dome9.Web.Api.Google.Firewall.GoogleCloudFirewallRuleViewModel:
+      type: object
+      properties:
+        creationTimestamp:
+          type: string
+        allowed:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Google.Firewall.GoogleFirewallRuleScopeViewModel'
+        denied:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Google.Firewall.GoogleFirewallRuleScopeViewModel'
+        destinationRanges:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+        network:
+          type: string
+        sourceRanges:
+          type: array
+          items:
+            type: string
+        sourceTags:
+          type: array
+          items:
+            type: string
+        targetTags:
+          type: array
+          items:
+            type: string
+        isProtected:
+          type: boolean
+        priority:
+          format: int32
+          type: integer
+        direction:
+          enum:
+          - Ingress
+          - Egress
+          type: string
+        enabled:
+          type: boolean
+        id:
+          type: string
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

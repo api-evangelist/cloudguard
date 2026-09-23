@@ -1,0 +1,143 @@
+openapi: 3.2.0
+info:
+  title: Workload Protection Workload Account Setting API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Workload Account Setting
+paths:
+  /v2/workload/accountSetting:
+    get:
+      tags:
+      - Workload Account Setting
+      operationId: WorkloadAccountSetting_GetAccountSettings_get_/v2/workload/accountSetting
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  imageAssurance:
+                    properties:
+                      daysToKeepNonActiveKubernetesImages:
+                        type: integer
+                      daysToKeepNonActiveShiftLeftImages:
+                        type: integer
+                      daysToKeepNonActiveAwsEcsImages:
+                        type: integer
+                      registryScanningIntervalInHours:
+                        type: integer
+                      maxImagesPerRepo:
+                        type: integer
+              example:
+                imageAssurance:
+                  daysToKeepNonActiveKubernetesImages: 7
+                  daysToKeepNonActiveShiftLeftImages: 30
+                  daysToKeepNonActiveAwsEcsImages: 7
+                  registryScanningIntervalInHours: 12
+                  maxImagesPerRepo: 10
+      description: ''
+      summary: Get Account Settings
+    put:
+      tags:
+      - Workload Account Setting
+      operationId: WorkloadAccountSetting_SetAccountSettings_put_/v2/workload/accountSetting
+      requestBody:
+        x-name: _
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                imageAssurance:
+                  properties:
+                    daysToKeepNonActiveKubernetesImages:
+                      type: integer
+                    daysToKeepNonActiveShiftLeftImages:
+                      type: integer
+                    daysToKeepNonActiveAwsEcsImages:
+                      type: integer
+                    registryScanningIntervalInHours:
+                      type: integer
+                    maxImagesPerRepo:
+                      type: integer
+            examples:
+              WorkloadAccountSettingModel:
+                value:
+                  imageAssurance:
+                    daysToKeepNonActiveKubernetesImages: 7
+                    daysToKeepNonActiveShiftLeftImages: 30
+                    daysToKeepNonActiveAwsEcsImages: 7
+                    registryScanningIntervalInHours: 12
+                    maxImagesPerRepo: 10
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: ''
+      summary: Set Account Settings
+    patch:
+      tags:
+      - Workload Account Setting
+      operationId: WorkloadAccountSetting_UpdateAccountSettings_patch_/v2/workload/accountSetting
+      requestBody:
+        x-name: _
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                imageAssurance:
+                  properties:
+                    daysToKeepNonActiveKubernetesImages:
+                      type: integer
+                    daysToKeepNonActiveShiftLeftImages:
+                      type: integer
+                    daysToKeepNonActiveAwsEcsImages:
+                      type: integer
+                    registryScanningIntervalInHours:
+                      type: integer
+                    maxImagesPerRepo:
+                      type: integer
+            examples:
+              WorkloadAccountSettingModel:
+                value:
+                  imageAssurance:
+                    daysToKeepNonActiveKubernetesImages: 7
+                    daysToKeepNonActiveShiftLeftImages: 30
+                    daysToKeepNonActiveAwsEcsImages: 7
+                    registryScanningIntervalInHours: 12
+                    maxImagesPerRepo: 10
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: ''
+      summary: Update Account Settings
+components:
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

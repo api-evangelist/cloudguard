@@ -1,0 +1,70 @@
+openapi: 3.2.0
+info:
+  title: Workload Protection Protego Statistics API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Protego Statistics
+paths:
+  /v2/protegoStatistics/invocations:
+    get:
+      tags:
+      - Protego Statistics
+      operationId: ProtegoStatistics_Get_get_/v2/protegoStatistics/invocations
+      parameters:
+      - name: startDate
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: endDate
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Falconetix.Model.Serverless.Protego.ProtegoInvocationsEntity'
+      description: ''
+      summary: Get
+components:
+  schemas:
+    Falconetix.Model.Serverless.Protego.ProtegoInvocationsEntity:
+      type: object
+      properties:
+        date:
+          format: date-time
+          type: string
+        sum:
+          format: double
+          type: number
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

@@ -1,0 +1,103 @@
+openapi: 3.2.0
+info:
+  title: Inventory - Azure Azure Storage Blob Container API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Azure Storage Blob Container
+paths:
+  /v2/AzureStorageBlobContainer:
+    get:
+      tags:
+      - Azure Storage Blob Container
+      operationId: AzureStorageBlobContainer_GetAll_get_/v2/AzureStorageBlobContainer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Azure.StorageBlobContainer.AzureStorageBlobContainerViewModel'
+      description: ''
+      summary: Get All
+components:
+  schemas:
+    Dome9.Web.Api.Azure.StorageBlobContainer.AzureStorageBlobContainerViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        externalId:
+          type: string
+        srl:
+          type: string
+        accountId:
+          format: int64
+          type: integer
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        region:
+          type: string
+        resourceUri:
+          type: string
+        hasImmutabilityPolicy:
+          type: boolean
+        hasLegalHold:
+          type: boolean
+        publicAccess:
+          type: string
+        version:
+          type: string
+        deleted:
+          type: boolean
+        deletedTime:
+          format: date-time
+          type: string
+        remainingRetentionDays:
+          format: int32
+          type: integer
+        defaultEncryptionScope:
+          type: string
+        denyEncryptionScopeOverride:
+          type: boolean
+        lastModifiedTime:
+          format: date-time
+          type: string
+        leaseStatus:
+          type: string
+        leaseState:
+          type: string
+        leaseDuration:
+          type: string
+        etag:
+          type: string
+        id:
+          type: string
+        type:
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

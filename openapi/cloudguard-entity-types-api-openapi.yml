@@ -1,0 +1,59 @@
+openapi: 3.2.0
+info:
+  title: Risk Management Entity Types API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Entity Types
+paths:
+  /v2/security-graph/entity-types:
+    get:
+      operationId: EntityTypesController_getAll_get_/v2/security-graph/entity-types
+      summary: Get All
+      parameters: []
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EntityTypePlatformViewModel'
+      tags:
+      - Entity Types
+      description: Get all supported entity types with the supported platform
+components:
+  schemas:
+    EntityTypePlatformViewModel:
+      type: object
+      properties:
+        entityType:
+          type: string
+        platform:
+          type: string
+      required:
+      - entityType
+      - platform
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

@@ -1,0 +1,290 @@
+openapi: 3.2.0
+info:
+  title: Workload Protection Kubernetes Image Assurance Policy API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Kubernetes Image Assurance Policy
+paths:
+  /v2/kubernetes/imageAssurance/policy/{id}:
+    get:
+      tags:
+      - Kubernetes Image Assurance Policy
+      summary: Get
+      operationId: KubernetesImageAssurancePolicy_Get_get_/v2/kubernetes/imageAssurance/policy/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Policy's ID
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageAssurancePolicyViewModel'
+      deprecated: true
+      description: 'Get single policy by its ID.
+
+        Returns a policy matching a given ID. (move to use /v2/vulnerability/policy)'
+    delete:
+      tags:
+      - Kubernetes Image Assurance Policy
+      summary: Delete
+      operationId: KubernetesImageAssurancePolicy_Delete_delete_/v2/kubernetes/imageAssurance/policy/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Policy's ID
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      deprecated: true
+      description: Delete policy by its ID. (move to use /v2/vulnerability/policy)
+  /v2/kubernetes/imageAssurance/policy:
+    get:
+      tags:
+      - Kubernetes Image Assurance Policy
+      summary: Get All
+      operationId: KubernetesImageAssurancePolicy_GetAll_get_/v2/kubernetes/imageAssurance/policy
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ImageAssurancePolicyViewModel'
+      deprecated: true
+      description: 'Get all policies for the requesting account.
+
+        Returns a collection of policies. (move to use /v2/vulnerability/policy)'
+    post:
+      tags:
+      - Kubernetes Image Assurance Policy
+      summary: Post
+      operationId: KubernetesImageAssurancePolicy_Post_post_/v2/kubernetes/imageAssurance/policy
+      requestBody:
+        x-name: kubernetesImageAssurancePolicyRequestModels
+        description: Policies to create
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ImageAssurancePolicyRequestModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ImageAssurancePolicyViewModel'
+      deprecated: true
+      description: 'Create new policies.
+
+        Returns a multi status response containing successfully created policies without an error message and failed policies with an error message. (move to use /v2/vulnerability/policy)'
+    put:
+      tags:
+      - Kubernetes Image Assurance Policy
+      summary: Put
+      operationId: KubernetesImageAssurancePolicy_Put_put_/v2/kubernetes/imageAssurance/policy
+      requestBody:
+        x-name: kubernetesImageAssurancePolicyRequestModels
+        description: Policies to update
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ImageAssurancePolicyRequestModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ImageAssurancePolicyViewModel'
+      deprecated: true
+      description: 'Update policies.
+
+        Returns a multi status response containing successfully updated policies without an error message and failed policies with an error message. (move to use /v2/vulnerability/policy)'
+components:
+  schemas:
+    ImageAssurancePolicyViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - targetType
+      - targetPlatform
+      - targetId
+      - rulesetId
+      - notificationIds
+      - errorMessage
+      - admissionControllerAction
+      - admissionControlUnScannedAction
+      properties:
+        id:
+          type: string
+          format: guid
+        targetType:
+          deprecated: true
+          x-deprecatedMessage: use TargetPlatform instead
+          oneOf:
+          - $ref: '#/components/schemas/ImageAssurancePolicyType'
+        targetPlatform:
+          $ref: '#/components/schemas/ImageAssurancePolicyPlatform'
+        targetId:
+          type: string
+          format: guid
+        rulesetId:
+          type: integer
+          format: int64
+        notificationIds:
+          type: array
+          default: []
+          items:
+            type: string
+            format: guid
+        errorMessage:
+          type:
+          - string
+          - 'null'
+        admissionControllerAction:
+          type:
+          - string
+          - 'null'
+          description: '[Preview feature - Image Admission] Image Admission action to block non-compliant images according to the relevant ruleset.
+
+            Options: ''Prevention'', ''Detection'', or null.'
+        admissionControlUnScannedAction:
+          type:
+          - string
+          - 'null'
+          description: '[Preview feature - Image Admission] Image Admission unScanned action of Detection or Prevention to alert on or block images that have not been scanned.
+
+            Options: ''Prevention'', ''Detection'', or null.'
+    ImageAssurancePolicyPlatform:
+      type: string
+      description: ''
+      x-enumNames:
+      - Aws
+      - Kubernetes
+      - OrganizationalUnit
+      - ShiftLeft
+      - ContainerRegistry
+      enum:
+      - Aws
+      - Kubernetes
+      - OrganizationalUnit
+      - ShiftLeft
+      - ContainerRegistry
+    ImageAssurancePolicyType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Environment
+      - OrganizationalUnit
+      enum:
+      - Environment
+      - OrganizationalUnit
+    ImageAssurancePolicyRequestModelOld:
+      type: object
+      additionalProperties: false
+      required:
+      - targetId
+      - notificationIds
+      - rulesetId
+      - id
+      - targetType
+      - targetPlatform
+      properties:
+        id:
+          type: string
+          format: guid
+        targetId:
+          type: string
+          format: guid
+          minLength: 1
+        targetType:
+          deprecated: true
+          x-deprecatedMessage: use TargetPlatform instead
+          oneOf:
+          - $ref: '#/components/schemas/ImageAssurancePolicyType'
+        targetPlatform:
+          oneOf:
+          - $ref: '#/components/schemas/ImageAssurancePolicyPlatform'
+        notificationIds:
+          type: array
+          default: []
+          items:
+            type: string
+            format: guid
+        rulesetId:
+          type: integer
+          format: int64
+    ImageAssurancePolicyRequestModel:
+      allOf:
+      - $ref: '#/components/schemas/ImageAssurancePolicyRequestModelOld'
+      - type: object
+        additionalProperties: false
+        required:
+        - admissionControllerAction
+        - admissionControlUnScannedAction
+        properties:
+          admissionControllerAction:
+            type:
+            - string
+            - 'null'
+            description: '[Preview feature - Image Admission] Image Admission action to block non-compliant images according to the relevant ruleset.
+
+              Options: ''Prevention'', ''Detection'', or null.'
+          admissionControlUnScannedAction:
+            type:
+            - string
+            - 'null'
+            description: '[Preview feature - Image Admission] Image Admission unScanned action of Detection or Prevention to alert on or block images that have not been scanned.
+
+              Options: ''Prevention'', ''Detection'', or null.'
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

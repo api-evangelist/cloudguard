@@ -1,0 +1,987 @@
+openapi: 3.2.0
+info:
+  title: Onboarding Oci Cloud Account API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Oci Cloud Account
+paths:
+  /v2/oci-cloud-account:
+    get:
+      tags:
+      - Oci Cloud Account
+      summary: Get All Oci Cloud Accounts
+      operationId: OciCloudAccount_GetAllOciCloudAccounts_get_/v2/oci-cloud-account
+      responses:
+        '200':
+          description: List of OCI cloud accounts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OciCloudAccountViewModel'
+      description: Get a list of all OCI cloud accounts
+    post:
+      tags:
+      - Oci Cloud Account
+      summary: Add Oci Cloud Account
+      operationId: OciCloudAccount_AddOciCloudAccount_post_/v2/oci-cloud-account
+      requestBody:
+        x-name: ociAccountCreationInput
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OciAccountCreationInput'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OciCloudAccountViewModel'
+      description: 'The second step in the onboarding ("create-terraform" API call is the first step):
+
+        Add (onboard) a new OCI cloud account to CloudGuard'
+    delete:
+      tags:
+      - Oci Cloud Account
+      summary: Delete Oci Cloud Account
+      operationId: OciCloudAccount_DeleteOciCloudAccount_delete_/v2/oci-cloud-account
+      parameters:
+      - name: id
+        in: query
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: Delete an OCI account from a CloudGuard account (the OCI account is not deleted from OCI)
+  /v2/oci-cloud-account/{id}:
+    get:
+      tags:
+      - Oci Cloud Account
+      summary: Get Oci Cloud Accounts By Id
+      operationId: OciCloudAccount_GetOciCloudAccountsById_get_/v2/oci-cloud-account/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OciCloudAccountViewModel'
+      description: Get details for a specific OCI Cloud Account
+  /v2/oci-cloud-account/create-terraform:
+    post:
+      tags:
+      - Oci Cloud Account
+      summary: Save Temp Data And Export Terraform Conf File
+      operationId: OciCloudAccount_SaveTempDataAndExportTerraformConfFile_post_/v2/oci-cloud-account/create-terraform
+      requestBody:
+        x-name: data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OciCloudAccountTempDataCreationModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: Terraform configuration file
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: 'The first step in the onboarding (with terraform file):
+
+        Save temp data for the onboarding process and export terraform configuration file.
+
+        The Terraform should be run in the OCI account:
+
+        Navigate to "Developer" -> "ServicesResource" -> "ManagerStacks", and select "Create Stack".'
+  /v2/oci-cloud-account/save-temp-data:
+    post:
+      tags:
+      - Oci Cloud Account
+      summary: Save Temp Data
+      operationId: OciCloudAccount_SaveTempData_post_/v2/oci-cloud-account/save-temp-data
+      requestBody:
+        x-name: data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OciCloudAccountTempDataCreationModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OciCloudAccountViewModel'
+      description: 'The first step in the onboarding (without terraform file):
+
+        Save temp data for the onboarding process.
+
+        To use this call the OCI API must be used.'
+  /v2/oci-cloud-account/{id}/delete-force:
+    delete:
+      tags:
+      - Oci Cloud Account
+      summary: Force Delete Oci Cloud Account
+      operationId: OciCloudAccount_ForceDeleteOciCloudAccount_delete_/v2/oci-cloud-account/{id}/delete-force
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: Delete an OCI account from a CloudGuard account (the OCI account is not deleted from OCI) and linked entities
+  /v2/oci-cloud-account/{id}/account-name:
+    put:
+      tags:
+      - Oci Cloud Account
+      summary: Update Account Name
+      operationId: OciCloudAccount_UpdateAccountName_put_/v2/oci-cloud-account/{id}/account-name
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      requestBody:
+        x-name: name
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OciAccountNameViewModel'
+        required: true
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OciCloudAccountViewModel'
+      description: Update an OCI Cloud account name (as it appears in CloudGuard)
+  /v2/oci-cloud-account/{id}/credentials:
+    put:
+      tags:
+      - Oci Cloud Account
+      summary: Update Credentials
+      operationId: OciCloudAccount_UpdateCredentials_put_/v2/oci-cloud-account/{id}/credentials
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OciCloudAccountViewModel'
+      description: Update an OCI Cloud credentials after terraform run has finished successfully
+  /v2/oci-cloud-account/{id}/credentials-terraform:
+    put:
+      tags:
+      - Oci Cloud Account
+      summary: Update Credentials Terraform
+      operationId: OciCloudAccount_UpdateCredentialsTerraform_put_/v2/oci-cloud-account/{id}/credentials-terraform
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: Update an OCI Cloud credentials request before creating stack with the Terraform file
+  /v2/oci-cloud-account/{id}/sync-now:
+    post:
+      tags:
+      - Oci Cloud Account
+      operationId: OciCloudAccount_SyncNow_post_/v2/oci-cloud-account/{id}/sync-now
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OciCloudAccountViewModel'
+      description: ''
+      summary: Sync Now
+  /v2/oci-cloud-account/missing-permissions:
+    get:
+      tags:
+      - Oci Cloud Account
+      summary: Get Missing Permissions All
+      operationId: OciCloudAccount_GetMissingPermissionsAll_get_/v2/oci-cloud-account/missing-permissions
+      responses:
+        '200':
+          description: A list of missing permissions for the OCI cloud accounts in CloudGuard
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CloudAccountMissingPermissionsViewModel'
+      description: Get a list of missing permissions (needed by CloudGuard to manage the accounts) for all OCI accounts in CloudGuard
+  /v2/oci-cloud-account/{id}/missing-permissions:
+    get:
+      tags:
+      - Oci Cloud Account
+      summary: Get Missing Permissions
+      operationId: OciCloudAccount_GetMissingPermissions_get_/v2/oci-cloud-account/{id}/missing-permissions
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      - name: showIgnored
+        in: query
+        schema:
+          type: boolean
+          default: true
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudAccountMissingPermissionsIgnorableViewModel'
+      description: Get a list of missing permissions for a specific account. These permissions are needed by Dome9 to manage accounts.
+    put:
+      tags:
+      - Oci Cloud Account
+      summary: Update Ignorable Missing Permissions
+      operationId: OciCloudAccount_UpdateIgnorableMissingPermissions_put_/v2/oci-cloud-account/{id}/missing-permissions
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: CloudAccountId
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      requestBody:
+        x-name: permissionsToIgnoreOrRestore
+        description: List of permissions to set ignore or restore flag to
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/MissingPermissionsIgnorableUpdateViewModel'
+        required: true
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+      description: Get a list of missing permissions for a specific account. These are permissions needed by Dome9 to manage accounts.
+  /v2/oci-cloud-account/{id}/missing-permissions/entity-type:
+    get:
+      tags:
+      - Oci Cloud Account
+      summary: Get Missing Permissions By Entity Type
+      operationId: OciCloudAccount_GetMissingPermissionsByEntityType_get_/v2/oci-cloud-account/{id}/missing-permissions/entity-type
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      - name: entityType
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+        x-position: 2
+      - name: subType
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          default: ''
+        x-position: 3
+      responses:
+        '200':
+          description: A list of missing permissions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MissingPermissionViewModel'
+      description: Get missing permissions for a specific entity type for a specific OCI Cloud account
+  /v2/oci-cloud-account/{id}/missing-permissions/reset:
+    put:
+      tags:
+      - Oci Cloud Account
+      summary: Reset Missing Permissions
+      operationId: OciCloudAccount_ResetMissingPermissions_put_/v2/oci-cloud-account/{id}/missing-permissions/reset
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: 'Reset (re-validate) a OCI Cloud account credentials in CloudGuard.
+
+        Will cause all entities to retry fetching from the OCI cloud account.'
+  /v2/oci-cloud-account/{id}/organizational-unit:
+    put:
+      tags:
+      - Oci Cloud Account
+      summary: Update Organizational Unit Id
+      operationId: OciCloudAccount_UpdateOrganizationalUnitId_put_/v2/oci-cloud-account/{id}/organizational-unit
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      requestBody:
+        x-name: updateData
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateIdViewModel'
+        required: true
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OciCloudAccountViewModel'
+      description: 'Update the ID of the Organizational Unit that this cloud account will be attached to.
+
+        Use ''null'' for the root organizational unit'
+  /v2/oci-cloud-account/organizational-unit/move:
+    put:
+      tags:
+      - Oci Cloud Account
+      summary: Move Cloud Accounts To Organizational Unit
+      operationId: OciCloudAccount_MoveCloudAccountsToOrganizationalUnit_put_/v2/oci-cloud-account/organizational-unit/move
+      requestBody:
+        x-name: moveData
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MoveOrganizationalUnitViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: 'Detach cloud accounts from an Organizational unit and attach them to another Organizational unit.
+
+        Use ''null'' for root organizational unit'
+  /v2/oci-cloud-account/organizational-unit/move-all:
+    put:
+      tags:
+      - Oci Cloud Account
+      summary: Move All Cloud Accounts To Organizational Unit
+      operationId: OciCloudAccount_MoveAllCloudAccountsToOrganizationalUnit_put_/v2/oci-cloud-account/organizational-unit/move-all
+      requestBody:
+        x-name: updateData
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateIdViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: Detach all cloud accounts from their current organizational unit and attach them to a new one. Default is to root organizational unit
+  /v2/oci-cloud-account/organizational-unit/attach:
+    post:
+      tags:
+      - Oci Cloud Account
+      summary: Attach Multi Organizational Unit
+      operationId: OciCloudAccount_AttachMultiOrganizationalUnit_post_/v2/oci-cloud-account/organizational-unit/attach
+      requestBody:
+        x-name: attachData
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachCloudAccountsViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: Attach several cloud accounts to a specific Organizational Unit. User 'null' as root Organizational Unit as target
+components:
+  schemas:
+    UpdateIdViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - organizationalUnitId
+      properties:
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+    OciAccountNameViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          minLength: 1
+    OciCloudAccountViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - credentials
+      - id
+      - name
+      - creationDate
+      - tenancyId
+      - homeRegion
+      - organizationalUnitId
+      - organizationalUnitPath
+      - organizationalUnitName
+      - vendor
+      properties:
+        id:
+          type: string
+          description: OCI cloud account ID in CloudGuard
+          format: guid
+        name:
+          type:
+          - string
+          - 'null'
+          description: OCI account name in CloudGuard
+        creationDate:
+          type: string
+          description: Creation date for this cloud account ID in CloudGuard
+          format: date-time
+        tenancyId:
+          type:
+          - string
+          - 'null'
+          description: OCI TenancyId
+        homeRegion:
+          type:
+          - string
+          - 'null'
+          description: OCI account HomeRegion
+        credentials:
+          description: OCI account Credentials details (user ocid, fingerprint, public key)
+          oneOf:
+          - $ref: '#/components/schemas/OciAccountCredentialsViewModel'
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        organizationalUnitPath:
+          type:
+          - string
+          - 'null'
+        organizationalUnitName:
+          type:
+          - string
+          - 'null'
+        vendor:
+          $ref: '#/components/schemas/CloudVendor'
+    OciAccountCredentialsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - user
+      - fingerprint
+      - publicKey
+      properties:
+        user:
+          type: string
+          description: OCI user ocid.
+          minLength: 1
+        fingerprint:
+          type: string
+          description: Hash of the public key.
+          minLength: 1
+        publicKey:
+          type: string
+          description: The public key that should be used in OCI "identity api key".
+          minLength: 1
+    MissingPermissionViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - srl
+      - consecutiveFails
+      - lastFail
+      - lastSuccess
+      - firstFail
+      - lastFailErrorCode
+      - lastFailMessage
+      - id
+      - retryMetadata
+      - cloudAccountId
+      - vendor
+      properties:
+        srl:
+          type:
+          - string
+          - 'null'
+          description: for internal use
+        consecutiveFails:
+          type: integer
+          description: number of consecutive failures due to missing permissions
+          format: int32
+        lastFail:
+          type:
+          - string
+          - 'null'
+          description: time of last failure
+          format: date-time
+        lastSuccess:
+          type:
+          - string
+          - 'null'
+          description: time of last successful attempt
+          format: date-time
+        firstFail:
+          type:
+          - string
+          - 'null'
+          description: time of first successful attempt
+          format: date-time
+        lastFailErrorCode:
+          type:
+          - string
+          - 'null'
+          description: error code for last failed attempt
+        lastFailMessage:
+          type:
+          - string
+          - 'null'
+          description: error message for last failed attempt
+        id:
+          type: string
+          format: guid
+        retryMetadata:
+          oneOf:
+          - $ref: '#/components/schemas/MissingPermissionMetadataViewModel'
+        cloudAccountId:
+          type: string
+          description: Cloud account id
+          format: guid
+        vendor:
+          description: cloud account provider (AWS, Azure, GCP)
+          oneOf:
+          - $ref: '#/components/schemas/CloudVendor'
+    CloudAccountActionFailureViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+    MissingPermissionsIgnorableViewModel:
+      allOf:
+      - $ref: '#/components/schemas/CloudAccountExternalActionStatusViewModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - permissionId
+        - isIgnored
+        properties:
+          permissionId:
+            type:
+            - string
+            - 'null'
+            format: guid
+          isIgnored:
+            type:
+            - boolean
+            - 'null'
+    MissingPermissionsIgnorableUpdateViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - isIgnored
+      - cloudAccountId
+      - permissionId
+      - type
+      - subType
+      - errorCode
+      - errorMessage
+      properties:
+        cloudAccountId:
+          type: string
+          format: guid
+        permissionId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        isIgnored:
+          type: boolean
+        type:
+          type:
+          - string
+          - 'null'
+        subType:
+          type:
+          - string
+          - 'null'
+        errorCode:
+          type:
+          - string
+          - 'null'
+        errorMessage:
+          type:
+          - string
+          - 'null'
+    CloudAccountMissingPermissionsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - accountId
+      - actions
+      properties:
+        accountId:
+          type: string
+          format: guid
+        actions:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CloudAccountExternalActionStatusViewModel'
+    OciAccountCreationInput:
+      type: object
+      additionalProperties: false
+      required:
+      - userOcid
+      - tenancyId
+      - organizationalUnitId
+      properties:
+        userOcid:
+          type: string
+          description: The created user’s OCID (from the terraform output)
+          minLength: 1
+        tenancyId:
+          type: string
+          description: The tenancy’s OCID (from the previous step)
+          minLength: 1
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          description: The organizationalUnitId to add this cloud account to, or an empty GUID – “00000000-0000-0000-0000-000000000000”
+          format: guid
+    AttachCloudAccountsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - entries
+      - organizationalUnitId
+      properties:
+        entries:
+          type:
+          - array
+          - 'null'
+          default: []
+          items:
+            type: string
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+    MoveOrganizationalUnitViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - sourceOrganizationalUnitId
+      - targetOrganizationalUnitId
+      properties:
+        sourceOrganizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        targetOrganizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+    MissingPermissionMetadataViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - missingPermissions
+      - entityType
+      - subType
+      properties:
+        missingPermissions:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        entityType:
+          type:
+          - string
+          - 'null'
+        subType:
+          type:
+          - string
+          - 'null'
+    CloudVendor:
+      type: string
+      description: ''
+      x-enumNames:
+      - aws
+      - hp
+      - mellanox
+      - awsgov
+      - azure
+      - google
+      - awschina
+      - azuregov
+      - kubernetes
+      - azurechina
+      - terraform
+      - generic
+      - kubernetesruntimeassurance
+      - shiftleft
+      - sourcecodeassurance
+      - imageassurance
+      - alibaba
+      - cft
+      - containerregistry
+      - oci
+      - ocigov
+      - ocigovuk
+      - CIEM
+      enum:
+      - aws
+      - hp
+      - mellanox
+      - awsgov
+      - azure
+      - google
+      - awschina
+      - azuregov
+      - kubernetes
+      - azurechina
+      - terraform
+      - generic
+      - kubernetesruntimeassurance
+      - shiftleft
+      - sourcecodeassurance
+      - imageassurance
+      - alibaba
+      - cft
+      - containerregistry
+      - oci
+      - ocigov
+      - ocigovuk
+      - CIEM
+    CloudAccountMissingPermissionsIgnorableViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - actions
+      properties:
+        id:
+          type: string
+          description: account id
+          format: guid
+        actions:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/MissingPermissionsIgnorableViewModel'
+    OciCloudAccountTempDataCreationModel:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - tenancyId
+      - homeRegion
+      - tenantAdministratorEmailAddress
+      - userName
+      - groupName
+      - policyName
+      properties:
+        name:
+          type: string
+          description: OCI account name in CloudGuard (The desired display name for the Tenancy)
+          minLength: 1
+        tenancyId:
+          type: string
+          description: OCI TenancyId - that will be onboarded (found in OCI under ‘Profile’ -> ‘Tenancy’ -> ‘OCID’)
+          minLength: 1
+        homeRegion:
+          type: string
+          description: 'The Tenancy’s Home Region Identifier (found in OCI by clicking the Regions dropdown at the top right corner).
+
+            You can find the regions identifiers here: https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm'
+          minLength: 1
+        tenantAdministratorEmailAddress:
+          type: string
+          description: 'OCI tenant administrator Email address, Email Address will be used to create a user that will have terraform attached policy.
+
+            A Verification Email will be sent from OCI to the this Email address, and this user will be added to OCI account.
+
+            For old OCI accounts this field will not be used.'
+          minLength: 1
+        userName:
+          type:
+          - string
+          - 'null'
+          description: (*Optional) - The desired name for the User that will be created in the Tenancy (default - “CloudGuard-User”)
+        groupName:
+          type:
+          - string
+          - 'null'
+          description: (*Optional) - The desired name for the Group that will be created in the Tenancy (default - “CloudGuard-Group”)
+        policyName:
+          type:
+          - string
+          - 'null'
+          description: (*Optional) - The desired name for the Policy that will be created in the Tenancy (default - “CloudGuard-Policy”)
+    CloudAccountExternalActionStatusViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - type
+      - subType
+      - total
+      - error
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        subType:
+          type:
+          - string
+          - 'null'
+        total:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        error:
+          oneOf:
+          - $ref: '#/components/schemas/CloudAccountActionFailureViewModel'
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

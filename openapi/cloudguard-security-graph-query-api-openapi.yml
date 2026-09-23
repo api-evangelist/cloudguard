@@ -1,0 +1,235 @@
+openapi: 3.2.0
+info:
+  title: Risk Management Security Graph Query API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Security Graph Query
+paths:
+  /v2/security-graph/query:
+    post:
+      operationId: QueryController_executeToxicCombinationQuery_post_/v2/security-graph/query
+      summary: Execute Toxic Combination Query
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SgqlQueryRunRequestModel'
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+      tags:
+      - Security Graph Query
+      description: Execute a query for toxic combination entities preview
+  /v2/security-graph/query/evidence-path/{queryRunRequestId}:
+    post:
+      operationId: QueryController_executeToxicCombinationEvidenceQuery_post_/v2/security-graph/query/evidence-path/{queryRunRequestId}
+      summary: Execute Toxic Combination Evidence Query
+      parameters:
+      - name: queryRunRequestId
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SgqlQueryRunEvidencePathRequestModel'
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+      tags:
+      - Security Graph Query
+      description: Execute a query for toxic combination evidence path preview
+  /v2/security-graph/query/evidence-path/sync/{queryRunRequestId}/{srl}:
+    get:
+      operationId: QueryController_getToxicCombinationEvidenceSync_get_/v2/security-graph/query/evidence-path/sync/{queryRunRequestId}/{srl}
+      summary: Get Toxic Combination Evidence Sync
+      parameters:
+      - name: queryRunRequestId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: srl
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryExecutionEvidencePathResponseViewModel'
+      tags:
+      - Security Graph Query
+      description: Execute a query for toxic combination issue preview immediately
+  /v2/security-graph/query/evidence-path/{requestId}:
+    get:
+      operationId: QueryController_getToxicCombinationEvidence_get_/v2/security-graph/query/evidence-path/{requestId}
+      summary: Get Toxic Combination Evidence
+      parameters:
+      - name: requestId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SgqlQueryRunEvidenceResponseViewModel'
+      tags:
+      - Security Graph Query
+      description: Get a query result SRLs by request ID
+  /v2/security-graph/query/sync:
+    post:
+      operationId: QueryController_executeToxicCombinationQuerySync_post_/v2/security-graph/query/sync
+      summary: Execute Toxic Combination Query Sync
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SgqlQueryRunRequestModel'
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SgqlQueryRunSrlsEnhancedResponseViewModel'
+      tags:
+      - Security Graph Query
+      description: Execute a query for toxic combination issue preview immediately
+  /v2/security-graph/query/{requestId}:
+    get:
+      operationId: QueryController_getToxicCombinationEntitySrls_get_/v2/security-graph/query/{requestId}
+      summary: Get Toxic Combination Entity Srls
+      parameters:
+      - name: requestId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SgqlQueryRunSrlsResponseViewModel'
+      tags:
+      - Security Graph Query
+      description: Get a query result SRLs by request ID
+  /v2/security-graph/entity-schema:
+    get:
+      operationId: EntitySchemaController_getEntitySchema_get_/v2/security-graph/entity-schema
+      summary: Get Entity Schema
+      parameters: []
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntitySchemaViewModel'
+      tags:
+      - Security Graph Query
+      description: Get the schema of entities and relationships
+components:
+  schemas:
+    SgqlQueryRunSrlsResponseViewModel:
+      type: object
+      properties:
+        srlResults:
+          type: array
+          items:
+            type: array
+        error:
+          type: string
+    SgqlQueryRunEvidenceResponseViewModel:
+      type: object
+      properties:
+        evidencePerSrl:
+          type: object
+        error:
+          type: string
+    SgqlQueryRunSrlsEnhancedResponseViewModel:
+      type: object
+      properties:
+        srlResults:
+          type: array
+          items:
+            type: array
+        error:
+          type: string
+        queryRunRequestId:
+          type: string
+      required:
+      - queryRunRequestId
+    QueryExecutionEvidencePathResponseViewModel:
+      type: object
+      properties:
+        evidencePath:
+          $ref: '#/components/schemas/GraphDataViewModel'
+        error:
+          type: string
+    GraphDataViewModel:
+      type: object
+      properties: {}
+    SgqlQueryRunEvidencePathRequestModel:
+      type: object
+      properties: {}
+    SgqlQueryRunRequestModel:
+      type: object
+      properties: {}
+    EntitySchemaViewModel:
+      type: object
+      properties:
+        EntitySchemas:
+          type: object
+        RelationshipSchemas:
+          type: object
+      required:
+      - EntitySchemas
+      - RelationshipSchemas
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

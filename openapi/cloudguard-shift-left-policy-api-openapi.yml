@@ -1,0 +1,286 @@
+openapi: 3.2.0
+info:
+  title: Workload Protection Shift Left Policy API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Shift Left Policy
+paths:
+  /v2/ShiftLeftPolicy/{id}:
+    get:
+      tags:
+      - Shift Left Policy
+      summary: Get
+      operationId: ShiftLeftPolicy_Get_get_/v2/ShiftLeftPolicy/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Policy's ID
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShiftLeftPolicyViewModel'
+      deprecated: true
+      description: 'Get single policy by its ID.
+
+        Returns a policy matching a given ID. (move to use /v2/vulnerability/policy)'
+  /v2/ShiftLeftPolicy:
+    get:
+      tags:
+      - Shift Left Policy
+      summary: Get All
+      operationId: ShiftLeftPolicy_GetAll_get_/v2/ShiftLeftPolicy
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShiftLeftPolicyViewModel'
+      deprecated: true
+      description: 'Get all policies for the requesting account.
+
+        Returns a collection of policies. (move to use /v2/vulnerability/policy)'
+    post:
+      tags:
+      - Shift Left Policy
+      summary: Post
+      operationId: ShiftLeftPolicy_Post_post_/v2/ShiftLeftPolicy
+      requestBody:
+        x-name: shiftLeftPolicyRequestModels
+        description: Policies to create
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ShiftLeftPolicyRequestModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShiftLeftPolicyViewModel'
+      deprecated: true
+      description: 'Create new policies.
+
+        Returns a multi status response containing successfully created policies without an error message and failed policies with an error message. (move to use /v2/vulnerability/policy)'
+    put:
+      tags:
+      - Shift Left Policy
+      summary: Put
+      operationId: ShiftLeftPolicy_Put_put_/v2/ShiftLeftPolicy
+      requestBody:
+        x-name: shiftLeftPolicyRequestModels
+        description: Policies to update
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ShiftLeftPolicyRequestModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShiftLeftPolicyViewModel'
+      deprecated: true
+      description: 'Update policies.
+
+        Returns a multi status response containing successfully updated policies without an error message and failed policies with an error message. (move to use /v2/vulnerability/policy)'
+    delete:
+      tags:
+      - Shift Left Policy
+      summary: Delete
+      operationId: ShiftLeftPolicy_Delete_delete_/v2/ShiftLeftPolicy
+      parameters:
+      - name: id
+        in: query
+        description: Policy's ID
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      deprecated: true
+      description: Delete policy by its ID. (move to use /v2/vulnerability/policy)
+components:
+  schemas:
+    ShiftLeftPolicyRequestModel:
+      type: object
+      additionalProperties: false
+      required:
+      - targetId
+      - targetType
+      - notificationIds
+      - rulesetId
+      - id
+      - externalAccountId
+      - admissionControllerAction
+      - admissionControlUnScannedAction
+      properties:
+        id:
+          type: string
+          format: guid
+        targetId:
+          type: string
+          format: guid
+          minLength: 1
+        targetType:
+          $ref: '#/components/schemas/ContinuousCompliancePolicyTargetType'
+        notificationIds:
+          type: array
+          items:
+            type: string
+            format: guid
+        rulesetId:
+          type: integer
+          format: int64
+        externalAccountId:
+          type:
+          - string
+          - 'null'
+        admissionControllerAction:
+          type:
+          - string
+          - 'null'
+          description: '[Preview feature - Image Admission] Image Admission action to block non-compliant images according to the relevant ruleset.
+
+            Options: ''Prevention'', ''Detection'', or null.'
+        admissionControlUnScannedAction:
+          type:
+          - string
+          - 'null'
+          description: '[Preview feature - Image Admission] Image Admission unScanned action of Detection or Prevention to alert on or block images that have not been scanned.
+
+            Options: ''Prevention'', ''Detection'', or null.'
+    ContinuousCompliancePolicyTargetType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Aws
+      - Azure
+      - Gcp
+      - Kubernetes
+      - OrganizationalUnit
+      - Terraform
+      - Generic
+      - KubernetesRuntimeAssurance
+      - ShiftLeft
+      - Alibaba
+      - Cft
+      - ContainerRegistry
+      - Vendor
+      - Oci
+      - CIEM
+      enum:
+      - Aws
+      - Azure
+      - Gcp
+      - Kubernetes
+      - OrganizationalUnit
+      - Terraform
+      - Generic
+      - KubernetesRuntimeAssurance
+      - ShiftLeft
+      - Alibaba
+      - Cft
+      - ContainerRegistry
+      - Vendor
+      - Oci
+      - CIEM
+    ShiftLeftPolicyViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - targetType
+      - targetId
+      - accountExternalId
+      - rulesetId
+      - notificationIds
+      - errorMessage
+      - admissionControllerAction
+      - admissionControlUnScannedAction
+      properties:
+        id:
+          type: string
+          format: guid
+        targetType:
+          $ref: '#/components/schemas/ContinuousCompliancePolicyTargetType'
+        targetId:
+          type: string
+          format: guid
+        accountExternalId:
+          type: string
+        rulesetId:
+          type: integer
+          format: int64
+        notificationIds:
+          type: array
+          items:
+            type: string
+            format: guid
+        errorMessage:
+          type:
+          - string
+          - 'null'
+        admissionControllerAction:
+          type:
+          - string
+          - 'null'
+          description: '[Preview feature - Image Admission] Image Admission action to block non-compliant images according to the relevant ruleset.
+
+            Options: ''Prevention'', ''Detection'', or null.'
+        admissionControlUnScannedAction:
+          type:
+          - string
+          - 'null'
+          description: '[Preview feature - Image Admission] Image Admission unScanned action of Detection or Prevention to alert on or block images that have not been scanned.
+
+            Options: ''Prevention'', ''Detection'', or null.'
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

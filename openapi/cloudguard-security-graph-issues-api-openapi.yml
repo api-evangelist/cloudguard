@@ -1,0 +1,520 @@
+openapi: 3.2.0
+info:
+  title: Risk Management Security Graph Issues API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Security Graph Issues
+paths:
+  /v2/security-graph/issues/vulnerabilities:
+    get:
+      operationId: IssueController_getVulnerabilities_get_/v2/security-graph/issues/vulnerabilities
+      summary: Get Vulnerabilities
+      parameters:
+      - name: issueId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: srl
+        required: true
+        in: query
+        schema:
+          type: string
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CveVulnerabilityResponse'
+      tags:
+      - Security Graph Issues
+      description: Get vulnerabilities of an issue's asset
+  /v2/security-graph/issues/iam-sensitivity:
+    get:
+      operationId: IssueController_getIamSensitivity_get_/v2/security-graph/issues/iam-sensitivity
+      summary: Get Iam Sensitivity
+      parameters:
+      - name: issueId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: srl
+        required: true
+        in: query
+        schema:
+          type: string
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IamSensitivityResponse'
+      tags:
+      - Security Graph Issues
+      description: Get IAM sensitivity of an issue's asset
+  /v2/security-graph/issues/main-entities:
+    get:
+      operationId: IssueController_getMainEntities_get_/v2/security-graph/issues/main-entities
+      summary: Get Main Entities
+      parameters:
+      - name: issueId
+        required: true
+        in: query
+        schema:
+          type: string
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProtectedAssetViewModel'
+      tags:
+      - Security Graph Issues
+      description: Get main entities of an issue
+  /v2/security-graph/issues/security-event:
+    get:
+      operationId: IssueController_getSecurityEvents_get_/v2/security-graph/issues/security-event
+      summary: Get Security Events
+      parameters:
+      - name: issueId
+        required: true
+        in: query
+        schema:
+          type: string
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SecurityEventPartialViewModel'
+      tags:
+      - Security Graph Issues
+      description: Get security events of an issue's asset
+  /v2/security-graph/issues/data-sensitivity:
+    get:
+      operationId: IssueController_getDataSensitivity_get_/v2/security-graph/issues/data-sensitivity
+      summary: Get Data Sensitivity
+      parameters:
+      - name: issueId
+        required: true
+        in: query
+        schema:
+          type: string
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DataSensitivityViewModel'
+      tags:
+      - Security Graph Issues
+      description: Get data sensitivity of an issue's asset
+  /v2/security-graph/issues/container-images:
+    get:
+      operationId: IssueController_getContainerImages_get_/v2/security-graph/issues/container-images
+      summary: Get Container Images
+      parameters:
+      - name: issueId
+        required: true
+        in: query
+        schema:
+          type: string
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ContainerImageIssueViewModel'
+      tags:
+      - Security Graph Issues
+      description: Get container images of an issue's asset
+  /v2/security-graph/issues/malware:
+    get:
+      operationId: IssueController_getMalware_get_/v2/security-graph/issues/malware
+      summary: Get Malware
+      parameters:
+      - name: issueId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: srl
+        required: true
+        in: query
+        schema:
+          type: string
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MalwareViewModel'
+      tags:
+      - Security Graph Issues
+      description: Get Malware of an issue's asset
+  /v2/security-graph/issues/enrichment-categories:
+    get:
+      operationId: IssueController_getEnrichmentCategories_get_/v2/security-graph/issues/enrichment-categories
+      summary: Get Enrichment Categories
+      parameters:
+      - name: issueId
+        required: true
+        in: query
+        schema:
+          type: string
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+      tags:
+      - Security Graph Issues
+      description: Get all enrichment categories for an issue
+components:
+  schemas:
+    MalwareScanEnrichment:
+      type: object
+      properties:
+        filePath:
+          type: string
+      required:
+      - filePath
+    CveVulnerabilityResponse:
+      type: object
+      properties:
+        cveId:
+          type: string
+        baseScore:
+          type: object
+        baseScoreVector:
+          type: object
+        description:
+          type: object
+        severity:
+          type: string
+          enum:
+          - Critical
+          - High
+          - Medium
+          - Low
+        fixable:
+          type: object
+        knownExploit:
+          type: boolean
+        epssScore:
+          type: object
+        packages:
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageDetailsResponse'
+      required:
+      - cveId
+      - severity
+      - knownExploit
+      - packages
+    ProtectedAssetViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+        entityId:
+          type: string
+        externalCloudAccountId:
+          type: string
+        cloudAccountId:
+          type: string
+        srl:
+          type: string
+        type:
+          type: string
+        name:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        platform:
+          type: string
+        typeByPlatform:
+          type: string
+        network:
+          type: string
+        region:
+          type: string
+        resourceGroup:
+          type: string
+        additionalFields:
+          type: array
+          items:
+            type: string
+        externalAdditionalFields:
+          type: array
+          items:
+            type: string
+        riskScore:
+          type: number
+        businessPriority:
+          type: string
+        postureFindings:
+          type: object
+        cvEs:
+          type: object
+        malware:
+          type: object
+        malwarePerSeverity:
+          type: object
+        secrets:
+          type: number
+        secretsPerSeverity:
+          type: object
+        context:
+          type: object
+      required:
+      - id
+      - entityId
+      - externalCloudAccountId
+      - cloudAccountId
+      - srl
+      - type
+      - name
+      - tags
+      - platform
+      - typeByPlatform
+      - network
+      - region
+      - resourceGroup
+      - additionalFields
+      - externalAdditionalFields
+    DataSensitivityViewModel:
+      type: object
+      properties:
+        entityId:
+          type: string
+        name:
+          type: string
+        typeByPlatform:
+          type: string
+        platform:
+          type: string
+        cloudAccountId:
+          type: string
+        context:
+          type: object
+      required:
+      - entityId
+      - name
+      - typeByPlatform
+      - platform
+      - cloudAccountId
+      - context
+    MalwareViewModel:
+      type: object
+      properties:
+        malwareId:
+          type: string
+        severity:
+          type: string
+        family:
+          type: string
+          enum:
+          - Adware
+          - Botnet
+          - Dropper
+          - Exploit
+          - Generic
+          - HackTool
+          - Infostealer
+          - Ransomware
+          - RiskTool
+          - Trojan
+          - Virus
+          - HEUR:Backdoor
+          - HEUR:Trojan
+        hash:
+          type: string
+        scanData:
+          $ref: '#/components/schemas/MalwareScanEnrichment'
+      required:
+      - malwareId
+      - severity
+      - family
+      - hash
+      - scanData
+    ContainerImageIssueViewModel:
+      type: object
+      properties:
+        cloudAccountId:
+          type: string
+        platform:
+          type: string
+        imageId:
+          type: string
+        imageType:
+          type: string
+        typeByPlatform:
+          type: string
+      required:
+      - cloudAccountId
+      - platform
+      - imageId
+      - imageType
+      - typeByPlatform
+    IamSensitivityResponse:
+      type: object
+      properties:
+        roleScopeActions:
+          type: object
+        entityType:
+          type: string
+          enum:
+          - Instance
+          - EcsService
+          - Lambda
+          - RDS
+          - S3Bucket
+          - EcrRepository
+          - EksCluster
+          - IamRole
+          - IamUser
+          - AutoScalingGroup
+          - RDSDBCluster
+          - NeptuneCluster
+          - DocDbCluster
+          - Redshift
+          - EcsImage
+          - DynamoDbTable
+          - EcsTask
+          - VirtualMachine
+          - FunctionApp
+          - AppRegistration
+          - StorageAccount
+          - User
+          - AzureGroup
+          - UserAssignedIdentity
+          - VirtualMachineScaleSet
+          - SQLServer
+          - CosmosDbAccount
+          - PostgreSQL
+          - MySQLDBSingleServer
+          - MySQLDBFlexibleServer
+          - PostgreSQLFlexibleServer
+          - AzureContainerInstance
+          - AzureRoleDefinition
+          - AksCluster
+          - SqlManagedInstance
+          - RedisCache
+          - StorageBlobContainer
+          - ContainerRegistryImage
+          - KubernetesImage
+          - KubernetesPod
+          - KubernetesDaemonSet
+          - KubernetesDeployment
+          - KubernetesStatefulSet
+          - KubernetesCronJob
+          - KubernetesReplicaSet
+      required:
+      - roleScopeActions
+      - entityType
+    PackageDetailsResponse:
+      type: object
+      properties:
+        name:
+          type: string
+        filePath:
+          type: string
+        upgradeTo:
+          type: string
+        packageId:
+          type: string
+    SecurityEventPartialViewModel:
+      type: object
+      properties:
+        findingKey:
+          type: string
+        accountId:
+          type: string
+        cloudAccountId:
+          type: string
+        cloudAccountExternalId:
+          type: string
+        cloudAccountName:
+          type: string
+        bundleId:
+          type: string
+        bundleName:
+          type: string
+        ruleId:
+          type: string
+        ruleName:
+          type: string
+        ruleLogic:
+          type: string
+        severity:
+          type: string
+        entityExternalId:
+          type: string
+        entityDome9Id:
+          type: string
+        createdTime:
+          type: string
+      required:
+      - findingKey
+      - accountId
+      - cloudAccountId
+      - cloudAccountExternalId
+      - cloudAccountName
+      - bundleId
+      - bundleName
+      - ruleId
+      - ruleName
+      - ruleLogic
+      - severity
+      - entityExternalId
+      - createdTime
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

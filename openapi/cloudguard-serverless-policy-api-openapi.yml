@@ -1,0 +1,213 @@
+openapi: 3.2.0
+info:
+  title: Workload Protection Serverless Policy API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Serverless Policy
+paths:
+  /v2/serverless/policy/{id}:
+    get:
+      tags:
+      - Serverless Policy
+      summary: Get
+      operationId: ServerlessPolicy_GetAsync_get_/v2/serverless/policy/{id}
+      parameters:
+      - name: id
+        in: path
+        description: Policy's ID
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Serverless.Policy.ServerlessPolicyViewModel'
+      description: 'Get single policy by its ID.
+
+        Returns a policy matching a given ID.'
+    delete:
+      tags:
+      - Serverless Policy
+      summary: Delete
+      operationId: ServerlessPolicy_DeleteAsync_delete_/v2/serverless/policy/{id}
+      parameters:
+      - name: id
+        in: path
+        description: Policy's ID
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      description: Delete policy by its ID.
+  /v2/serverless/policy:
+    get:
+      tags:
+      - Serverless Policy
+      summary: Get
+      operationId: ServerlessPolicy_GetAsync_get_/v2/serverless/policy
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Serverless.Policy.ServerlessPolicyViewModel'
+      description: 'Get all policies for the requesting account.
+
+        Returns a collection of policies.'
+    put:
+      tags:
+      - Serverless Policy
+      summary: Put
+      operationId: ServerlessPolicy_PutAsync_put_/v2/serverless/policy
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Serverless.Policy.ServerlessPolicyViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Serverless.Policy.ServerlessPolicyRequestModel'
+          application/x-www-form-urlencoded:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Serverless.Policy.ServerlessPolicyRequestModel'
+        description: Policies to update
+        required: true
+      description: 'Update policies.
+
+        Returns a multi status response containing successfully updated policies without an error message and failed policies with an error message.'
+    post:
+      tags:
+      - Serverless Policy
+      summary: Post
+      operationId: ServerlessPolicy_PostAsync_post_/v2/serverless/policy
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Serverless.Policy.ServerlessPolicyViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Serverless.Policy.ServerlessPolicyRequestModel'
+          application/x-www-form-urlencoded:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Serverless.Policy.ServerlessPolicyRequestModel'
+        description: Policies to create
+        required: true
+      description: 'Create new policies.
+
+        Returns a multi status response containing successfully created policies without an error message and failed policies with an error message.'
+components:
+  schemas:
+    Dome9.Web.Api.Compliance.Serverless.Policy.ServerlessPolicyViewModel:
+      type: object
+      properties:
+        id:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        topic:
+          enum:
+          - TASK
+          - SECURITY_EVENT
+          - MANAGEMENT
+          type: string
+        notificationIds:
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        provider:
+          enum:
+          - aws
+          - azure
+          - kubernetes
+          type: string
+        errorMessage:
+          type: string
+    Dome9.Web.Api.Compliance.Serverless.Policy.ServerlessPolicyRequestModel:
+      required:
+      - cloudAccountId
+      - topic
+      - notificationIds
+      type: object
+      properties:
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        topic:
+          enum:
+          - TASK
+          - SECURITY_EVENT
+          - MANAGEMENT
+          type: string
+        notificationIds:
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        provider:
+          enum:
+          - aws
+          - azure
+          - kubernetes
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

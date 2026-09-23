@@ -1,0 +1,979 @@
+openapi: 3.2.0
+info:
+  title: Workload Protection Workload Image Assurance API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Workload Image Assurance
+paths:
+  /v2/workload/imageAssurance/images:
+    get:
+      tags:
+      - Workload Image Assurance
+      summary: Get Workload Images By Dome9 Id
+      operationId: WorkloadImageAssurance_GetWorkloadImagesByDome9Id_get_/v2/workload/imageAssurance/images
+      parameters:
+      - name: dome9Id
+        in: query
+        schema:
+          type: string
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkloadImageViewModel'
+      description: Get images by workload dome9id
+  /v2/workload/imageAssurance/image:
+    get:
+      tags:
+      - Workload Image Assurance
+      summary: Get Image
+      operationId: WorkloadImageAssurance_GetImage_get_/v2/workload/imageAssurance/image
+      parameters:
+      - name: environmentId
+        in: query
+        description: UUID of the CloudGuard environment containing the image
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      - name: imageIdOrDigest
+        in: query
+        description: Image-id or digest of an image (with or without "sha256:" prefix)
+        schema:
+          type: string
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/KubernetesImageViewModel'
+      description: Get image details by image-id or digest
+  /v2/workload/imageAssurance/image/workloads:
+    get:
+      tags:
+      - Workload Image Assurance
+      operationId: WorkloadImageAssurance_GetImageWorkloadsByImageId_get_/v2/workload/imageAssurance/image/workloads
+      parameters:
+      - name: imageIdOrDigest
+        in: query
+        description: ConfigSha of an image or a digest
+        schema:
+          type: string
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageWorkloadsViewModel'
+      description: ''
+      summary: Get Image Workloads By Image Id
+  /v2/workload/imageAssurance/EcsTask/Images:
+    get:
+      tags:
+      - Workload Image Assurance
+      summary: Get Task Images
+      operationId: WorkloadImageAssurance_GetTaskImages_get_/v2/workload/imageAssurance/EcsTask/Images
+      parameters:
+      - name: id
+        in: query
+        description: the Dome9 EcsTask id
+        schema:
+          type: string
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+      description: Get EcsTask images
+  /v2/workload/imageAssurance/EcsService/Images:
+    get:
+      tags:
+      - Workload Image Assurance
+      summary: Get Service Images
+      operationId: WorkloadImageAssurance_GetServiceImages_get_/v2/workload/imageAssurance/EcsService/Images
+      parameters:
+      - name: id
+        in: query
+        description: the Dome9 Service id
+        schema:
+          type: string
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+      description: Get EcsService images
+  /v2/workload/imageAssurance/EcsCluster/Images:
+    get:
+      tags:
+      - Workload Image Assurance
+      summary: Get Cluster Images
+      operationId: WorkloadImageAssurance_GetClusterImages_get_/v2/workload/imageAssurance/EcsCluster/Images
+      parameters:
+      - name: id
+        in: query
+        description: the Dome9 Cluster id
+        schema:
+          type: string
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+      description: Get EcsCluster images
+  /v2/workload/imageAssurance/scanImage:
+    post:
+      tags:
+      - Workload Image Assurance
+      operationId: WorkloadImageAssurance_ScanImage_post_/v2/workload/imageAssurance/scanImage
+      requestBody:
+        x-name: imageScanRequestModel
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageScanRequestModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: ''
+      summary: Scan Image
+  /v2/workload/imageAssurance/scanEnvironment/{environmentId}/all:
+    post:
+      tags:
+      - Workload Image Assurance
+      operationId: WorkloadImageAssurance_ScanEnvironmentAll_post_/v2/workload/imageAssurance/scanEnvironment/{environmentId}/all
+      parameters:
+      - name: environmentId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageScanRequestViewModel'
+      description: ''
+      summary: Scan Environment All
+  /v2/workload/imageAssurance/scanEnvironment/{environmentId}/failed:
+    post:
+      tags:
+      - Workload Image Assurance
+      operationId: WorkloadImageAssurance_ScanEnvironmentFailed_post_/v2/workload/imageAssurance/scanEnvironment/{environmentId}/failed
+      parameters:
+      - name: environmentId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageScanRequestViewModel'
+      description: ''
+      summary: Scan Environment Failed
+components:
+  schemas:
+    ImageScanRequestViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - imagesToScanCount
+      properties:
+        imagesToScanCount:
+          type: integer
+          format: int32
+    ImageType:
+      type: string
+      description: ''
+      x-enumNames:
+      - EcsImage
+      - KubernetesImage
+      enum:
+      - EcsImage
+      - KubernetesImage
+    KubernetesImageScanTotalsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - critical
+      - high
+      - medium
+      - low
+      - unknown
+      - maliciousFile
+      - sensitiveContent
+      - maliciousUrl
+      - maliciousIp
+      - cve
+      properties:
+        critical:
+          type: integer
+          format: int32
+        high:
+          type: integer
+          format: int32
+        medium:
+          type: integer
+          format: int32
+        low:
+          type: integer
+          format: int32
+        unknown:
+          type: integer
+          format: int32
+        maliciousFile:
+          type: integer
+          format: int32
+        sensitiveContent:
+          type: integer
+          format: int32
+        maliciousUrl:
+          type: integer
+          format: int32
+        maliciousIp:
+          type: integer
+          format: int32
+        cve:
+          type: integer
+          format: int32
+    KubernetesImageScanDetailsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - riskScore
+      - scanStatus
+      - scanStatusDetails
+      - scanEngineVersion
+      - totals
+      properties:
+        riskScore:
+          type: string
+        scanStatus:
+          type: string
+        scanStatusDetails:
+          type: string
+        scanEngineVersion:
+          type: string
+        totals:
+          $ref: '#/components/schemas/KubernetesImageScanTotalsViewModel'
+    WorkloadImageViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - imageId
+      - externalId
+      - name
+      - registry
+      - repository
+      - tag
+      - type
+      - digest
+      - riskScore
+      - scanStatus
+      properties:
+        id:
+          type: string
+        imageId:
+          type: string
+        externalId:
+          type: string
+        name:
+          type: string
+        registry:
+          type: string
+        repository:
+          type: string
+        tag:
+          type: string
+        type:
+          $ref: '#/components/schemas/ImageType'
+        digest:
+          type: string
+        riskScore:
+          type:
+          - string
+          - 'null'
+        scanStatus:
+          oneOf:
+          - $ref: '#/components/schemas/ImageStatus'
+    KubernetesImageWorkloadViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - externalId
+      - name
+      - namespace
+      - labels
+      - annotations
+      - desiredPodsNumber
+      - readyPodsNumber
+      - environmentId
+      - createdAt
+      - kind
+      properties:
+        id:
+          type: string
+        externalId:
+          type: string
+        name:
+          type: string
+        namespace:
+          type: string
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+        annotations:
+          type: object
+          additionalProperties:
+            type: string
+        desiredPodsNumber:
+          type: integer
+          format: int32
+        readyPodsNumber:
+          type: integer
+          format: int32
+        environmentId:
+          type: string
+          format: guid
+        createdAt:
+          type: string
+          format: date-time
+        kind:
+          type: string
+    ImageScanRequestModel:
+      type: object
+      additionalProperties: false
+      required:
+      - environmentId
+      - imageIdOrDigest
+      properties:
+        environmentId:
+          type: string
+          format: guid
+        imageIdOrDigest:
+          type: string
+    EcsImageWorkloadViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - externalId
+      - type
+      - awsAccount
+      - region
+      - cluster
+      - name
+      - tags
+      - environmentId
+      - desiredTasksNumber
+      - createdAt
+      properties:
+        id:
+          type: string
+        externalId:
+          type: string
+        type:
+          type: string
+        awsAccount:
+          type: string
+        region:
+          $ref: '#/components/schemas/CloudRegion'
+        cluster:
+          type: string
+        name:
+          type: string
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        environmentId:
+          type: string
+          format: guid
+        desiredTasksNumber:
+          type: integer
+          format: int32
+        createdAt:
+          type: string
+          format: date-time
+    KubernetesImageViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - labels
+      - name
+      - id
+      - size
+      - registry
+      - repository
+      - tag
+      - scanDetails
+      - lastRunningDate
+      - isRunning
+      - ecsClusterName
+      - isScannable
+      properties:
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+        name:
+          type: string
+        id:
+          type: string
+        size:
+          type: integer
+          format: int64
+        registry:
+          type: string
+        repository:
+          type: string
+        tag:
+          type: string
+        scanDetails:
+          $ref: '#/components/schemas/KubernetesImageScanDetailsViewModel'
+        lastRunningDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        isRunning:
+          type: boolean
+        ecsClusterName:
+          type: string
+        isScannable:
+          type: boolean
+    ImageWorkloadsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - kubernetesImageWorkloads
+      - ecsImageWorkloads
+      properties:
+        kubernetesImageWorkloads:
+          type: array
+          default: []
+          items:
+            $ref: '#/components/schemas/KubernetesImageWorkloadViewModel'
+        ecsImageWorkloads:
+          type: array
+          default: []
+          items:
+            $ref: '#/components/schemas/EcsImageWorkloadViewModel'
+    ImageStatus:
+      type: string
+      description: ''
+      x-enumNames:
+      - Pending
+      - Requested
+      - InternalError
+      - Scanned
+      - PartialResult
+      - UnsupportedOS
+      - Unmatched
+      - UnsupportedArtifactType
+      - NetworkError
+      - Unauthorized
+      - NewImage
+      - InsufficientResources
+      - Timeout
+      enum:
+      - Pending
+      - Requested
+      - InternalError
+      - Scanned
+      - PartialResult
+      - UnsupportedOS
+      - Unmatched
+      - UnsupportedArtifactType
+      - NetworkError
+      - Unauthorized
+      - NewImage
+      - InsufficientResources
+      - Timeout
+    CloudRegion:
+      type: string
+      description: ''
+      x-enumNames:
+      - us_east_1
+      - us_west_1
+      - eu_west_1
+      - ap_southeast_1
+      - ap_northeast_1
+      - us_west_2
+      - sa_east_1
+      - az_1_region_a_geo_1
+      - az_2_region_a_geo_1
+      - az_3_region_a_geo_1
+      - ap_southeast_2
+      - mellanox_region
+      - us_gov_west_1
+      - eu_central_1
+      - ap_northeast_2
+      - ap_south_1
+      - us_east_2
+      - ca_central_1
+      - eu_west_2
+      - eu_west_3
+      - eu_north_1
+      - cn_north_1
+      - cn_northwest_1
+      - us_gov_east_1
+      - ap_east_1
+      - me_south_1
+      - af_south_1
+      - eu_south_1
+      - ap_northeast_3
+      - me_central_1
+      - ap_south_2
+      - ap_southeast_3
+      - ap_southeast_4
+      - eu_central_2
+      - eu_south_2
+      - il_central_1
+      - ca_west_1
+      - mx_central_1
+      - ap_southeast_5
+      - ap_southeast_7
+      - westus
+      - eastus
+      - eastus2
+      - northcentralus
+      - westus2
+      - southcentralus
+      - centralus
+      - usgovlowa
+      - usgovvirginia
+      - northeurope
+      - westeurope
+      - eastasia
+      - southeastasia
+      - japaneast
+      - japanwest
+      - brazilsouth
+      - australiaeast
+      - australiasoutheast
+      - centralindia
+      - southindia
+      - westindia
+      - canadaeast
+      - westcentralus
+      - chinaeast
+      - chinanorth
+      - canadacentral
+      - germanycentral
+      - germanynortheast
+      - koreacentral
+      - uksouth
+      - ukwest
+      - koreasouth
+      - francecentral
+      - francesouth
+      - germanywestcentral
+      - usdodcentral
+      - usdodeast
+      - usgovarizona
+      - usgovtexas
+      - australiacentral
+      - australiacentral2
+      - chinaeast2
+      - chinanorth2
+      - southafricanorth
+      - southafricawest
+      - uaecentral
+      - uaenorth
+      - ussecwest
+      - usseceast
+      - germanynorth
+      - switzerlandwest
+      - norwaywest
+      - norwayeast
+      - switzerlandnorth
+      - westus3
+      - swedencentral
+      - chinanorth3
+      - brazilsoutheast
+      - eastus2euap
+      - jioindiawest
+      - jioindiacentral
+      - qatarcentral
+      - spaincentral
+      - italynorth
+      - polandcentral
+      - mexicocentral
+      - asia
+      - asia_east1
+      - asia_northeast1
+      - asia_south1
+      - asia_southeast1
+      - australia_southeast1
+      - europe
+      - europe_north1
+      - europe_west1
+      - europe_west2
+      - europe_west3
+      - europe_west4
+      - northamerica_northeast1
+      - southamerica_east1
+      - us
+      - us_central1
+      - us_east1
+      - us_east4
+      - us_west1
+      - us_west2
+      - global
+      - asia_east2
+      - eur4
+      - nam4
+      - europe_west6
+      - japan_west
+      - asia_northeast2
+      - asia_northeast3
+      - us_west3
+      - us_west4
+      - asia_southeast2
+      - nam3
+      - nam5
+      - nam6
+      - nam7
+      - nam10
+      - nam_eur_asia1
+      - eur3
+      - eur5
+      - asia1
+      - nam11
+      - eu
+      - northamerica_northeast2
+      - southamerica_west1
+      - us_east5
+      - us_south1
+      - europe_central2
+      - europe_southwest1
+      - europe_west8
+      - europe_west9
+      - europe_west10
+      - europe_west12
+      - asia_south2
+      - australia_southeast2
+      - me_central1
+      - me_central2
+      - me_west1
+      - ap_sydney_1
+      - ap_melbourne_1
+      - sa_saopaulo_1
+      - sa_vinhedo_1
+      - ca_montreal_1
+      - ca_toronto_1
+      - sa_santiago_1
+      - eu_paris_1
+      - eu_marseille_1
+      - eu_frankfurt_1
+      - ap_hyderabad_1
+      - ap_mumbai_1
+      - il_jerusalem_1
+      - eu_milan_1
+      - ap_osaka_1
+      - ap_tokyo_1
+      - mx_queretaro_1
+      - eu_amsterdam_1
+      - me_jeddah_1
+      - ap_singapore_1
+      - af_johannesburg_1
+      - ap_seoul_1
+      - ap_chuncheon_1
+      - eu_madrid_1
+      - eu_stockholm_1
+      - eu_zurich_1
+      - me_abudhabi_1
+      - me_dubai_1
+      - uk_london_1
+      - uk_cardiff_1
+      - us_ashburn_1
+      - us_phoenix_1
+      - us_sanjose_1
+      - us_gov_ashburn_1
+      - us_gov_chicago_1
+      - us_gov_phoenix_1
+      - us_langley_1
+      - us_luke_1
+      - uk_gov_london_1
+      - uk_gov_cardiff_1
+      - sa_bogota_1
+      - us_chicago_1
+      - sa_valparaiso_1
+      - mx_monterrey_1
+      - eu_jovanovac_1
+      - ap_singapore_2
+      enum:
+      - us_east_1
+      - us_west_1
+      - eu_west_1
+      - ap_southeast_1
+      - ap_northeast_1
+      - us_west_2
+      - sa_east_1
+      - az_1_region_a_geo_1
+      - az_2_region_a_geo_1
+      - az_3_region_a_geo_1
+      - ap_southeast_2
+      - mellanox_region
+      - us_gov_west_1
+      - eu_central_1
+      - ap_northeast_2
+      - ap_south_1
+      - us_east_2
+      - ca_central_1
+      - eu_west_2
+      - eu_west_3
+      - eu_north_1
+      - cn_north_1
+      - cn_northwest_1
+      - us_gov_east_1
+      - ap_east_1
+      - me_south_1
+      - af_south_1
+      - eu_south_1
+      - ap_northeast_3
+      - me_central_1
+      - ap_south_2
+      - ap_southeast_3
+      - ap_southeast_4
+      - eu_central_2
+      - eu_south_2
+      - il_central_1
+      - ca_west_1
+      - mx_central_1
+      - ap_southeast_5
+      - ap_southeast_7
+      - westus
+      - eastus
+      - eastus2
+      - northcentralus
+      - westus2
+      - southcentralus
+      - centralus
+      - usgovlowa
+      - usgovvirginia
+      - northeurope
+      - westeurope
+      - eastasia
+      - southeastasia
+      - japaneast
+      - japanwest
+      - brazilsouth
+      - australiaeast
+      - australiasoutheast
+      - centralindia
+      - southindia
+      - westindia
+      - canadaeast
+      - westcentralus
+      - chinaeast
+      - chinanorth
+      - canadacentral
+      - germanycentral
+      - germanynortheast
+      - koreacentral
+      - uksouth
+      - ukwest
+      - koreasouth
+      - francecentral
+      - francesouth
+      - germanywestcentral
+      - usdodcentral
+      - usdodeast
+      - usgovarizona
+      - usgovtexas
+      - australiacentral
+      - australiacentral2
+      - chinaeast2
+      - chinanorth2
+      - southafricanorth
+      - southafricawest
+      - uaecentral
+      - uaenorth
+      - ussecwest
+      - usseceast
+      - germanynorth
+      - switzerlandwest
+      - norwaywest
+      - norwayeast
+      - switzerlandnorth
+      - westus3
+      - swedencentral
+      - chinanorth3
+      - brazilsoutheast
+      - eastus2euap
+      - jioindiawest
+      - jioindiacentral
+      - qatarcentral
+      - spaincentral
+      - italynorth
+      - polandcentral
+      - mexicocentral
+      - asia
+      - asia_east1
+      - asia_northeast1
+      - asia_south1
+      - asia_southeast1
+      - australia_southeast1
+      - europe
+      - europe_north1
+      - europe_west1
+      - europe_west2
+      - europe_west3
+      - europe_west4
+      - northamerica_northeast1
+      - southamerica_east1
+      - us
+      - us_central1
+      - us_east1
+      - us_east4
+      - us_west1
+      - us_west2
+      - global
+      - asia_east2
+      - eur4
+      - nam4
+      - europe_west6
+      - japan_west
+      - asia_northeast2
+      - asia_northeast3
+      - us_west3
+      - us_west4
+      - asia_southeast2
+      - nam3
+      - nam5
+      - nam6
+      - nam7
+      - nam10
+      - nam_eur_asia1
+      - eur3
+      - eur5
+      - asia1
+      - nam11
+      - eu
+      - northamerica_northeast2
+      - southamerica_west1
+      - us_east5
+      - us_south1
+      - europe_central2
+      - europe_southwest1
+      - europe_west8
+      - europe_west9
+      - europe_west10
+      - europe_west12
+      - asia_south2
+      - australia_southeast2
+      - me_central1
+      - me_central2
+      - me_west1
+      - ap_sydney_1
+      - ap_melbourne_1
+      - sa_saopaulo_1
+      - sa_vinhedo_1
+      - ca_montreal_1
+      - ca_toronto_1
+      - sa_santiago_1
+      - eu_paris_1
+      - eu_marseille_1
+      - eu_frankfurt_1
+      - ap_hyderabad_1
+      - ap_mumbai_1
+      - il_jerusalem_1
+      - eu_milan_1
+      - ap_osaka_1
+      - ap_tokyo_1
+      - mx_queretaro_1
+      - eu_amsterdam_1
+      - me_jeddah_1
+      - ap_singapore_1
+      - af_johannesburg_1
+      - ap_seoul_1
+      - ap_chuncheon_1
+      - eu_madrid_1
+      - eu_stockholm_1
+      - eu_zurich_1
+      - me_abudhabi_1
+      - me_dubai_1
+      - uk_london_1
+      - uk_cardiff_1
+      - us_ashburn_1
+      - us_phoenix_1
+      - us_sanjose_1
+      - us_gov_ashburn_1
+      - us_gov_chicago_1
+      - us_gov_phoenix_1
+      - us_langley_1
+      - us_luke_1
+      - uk_gov_london_1
+      - uk_gov_cardiff_1
+      - sa_bogota_1
+      - us_chicago_1
+      - sa_valparaiso_1
+      - mx_monterrey_1
+      - eu_jovanovac_1
+      - ap_singapore_2
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

@@ -1,0 +1,271 @@
+openapi: 3.2.0
+info:
+  title: Workload Protection Kubernetes Pod Group API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Kubernetes Pod Group
+paths:
+  /v2/kubernetes/podGroup/daemonSet/{id}/podList:
+    get:
+      tags:
+      - Kubernetes Pod Group
+      summary: Get Daemon Set Pod List
+      operationId: KubernetesPodGroup_GetDaemonSetPodList_get_/v2/kubernetes/podGroup/daemonSet/{id}/podList
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the Dome9 daemon set id
+        schema:
+          type: string
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+      description: Get daemon set pods
+  /v2/kubernetes/podGroup/deployment/{id}/podList:
+    get:
+      tags:
+      - Kubernetes Pod Group
+      summary: Get Deployment Pod List
+      operationId: KubernetesPodGroup_GetDeploymentPodList_get_/v2/kubernetes/podGroup/deployment/{id}/podList
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the Dome9 deployment id
+        schema:
+          type: string
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+      description: Get deployment pods
+  /v2/kubernetes/podGroup/replicaSet/{id}/podList:
+    get:
+      tags:
+      - Kubernetes Pod Group
+      summary: Get Replica Set Pod List
+      operationId: KubernetesPodGroup_GetReplicaSetPodList_get_/v2/kubernetes/podGroup/replicaSet/{id}/podList
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the Dome9 replica set id
+        schema:
+          type: string
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+      description: Get replica set pods
+  /v2/kubernetes/podGroup/statefulSet/{id}/podList:
+    get:
+      tags:
+      - Kubernetes Pod Group
+      summary: Get Stateful Set Pod List
+      operationId: KubernetesPodGroup_GetStatefulSetPodList_get_/v2/kubernetes/podGroup/statefulSet/{id}/podList
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the Dome9 stateful set id
+        schema:
+          type: string
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+      description: Get stateful set pods
+  /v2/kubernetes/podGroup/pod/{id}/images:
+    get:
+      tags:
+      - Kubernetes Pod Group
+      summary: Get Pod Images
+      operationId: KubernetesPodGroup_GetPodImages_get_/v2/kubernetes/podGroup/pod/{id}/images
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the Dome9 pod id
+        schema:
+          type: string
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+      description: Get pod images
+  /v2/kubernetes/podGroup/cronJob/{id}/images:
+    get:
+      tags:
+      - Kubernetes Pod Group
+      summary: Get Cron Job Images
+      operationId: KubernetesPodGroup_GetCronJobImages_get_/v2/kubernetes/podGroup/cronJob/{id}/images
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the Dome9 pod id
+        schema:
+          type: string
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+      description: Get pod images
+  /v2/kubernetes/podGroup/daemonSet/{id}/images:
+    get:
+      tags:
+      - Kubernetes Pod Group
+      summary: Get Daemon Set Images
+      operationId: KubernetesPodGroup_GetDaemonSetImages_get_/v2/kubernetes/podGroup/daemonSet/{id}/images
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the Dome9 daemonset id
+        schema:
+          type: string
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+      description: Get daemonset images
+  /v2/kubernetes/podGroup/deployment/{id}/images:
+    get:
+      tags:
+      - Kubernetes Pod Group
+      summary: Get Deployment Images
+      operationId: KubernetesPodGroup_GetDeploymentImages_get_/v2/kubernetes/podGroup/deployment/{id}/images
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the Dome9 deployment id
+        schema:
+          type: string
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+      description: Get deployment images
+  /v2/kubernetes/podGroup/replicaSet/{id}/images:
+    get:
+      tags:
+      - Kubernetes Pod Group
+      summary: Get Replica Set Images
+      operationId: KubernetesPodGroup_GetReplicaSetImages_get_/v2/kubernetes/podGroup/replicaSet/{id}/images
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the Dome9 replicaset id
+        schema:
+          type: string
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+      description: Get replica set images
+  /v2/kubernetes/podGroup/statefulSet/{id}/images:
+    get:
+      tags:
+      - Kubernetes Pod Group
+      summary: Get Stateful Set Images
+      operationId: KubernetesPodGroup_GetStatefulSetImages_get_/v2/kubernetes/podGroup/statefulSet/{id}/images
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the Dome9 stateful set id
+        schema:
+          type: string
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+      description: Get stateful set images
+components:
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

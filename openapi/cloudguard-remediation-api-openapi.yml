@@ -1,0 +1,170 @@
+openapi: 3.2.0
+info:
+  title: Intelligence Remediation API
+  version: v2
+  description: Remediation Actions
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Remediation
+  description: Remediation Actions
+paths:
+  /v2/remediation/trigger:
+    post:
+      tags:
+      - Remediation
+      summary: Post Trigger Remediation
+      operationId: Remediation_PostTriggerRemediation_post_/v2/remediation/trigger
+      requestBody:
+        x-name: remediationModel
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RemediationExecuteRequestModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: Status of the batch report progress
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RemediationExecuteResponseModel'
+      description: External api execute command for remediation
+  /v2/remediation/status/{executionId}:
+    get:
+      tags:
+      - Remediation
+      summary: Get Status Remediation
+      operationId: Remediation_GetStatusRemediation_get_/v2/remediation/status/{executionId}
+      parameters:
+      - name: executionId
+        in: path
+        required: true
+        schema:
+          type: string
+        x-position: 1
+      responses:
+        '200':
+          description: Status of the Remediation progress
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusGeneralDetails'
+      description: Get status for remediation
+components:
+  schemas:
+    Finding2:
+      type: object
+      additionalProperties: false
+      required:
+      - key
+      properties:
+        key:
+          type: string
+    CloudBot:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - params
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        params:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+    WorkItemsTriggerStatus:
+      type: object
+      additionalProperties: false
+      required:
+      - errorMessage
+      - isTriggered
+      - workItemExecutionId
+      - workItemFindingKey
+      properties:
+        errorMessage:
+          type:
+          - string
+          - 'null'
+        isTriggered:
+          type: boolean
+        workItemExecutionId:
+          type: string
+        workItemFindingKey:
+          type: string
+    RemediationExecuteResponseModel:
+      type: object
+      additionalProperties: false
+      required:
+      - workItemsTriggerStatuses
+      properties:
+        workItemsTriggerStatuses:
+          type: array
+          default: []
+          items:
+            $ref: '#/components/schemas/WorkItemsTriggerStatus'
+    RemediationExecuteRequestModel:
+      type: object
+      additionalProperties: false
+      required:
+      - triggerEndpoint
+      - cloudbots
+      - findings
+      properties:
+        triggerEndpoint:
+          type: string
+        cloudbots:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudBot'
+        findings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Finding2'
+    StatusGeneralDetails:
+      type: object
+      additionalProperties: false
+      required:
+      - eventTime
+      - status
+      - remediation
+      - findingKey
+      - botMessage
+      properties:
+        eventTime:
+          type: string
+        status:
+          type: string
+        remediation:
+          type: string
+        findingKey:
+          type: string
+        botMessage:
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

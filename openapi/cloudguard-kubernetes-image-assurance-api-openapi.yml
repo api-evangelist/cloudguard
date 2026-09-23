@@ -1,0 +1,575 @@
+openapi: 3.2.0
+info:
+  title: Workload Protection Kubernetes Image Assurance API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Kubernetes Image Assurance
+paths:
+  /v2/kubernetes/imageAssurance/image:
+    get:
+      tags:
+      - Kubernetes Image Assurance
+      summary: Get Image
+      operationId: KubernetesImageAssurance_GetImage_get_/v2/kubernetes/imageAssurance/image
+      parameters:
+      - name: id
+        in: query
+        description: "Image ID (entityDome9Id in the Image Entity viewer)\n             \n            id in the following format: ASSET_TYPE|CloudAccountId|Image|ImageSha\n            (ASSET_TYPE: 11 for Kubernetes Image)\n            e.g.\n            11|ffb03c67-83c0-4d92-bf03-880eb0781948|Image|sha256:40d4b9bf327a85059a4842b043f67b8a7221d8487d42d17a55f85085d0ffb328\n             \n             "
+        schema:
+          type: string
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KubernetesImageViewModel'
+      description: Fetch a specific image
+  /v2/kubernetes/imageAssurance/image/vulnerabilities:
+    get:
+      tags:
+      - Kubernetes Image Assurance
+      summary: Get Image Vulnerabilities
+      operationId: KubernetesImageAssurance_GetImageVulnerabilities_get_/v2/kubernetes/imageAssurance/image/vulnerabilities
+      parameters:
+      - name: id
+        in: query
+        description: Image ID (entityDome9Id)
+        schema:
+          type: string
+        x-position: 1
+      - name: category
+        in: query
+        description: filter vulnerabilities with specific category
+        schema:
+          type:
+          - string
+          - 'null'
+          default: ''
+        x-position: 2
+      - name: remediationsOnly
+        in: query
+        description: filter vulnerabilities with remediation
+        schema:
+          type: boolean
+          default: false
+        x-position: 3
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KubernetesImageScanVulnerabilitiesViewModel'
+      deprecated: true
+      description: Get the list of all vulnerabilities for a specific image (this api is deprecated, please use '/v2/vulnerability/' instead)
+  /v2/kubernetes/imageAssurance/image/podGroups:
+    get:
+      tags:
+      - Kubernetes Image Assurance
+      summary: Get Pod Groups
+      operationId: KubernetesImageAssurance_GetPodGroups_get_/v2/kubernetes/imageAssurance/image/podGroups
+      parameters:
+      - name: id
+        in: query
+        description: "Image ID (entityDome9Id).\n            \n            For results in the specific cluster.\n            \n            "
+        schema:
+          type:
+          - string
+          - 'null'
+        x-position: 1
+      - name: externalId
+        in: query
+        description: "External image id (Image SHA).\n            \n            External Image Id is built in the following format: sha256:[image sha]\n            For results in all environments of the account.\n                    \n            "
+        schema:
+          type:
+          - string
+          - 'null'
+        x-position: 2
+      responses:
+        '200':
+          description: Success (Empty list means no pods are running the image).
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/KubernetesImagePodGroupsViewModel'
+      description: 'Get pod groups that have running pod with specific image.
+
+        Use either Dome9 Image Id for results in current environment, or External Image Id for results in all environments of the account.'
+  /v2/kubernetes/imageAssurance/account/{clusterId}/podsImages:
+    get:
+      tags:
+      - Kubernetes Image Assurance
+      operationId: KubernetesImageAssurance_GetClusterPodAndImages_get_/v2/kubernetes/imageAssurance/account/{clusterId}/podsImages
+      parameters:
+      - name: clusterId
+        in: path
+        required: true
+        schema:
+          type: string
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KubernetesPodsImagesViewModel'
+      description: ''
+      summary: Get Cluster Pod And Images
+components:
+  schemas:
+    CveFindingOnPackage:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - severity
+      - description
+      - lastModified
+      - cvssInfo
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+        severity:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        lastModified:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        cvssInfo:
+          oneOf:
+          - $ref: '#/components/schemas/CvssData'
+    KubernetesImageScanVulnerabilityViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - type
+      - sourceGuardAction
+      - remediation
+      - severity
+      - description
+      - source
+      - lines
+      - cveList
+      - payload
+      properties:
+        type:
+          type: string
+        sourceGuardAction:
+          type: string
+        remediation:
+          type: string
+        severity:
+          type: string
+        description:
+          type: string
+        source:
+          type: string
+        lines:
+          type: array
+          items:
+            type: integer
+            format: int32
+        cveList:
+          type: array
+          items:
+            $ref: '#/components/schemas/CveFindingOnPackage'
+        payload:
+          type: string
+    KubernetesImageScanTotalsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - critical
+      - high
+      - medium
+      - low
+      - unknown
+      - maliciousFile
+      - sensitiveContent
+      - maliciousUrl
+      - maliciousIp
+      - cve
+      properties:
+        critical:
+          type: integer
+          format: int32
+        high:
+          type: integer
+          format: int32
+        medium:
+          type: integer
+          format: int32
+        low:
+          type: integer
+          format: int32
+        unknown:
+          type: integer
+          format: int32
+        maliciousFile:
+          type: integer
+          format: int32
+        sensitiveContent:
+          type: integer
+          format: int32
+        maliciousUrl:
+          type: integer
+          format: int32
+        maliciousIp:
+          type: integer
+          format: int32
+        cve:
+          type: integer
+          format: int32
+    ImageViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - imageId
+      - imageSha
+      - name
+      properties:
+        imageId:
+          type: string
+        imageSha:
+          type: string
+        name:
+          type: string
+    KubernetesImageScanDetailsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - riskScore
+      - scanStatus
+      - scanStatusDetails
+      - scanEngineVersion
+      - totals
+      properties:
+        riskScore:
+          type: string
+        scanStatus:
+          type: string
+        scanStatusDetails:
+          type: string
+        scanEngineVersion:
+          type: string
+        totals:
+          $ref: '#/components/schemas/KubernetesImageScanTotalsViewModel'
+    KubernetesImageScanVulnerabilitiesViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - vulnerabilities
+      properties:
+        vulnerabilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/KubernetesImageScanVulnerabilityViewModel'
+    CvssMetrics:
+      type: object
+      additionalProperties: false
+      required:
+      - scope
+      properties:
+        attack-vector:
+          type:
+          - string
+          - 'null'
+        attack-complexity:
+          type:
+          - string
+          - 'null'
+        privileges-required:
+          type:
+          - string
+          - 'null'
+        user-interaction:
+          type:
+          - string
+          - 'null'
+        scope:
+          type:
+          - string
+          - 'null'
+        confidentiality-impact:
+          type:
+          - string
+          - 'null'
+        integrity-impact:
+          type:
+          - string
+          - 'null'
+        availability-impact:
+          type:
+          - string
+          - 'null'
+        exploit-code_maturity:
+          type:
+          - string
+          - 'null'
+        remediation-level:
+          type:
+          - string
+          - 'null'
+        report-confidence:
+          type:
+          - string
+          - 'null'
+    PodImagesViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - podId
+      - name
+      - namespace
+      - images
+      - containers
+      properties:
+        podId:
+          type: string
+        name:
+          type: string
+        namespace:
+          type: string
+        images:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ImageViewModel'
+        containers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ContainerViewModel'
+    KubernetesImageViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - labels
+      - name
+      - id
+      - size
+      - registry
+      - repository
+      - tag
+      - scanDetails
+      - lastRunningDate
+      - isRunning
+      - ecsClusterName
+      - isScannable
+      properties:
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+        name:
+          type: string
+        id:
+          type: string
+        size:
+          type: integer
+          format: int64
+        registry:
+          type: string
+        repository:
+          type: string
+        tag:
+          type: string
+        scanDetails:
+          $ref: '#/components/schemas/KubernetesImageScanDetailsViewModel'
+        lastRunningDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        isRunning:
+          type: boolean
+        ecsClusterName:
+          type: string
+        isScannable:
+          type: boolean
+    KubernetesImagePodGroupsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - type
+      - podGroups
+      properties:
+        type:
+          type: string
+        podGroups:
+          type: array
+          default: []
+          items:
+            $ref: '#/components/schemas/KubernetesImagePodGroupDetailsViewModel'
+    CvssData:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - metrics
+      - source
+      properties:
+        base-score:
+          type: number
+          format: float
+        impact-score:
+          type:
+          - number
+          - 'null'
+          format: float
+        exploitability-score:
+          type:
+          - number
+          - 'null'
+          format: float
+        vector-string:
+          type:
+          - string
+          - 'null'
+        version:
+          type:
+          - string
+          - 'null'
+        metrics:
+          oneOf:
+          - $ref: '#/components/schemas/CvssMetrics'
+        source:
+          type:
+          - string
+          - 'null'
+    CronJobViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - cronjobId
+      - name
+      - namespace
+      - lastScheduleTime
+      - schedule
+      - images
+      - containers
+      properties:
+        cronjobId:
+          type: string
+        name:
+          type: string
+        namespace:
+          type: string
+        lastScheduleTime:
+          type: string
+          format: date-time
+        schedule:
+          type: string
+        images:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ImageViewModel'
+        containers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ContainerViewModel'
+    ContainerViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - image
+      properties:
+        image:
+          type: string
+    KubernetesImagePodGroupDetailsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - externalId
+      - name
+      - namespace
+      - labels
+      - annotations
+      - desiredPodsNumber
+      - readyPodsNumber
+      - environmentId
+      properties:
+        id:
+          type: string
+        externalId:
+          type: string
+        name:
+          type: string
+        namespace:
+          type: string
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+        annotations:
+          type: object
+          additionalProperties:
+            type: string
+        desiredPodsNumber:
+          type: integer
+          format: int32
+        readyPodsNumber:
+          type: integer
+          format: int32
+        environmentId:
+          type: string
+          format: guid
+    KubernetesPodsImagesViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - pods
+      - cronJobs
+      properties:
+        pods:
+          type: array
+          items:
+            $ref: '#/components/schemas/PodImagesViewModel'
+        cronJobs:
+          type: array
+          items:
+            $ref: '#/components/schemas/CronJobViewModel'
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

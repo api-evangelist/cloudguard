@@ -1,0 +1,1067 @@
+openapi: 3.2.0
+info:
+  title: Onboarding Container Registry Account API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Container Registry Account
+paths:
+  /v2/containerRegistry/account:
+    get:
+      tags:
+      - Container Registry Account
+      summary: Get All
+      operationId: ContainerRegistryAccount_GetAll_get_/v2/containerRegistry/account
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ContainerRegistryAccountViewModel'
+              example:
+              - id: deddc959-cc56-489b-94f7-09cc38040100
+                creationDate: '0001-01-01T00:00:00'
+                organizationalUnitPath: ''
+                organizationalUnitName: ''
+                name: ''
+                registryUrl: ''
+                organizationalUnitId: null
+                linkedScanningEnvironments:
+                - environmentId: 4cbf5a15-27a5-408d-887f-01a808f8eee5
+                  pullSecretName: null
+                  tenantId: null
+                  applicationClientId: null
+                  scanningEnvironmentType: AWS
+                  registryAuthType: AcrServicePrincipal
+                  roleArn: null
+                description: null
+                platform: containerregistry
+                type: ACR
+      description: get all container registry
+    post:
+      tags:
+      - Container Registry Account
+      summary: Post
+      operationId: ContainerRegistryAccount_Post_post_/v2/containerRegistry/account
+      requestBody:
+        x-name: model
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContainerRegistryAccountPostModel'
+            examples:
+              ContainerRegistryAccountRequestModelExample:
+                value:
+                  name: string
+                  description: string
+                  organizationalUnitId: 00000000-0000-0000-0000-000000000000
+                  registryType: ACR
+                  registryUrl: string
+                  linkedScanningEnvironments:
+                  - environmentId: 0e7fa1b6-0911-4fb3-b932-2c0fdd9f8b6b
+                    pullSecretName: string
+                    tenantId: string
+                    applicationClientId: string
+                    scanningEnvironmentType: AWS
+                    registryAuthType: AcrServicePrincipal
+                    roleArn: null
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContainerRegistryAccountViewModel'
+              example:
+                id: deddc959-cc56-489b-94f7-09cc38040100
+                creationDate: '0001-01-01T00:00:00'
+                organizationalUnitPath: ''
+                organizationalUnitName: ''
+                name: ''
+                registryUrl: ''
+                organizationalUnitId: null
+                linkedScanningEnvironments:
+                - environmentId: 4cbf5a15-27a5-408d-887f-01a808f8eee5
+                  pullSecretName: null
+                  tenantId: null
+                  applicationClientId: null
+                  scanningEnvironmentType: AWS
+                  registryAuthType: AcrServicePrincipal
+                  roleArn: null
+                description: null
+                platform: containerregistry
+                type: ACR
+      description: create new container registry
+  /v2/containerRegistry/account/{id}:
+    get:
+      tags:
+      - Container Registry Account
+      summary: Get
+      operationId: ContainerRegistryAccount_Get_get_/v2/containerRegistry/account/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContainerRegistryAccountViewModel'
+              example:
+                id: deddc959-cc56-489b-94f7-09cc38040100
+                creationDate: '0001-01-01T00:00:00'
+                organizationalUnitPath: ''
+                organizationalUnitName: ''
+                name: ''
+                registryUrl: ''
+                organizationalUnitId: null
+                linkedScanningEnvironments:
+                - environmentId: 4cbf5a15-27a5-408d-887f-01a808f8eee5
+                  pullSecretName: null
+                  tenantId: null
+                  applicationClientId: null
+                  scanningEnvironmentType: AWS
+                  registryAuthType: AcrServicePrincipal
+                  roleArn: null
+                description: null
+                platform: containerregistry
+                type: ACR
+      description: get single container registry by id
+    delete:
+      tags:
+      - Container Registry Account
+      summary: Delete
+      operationId: ContainerRegistryAccount_Delete_delete_/v2/containerRegistry/account/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: delete container registry
+  /v2/containerRegistry/account/{id}/accountDescription:
+    put:
+      tags:
+      - Container Registry Account
+      operationId: ContainerRegistryAccount_UpdateAccountDescription_put_/v2/containerRegistry/account/{id}/accountDescription
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      - name: description
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          maxLength: 1000
+          pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContainerRegistryAccountViewModel'
+              example:
+                id: deddc959-cc56-489b-94f7-09cc38040100
+                creationDate: '0001-01-01T00:00:00'
+                organizationalUnitPath: ''
+                organizationalUnitName: ''
+                name: ''
+                registryUrl: ''
+                organizationalUnitId: null
+                linkedScanningEnvironments:
+                - environmentId: 4cbf5a15-27a5-408d-887f-01a808f8eee5
+                  pullSecretName: null
+                  tenantId: null
+                  applicationClientId: null
+                  scanningEnvironmentType: AWS
+                  registryAuthType: AcrServicePrincipal
+                  roleArn: null
+                description: null
+                platform: containerregistry
+                type: ACR
+      description: ''
+      summary: Update Account Description
+  /v2/containerRegistry/account/{id}/accountName/{newName}:
+    put:
+      tags:
+      - Container Registry Account
+      summary: Update Account Name
+      operationId: ContainerRegistryAccount_UpdateAccountName_put_/v2/containerRegistry/account/{id}/accountName/{newName}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      - name: newName
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 500
+          pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+      description: updating container registry name
+  /v2/containerRegistry/account/{id}/linkedScanningEnvironments:
+    put:
+      tags:
+      - Container Registry Account
+      summary: Update Linked Scanning Environments
+      operationId: ContainerRegistryAccount_UpdateLinkedScanningEnvironments_put_/v2/containerRegistry/account/{id}/linkedScanningEnvironments
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      requestBody:
+        x-name: model
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ContainerRegistryLinkedEnvironmentViewModel'
+            examples:
+              LinkedEnvironmentsListRequestModelExample:
+                value:
+                - environmentId: c683d992-61ee-4d9e-81d9-7214cb9ee104
+                  pullSecretName: null
+                  tenantId: null
+                  applicationClientId: null
+                  scanningEnvironmentType: AWS
+                  registryAuthType: AcrServicePrincipal
+                  roleArn: null
+        required: true
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+      description: update linkedScanningEnvironments
+  /v2/containerRegistry/account/{id}/linkedScanningEnvironment:
+    put:
+      tags:
+      - Container Registry Account
+      summary: Update Linked Scanning Environment
+      operationId: ContainerRegistryAccount_UpdateLinkedScanningEnvironment_put_/v2/containerRegistry/account/{id}/linkedScanningEnvironment
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      requestBody:
+        x-name: model
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContainerRegistryLinkedEnvironmentViewModel'
+            examples:
+              LinkedEnvironmentsListRequestModelExample:
+                value:
+                - environmentId: c683d992-61ee-4d9e-81d9-7214cb9ee104
+                  pullSecretName: null
+                  tenantId: null
+                  applicationClientId: null
+                  scanningEnvironmentType: AWS
+                  registryAuthType: AcrServicePrincipal
+                  roleArn: null
+        required: true
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+      description: update or add linkedScanningEnvironment
+  /v2/containerRegistry/account/{id}/linkedScanningEnvironment/{linkedEnvironmentId}:
+    delete:
+      tags:
+      - Container Registry Account
+      summary: Delete Linked Scanning Environment
+      operationId: ContainerRegistryAccount_DeleteLinkedScanningEnvironment_delete_/v2/containerRegistry/account/{id}/linkedScanningEnvironment/{linkedEnvironmentId}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      - name: linkedEnvironmentId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+      description: delete single linkedScanningEnvironment from containerRegistry
+  /v2/containerRegistry/account/{id}/settings:
+    put:
+      tags:
+      - Container Registry Account
+      summary: Set Environment Settings
+      operationId: ContainerRegistryAccount_SetEnvironmentSettings_put_/v2/containerRegistry/account/{id}/settings
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The Container registry account id
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      requestBody:
+        x-name: settings
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContainerRegistryUserConfigurationsViewModel'
+        required: true
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+      description: Set user configurable properties for the environment
+    patch:
+      tags:
+      - Container Registry Account
+      summary: Update Environment Settings
+      operationId: ContainerRegistryAccount_UpdateEnvironmentSettings_patch_/v2/containerRegistry/account/{id}/settings
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The Container registry account id
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      requestBody:
+        x-name: settings
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContainerRegistryUserConfigurationsViewModel'
+        required: true
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+      description: Update user configurable properties for the environment
+    get:
+      tags:
+      - Container Registry Account
+      summary: Get Environment Settings
+      operationId: ContainerRegistryAccount_GetEnvironmentSettings_get_/v2/containerRegistry/account/{id}/settings
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The Container registry account id
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContainerRegistryUserConfigurationsViewModel'
+      description: Get user configurable properties for the environment
+  /v2/containerRegistry/account/{id}/organizationalUnit:
+    put:
+      tags:
+      - Container Registry Account
+      summary: Update Organizational Id
+      operationId: ContainerRegistryAccount_UpdateOrganizationalId_put_/v2/containerRegistry/account/{id}/organizationalUnit
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The Guid ID of the container registry account
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      requestBody:
+        x-name: updateData
+        description: The Guid ID of the Organizational Unit to attach to. Use null in order to attach to root Organizational Unit
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateIdViewModel'
+        required: true
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContainerRegistryAccountViewModel'
+              example:
+                id: deddc959-cc56-489b-94f7-09cc38040100
+                creationDate: '0001-01-01T00:00:00'
+                organizationalUnitPath: ''
+                organizationalUnitName: ''
+                name: ''
+                registryUrl: ''
+                organizationalUnitId: null
+                linkedScanningEnvironments:
+                - environmentId: 4cbf5a15-27a5-408d-887f-01a808f8eee5
+                  pullSecretName: null
+                  tenantId: null
+                  applicationClientId: null
+                  scanningEnvironmentType: AWS
+                  registryAuthType: AcrServicePrincipal
+                  roleArn: null
+                description: null
+                platform: containerregistry
+                type: ACR
+      description: 'Update the ID of the Organizational unit that this cloud account will be attached to.
+
+        Use ''null'' for root organizational unit'
+  /v2/containerRegistry/account/organizationalUnit/move:
+    put:
+      tags:
+      - Container Registry Account
+      summary: Move Cloud Accounts To Organizational Unit
+      operationId: ContainerRegistryAccount_MoveCloudAccountsToOrganizationalUnit_put_/v2/containerRegistry/account/organizationalUnit/move
+      requestBody:
+        x-name: moveData
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MoveOrganizationalUnitViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: 'Detach cloud accounts from an Organizational unit and attach them to another Organizational unit
+
+        Use ''null'' for root organizational unit'
+  /v2/containerRegistry/account/organizationalUnit/moveAll:
+    put:
+      tags:
+      - Container Registry Account
+      summary: Move All Cloud Accounts To Organizational Unit
+      operationId: ContainerRegistryAccount_MoveAllCloudAccountsToOrganizationalUnit_put_/v2/containerRegistry/account/organizationalUnit/moveAll
+      requestBody:
+        x-name: updateData
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateIdViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: Detach all container registry accounts from their current organizational unit and attach them to a new one. Default is to root organizational unit
+  /v2/containerRegistry/account/organizationalUnit/attach:
+    post:
+      tags:
+      - Container Registry Account
+      summary: Post Attach Multi
+      operationId: ContainerRegistryAccount_PostAttachMulti_post_/v2/containerRegistry/account/organizationalUnit/attach
+      requestBody:
+        x-name: attachData
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachCloudAccountsViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: Attach several container registry accounts to a specific Organizational Unit. User 'null' as root Organizational Unit as target
+  /v2/containerRegistry/account/{id}/agentSummary:
+    get:
+      tags:
+      - Container Registry Account
+      summary: Get Agent Summary
+      operationId: ContainerRegistryAccount_GetAgentSummary_get_/v2/containerRegistry/account/{id}/agentSummary
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the Container registry account id
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ContainerRegistryAgentSummaryViewModel
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ContainerRegistryAgentSummaryViewModel'
+      description: Get Container registry account agent summary data
+  /v2/containerRegistry/account/accountAgentStatus:
+    get:
+      tags:
+      - Container Registry Account
+      summary: Get Account Agent Status
+      operationId: ContainerRegistryAccount_GetAccountAgentStatus_get_/v2/containerRegistry/account/accountAgentStatus
+      responses:
+        '200':
+          description: List of ContainerRegistryStatusViewModel
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ContainerRegistryAccountAgentSummaryViewModel'
+      description: Get container registry account agents status
+  /v2/containerRegistry/account/{id}/accountSummary:
+    get:
+      tags:
+      - Container Registry Account
+      summary: Get Account Summary
+      operationId: ContainerRegistryAccount_GetAccountSummary_get_/v2/containerRegistry/account/{id}/accountSummary
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the Container registry account id
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ContainerRegistryAccountSummaryViewModel
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContainerRegistryAccountSummaryViewModel'
+      description: Get Container registry account summary data
+components:
+  schemas:
+    UpdateIdViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - organizationalUnitId
+      properties:
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+    ContainerRegistryAuthType:
+      type: string
+      description: ''
+      x-enumNames:
+      - AcrServicePrincipal
+      - AcrManagedId
+      - EcrUserAccessKeys
+      - EcrNodeGroupRole
+      - GcpServiceAccountKey
+      - GcpGkeInternalAuth
+      - ArtifactoryUserPassword
+      - ArtifactoryToken
+      - HarborUserPassword
+      - EcrCustomRole
+      - NexusUserPassword
+      - EcrEcsTaskRole
+      - GithubToken
+      - QuayToken
+      - DockerhubToken
+      enum:
+      - AcrServicePrincipal
+      - AcrManagedId
+      - EcrUserAccessKeys
+      - EcrNodeGroupRole
+      - GcpServiceAccountKey
+      - GcpGkeInternalAuth
+      - ArtifactoryUserPassword
+      - ArtifactoryToken
+      - HarborUserPassword
+      - EcrCustomRole
+      - NexusUserPassword
+      - EcrEcsTaskRole
+      - GithubToken
+      - QuayToken
+      - DockerhubToken
+    ContainerRegistryAccountSummaryViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - name
+      - agentsStatus
+      - agentsStatusDescription
+      - registryType
+      - registryUrl
+      - numberOfImages
+      - numberOfRepositories
+      - linkedAgentsStatuses
+      properties:
+        id:
+          type: string
+          format: guid
+        name:
+          type: string
+        agentsStatus:
+          type: string
+        agentsStatusDescription:
+          type: string
+        registryType:
+          type: string
+        registryUrl:
+          type: string
+        numberOfImages:
+          type: integer
+          format: int32
+        numberOfRepositories:
+          type: integer
+          format: int64
+        linkedAgentsStatuses:
+          $ref: '#/components/schemas/ContainerRegistryLinkedAgentsStatusesViewModel'
+    ContainerRegistryType:
+      type: string
+      description: ''
+      x-enumNames:
+      - ACR
+      - ECR
+      - GCR
+      - GAR
+      - Artifactory
+      - Harbor
+      - Nexus
+      - GitHub
+      - Quay
+      - DockerHub
+      enum:
+      - ACR
+      - ECR
+      - GCR
+      - GAR
+      - Artifactory
+      - Harbor
+      - Nexus
+      - GitHub
+      - Quay
+      - DockerHub
+    ContainerRegistryAgentSummaryViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - isAgentUpToDate
+      - lastCommunication
+      - lastCommunicationDate
+      - status
+      - description
+      - supportUrl
+      - creationTime
+      - creationDate
+      - kubernetesAccountId
+      - kubernetesAccountName
+      properties:
+        version:
+          type: string
+        isAgentUpToDate:
+          type: boolean
+        lastCommunication:
+          type: string
+          deprecated: true
+          x-deprecatedMessage: use LastCommunicationDate
+        lastCommunicationDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        status:
+          type: string
+        description:
+          type: string
+        supportUrl:
+          type: string
+        creationTime:
+          type: string
+          deprecated: true
+          x-deprecatedMessage: use CreationDate
+        creationDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        kubernetesAccountId:
+          type: string
+        kubernetesAccountName:
+          type: string
+    ContainerRegistryScanningEnvironmentType:
+      type: string
+      description: ''
+      x-enumNames:
+      - AWS
+      - Kubernetes
+      enum:
+      - AWS
+      - Kubernetes
+    MoveOrganizationalUnitViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - sourceOrganizationalUnitId
+      - targetOrganizationalUnitId
+      properties:
+        sourceOrganizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        targetOrganizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+    ContainerRegistryAccountViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - creationDate
+      - organizationalUnitPath
+      - organizationalUnitName
+      - name
+      - registryUrl
+      - organizationalUnitId
+      - linkedKubernetesEnvironments
+      - linkedScanningEnvironments
+      - description
+      - platform
+      - type
+      properties:
+        id:
+          type: string
+          format: guid
+        creationDate:
+          type: string
+          format: date-time
+        organizationalUnitPath:
+          type: string
+        organizationalUnitName:
+          type: string
+        name:
+          type: string
+        registryUrl:
+          type: string
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        linkedKubernetesEnvironments:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContainerRegistryLinkedEnvironmentViewModel'
+        linkedScanningEnvironments:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContainerRegistryLinkedEnvironmentViewModel'
+        description:
+          type:
+          - string
+          - 'null'
+        platform:
+          $ref: '#/components/schemas/CloudVendor'
+        type:
+          $ref: '#/components/schemas/ContainerRegistryType'
+    ContainerRegistryLinkedEnvironmentViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - environmentId
+      - pullSecretName
+      - tenantId
+      - applicationClientId
+      - scanningEnvironmentType
+      - registryAuthType
+      - roleArn
+      properties:
+        environmentId:
+          type: string
+          format: guid
+          minLength: 1
+        pullSecretName:
+          type:
+          - string
+          - 'null'
+          pattern: ^(?=.{1,253}$)[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
+        tenantId:
+          type:
+          - string
+          - 'null'
+        applicationClientId:
+          type:
+          - string
+          - 'null'
+        scanningEnvironmentType:
+          oneOf:
+          - $ref: '#/components/schemas/ContainerRegistryScanningEnvironmentType'
+        registryAuthType:
+          oneOf:
+          - $ref: '#/components/schemas/ContainerRegistryAuthType'
+        roleArn:
+          type:
+          - string
+          - 'null'
+          pattern: ^arn:aws:iam::\d{12}:role/[\w+=,.@-]+
+    ContainerRegistryLinkedAgentsStatusesViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - statusOk
+      - statusError
+      - statusPending
+      properties:
+        statusOk:
+          type: integer
+          format: int32
+        statusError:
+          type: integer
+          format: int32
+        statusPending:
+          type: integer
+          format: int32
+    AttachCloudAccountsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - entries
+      - organizationalUnitId
+      properties:
+        entries:
+          type:
+          - array
+          - 'null'
+          default: []
+          items:
+            type: string
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+    ContainerRegistryUserConfigurationsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - imageListIntervalSeconds
+      - maxImagesPerRepo
+      - maxImagesPerBaseRepo
+      properties:
+        imageListIntervalSeconds:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        maxImagesPerRepo:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        maxImagesPerBaseRepo:
+          type:
+          - integer
+          - 'null'
+          format: int32
+    CloudVendor:
+      type: string
+      description: ''
+      x-enumNames:
+      - aws
+      - hp
+      - mellanox
+      - awsgov
+      - azure
+      - google
+      - awschina
+      - azuregov
+      - kubernetes
+      - azurechina
+      - terraform
+      - generic
+      - kubernetesruntimeassurance
+      - shiftleft
+      - sourcecodeassurance
+      - imageassurance
+      - alibaba
+      - cft
+      - containerregistry
+      - oci
+      - ocigov
+      - ocigovuk
+      - CIEM
+      enum:
+      - aws
+      - hp
+      - mellanox
+      - awsgov
+      - azure
+      - google
+      - awschina
+      - azuregov
+      - kubernetes
+      - azurechina
+      - terraform
+      - generic
+      - kubernetesruntimeassurance
+      - shiftleft
+      - sourcecodeassurance
+      - imageassurance
+      - alibaba
+      - cft
+      - containerregistry
+      - oci
+      - ocigov
+      - ocigovuk
+      - CIEM
+    ContainerRegistryAccountAgentSummaryViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - name
+      - agentsStatus
+      - agentsStatusDescription
+      properties:
+        id:
+          type: string
+          format: guid
+        name:
+          type: string
+        agentsStatus:
+          type: string
+        agentsStatusDescription:
+          type: string
+    ContainerRegistryAccountPostModel:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - registryType
+      - registryUrl
+      - description
+      - organizationalUnitId
+      - linkedKubernetesEnvironments
+      - linkedScanningEnvironments
+      properties:
+        name:
+          type: string
+          maxLength: 500
+          minLength: 1
+          pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
+        description:
+          type:
+          - string
+          - 'null'
+          description: "            Container Registry environment description in CloudGuard\t\n            "
+          maxLength: 1000
+          pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        registryType:
+          $ref: '#/components/schemas/ContainerRegistryType'
+        registryUrl:
+          type: string
+          format: uri
+          minLength: 1
+        linkedKubernetesEnvironments:
+          type:
+          - array
+          - 'null'
+          description: Deprecated - please use 'LinkedScanningEnvironments'
+          items:
+            $ref: '#/components/schemas/ContainerRegistryLinkedEnvironmentViewModel'
+        linkedScanningEnvironments:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ContainerRegistryLinkedEnvironmentViewModel'
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

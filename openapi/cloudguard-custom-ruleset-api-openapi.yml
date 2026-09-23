@@ -1,0 +1,134 @@
+openapi: 3.2.0
+info:
+  title: Risk Management Custom Ruleset API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Custom Ruleset
+paths:
+  /v2/erm/ruleset/set-custom-ruleset:
+    post:
+      tags:
+      - Custom Ruleset
+      summary: Set
+      operationId: CustomRuleset_Set_post_/v2/erm/ruleset/set-custom-ruleset
+      requestBody:
+        x-name: customRulesetSetRequestViewModel
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomRulesetSetRequestViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: Define platform specific ruleset for Risk Managemnet (Currently one ruleset per platform is supported)
+  /v2/erm/ruleset/get-custom-ruleset:
+    get:
+      tags:
+      - Custom Ruleset
+      summary: Get
+      operationId: CustomRuleset_Get_get_/v2/erm/ruleset/get-custom-ruleset
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: Get all configured rulesets for Risk Managemnet
+  /v2/erm/ruleset/remove-custom-ruleset:
+    delete:
+      tags:
+      - Custom Ruleset
+      summary: Remove
+      operationId: CustomRuleset_Remove_delete_/v2/erm/ruleset/remove-custom-ruleset
+      requestBody:
+        x-name: customRulesetRemoveRequestViewModel
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomRulesetRemoveRequestViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: Delete platform specific ruleset from Risk Managemnet
+  /v2/erm/ruleset/remove-all-custom-rulesets:
+    delete:
+      tags:
+      - Custom Ruleset
+      summary: Remove All
+      operationId: CustomRuleset_RemoveAll_delete_/v2/erm/ruleset/remove-all-custom-rulesets
+      requestBody:
+        x-name: customRulesetRemoveRequestViewModel
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomRulesetRemoveRequestViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: Delete all platform specific rulesets from Risk Managemnet (Currently one ruleset per platform is supported)
+components:
+  schemas:
+    PlatformViewModel:
+      type: string
+      description: ''
+      x-enumNames:
+      - Aws
+      - Azure
+      - Google
+      - Kubernetes
+      enum:
+      - Aws
+      - Azure
+      - Google
+      - Kubernetes
+    CustomRulesetRemoveRequestViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - platform
+      properties:
+        platform:
+          $ref: '#/components/schemas/PlatformViewModel'
+    CustomRulesetSetRequestViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - platform
+      - rulesetId
+      properties:
+        platform:
+          $ref: '#/components/schemas/PlatformViewModel'
+        rulesetId:
+          type: integer
+          format: int32
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

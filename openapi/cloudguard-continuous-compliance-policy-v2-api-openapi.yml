@@ -1,0 +1,351 @@
+openapi: 3.2.0
+info:
+  title: Posture Management Continuous Compliance Policy V2 API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Continuous Compliance Policy V2
+paths:
+  /v2/Compliance/ContinuousCompliancePolicyV2/EvaluateRulesetVersions:
+    post:
+      tags:
+      - Continuous Compliance Policy V2
+      summary: Evaluate Ruleset Versions
+      operationId: ContinuousCompliancePolicyV2_EvaluateRulesetVersionsAsync_post_/v2/Compliance/ContinuousCompliancePolicyV2/EvaluateRulesetVersions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliancePolicyV2.EvaluateRulesetVersionsRequestModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.ContinuousCompliancePolicyV2.EvaluateRulesetVersionsRequestModel'
+        description: The ruleset id and version as well as a list of cloud accounts to evaluate ruleset version of configured polices.
+        required: true
+      description: Evaluate the ruleset version elected for each cloud account, based on the configured policies.
+  /v2/ContinuousCompliancePolicyV2/{id}:
+    get:
+      tags:
+      - Continuous Compliance Policy V2
+      summary: Get
+      operationId: ContinuousCompliancePolicyV2_Get_get_/v2/ContinuousCompliancePolicyV2/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Policy's ID
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContinuousCompliancePolicyViewModel'
+      description: 'Get single policy by its ID.
+
+        Returns a policy matching a given ID.'
+    delete:
+      tags:
+      - Continuous Compliance Policy V2
+      summary: Delete
+      operationId: ContinuousCompliancePolicyV2_Delete_delete_/v2/ContinuousCompliancePolicyV2/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Policy's ID
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: Delete policy by its ID.
+  /v2/ContinuousCompliancePolicyV2:
+    get:
+      tags:
+      - Continuous Compliance Policy V2
+      summary: Get By Id
+      operationId: ContinuousCompliancePolicyV2_GetById_get_/v2/ContinuousCompliancePolicyV2
+      parameters:
+      - name: id
+        in: query
+        description: Policy's ID
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: 'Get single policy by its ID or Get All policies for the requesting account.
+
+        Returns a policy matching a given ID or a collection of policies.'
+    post:
+      tags:
+      - Continuous Compliance Policy V2
+      summary: Post
+      operationId: ContinuousCompliancePolicyV2_Post_post_/v2/ContinuousCompliancePolicyV2
+      requestBody:
+        x-name: continuousCompliancePolicyRequestModels
+        description: Policies to create
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ContinuousCompliancePolicyRequestModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ContinuousCompliancePolicyViewModel'
+      description: 'Create new policies.
+
+        Returns a multi status response containing successfully created policies without an error message and failed policies with an error message.'
+    put:
+      tags:
+      - Continuous Compliance Policy V2
+      summary: Put
+      operationId: ContinuousCompliancePolicyV2_Put_put_/v2/ContinuousCompliancePolicyV2
+      requestBody:
+        x-name: continuousCompliancePolicyRequestModels
+        description: Policies to update
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ContinuousCompliancePolicyRequestModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ContinuousCompliancePolicyViewModel'
+      description: 'Update policies.
+
+        Returns a multi status response containing successfully updated policies without an error message and failed policies with an error message.'
+    delete:
+      tags:
+      - Continuous Compliance Policy V2
+      summary: Delete By Id
+      operationId: ContinuousCompliancePolicyV2_DeleteById_delete_/v2/ContinuousCompliancePolicyV2
+      parameters:
+      - name: id
+        in: query
+        description: Policy's ID
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: Delete policy by its ID.
+  /v2/ContinuousCompliancePolicyV2/EvaluateRulesetVersions:
+    post:
+      tags:
+      - Continuous Compliance Policy V2
+      summary: Evaluate Ruleset Versions
+      operationId: ContinuousCompliancePolicyV2_EvaluateRulesetVersions_post_/v2/ContinuousCompliancePolicyV2/EvaluateRulesetVersions
+      requestBody:
+        x-name: rulesetVersionEvaluationRequest
+        description: The ruleset id and version as well as a list of cloud accounts to evaluate ruleset version of configured polices.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvaluateRulesetVersionsRequestModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: Mapping of CloudAccount id to evaluated ruleset version
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+      description: Evaluate the ruleset version elected for each cloud account, based on the configured policies.
+components:
+  schemas:
+    Dome9.Web.Api.Compliance.ContinuousCompliancePolicyV2.EvaluateRulesetVersionsRequestModel:
+      type: object
+      properties:
+        rulesetId:
+          format: int64
+          type: integer
+        cloudAccountIds:
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+    ContinuousCompliancePolicyTargetType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Aws
+      - Azure
+      - Gcp
+      - Kubernetes
+      - OrganizationalUnit
+      - Terraform
+      - Generic
+      - KubernetesRuntimeAssurance
+      - ShiftLeft
+      - Alibaba
+      - Cft
+      - ContainerRegistry
+      - Vendor
+      - Oci
+      - CIEM
+      enum:
+      - Aws
+      - Azure
+      - Gcp
+      - Kubernetes
+      - OrganizationalUnit
+      - Terraform
+      - Generic
+      - KubernetesRuntimeAssurance
+      - ShiftLeft
+      - Alibaba
+      - Cft
+      - ContainerRegistry
+      - Vendor
+      - Oci
+      - CIEM
+    ContinuousCompliancePolicyViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - targetType
+      - vendor
+      - targetInternalId
+      - targetExternalId
+      - rulesetId
+      - rulesetVersion
+      - notificationIds
+      - errorMessage
+      properties:
+        id:
+          type: string
+          format: guid
+        targetType:
+          $ref: '#/components/schemas/ContinuousCompliancePolicyTargetType'
+        vendor:
+          $ref: '#/components/schemas/ContinuousCompliancePolicyTargetType'
+        targetInternalId:
+          type: string
+          format: guid
+        targetExternalId:
+          type: string
+        rulesetId:
+          type: integer
+          format: int64
+        rulesetVersion:
+          type: string
+          default: Latest
+        notificationIds:
+          type: array
+          items:
+            type: string
+            format: guid
+        errorMessage:
+          type: string
+    EvaluateRulesetVersionsRequestModel:
+      type: object
+      additionalProperties: false
+      required:
+      - rulesetId
+      - cloudAccountIds
+      properties:
+        rulesetId:
+          type: integer
+          format: int64
+        cloudAccountIds:
+          type: array
+          items:
+            type: string
+            format: guid
+    ContinuousCompliancePolicyRequestModel:
+      type: object
+      additionalProperties: false
+      required:
+      - targetType
+      - rulesetId
+      - notificationIds
+      - targetId
+      - rulesetVersion
+      properties:
+        targetId:
+          type: string
+        targetType:
+          $ref: '#/components/schemas/ContinuousCompliancePolicyTargetType'
+        rulesetId:
+          type: integer
+          format: int64
+        rulesetVersion:
+          type:
+          - string
+          - 'null'
+        notificationIds:
+          type: array
+          items:
+            type: string
+            format: guid
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

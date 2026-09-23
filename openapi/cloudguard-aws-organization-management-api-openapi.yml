@@ -1,0 +1,444 @@
+openapi: 3.2.0
+info:
+  title: Onboarding Aws Organization Management API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Aws Organization Management
+paths:
+  /v2/aws-organization-management:
+    post:
+      tags:
+      - Aws Organization Management
+      summary: Create Organization Management
+      operationId: AwsOrganizationManagement_CreateOrganizationManagement_post_/v2/aws-organization-management
+      requestBody:
+        x-name: onboardingRequest
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnboardingRequest'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: Returns the created AWS organization management entity.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationManagementViewModel'
+      description: Create new AWS organization management entity.
+    get:
+      tags:
+      - Aws Organization Management
+      summary: Get All Organization Management
+      operationId: AwsOrganizationManagement_GetAllOrganizationManagement_get_/v2/aws-organization-management
+      parameters:
+      - name: externalOrganizationId
+        x-originalName: externalOrganizationIds
+        in: query
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+        x-position: 1
+      responses:
+        '200':
+          description: Returns a collection of AWS organization management entities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrganizationManagementViewModel'
+      description: Get AWS organization management entities.
+  /v2/aws-organization-management/{id}:
+    put:
+      tags:
+      - Aws Organization Management
+      summary: Update Organization Management
+      operationId: AwsOrganizationManagement_UpdateOrganizationManagement_put_/v2/aws-organization-management/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      requestBody:
+        x-name: onboardingUpdateRequest
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnboardingUpdateRequest'
+        required: true
+        x-position: 2
+      responses:
+        '200':
+          description: Returns the AWS organization management entity.
+      description: Update existing AWS organization management entity.
+    get:
+      tags:
+      - Aws Organization Management
+      summary: Get Organization Management By Id
+      operationId: AwsOrganizationManagement_GetOrganizationManagementById_get_/v2/aws-organization-management/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: Returns a single AWS organization management entity corresponding to the given ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationManagementViewModel'
+      description: Get AWS organization management entity by its ID.
+    delete:
+      tags:
+      - Aws Organization Management
+      summary: Delete
+      operationId: AwsOrganizationManagement_Delete_delete_/v2/aws-organization-management/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: 'Delete AWS organization management
+
+        After this API call each account that is under this organization need to be deleted separately.'
+  /v2/aws-organization-management/{id}/stackset-arn:
+    put:
+      tags:
+      - Aws Organization Management
+      summary: Update Stack Set Arn
+      operationId: AwsOrganizationManagement_UpdateStackSetArn_put_/v2/aws-organization-management/{id}/stackset-arn
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      requestBody:
+        x-name: updateStackSetArnRequest
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateStackSetArnRequest'
+        required: true
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+      description: Update existing AWS organization management entity with the StackSet arn.
+  /v2/aws-organization-management/{id}/configuration:
+    put:
+      tags:
+      - Aws Organization Management
+      summary: Update Configuration
+      operationId: AwsOrganizationManagement_UpdateConfiguration_put_/v2/aws-organization-management/{id}/configuration
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      requestBody:
+        x-name: request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateConfigurationRequest'
+        required: true
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+      description: Update organization configuration.
+  /v2/aws-organization-management/{id}/missing-permissions/reset:
+    put:
+      tags:
+      - Aws Organization Management
+      summary: Reset Missing Permissions
+      operationId: AwsOrganizationManagement_ResetMissingPermissions_put_/v2/aws-organization-management/{id}/missing-permissions/reset
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: Resets all environments of the given aws organization id.
+components:
+  schemas:
+    OnboardingUpdateRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - awsOrganizationName
+      - enableStackModify
+      properties:
+        awsOrganizationName:
+          type:
+          - string
+          - 'null'
+          description: AWS organization name.
+        enableStackModify:
+          type: boolean
+          description: Required. Default is false, it's for future use.
+    OrganizationManagementViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - accountId
+      - externalOrganizationId
+      - externalManagementAccountId
+      - managementAccountStackId
+      - managementAccountStackRegion
+      - onboardingConfiguration
+      - managedAccounts
+      - userId
+      - enableStackModify
+      - stackSetArn
+      - organizationName
+      - updateTime
+      - creationTime
+      - stackSetRegions
+      - stackSetOrganizationalUnitIds
+      properties:
+        id:
+          type: string
+          format: guid
+        accountId:
+          type: integer
+          format: int64
+        externalOrganizationId:
+          type: string
+        externalManagementAccountId:
+          type: string
+        managementAccountStackId:
+          type: string
+        managementAccountStackRegion:
+          type: string
+        onboardingConfiguration:
+          $ref: '#/components/schemas/AwsOrganizationOnboardingConfiguration'
+        managedAccounts:
+          type: array
+          items:
+            type: string
+        userId:
+          type: integer
+          format: int32
+        enableStackModify:
+          type: boolean
+        stackSetArn:
+          type: string
+        organizationName:
+          type: string
+        updateTime:
+          type: string
+          format: date-time
+        creationTime:
+          type: string
+          format: date-time
+        stackSetRegions:
+          type: array
+          description: A list of all Amazon Web Services Regions the given StackSet has stack instances deployed in.
+          items:
+            type: string
+        stackSetOrganizationalUnitIds:
+          type: array
+          description: The organization root ID or organizational unit (OU) IDs that the client specified for the StackSet DeploymentTargets.
+          items:
+            type: string
+    ValidateStackSetArnRequest:
+      allOf:
+      - $ref: '#/components/schemas/OnboardingPermissionRequest'
+      - type: object
+        additionalProperties: false
+        required:
+        - stackSetArn
+        properties:
+          stackSetArn:
+            type: string
+            description: The created StackSet ARN.
+            pattern: ^arn:(?<partition>(aws[\w\-]*)):(?<service>[\w]*):(?<region>[\w\d-]*):(?<accountId>[\d]*):stackset\/(((?<resource>[\w+=,\.@\-_ ]+)[\/]?)+):(((?<subresource>[\w+=,\.@\-_ ]+)[\/:]?)+)?$
+    OnboardingPermissionRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - secret
+      - workflowId
+      - roleArn
+      - apiKey
+      properties:
+        workflowId:
+          type: string
+          description: Not required
+          format: guid
+          default: 9dae2043-7b84-4afe-a3ff-e11ceebc22a2
+        roleArn:
+          type: string
+          description: 'CloudGuard role arn from AWS.
+
+            AWS China accounts supported only in CloudGuard China DC.'
+          pattern: ^arn:(aws|aws-cn):iam::\d{12}:role\/[A-Za-z0-9]+(?:-[A-Za-z0-9]+)+$
+        secret:
+          type: string
+          description: 'Also known as ExternalId from management-stack API.
+
+            this value should be the one that returns from: management-stack API.'
+          pattern: ^[\w+=,.@:\/-]{12,1224}$
+        apiKey:
+          type:
+          - string
+          - 'null'
+          description: 'Should be null.
+
+            Needed only for ''UserBased'' Type.'
+    UpdateConfigurationRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - mappingStrategy
+      - postureManagement
+      - organizationRootOuId
+      properties:
+        organizationRootOuId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        mappingStrategy:
+          $ref: '#/components/schemas/MappingStrategyType'
+        postureManagement:
+          $ref: '#/components/schemas/PostureManagementConfiguration'
+    OnboardingRequest:
+      allOf:
+      - $ref: '#/components/schemas/ValidateStackSetArnRequest'
+      - type: object
+        additionalProperties: false
+        required:
+        - enableStackModify
+        - awsOrganizationName
+        properties:
+          awsOrganizationName:
+            type:
+            - string
+            - 'null'
+            description: Not required.
+          enableStackModify:
+            type: boolean
+            description: Required. Default is false, it's for future use.
+    MappingStrategyType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Flat
+      - Clone
+      enum:
+      - Flat
+      - Clone
+    PostureManagementConfiguration:
+      type: object
+      additionalProperties: false
+      required:
+      - rulesetsIds
+      - onboardingMode
+      properties:
+        rulesetsIds:
+          type:
+          - array
+          - 'null'
+          default: []
+          items:
+            type: integer
+            format: int64
+        onboardingMode:
+          $ref: '#/components/schemas/OnboardingMode'
+    UpdateStackSetArnRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - stackSetArn
+      properties:
+        stackSetArn:
+          type: string
+          description: The created StackSet ARN.
+          pattern: ^arn:(?<partition>(aws[\w\-]*)):(?<service>[\w]*):(?<region>[\w\d-]*):(?<accountId>[\d]*):stackset\/(((?<resource>[\w+=,\.@\-_ ]+)[\/]?)+):(((?<subresource>[\w+=,\.@\-_ ]+)[\/:]?)+)?$
+    AwsOrganizationOnboardingConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/OrganizationOnboardingConfigurationBase'
+      - type: object
+        additionalProperties: false
+    OrganizationOnboardingConfigurationBase:
+      type: object
+      additionalProperties: false
+      required:
+      - organizationRootOuId
+      - mappingStrategy
+      - postureManagement
+      properties:
+        organizationRootOuId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        mappingStrategy:
+          $ref: '#/components/schemas/MappingStrategyType'
+        postureManagement:
+          oneOf:
+          - $ref: '#/components/schemas/PostureManagementConfiguration'
+    OnboardingMode:
+      type: string
+      description: ''
+      x-enumNames:
+      - Read
+      - Manage
+      enum:
+      - read-only
+      - manage
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

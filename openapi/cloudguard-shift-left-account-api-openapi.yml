@@ -1,0 +1,466 @@
+openapi: 3.2.0
+info:
+  title: Workload Protection Shift Left Account API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Shift Left Account
+paths:
+  /v2/ShiftLeftAccount:
+    get:
+      tags:
+      - Shift Left Account
+      summary: Get All
+      operationId: ShiftLeftAccount_GetAll_get_/v2/ShiftLeftAccount
+      responses:
+        '200':
+          description: A list of  ShiftLeft accounts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShiftLeftAccountViewModel'
+      description: Get a list of all ShiftLeft accounts
+    post:
+      tags:
+      - Shift Left Account
+      summary: Post
+      operationId: ShiftLeftAccount_Post_post_/v2/ShiftLeftAccount
+      requestBody:
+        x-name: model
+        description: ShiftLeftGetViewModel
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShiftLeftPostViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShiftLeftAccountViewModel'
+      description: Add (onboard) a new ShiftLeft account to CloudGuard
+  /v2/ShiftLeftAccount/{id}:
+    get:
+      tags:
+      - Shift Left Account
+      summary: Get
+      operationId: ShiftLeftAccount_Get_get_/v2/ShiftLeftAccount/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the  ShiftLeft account id
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShiftLeftAccountViewModel'
+      description: Get details for a specific ShiftLeft Account
+    delete:
+      tags:
+      - Shift Left Account
+      summary: Delete
+      operationId: ShiftLeftAccount_Delete_delete_/v2/ShiftLeftAccount/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The CloudGuard ShiftLeft account id (UUID)
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: Delete a ShiftLeft account and linked entities from CloudGuard.
+  /v2/ShiftLeftAccount/{id}/AccountName:
+    put:
+      tags:
+      - Shift Left Account
+      summary: Update Account Name
+      operationId: ShiftLeftAccount_UpdateAccountName_put_/v2/ShiftLeftAccount/{id}/AccountName
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the ShiftLeft account id
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      - name: name
+        in: query
+        description: the updated name as it will appear in CloudGuard
+        schema:
+          type: string
+          maxLength: 500
+          pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShiftLeftAccountViewModel'
+      description: Update a ShiftLeft account name (as it appears in CloudGuard)
+  /v2/ShiftLeftAccount/{id}/accountDescription:
+    put:
+      tags:
+      - Shift Left Account
+      summary: Update Account Description
+      operationId: ShiftLeftAccount_UpdateAccountDescription_put_/v2/ShiftLeftAccount/{id}/accountDescription
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the ShiftLeft account id
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      - name: description
+        in: query
+        description: the updated description as it will appear in CloudGuard
+        schema:
+          type:
+          - string
+          - 'null'
+          maxLength: 1000
+          pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShiftLeftAccountViewModel'
+      description: Update a ShiftLeft account description (as it appears in CloudGuard)
+  /v2/ShiftLeftAccount/{id}/DeleteForce:
+    delete:
+      tags:
+      - Shift Left Account
+      summary: Delete Force
+      operationId: ShiftLeftAccount_DeleteForce_delete_/v2/ShiftLeftAccount/{id}/DeleteForce
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The CloudGuard ShiftLeft account id (UUID)
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      deprecated: true
+      description: Delete a ShiftLeft account and linked entities from CloudGuard.
+  /v2/ShiftLeftAccount/{id}/organizationalUnit:
+    put:
+      tags:
+      - Shift Left Account
+      summary: Update Organizational Id
+      operationId: ShiftLeftAccount_UpdateOrganizationalId_put_/v2/ShiftLeftAccount/{id}/organizationalUnit
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The Guid ID of the ShiftLeft account
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      requestBody:
+        x-name: updateData
+        description: The Guid ID of the Organizational Unit to attach to. Use null in order to attach to root Organizational Unit
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateIdViewModel'
+        required: true
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShiftLeftAccountViewModel'
+      description: 'Update the ID of the Organizational unit that this cloud account will be attached to.
+
+        Use ''null'' for root organizational unit'
+  /v2/ShiftLeftAccount/organizationalUnit/move:
+    put:
+      tags:
+      - Shift Left Account
+      summary: Move Cloud Accounts To Organizational Unit
+      operationId: ShiftLeftAccount_MoveCloudAccountsToOrganizationalUnit_put_/v2/ShiftLeftAccount/organizationalUnit/move
+      requestBody:
+        x-name: moveData
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MoveOrganizationalUnitViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: 'Detach cloud accounts from an Organizational unit and attach them to another Organizational unit
+
+        Use ''null'' for root organizational unit'
+  /v2/ShiftLeftAccount/organizationalUnit/moveAll:
+    put:
+      tags:
+      - Shift Left Account
+      summary: Move All Cloud Accounts To Organizational Unit
+      operationId: ShiftLeftAccount_MoveAllCloudAccountsToOrganizationalUnit_put_/v2/ShiftLeftAccount/organizationalUnit/moveAll
+      requestBody:
+        x-name: updateData
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateIdViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: Detach all cloud accounts from their current organizational unit and attach them to a new one. Default is to root organizational unit
+  /v2/ShiftLeftAccount/organizationalUnit/attach:
+    post:
+      tags:
+      - Shift Left Account
+      summary: Post Attach Multi
+      operationId: ShiftLeftAccount_PostAttachMulti_post_/v2/ShiftLeftAccount/organizationalUnit/attach
+      requestBody:
+        x-name: attachData
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachCloudAccountsViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: Attach several cloud accounts to a specific Organizational Unit. User 'null' as root Organizational Unit as target
+components:
+  schemas:
+    UpdateIdViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - organizationalUnitId
+      properties:
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+    ShiftLeftAccountViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - name
+      - description
+      - creationDate
+      - vendor
+      - organizationalUnitId
+      - organizationalUnitPath
+      - organizationalUnitName
+      properties:
+        id:
+          type: string
+          description: ShiftLeft id
+          format: guid
+        name:
+          type: string
+          description: ShiftLeft account name in Dome9
+        description:
+          type:
+          - string
+          - 'null'
+          description: ShiftLeft environment description in Dome9
+        creationDate:
+          type: string
+          description: creation date for project in ShiftLeft
+          format: date-time
+        vendor:
+          $ref: '#/components/schemas/CloudVendor'
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          description: ShiftLeft account organizational unit ID
+          format: guid
+        organizationalUnitPath:
+          type: string
+        organizationalUnitName:
+          type: string
+    AttachCloudAccountsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - entries
+      - organizationalUnitId
+      properties:
+        entries:
+          type:
+          - array
+          - 'null'
+          default: []
+          items:
+            type: string
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+    MoveOrganizationalUnitViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - sourceOrganizationalUnitId
+      - targetOrganizationalUnitId
+      properties:
+        sourceOrganizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        targetOrganizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+    CloudVendor:
+      type: string
+      description: ''
+      x-enumNames:
+      - aws
+      - hp
+      - mellanox
+      - awsgov
+      - azure
+      - google
+      - awschina
+      - azuregov
+      - kubernetes
+      - azurechina
+      - terraform
+      - generic
+      - kubernetesruntimeassurance
+      - shiftleft
+      - sourcecodeassurance
+      - imageassurance
+      - alibaba
+      - cft
+      - containerregistry
+      - oci
+      - ocigov
+      - ocigovuk
+      - CIEM
+      enum:
+      - aws
+      - hp
+      - mellanox
+      - awsgov
+      - azure
+      - google
+      - awschina
+      - azuregov
+      - kubernetes
+      - azurechina
+      - terraform
+      - generic
+      - kubernetesruntimeassurance
+      - shiftleft
+      - sourcecodeassurance
+      - imageassurance
+      - alibaba
+      - cft
+      - containerregistry
+      - oci
+      - ocigov
+      - ocigovuk
+      - CIEM
+    ShiftLeftPostViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - description
+      - organizationalUnitId
+      properties:
+        name:
+          type: string
+          description: ShiftLeft account name in Dome9
+          maxLength: 500
+          minLength: 1
+          pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
+        description:
+          type:
+          - string
+          - 'null'
+          description: ShiftLeft environment description in Dome9
+          maxLength: 1000
+          pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          description: ShiftLeft account organizational unit ID
+          format: guid
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

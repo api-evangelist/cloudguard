@@ -1,0 +1,126 @@
+openapi: 3.2.0
+info:
+  title: Inventory - GCP Google Cloud Iam Policy API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Google Cloud Iam Policy
+paths:
+  /v2/GoogleCloudIamPolicy:
+    get:
+      tags:
+      - Google Cloud Iam Policy
+      operationId: GoogleCloudIamPolicy_Get_get_/v2/GoogleCloudIamPolicy
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Google.IamPolicy.GoogleCloudIamPolicyViewModel'
+      description: ''
+      summary: Get
+  /v2/GoogleCloudIamPolicy/{id}:
+    get:
+      tags:
+      - Google Cloud Iam Policy
+      operationId: GoogleCloudIamPolicy_Get_get_/v2/GoogleCloudIamPolicy/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Google.IamPolicy.GoogleCloudIamPolicyViewModel'
+      description: ''
+      summary: Get
+components:
+  schemas:
+    Dome9.Web.Api.Google.IamPolicy.GcpIamPolicyBindingsViewModel:
+      type: object
+      properties:
+        eTag:
+          type: string
+        role:
+          type: string
+        members:
+          type: array
+          items:
+            type: string
+    Dome9.Web.Api.Google.IamPolicy.GcpIamPolicyAuditConfigsViewModel:
+      type: object
+      properties:
+        eTag:
+          type: string
+        service:
+          type: string
+        auditLogConfigs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Google.IamPolicy.GcpIamPolicyAuditConfigsViewModel.GcpIamPolicyAuditLogConfigsViewModel'
+    Dome9.Web.Api.Google.IamPolicy.GcpIamPolicyAuditConfigsViewModel.GcpIamPolicyAuditLogConfigsViewModel:
+      type: object
+      properties:
+        eTag:
+          type: string
+        logType:
+          type: string
+        exemptedMembers:
+          type: array
+          items:
+            type: string
+    Dome9.Web.Api.Google.IamPolicy.GoogleCloudIamPolicyViewModel:
+      type: object
+      properties:
+        eTag:
+          type: string
+        version:
+          format: int32
+          type: integer
+        bindings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Google.IamPolicy.GcpIamPolicyBindingsViewModel'
+        auditConfigs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Google.IamPolicy.GcpIamPolicyAuditConfigsViewModel'
+        id:
+          type: string
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

@@ -1,0 +1,271 @@
+openapi: 3.2.0
+info:
+  title: Risk Management Business Priority Modifier API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Business Priority Modifier
+paths:
+  /v2/erm/businesspriority/add-rule:
+    post:
+      tags:
+      - Business Priority Modifier
+      summary: Add Rule
+      operationId: BusinessPriorityModifier_AddRule_post_/v2/erm/businesspriority/add-rule
+      requestBody:
+        x-name: addRule
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BusinessPriorityModifierAddRuleRequestViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: Create a new Business Priority rule
+  /v2/erm/businesspriority/update-rule:
+    put:
+      tags:
+      - Business Priority Modifier
+      summary: Update Rule
+      operationId: BusinessPriorityModifier_UpdateRule_put_/v2/erm/businesspriority/update-rule
+      requestBody:
+        x-name: rule
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BusinessPriorityModifierUpdateRuleRequestViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: Update an existing Business Priority rule
+  /v2/erm/businesspriority/delete-rule:
+    delete:
+      tags:
+      - Business Priority Modifier
+      summary: Delete Rule
+      operationId: BusinessPriorityModifier_DeleteRule_delete_/v2/erm/businesspriority/delete-rule
+      parameters:
+      - name: id
+        in: query
+        description: The rule ID to delete
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: Delete an existing Business Priority rule
+  /v2/erm/businesspriority/get-rules:
+    get:
+      tags:
+      - Business Priority Modifier
+      summary: Get Rules
+      operationId: BusinessPriorityModifier_GetRules_get_/v2/erm/businesspriority/get-rules
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: Get all configured Business Priority rules
+components:
+  schemas:
+    BusinessPriorityModifierUpdateRuleRequestViewModel:
+      allOf:
+      - $ref: '#/components/schemas/BusinessPriorityModifierRuleWithIdViewModel'
+      - type: object
+        additionalProperties: false
+    BusinessPriorityModifierRuleDefinitionViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - assetNameContains
+      - environments
+      - organizationalUnits
+      - assetTags
+      properties:
+        assetNameContains:
+          type:
+          - array
+          - 'null'
+          description: Match assets with a name that contains one of the provided strings
+          items:
+            type: string
+        environments:
+          type:
+          - array
+          - 'null'
+          description: Match assets from the provided environments
+          items:
+            $ref: '#/components/schemas/BusinessPriorityModifierRuleEnvironmentViewModel'
+        organizationalUnits:
+          type:
+          - array
+          - 'null'
+          description: Match assets from the provided environments
+          items:
+            $ref: '#/components/schemas/BusinessPriorityModifierRuleOrganizationalUnitViewModel'
+        assetTags:
+          type:
+          - array
+          - 'null'
+          description: Match assets with at least one tag from the provided list of tags
+          items:
+            $ref: '#/components/schemas/BusinessPriorityModifierTagViewModel'
+    AssessmentCloudAccountType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Aws
+      - Azure
+      - Google
+      - Kubernetes
+      - Terraform
+      - Generic
+      - KubernetesRuntimeAssurance
+      - ShiftLeft
+      - SourceCodeAssurance
+      - ImageAssurance
+      - Alibaba
+      - Cft
+      - ContainerRegistry
+      - Oci
+      - CIEM
+      enum:
+      - Aws
+      - Azure
+      - Google
+      - Kubernetes
+      - Terraform
+      - Generic
+      - KubernetesRuntimeAssurance
+      - ShiftLeft
+      - SourceCodeAssurance
+      - ImageAssurance
+      - Alibaba
+      - Cft
+      - ContainerRegistry
+      - Oci
+      - CIEM
+    BusinessPriorityModifierAddRuleRequestViewModel:
+      allOf:
+      - $ref: '#/components/schemas/BusinessPriorityModifierRuleViewModel'
+      - type: object
+        additionalProperties: false
+    BusinessPriorityModifierTagViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type:
+          - string
+          - 'null'
+          maxLength: 127
+        value:
+          type:
+          - string
+          - 'null'
+          maxLength: 255
+    BusinessPriorityModifierRuleViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - ruleName
+      - ruleDefinition
+      - priority
+      properties:
+        ruleName:
+          type: string
+          description: Custom rule name
+          maxLength: 255
+          minLength: 1
+        priority:
+          type:
+          - string
+          - 'null'
+          description: The priority to set for matched assets ("Undefined" / "Minor Importance" / "Important" / "High Importance" / "Crown Jewel")
+        ruleDefinition:
+          description: The rule definition to use when matching assets
+          oneOf:
+          - $ref: '#/components/schemas/BusinessPriorityModifierRuleDefinitionViewModel'
+    BusinessPriorityModifierRuleEnvironmentViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - cloudAccountId
+      - platform
+      properties:
+        cloudAccountId:
+          type: string
+          description: The environment ID
+          format: guid
+          minLength: 1
+        platform:
+          description: The environment platform ("aws" / "azure" / "google")
+          oneOf:
+          - $ref: '#/components/schemas/AssessmentCloudAccountType'
+    BusinessPriorityModifierRuleWithIdViewModel:
+      allOf:
+      - $ref: '#/components/schemas/BusinessPriorityModifierRuleViewModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - id
+        properties:
+          id:
+            type: string
+            format: guid
+            minLength: 1
+    BusinessPriorityModifierRuleOrganizationalUnitViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          description: The ID of the OU
+          format: guid
+          minLength: 1
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

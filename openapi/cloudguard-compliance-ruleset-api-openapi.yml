@@ -1,0 +1,444 @@
+openapi: 3.2.0
+info:
+  title: Posture Management Compliance Ruleset API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Compliance Ruleset
+paths:
+  /v2/Compliance/Ruleset:
+    post:
+      tags:
+      - Compliance Ruleset
+      summary: Create Rule Bundle
+      operationId: ComplianceRuleset_CreateRuleBundle_post_/v2/Compliance/Ruleset
+      requestBody:
+        x-name: ruleBudleViewModel
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RuleBundleRequestPostViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleBundleResultViewModel'
+      description: Create a new ruleset
+    get:
+      tags:
+      - Compliance Ruleset
+      summary: Get Account Bundles
+      operationId: ComplianceRuleset_GetAccountBundles_get_/v2/Compliance/Ruleset
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RuleBundleResultViewModel'
+      description: Get all rulesets for the account
+  /v2/Compliance/Ruleset/{id}:
+    put:
+      tags:
+      - Compliance Ruleset
+      summary: Update Rule Bundle
+      operationId: ComplianceRuleset_UpdateRuleBundle_put_/v2/Compliance/Ruleset/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the bundle id
+        schema:
+          type: integer
+          format: int64
+        x-position: 1
+      requestBody:
+        x-name: ruleBudleViewModel
+        description: bundle definition
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RuleBundleRequestViewModel'
+        required: true
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleBundleResultViewModel'
+      description: Update a Ruleset
+    get:
+      tags:
+      - Compliance Ruleset
+      summary: Get Bundle By Id
+      operationId: ComplianceRuleset_GetBundleById_get_/v2/Compliance/Ruleset/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the bundle id
+        schema:
+          type: integer
+          format: int64
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleBundleResultViewModel'
+      description: Get a specific ruleset
+    delete:
+      tags:
+      - Compliance Ruleset
+      summary: Delete Bundle
+      operationId: ComplianceRuleset_DeleteBundle_delete_/v2/Compliance/Ruleset/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the bundle id
+        schema:
+          type: integer
+          format: int32
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: Delete a ruleset in the account
+  /v2/Compliance/Ruleset/{id}/version/{version}:
+    get:
+      tags:
+      - Compliance Ruleset
+      summary: Get Versioned Bundle By Id
+      operationId: ComplianceRuleset_GetVersionedBundleById_get_/v2/Compliance/Ruleset/{id}/version/{version}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the bundle id
+        schema:
+          type: integer
+          format: int64
+        x-position: 1
+      - name: version
+        in: path
+        required: true
+        description: the bundle version
+        schema:
+          type: string
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleBundleResultViewModel'
+      description: Get a specific versioned ruleset
+components:
+  schemas:
+    FeatureTier:
+      type: string
+      description: ''
+      x-enumNames:
+      - Trial
+      - Basic
+      - Advanced
+      - Premium
+      enum:
+      - Trial
+      - Basic
+      - Advanced
+      - Premium
+    RuleBundleResultViewModel:
+      allOf:
+      - $ref: '#/components/schemas/BaseRuleBundleResultViewModelOfRuleBundleEntity'
+      - type: object
+        additionalProperties: false
+        required:
+        - rules
+        properties:
+          rules:
+            type:
+            - array
+            - 'null'
+            description: list of rules in the bundle
+            items:
+              $ref: '#/components/schemas/RuleViewModel2'
+    BaseRuleBundleResultViewModelOfRuleBundleEntity:
+      type: object
+      x-abstract: true
+      additionalProperties: false
+      properties:
+        accountId:
+          type: integer
+          description: Dome9 account id
+          format: int64
+        createdTime:
+          type: string
+          description: bundle creation date
+          format: date-time
+        updatedTime:
+          type: string
+          format: date-time
+        id:
+          type: integer
+          description: bundle id
+          format: int64
+        name:
+          type:
+          - string
+          - 'null'
+          description: bundle name
+        description:
+          type:
+          - string
+          - 'null'
+          description: bundle description
+        isTemplate:
+          type: boolean
+        hideInCompliance:
+          type: boolean
+        minFeatureTier:
+          $ref: '#/components/schemas/FeatureTier'
+        section:
+          type: integer
+          format: int32
+        tooltipText:
+          type:
+          - string
+          - 'null'
+          description: tooltip text (UI) for the bundle, when hovering over it
+        showBundle:
+          type: boolean
+        systemBundle:
+          type: boolean
+        cloudVendor:
+          oneOf:
+          - $ref: '#/components/schemas/CloudVendor'
+        version:
+          type: integer
+          format: int32
+        minorVersion:
+          type: integer
+          format: int32
+        availableVersions:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/RuleBundleVersionViewModel'
+        language:
+          type:
+          - string
+          - 'null'
+        rulesCount:
+          type: integer
+          format: int32
+        default:
+          type: boolean
+        common:
+          type: boolean
+        icon:
+          type:
+          - string
+          - 'null'
+    RuleBundleRequestViewModel:
+      allOf:
+      - $ref: '#/components/schemas/RuleBundleRequestPostViewModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - id
+        - rlmId
+        properties:
+          id:
+            type: integer
+            description: the bundle id (returned in response)
+            format: int64
+          rlmId:
+            type:
+            - string
+            - 'null'
+            description: 'RDS database table entity (row) id
+
+              Is null for non-RLM customers (using legacy Mongo)'
+            format: guid
+    RuleBundleRequestPostViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - cloudVendor
+      - description
+      - rules
+      - hideInCompliance
+      - minFeatureTier
+      - language
+      properties:
+        name:
+          type: string
+          description: bundle name
+          default: ''
+          minLength: 1
+        description:
+          type:
+          - string
+          - 'null'
+          description: description of the bundle
+          default: ''
+        rules:
+          type:
+          - array
+          - 'null'
+          description: list of rules in the bundle
+          default: []
+          items:
+            $ref: '#/components/schemas/RuleViewModel2'
+        hideInCompliance:
+          type: boolean
+        minFeatureTier:
+          default: 30
+          $ref: '#/components/schemas/FeatureTier'
+        cloudVendor:
+          description: the cloud provider on which the rule will be run
+          oneOf:
+          - $ref: '#/components/schemas/CloudVendor'
+        language:
+          type:
+          - string
+          - 'null'
+          description: the language of the text (default, 'en' - English)
+          default: en
+    RuleViewModel2:
+      type: object
+      additionalProperties: false
+      required:
+      - logicHash
+      - id
+      - name
+      - rlmId
+      properties:
+        logicHash:
+          type:
+          - string
+          - 'null'
+          description: Rule logic hash
+          pattern: ^[A-Za-z0-9+/]{22}?$
+        id:
+          type:
+          - string
+          - 'null'
+          description: Rule ID
+        name:
+          type:
+          - string
+          - 'null'
+          description: Rule name
+        rlmId:
+          type:
+          - string
+          - 'null'
+    CloudVendor:
+      type: string
+      description: ''
+      x-enumNames:
+      - aws
+      - hp
+      - mellanox
+      - awsgov
+      - azure
+      - google
+      - awschina
+      - azuregov
+      - kubernetes
+      - azurechina
+      - terraform
+      - generic
+      - kubernetesruntimeassurance
+      - shiftleft
+      - sourcecodeassurance
+      - imageassurance
+      - alibaba
+      - cft
+      - containerregistry
+      - oci
+      - ocigov
+      - ocigovuk
+      - CIEM
+      enum:
+      - aws
+      - hp
+      - mellanox
+      - awsgov
+      - azure
+      - google
+      - awschina
+      - azuregov
+      - kubernetes
+      - azurechina
+      - terraform
+      - generic
+      - kubernetesruntimeassurance
+      - shiftleft
+      - sourcecodeassurance
+      - imageassurance
+      - alibaba
+      - cft
+      - containerregistry
+      - oci
+      - ocigov
+      - ocigovuk
+      - CIEM
+    RuleBundleVersionViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - createdTime
+      properties:
+        version:
+          type:
+          - string
+          - 'null'
+        createdTime:
+          type:
+          - string
+          - 'null'
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

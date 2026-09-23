@@ -1,0 +1,108 @@
+openapi: 3.2.0
+info:
+  title: Aws Organization Management Onboarding API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Aws Organization Management Onboarding
+paths:
+  /v2/aws-organization-management-onboarding/management-stack:
+    get:
+      tags:
+      - Aws Organization Management Onboarding
+      summary: Get Onboarding Configuration
+      operationId: AwsOrganizationManagementOnboarding_GetOnboardingConfiguration_get_/v2/aws-organization-management-onboarding/management-stack
+      parameters:
+      - name: awsAccountId
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+        x-position: 1
+      responses:
+        '200':
+          description: Return management stack configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManagementCftConfiguration'
+      description: 'Get management stack configuration for given AWS account.
+
+        For empty awsAccountId, return the default configuration.'
+  /v2/aws-organization-management-onboarding/member-account-configuration:
+    get:
+      tags:
+      - Aws Organization Management Onboarding
+      summary: Get Member Account Configuration
+      operationId: AwsOrganizationManagementOnboarding_GetMemberAccountConfiguration_get_/v2/aws-organization-management-onboarding/member-account-configuration
+      responses:
+        '200':
+          description: Return onboarding CFT
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingMemberCft'
+      description: Get onboarding CFT.
+components:
+  schemas:
+    OnboardingMemberCft:
+      allOf:
+      - $ref: '#/components/schemas/OnboardingCftBase'
+      - type: object
+        additionalProperties: false
+        required:
+        - onboardingCftUrl
+        properties:
+          onboardingCftUrl:
+            type: string
+    ManagementCftConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/OnboardingCftBase'
+      - type: object
+        additionalProperties: false
+        required:
+        - managementCftUrl
+        - isManagementOnboarded
+        properties:
+          managementCftUrl:
+            type: string
+            description: Management Cft Url for s3.
+          isManagementOnboarded:
+            type: boolean
+            description: Is management account already onboarded to CloudGuard.
+    OnboardingCftBase:
+      type: object
+      additionalProperties: false
+      required:
+      - externalId
+      - content
+      properties:
+        externalId:
+          type: string
+          description: Used in the CloudGuard role.
+        content:
+          type: string
+          description: Content of the CFT.
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

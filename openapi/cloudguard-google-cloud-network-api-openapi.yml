@@ -1,0 +1,86 @@
+openapi: 3.2.0
+info:
+  title: Inventory - GCP Google Cloud Network API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Google Cloud Network
+paths:
+  /v2/GoogleCloudNetwork:
+    get:
+      tags:
+      - Google Cloud Network
+      summary: Get
+      operationId: GoogleCloudNetwork_Get_get_/v2/GoogleCloudNetwork
+      parameters:
+      - name: cloudAccountId
+        in: query
+        description: the Google cloud account id
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Google.Network.GoogleCloudNetworkViewModel'
+      description: Get network details for a Google account
+components:
+  schemas:
+    Dome9.Web.Api.Google.Network.GoogleCloudNetworkViewModel:
+      type: object
+      properties:
+        cloudAccountName:
+          type: string
+        autoCreateSubnetworks:
+          type: boolean
+        creationTimestamp:
+          type: string
+        description:
+          type: string
+        eTag:
+          type: string
+        gatewayIPv4:
+          type: string
+        iPv4Range:
+          type: string
+        kind:
+          type: string
+        name:
+          type: string
+        subnetworks:
+          type: array
+          items:
+            type: string
+        id:
+          type: string
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

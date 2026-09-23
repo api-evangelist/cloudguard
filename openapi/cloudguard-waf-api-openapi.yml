@@ -1,0 +1,130 @@
+openapi: 3.2.0
+info:
+  title: Risk Management Waf API
+  version: v2
+  description: WAF Protection
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: waf
+  description: WAF Protection
+paths:
+  /v2/erm/waf/stats:
+    post:
+      tags:
+      - waf
+      summary: Get Stats
+      operationId: Waf_GetStats_post_/v2/erm/waf/stats
+      requestBody:
+        x-name: filter
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StatsFilterViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: Get statistics of Cloud Guard WAF coverage and risk distribution of publicly exposed assets
+components:
+  schemas:
+    StatsFilterViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - platform
+      - environment
+      properties:
+        platform:
+          type:
+          - array
+          - 'null'
+          description: Filter the results for the selected platforms
+          items:
+            $ref: '#/components/schemas/CloudVendor'
+        environment:
+          type:
+          - array
+          - 'null'
+          description: Filter the results for the selected environments
+          items:
+            type: string
+            format: guid
+    CloudVendor:
+      type: string
+      description: ''
+      x-enumNames:
+      - aws
+      - hp
+      - mellanox
+      - awsgov
+      - azure
+      - google
+      - awschina
+      - azuregov
+      - kubernetes
+      - azurechina
+      - terraform
+      - generic
+      - kubernetesruntimeassurance
+      - shiftleft
+      - sourcecodeassurance
+      - imageassurance
+      - alibaba
+      - cft
+      - containerregistry
+      - oci
+      - ocigov
+      - ocigovuk
+      - CIEM
+      enum:
+      - aws
+      - hp
+      - mellanox
+      - awsgov
+      - azure
+      - google
+      - awschina
+      - azuregov
+      - kubernetes
+      - azurechina
+      - terraform
+      - generic
+      - kubernetesruntimeassurance
+      - shiftleft
+      - sourcecodeassurance
+      - imageassurance
+      - alibaba
+      - cft
+      - containerregistry
+      - oci
+      - ocigov
+      - ocigovuk
+      - CIEM
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

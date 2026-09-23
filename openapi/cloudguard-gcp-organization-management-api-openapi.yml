@@ -1,0 +1,153 @@
+openapi: 3.2.0
+info:
+  title: Onboarding Gcp Organization Management API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Gcp Organization Management
+paths:
+  /v2/gcp-organization-management/execution-command:
+    get:
+      tags:
+      - Gcp Organization Management
+      summary: Generate Onboarding Execution Command
+      operationId: GcpOrganizationManagement_GenerateOnboardingExecutionCommand_get_/v2/gcp-organization-management/execution-command
+      parameters:
+      - name: WorkflowId
+        in: query
+        description: Not required
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      - name: ScopeMode
+        in: query
+        description: 'Required: Scope of the onboarding'
+        schema:
+          $ref: '#/components/schemas/ScopeMode'
+        x-position: 2
+      - name: ServiceAccountProjectId
+        in: query
+        description: Optional if scope is Project ID. Otherwise required
+        schema:
+          type:
+          - string
+          - 'null'
+        x-position: 3
+      - name: ManagedServiceAccountId
+        in: query
+        description: Not required. A new service account will be created if not provided
+        schema:
+          type:
+          - string
+          - 'null'
+        x-position: 4
+      - name: ProjectId
+        in: query
+        description: Required only if ScopeMode = Project
+        schema:
+          type:
+          - string
+          - 'null'
+        x-position: 5
+      - name: FolderId
+        in: query
+        description: Required only if ScopeMode = Folder
+        schema:
+          type:
+          - string
+          - 'null'
+        x-position: 6
+      - name: OrganizationId
+        in: query
+        description: Required only if ScopeMode = Organization
+        schema:
+          type:
+          - string
+          - 'null'
+        x-position: 7
+      - name: IsUpdate
+        in: query
+        description: 'Required: Default is false. Specifies if the flow is update flow or create flow.
+
+          If IsUpdate = false create_key will be added to the script and new access keys will be returned to the user.
+
+          If IsUpdate = true create_key will not be added to the script (for update permissions only)'
+        schema:
+          type: boolean
+        x-position: 8
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GcpOnboardingExecCmdResponse'
+      description: 'Get the cloud account command line execution for GCP shell
+
+        Details for GCP cloud account.'
+  /v2/gcp-organization-management/onboarding-execution-preview:
+    get:
+      tags:
+      - Gcp Organization Management
+      summary: Get Onboarding Script For Preview
+      operationId: GcpOrganizationManagement_GetOnboardingScriptForPreview_get_/v2/gcp-organization-management/onboarding-execution-preview
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetOnboardingScriptForPreviewResponse'
+      description: Get the script that performs GCP account onboarding
+components:
+  schemas:
+    GetOnboardingScriptForPreviewResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - script
+      properties:
+        script:
+          type: string
+    GcpOnboardingExecCmdResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - executionCommand
+      properties:
+        executionCommand:
+          type: string
+    ScopeMode:
+      type: string
+      description: ''
+      x-enumNames:
+      - Project
+      - Folder
+      - Organization
+      enum:
+      - Project
+      - Folder
+      - Organization
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

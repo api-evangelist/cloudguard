@@ -1,0 +1,204 @@
+openapi: 3.2.0
+info:
+  title: Posture Management Generic List API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Generic List
+paths:
+  /v2/GenericList/{id}:
+    get:
+      tags:
+      - Generic List
+      summary: Get
+      operationId: GenericList_Get_get_/v2/GenericList/{id}
+      parameters:
+      - name: id
+        in: path
+        description: Generic list ID
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.GenericList.GenericListResponseViewModel'
+      description: Get a generic list by its ID
+    delete:
+      tags:
+      - Generic List
+      summary: Delete
+      operationId: GenericList_Delete_delete_/v2/GenericList/{id}
+      parameters:
+      - name: id
+        in: path
+        description: Generic list ID
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      description: Delete a generic list by its ID
+  /v2/GenericList:
+    get:
+      tags:
+      - Generic List
+      summary: Get
+      operationId: GenericList_Get_get_/v2/GenericList
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.GenericList.GenericListResponseViewModel'
+      description: Get all generic lists
+    put:
+      tags:
+      - Generic List
+      summary: Put
+      operationId: GenericList_Put_put_/v2/GenericList
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.GenericList.GenericListResponseViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.GenericList.GenericListViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.GenericList.GenericListViewModel'
+        description: Generic list model with ID
+        required: true
+      description: 'Update a generic list
+
+        Returns the updated generic list'
+    post:
+      tags:
+      - Generic List
+      summary: Post
+      operationId: GenericList_Post_post_/v2/GenericList
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.GenericList.GenericListResponseViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.GenericList.GenericListViewModelBase'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.GenericList.GenericListViewModelBase'
+        description: Generic list model
+        required: true
+      description: 'Create a new generic list
+
+        Returns the created generic list'
+components:
+  schemas:
+    Dome9.Web.Api.GenericList.GenericListValueViewModel:
+      required:
+      - value
+      type: object
+      properties:
+        value:
+          pattern: '[a-zA-Z0-9/.\-_:%*{}()=!&|\\$#~^+@ \u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff]+'
+          type: string
+        comment:
+          type: string
+    Dome9.Web.Api.GenericList.GenericListViewModel:
+      required:
+      - id
+      - name
+      - items
+      type: object
+      properties:
+        id:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          pattern: '[a-zA-Z0-9/\-_:]*[a-zA-Z]+[a-zA-Z0-9/\-_:]*'
+          type: string
+        description:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.GenericList.GenericListValueViewModel'
+    Dome9.Web.Api.GenericList.GenericListViewModelBase:
+      required:
+      - name
+      - items
+      type: object
+      properties:
+        name:
+          pattern: '[a-zA-Z0-9/\-_:]*[a-zA-Z]+[a-zA-Z0-9/\-_:]*'
+          type: string
+        description:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.GenericList.GenericListValueViewModel'
+    Dome9.Web.Api.GenericList.GenericListResponseViewModel:
+      required:
+      - id
+      - name
+      - items
+      type: object
+      properties:
+        isManaged:
+          type: boolean
+        id:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          pattern: '[a-zA-Z0-9/\-_:]*[a-zA-Z]+[a-zA-Z0-9/\-_:]*'
+          type: string
+        description:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.GenericList.GenericListValueViewModel'
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

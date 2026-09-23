@@ -1,0 +1,100 @@
+openapi: 3.2.0
+info:
+  title: Risk Management Remediation Actions API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Remediation Actions
+paths:
+  /v2/erm/remediation/top-actions:
+    post:
+      tags:
+      - Remediation Actions
+      summary: Get Top Remediation Actions
+      operationId: RemediationActions_GetTopRemediationActions_post_/v2/erm/remediation/top-actions
+      requestBody:
+        x-name: requestViewModel
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RemediationActionsRequestViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: Get top X remediation actions of an asset ordered by severity and remediation type
+components:
+  schemas:
+    RemediationActionsRequestViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - dome9Id
+      - platform
+      - type
+      - cloudAccountId
+      - region
+      - size
+      properties:
+        id:
+          type: string
+          description: Rule Engine Id of the entity
+          minLength: 1
+        dome9Id:
+          type: string
+          description: The dome9 id in SRL-accountId format
+          minLength: 1
+        platform:
+          type: string
+          description: aws, azure, google, kubernetes
+          minLength: 1
+        type:
+          type: string
+          description: 'Entity type '
+          minLength: 1
+        cloudAccountId:
+          type: string
+          description: Dome9 cloud account id
+          format: guid
+          minLength: 1
+        region:
+          type:
+          - string
+          - 'null'
+          description: Cloud region
+        size:
+          type: integer
+          description: The maximum size of remediation actions to be returned
+          format: int32
+          default: 10
+          maximum: 20
+          minimum: 1
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

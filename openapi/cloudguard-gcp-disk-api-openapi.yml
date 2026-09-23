@@ -1,0 +1,96 @@
+openapi: 3.2.0
+info:
+  title: Inventory - GCP Gcp Disk API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Gcp Disk
+paths:
+  /v2/GcpDisk:
+    get:
+      tags:
+      - Gcp Disk
+      operationId: GcpDisk_Get_get_/v2/GcpDisk
+      parameters:
+      - name: externalId
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Google.GcpDisk.GcpDiskViewModel'
+      description: ''
+      summary: Get
+components:
+  schemas:
+    Dome9.Web.Api.Google.GcpDisk.GcpDiskViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+        externalId:
+          type: string
+        name:
+          type: string
+        selfLink:
+          type: string
+        status:
+          type: string
+        creationTimestamp:
+          format: int64
+          type: integer
+        lastAttachTimestamp:
+          format: int64
+          type: integer
+        lastDetachTimestamp:
+          format: int64
+          type: integer
+        sourceImage:
+          type: string
+        sourceImageId:
+          type: string
+        sourceDisk:
+          type: string
+        sourceDiskId:
+          type: string
+        sourceSnapshot:
+          type: string
+        sourceSnapshotId:
+          type: string
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

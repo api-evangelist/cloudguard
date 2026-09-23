@@ -1,0 +1,237 @@
+openapi: 3.2.0
+info:
+  title: Aws Unified Onboarding API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Aws Unified Onboarding
+paths:
+  /v2/AwsUnifiedOnboarding/StackConfig:
+    post:
+      tags:
+      - Aws Unified Onboarding
+      summary: Get Stack Config
+      operationId: AwsUnifiedOnboarding_GetStackConfig_post_/v2/AwsUnifiedOnboarding/StackConfig
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Onboarding.ViewModel.AwsStackConfigViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Onboarding.Requests.OnboardingConfigurationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Onboarding.Requests.OnboardingConfigurationRequest'
+        required: true
+      description: Returns the configuration should be set to the AWS cloud formation SDK for creating the Stack for the onboarding
+  /v2/AwsUnifiedOnboarding/UpdateVersion/StackConfig/{onboardingId}:
+    get:
+      tags:
+      - Aws Unified Onboarding
+      summary: Get Update Stack Config
+      operationId: AwsUnifiedOnboarding_GetUpdateStackConfig_get_/v2/AwsUnifiedOnboarding/UpdateVersion/StackConfig/{onboardingId}
+      parameters:
+      - name: onboardingId
+        in: path
+        description: the OnboardingId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Onboarding.ViewModel.AwsStackConfigViewModel'
+      description: Returns the configuration should be set to the AWS cloud formation SDK for an update
+  /v2/AwsUnifiedOnboarding/{id}:
+    get:
+      tags:
+      - Aws Unified Onboarding
+      summary: Get
+      operationId: AwsUnifiedOnboarding_Get_get_/v2/AwsUnifiedOnboarding/{id}
+      parameters:
+      - name: id
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Onboarding.ViewModel.OnboardingInfoViewModel'
+      description: Gets the Onboarding information
+components:
+  schemas:
+    Dome9.Web.Api.Onboarding.ViewModel.AwsStackConfigViewModel:
+      type: object
+      properties:
+        stackName:
+          type: string
+        templateUrl:
+          type: string
+        parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Onboarding.ViewModel.Parameter'
+        iamCapabilities:
+          type: array
+          items:
+            type: string
+    Falconetix.Model.Onboarding.Logic.IntelligenceConfigurations:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        rulesets:
+          type: array
+          items:
+            format: int64
+            type: integer
+    Dome9.Web.Api.Onboarding.Requests.OnboardingConfigurationRequest:
+      type: object
+      properties:
+        onboardType:
+          enum:
+          - Simple
+          - Advanced
+          type: string
+        fullProtection:
+          type: boolean
+        cloudVendor:
+          enum:
+          - aws
+          - hp
+          - mellanox
+          - awsgov
+          - azure
+          - google
+          - awschina
+          - azuregov
+          - kubernetes
+          - azurechina
+          - terraform
+          - generic
+          - kubernetesruntimeassurance
+          - shiftleft
+          - sourcecodeassurance
+          - imageassurance
+          - alibaba
+          - cft
+          - containerregistry
+          - oci
+          - ocigov
+          - ocigovuk
+          - CIEM
+          type: string
+        enableStackModify:
+          type: boolean
+        postureManagementConfiguration:
+          $ref: '#/components/schemas/Falconetix.Model.Onboarding.PostureManagement.PostureManagementConfiguration'
+        serverlessConfiguration:
+          $ref: '#/components/schemas/Falconetix.Model.Onboarding.Serverless.ServerlessConfiguration'
+        intelligenceConfigurations:
+          $ref: '#/components/schemas/Falconetix.Model.Onboarding.Logic.IntelligenceConfigurations'
+    Falconetix.Model.Onboarding.PostureManagement.PostureManagementConfiguration:
+      type: object
+      properties:
+        rulesets:
+          type: array
+          items:
+            format: int64
+            type: integer
+    Dome9.Web.Api.Onboarding.ViewModel.OnboardingStatus:
+      type: object
+      properties:
+        module:
+          type: string
+        feature:
+          type: string
+        status:
+          type: string
+        statusMessage:
+          type: string
+        stackStatus:
+          type: string
+        stackMessage:
+          type: string
+        remediationRecommendation:
+          type: string
+    Falconetix.Model.Onboarding.Serverless.ServerlessConfiguration:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+    Dome9.Web.Api.Onboarding.ViewModel.OnboardingInfoViewModel:
+      type: object
+      properties:
+        onboardingId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        initiatedUserName:
+          type: string
+        initiatedUserId:
+          format: int32
+          type: integer
+        environmentId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        environmentName:
+          type: string
+        environmentExternalId:
+          type: string
+        rootStackId:
+          type: string
+        cftVersion:
+          type: string
+        onboardingRequest:
+          $ref: '#/components/schemas/Dome9.Web.Api.Onboarding.Requests.OnboardingConfigurationRequest'
+        statuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Onboarding.ViewModel.OnboardingStatus'
+        intelligenceStackRegion:
+          type: string
+    Dome9.Web.Api.Onboarding.ViewModel.Parameter:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

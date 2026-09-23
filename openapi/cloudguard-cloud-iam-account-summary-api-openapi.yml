@@ -1,0 +1,83 @@
+openapi: 3.2.0
+info:
+  title: Inventory - AWS IAM Cloud Iam Account Summary API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Cloud Iam Account Summary
+paths:
+  /v2/CloudIamAccountSummary:
+    get:
+      tags:
+      - Cloud Iam Account Summary
+      operationId: CloudIamAccountSummary_Get_get_/v2/CloudIamAccountSummary
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.CloudIamAccountSummary.CloudIamAccountSummaryViewModel'
+      description: ''
+      summary: Get
+components:
+  schemas:
+    Dome9.Web.Api.CloudIamAccountSummary.CloudIamAccountSummaryViewModel:
+      type: object
+      properties:
+        id:
+          description: Id
+          type: string
+          readOnly: true
+        externalId:
+          description: ExternalId
+          type: string
+          readOnly: true
+        name:
+          description: Name
+          type: string
+          readOnly: true
+        cloudAccountId:
+          format: uuid
+          description: CloudAccountId
+          type: string
+          readOnly: true
+          example: 00000000-0000-0000-0000-000000000000
+        accountId:
+          format: int64
+          description: AccountId
+          type: integer
+          readOnly: true
+        externalAccountNumber:
+          description: External account number
+          type: string
+        summaryMap:
+          description: Summary map
+          type: object
+          additionalProperties:
+            format: int32
+            type: integer
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

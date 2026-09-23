@@ -1,0 +1,77 @@
+openapi: 3.2.0
+info:
+  title: Inventory - AWS Networking and Content Delivery Aws Elastic…
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Aws Elastic Ip
+paths:
+  /v2/AwsElasticIp:
+    get:
+      tags:
+      - Aws Elastic Ip
+      operationId: AwsElasticIp_Get_get_/v2/AwsElasticIp
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Falconetix.Model.AwsElasticIPViewModel'
+      description: ''
+      summary: Get
+components:
+  schemas:
+    Falconetix.Model.AwsElasticIPViewModel:
+      type: object
+      properties:
+        allocationId:
+          type: string
+        associationId:
+          type: string
+        domain:
+          type: string
+        instanceId:
+          type: string
+        networkInterfaceId:
+          type: string
+        networkInterfaceOwnerId:
+          type: string
+        privateIpAddress:
+          type: string
+        publicIp:
+          type: string
+        accountNumber:
+          type: string
+        region:
+          type: string
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        id:
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

@@ -1,0 +1,230 @@
+openapi: 3.2.0
+info:
+  title: Workload Protection Image Admission Exclusion API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Image Admission Exclusion
+paths:
+  /v2/kubernetes/admissionControl/imageAdmissionExclusion/{id}:
+    get:
+      tags:
+      - Image Admission Exclusion
+      summary: Get
+      operationId: ImageAdmissionExclusion_Get_get_/v2/kubernetes/admissionControl/imageAdmissionExclusion/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: exclusion ID
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KubernetesImageAdmissionExclusionViewModel'
+      description: 'Get single exclusion by exclusion ID.
+
+        Returns an exclusion matching a given exclusion ID.'
+    delete:
+      tags:
+      - Image Admission Exclusion
+      summary: Delete
+      operationId: ImageAdmissionExclusion_Delete_delete_/v2/kubernetes/admissionControl/imageAdmissionExclusion/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: exclusion ID
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: Delete exclusion by exclusion ID.
+  /v2/kubernetes/admissionControl/imageAdmissionExclusion:
+    get:
+      tags:
+      - Image Admission Exclusion
+      summary: Get All
+      operationId: ImageAdmissionExclusion_GetAll_get_/v2/kubernetes/admissionControl/imageAdmissionExclusion
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/KubernetesImageAdmissionExclusionViewModel'
+      description: 'Get all exclusions for the requesting account.
+
+        Returns a collection of exclusions.'
+    put:
+      tags:
+      - Image Admission Exclusion
+      summary: Put
+      operationId: ImageAdmissionExclusion_Put_put_/v2/kubernetes/admissionControl/imageAdmissionExclusion
+      requestBody:
+        x-name: exclusionViewModel
+        description: exclusions to update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KubernetesImageAdmissionExclusionViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '207':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/KubernetesImageAdmissionExclusionViewModel'
+      description: 'Update exclusions.
+
+        Returns updated exclusion.'
+    post:
+      tags:
+      - Image Admission Exclusion
+      summary: Post
+      operationId: ImageAdmissionExclusion_Post_post_/v2/kubernetes/admissionControl/imageAdmissionExclusion
+      requestBody:
+        x-name: exclusionViewModel
+        description: exclusions to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KubernetesImageAdmissionPostExclusionViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '207':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/KubernetesImageAdmissionExclusionViewModel'
+      description: 'Create new exclusions.
+
+        Returns created exclusion.'
+components:
+  schemas:
+    KubernetesImageAdmissionExclusionViewModel:
+      allOf:
+      - $ref: '#/components/schemas/KubernetesImageAdmissionPostExclusionViewModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - id
+        properties:
+          id:
+            type: string
+            description: '[Required] Exclusion ID - Unique identifier for the exclusion. '
+            format: guid
+            minLength: 1
+    KubernetesImageAdmissionPostExclusionViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - rulesetId
+      - environmentIds
+      - organizationalUnitIds
+      - imageNameExclusion
+      - usernameExclusion
+      - roleExclusion
+      - namespaceExclusion
+      - groupExclusion
+      - comment
+      properties:
+        rulesetId:
+          type: integer
+          description: '[Required] List of rules to apply the exclusion on.'
+          format: int64
+        environmentIds:
+          type:
+          - array
+          - 'null'
+          description: '[Optional] List of environment IDs to apply exclusion on.
+
+            If neither environment IDs nor organizational unit IDs are supplied, exclusion will apply on all environment.
+
+            If both organizational unit IDs and environment IDs are supplied, only organizational unit IDs will take effect.'
+          items:
+            type: string
+            format: guid
+        organizationalUnitIds:
+          type:
+          - array
+          - 'null'
+          description: '[Optional] List of organizational unit IDs to apply exclusion on.
+
+            If neither organizational unit IDs nor environment IDs are supplied, exclusion will apply on all environment.
+
+            If both organizational unit IDs and environment IDs are supplied, only organizational unit IDs will take effect.'
+          items:
+            type: string
+            format: guid
+        imageNameExclusion:
+          type:
+          - string
+          - 'null'
+          description: '[Optional] an image to exclude.'
+        usernameExclusion:
+          type:
+          - string
+          - 'null'
+          description: '[Optional] a user to exclude.'
+        roleExclusion:
+          type:
+          - string
+          - 'null'
+          description: '[Optional] a role of a user to exclude.'
+        namespaceExclusion:
+          type:
+          - string
+          - 'null'
+          description: '[Optional] a namespace to exclude.'
+        groupExclusion:
+          type:
+          - string
+          - 'null'
+          description: '[Optional] a group of a user to exclude.'
+        comment:
+          type:
+          - string
+          - 'null'
+          description: '[Optional] Comment text (free text)'
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

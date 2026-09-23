@@ -1,0 +1,53 @@
+openapi: 3.2.0
+info:
+  title: Administration Global Search API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Global Search
+paths:
+  /v2/GlobalSearch:
+    get:
+      tags:
+      - Global Search
+      summary: Get
+      operationId: GlobalSearch_Get_get_/v2/GlobalSearch
+      parameters:
+      - name: freeText
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+      description: Get top results for each service
+components:
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

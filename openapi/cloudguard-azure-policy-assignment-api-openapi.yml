@@ -1,0 +1,135 @@
+openapi: 3.2.0
+info:
+  title: Inventory - Azure Azure Policy Assignment API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Azure Policy Assignment
+paths:
+  /v2/AzurePolicyAssignment/{id}:
+    get:
+      tags:
+      - Azure Policy Assignment
+      operationId: AzurePolicyAssignment_Get_get_/v2/AzurePolicyAssignment/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentViewModel'
+      description: ''
+      summary: Get
+  /v2/AzurePolicyAssignment:
+    get:
+      tags:
+      - Azure Policy Assignment
+      operationId: AzurePolicyAssignment_Get_get_/v2/AzurePolicyAssignment
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentViewModel'
+      description: ''
+      summary: Get
+components:
+  schemas:
+    Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+        externalId:
+          type: string
+        name:
+          type: string
+        location:
+          type: string
+        identity:
+          $ref: '#/components/schemas/Dome9.Web.Api.Azure.AzureRestApiIdentityViewModel'
+        sku:
+          $ref: '#/components/schemas/Dome9.Web.Api.Azure.AzureRestApiSkuViewModel'
+        properties:
+          $ref: '#/components/schemas/Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentPropertiesViewModel'
+    Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentPropertiesViewModel:
+      type: object
+      properties:
+        displayName:
+          type: string
+        description:
+          type: string
+        policyDefinitionId:
+          type: string
+        scope:
+          type: string
+        notScopes:
+          type: array
+          items:
+            type: string
+        metadata:
+          $ref: '#/components/schemas/Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentMetadataViewModel'
+        parameters:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+    Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentMetadataViewModel:
+      type: object
+      properties:
+        assignedBy:
+          type: string
+        createdOn:
+          format: date-time
+          type: string
+        updatedOn:
+          format: date-time
+          type: string
+    Dome9.Web.Api.Azure.AzureRestApiSkuViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        tier:
+          type: string
+    Dome9.Web.Api.Azure.AzureRestApiIdentityViewModel:
+      type: object
+      properties:
+        type:
+          type: string
+        principalId:
+          type: string
+        tenantId:
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

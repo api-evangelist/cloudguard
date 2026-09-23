@@ -1,0 +1,945 @@
+openapi: 3.2.0
+info:
+  title: Administration Integration API
+  version: v2
+  description: Integration
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Integration
+  description: Integration
+paths:
+  /v2/integration:
+    post:
+      tags:
+      - Integration
+      operationId: Integration_CreateIntegration_post_/v2/integration
+      requestBody:
+        x-name: request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntegrationPostRequestModel'
+        required: true
+        x-position: 1
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntegrationViewModel'
+      description: ''
+      summary: Create Integration
+    get:
+      tags:
+      - Integration
+      operationId: Integration_GetAllIntegrations_get_/v2/integration
+      parameters:
+      - name: type
+        in: query
+        style: form
+        explode: true
+        schema:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/IntegrationType'
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IntegrationViewModel'
+      description: ''
+      summary: Get All Integrations
+    put:
+      tags:
+      - Integration
+      operationId: Integration_UpdateIntegration_put_/v2/integration
+      requestBody:
+        x-name: request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntegrationUpdateRequestModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntegrationViewModel'
+      description: ''
+      summary: Update Integration
+  /v2/integration/{id}:
+    get:
+      tags:
+      - Integration
+      operationId: Integration_GetIntegrationById_get_/v2/integration/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntegrationViewModel'
+      description: ''
+      summary: Get Integration By Id
+    delete:
+      tags:
+      - Integration
+      operationId: Integration_DeleteIntegration_delete_/v2/integration/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: ''
+      summary: Delete Integration
+components:
+  schemas:
+    IntegrationViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - name
+      - type
+      - configuration
+      - createdAt
+      properties:
+        id:
+          type: string
+          description: Integration Id
+          format: guid
+          minLength: 1
+        name:
+          type: string
+          maxLength: 50
+          minLength: 0
+        type:
+          $ref: '#/components/schemas/IntegrationType'
+        createdAt:
+          type: string
+          format: date-time
+        configuration:
+          anyOf:
+          - title: WebhookConfiguration
+            allOf:
+            - $ref: '#/components/schemas/BaseConfiguration'
+            - type: object
+              additionalProperties: false
+              required:
+              - url
+              - methodType
+              - authType
+              - username
+              - password
+              - ignoreCertificate
+              properties:
+                url:
+                  type: string
+                  minLength: 1
+                methodType:
+                  $ref: '#/components/schemas/MethodType'
+                authType:
+                  $ref: '#/components/schemas/AuthType'
+                username:
+                  type: string
+                password:
+                  type: string
+                ignoreCertificate:
+                  type: boolean
+          - title: TeamsConfiguration
+            allOf:
+            - $ref: '#/components/schemas/BaseConfiguration'
+            - type: object
+              additionalProperties: false
+              required:
+              - url
+              properties:
+                url:
+                  type: string
+                  minLength: 1
+          - title: SumoLogicConfiguration
+            allOf:
+            - $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/0'
+            - type: object
+              additionalProperties: false
+          - title: SplunkConfiguration
+            allOf:
+            - $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/0'
+            - type: object
+              additionalProperties: false
+          - title: SnsConfiguration
+            allOf:
+            - $ref: '#/components/schemas/BaseConfiguration'
+            - type: object
+              additionalProperties: false
+              required:
+              - topicArn
+              properties:
+                topicArn:
+                  type: string
+                  minLength: 1
+                  pattern: ^arn:(?<partition>(aws[\w\-]*)):(?<service>[\w]*):(?<region>[\w\d-]*):(?<accountId>[\d]*):(((?<resource>[\w+=,\.@\-_ ]+)[\/:]?)+)$
+          - title: SlackConfiguration
+            allOf:
+            - $ref: '#/components/schemas/BaseConfiguration'
+            - type: object
+              additionalProperties: false
+              required:
+              - url
+              properties:
+                url:
+                  type: string
+                  minLength: 1
+          - title: ServiceNowConfiguration
+            allOf:
+            - $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/0'
+            - type: object
+              additionalProperties: false
+          - title: QradarConfiguration
+            allOf:
+            - $ref: '#/components/schemas/BaseConfiguration'
+            - type: object
+              additionalProperties: false
+              required:
+              - url
+              - password
+              - ignoreCertificate
+              properties:
+                url:
+                  type: string
+                  minLength: 1
+                password:
+                  type: string
+                  minLength: 1
+                ignoreCertificate:
+                  type: boolean
+          - title: PagerDutyConfiguration
+            allOf:
+            - $ref: '#/components/schemas/BaseConfiguration'
+            - type: object
+              additionalProperties: false
+              required:
+              - serviceKey
+              properties:
+                serviceKey:
+                  type: string
+                  minLength: 1
+          - title: JiraConfiguration
+            allOf:
+            - $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/0'
+            - type: object
+              additionalProperties: false
+              required:
+              - advancedUrl
+              properties:
+                advancedUrl:
+                  type: boolean
+          - title: GcpSecurityCommandCenterConfiguration
+            allOf:
+            - $ref: '#/components/schemas/BaseConfiguration'
+            - type: object
+              additionalProperties: false
+              required:
+              - projectId
+              - sourceId
+              properties:
+                projectId:
+                  type: string
+                sourceId:
+                  type: string
+          - title: EventarcConfiguration
+            allOf:
+            - $ref: '#/components/schemas/BaseConfiguration'
+            - type: object
+              additionalProperties: false
+              required:
+              - channelConnectionId
+              properties:
+                channelConnectionId:
+                  type: string
+                  minLength: 1
+          - title: EmailConfiguration
+            allOf:
+            - $ref: '#/components/schemas/BaseConfiguration'
+            - type: object
+              additionalProperties: false
+              required:
+              - recipients
+              properties:
+                recipients:
+                  type: array
+                  items:
+                    type: string
+          - title: AzureDefenderConfiguration
+            allOf:
+            - $ref: '#/components/schemas/BaseConfiguration'
+            - type: object
+              additionalProperties: false
+              required:
+              - subscription
+              properties:
+                subscription:
+                  type: string
+                  format: guid
+                  minLength: 1
+          - title: AwsSecurityHubConfiguration
+            allOf:
+            - $ref: '#/components/schemas/BaseConfiguration'
+            - type: object
+              additionalProperties: false
+              required:
+              - externalAccountId
+              - region
+              - defaultRegion
+              - includeAllAccounts
+              - includeAllRegions
+              properties:
+                externalAccountId:
+                  type: string
+                region:
+                  oneOf:
+                  - $ref: '#/components/schemas/CloudRegion'
+                defaultRegion:
+                  oneOf:
+                  - $ref: '#/components/schemas/CloudRegion'
+                includeAllAccounts:
+                  type: boolean
+                includeAllRegions:
+                  type: boolean
+    BaseConfiguration:
+      type: object
+      x-abstract: true
+      additionalProperties: false
+    IntegrationUpdateRequestModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - name
+      - type
+      - configuration
+      properties:
+        id:
+          type: string
+          format: guid
+          minLength: 1
+        name:
+          type: string
+          description: 'Name should be unique across all integration of the same type '
+          maxLength: 50
+          minLength: 0
+        type:
+          $ref: '#/components/schemas/IntegrationType'
+        configuration:
+          description: Integration configuration, should be a valid JSON object according to the integration type
+          anyOf:
+          - title: WebhookConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/0'
+          - title: TeamsConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/1'
+          - title: SumoLogicConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/2'
+          - title: SplunkConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/3'
+          - title: SnsConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/4'
+          - title: SlackConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/5'
+          - title: ServiceNowConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/6'
+          - title: QradarConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/7'
+          - title: PagerDutyConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/8'
+          - title: JiraConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/9'
+          - title: GcpSecurityCommandCenterConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/10'
+          - title: EventarcConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/11'
+          - title: EmailConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/12'
+          - title: AzureDefenderConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/13'
+          - title: AwsSecurityHubConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/14'
+    IntegrationPostRequestModel:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - type
+      - configuration
+      properties:
+        name:
+          type: string
+          description: Integration name, should be unique
+          maxLength: 50
+          minLength: 0
+        type:
+          description: Integration type
+          oneOf:
+          - $ref: '#/components/schemas/IntegrationType'
+        configuration:
+          description: Integration configuration, should be a valid JSON object according to the integration type
+          anyOf:
+          - title: WebhookConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/0'
+          - title: TeamsConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/1'
+          - title: SumoLogicConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/2'
+          - title: SplunkConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/3'
+          - title: SnsConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/4'
+          - title: SlackConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/5'
+          - title: ServiceNowConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/6'
+          - title: QradarConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/7'
+          - title: PagerDutyConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/8'
+          - title: JiraConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/9'
+          - title: GcpSecurityCommandCenterConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/10'
+          - title: EventarcConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/11'
+          - title: EmailConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/12'
+          - title: AzureDefenderConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/13'
+          - title: AwsSecurityHubConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/14'
+    AuthType:
+      type: string
+      description: ''
+      x-enumNames:
+      - NoAuth
+      - BasicAuth
+      enum:
+      - NoAuth
+      - BasicAuth
+    MethodType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Post
+      - Put
+      enum:
+      - Post
+      - Put
+    IntegrationType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Undefined
+      - SNS
+      - Email
+      - PagerDuty
+      - AwsSecurityHub
+      - AzureDefender
+      - GcpSecurityCommandCenter
+      - Webhook
+      - ServiceNow
+      - Splunk
+      - Jira
+      - SumoLogic
+      - QRadar
+      - Slack
+      - Teams
+      - EventArc
+      enum:
+      - Undefined
+      - SNS
+      - Email
+      - PagerDuty
+      - AwsSecurityHub
+      - AzureDefender
+      - GcpSecurityCommandCenter
+      - Webhook
+      - ServiceNow
+      - Splunk
+      - Jira
+      - SumoLogic
+      - QRadar
+      - Slack
+      - Teams
+      - EventArc
+    CloudRegion:
+      type: string
+      description: ''
+      x-enumNames:
+      - us_east_1
+      - us_west_1
+      - eu_west_1
+      - ap_southeast_1
+      - ap_northeast_1
+      - us_west_2
+      - sa_east_1
+      - az_1_region_a_geo_1
+      - az_2_region_a_geo_1
+      - az_3_region_a_geo_1
+      - ap_southeast_2
+      - mellanox_region
+      - us_gov_west_1
+      - eu_central_1
+      - ap_northeast_2
+      - ap_south_1
+      - us_east_2
+      - ca_central_1
+      - eu_west_2
+      - eu_west_3
+      - eu_north_1
+      - cn_north_1
+      - cn_northwest_1
+      - us_gov_east_1
+      - ap_east_1
+      - me_south_1
+      - af_south_1
+      - eu_south_1
+      - ap_northeast_3
+      - me_central_1
+      - ap_south_2
+      - ap_southeast_3
+      - ap_southeast_4
+      - eu_central_2
+      - eu_south_2
+      - il_central_1
+      - ca_west_1
+      - mx_central_1
+      - ap_southeast_5
+      - ap_southeast_7
+      - westus
+      - eastus
+      - eastus2
+      - northcentralus
+      - westus2
+      - southcentralus
+      - centralus
+      - usgovlowa
+      - usgovvirginia
+      - northeurope
+      - westeurope
+      - eastasia
+      - southeastasia
+      - japaneast
+      - japanwest
+      - brazilsouth
+      - australiaeast
+      - australiasoutheast
+      - centralindia
+      - southindia
+      - westindia
+      - canadaeast
+      - westcentralus
+      - chinaeast
+      - chinanorth
+      - canadacentral
+      - germanycentral
+      - germanynortheast
+      - koreacentral
+      - uksouth
+      - ukwest
+      - koreasouth
+      - francecentral
+      - francesouth
+      - germanywestcentral
+      - usdodcentral
+      - usdodeast
+      - usgovarizona
+      - usgovtexas
+      - australiacentral
+      - australiacentral2
+      - chinaeast2
+      - chinanorth2
+      - southafricanorth
+      - southafricawest
+      - uaecentral
+      - uaenorth
+      - ussecwest
+      - usseceast
+      - germanynorth
+      - switzerlandwest
+      - norwaywest
+      - norwayeast
+      - switzerlandnorth
+      - westus3
+      - swedencentral
+      - chinanorth3
+      - brazilsoutheast
+      - eastus2euap
+      - jioindiawest
+      - jioindiacentral
+      - qatarcentral
+      - spaincentral
+      - italynorth
+      - polandcentral
+      - mexicocentral
+      - asia
+      - asia_east1
+      - asia_northeast1
+      - asia_south1
+      - asia_southeast1
+      - australia_southeast1
+      - europe
+      - europe_north1
+      - europe_west1
+      - europe_west2
+      - europe_west3
+      - europe_west4
+      - northamerica_northeast1
+      - southamerica_east1
+      - us
+      - us_central1
+      - us_east1
+      - us_east4
+      - us_west1
+      - us_west2
+      - global
+      - asia_east2
+      - eur4
+      - nam4
+      - europe_west6
+      - japan_west
+      - asia_northeast2
+      - asia_northeast3
+      - us_west3
+      - us_west4
+      - asia_southeast2
+      - nam3
+      - nam5
+      - nam6
+      - nam7
+      - nam10
+      - nam_eur_asia1
+      - eur3
+      - eur5
+      - asia1
+      - nam11
+      - eu
+      - northamerica_northeast2
+      - southamerica_west1
+      - us_east5
+      - us_south1
+      - europe_central2
+      - europe_southwest1
+      - europe_west8
+      - europe_west9
+      - europe_west10
+      - europe_west12
+      - asia_south2
+      - australia_southeast2
+      - me_central1
+      - me_central2
+      - me_west1
+      - ap_sydney_1
+      - ap_melbourne_1
+      - sa_saopaulo_1
+      - sa_vinhedo_1
+      - ca_montreal_1
+      - ca_toronto_1
+      - sa_santiago_1
+      - eu_paris_1
+      - eu_marseille_1
+      - eu_frankfurt_1
+      - ap_hyderabad_1
+      - ap_mumbai_1
+      - il_jerusalem_1
+      - eu_milan_1
+      - ap_osaka_1
+      - ap_tokyo_1
+      - mx_queretaro_1
+      - eu_amsterdam_1
+      - me_jeddah_1
+      - ap_singapore_1
+      - af_johannesburg_1
+      - ap_seoul_1
+      - ap_chuncheon_1
+      - eu_madrid_1
+      - eu_stockholm_1
+      - eu_zurich_1
+      - me_abudhabi_1
+      - me_dubai_1
+      - uk_london_1
+      - uk_cardiff_1
+      - us_ashburn_1
+      - us_phoenix_1
+      - us_sanjose_1
+      - us_gov_ashburn_1
+      - us_gov_chicago_1
+      - us_gov_phoenix_1
+      - us_langley_1
+      - us_luke_1
+      - uk_gov_london_1
+      - uk_gov_cardiff_1
+      - sa_bogota_1
+      - us_chicago_1
+      - sa_valparaiso_1
+      - mx_monterrey_1
+      - eu_jovanovac_1
+      - ap_singapore_2
+      enum:
+      - us_east_1
+      - us_west_1
+      - eu_west_1
+      - ap_southeast_1
+      - ap_northeast_1
+      - us_west_2
+      - sa_east_1
+      - az_1_region_a_geo_1
+      - az_2_region_a_geo_1
+      - az_3_region_a_geo_1
+      - ap_southeast_2
+      - mellanox_region
+      - us_gov_west_1
+      - eu_central_1
+      - ap_northeast_2
+      - ap_south_1
+      - us_east_2
+      - ca_central_1
+      - eu_west_2
+      - eu_west_3
+      - eu_north_1
+      - cn_north_1
+      - cn_northwest_1
+      - us_gov_east_1
+      - ap_east_1
+      - me_south_1
+      - af_south_1
+      - eu_south_1
+      - ap_northeast_3
+      - me_central_1
+      - ap_south_2
+      - ap_southeast_3
+      - ap_southeast_4
+      - eu_central_2
+      - eu_south_2
+      - il_central_1
+      - ca_west_1
+      - mx_central_1
+      - ap_southeast_5
+      - ap_southeast_7
+      - westus
+      - eastus
+      - eastus2
+      - northcentralus
+      - westus2
+      - southcentralus
+      - centralus
+      - usgovlowa
+      - usgovvirginia
+      - northeurope
+      - westeurope
+      - eastasia
+      - southeastasia
+      - japaneast
+      - japanwest
+      - brazilsouth
+      - australiaeast
+      - australiasoutheast
+      - centralindia
+      - southindia
+      - westindia
+      - canadaeast
+      - westcentralus
+      - chinaeast
+      - chinanorth
+      - canadacentral
+      - germanycentral
+      - germanynortheast
+      - koreacentral
+      - uksouth
+      - ukwest
+      - koreasouth
+      - francecentral
+      - francesouth
+      - germanywestcentral
+      - usdodcentral
+      - usdodeast
+      - usgovarizona
+      - usgovtexas
+      - australiacentral
+      - australiacentral2
+      - chinaeast2
+      - chinanorth2
+      - southafricanorth
+      - southafricawest
+      - uaecentral
+      - uaenorth
+      - ussecwest
+      - usseceast
+      - germanynorth
+      - switzerlandwest
+      - norwaywest
+      - norwayeast
+      - switzerlandnorth
+      - westus3
+      - swedencentral
+      - chinanorth3
+      - brazilsoutheast
+      - eastus2euap
+      - jioindiawest
+      - jioindiacentral
+      - qatarcentral
+      - spaincentral
+      - italynorth
+      - polandcentral
+      - mexicocentral
+      - asia
+      - asia_east1
+      - asia_northeast1
+      - asia_south1
+      - asia_southeast1
+      - australia_southeast1
+      - europe
+      - europe_north1
+      - europe_west1
+      - europe_west2
+      - europe_west3
+      - europe_west4
+      - northamerica_northeast1
+      - southamerica_east1
+      - us
+      - us_central1
+      - us_east1
+      - us_east4
+      - us_west1
+      - us_west2
+      - global
+      - asia_east2
+      - eur4
+      - nam4
+      - europe_west6
+      - japan_west
+      - asia_northeast2
+      - asia_northeast3
+      - us_west3
+      - us_west4
+      - asia_southeast2
+      - nam3
+      - nam5
+      - nam6
+      - nam7
+      - nam10
+      - nam_eur_asia1
+      - eur3
+      - eur5
+      - asia1
+      - nam11
+      - eu
+      - northamerica_northeast2
+      - southamerica_west1
+      - us_east5
+      - us_south1
+      - europe_central2
+      - europe_southwest1
+      - europe_west8
+      - europe_west9
+      - europe_west10
+      - europe_west12
+      - asia_south2
+      - australia_southeast2
+      - me_central1
+      - me_central2
+      - me_west1
+      - ap_sydney_1
+      - ap_melbourne_1
+      - sa_saopaulo_1
+      - sa_vinhedo_1
+      - ca_montreal_1
+      - ca_toronto_1
+      - sa_santiago_1
+      - eu_paris_1
+      - eu_marseille_1
+      - eu_frankfurt_1
+      - ap_hyderabad_1
+      - ap_mumbai_1
+      - il_jerusalem_1
+      - eu_milan_1
+      - ap_osaka_1
+      - ap_tokyo_1
+      - mx_queretaro_1
+      - eu_amsterdam_1
+      - me_jeddah_1
+      - ap_singapore_1
+      - af_johannesburg_1
+      - ap_seoul_1
+      - ap_chuncheon_1
+      - eu_madrid_1
+      - eu_stockholm_1
+      - eu_zurich_1
+      - me_abudhabi_1
+      - me_dubai_1
+      - uk_london_1
+      - uk_cardiff_1
+      - us_ashburn_1
+      - us_phoenix_1
+      - us_sanjose_1
+      - us_gov_ashburn_1
+      - us_gov_chicago_1
+      - us_gov_phoenix_1
+      - us_langley_1
+      - us_luke_1
+      - uk_gov_london_1
+      - uk_gov_cardiff_1
+      - sa_bogota_1
+      - us_chicago_1
+      - sa_valparaiso_1
+      - mx_monterrey_1
+      - eu_jovanovac_1
+      - ap_singapore_2
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

@@ -1,0 +1,73 @@
+openapi: 3.2.0
+info:
+  title: Inventory - GCP Google Cloud Subnet API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Google Cloud Subnet
+paths:
+  /v2/GoogleCloudSubnet:
+    get:
+      tags:
+      - Google Cloud Subnet
+      operationId: GoogleCloudSubnet_Get_get_/v2/GoogleCloudSubnet
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Google.Subnet.GoogleCloudSubnetViewModel'
+      description: ''
+      summary: Get
+components:
+  schemas:
+    Dome9.Web.Api.Google.Subnet.GoogleCloudSubnetViewModel:
+      type: object
+      properties:
+        creationTimestamp:
+          type: string
+        description:
+          type: string
+        gatewayAddress:
+          type: string
+        ipCidrRange:
+          type: string
+        network:
+          type: string
+        region:
+          type: string
+        purpose:
+          type: string
+        id:
+          type: string
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

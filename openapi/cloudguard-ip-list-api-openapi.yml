@@ -1,0 +1,186 @@
+openapi: 3.2.0
+info:
+  title: Network Security Ip List API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: IP List
+paths:
+  /v2/IpList:
+    get:
+      tags:
+      - IP List
+      summary: Get
+      operationId: IpList_Get_get_/v2/IpList
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.IPList.IpListViewModel'
+      description: Get all IP Lists for the account
+    post:
+      tags:
+      - IP List
+      summary: Post
+      operationId: IpList_Post_post_/v2/IpList
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.IPList.IpListViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.IPList.IpListViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.IPList.IpListViewModel'
+        description: 'iplist info: "Name" for name, "Description" for description and Items are list of addresses.'
+        required: true
+      description: Add a new IP List
+  /v2/IpList/{id}:
+    get:
+      tags:
+      - IP List
+      summary: Get
+      operationId: IpList_Get_get_/v2/IpList/{id}
+      parameters:
+      - name: id
+        in: path
+        description: the IP List id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.IPList.IpListViewModel'
+      description: Get an IP List by id
+    put:
+      tags:
+      - IP List
+      summary: Put
+      operationId: IpList_Put_put_/v2/IpList/{id}
+      parameters:
+      - name: id
+        in: path
+        description: The id of the IP List to update
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '204':
+          description: No Content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.IPList.IpListPutViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.IPList.IpListPutViewModel'
+        description: 'iplist info: "Name" for name, "Description" for description and Items are list of addresses.'
+        required: true
+      description: Update an IP List. This will override the exisitng ip list
+    delete:
+      tags:
+      - IP List
+      summary: Delete
+      operationId: IpList_Delete_delete_/v2/IpList/{id}
+      parameters:
+      - name: id
+        in: path
+        description: id of the IP list ot delete.
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '204':
+          description: No Content
+      description: Delete an IP List by id
+components:
+  schemas:
+    Falconetix.Model.IPDescriptor:
+      required:
+      - ip
+      type: object
+      properties:
+        ip:
+          type: string
+        comment:
+          maxLength: 500
+          minLength: 0
+          type: string
+    Dome9.Web.Api.IPList.IpListPutViewModel:
+      type: object
+      properties:
+        id:
+          format: int64
+          description: IP List Id
+          type: integer
+        description:
+          description: IP List Description
+          maxLength: 500
+          minLength: 0
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.IPDescriptor'
+    Dome9.Web.Api.IPList.IpListViewModel:
+      type: object
+      properties:
+        name:
+          description: IP List Name
+          maxLength: 50
+          minLength: 0
+          pattern: '[a-zA-Z0-9/\-_:]*[a-zA-Z]+[a-zA-Z0-9/\-_:]*'
+          type: string
+        id:
+          format: int64
+          description: IP List Id
+          type: integer
+        description:
+          description: IP List Description
+          maxLength: 500
+          minLength: 0
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.IPDescriptor'
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

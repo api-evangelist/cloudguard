@@ -1,0 +1,82 @@
+openapi: 3.2.0
+info:
+  title: Inventory - AWS Analytics Aws Quick Sight User API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Aws Quick Sight User
+paths:
+  /v2/AwsQuickSightUser:
+    get:
+      tags:
+      - Aws Quick Sight User
+      operationId: AwsQuickSightUser_Get_get_/v2/AwsQuickSightUser
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.AwsQuickSight.AwsQuickSightUserViewModel'
+      description: ''
+      summary: Get
+components:
+  schemas:
+    Dome9.Web.Api.AwsQuickSight.AwsQuickSightUserViewModel:
+      type: object
+      properties:
+        active:
+          type: boolean
+        arn:
+          type: string
+        customPermissionsName:
+          type: string
+        email:
+          format: email
+          description: Email Address
+          type: string
+          example: MyName@gmail.com
+        externalLoginFederationProviderType:
+          type: string
+        externalLoginFederationProviderUrl:
+          type: string
+        externalLoginId:
+          type: string
+        identityType:
+          type: string
+        principalId:
+          type: string
+        role:
+          type: string
+        userName:
+          type: string
+        dome9Id:
+          type: string
+        accountNumber:
+          type: string
+        region:
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

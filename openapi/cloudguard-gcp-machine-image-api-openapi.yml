@@ -1,0 +1,1775 @@
+openapi: 3.2.0
+info:
+  title: Inventory - GCP Gcp Machine Image API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Gcp Machine Image
+paths:
+  /v2/GcpMachineImage:
+    get:
+      tags:
+      - Gcp Machine Image
+      operationId: GcpMachineImage_Get_get_/v2/GcpMachineImage
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GcpMachineImageViewModel'
+      description: ''
+      summary: Get
+components:
+  schemas:
+    PurpleAccessConfig:
+      type: object
+      additionalProperties: false
+      required:
+      - externalIpv6
+      - externalIpv6PrefixLength
+      - kind
+      - name
+      - natIp
+      - networkTier
+      - publicPtrDomainName
+      - securityPolicy
+      - setPublicPtr
+      - type
+      properties:
+        externalIpv6:
+          type:
+          - string
+          - 'null'
+        externalIpv6PrefixLength:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        kind:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        natIp:
+          type:
+          - string
+          - 'null'
+        networkTier:
+          type:
+          - string
+          - 'null'
+        publicPtrDomainName:
+          type:
+          - string
+          - 'null'
+        securityPolicy:
+          type:
+          - string
+          - 'null'
+        setPublicPtr:
+          type:
+          - boolean
+          - 'null'
+        type:
+          type:
+          - string
+          - 'null'
+    FluffyAliasIpRange:
+      type: object
+      additionalProperties: false
+      required:
+      - ipCidrRange
+      - subnetworkRangeName
+      properties:
+        ipCidrRange:
+          type:
+          - string
+          - 'null'
+        subnetworkRangeName:
+          type:
+          - string
+          - 'null'
+    ConfidentialInstanceConfig:
+      type: object
+      additionalProperties: false
+      required:
+      - enableConfidentialCompute
+      properties:
+        enableConfidentialCompute:
+          type:
+          - boolean
+          - 'null'
+    ShieldedInstanceInitialState:
+      type: object
+      additionalProperties: false
+      required:
+      - dbs
+      - dbxs
+      - keks
+      - pk
+      properties:
+        dbs:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Db'
+        dbxs:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Dbx'
+        keks:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Kek'
+        pk:
+          oneOf:
+          - $ref: '#/components/schemas/Pk'
+    PurpleIpv6AccessConfig:
+      type: object
+      additionalProperties: false
+      required:
+      - externalIpv6
+      - externalIpv6PrefixLength
+      - kind
+      - name
+      - natIp
+      - networkTier
+      - publicPtrDomainName
+      - securityPolicy
+      - setPublicPtr
+      - type
+      properties:
+        externalIpv6:
+          type:
+          - string
+          - 'null'
+        externalIpv6PrefixLength:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        kind:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        natIp:
+          type:
+          - string
+          - 'null'
+        networkTier:
+          type:
+          - string
+          - 'null'
+        publicPtrDomainName:
+          type:
+          - string
+          - 'null'
+        securityPolicy:
+          type:
+          - string
+          - 'null'
+        setPublicPtr:
+          type:
+          - boolean
+          - 'null'
+        type:
+          type:
+          - string
+          - 'null'
+    FluffyNodeAffinity:
+      type: object
+      additionalProperties: false
+      required:
+      - key
+      - operator
+      - values
+      properties:
+        key:
+          type:
+          - string
+          - 'null'
+        operator:
+          type:
+          - string
+          - 'null'
+        values:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+    InstancePropertiesScheduling:
+      type: object
+      additionalProperties: false
+      required:
+      - automaticRestart
+      - instanceTerminationAction
+      - localSsdRecoveryTimeout
+      - locationHint
+      - minNodeCpus
+      - nodeAffinities
+      - onHostMaintenance
+      - preemptible
+      - provisioningModel
+      properties:
+        automaticRestart:
+          type:
+          - boolean
+          - 'null'
+        instanceTerminationAction:
+          type:
+          - string
+          - 'null'
+        localSsdRecoveryTimeout:
+          oneOf:
+          - $ref: '#/components/schemas/PurpleLocalSsdRecoveryTimeout'
+        locationHint:
+          type:
+          - string
+          - 'null'
+        minNodeCpus:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        nodeAffinities:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PurpleNodeAffinity'
+        onHostMaintenance:
+          type:
+          - string
+          - 'null'
+        preemptible:
+          type:
+          - boolean
+          - 'null'
+        provisioningModel:
+          type:
+          - string
+          - 'null'
+    FluffyDiskEncryptionKey:
+      type: object
+      additionalProperties: false
+      required:
+      - kmsKeyName
+      - kmsKeyServiceAccount
+      - rawKey
+      - rsaEncryptedKey
+      - sha256
+      properties:
+        kmsKeyName:
+          type:
+          - string
+          - 'null'
+        kmsKeyServiceAccount:
+          type:
+          - string
+          - 'null'
+        rawKey:
+          type:
+          - string
+          - 'null'
+        rsaEncryptedKey:
+          type:
+          - string
+          - 'null'
+        sha256:
+          type:
+          - string
+          - 'null'
+    PurpleAliasIpRange:
+      type: object
+      additionalProperties: false
+      required:
+      - ipCidrRange
+      - subnetworkRangeName
+      properties:
+        ipCidrRange:
+          type:
+          - string
+          - 'null'
+        subnetworkRangeName:
+          type:
+          - string
+          - 'null'
+    SourceInstancePropertiesGuestAccelerator:
+      type: object
+      additionalProperties: false
+      required:
+      - acceleratorCount
+      - acceleratorType
+      properties:
+        acceleratorCount:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        acceleratorType:
+          type:
+          - string
+          - 'null'
+    FluffyLocalSsdRecoveryTimeout:
+      type: object
+      additionalProperties: false
+      required:
+      - nanos
+      - seconds
+      properties:
+        nanos:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        seconds:
+          type:
+          - string
+          - 'null'
+    Dbx:
+      type: object
+      additionalProperties: false
+      required:
+      - content
+      - fileType
+      properties:
+        content:
+          type:
+          - string
+          - 'null'
+        fileType:
+          type:
+          - string
+          - 'null'
+    Pk:
+      type: object
+      additionalProperties: false
+      required:
+      - content
+      - fileType
+      properties:
+        content:
+          type:
+          - string
+          - 'null'
+        fileType:
+          type:
+          - string
+          - 'null'
+    InstancePropertiesNetworkInterface:
+      type: object
+      additionalProperties: false
+      required:
+      - accessConfigs
+      - aliasIpRanges
+      - fingerprint
+      - internalIpv6PrefixLength
+      - ipv6AccessConfigs
+      - ipv6AccessType
+      - ipv6Address
+      - kind
+      - name
+      - network
+      - networkAttachment
+      - networkIp
+      - nicType
+      - queueCount
+      - stackType
+      - subnetwork
+      properties:
+        accessConfigs:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PurpleAccessConfig'
+        aliasIpRanges:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PurpleAliasIpRange'
+        fingerprint:
+          type:
+          - string
+          - 'null'
+        internalIpv6PrefixLength:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        ipv6AccessConfigs:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PurpleIpv6AccessConfig'
+        ipv6AccessType:
+          type:
+          - string
+          - 'null'
+        ipv6Address:
+          type:
+          - string
+          - 'null'
+        kind:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        network:
+          type:
+          - string
+          - 'null'
+        networkAttachment:
+          type:
+          - string
+          - 'null'
+        networkIp:
+          type:
+          - string
+          - 'null'
+        nicType:
+          type:
+          - string
+          - 'null'
+        queueCount:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        stackType:
+          type:
+          - string
+          - 'null'
+        subnetwork:
+          type:
+          - string
+          - 'null'
+    SourceInstancePropertiesScheduling:
+      type: object
+      additionalProperties: false
+      required:
+      - automaticRestart
+      - instanceTerminationAction
+      - localSsdRecoveryTimeout
+      - locationHint
+      - minNodeCpus
+      - nodeAffinities
+      - onHostMaintenance
+      - preemptible
+      - provisioningModel
+      properties:
+        automaticRestart:
+          type:
+          - boolean
+          - 'null'
+        instanceTerminationAction:
+          type:
+          - string
+          - 'null'
+        localSsdRecoveryTimeout:
+          oneOf:
+          - $ref: '#/components/schemas/FluffyLocalSsdRecoveryTimeout'
+        locationHint:
+          type:
+          - string
+          - 'null'
+        minNodeCpus:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        nodeAffinities:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FluffyNodeAffinity'
+        onHostMaintenance:
+          type:
+          - string
+          - 'null'
+        preemptible:
+          type:
+          - boolean
+          - 'null'
+        provisioningModel:
+          type:
+          - string
+          - 'null'
+    ReservationAffinity:
+      type: object
+      additionalProperties: false
+      required:
+      - consumeReservationType
+      - key
+      - values
+      properties:
+        consumeReservationType:
+          type:
+          - string
+          - 'null'
+        key:
+          type:
+          - string
+          - 'null'
+        values:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+    InstancePropertiesMetadata:
+      type: object
+      additionalProperties: false
+      required:
+      - fingerprint
+      - items
+      - kind
+      properties:
+        fingerprint:
+          type:
+          - string
+          - 'null'
+        items:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PurpleItem'
+        kind:
+          type:
+          - string
+          - 'null'
+    FluffyItem:
+      type: object
+      additionalProperties: false
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type:
+          - string
+          - 'null'
+        value:
+          type:
+          - string
+          - 'null'
+    InstancePropertiesServiceAccount:
+      type: object
+      additionalProperties: false
+      required:
+      - email
+      - scopes
+      properties:
+        email:
+          type:
+          - string
+          - 'null'
+        scopes:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+    SourceInstancePropertiesServiceAccount:
+      type: object
+      additionalProperties: false
+      required:
+      - email
+      - scopes
+      properties:
+        email:
+          type:
+          - string
+          - 'null'
+        scopes:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+    Kek:
+      type: object
+      additionalProperties: false
+      required:
+      - content
+      - fileType
+      properties:
+        content:
+          type:
+          - string
+          - 'null'
+        fileType:
+          type:
+          - string
+          - 'null'
+    GcpMachineImageViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - creationTimestamp
+      - description
+      - guestFlush
+      - id
+      - instanceProperties
+      - kind
+      - machineImageEncryptionKey
+      - name
+      - satisfiesPzs
+      - savedDisks
+      - sourceDiskEncryptionKeys
+      - sourceInstance
+      - sourceInstanceProperties
+      - status
+      - storageLocations
+      - totalStorageBytes
+      properties:
+        creationTimestamp:
+          type: string
+        description:
+          type: string
+        guestFlush:
+          type:
+          - boolean
+          - 'null'
+        id:
+          type: string
+        instanceProperties:
+          $ref: '#/components/schemas/InstanceProperties'
+        kind:
+          type: string
+        machineImageEncryptionKey:
+          $ref: '#/components/schemas/MachineImageEncryptionKey'
+        name:
+          type: string
+        satisfiesPzs:
+          type:
+          - boolean
+          - 'null'
+        savedDisks:
+          type: array
+          items:
+            $ref: '#/components/schemas/SavedDisk'
+        sourceDiskEncryptionKeys:
+          type: array
+          items:
+            $ref: '#/components/schemas/SourceDiskEncryptionKey'
+        sourceInstance:
+          type: string
+        sourceInstanceProperties:
+          $ref: '#/components/schemas/SourceInstanceProperties'
+        status:
+          type: string
+        storageLocations:
+          type: array
+          items:
+            type: string
+        totalStorageBytes:
+          type: string
+    SourceSnapshotEncryptionKey:
+      type: object
+      additionalProperties: false
+      required:
+      - kmsKeyName
+      - kmsKeyServiceAccount
+      - rawKey
+      - rsaEncryptedKey
+      - sha256
+      properties:
+        kmsKeyName:
+          type:
+          - string
+          - 'null'
+        kmsKeyServiceAccount:
+          type:
+          - string
+          - 'null'
+        rawKey:
+          type:
+          - string
+          - 'null'
+        rsaEncryptedKey:
+          type:
+          - string
+          - 'null'
+        sha256:
+          type:
+          - string
+          - 'null'
+    SourceInstancePropertiesNetworkInterface:
+      type: object
+      additionalProperties: false
+      required:
+      - accessConfigs
+      - aliasIpRanges
+      - fingerprint
+      - internalIpv6PrefixLength
+      - ipv6AccessConfigs
+      - ipv6AccessType
+      - ipv6Address
+      - kind
+      - name
+      - network
+      - networkAttachment
+      - networkIp
+      - nicType
+      - queueCount
+      - stackType
+      - subnetwork
+      properties:
+        accessConfigs:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FluffyAccessConfig'
+        aliasIpRanges:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FluffyAliasIpRange'
+        fingerprint:
+          type:
+          - string
+          - 'null'
+        internalIpv6PrefixLength:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        ipv6AccessConfigs:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FluffyIpv6AccessConfig'
+        ipv6AccessType:
+          type:
+          - string
+          - 'null'
+        ipv6Address:
+          type:
+          - string
+          - 'null'
+        kind:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        network:
+          type:
+          - string
+          - 'null'
+        networkAttachment:
+          type:
+          - string
+          - 'null'
+        networkIp:
+          type:
+          - string
+          - 'null'
+        nicType:
+          type:
+          - string
+          - 'null'
+        queueCount:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        stackType:
+          type:
+          - string
+          - 'null'
+        subnetwork:
+          type:
+          - string
+          - 'null'
+    InstanceProperties:
+      type: object
+      additionalProperties: false
+      required:
+      - advancedMachineFeatures
+      - canIpForward
+      - confidentialInstanceConfig
+      - description
+      - disks
+      - guestAccelerators
+      - keyRevocationActionType
+      - machineType
+      - metadata
+      - minCpuPlatform
+      - networkInterfaces
+      - networkPerformanceConfig
+      - privateIpv6GoogleAccess
+      - reservationAffinity
+      - resourcePolicies
+      - scheduling
+      - serviceAccounts
+      - shieldedInstanceConfig
+      - tags
+      properties:
+        advancedMachineFeatures:
+          oneOf:
+          - $ref: '#/components/schemas/AdvancedMachineFeatures'
+        canIpForward:
+          type:
+          - boolean
+          - 'null'
+        confidentialInstanceConfig:
+          oneOf:
+          - $ref: '#/components/schemas/ConfidentialInstanceConfig'
+        description:
+          type:
+          - string
+          - 'null'
+        disks:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/InstancePropertiesDisk'
+        guestAccelerators:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/InstancePropertiesGuestAccelerator'
+        keyRevocationActionType:
+          type:
+          - string
+          - 'null'
+        machineType:
+          type:
+          - string
+          - 'null'
+        metadata:
+          oneOf:
+          - $ref: '#/components/schemas/InstancePropertiesMetadata'
+        minCpuPlatform:
+          type:
+          - string
+          - 'null'
+        networkInterfaces:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/InstancePropertiesNetworkInterface'
+        networkPerformanceConfig:
+          oneOf:
+          - $ref: '#/components/schemas/NetworkPerformanceConfig'
+        privateIpv6GoogleAccess:
+          type:
+          - string
+          - 'null'
+        reservationAffinity:
+          oneOf:
+          - $ref: '#/components/schemas/ReservationAffinity'
+        resourcePolicies:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        scheduling:
+          oneOf:
+          - $ref: '#/components/schemas/InstancePropertiesScheduling'
+        serviceAccounts:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/InstancePropertiesServiceAccount'
+        shieldedInstanceConfig:
+          oneOf:
+          - $ref: '#/components/schemas/ShieldedInstanceConfig'
+        tags:
+          oneOf:
+          - $ref: '#/components/schemas/InstancePropertiesTags'
+    ShieldedInstanceConfig:
+      type: object
+      additionalProperties: false
+      required:
+      - enableIntegrityMonitoring
+      - enableSecureBoot
+      - enableVtpm
+      properties:
+        enableIntegrityMonitoring:
+          type:
+          - boolean
+          - 'null'
+        enableSecureBoot:
+          type:
+          - boolean
+          - 'null'
+        enableVtpm:
+          type:
+          - boolean
+          - 'null'
+    InstancePropertiesDisk:
+      type: object
+      additionalProperties: false
+      required:
+      - architecture
+      - autoDelete
+      - boot
+      - deviceName
+      - diskEncryptionKey
+      - diskSizeGb
+      - forceAttach
+      - guestOsFeatures
+      - index
+      - initializeParams
+      - interface
+      - kind
+      - licenses
+      - mode
+      - savedState
+      - shieldedInstanceInitialState
+      - source
+      - type
+      properties:
+        architecture:
+          type:
+          - string
+          - 'null'
+        autoDelete:
+          type:
+          - boolean
+          - 'null'
+        boot:
+          type:
+          - boolean
+          - 'null'
+        deviceName:
+          type:
+          - string
+          - 'null'
+        diskEncryptionKey:
+          oneOf:
+          - $ref: '#/components/schemas/PurpleDiskEncryptionKey'
+        diskSizeGb:
+          type:
+          - string
+          - 'null'
+        forceAttach:
+          type:
+          - boolean
+          - 'null'
+        guestOsFeatures:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PurpleGuestOsFeature'
+        index:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        initializeParams:
+          oneOf:
+          - $ref: '#/components/schemas/InitializeParams'
+        interface:
+          type:
+          - string
+          - 'null'
+        kind:
+          type:
+          - string
+          - 'null'
+        licenses:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        mode:
+          type:
+          - string
+          - 'null'
+        savedState:
+          type:
+          - string
+          - 'null'
+        shieldedInstanceInitialState:
+          oneOf:
+          - $ref: '#/components/schemas/ShieldedInstanceInitialState'
+        source:
+          type:
+          - string
+          - 'null'
+        type:
+          type:
+          - string
+          - 'null'
+    SourceImageEncryptionKey:
+      type: object
+      additionalProperties: false
+      required:
+      - kmsKeyName
+      - kmsKeyServiceAccount
+      - rawKey
+      - rsaEncryptedKey
+      - sha256
+      properties:
+        kmsKeyName:
+          type:
+          - string
+          - 'null'
+        kmsKeyServiceAccount:
+          type:
+          - string
+          - 'null'
+        rawKey:
+          type:
+          - string
+          - 'null'
+        rsaEncryptedKey:
+          type:
+          - string
+          - 'null'
+        sha256:
+          type:
+          - string
+          - 'null'
+    PurpleNodeAffinity:
+      type: object
+      additionalProperties: false
+      required:
+      - key
+      - operator
+      - values
+      properties:
+        key:
+          type:
+          - string
+          - 'null'
+        operator:
+          type:
+          - string
+          - 'null'
+        values:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+    SourceInstancePropertiesDisk:
+      type: object
+      additionalProperties: false
+      required:
+      - autoDelete
+      - boot
+      - deviceName
+      - diskEncryptionKey
+      - diskSizeGb
+      - diskType
+      - guestOsFeatures
+      - index
+      - interface
+      - kind
+      - licenses
+      - mode
+      - source
+      - storageBytes
+      - storageBytesStatus
+      - type
+      properties:
+        autoDelete:
+          type:
+          - boolean
+          - 'null'
+        boot:
+          type:
+          - boolean
+          - 'null'
+        deviceName:
+          type:
+          - string
+          - 'null'
+        diskEncryptionKey:
+          oneOf:
+          - $ref: '#/components/schemas/FluffyDiskEncryptionKey'
+        diskSizeGb:
+          type:
+          - string
+          - 'null'
+        diskType:
+          type:
+          - string
+          - 'null'
+        guestOsFeatures:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FluffyGuestOsFeature'
+        index:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        interface:
+          type:
+          - string
+          - 'null'
+        kind:
+          type:
+          - string
+          - 'null'
+        licenses:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        mode:
+          type:
+          - string
+          - 'null'
+        source:
+          type:
+          - string
+          - 'null'
+        storageBytes:
+          type:
+          - string
+          - 'null'
+        storageBytesStatus:
+          type:
+          - string
+          - 'null'
+        type:
+          type:
+          - string
+          - 'null'
+    PurpleLocalSsdRecoveryTimeout:
+      type: object
+      additionalProperties: false
+      required:
+      - nanos
+      - seconds
+      properties:
+        nanos:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        seconds:
+          type:
+          - string
+          - 'null'
+    SourceInstanceProperties:
+      type: object
+      additionalProperties: false
+      required:
+      - canIpForward
+      - deletionProtection
+      - description
+      - disks
+      - guestAccelerators
+      - keyRevocationActionType
+      - machineType
+      - metadata
+      - minCpuPlatform
+      - networkInterfaces
+      - scheduling
+      - serviceAccounts
+      - tags
+      properties:
+        canIpForward:
+          type:
+          - boolean
+          - 'null'
+        deletionProtection:
+          type:
+          - boolean
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        disks:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/SourceInstancePropertiesDisk'
+        guestAccelerators:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/SourceInstancePropertiesGuestAccelerator'
+        keyRevocationActionType:
+          type:
+          - string
+          - 'null'
+        machineType:
+          type:
+          - string
+          - 'null'
+        metadata:
+          oneOf:
+          - $ref: '#/components/schemas/SourceInstancePropertiesMetadata'
+        minCpuPlatform:
+          type:
+          - string
+          - 'null'
+        networkInterfaces:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/SourceInstancePropertiesNetworkInterface'
+        scheduling:
+          oneOf:
+          - $ref: '#/components/schemas/SourceInstancePropertiesScheduling'
+        serviceAccounts:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/SourceInstancePropertiesServiceAccount'
+        tags:
+          oneOf:
+          - $ref: '#/components/schemas/SourceInstancePropertiesTags'
+    FluffyAccessConfig:
+      type: object
+      additionalProperties: false
+      required:
+      - externalIpv6
+      - externalIpv6PrefixLength
+      - kind
+      - name
+      - natIp
+      - networkTier
+      - publicPtrDomainName
+      - securityPolicy
+      - setPublicPtr
+      - type
+      properties:
+        externalIpv6:
+          type:
+          - string
+          - 'null'
+        externalIpv6PrefixLength:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        kind:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        natIp:
+          type:
+          - string
+          - 'null'
+        networkTier:
+          type:
+          - string
+          - 'null'
+        publicPtrDomainName:
+          type:
+          - string
+          - 'null'
+        securityPolicy:
+          type:
+          - string
+          - 'null'
+        setPublicPtr:
+          type:
+          - boolean
+          - 'null'
+        type:
+          type:
+          - string
+          - 'null'
+    SourceInstancePropertiesTags:
+      type: object
+      additionalProperties: false
+      required:
+      - fingerprint
+      - items
+      properties:
+        fingerprint:
+          type:
+          - string
+          - 'null'
+        items:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+    PurpleDiskEncryptionKey:
+      type: object
+      additionalProperties: false
+      required:
+      - kmsKeyName
+      - kmsKeyServiceAccount
+      - rawKey
+      - rsaEncryptedKey
+      - sha256
+      properties:
+        kmsKeyName:
+          type:
+          - string
+          - 'null'
+        kmsKeyServiceAccount:
+          type:
+          - string
+          - 'null'
+        rawKey:
+          type:
+          - string
+          - 'null'
+        rsaEncryptedKey:
+          type:
+          - string
+          - 'null'
+        sha256:
+          type:
+          - string
+          - 'null'
+    NetworkPerformanceConfig:
+      type: object
+      additionalProperties: false
+      required:
+      - totalEgressBandwidthTier
+      properties:
+        totalEgressBandwidthTier:
+          type:
+          - string
+          - 'null'
+    SourceDiskEncryptionKey:
+      type: object
+      additionalProperties: false
+      required:
+      - diskEncryptionKey
+      - sourceDisk
+      properties:
+        diskEncryptionKey:
+          oneOf:
+          - $ref: '#/components/schemas/SourceDiskEncryptionKeyDiskEncryptionKey'
+        sourceDisk:
+          type:
+          - string
+          - 'null'
+    FluffyIpv6AccessConfig:
+      type: object
+      additionalProperties: false
+      required:
+      - externalIpv6
+      - externalIpv6PrefixLength
+      - kind
+      - name
+      - natIp
+      - networkTier
+      - publicPtrDomainName
+      - securityPolicy
+      - setPublicPtr
+      - type
+      properties:
+        externalIpv6:
+          type:
+          - string
+          - 'null'
+        externalIpv6PrefixLength:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        kind:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        natIp:
+          type:
+          - string
+          - 'null'
+        networkTier:
+          type:
+          - string
+          - 'null'
+        publicPtrDomainName:
+          type:
+          - string
+          - 'null'
+        securityPolicy:
+          type:
+          - string
+          - 'null'
+        setPublicPtr:
+          type:
+          - boolean
+          - 'null'
+        type:
+          type:
+          - string
+          - 'null'
+    SourceInstancePropertiesMetadata:
+      type: object
+      additionalProperties: false
+      required:
+      - fingerprint
+      - items
+      - kind
+      properties:
+        fingerprint:
+          type:
+          - string
+          - 'null'
+        items:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FluffyItem'
+        kind:
+          type:
+          - string
+          - 'null'
+    FluffyGuestOsFeature:
+      type: object
+      additionalProperties: false
+      required:
+      - type
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+    InitializeParams:
+      type: object
+      additionalProperties: false
+      required:
+      - architecture
+      - description
+      - diskName
+      - diskSizeGb
+      - diskType
+      - licenses
+      - onUpdateAction
+      - provisionedIops
+      - provisionedThroughput
+      - replicaZones
+      - resourcePolicies
+      - sourceImage
+      - sourceImageEncryptionKey
+      - sourceSnapshot
+      - sourceSnapshotEncryptionKey
+      properties:
+        architecture:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        diskName:
+          type:
+          - string
+          - 'null'
+        diskSizeGb:
+          type:
+          - string
+          - 'null'
+        diskType:
+          type:
+          - string
+          - 'null'
+        licenses:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        onUpdateAction:
+          type:
+          - string
+          - 'null'
+        provisionedIops:
+          type:
+          - string
+          - 'null'
+        provisionedThroughput:
+          type:
+          - string
+          - 'null'
+        replicaZones:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        resourcePolicies:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        sourceImage:
+          type:
+          - string
+          - 'null'
+        sourceImageEncryptionKey:
+          oneOf:
+          - $ref: '#/components/schemas/SourceImageEncryptionKey'
+        sourceSnapshot:
+          type:
+          - string
+          - 'null'
+        sourceSnapshotEncryptionKey:
+          oneOf:
+          - $ref: '#/components/schemas/SourceSnapshotEncryptionKey'
+    PurpleItem:
+      type: object
+      additionalProperties: false
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type:
+          - string
+          - 'null'
+        value:
+          type:
+          - string
+          - 'null'
+    PurpleGuestOsFeature:
+      type: object
+      additionalProperties: false
+      required:
+      - type
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+    InstancePropertiesTags:
+      type: object
+      additionalProperties: false
+      required:
+      - fingerprint
+      - items
+      properties:
+        fingerprint:
+          type:
+          - string
+          - 'null'
+        items:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+    AdvancedMachineFeatures:
+      type: object
+      additionalProperties: false
+      required:
+      - enableNestedVirtualization
+      - enableUefiNetworking
+      - threadsPerCore
+      - visibleCoreCount
+      properties:
+        enableNestedVirtualization:
+          type:
+          - boolean
+          - 'null'
+        enableUefiNetworking:
+          type:
+          - boolean
+          - 'null'
+        threadsPerCore:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        visibleCoreCount:
+          type:
+          - integer
+          - 'null'
+          format: int64
+    SavedDisk:
+      type: object
+      additionalProperties: false
+      required:
+      - architecture
+      - kind
+      - sourceDisk
+      - storageBytes
+      - storageBytesStatus
+      properties:
+        architecture:
+          type:
+          - string
+          - 'null'
+        kind:
+          type:
+          - string
+          - 'null'
+        sourceDisk:
+          type:
+          - string
+          - 'null'
+        storageBytes:
+          type:
+          - string
+          - 'null'
+        storageBytesStatus:
+          type:
+          - string
+          - 'null'
+    MachineImageEncryptionKey:
+      type: object
+      additionalProperties: false
+      required:
+      - kmsKeyName
+      - kmsKeyServiceAccount
+      - rawKey
+      - rsaEncryptedKey
+      - sha256
+      properties:
+        kmsKeyName:
+          type:
+          - string
+          - 'null'
+        kmsKeyServiceAccount:
+          type:
+          - string
+          - 'null'
+        rawKey:
+          type:
+          - string
+          - 'null'
+        rsaEncryptedKey:
+          type:
+          - string
+          - 'null'
+        sha256:
+          type:
+          - string
+          - 'null'
+    SourceDiskEncryptionKeyDiskEncryptionKey:
+      type: object
+      additionalProperties: false
+      required:
+      - kmsKeyName
+      - kmsKeyServiceAccount
+      - rawKey
+      - rsaEncryptedKey
+      - sha256
+      properties:
+        kmsKeyName:
+          type:
+          - string
+          - 'null'
+        kmsKeyServiceAccount:
+          type:
+          - string
+          - 'null'
+        rawKey:
+          type:
+          - string
+          - 'null'
+        rsaEncryptedKey:
+          type:
+          - string
+          - 'null'
+        sha256:
+          type:
+          - string
+          - 'null'
+    InstancePropertiesGuestAccelerator:
+      type: object
+      additionalProperties: false
+      required:
+      - acceleratorCount
+      - acceleratorType
+      properties:
+        acceleratorCount:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        acceleratorType:
+          type:
+          - string
+          - 'null'
+    Db:
+      type: object
+      additionalProperties: false
+      required:
+      - content
+      - fileType
+      properties:
+        content:
+          type:
+          - string
+          - 'null'
+        fileType:
+          type:
+          - string
+          - 'null'
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

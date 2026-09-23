@@ -1,0 +1,212 @@
+openapi: 3.2.0
+info:
+  title: Inventory - Azure Azure Function API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Azure Function
+paths:
+  /v2/AzureFunction:
+    get:
+      tags:
+      - Azure Function
+      operationId: AzureFunction_Get_get_/v2/AzureFunction
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Falconetix.Model.AzureAppServiceViewModel'
+      description: ''
+      summary: Get
+  /v2/AzureFunction/{id}:
+    get:
+      tags:
+      - Azure Function
+      operationId: AzureFunction_Get_get_/v2/AzureFunction/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Falconetix.Model.AzureAppServiceViewModel'
+      description: ''
+      summary: Get
+components:
+  schemas:
+    Falconetix.Model.AzureAppServiceViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+        externalId:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        subscriptionId:
+          type: string
+        tenantId:
+          type: string
+        region:
+          type: string
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        inner:
+          $ref: '#/components/schemas/Falconetix.Model.AppServiceSiteInnerViewModel'
+        functions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.AppServiceFunctionsViewModel'
+        applicationSettings:
+          $ref: '#/components/schemas/Falconetix.Model.AppServiceApplicationSettings'
+    Falconetix.Model.AppServiceApplicationSettings:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        kind:
+          type: string
+        properties:
+          type: object
+          additionalProperties:
+            type: string
+    Falconetix.Model.AppServiceHostNameSslStateViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        sslState:
+          type: string
+        virtualIP:
+          type: string
+        thumbprint:
+          type: string
+        toUpdate:
+          type: boolean
+        hostType:
+          type: string
+    Falconetix.Model.AppServiceFunctionsViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        kind:
+          type: string
+        functionAppId:
+          type: string
+        scriptRootPathHref:
+          type: string
+        scriptHref:
+          type: string
+        configHref:
+          type: string
+        secretsFileHref:
+          type: string
+        href:
+          type: string
+        config:
+          type: string
+        files:
+          type: object
+          additionalProperties:
+            type: string
+        testData:
+          type: string
+        testDataHref:
+          type: string
+        invokeUrlTemplate:
+          type: string
+        language:
+          type: string
+        isDisabled:
+          type: boolean
+    Falconetix.Model.AppServiceSiteInnerViewModel:
+      type: object
+      properties:
+        hostNames:
+          type: array
+          items:
+            type: string
+        repositorySiteName:
+          type: string
+        enabled:
+          type: boolean
+        enabledHostNames:
+          type: array
+          items:
+            type: string
+        hostNameSslStates:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.AppServiceHostNameSslStateViewModel'
+        serverFarmId:
+          type: string
+        reserved:
+          type: boolean
+        lastModifiedTimeUtc:
+          format: date-time
+          type: string
+        clientCertEnabled:
+          type: boolean
+        outboundIpAddresses:
+          type: array
+          items:
+            type: string
+        possibleOutboundIpAddresses:
+          type: array
+          items:
+            type: string
+        resourceGroup:
+          type: string
+        defaultHostName:
+          type: string
+        kind:
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

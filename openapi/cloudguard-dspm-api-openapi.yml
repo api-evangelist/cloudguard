@@ -1,0 +1,512 @@
+openapi: 3.2.0
+info:
+  title: Risk Management Dspm API
+  version: v2
+  description: DSPM Controller
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Dspm
+  description: DSPM Controller
+paths:
+  /v2/erm/dspm/sentra-account:
+    get:
+      tags:
+      - Dspm
+      summary: Get Sentra Accounts
+      operationId: Dspm_GetSentraAccounts_get_/v2/erm/dspm/sentra-account
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SentraGetAllResponseViewModel'
+      description: Retrieves all the Sentra accounts associated with the current account
+    post:
+      tags:
+      - Dspm
+      summary: Add Sentra Account
+      operationId: Dspm_AddSentraAccount_post_/v2/erm/dspm/sentra-account
+      requestBody:
+        x-name: sentraCreateRequestViewModel
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SentraCreateRequestViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SentraCreateResponseViewModel'
+      description: Adds a new Sentra account
+  /v2/erm/dspm/sentra-account/{id}:
+    get:
+      tags:
+      - Dspm
+      summary: Get Sentra Account
+      operationId: Dspm_GetSentraAccount_get_/v2/erm/dspm/sentra-account/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SentraAccountResponseViewModel'
+      description: Retrieves a specific Sentra account by id
+    put:
+      tags:
+      - Dspm
+      summary: Update Sentra Account
+      operationId: Dspm_UpdateSentraAccount_put_/v2/erm/dspm/sentra-account/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      requestBody:
+        x-name: sentraUpdateRequestViewModel
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SentraUpdateRequestViewModel'
+        required: true
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: Updates credentials in Sentra account
+    delete:
+      tags:
+      - Dspm
+      summary: Delete Sentra Account
+      operationId: Dspm_DeleteSentraAccount_delete_/v2/erm/dspm/sentra-account/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: Deletes a Sentra account by id
+  /v2/erm/dspm/cyera-account:
+    get:
+      tags:
+      - Dspm
+      summary: Get Cyera Accounts
+      operationId: Dspm_GetCyeraAccounts_get_/v2/erm/dspm/cyera-account
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CyeraGetAllResponseViewModel'
+      description: Retrieves all the Cyera accounts associated with the current account
+    post:
+      tags:
+      - Dspm
+      summary: Add Cyera Account
+      operationId: Dspm_AddCyeraAccount_post_/v2/erm/dspm/cyera-account
+      requestBody:
+        x-name: cyeraCreateRequestViewModel
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CyeraCreateAccountRequestViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CyeraCreateRessponseViewModel'
+      description: Adds a new Cyera account
+  /v2/erm/dspm/cyera-account/{id}:
+    get:
+      tags:
+      - Dspm
+      summary: Get Cyera Account
+      operationId: Dspm_GetCyeraAccount_get_/v2/erm/dspm/cyera-account/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CyeraAccountResponseViewModel'
+      description: Retrieves a specific Cyera account by id
+    put:
+      tags:
+      - Dspm
+      summary: Update Cyera Account
+      operationId: Dspm_UpdateCyeraAccount_put_/v2/erm/dspm/cyera-account/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      requestBody:
+        x-name: cyeraUpdateRequestViewModel
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CyeraUpdateAccountRequestViewModel'
+        required: true
+        x-position: 2
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: Updates credentials in Cyera account
+    delete:
+      tags:
+      - Dspm
+      summary: Delete Cyera Account
+      operationId: Dspm_DeleteCyeraAccount_delete_/v2/erm/dspm/cyera-account/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: Deletes a Cyera account by id
+components:
+  schemas:
+    CyeraCredentialsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - clientId
+      properties:
+        clientId:
+          type:
+          - string
+          - 'null'
+    CyeraCreateRessponseViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: guid
+    CyeraGetAllResponseViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - accounts
+      properties:
+        accounts:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CyeraAccountResponseViewModel'
+    SentraCredentialsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - apiKey
+      - apiKeyName
+      - email
+      properties:
+        apiKey:
+          type:
+          - string
+          - 'null'
+        apiKeyName:
+          type:
+          - string
+          - 'null'
+        email:
+          type:
+          - string
+          - 'null'
+    SentraAccountErrorViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - errorTimestamp
+      - error
+      properties:
+        errorTimestamp:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        error:
+          type:
+          - string
+          - 'null'
+    CyeraUpdateAccountRequestViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - clientId
+      - secret
+      - name
+      properties:
+        clientId:
+          type:
+          - string
+          - 'null'
+          maxLength: 100
+        secret:
+          type:
+          - string
+          - 'null'
+          maxLength: 100
+        name:
+          type:
+          - string
+          - 'null'
+          maxLength: 100
+    CyeraCreateAccountRequestViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - clientId
+      - secret
+      - name
+      properties:
+        clientId:
+          type: string
+          maxLength: 100
+          minLength: 1
+        secret:
+          type: string
+          maxLength: 100
+          minLength: 1
+        name:
+          type: string
+          maxLength: 100
+          minLength: 1
+    CyeraAccountErrorViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - errorTimestamp
+      - error
+      properties:
+        errorTimestamp:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        error:
+          type:
+          - string
+          - 'null'
+    SentraCreateRequestViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - apiKey
+      - name
+      properties:
+        apiKey:
+          type: string
+          maxLength: 100
+          minLength: 1
+        name:
+          type: string
+          maxLength: 100
+          minLength: 1
+    CyeraAccountResponseViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - name
+      - accountCredentials
+      - syncError
+      - created
+      - updated
+      - lastSuccessfulSync
+      properties:
+        id:
+          type: string
+          format: guid
+        name:
+          type:
+          - string
+          - 'null'
+        accountCredentials:
+          oneOf:
+          - $ref: '#/components/schemas/CyeraCredentialsViewModel'
+        syncError:
+          oneOf:
+          - $ref: '#/components/schemas/CyeraAccountErrorViewModel'
+        created:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updated:
+          type: string
+          format: date-time
+        lastSuccessfulSync:
+          type:
+          - string
+          - 'null'
+          format: date-time
+    SentraGetAllResponseViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - accounts
+      properties:
+        accounts:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/SentraAccountResponseViewModel'
+    SentraAccountResponseViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - sentraOrganizationName
+      - name
+      - accountCredentials
+      - syncError
+      - created
+      - updated
+      - lastSuccessfulSync
+      properties:
+        id:
+          type: string
+          format: guid
+        sentraOrganizationName:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        accountCredentials:
+          oneOf:
+          - $ref: '#/components/schemas/SentraCredentialsViewModel'
+        syncError:
+          oneOf:
+          - $ref: '#/components/schemas/SentraAccountErrorViewModel'
+        created:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updated:
+          type: string
+          format: date-time
+        lastSuccessfulSync:
+          type:
+          - string
+          - 'null'
+          format: date-time
+    SentraCreateResponseViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: guid
+    SentraUpdateRequestViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - apiKey
+      - name
+      properties:
+        apiKey:
+          type:
+          - string
+          - 'null'
+          maxLength: 100
+        name:
+          type:
+          - string
+          - 'null'
+          maxLength: 100
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

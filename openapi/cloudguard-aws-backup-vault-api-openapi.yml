@@ -1,0 +1,78 @@
+openapi: 3.2.0
+info:
+  title: Inventory - AWS Storage Aws Backup Vault API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Aws Backup Vault
+paths:
+  /v2/AwsBackupVault:
+    get:
+      tags:
+      - Aws Backup Vault
+      operationId: AwsBackupVault_Get_get_/v2/AwsBackupVault
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.AwsBackupVault.AwsBackupVaultViewModel'
+      description: ''
+      summary: Get
+components:
+  schemas:
+    Dome9.Web.Api.AwsBackupVault.AwsBackupVaultViewModel:
+      type: object
+      properties:
+        backupVaultArn:
+          type: string
+        backupVaultName:
+          type: string
+        creationDate:
+          format: int64
+          type: integer
+        creatorRequestId:
+          type: string
+        encryptionKeyArn:
+          type: string
+        lockDate:
+          format: int64
+          type: integer
+        locked:
+          type: boolean
+        maxRetentionDays:
+          format: int32
+          type: integer
+        minRetentionDays:
+          format: int32
+          type: integer
+        numberOfRecoveryPoints:
+          format: int32
+          type: integer
+        accessPolicy:
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

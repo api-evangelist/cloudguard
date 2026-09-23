@@ -1,0 +1,452 @@
+openapi: 3.2.0
+info:
+  title: Posture Management Compliance Exclusion API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Compliance Exclusion
+paths:
+  /v2/Compliance/Exclusion:
+    get:
+      tags:
+      - Compliance Exclusion
+      summary: Get All
+      operationId: ComplianceExclusion_GetAll_get_/v2/Compliance/Exclusion
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExclusionViewModel'
+      description: Get a list of exclusions for the account
+    post:
+      tags:
+      - Compliance Exclusion
+      operationId: ComplianceExclusion_Post_post_/v2/Compliance/Exclusion
+      requestBody:
+        x-name: model
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExclusionPostRequestModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExclusionViewModel'
+      description: ''
+      summary: Post
+    put:
+      tags:
+      - Compliance Exclusion
+      operationId: ComplianceExclusion_Put_put_/v2/Compliance/Exclusion
+      requestBody:
+        x-name: model
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExclusionPutRequestModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExclusionViewModel'
+      description: ''
+      summary: Put
+    delete:
+      tags:
+      - Compliance Exclusion
+      operationId: ComplianceExclusion_Delete_delete_/v2/Compliance/Exclusion
+      parameters:
+      - name: id
+        in: query
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+      description: ''
+      summary: Delete
+  /v2/Compliance/Exclusion/{id}:
+    get:
+      tags:
+      - Compliance Exclusion
+      operationId: ComplianceExclusion_Get_get_/v2/Compliance/Exclusion/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExclusionViewModel'
+      description: ''
+      summary: Get
+  /v2/Compliance/Exclusion/ByFindingId:
+    post:
+      tags:
+      - Compliance Exclusion
+      summary: Create By Finding Id
+      operationId: ComplianceExclusion_CreateByFindingId_post_/v2/Compliance/Exclusion/ByFindingId
+      requestBody:
+        x-name: model
+        description: Finding ID and details for the exclusion
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExclusionPostByFindingIdRequestModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExclusionViewModel'
+      description: Create an exclusion from finding ID
+  /v2/Compliance/Exclusion/ByFindingKey:
+    post:
+      tags:
+      - Compliance Exclusion
+      summary: Create By Finding Key
+      operationId: ComplianceExclusion_CreateByFindingKey_post_/v2/Compliance/Exclusion/ByFindingKey
+      requestBody:
+        x-name: model
+        description: Finding key and details for the exclusion
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExclusionPostByFindingKeyRequestModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExclusionViewModel'
+      description: Create an exclusion from finding key
+  /v2/Compliance/Exclusion/BulkDelete:
+    post:
+      tags:
+      - Compliance Exclusion
+      summary: Bulk Delete
+      operationId: ComplianceExclusion_BulkDelete_post_/v2/Compliance/Exclusion/BulkDelete
+      requestBody:
+        x-name: exclusionIds
+        description: List of exclusion ids to delete
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                format: guid
+        required: true
+        x-position: 1
+      responses:
+        '207':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExclusionMultiStatusResponseViewModel'
+              example:
+                Exclusions:
+                  <ExclusionId: <StatusCode>
+                  00000000-0000-0000-0000-000000000001: 200
+      description: Delete Multiple Exclusions by Ids
+components:
+  schemas:
+    ExclusionMultiStatusResponseViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - exclusions
+      properties:
+        exclusions:
+          type:
+          - object
+          - 'null'
+          default: {}
+          additionalProperties:
+            type: integer
+            format: int32
+    ExclusionPutRequestModel:
+      allOf:
+      - $ref: '#/components/schemas/ExclusionPostRequestModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - id
+        properties:
+          id:
+            type: string
+            description: Exclusion ID
+            format: guid
+    ExclusionPostByFindingKeyRequestModel:
+      type: object
+      additionalProperties: false
+      required:
+      - findingKey
+      - dateRange
+      properties:
+        findingKey:
+          type:
+          - string
+          - 'null'
+          description: '[Required] Finding Key'
+        dateRange:
+          description: '[Optional] Date range for the exclusion to take effect.
+
+            The exclusion will take effect permanently unless a specific date range is specified.
+
+            Leaving ''From'' null will take only ''To'' into account.
+
+            Leaving ''To'' null will take only ''From'' into account.
+
+            DateRange with both ''From'' and ''To'' null will be disregarded.'
+          oneOf:
+          - $ref: '#/components/schemas/DateTimeRange'
+    AssessmentCloudAccountType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Aws
+      - Azure
+      - Google
+      - Kubernetes
+      - Terraform
+      - Generic
+      - KubernetesRuntimeAssurance
+      - ShiftLeft
+      - SourceCodeAssurance
+      - ImageAssurance
+      - Alibaba
+      - Cft
+      - ContainerRegistry
+      - Oci
+      - CIEM
+      enum:
+      - Aws
+      - Azure
+      - Google
+      - Kubernetes
+      - Terraform
+      - Generic
+      - KubernetesRuntimeAssurance
+      - ShiftLeft
+      - SourceCodeAssurance
+      - ImageAssurance
+      - Alibaba
+      - Cft
+      - ContainerRegistry
+      - Oci
+      - CIEM
+    ExclusionViewModel:
+      allOf:
+      - $ref: '#/components/schemas/ExclusionPutRequestModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - platform
+        properties:
+          platform:
+            description: Exclusion platform
+            oneOf:
+            - $ref: '#/components/schemas/AssessmentCloudAccountType'
+    ExclusionPostRequestModel:
+      type: object
+      additionalProperties: false
+      required:
+      - comment
+      - rules
+      - logicExpressions
+      - regions
+      - rulesetId
+      - cloudAccountIds
+      - organizationalUnitIds
+      - dateRange
+      properties:
+        rules:
+          type:
+          - array
+          - 'null'
+          description: '[Optional] List of rules to apply the exclusion on.'
+          default: []
+          items:
+            $ref: '#/components/schemas/RuleViewModel2'
+        logicExpressions:
+          type:
+          - array
+          - 'null'
+          description: '[Optional] The GSL logic expressions of the exclusion.'
+          pattern: ((name|id|accountNumber) like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')|(severity like '(informational|low|medium|high|critical)')|(tags contain \[(key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' and value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')( or key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' and value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')*\])
+          items:
+            type: string
+        regions:
+          type:
+          - array
+          - 'null'
+          description: "           [Optional] List of regions to exclude, for example 'us_east_1'.\n           "
+          items:
+            type: string
+        rulesetId:
+          type: integer
+          description: Ruleset ID to apply exclusion on.
+          format: int64
+        cloudAccountIds:
+          type:
+          - array
+          - 'null'
+          description: '[Optional] List of cloud account IDs to apply exclusion on.
+
+            If neither cloud account IDs nor organizational unit IDs are supplied, exclusion will apply on all cloud accounts.
+
+            If both organizational unit IDs and cloud account IDs are supplied, only organizational unit IDs will take effect.'
+          items:
+            type: string
+            format: guid
+        organizationalUnitIds:
+          type:
+          - array
+          - 'null'
+          description: '[Optional] List of organizational unit IDs to apply exclusion on.
+
+            If neither organizational unit IDs nor cloud account IDs are supplied, exclusion will apply on all cloud accounts.
+
+            If both organizational unit IDs and cloud account IDs are supplied, only organizational unit IDs will take effect.'
+          items:
+            type: string
+            format: guid
+        comment:
+          type: string
+          description: Comment text (free text)
+          minLength: 1
+        dateRange:
+          description: '[Optional] Effective date range for the exclusion.
+
+            Leaving ''From'' null will take only ''To'' into account.
+
+            Leaving ''To'' null will take only ''From'' into account.
+
+            DateRange with both ''From'' and ''To'' null will be disregarded.'
+          oneOf:
+          - $ref: '#/components/schemas/DateTimeRange'
+    RuleViewModel2:
+      type: object
+      additionalProperties: false
+      required:
+      - logicHash
+      - id
+      - name
+      - rlmId
+      properties:
+        logicHash:
+          type:
+          - string
+          - 'null'
+          description: Rule logic hash
+          pattern: ^[A-Za-z0-9+/]{22}?$
+        id:
+          type:
+          - string
+          - 'null'
+          description: Rule ID
+        name:
+          type:
+          - string
+          - 'null'
+          description: Rule name
+        rlmId:
+          type:
+          - string
+          - 'null'
+    ExclusionPostByFindingIdRequestModel:
+      type: object
+      additionalProperties: false
+      required:
+      - findingId
+      - dateRange
+      properties:
+        findingId:
+          type: string
+          description: '[Required] Finding ID'
+          format: guid
+        dateRange:
+          description: '[Optional] Date range for the exclusion to take effect.
+
+            The exclusion will take effect permanently unless a specific date range is specified.
+
+            Leaving ''From'' null will take only ''To'' into account.
+
+            Leaving ''To'' null will take only ''From'' into account.
+
+            DateRange with both ''From'' and ''To'' null will be disregarded.'
+          oneOf:
+          - $ref: '#/components/schemas/DateTimeRange'
+    DateTimeRange:
+      type: object
+      deprecated: true
+      x-deprecatedMessage: 'This class was duplicated to new Domain (as part of DDD refactoring effort), please refer to the new Project: CGN.RuleEngine.Common.Infra.DateTimeRange'
+      additionalProperties: false
+      required:
+      - from
+      - to
+      properties:
+        from:
+          type:
+          - string
+          - 'null'
+          description: From date time
+          format: date-time
+        to:
+          type:
+          - string
+          - 'null'
+          description: To date time
+          format: date-time
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

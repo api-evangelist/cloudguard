@@ -1,0 +1,1777 @@
+openapi: 3.2.0
+info:
+  title: Events Finding API
+  version: v2
+  description: Compliance Findings
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Finding
+  description: Compliance Findings
+paths:
+  /v2/Compliance/Finding/stats/aggregatedbyproperty:
+    get:
+      tags:
+      - Finding
+      summary: Get Stats By Property
+      operationId: Finding_GetStatsByProperty_get_/v2/Compliance/Finding/stats/aggregatedbyproperty
+      parameters:
+      - name: fromDateTime
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: toDateTime
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: origin
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - ComplianceEngine
+          - Magellan
+          - MagellanAwsGuardDuty
+          - Serverless
+          - Agentless
+          - AwsInspector
+          - ServerlessSecurityAnalyzer
+          - ExternalFindingSource
+          - Qualys
+          - Tenable
+          - AwsGuardDuty
+          - KubernetesImageScanning
+          - KubernetesRuntimeAssurance
+          - ContainersRuntimeProtection
+          - WorkloadChangeMonitoring
+          - ImageAssurance
+          - SourceCodeAssurance
+          - InfrastructureAsCode
+          - CIEM
+          - Incident
+      - name: aggProperty
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingsStatsBySeverityViewModel'
+      description: Get aggregation per property
+  /v2/Compliance/Finding/bundle/{bundleId}/stats:
+    get:
+      tags:
+      - Finding
+      summary: Get Bundle Stats
+      operationId: Finding_GetBundleStats_get_/v2/Compliance/Finding/bundle/{bundleId}/stats
+      parameters:
+      - name: bundleId
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingsStatsViewModel'
+      description: Get statistics for each rule in a bundle (number failures)
+  /v2/Compliance/Finding/bundle/{bundleId}:
+    get:
+      tags:
+      - Finding
+      summary: Get Findings
+      operationId: Finding_GetFindings_get_/v2/Compliance/Finding/bundle/{bundleId}
+      parameters:
+      - name: bundleId
+        in: path
+        description: the bundle id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: ruleLogicHash
+        in: query
+        description: MD5 hash of the rule GSL string
+        required: true
+        schema:
+          type: string
+      - name: pageNumber
+        in: query
+        description: the findings page (findings are returned in pages, with pageSize findings in each page)
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: the number of findings in a page
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.BaseFindingViewModel'
+      description: Get the findings for a specific rule in a bundle, for all of the user's accounts. Results are paged, so each request returns findings for a specific page.
+  /v2/Compliance/Finding/{id}:
+    get:
+      tags:
+      - Finding
+      summary: Get Finding
+      operationId: Finding_GetFinding_get_/v2/Compliance/Finding/{id}
+      parameters:
+      - name: id
+        in: path
+        description: the finding id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingViewModel'
+      description: Get details for a specific finding, identified by its id.
+    delete:
+      tags:
+      - Finding
+      summary: Delete
+      operationId: Finding_DeleteAsync_delete_/v2/Compliance/Finding/{id}
+      parameters:
+      - name: id
+        in: path
+        description: Finding ID (Guid)
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      description: Delete finding originated in Magellan by id (Guid)
+  /v2/Compliance/Finding/getByKey:
+    post:
+      tags:
+      - Finding
+      summary: Get Finding By Key
+      operationId: Finding_GetFindingByKey_post_/v2/Compliance/Finding/getByKey
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.GetFindingByKeyViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.GetFindingByKeyViewModel'
+        description: finding key
+        required: true
+      description: Get details for a specific finding, identified by finding key.
+  /v2/Compliance/Finding/archive/{id}:
+    delete:
+      tags:
+      - Finding
+      summary: Delete
+      operationId: Finding_DeleteAsync_delete_/v2/Compliance/Finding/archive/{id}
+      parameters:
+      - name: id
+        in: path
+        description: Finding ID (Guid)
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      description: Delete finding originated in Magellan by id (Guid)
+  /v2/Compliance/Finding/bulk/close:
+    post:
+      tags:
+      - Finding
+      summary: Bulk Delete
+      operationId: Finding_BulkDeleteAsync_post_/v2/Compliance/Finding/bulk/close
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        $ref: '#/components/requestBodies/Finding_BulkDeleteAsyncIds'
+      description: Delete findings originated in Magellan by ids (Guid)
+  /v2/Compliance/Finding/bulk/archive/close:
+    post:
+      tags:
+      - Finding
+      summary: Bulk Delete
+      operationId: Finding_BulkDeleteAsync_post_/v2/Compliance/Finding/bulk/archive/close
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        $ref: '#/components/requestBodies/Finding_BulkDeleteAsyncIds'
+      description: Delete findings originated in Magellan by ids (Guid)
+  /v2/Compliance/Finding/selectAll/close:
+    post:
+      tags:
+      - Finding
+      summary: Select All Close
+      operationId: Finding_SelectAllClose_post_/v2/Compliance/Finding/selectAll/close
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllResponseViewModel'
+      requestBody:
+        $ref: '#/components/requestBodies/Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Compliance.Models.ActionType_'
+      description: 'Filter findings by account, region, VPC, IP, instance name..
+
+        Then perform the action that selected - Delete findings originated in Magellan by ids (Guid).'
+  /v2/Compliance/Finding/selectAll/archive/close:
+    post:
+      tags:
+      - Finding
+      summary: Select All Close
+      operationId: Finding_SelectAllClose_post_/v2/Compliance/Finding/selectAll/archive/close
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllResponseViewModel'
+      requestBody:
+        $ref: '#/components/requestBodies/Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Compliance.Models.ActionType_'
+      description: 'Filter findings by account, region, VPC, IP, instance name..
+
+        Then perform the action that selected - Delete findings originated in Magellan by ids (Guid).'
+  /v2/Compliance/Finding/search:
+    post:
+      tags:
+      - Finding
+      summary: Search
+      operationId: Finding_Search_post_/v2/Compliance/Finding/search
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingPaganationViewModel'
+      requestBody:
+        $ref: '#/components/requestBodies/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel'
+      description: Filter findings by account, region, VPC, IP, or instance name
+  /v2/Compliance/Finding/searchAggregate:
+    post:
+      tags:
+      - Finding
+      summary: Search Aggregate
+      operationId: Finding_SearchAggregate_post_/v2/Compliance/Finding/searchAggregate
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingPaganationViewModel'
+      requestBody:
+        $ref: '#/components/requestBodies/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel'
+      description: Filter findings by account, region, VPC, IP, or instance name , returns only aggregations appear in the searchRequest's filter
+  /v2/Compliance/Finding/Sources:
+    get:
+      tags:
+      - Finding
+      summary: Get Supported Sources
+      operationId: Finding_GetSupportedSources_get_/v2/Compliance/Finding/Sources
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingController.FindingSourceViewModel'
+      description: returns all the supported sources and their metadata
+  /v2/Compliance/Finding/{id}/acknowledge:
+    put:
+      tags:
+      - Finding
+      summary: Acknowledge
+      operationId: Finding_Acknowledge_put_/v2/Compliance/Finding/{id}/acknowledge
+      parameters:
+      - name: id
+        in: path
+        description: the finding id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel'
+        description: updated information about the finding, including the acknowledgement
+        required: true
+      description: Acknowledge a finding. Acknowledging a finding indicates it was viewed (or retrieved), but does not indicate it was resolved.
+  /v2/Compliance/Finding/bulk/acknowledge:
+    put:
+      tags:
+      - Finding
+      operationId: Finding_BulkAcknowledge_put_/v2/Compliance/Finding/bulk/acknowledge
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel_'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel_'
+        required: true
+      description: ''
+      summary: Bulk Acknowledge
+  /v2/Compliance/Finding/selectAll/acknowledge:
+    put:
+      tags:
+      - Finding
+      summary: Select All Acknowledge
+      operationId: Finding_SelectAllAcknowledge_put_/v2/Compliance/Finding/selectAll/acknowledge
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllResponseViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel_'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel_'
+        description: the filter selections and updated information about the findings, including the acknowledgement
+        required: true
+      description: 'Filter findings by account, region, VPC, IP, instance name..
+
+        Then perform the action that selected - Acknowledge a finding. Acknowledging a finding indicates it was viewed (or retrieved), but does not indicate it was resolved..'
+  /v2/Compliance/Finding/{id}/severity:
+    put:
+      tags:
+      - Finding
+      summary: Change Severity
+      operationId: Finding_ChangeSeverity_put_/v2/Compliance/Finding/{id}/severity
+      parameters:
+      - name: id
+        in: path
+        description: the finding id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel'
+        description: updated information about the finding, including the new severity
+        required: true
+      description: Change the severity of a specific finding
+  /v2/Compliance/Finding/bulk/severity:
+    put:
+      tags:
+      - Finding
+      operationId: Finding_BulkSeverity_put_/v2/Compliance/Finding/bulk/severity
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel_'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel_'
+        required: true
+      description: ''
+      summary: Bulk Severity
+  /v2/Compliance/Finding/selectAll/severity:
+    put:
+      tags:
+      - Finding
+      summary: Select All Severity
+      operationId: Finding_SelectAllSeverity_put_/v2/Compliance/Finding/selectAll/severity
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllResponseViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel_'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel_'
+        description: the filter selections and updated information about the findings, including the new severity
+        required: true
+      description: 'Filter findings by account, region, VPC, IP, instance name..
+
+        Then perform the action that selected - Change the severity of all specific findings.'
+  /v2/Compliance/Finding/{id}/assign:
+    put:
+      tags:
+      - Finding
+      summary: Assign
+      operationId: Finding_Assign_put_/v2/Compliance/Finding/{id}/assign
+      parameters:
+      - name: id
+        in: path
+        description: the finding id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel'
+        description: updated information about the finding, including the assigned user
+        required: true
+      description: Assign a finding to a user.
+  /v2/Compliance/Finding/bulk/assign:
+    put:
+      tags:
+      - Finding
+      operationId: Finding_BulkAssign_put_/v2/Compliance/Finding/bulk/assign
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel_'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel_'
+        required: true
+      description: ''
+      summary: Bulk Assign
+  /v2/Compliance/Finding/selectAll/assign:
+    put:
+      tags:
+      - Finding
+      summary: Select All Assign
+      operationId: Finding_SelectAllAssign_put_/v2/Compliance/Finding/selectAll/assign
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllResponseViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel_'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel_'
+        description: the filter selections and updated information about the findings, including the assigned user
+        required: true
+      description: 'Filter findings by account, region, VPC, IP, instance name..
+
+        Then perform the action - Assign a finding to a user.'
+  /v2/Compliance/Finding/{id}/comment:
+    post:
+      tags:
+      - Finding
+      summary: Add Comment
+      operationId: Finding_AddComment_post_/v2/Compliance/Finding/{id}/comment
+      parameters:
+      - name: id
+        in: path
+        description: the finding id (or key)
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PostCommentViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PostCommentViewModel'
+        description: updated information about the finding, including the comment
+        required: true
+      description: Add a comment for a finding
+  /v2/Compliance/Finding/bulk/comment:
+    put:
+      tags:
+      - Finding
+      operationId: Finding_BulkComment_put_/v2/Compliance/Finding/bulk/comment
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PostCommentViewModel_'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PostCommentViewModel_'
+        required: true
+      description: ''
+      summary: Bulk Comment
+  /v2/Compliance/Finding/selectAll/comment:
+    put:
+      tags:
+      - Finding
+      summary: Select All Comment
+      operationId: Finding_SelectAllComment_put_/v2/Compliance/Finding/selectAll/comment
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllResponseViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PostCommentViewModel_'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PostCommentViewModel_'
+        description: the filter selections and updated the findings comment
+        required: true
+      description: 'Filter findings by account, region, VPC, IP, instance name..
+
+        Then perform the action that selected - Add a comment for the findings.'
+  /v2/Compliance/Finding/{id}/archive:
+    post:
+      tags:
+      - Finding
+      summary: Archive
+      operationId: Finding_Archive_post_/v2/Compliance/Finding/{id}/archive
+      parameters:
+      - name: id
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllResponseViewModel'
+      description: Archive/unarchive a specific finding
+  /v2/Compliance/Finding/{id}/unarchive:
+    post:
+      tags:
+      - Finding
+      summary: Archive
+      operationId: Finding_Archive_post_/v2/Compliance/Finding/{id}/unarchive
+      parameters:
+      - name: id
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllResponseViewModel'
+      description: Archive/unarchive a specific finding
+  /v2/Compliance/Finding/bulk/archive:
+    put:
+      tags:
+      - Finding
+      summary: Bulk Archive
+      operationId: Finding_BulkArchive_put_/v2/Compliance/Finding/bulk/archive
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllResponseViewModel'
+      requestBody:
+        $ref: '#/components/requestBodies/Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.ArchiveFindingModel_'
+      description: Bulk archive/unarchive findings
+  /v2/Compliance/Finding/bulk/unarchive:
+    put:
+      tags:
+      - Finding
+      summary: Bulk Archive
+      operationId: Finding_BulkArchive_put_/v2/Compliance/Finding/bulk/unarchive
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllResponseViewModel'
+      requestBody:
+        $ref: '#/components/requestBodies/Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.ArchiveFindingModel_'
+      description: Bulk archive/unarchive findings
+  /v2/Compliance/Finding/comment:
+    post:
+      tags:
+      - Finding
+      summary: Add Comment By Finding Key
+      operationId: Finding_AddCommentByFindingKey_post_/v2/Compliance/Finding/comment
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingViewModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PostCommentByFindingKeyViewModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PostCommentByFindingKeyViewModel'
+        description: updated information about the finding, including the comment and the finding key
+        required: true
+      description: Add a comment for a finding
+  /v2/Compliance/Finding/origins:
+    get:
+      tags:
+      - Finding
+      operationId: Finding_GetOrigins_get_/v2/Compliance/Finding/origins
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingController.AssessmentFindingOriginProperties'
+      description: ''
+      summary: Get Origins
+components:
+  schemas:
+    Dome9.Web.Api.Compliance.Finding.FindingCommentViewModel:
+      description: comments for a finding (listed by user)
+      type: object
+      properties:
+        text:
+          type: string
+        timestamp:
+          format: date-time
+          type: string
+        userName:
+          type: string
+    Dome9.Web.Api.Compliance.Finding.FindingController.AssessmentFindingOriginProperties:
+      type: object
+      properties:
+        origin:
+          type: string
+        originNumber:
+          format: int32
+          type: integer
+        originDescription:
+          type: string
+    Dome9.Web.Api.Compliance.Finding.FindingsStatsBySeverityViewModel:
+      description: Statistics (passes/fails) per severity
+      type: object
+      properties:
+        aggByProperty:
+          type: string
+        aggStatistics:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.ElasticSearch.Std.Base.AggKeyStatistics'
+    Dome9.Web.Api.Compliance.Finding.SearchFilterViewModel:
+      type: object
+      properties:
+        freeTextPhrase:
+          description: free text
+          type: string
+        fields:
+          description: fields
+          type: array
+          items:
+            $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.FieldFilterViewModel'
+        onlyCIEM:
+          type: boolean
+        onlyCustomPolicy:
+          description: Filtering all findings created by custom policy
+          type: boolean
+        creationTime:
+          $ref: '#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.DateRangeViewModel'
+        updatedTime:
+          $ref: '#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.DateRangeViewModel'
+        hasRemediation:
+          type: boolean
+    Falconetix.Model.RuleEngine.Entities.FindingAdditionalFieldViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel_:
+      type: object
+      properties:
+        searchRequest:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel'
+        actionRequest:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel'
+        excludedFindingsIds:
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+    Dome9.Web.Api.Compliance.Finding.FindingController.FindingSourceViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        value:
+          format: int32
+          type: integer
+        originType:
+          enum:
+          - ComplianceEngine
+          - Magellan
+          - ExternalFindings
+          - Serverless
+          - KubernetesRuntimeAssurance
+          - ContainersRuntimeProtection
+          - ImageAssurance
+          - SourceCodeAssurance
+          - InfrastructureAsCode
+          - CIEM
+          - Incident
+          - WorkloadChangeMonitoring
+          - Agentless
+          type: string
+    Dome9.Web.Api.Compliance.Finding.PostCommentViewModel:
+      required:
+      - text
+      type: object
+      properties:
+        text:
+          description: general comment for finding
+          maxLength: 200
+          minLength: 1
+          type: string
+    Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel_:
+      type: object
+      properties:
+        searchRequest:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel'
+        actionRequest:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel'
+        excludedFindingsIds:
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+    Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel:
+      required:
+      - severity
+      type: object
+      properties:
+        severity:
+          description: finding severity (H/M/L)
+          enum:
+          - Informational
+          - Low
+          - Medium
+          - High
+          - Critical
+          type: string
+        comment:
+          description: severity comment (if severity is changed)
+          maxLength: 200
+          minLength: 0
+          type: string
+    Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel_:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        details:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel'
+    Dome9.Web.Api.Compliance.Finding.FieldAggregationViewModel:
+      type: object
+      properties:
+        value:
+          type: object
+        count:
+          format: int64
+          type: integer
+    Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel_:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        details:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel'
+    Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PostCommentViewModel_:
+      type: object
+      properties:
+        searchRequest:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel'
+        actionRequest:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PostCommentViewModel'
+        excludedFindingsIds:
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+    ? Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel_
+    : type: object
+      properties:
+        ids:
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        details:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel'
+    Dome9.Web.Api.Shared.SharedViewModels.DateRangeViewModel:
+      type: object
+      properties:
+        from:
+          format: date-time
+          type: string
+        to:
+          format: date-time
+          type: string
+    Dome9.Web.Api.Compliance.Finding.ArchiveFindingModel:
+      type: object
+      properties: {}
+    Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel:
+      type: object
+      properties:
+        assigneeUserName:
+          description: assigned Dome9 user name (email address)
+          type: string
+    Falconetix.Model.RuleEngine.Entities.Compliance.AssessmentFinding.MagellanData:
+      type: object
+      properties:
+        alertWindowStartTime:
+          format: date-time
+          type: string
+        alertWindowEndTime:
+          format: date-time
+          type: string
+    Dome9.Web.Api.Compliance.Finding.SelectAllResponseViewModel:
+      type: object
+      properties:
+        accountId:
+          format: int64
+          type: integer
+        statusCode:
+          enum:
+          - Continue
+          - SwitchingProtocols
+          - OK
+          - Created
+          - Accepted
+          - NonAuthoritativeInformation
+          - NoContent
+          - ResetContent
+          - PartialContent
+          - MultipleChoices
+          - Ambiguous
+          - MovedPermanently
+          - Moved
+          - Found
+          - Redirect
+          - SeeOther
+          - RedirectMethod
+          - NotModified
+          - UseProxy
+          - Unused
+          - TemporaryRedirect
+          - RedirectKeepVerb
+          - BadRequest
+          - Unauthorized
+          - PaymentRequired
+          - Forbidden
+          - NotFound
+          - MethodNotAllowed
+          - NotAcceptable
+          - ProxyAuthenticationRequired
+          - RequestTimeout
+          - Conflict
+          - Gone
+          - LengthRequired
+          - PreconditionFailed
+          - RequestEntityTooLarge
+          - RequestUriTooLong
+          - UnsupportedMediaType
+          - RequestedRangeNotSatisfiable
+          - ExpectationFailed
+          - UpgradeRequired
+          - InternalServerError
+          - NotImplemented
+          - BadGateway
+          - ServiceUnavailable
+          - GatewayTimeout
+          - HttpVersionNotSupported
+          type: string
+        status:
+          enum:
+          - ActionBegin
+          - ActionError
+          - ActionTimeout
+          - FinishRunningAction
+          type: string
+        completed:
+          type: boolean
+        total:
+          format: int64
+          type: integer
+        updated:
+          format: int64
+          type: integer
+        failed:
+          format: int64
+          type: integer
+        error:
+          type: string
+    Dome9.Web.Api.Compliance.Finding.FindingViewModel:
+      type: object
+      properties:
+        entityObject:
+          description: details for the entity in the cloud provider
+          type: object
+        id:
+          format: uuid
+          description: finding id
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        findingKey:
+          description: finding key
+          type: string
+        createdTime:
+          format: date-time
+          description: date finding was first found
+          type: string
+        updatedTime:
+          format: date-time
+          description: date of last update for the finding
+          type: string
+        cloudAccountType:
+          description: cloud account provider (AWS/Azure/GCP)
+          enum:
+          - Aws
+          - Azure
+          - Google
+          - Kubernetes
+          - Terraform
+          - Generic
+          - KubernetesRuntimeAssurance
+          - ShiftLeft
+          - SourceCodeAssurance
+          - ImageAssurance
+          - Alibaba
+          - Cft
+          - ContainerRegistry
+          - Oci
+          - CIEM
+          type: string
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingCommentViewModel'
+        cloudAccountId:
+          format: uuid
+          description: cloud account id (on AWS/Azure/GCP)
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        cloudAccountExternalId:
+          description: cloud account id on the cloud provider
+          type: string
+        organizationalUnitId:
+          format: uuid
+          description: the Organizational Unit id
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        organizationalUnitPath:
+          description: the Organizational Unit path
+          type: string
+        bundleId:
+          format: int64
+          description: the bundle id
+          type: integer
+        bundleVersion:
+          type: string
+        alertType:
+          description: the bundle id
+          enum:
+          - SecurityEvent
+          - Task
+          type: string
+        ruleId:
+          description: id of the specific rule that failed
+          type: string
+        ruleName:
+          description: name of the specific rule that failed (text string)
+          type: string
+        ruleLogic:
+          description: the GSL logic for the rule
+          type: string
+        entityDome9Id:
+          description: the Dome9 entity id (representing a cloud entity) that was tested by the rule
+          type: string
+        entityExternalId:
+          description: the cloud provider entity id for the entity tested by the rule
+          type: string
+        entityType:
+          description: the type of entity tested (e.g. S3, or EC2)
+          type: string
+        entityTypeByEnvironmentType:
+          description: the type of entity tested by the environment type in format of {EnvironmentType}|{EntityType}
+          type: string
+        entityName:
+          description: the entity name (on the cloud provider), as a text string, in the specific cloud provider format
+          type: string
+        entityNetwork:
+          type: string
+        entityTags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.TagRuleEntity'
+        severity:
+          description: the severity of the finding (H/M/L)
+          type: string
+        description:
+          description: text description of the finding (the failure reason)
+          type: string
+        remediation:
+          description: the recommended remediation (if any) for the failure
+          type: string
+        tag:
+          description: tags assigned to the finding (list string)
+          type: string
+        region:
+          description: the region in which the entity was located
+          type: string
+        bundleName:
+          description: the name of the bundle with the rule
+          type: string
+        acknowledged:
+          description: indicates the finding was acknowledged
+          type: boolean
+        origin:
+          description: Dome9 source of the finding (Compliance or Magellan)
+          enum:
+          - ComplianceEngine
+          - Magellan
+          - MagellanAwsGuardDuty
+          - Serverless
+          - Agentless
+          - AwsInspector
+          - ServerlessSecurityAnalyzer
+          - ExternalFindingSource
+          - Qualys
+          - Tenable
+          - AwsGuardDuty
+          - KubernetesImageScanning
+          - KubernetesRuntimeAssurance
+          - ContainersRuntimeProtection
+          - WorkloadChangeMonitoring
+          - ImageAssurance
+          - SourceCodeAssurance
+          - InfrastructureAsCode
+          - CIEM
+          - Incident
+          type: string
+        lastSeenTime:
+          format: date-time
+          description: Date when the finding was last seen
+          type: string
+        ownerUserName:
+          description: Dome9 user assigned to the finding
+          type: string
+        magellan:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.Compliance.AssessmentFinding.MagellanData'
+          description: Extra data for Magellan findings
+        isExcluded:
+          description: Indicates the finding was excluded from the assessment
+          type: boolean
+        webhookResponses:
+          description: Consists of Webhook type and the response of that webhook, if response defined
+          type: object
+          properties:
+            none:
+              $ref: '#/components/schemas/Falconetix.Model.ElasticSearch.WebhookResponse.WebhookResponseMessage'
+            serviceNow:
+              $ref: '#/components/schemas/Falconetix.Model.ElasticSearch.WebhookResponse.WebhookResponseMessage'
+            jira:
+              $ref: '#/components/schemas/Falconetix.Model.ElasticSearch.WebhookResponse.WebhookResponseMessage'
+        remediationActions:
+          type: array
+          items:
+            type: string
+        additionalFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.FindingAdditionalFieldViewModel'
+        occurrences:
+          type: array
+          items:
+            type: string
+        scanId:
+          type: string
+        status:
+          enum:
+          - Active
+          - Archived
+          type: string
+        statusReason:
+          enum:
+          - Unspecified
+          - RuleViolation
+          - ConfigurationFixed
+          - AssetDeleted
+          - RulesetDeleted
+          - RuleDeleted
+          - PolicyDeleted
+          - UserClosed
+          - CloudAccountDeleted
+          type: string
+        category:
+          type: string
+        action:
+          enum:
+          - Detect
+          - Prevent
+          type: string
+        labels:
+          type: array
+          items:
+            type: string
+    Dome9.Web.Api.Compliance.Finding.FindingsStatsViewModel:
+      description: Statistics (passes/fails) for a bundle
+      type: object
+      properties:
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.ElasticSearch.Std.Finding.RuleStatistics'
+    Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Compliance.Models.ActionType_:
+      type: object
+      properties:
+        searchRequest:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel'
+        actionRequest:
+          enum:
+          - Undefined
+          - Acknowledge
+          - Severity
+          - Assign
+          - Comment
+          - Close
+          - Archive
+          - Delete
+          - Unarchive
+          type: string
+        excludedFindingsIds:
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+    Falconetix.Model.ElasticSearch.WebhookResponse.WebhookResponseMessage:
+      type: object
+      properties:
+        requestTime:
+          format: date-time
+          type: string
+        responseContent:
+          type: object
+    Dome9.Web.Api.Compliance.Finding.PostCommentByFindingKeyViewModel:
+      required:
+      - findingKey
+      - text
+      type: object
+      properties:
+        findingKey:
+          type: string
+        text:
+          description: general comment for finding
+          maxLength: 200
+          minLength: 1
+          type: string
+    Dome9.ElasticSearch.Std.Base.AggKeyStatistics:
+      type: object
+      properties:
+        key:
+          type: string
+        numberOfDocuments:
+          format: int64
+          type: integer
+    CGN.OpenSearch.Model.CommonViewModels.FieldFilterViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    Dome9.Web.Api.Compliance.Finding.FindingPaganationViewModel:
+      type: object
+      properties:
+        searchRequest:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel'
+          description: search request for findings
+        findings:
+          description: current page of findings
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.BaseFindingViewModel'
+        totalFindingsCount:
+          format: int64
+          description: total number of findings
+          type: integer
+        aggregations:
+          description: aggregate findings per search or filter entity (facet)
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.FieldAggregationViewModel'
+        searchAfter:
+          description: token for next page of results
+          type: array
+          items:
+            type: string
+    Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel:
+      type: object
+      properties:
+        searchAfter:
+          description: token for the page of findings (first page if not specified)
+          type: array
+          items:
+            type: string
+        pageSize:
+          format: int32
+          description: 'page size (number of findings returned per page). default: 10.'
+          maximum: 10000
+          minimum: 0
+          type: integer
+        skipAggregations:
+          type: boolean
+        lowAggregationsSize:
+          type: boolean
+        sorting:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SortingViewModel'
+          description: sort data
+        multiSorting:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SortingViewModel'
+        filter:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchFilterViewModel'
+          description: filter
+        dataSource:
+          enum:
+          - Finding
+          - Archive
+          type: string
+    Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel_:
+      type: object
+      properties:
+        searchRequest:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel'
+        actionRequest:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel'
+        excludedFindingsIds:
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+    Dome9.Web.Api.Compliance.Finding.BaseFindingViewModel:
+      type: object
+      properties:
+        id:
+          format: uuid
+          description: finding id
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        findingKey:
+          description: finding key
+          type: string
+        createdTime:
+          format: date-time
+          description: date finding was first found
+          type: string
+        updatedTime:
+          format: date-time
+          description: date of last update for the finding
+          type: string
+        cloudAccountType:
+          description: cloud account provider (AWS/Azure/GCP)
+          enum:
+          - Aws
+          - Azure
+          - Google
+          - Kubernetes
+          - Terraform
+          - Generic
+          - KubernetesRuntimeAssurance
+          - ShiftLeft
+          - SourceCodeAssurance
+          - ImageAssurance
+          - Alibaba
+          - Cft
+          - ContainerRegistry
+          - Oci
+          - CIEM
+          type: string
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.FindingCommentViewModel'
+        cloudAccountId:
+          format: uuid
+          description: cloud account id (on AWS/Azure/GCP)
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        cloudAccountExternalId:
+          description: cloud account id on the cloud provider
+          type: string
+        organizationalUnitId:
+          format: uuid
+          description: the Organizational Unit id
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        organizationalUnitPath:
+          description: the Organizational Unit path
+          type: string
+        bundleId:
+          format: int64
+          description: the bundle id
+          type: integer
+        bundleVersion:
+          type: string
+        alertType:
+          description: the bundle id
+          enum:
+          - SecurityEvent
+          - Task
+          type: string
+        ruleId:
+          description: id of the specific rule that failed
+          type: string
+        ruleName:
+          description: name of the specific rule that failed (text string)
+          type: string
+        ruleLogic:
+          description: the GSL logic for the rule
+          type: string
+        entityDome9Id:
+          description: the Dome9 entity id (representing a cloud entity) that was tested by the rule
+          type: string
+        entityExternalId:
+          description: the cloud provider entity id for the entity tested by the rule
+          type: string
+        entityType:
+          description: the type of entity tested (e.g. S3, or EC2)
+          type: string
+        entityTypeByEnvironmentType:
+          description: the type of entity tested by the environment type in format of {EnvironmentType}|{EntityType}
+          type: string
+        entityName:
+          description: the entity name (on the cloud provider), as a text string, in the specific cloud provider format
+          type: string
+        entityNetwork:
+          type: string
+        entityTags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.TagRuleEntity'
+        severity:
+          description: the severity of the finding (H/M/L)
+          type: string
+        description:
+          description: text description of the finding (the failure reason)
+          type: string
+        remediation:
+          description: the recommended remediation (if any) for the failure
+          type: string
+        tag:
+          description: tags assigned to the finding (list string)
+          type: string
+        region:
+          description: the region in which the entity was located
+          type: string
+        bundleName:
+          description: the name of the bundle with the rule
+          type: string
+        acknowledged:
+          description: indicates the finding was acknowledged
+          type: boolean
+        origin:
+          description: Dome9 source of the finding (Compliance or Magellan)
+          enum:
+          - ComplianceEngine
+          - Magellan
+          - MagellanAwsGuardDuty
+          - Serverless
+          - Agentless
+          - AwsInspector
+          - ServerlessSecurityAnalyzer
+          - ExternalFindingSource
+          - Qualys
+          - Tenable
+          - AwsGuardDuty
+          - KubernetesImageScanning
+          - KubernetesRuntimeAssurance
+          - ContainersRuntimeProtection
+          - WorkloadChangeMonitoring
+          - ImageAssurance
+          - SourceCodeAssurance
+          - InfrastructureAsCode
+          - CIEM
+          - Incident
+          type: string
+        lastSeenTime:
+          format: date-time
+          description: Date when the finding was last seen
+          type: string
+        ownerUserName:
+          description: Dome9 user assigned to the finding
+          type: string
+        magellan:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.Compliance.AssessmentFinding.MagellanData'
+          description: Extra data for Magellan findings
+        isExcluded:
+          description: Indicates the finding was excluded from the assessment
+          type: boolean
+        webhookResponses:
+          description: Consists of Webhook type and the response of that webhook, if response defined
+          type: object
+          properties:
+            none:
+              $ref: '#/components/schemas/Falconetix.Model.ElasticSearch.WebhookResponse.WebhookResponseMessage'
+            serviceNow:
+              $ref: '#/components/schemas/Falconetix.Model.ElasticSearch.WebhookResponse.WebhookResponseMessage'
+            jira:
+              $ref: '#/components/schemas/Falconetix.Model.ElasticSearch.WebhookResponse.WebhookResponseMessage'
+        remediationActions:
+          type: array
+          items:
+            type: string
+        additionalFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.FindingAdditionalFieldViewModel'
+        occurrences:
+          type: array
+          items:
+            type: string
+        scanId:
+          type: string
+        status:
+          enum:
+          - Active
+          - Archived
+          type: string
+        statusReason:
+          enum:
+          - Unspecified
+          - RuleViolation
+          - ConfigurationFixed
+          - AssetDeleted
+          - RulesetDeleted
+          - RuleDeleted
+          - PolicyDeleted
+          - UserClosed
+          - CloudAccountDeleted
+          type: string
+        category:
+          type: string
+        action:
+          enum:
+          - Detect
+          - Prevent
+          type: string
+        labels:
+          type: array
+          items:
+            type: string
+    Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.ArchiveFindingModel_:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        details:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.ArchiveFindingModel'
+    Dome9.ElasticSearch.Std.Finding.RuleStatistics:
+      type: object
+      properties:
+        ruleLogicHash:
+          type: string
+        numberOfFindings:
+          format: int64
+          type: integer
+    Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PostCommentViewModel_:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        details:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PostCommentViewModel'
+    Falconetix.Model.RuleEngine.Entities.TagRuleEntity:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel:
+      type: object
+      properties:
+        acknowledged:
+          description: acknowledge finding
+          type: boolean
+        comment:
+          description: acknowledge comment
+          maxLength: 200
+          minLength: 0
+          type: string
+    Dome9.Web.Api.Compliance.Finding.GetFindingByKeyViewModel:
+      required:
+      - findingKey
+      type: object
+      properties:
+        findingKey:
+          type: string
+    Dome9.Web.Api.Compliance.Finding.SortingViewModel:
+      type: object
+      properties:
+        fieldName:
+          description: Field name
+          type: string
+        direction:
+          format: int32
+          description: direction. 1 is asc, -1 desc
+          type: integer
+  requestBodies:
+    Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Compliance.Models.ActionType_:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Compliance.Models.ActionType_'
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Compliance.Models.ActionType_'
+      description: the filter selections - which findings to close
+      required: true
+    Finding_BulkDeleteAsyncIds:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              format: uuid
+              type: string
+              example: 00000000-0000-0000-0000-000000000000
+        application/x-www-form-urlencoded:
+          schema:
+            type: array
+            items:
+              format: uuid
+              type: string
+              example: 00000000-0000-0000-0000-000000000000
+      description: Finding IDs list (Guid)
+      required: true
+    Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.ArchiveFindingModel_:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.ArchiveFindingModel_'
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.ArchiveFindingModel_'
+      required: true
+    Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel'
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel'
+      description: the filter selections
+      required: true
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

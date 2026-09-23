@@ -1,0 +1,403 @@
+openapi: 3.2.0
+info:
+  title: Administration Notification API
+  version: v2
+  description: Notification
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Notification
+  description: Notification
+paths:
+  /v2/notification/{id}:
+    get:
+      tags:
+      - Notification
+      operationId: Notification_Get_get_/v2/notification/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseNotificationViewModel'
+      description: ''
+      summary: Get
+    delete:
+      tags:
+      - Notification
+      operationId: Notification_Delete_delete_/v2/notification/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: guid
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      description: ''
+      summary: Delete
+  /v2/notification:
+    get:
+      tags:
+      - Notification
+      operationId: Notification_GetAll_get_/v2/notification
+      parameters:
+      - name: name
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResponseNotificationViewModel'
+      description: ''
+      summary: Get All
+    post:
+      tags:
+      - Notification
+      operationId: Notification_Create_post_/v2/notification
+      requestBody:
+        x-name: notification
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostNotificationViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseNotificationViewModel'
+      description: ''
+      summary: Create
+    put:
+      tags:
+      - Notification
+      operationId: Notification_Update_put_/v2/notification
+      requestBody:
+        x-name: notification
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutNotificationViewModel'
+        required: true
+        x-position: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseNotificationViewModel'
+      description: ''
+      summary: Update
+components:
+  schemas:
+    PutNotificationViewModel:
+      allOf:
+      - $ref: '#/components/schemas/BaseNotificationViewModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - id
+        properties:
+          id:
+            type: string
+            format: guid
+            minLength: 1
+    ComplianceNotificationFilter:
+      type: object
+      additionalProperties: false
+      required:
+      - severities
+      - ruleEntityTypes
+      - entityTags
+      - entityNames
+      - entityIds
+      - entityCategories
+      properties:
+        severities:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/RuleSeverity'
+        ruleEntityTypes:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        entityTags:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TagRuleEntity'
+        entityNames:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        entityIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        entityCategories:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+    BaseNotificationViewModel:
+      type: object
+      x-abstract: true
+      additionalProperties: false
+      required:
+      - name
+      - integrationSettingsModel
+      - description
+      - alertsConsole
+      - sendOnEachOccurrence
+      - origin
+      properties:
+        name:
+          type: string
+          description: Notification name, should be unique
+          minLength: 1
+        description:
+          type: string
+        alertsConsole:
+          type: boolean
+          description: (*Optional) - Enable alert Console, default is true
+        sendOnEachOccurrence:
+          type: boolean
+          description: Send a notification on each security event occurrence, default is false
+        origin:
+          description: Notification origin of data
+          oneOf:
+          - $ref: '#/components/schemas/NotificationOrigin'
+        integrationSettingsModel:
+          description: Notification integration settings
+          oneOf:
+          - $ref: '#/components/schemas/NotificationIntegrationSettingsViewModel'
+    NotificationOrigin:
+      type: string
+      description: ''
+      x-enumNames:
+      - Any
+      - ComplianceEngine
+      enum:
+      - Any
+      - ComplianceEngine
+    ScheduledNotificationIntegrationSettingsViewModel:
+      allOf:
+      - $ref: '#/components/schemas/BaseNotificationIntegrationSettingsViewModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - cronExpression
+        properties:
+          cronExpression:
+            type: string
+            minLength: 1
+    BaseNotificationIntegrationSettingsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - integrationId
+      - outputType
+      - filter
+      properties:
+        integrationId:
+          type: string
+          description: Integration Id attached
+          format: guid
+          minLength: 1
+        outputType:
+          description: '(*Optional) - Notification integration setting output type Required for some integrations '
+          oneOf:
+          - $ref: '#/components/schemas/NotificationOutputType'
+        filter:
+          description: '(*Optional) - Notification integration setting filter, should be the same for all integration settings
+
+            Constraints:
+
+            Scheduled notification integration settings should have null filter.'
+          oneOf:
+          - $ref: '#/components/schemas/ComplianceNotificationFilter'
+    RuleSeverity:
+      type: string
+      description: ''
+      x-enumNames:
+      - Informational
+      - Low
+      - Medium
+      - High
+      - Critical
+      enum:
+      - Informational
+      - Low
+      - Medium
+      - High
+      - Critical
+    SingleNotificationIntegrationSettingsViewModel:
+      allOf:
+      - $ref: '#/components/schemas/BaseNotificationIntegrationSettingsViewModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - payload
+        properties:
+          payload:
+            type:
+            - string
+            - 'null'
+            description: Payload of Jira integration
+    ReportNotificationIntegrationSettingsViewModel:
+      allOf:
+      - $ref: '#/components/schemas/BaseNotificationIntegrationSettingsViewModel'
+      - type: object
+        additionalProperties: false
+    ResponseNotificationViewModel:
+      allOf:
+      - $ref: '#/components/schemas/BaseNotificationViewModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - id
+        - createdAt
+        properties:
+          id:
+            type: string
+            description: Notification Id
+            format: guid
+          createdAt:
+            type: string
+            description: Notification created time
+            format: date-time
+    TagRuleEntity:
+      type: object
+      additionalProperties: false
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type:
+          - string
+          - 'null'
+        value:
+          type:
+          - string
+          - 'null'
+    NotificationIntegrationSettingsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - reportsIntegrationSettings
+      - singleNotificationIntegrationSettings
+      - scheduledIntegrationSettings
+      properties:
+        reportsIntegrationSettings:
+          type: array
+          description: "List of the integration settings which are used to send a report notification\nThis currently only supports 3 integrations types: Teams, Slack and Email. \nConstraints: You can create and attach all 3 types of integrations, but can attach only one of each type \nExample: \n      ReportIntegrationSetting can have 1 Slack integration, 1 Email integration and 1 Teams integration \n      ReportIntegrationSetting can NOT have 1 Slack integration and 2 Email integrations"
+          default: []
+          items:
+            $ref: '#/components/schemas/ReportNotificationIntegrationSettingsViewModel'
+        singleNotificationIntegrationSettings:
+          type: array
+          description: "List of the integration settings which are used to send immediate notifications\nConstraints:  \n    This currently supports a one integration setting for each integration setting for the following integration types: \n    one 'Http endpoint integration', Http endpoint can be of the following types: Webhook, Splunk, ServiceNow, QRadar, SumoLogic, Jira\n    one of type: {SNS}\n    one of type: {Email}\n    one of type: {EventArc}\n    one of type: {Slack}\n    one of type: {Teams}\n    one of type: Security Management System {GcpSecurityCommandCenter}\n    one of type: Security Management System {AwsSecurityHub}\n    one of type: Security Management System {AzureDefender}\n    one of type: Ticketing system {PagerDuty} "
+          default: []
+          items:
+            $ref: '#/components/schemas/SingleNotificationIntegrationSettingsViewModel'
+        scheduledIntegrationSettings:
+          type: array
+          description: "This is a list of the integration settings which are used to schedule a reports notification\nConstraints: \n    This currently only support a single item in the list.  \n    This supports integration of type: Email"
+          default: []
+          items:
+            $ref: '#/components/schemas/ScheduledNotificationIntegrationSettingsViewModel'
+    NotificationOutputType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Default
+      - Detailed
+      - Summary
+      - FullCsv
+      - FullCsvZip
+      - ExecutivePlatform
+      - JsonFullEntity
+      - JsonSimpleEntity
+      - PlainText
+      - TemplateBased
+      - CustomOutputFormat
+      enum:
+      - Default
+      - Detailed
+      - Summary
+      - FullCsv
+      - FullCsvZip
+      - ExecutivePlatform
+      - JsonFullEntity
+      - JsonSimpleEntity
+      - PlainText
+      - TemplateBased
+      - CustomOutputFormat
+    PostNotificationViewModel:
+      allOf:
+      - $ref: '#/components/schemas/BaseNotificationViewModel'
+      - type: object
+        additionalProperties: false
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

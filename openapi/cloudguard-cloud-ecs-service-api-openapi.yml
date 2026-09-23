@@ -1,0 +1,176 @@
+openapi: 3.2.0
+info:
+  title: Inventory - AWS Compute and Containers Cloud Ecs Service API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Cloud Ecs Service
+paths:
+  /v2/CloudEcsService/by-external-id-and-cloud-account:
+    get:
+      tags:
+      - Cloud Ecs Service
+      operationId: CloudEcsService_GetByExternalIdAndCloudAccountAsync_get_/v2/CloudEcsService/by-external-id-and-cloud-account
+      parameters:
+      - name: externalId
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: cloudAccountId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.CloudECSServiceViewModel'
+      description: ''
+      summary: Get By External Id And Cloud Account
+  /v2/CloudEcsService:
+    get:
+      tags:
+      - Cloud Ecs Service
+      operationId: CloudEcsService_Get_get_/v2/CloudEcsService
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.CloudECSServiceViewModel'
+      description: ''
+      summary: Get
+components:
+  schemas:
+    Dome9.Web.Api.CloudECSServiceViewModel:
+      type: object
+      properties:
+        deploymentConfiguration:
+          $ref: '#/components/schemas/Dome9.Web.Api.AwsECSDeploymentConfigurationViewModel'
+        deployments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.AwsECSDeploymentViewModel'
+        desiredCount:
+          format: int32
+          type: integer
+        loadBalancers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.AwsECSLoadBalancerViewModel'
+        pendingCount:
+          format: int32
+          type: integer
+        placementConstraints:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.AwsECSPlacementConstraintViewModel'
+        placementStrategy:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.AwsECSPlacementStrategyViewModel'
+        roleArn:
+          type: string
+        runningCount:
+          format: int32
+          type: integer
+        serviceArn:
+          type: string
+        serviceName:
+          type: string
+        status:
+          type: string
+        clusterArn:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+    Dome9.Web.Api.AwsECSPlacementStrategyViewModel:
+      type: object
+      properties:
+        field:
+          type: string
+        type:
+          type: string
+    Dome9.Web.Api.AwsECSDeploymentConfigurationViewModel:
+      type: object
+      properties:
+        maximumPercent:
+          format: int32
+          type: integer
+        minimumHealthyPercent:
+          format: int32
+          type: integer
+    Dome9.Web.Api.AwsECSPlacementConstraintViewModel:
+      type: object
+      properties:
+        expression:
+          type: string
+        type:
+          type: string
+    Dome9.Web.Api.AwsECSLoadBalancerViewModel:
+      type: object
+      properties:
+        containerName:
+          type: string
+        containerPort:
+          format: int32
+          type: integer
+        loadBalancerName:
+          type: string
+        targetGroupArn:
+          type: string
+    Dome9.Web.Api.AwsECSDeploymentViewModel:
+      type: object
+      properties:
+        createdAt:
+          format: date-time
+          type: string
+        desiredCount:
+          format: int32
+          type: integer
+        id:
+          type: string
+        pendingCount:
+          format: int32
+          type: integer
+        runningCount:
+          format: int32
+          type: integer
+        status:
+          type: string
+        taskDefinition:
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

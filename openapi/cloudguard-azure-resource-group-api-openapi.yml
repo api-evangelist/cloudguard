@@ -1,0 +1,88 @@
+openapi: 3.2.0
+info:
+  title: Inventory - Azure Azure Resource Group API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Azure Resource Group
+paths:
+  /v2/AzureResourceGroup:
+    get:
+      tags:
+      - Azure Resource Group
+      operationId: AzureResourceGroup_Get_get_/v2/AzureResourceGroup
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.Models.AzureResourceGroupViewModel'
+      description: ''
+      summary: Get
+  /v2/AzureResourceGroup/{id}:
+    get:
+      tags:
+      - Azure Resource Group
+      operationId: AzureResourceGroup_Get_get_/v2/AzureResourceGroup/{id}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dome9.Web.Api.Models.AzureResourceGroupViewModel'
+      description: ''
+      summary: Get
+components:
+  schemas:
+    Dome9.Web.Api.Models.AzureResourceGroupViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+        accountId:
+          format: int64
+          type: integer
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          type: string
+        region:
+          type: string
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

@@ -1,0 +1,244 @@
+openapi: 3.2.0
+info:
+  title: Risk Management Exclusions API
+  version: v2
+  description: The exclusion endpoint provides API to perform CRUD operations on the resource.
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Exclusions
+  description: The exclusion endpoint provides API to perform CRUD operations on the resource.
+paths:
+  /v2/security-graph/exclusions/{id}:
+    get:
+      operationId: ExclusionController_get_get_/v2/security-graph/exclusions/{id}
+      summary: Get
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGraphExclusionViewModel'
+      tags:
+      - Exclusions
+      description: Get an exclusion by ID
+    delete:
+      operationId: ExclusionController_delete_delete_/v2/security-graph/exclusions/{id}
+      summary: Delete
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - Exclusions
+      description: Delete an exclusion by ID
+    put:
+      operationId: ExclusionController_update_put_/v2/security-graph/exclusions/{id}
+      summary: Update
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecurityGraphExclusionRequestModel'
+      responses:
+        '204':
+          description: ''
+      tags:
+      - Exclusions
+      description: Update an exclusion by ID
+  /v2/security-graph/exclusions:
+    get:
+      operationId: ExclusionController_getAll_get_/v2/security-graph/exclusions
+      summary: Get All
+      parameters: []
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SecurityGraphExclusionViewModel'
+      tags:
+      - Exclusions
+      description: Get all exclusions
+    post:
+      operationId: ExclusionController_insert_post_/v2/security-graph/exclusions
+      summary: Insert
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecurityGraphExclusionRequestModel'
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdViewModel'
+      tags:
+      - Exclusions
+      description: Insert a new exclusion by ID
+components:
+  schemas:
+    SecurityGraphExclusionRequestModel:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 200
+        filter:
+          description: Filter object. A recursive filter object which provides complex filters.
+          allOf:
+          - $ref: '#/components/schemas/ExclusionSearchAdvFilterViewModel'
+        organizationalUnitIdsFilter:
+          uniqueItems: true
+          maxItems: 50
+          description: List of organizational unit IDs filter.             Filters findings which their environment ID is under the organizational unit IDs or any of their descendants.
+          type: array
+          items:
+            type: string
+      required:
+      - name
+    IdViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+    SecurityGraphExclusionViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 200
+        filter:
+          description: Filter object. A recursive filter object which provides complex filters.
+          allOf:
+          - $ref: '#/components/schemas/ExclusionSearchAdvFilterViewModel'
+        organizationalUnitIdsFilter:
+          uniqueItems: true
+          maxItems: 50
+          description: List of organizational unit IDs filter.             Filters findings which their environment ID is under the organizational unit IDs or any of their descendants.
+          type: array
+          items:
+            type: string
+        _id:
+          type: string
+      required:
+      - name
+      - _id
+    ExclusionFilterOperator:
+      type: string
+      description: 'eq: equal, in: equal to one of the values, between: between values, has_any: field has any of the values, like_any: like any'
+      enum:
+      - in
+      - eq
+      - like_any
+      - has_any
+      - between
+    ExclusionSearchAdvFilterViewModel:
+      type: object
+      properties:
+        logicalOperator:
+          type: string
+          enum:
+          - and
+          description: Logical operator to apply on operands.
+        operands:
+          minItems: 1
+          maxItems: 50
+          description: Array of filter operands. An operand is an array of type SearchFieldFilterViewModel.
+          type: array
+          items:
+            $ref: '#/components/schemas/ExclusionSearchFieldFilterViewModel'
+      required:
+      - logicalOperator
+      - operands
+    ExclusionSearchFieldFilterViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+          - environmentId
+          - ruleId
+          - severity
+          - entityExternalId
+          - entityName
+          - entityTags
+          - entityTypeByPlatform
+          - timestamp
+        values:
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: array
+            items:
+              type: number
+          - type: array
+            items:
+              type: boolean
+          uniqueItems: true
+          minItems: 1
+          maxItems: 50
+        operator:
+          $ref: '#/components/schemas/ExclusionFilterOperator'
+      required:
+      - name
+      - values
+      - operator
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

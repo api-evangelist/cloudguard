@@ -1,0 +1,65 @@
+openapi: 3.2.0
+info:
+  title: Inventory - AWS IAM Cloud Iam Server Certificate API
+  version: v2
+servers:
+- url: https://api.dome9.com/
+  description: US region
+- url: https://api.{region}.dome9.com/
+  description: Other regions
+  variables:
+    region:
+      enum:
+      - eu1
+      - ap1
+      - ap2
+      - ap3
+      - cace1
+      default: eu1
+security:
+- basic: []
+tags:
+- name: Cloud Iam Server Certificate
+paths:
+  /v2/CloudIamServerCertificate:
+    get:
+      tags:
+      - Cloud Iam Server Certificate
+      operationId: CloudIamServerCertificate_Get_get_/v2/CloudIamServerCertificate
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dome9.Web.Api.CloudIamServerCertificate.CloudIamServerCertificateViewModel'
+      description: ''
+      summary: Get
+components:
+  schemas:
+    Dome9.Web.Api.CloudIamServerCertificate.CloudIamServerCertificateViewModel:
+      type: object
+      properties:
+        arn:
+          type: string
+        expiration:
+          format: date-time
+          type: string
+        path:
+          type: string
+        serverCertificateId:
+          type: string
+        serverCertificateName:
+          type: string
+        uploadDate:
+          format: date-time
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true
