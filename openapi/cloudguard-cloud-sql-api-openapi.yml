@@ -60,6 +60,41 @@ components:
           type: string
         eTag:
           type: string
+    Dome9.Web.Api.Google.Sql.GcpCloudSqlReplicaConfigurationViewModel:
+      type: object
+      properties:
+        failoverTarget:
+          type: boolean
+        kind:
+          type: string
+        mysqlReplicaConfiguration:
+          $ref: '#/components/schemas/Dome9.Web.Api.Google.Sql.GcpCloudSqlMySqlReplicaConfigurationViewModel'
+        eTag:
+          type: string
+    Dome9.Web.Api.Google.Sql.GcpCloudSqlUserViewModel:
+      type: object
+      properties:
+        eTag:
+          type: string
+        host:
+          type: string
+        instance:
+          type: string
+        kind:
+          type: string
+        name:
+          type: string
+        project:
+          type: string
+    Dome9.Web.Api.Google.Sql.GcpCloudSqlOnPremisesConfigurationViewModel:
+      type: object
+      properties:
+        hostPort:
+          type: string
+        kind:
+          type: string
+        eTag:
+          type: string
     Dome9.Web.Api.Google.Sql.GcpCloudSqlFailoverReplicaDataViewModel:
       type: object
       properties:
@@ -67,33 +102,56 @@ components:
           type: boolean
         name:
           type: string
-    Dome9.Web.Api.Google.Sql.GcpCloudSqlMySqlReplicaConfigurationViewModel:
+    Dome9.Web.Api.Google.Sql.GcpCloudSqlDatabaseFlagsViewModel:
       type: object
       properties:
-        caCertificate:
+        name:
           type: string
-        clientCertificate:
+        value:
           type: string
-        clientKey:
+        eTag:
           type: string
-        connectRetryInterval:
-          format: int32
-          type: integer
-        dumpFilePath:
+    Dome9.Web.Api.Google.Sql.GcpCloudSqlAclEntryViewModel:
+      type: object
+      properties:
+        expirationTimeRaw:
+          type: string
+        expirationTime:
+          format: date-time
           type: string
         kind:
           type: string
-        masterHeartbeatPeriod:
-          format: int64
-          type: integer
-        password:
+        name:
           type: string
-        sslCipher:
+        value:
           type: string
-        username:
+        eTag:
           type: string
-        verifyServerCertificate:
-          type: boolean
+    Dome9.Web.Api.Google.Sql.GcpCloudSqlSslCertViewModel:
+      type: object
+      properties:
+        certSerialNumber:
+          type: string
+        commonName:
+          type: string
+        createTimeRaw:
+          type: string
+        createTime:
+          format: date-time
+          type: string
+        expirationTimeRaw:
+          type: string
+        expirationTime:
+          format: date-time
+          type: string
+        instance:
+          type: string
+        kind:
+          type: string
+        selfLink:
+          type: string
+        sha1Fingerprint:
+          type: string
         eTag:
           type: string
     Dome9.Web.Api.Google.Sql.GcpCloudSqlSettingsViewModel:
@@ -148,6 +206,21 @@ components:
           type: object
           additionalProperties:
             type: string
+        eTag:
+          type: string
+    Dome9.Web.Api.Google.Sql.GcpCloudSqlMaintenanceWindowViewModel:
+      type: object
+      properties:
+        day:
+          format: int32
+          type: integer
+        hour:
+          format: int32
+          type: integer
+        kind:
+          type: string
+        updateTrack:
+          type: string
         eTag:
           type: string
     Dome9.Web.Api.Google.Sql.GcpCloudSqlInstanceViewModel:
@@ -221,30 +294,57 @@ components:
           format: uuid
           type: string
           example: 00000000-0000-0000-0000-000000000000
-    Dome9.Web.Api.Google.Sql.GcpCloudSqlSslCertViewModel:
+    Dome9.Web.Api.Google.Sql.GcpCloudSqlIpMappingViewModel:
       type: object
       properties:
-        certSerialNumber:
+        ipAddress:
           type: string
-        commonName:
+        timeToRetireRaw:
           type: string
-        createTimeRaw:
-          type: string
-        createTime:
+        timeToRetire:
           format: date-time
           type: string
-        expirationTimeRaw:
+        type:
           type: string
-        expirationTime:
-          format: date-time
+        eTag:
           type: string
-        instance:
+    Dome9.Web.Api.Google.Sql.GcpCloudSqlMySqlReplicaConfigurationViewModel:
+      type: object
+      properties:
+        caCertificate:
+          type: string
+        clientCertificate:
+          type: string
+        clientKey:
+          type: string
+        connectRetryInterval:
+          format: int32
+          type: integer
+        dumpFilePath:
           type: string
         kind:
           type: string
-        selfLink:
+        masterHeartbeatPeriod:
+          format: int64
+          type: integer
+        password:
           type: string
-        sha1Fingerprint:
+        sslCipher:
+          type: string
+        username:
+          type: string
+        verifyServerCertificate:
+          type: boolean
+        eTag:
+          type: string
+    Dome9.Web.Api.Google.Sql.GcpCloudSqlLocationPreferenceViewModel:
+      type: object
+      properties:
+        followGaeApplication:
+          type: string
+        kind:
+          type: string
+        zone:
           type: string
         eTag:
           type: string
@@ -260,106 +360,6 @@ components:
         requireSsl:
           type: boolean
         eTag:
-          type: string
-    Dome9.Web.Api.Google.Sql.GcpCloudSqlDatabaseFlagsViewModel:
-      type: object
-      properties:
-        name:
-          type: string
-        value:
-          type: string
-        eTag:
-          type: string
-    Dome9.Web.Api.Google.Sql.GcpCloudSqlOnPremisesConfigurationViewModel:
-      type: object
-      properties:
-        hostPort:
-          type: string
-        kind:
-          type: string
-        eTag:
-          type: string
-    Dome9.Web.Api.Google.Sql.GcpCloudSqlIpMappingViewModel:
-      type: object
-      properties:
-        ipAddress:
-          type: string
-        timeToRetireRaw:
-          type: string
-        timeToRetire:
-          format: date-time
-          type: string
-        type:
-          type: string
-        eTag:
-          type: string
-    Dome9.Web.Api.Google.Sql.GcpCloudSqlReplicaConfigurationViewModel:
-      type: object
-      properties:
-        failoverTarget:
-          type: boolean
-        kind:
-          type: string
-        mysqlReplicaConfiguration:
-          $ref: '#/components/schemas/Dome9.Web.Api.Google.Sql.GcpCloudSqlMySqlReplicaConfigurationViewModel'
-        eTag:
-          type: string
-    Dome9.Web.Api.Google.Sql.GcpCloudSqlMaintenanceWindowViewModel:
-      type: object
-      properties:
-        day:
-          format: int32
-          type: integer
-        hour:
-          format: int32
-          type: integer
-        kind:
-          type: string
-        updateTrack:
-          type: string
-        eTag:
-          type: string
-    Dome9.Web.Api.Google.Sql.GcpCloudSqlLocationPreferenceViewModel:
-      type: object
-      properties:
-        followGaeApplication:
-          type: string
-        kind:
-          type: string
-        zone:
-          type: string
-        eTag:
-          type: string
-    Dome9.Web.Api.Google.Sql.GcpCloudSqlAclEntryViewModel:
-      type: object
-      properties:
-        expirationTimeRaw:
-          type: string
-        expirationTime:
-          format: date-time
-          type: string
-        kind:
-          type: string
-        name:
-          type: string
-        value:
-          type: string
-        eTag:
-          type: string
-    Dome9.Web.Api.Google.Sql.GcpCloudSqlUserViewModel:
-      type: object
-      properties:
-        eTag:
-          type: string
-        host:
-          type: string
-        instance:
-          type: string
-        kind:
-          type: string
-        name:
-          type: string
-        project:
           type: string
   securitySchemes:
     basic:

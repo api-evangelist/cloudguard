@@ -304,17 +304,6 @@ components:
           items:
             $ref: '#/components/schemas/Dome9.Web.Api.CloudDirectConnect.AwsDirectConnectVirtualInterfaceViewModel'
           readOnly: true
-    Dome9.Web.Api.CloudDirectConnect.AwsDirectConnectMetricsViewModel:
-      type: object
-      properties:
-        bpsIngressDataPoints:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.CloudWatch.AwsCloudWatchDataPointViewModel'
-        bpsEgressDataPoints:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.CloudWatch.AwsCloudWatchDataPointViewModel'
     Dome9.Web.Api.CloudWatch.AwsCloudWatchDataPointViewModel:
       type: object
       properties:
@@ -381,6 +370,17 @@ components:
         vlan:
           format: int32
           type: integer
+    Dome9.Web.Api.CloudDirectConnect.AwsDirectConnectMetricsViewModel:
+      type: object
+      properties:
+        bpsIngressDataPoints:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.CloudWatch.AwsCloudWatchDataPointViewModel'
+        bpsEgressDataPoints:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.CloudWatch.AwsCloudWatchDataPointViewModel'
   securitySchemes:
     basic:
       type: http

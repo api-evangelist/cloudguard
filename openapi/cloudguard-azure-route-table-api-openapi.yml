@@ -59,30 +59,6 @@ paths:
       summary: Get
 components:
   schemas:
-    Dome9.Web.Api.Azure.RouteTable.AzureRouteViewModel:
-      type: object
-      properties:
-        id:
-          type: string
-          readOnly: true
-        etag:
-          type: string
-          readOnly: true
-        name:
-          type: string
-          readOnly: true
-        addressPrefix:
-          type: string
-          readOnly: true
-        nextHopIpAddress:
-          type: string
-          readOnly: true
-        nextHopType:
-          type: string
-          readOnly: true
-        provisioningState:
-          type: string
-          readOnly: true
     Dome9.Web.Api.Azure.RouteTable.AzureRouteTableViewModel:
       type: object
       properties:
@@ -122,6 +98,30 @@ components:
           type: string
           readOnly: true
         resourceGroup:
+          type: string
+          readOnly: true
+    Dome9.Web.Api.Azure.RouteTable.AzureRouteViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        etag:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        addressPrefix:
+          type: string
+          readOnly: true
+        nextHopIpAddress:
+          type: string
+          readOnly: true
+        nextHopType:
+          type: string
+          readOnly: true
+        provisioningState:
           type: string
           readOnly: true
   securitySchemes:

@@ -138,6 +138,52 @@ paths:
       summary: Get Cluster Pod And Images
 components:
   schemas:
+    KubernetesImagePodGroupsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - type
+      - podGroups
+      properties:
+        type:
+          type: string
+        podGroups:
+          type: array
+          default: []
+          items:
+            $ref: '#/components/schemas/KubernetesImagePodGroupDetailsViewModel'
+    ContainerViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - image
+      properties:
+        image:
+          type: string
+    ImageViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - imageId
+      - imageSha
+      - name
+      properties:
+        imageId:
+          type: string
+        imageSha:
+          type: string
+        name:
+          type: string
+    KubernetesImageScanVulnerabilitiesViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - vulnerabilities
+      properties:
+        vulnerabilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/KubernetesImageScanVulnerabilityViewModel'
     CveFindingOnPackage:
       type: object
       additionalProperties: false
@@ -168,6 +214,90 @@ components:
         cvssInfo:
           oneOf:
           - $ref: '#/components/schemas/CvssData'
+    PodImagesViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - podId
+      - name
+      - namespace
+      - images
+      - containers
+      properties:
+        podId:
+          type: string
+        name:
+          type: string
+        namespace:
+          type: string
+        images:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ImageViewModel'
+        containers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ContainerViewModel'
+    CvssData:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - metrics
+      - source
+      properties:
+        base-score:
+          type: number
+          format: float
+        impact-score:
+          type:
+          - number
+          - 'null'
+          format: float
+        exploitability-score:
+          type:
+          - number
+          - 'null'
+          format: float
+        vector-string:
+          type:
+          - string
+          - 'null'
+        version:
+          type:
+          - string
+          - 'null'
+        metrics:
+          oneOf:
+          - $ref: '#/components/schemas/CvssMetrics'
+        source:
+          type:
+          - string
+          - 'null'
+    KubernetesImageScanDetailsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - riskScore
+      - scanStatus
+      - scanStatusDetails
+      - scanEngineVersion
+      - totals
+      properties:
+        riskScore:
+          type: string
+        scanStatus:
+          type: string
+        scanStatusDetails:
+          type: string
+        scanEngineVersion:
+          type: string
+        totals:
+          $ref: '#/components/schemas/KubernetesImageScanTotalsViewModel'
     KubernetesImageScanVulnerabilityViewModel:
       type: object
       additionalProperties: false
@@ -205,95 +335,6 @@ components:
             $ref: '#/components/schemas/CveFindingOnPackage'
         payload:
           type: string
-    KubernetesImageScanTotalsViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - critical
-      - high
-      - medium
-      - low
-      - unknown
-      - maliciousFile
-      - sensitiveContent
-      - maliciousUrl
-      - maliciousIp
-      - cve
-      properties:
-        critical:
-          type: integer
-          format: int32
-        high:
-          type: integer
-          format: int32
-        medium:
-          type: integer
-          format: int32
-        low:
-          type: integer
-          format: int32
-        unknown:
-          type: integer
-          format: int32
-        maliciousFile:
-          type: integer
-          format: int32
-        sensitiveContent:
-          type: integer
-          format: int32
-        maliciousUrl:
-          type: integer
-          format: int32
-        maliciousIp:
-          type: integer
-          format: int32
-        cve:
-          type: integer
-          format: int32
-    ImageViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - imageId
-      - imageSha
-      - name
-      properties:
-        imageId:
-          type: string
-        imageSha:
-          type: string
-        name:
-          type: string
-    KubernetesImageScanDetailsViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - riskScore
-      - scanStatus
-      - scanStatusDetails
-      - scanEngineVersion
-      - totals
-      properties:
-        riskScore:
-          type: string
-        scanStatus:
-          type: string
-        scanStatusDetails:
-          type: string
-        scanEngineVersion:
-          type: string
-        totals:
-          $ref: '#/components/schemas/KubernetesImageScanTotalsViewModel'
-    KubernetesImageScanVulnerabilitiesViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - vulnerabilities
-      properties:
-        vulnerabilities:
-          type: array
-          items:
-            $ref: '#/components/schemas/KubernetesImageScanVulnerabilityViewModel'
     CvssMetrics:
       type: object
       additionalProperties: false
@@ -344,21 +385,28 @@ components:
           type:
           - string
           - 'null'
-    PodImagesViewModel:
+    CronJobViewModel:
       type: object
       additionalProperties: false
       required:
-      - podId
+      - cronjobId
       - name
       - namespace
+      - lastScheduleTime
+      - schedule
       - images
       - containers
       properties:
-        podId:
+        cronjobId:
           type: string
         name:
           type: string
         namespace:
+          type: string
+        lastScheduleTime:
+          type: string
+          format: date-time
+        schedule:
           type: string
         images:
           type:
@@ -419,99 +467,51 @@ components:
           type: string
         isScannable:
           type: boolean
-    KubernetesImagePodGroupsViewModel:
+    KubernetesImageScanTotalsViewModel:
       type: object
       additionalProperties: false
       required:
-      - type
-      - podGroups
+      - critical
+      - high
+      - medium
+      - low
+      - unknown
+      - maliciousFile
+      - sensitiveContent
+      - maliciousUrl
+      - maliciousIp
+      - cve
       properties:
-        type:
-          type: string
-        podGroups:
-          type: array
-          default: []
-          items:
-            $ref: '#/components/schemas/KubernetesImagePodGroupDetailsViewModel'
-    CvssData:
-      type: object
-      additionalProperties: false
-      required:
-      - version
-      - metrics
-      - source
-      properties:
-        base-score:
-          type: number
-          format: float
-        impact-score:
-          type:
-          - number
-          - 'null'
-          format: float
-        exploitability-score:
-          type:
-          - number
-          - 'null'
-          format: float
-        vector-string:
-          type:
-          - string
-          - 'null'
-        version:
-          type:
-          - string
-          - 'null'
-        metrics:
-          oneOf:
-          - $ref: '#/components/schemas/CvssMetrics'
-        source:
-          type:
-          - string
-          - 'null'
-    CronJobViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - cronjobId
-      - name
-      - namespace
-      - lastScheduleTime
-      - schedule
-      - images
-      - containers
-      properties:
-        cronjobId:
-          type: string
-        name:
-          type: string
-        namespace:
-          type: string
-        lastScheduleTime:
-          type: string
-          format: date-time
-        schedule:
-          type: string
-        images:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ImageViewModel'
-        containers:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ContainerViewModel'
-    ContainerViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - image
-      properties:
-        image:
-          type: string
+        critical:
+          type: integer
+          format: int32
+        high:
+          type: integer
+          format: int32
+        medium:
+          type: integer
+          format: int32
+        low:
+          type: integer
+          format: int32
+        unknown:
+          type: integer
+          format: int32
+        maliciousFile:
+          type: integer
+          format: int32
+        sensitiveContent:
+          type: integer
+          format: int32
+        maliciousUrl:
+          type: integer
+          format: int32
+        maliciousIp:
+          type: integer
+          format: int32
+        cve:
+          type: integer
+          format: int32
     KubernetesImagePodGroupDetailsViewModel:
       type: object
       additionalProperties: false

@@ -59,23 +59,6 @@ paths:
       summary: Get
 components:
   schemas:
-    Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentViewModel:
-      type: object
-      properties:
-        id:
-          type: string
-        externalId:
-          type: string
-        name:
-          type: string
-        location:
-          type: string
-        identity:
-          $ref: '#/components/schemas/Dome9.Web.Api.Azure.AzureRestApiIdentityViewModel'
-        sku:
-          $ref: '#/components/schemas/Dome9.Web.Api.Azure.AzureRestApiSkuViewModel'
-        properties:
-          $ref: '#/components/schemas/Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentPropertiesViewModel'
     Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentPropertiesViewModel:
       type: object
       properties:
@@ -99,17 +82,23 @@ components:
             type: array
             items:
               type: string
-    Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentMetadataViewModel:
+    Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentViewModel:
       type: object
       properties:
-        assignedBy:
+        id:
           type: string
-        createdOn:
-          format: date-time
+        externalId:
           type: string
-        updatedOn:
-          format: date-time
+        name:
           type: string
+        location:
+          type: string
+        identity:
+          $ref: '#/components/schemas/Dome9.Web.Api.Azure.AzureRestApiIdentityViewModel'
+        sku:
+          $ref: '#/components/schemas/Dome9.Web.Api.Azure.AzureRestApiSkuViewModel'
+        properties:
+          $ref: '#/components/schemas/Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentPropertiesViewModel'
     Dome9.Web.Api.Azure.AzureRestApiSkuViewModel:
       type: object
       properties:
@@ -125,6 +114,17 @@ components:
         principalId:
           type: string
         tenantId:
+          type: string
+    Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentMetadataViewModel:
+      type: object
+      properties:
+        assignedBy:
+          type: string
+        createdOn:
+          format: date-time
+          type: string
+        updatedOn:
+          format: date-time
           type: string
   securitySchemes:
     basic:

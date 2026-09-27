@@ -596,19 +596,22 @@ paths:
         https://github.com/dome9/gcp-onboarding/tree/main/onboarding-api'
 components:
   schemas:
-    Falconetix.Model.Magellan.MagellanGcpOnboardingModel:
+    Falconetix.Model.Magellan.MagellanOnboardingModel:
       type: object
       properties:
-        cloudAccounts:
+        cloudAccountId:
+          description: AWS cloud account id
+          type: string
+        bucketName:
+          description: The name of the bucket that Magellan (logic) will use for the onboarding [case sensitive]
+          type: string
+        isUnifiedOnboarding:
+          type: boolean
+        rulesetsIds:
           type: array
           items:
-            type: string
-        logType:
-          enum:
-          - NetworkTraffic
-          - AccountActivity
-          - Both
-          type: string
+            format: int64
+            type: integer
     Falconetix.Model.Magellan.MagellanCustomOnboardingModel:
       type: object
       properties:
@@ -644,13 +647,6 @@ components:
         isAutoDiscoveryEnabled:
           description: Boolean that check if the bucket should support auto discovery of additional accounts
           type: boolean
-    Falconetix.Model.Magellan.MagellanOnboardingAzurePricingStorage.MagellanAlibabaActionTrailOnboardingModel:
-      type: object
-      properties:
-        cloudAccountNumbers:
-          type: array
-          items:
-            type: string
     Falconetix.Model.Magellan.MagellanOnboardingAzurePricingStorage.MagellanAzureNewStorageDetailsAfterArmModel:
       type: object
       properties:
@@ -660,22 +656,6 @@ components:
             type: string
         subscriptionId:
           type: string
-    Falconetix.Model.Magellan.MagellanOnboardingModel:
-      type: object
-      properties:
-        cloudAccountId:
-          description: AWS cloud account id
-          type: string
-        bucketName:
-          description: The name of the bucket that Magellan (logic) will use for the onboarding [case sensitive]
-          type: string
-        isUnifiedOnboarding:
-          type: boolean
-        rulesetsIds:
-          type: array
-          items:
-            format: int64
-            type: integer
     Dome9.Web.Api.Views.Magellan.AwsLogicLogViewModel:
       type: object
       properties:
@@ -688,6 +668,26 @@ components:
         bucketName:
           description: The name of the bucket that Magellan (logic) will use for the onboarding [case sensitive]
           type: string
+    Falconetix.Model.Magellan.MagellanGcpOnboardingModel:
+      type: object
+      properties:
+        cloudAccounts:
+          type: array
+          items:
+            type: string
+        logType:
+          enum:
+          - NetworkTraffic
+          - AccountActivity
+          - Both
+          type: string
+    Falconetix.Model.Magellan.MagellanOnboardingAzurePricingStorage.MagellanAlibabaActionTrailOnboardingModel:
+      type: object
+      properties:
+        cloudAccountNumbers:
+          type: array
+          items:
+            type: string
     Falconetix.Model.Magellan.MagellanAccountOffboardingModel:
       type: object
       properties:

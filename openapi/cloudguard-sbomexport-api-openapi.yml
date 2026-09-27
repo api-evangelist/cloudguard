@@ -82,6 +82,28 @@ paths:
       description: Export SBOM to a file
 components:
   schemas:
+    SBOMFormatVersionDetails:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    SBOMVersionFormatId:
+      type: string
+      description: ''
+      x-enumNames:
+      - SPDX23
+      - CycloneDX15
+      - CycloneDX16
+      enum:
+      - SPDX23
+      - CycloneDX15
+      - CycloneDX16
     VlmEntityType:
       type: string
       description: ''
@@ -107,17 +129,6 @@ components:
       - ContainerRegistryImage
       - EcsImage
       - ShiftLeftImage
-    SBOMVersionFormatId:
-      type: string
-      description: ''
-      x-enumNames:
-      - SPDX23
-      - CycloneDX15
-      - CycloneDX16
-      enum:
-      - SPDX23
-      - CycloneDX15
-      - CycloneDX16
     SBOMFormatVersions:
       type: object
       additionalProperties: false
@@ -128,17 +139,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SBOMFormatVersionDetails'
-    SBOMFormatVersionDetails:
-      type: object
-      additionalProperties: false
-      required:
-      - id
-      - name
-      properties:
-        id:
-          type: string
-        name:
-          type: string
   securitySchemes:
     basic:
       type: http

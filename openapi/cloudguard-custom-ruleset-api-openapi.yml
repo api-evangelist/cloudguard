@@ -92,6 +92,18 @@ paths:
       description: Delete all platform specific rulesets from Risk Managemnet (Currently one ruleset per platform is supported)
 components:
   schemas:
+    CustomRulesetSetRequestViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - platform
+      - rulesetId
+      properties:
+        platform:
+          $ref: '#/components/schemas/PlatformViewModel'
+        rulesetId:
+          type: integer
+          format: int32
     PlatformViewModel:
       type: string
       description: ''
@@ -113,18 +125,6 @@ components:
       properties:
         platform:
           $ref: '#/components/schemas/PlatformViewModel'
-    CustomRulesetSetRequestViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - platform
-      - rulesetId
-      properties:
-        platform:
-          $ref: '#/components/schemas/PlatformViewModel'
-        rulesetId:
-          type: integer
-          format: int32
   securitySchemes:
     basic:
       type: http

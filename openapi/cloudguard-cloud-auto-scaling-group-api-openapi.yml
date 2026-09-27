@@ -39,6 +39,24 @@ paths:
       summary: Get
 components:
   schemas:
+    CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupSuspendedProcess:
+      type: object
+      properties:
+        name:
+          type: string
+        reason:
+          type: string
+    CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupMixedInstancePolicy:
+      type: object
+      properties:
+        instancesDistribution:
+          $ref: '#/components/schemas/CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupInstancesDistribution'
+        launchTemplateName:
+          type: string
+        launchTemplateSpecification:
+          $ref: '#/components/schemas/CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupLaunchTemplateSpecification'
+        launchTemplate:
+          $ref: '#/components/schemas/CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingLaunchTemplate'
     CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupLaunchTemplateSpecification:
       type: object
       properties:
@@ -47,13 +65,6 @@ components:
         launchTemplateName:
           type: string
         version:
-          type: string
-    CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupSuspendedProcess:
-      type: object
-      properties:
-        name:
-          type: string
-        reason:
           type: string
     CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingLaunchTemplate:
       type: object
@@ -87,17 +98,26 @@ components:
           type: integer
         spotMaxPrice:
           type: string
-    CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupMixedInstancePolicy:
+    CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupInstance:
       type: object
       properties:
-        instancesDistribution:
-          $ref: '#/components/schemas/CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupInstancesDistribution'
-        launchTemplateName:
+        availabilityZone:
           type: string
-        launchTemplateSpecification:
-          $ref: '#/components/schemas/CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupLaunchTemplateSpecification'
+        healthStatus:
+          type: string
+        instanceID:
+          type: string
+        externalId:
+          type: string
+          readOnly: true
+        launchConfigurationName:
+          type: string
         launchTemplate:
-          $ref: '#/components/schemas/CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingLaunchTemplate'
+          type: string
+        lifeCycle:
+          type: string
+        protectionFromScaleIn:
+          type: boolean
     Dome9.Web.Api.CloudAutoScalingGroup.CloudAutoScalingGroupViewModel:
       type: object
       properties:
@@ -421,26 +441,6 @@ components:
         vpcZoneIdentifier:
           type: string
           readOnly: true
-    CGN.Inventory.Aws.Model.WrapperModels.AwsAutoScalingGroupInstance:
-      type: object
-      properties:
-        availabilityZone:
-          type: string
-        healthStatus:
-          type: string
-        instanceID:
-          type: string
-        externalId:
-          type: string
-          readOnly: true
-        launchConfigurationName:
-          type: string
-        launchTemplate:
-          type: string
-        lifeCycle:
-          type: string
-        protectionFromScaleIn:
-          type: boolean
   securitySchemes:
     basic:
       type: http

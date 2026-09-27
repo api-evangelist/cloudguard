@@ -108,13 +108,6 @@ paths:
       summary: Delete
 components:
   schemas:
-    Dome9.Web.Api.Tenable.Account.TenableVulnerabilitySyncResultViewModel:
-      type: object
-      properties:
-        workFlow:
-          format: uuid
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
     Dome9.Web.Api.Tenable.Account.TenableAccountStatusViewModel:
       type: object
       properties:
@@ -162,6 +155,13 @@ components:
         secretKey:
           description: Tenable  API Secret Key
           type: string
+    Dome9.Web.Api.Tenable.Account.TenableVulnerabilitySyncResultViewModel:
+      type: object
+      properties:
+        workFlow:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
     Dome9.Web.Api.Tenable.Account.TenableVulnerabilitySyncViewModel:
       required:
       - tenableDome9Id

@@ -351,10 +351,6 @@ components:
                   type: boolean
                 includeAllRegions:
                   type: boolean
-    BaseConfiguration:
-      type: object
-      x-abstract: true
-      additionalProperties: false
     IntegrationUpdateRequestModel:
       type: object
       additionalProperties: false
@@ -408,111 +404,6 @@ components:
             $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/13'
           - title: AwsSecurityHubConfiguration
             $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/14'
-    IntegrationPostRequestModel:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      - type
-      - configuration
-      properties:
-        name:
-          type: string
-          description: Integration name, should be unique
-          maxLength: 50
-          minLength: 0
-        type:
-          description: Integration type
-          oneOf:
-          - $ref: '#/components/schemas/IntegrationType'
-        configuration:
-          description: Integration configuration, should be a valid JSON object according to the integration type
-          anyOf:
-          - title: WebhookConfiguration
-            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/0'
-          - title: TeamsConfiguration
-            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/1'
-          - title: SumoLogicConfiguration
-            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/2'
-          - title: SplunkConfiguration
-            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/3'
-          - title: SnsConfiguration
-            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/4'
-          - title: SlackConfiguration
-            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/5'
-          - title: ServiceNowConfiguration
-            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/6'
-          - title: QradarConfiguration
-            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/7'
-          - title: PagerDutyConfiguration
-            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/8'
-          - title: JiraConfiguration
-            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/9'
-          - title: GcpSecurityCommandCenterConfiguration
-            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/10'
-          - title: EventarcConfiguration
-            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/11'
-          - title: EmailConfiguration
-            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/12'
-          - title: AzureDefenderConfiguration
-            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/13'
-          - title: AwsSecurityHubConfiguration
-            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/14'
-    AuthType:
-      type: string
-      description: ''
-      x-enumNames:
-      - NoAuth
-      - BasicAuth
-      enum:
-      - NoAuth
-      - BasicAuth
-    MethodType:
-      type: string
-      description: ''
-      x-enumNames:
-      - Post
-      - Put
-      enum:
-      - Post
-      - Put
-    IntegrationType:
-      type: string
-      description: ''
-      x-enumNames:
-      - Undefined
-      - SNS
-      - Email
-      - PagerDuty
-      - AwsSecurityHub
-      - AzureDefender
-      - GcpSecurityCommandCenter
-      - Webhook
-      - ServiceNow
-      - Splunk
-      - Jira
-      - SumoLogic
-      - QRadar
-      - Slack
-      - Teams
-      - EventArc
-      enum:
-      - Undefined
-      - SNS
-      - Email
-      - PagerDuty
-      - AwsSecurityHub
-      - AzureDefender
-      - GcpSecurityCommandCenter
-      - Webhook
-      - ServiceNow
-      - Splunk
-      - Jira
-      - SumoLogic
-      - QRadar
-      - Slack
-      - Teams
-      - EventArc
     CloudRegion:
       type: string
       description: ''
@@ -936,6 +827,115 @@ components:
       - mx_monterrey_1
       - eu_jovanovac_1
       - ap_singapore_2
+    IntegrationType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Undefined
+      - SNS
+      - Email
+      - PagerDuty
+      - AwsSecurityHub
+      - AzureDefender
+      - GcpSecurityCommandCenter
+      - Webhook
+      - ServiceNow
+      - Splunk
+      - Jira
+      - SumoLogic
+      - QRadar
+      - Slack
+      - Teams
+      - EventArc
+      enum:
+      - Undefined
+      - SNS
+      - Email
+      - PagerDuty
+      - AwsSecurityHub
+      - AzureDefender
+      - GcpSecurityCommandCenter
+      - Webhook
+      - ServiceNow
+      - Splunk
+      - Jira
+      - SumoLogic
+      - QRadar
+      - Slack
+      - Teams
+      - EventArc
+    IntegrationPostRequestModel:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - type
+      - configuration
+      properties:
+        name:
+          type: string
+          description: Integration name, should be unique
+          maxLength: 50
+          minLength: 0
+        type:
+          description: Integration type
+          oneOf:
+          - $ref: '#/components/schemas/IntegrationType'
+        configuration:
+          description: Integration configuration, should be a valid JSON object according to the integration type
+          anyOf:
+          - title: WebhookConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/0'
+          - title: TeamsConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/1'
+          - title: SumoLogicConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/2'
+          - title: SplunkConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/3'
+          - title: SnsConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/4'
+          - title: SlackConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/5'
+          - title: ServiceNowConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/6'
+          - title: QradarConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/7'
+          - title: PagerDutyConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/8'
+          - title: JiraConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/9'
+          - title: GcpSecurityCommandCenterConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/10'
+          - title: EventarcConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/11'
+          - title: EmailConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/12'
+          - title: AzureDefenderConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/13'
+          - title: AwsSecurityHubConfiguration
+            $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/14'
+    MethodType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Post
+      - Put
+      enum:
+      - Post
+      - Put
+    AuthType:
+      type: string
+      description: ''
+      x-enumNames:
+      - NoAuth
+      - BasicAuth
+      enum:
+      - NoAuth
+      - BasicAuth
+    BaseConfiguration:
+      type: object
+      x-abstract: true
+      additionalProperties: false
   securitySchemes:
     basic:
       type: http

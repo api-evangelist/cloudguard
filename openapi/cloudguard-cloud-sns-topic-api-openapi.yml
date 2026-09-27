@@ -39,11 +39,6 @@ paths:
       summary: Get
 components:
   schemas:
-    Dome9.Web.Api.CloudSnsTopics.CloudSnsTopicPolicyViewModel:
-      type: object
-      properties:
-        document:
-          type: string
     Dome9.Web.Api.CloudSnsTopics.CloudSnsTopicViewModel:
       type: object
       properties:
@@ -320,6 +315,11 @@ components:
         deliveryPolicy:
           type: string
           readOnly: true
+    Dome9.Web.Api.CloudSnsTopics.CloudSnsTopicPolicyViewModel:
+      type: object
+      properties:
+        document:
+          type: string
   securitySchemes:
     basic:
       type: http

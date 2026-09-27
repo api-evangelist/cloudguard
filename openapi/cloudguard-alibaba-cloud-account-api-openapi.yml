@@ -445,6 +445,16 @@ paths:
       description: Delete an Alibaba account from a Dome9 account (the Alibaba account is not deleted from Alibaba)
 components:
   requestBodies:
+    Dome9.BL.Std.Services.OrganizationalUnit.MoveOrganizationalUnitViewModel:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Dome9.BL.Std.Services.OrganizationalUnit.MoveOrganizationalUnitViewModel'
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/Dome9.BL.Std.Services.OrganizationalUnit.MoveOrganizationalUnitViewModel'
+      description: The guids of the source organizational unit to detach from and the target organizational unit to attach to. Use null for root organizational unit.
+      required: true
     Dome9.BL.Std.Services.OrganizationalUnit.AttachCloudAccountsViewModel:
       content:
         application/json:
@@ -463,17 +473,46 @@ components:
           schema:
             $ref: '#/components/schemas/Dome9.BL.Std.Services.OrganizationalUnit.UpdateIdViewModel'
       required: true
-    Dome9.BL.Std.Services.OrganizationalUnit.MoveOrganizationalUnitViewModel:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Dome9.BL.Std.Services.OrganizationalUnit.MoveOrganizationalUnitViewModel'
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: '#/components/schemas/Dome9.BL.Std.Services.OrganizationalUnit.MoveOrganizationalUnitViewModel'
-      description: The guids of the source organizational unit to detach from and the target organizational unit to attach to. Use null for root organizational unit.
-      required: true
   schemas:
+    Dome9.Web.Api.Alibaba.Accounts.AlibabaCloudAccountPostViewModel:
+      required:
+      - name
+      - credentials
+      type: object
+      properties:
+        name:
+          type: string
+        credentials:
+          $ref: '#/components/schemas/Dome9.Web.Api.Alibaba.Accounts.AlibabaAccountCredentialsViewPostModel'
+        organizationalUnitId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+    Dome9.Web.Api.Alibaba.Accounts.AlibabaAccountNameViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+    Dome9.Web.Api.Shared.Permissions.CloudAccountMissingPermissionsViewModel:
+      type: object
+      properties:
+        id:
+          format: uuid
+          description: account id
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Shared.Permissions.CloudAccountExternalActionStatusViewModel'
+    Dome9.Web.Api.Alibaba.Accounts.AlibabaAccountCredentialsViewGetModel:
+      required:
+      - accessKey
+      type: object
+      properties:
+        accessKey:
+          description: Alibaba access key
+          type: string
     Dome9.Web.Api.Shared.Permissions.MissingPermissionViewModel:
       type: object
       properties:
@@ -540,27 +579,9 @@ components:
           - ocigovuk
           - CIEM
           type: string
-    Dome9.Web.Api.Shared.Permissions.CloudAccountMissingPermissionsIgnorableViewModel:
+    Dome9.Web.Api.Shared.Permissions.CloudAccountExternalActionStatusViewModel:
       type: object
       properties:
-        id:
-          format: uuid
-          description: account id
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
-        actions:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.Shared.Permissions.MissingPermissionsIgnorableViewModel'
-    Dome9.Web.Api.Shared.Permissions.MissingPermissionsIgnorableViewModel:
-      type: object
-      properties:
-        permissionId:
-          format: uuid
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
-        isIgnored:
-          type: boolean
         type:
           type: string
         subType:
@@ -570,78 +591,19 @@ components:
           type: integer
         error:
           $ref: '#/components/schemas/Dome9.Web.Api.Shared.Permissions.CloudAccountActionFailureViewModel'
-    Dome9.Web.Api.Shared.Permissions.MissingPermissionMetadataViewModel:
+    Dome9.BL.Std.Services.OrganizationalUnit.UpdateIdViewModel:
       type: object
       properties:
-        permissions:
-          description: list of missing permissions
-          type: array
-          items:
-            type: string
-        entityType:
-          type: string
-        subType:
-          type: string
-    Dome9.Web.Api.Alibaba.Accounts.AlibabaAccountNameViewModel:
-      type: object
-      properties:
-        name:
-          type: string
-    Dome9.Web.Api.Alibaba.Accounts.AlibabaAccountCredentialsViewPostModel:
-      required:
-      - accessKey
-      - accessSecret
-      type: object
-      properties:
-        accessKey:
-          description: Alibaba access key
-          type: string
-        accessSecret:
-          description: Password for account
-          type: string
-    Dome9.Web.Api.Alibaba.Accounts.AlibabaAccountStatsViewModel:
-      type: object
-      properties:
-        cloudAccountId:
-          format: uuid
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
-        name:
-          type: string
-        creationDate:
-          format: date-time
-          type: string
-        alibabaAccountId:
-          type: string
         organizationalUnitId:
           format: uuid
           type: string
           example: 00000000-0000-0000-0000-000000000000
-        vendor:
-          enum:
-          - aws
-          - hp
-          - mellanox
-          - awsgov
-          - azure
-          - google
-          - awschina
-          - azuregov
-          - kubernetes
-          - azurechina
-          - terraform
-          - generic
-          - kubernetesruntimeassurance
-          - shiftleft
-          - sourcecodeassurance
-          - imageassurance
-          - alibaba
-          - cft
-          - containerregistry
-          - oci
-          - ocigov
-          - ocigovuk
-          - CIEM
+    Dome9.Web.Api.Shared.Permissions.CloudAccountActionFailureViewModel:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
           type: string
     Dome9.Web.Api.Alibaba.Accounts.AlibabaCloudAccountGetViewModel:
       required:
@@ -700,6 +662,108 @@ components:
           - ocigovuk
           - CIEM
           type: string
+    Dome9.Web.Api.Alibaba.Accounts.AlibabaAccountStatsViewModel:
+      type: object
+      properties:
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          type: string
+        creationDate:
+          format: date-time
+          type: string
+        alibabaAccountId:
+          type: string
+        organizationalUnitId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        vendor:
+          enum:
+          - aws
+          - hp
+          - mellanox
+          - awsgov
+          - azure
+          - google
+          - awschina
+          - azuregov
+          - kubernetes
+          - azurechina
+          - terraform
+          - generic
+          - kubernetesruntimeassurance
+          - shiftleft
+          - sourcecodeassurance
+          - imageassurance
+          - alibaba
+          - cft
+          - containerregistry
+          - oci
+          - ocigov
+          - ocigovuk
+          - CIEM
+          type: string
+    Dome9.Web.Api.Shared.Permissions.CloudAccountMissingPermissionsIgnorableViewModel:
+      type: object
+      properties:
+        id:
+          format: uuid
+          description: account id
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Shared.Permissions.MissingPermissionsIgnorableViewModel'
+    Dome9.BL.Std.Services.OrganizationalUnit.AttachCloudAccountsViewModel:
+      type: object
+      properties:
+        entries:
+          type: array
+          items:
+            type: string
+        organizationalUnitId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+    Dome9.Web.Api.Shared.Permissions.MissingPermissionMetadataViewModel:
+      type: object
+      properties:
+        permissions:
+          description: list of missing permissions
+          type: array
+          items:
+            type: string
+        entityType:
+          type: string
+        subType:
+          type: string
+    Dome9.Web.Api.Alibaba.Accounts.AlibabaAccountCredentialsViewPostModel:
+      required:
+      - accessKey
+      - accessSecret
+      type: object
+      properties:
+        accessKey:
+          description: Alibaba access key
+          type: string
+        accessSecret:
+          description: Password for account
+          type: string
+    Dome9.BL.Std.Services.OrganizationalUnit.MoveOrganizationalUnitViewModel:
+      type: object
+      properties:
+        sourceOrganizationalUnitId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        targetOrganizationalUnitId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
     Dome9.Web.Api.Shared.Permissions.MissingPermissionsIgnorableUpdateViewModel:
       required:
       - isIgnored
@@ -723,23 +787,15 @@ components:
           type: string
         errorMessage:
           type: string
-    Dome9.Web.Api.Alibaba.Accounts.AlibabaCloudAccountPostViewModel:
-      required:
-      - name
-      - credentials
+    Dome9.Web.Api.Shared.Permissions.MissingPermissionsIgnorableViewModel:
       type: object
       properties:
-        name:
-          type: string
-        credentials:
-          $ref: '#/components/schemas/Dome9.Web.Api.Alibaba.Accounts.AlibabaAccountCredentialsViewPostModel'
-        organizationalUnitId:
+        permissionId:
           format: uuid
           type: string
           example: 00000000-0000-0000-0000-000000000000
-    Dome9.Web.Api.Shared.Permissions.CloudAccountExternalActionStatusViewModel:
-      type: object
-      properties:
+        isIgnored:
+          type: boolean
         type:
           type: string
         subType:
@@ -749,62 +805,6 @@ components:
           type: integer
         error:
           $ref: '#/components/schemas/Dome9.Web.Api.Shared.Permissions.CloudAccountActionFailureViewModel'
-    Dome9.Web.Api.Alibaba.Accounts.AlibabaAccountCredentialsViewGetModel:
-      required:
-      - accessKey
-      type: object
-      properties:
-        accessKey:
-          description: Alibaba access key
-          type: string
-    Dome9.Web.Api.Shared.Permissions.CloudAccountActionFailureViewModel:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    Dome9.BL.Std.Services.OrganizationalUnit.AttachCloudAccountsViewModel:
-      type: object
-      properties:
-        entries:
-          type: array
-          items:
-            type: string
-        organizationalUnitId:
-          format: uuid
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
-    Dome9.BL.Std.Services.OrganizationalUnit.UpdateIdViewModel:
-      type: object
-      properties:
-        organizationalUnitId:
-          format: uuid
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
-    Dome9.BL.Std.Services.OrganizationalUnit.MoveOrganizationalUnitViewModel:
-      type: object
-      properties:
-        sourceOrganizationalUnitId:
-          format: uuid
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
-        targetOrganizationalUnitId:
-          format: uuid
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
-    Dome9.Web.Api.Shared.Permissions.CloudAccountMissingPermissionsViewModel:
-      type: object
-      properties:
-        id:
-          format: uuid
-          description: account id
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
-        actions:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.Shared.Permissions.CloudAccountExternalActionStatusViewModel'
   securitySchemes:
     basic:
       type: http

@@ -85,13 +85,6 @@ paths:
       summary: Get
 components:
   schemas:
-    CGN.Inventory.Aws.Model.WrapperModels.AwsEnvironmentVariable:
-      type: object
-      properties:
-        key:
-          type: string
-        value:
-          type: string
     Dome9.Web.Api.Models.CloudLambdaFunctionViewModel:
       type: object
       properties:
@@ -399,10 +392,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Falconetix.Model.CloudLambdaFunctionUrlConfigViewModel'
-    CGN.Inventory.Aws.Model.WrapperModels.AwsTracingConfigResponse:
+    CGN.Inventory.Aws.Model.WrapperModels.AwsEnvironmentVariable:
       type: object
       properties:
-        mode:
+        key:
+          type: string
+        value:
           type: string
     Falconetix.Model.CloudLambdaFunctionCorsViewModel:
       type: object
@@ -442,6 +437,11 @@ components:
         functionUrl:
           type: string
         lastModifiedTime:
+          type: string
+    CGN.Inventory.Aws.Model.WrapperModels.AwsTracingConfigResponse:
+      type: object
+      properties:
+        mode:
           type: string
     CGN.Inventory.Aws.Model.WrapperModels.AwsDeadLetterConfig:
       type: object

@@ -39,15 +39,6 @@ paths:
       summary: Get
 components:
   schemas:
-    Dome9.Web.Api.EventRule.AwsEventTargetTransformerViewModel:
-      type: object
-      properties:
-        inputPathsMap:
-          type: object
-          additionalProperties:
-            type: string
-        inputTemplate:
-          type: string
     Dome9.Web.Api.EventRule.AwsEventTargetViewModel:
       type: object
       properties:
@@ -65,10 +56,14 @@ components:
           $ref: '#/components/schemas/Dome9.Web.Api.EventRule.AwsEventTargetTransformerViewModel'
         sqsParameters:
           $ref: '#/components/schemas/Dome9.Web.Api.EventRule.AwsEventTargetSqsViewModel'
-    Dome9.Web.Api.EventRule.AwsEventTargetSqsViewModel:
+    Dome9.Web.Api.EventRule.AwsEventTargetTransformerViewModel:
       type: object
       properties:
-        messageGroupId:
+        inputPathsMap:
+          type: object
+          additionalProperties:
+            type: string
+        inputTemplate:
           type: string
     Dome9.Web.Api.EventRule.EventRuleViewModel:
       type: object
@@ -96,6 +91,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Dome9.Web.Api.EventRule.AwsEventTargetViewModel'
+    Dome9.Web.Api.EventRule.AwsEventTargetSqsViewModel:
+      type: object
+      properties:
+        messageGroupId:
+          type: string
   securitySchemes:
     basic:
       type: http

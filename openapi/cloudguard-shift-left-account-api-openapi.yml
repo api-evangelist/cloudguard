@@ -291,94 +291,6 @@ paths:
       description: Attach several cloud accounts to a specific Organizational Unit. User 'null' as root Organizational Unit as target
 components:
   schemas:
-    UpdateIdViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - organizationalUnitId
-      properties:
-        organizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
-    ShiftLeftAccountViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - id
-      - name
-      - description
-      - creationDate
-      - vendor
-      - organizationalUnitId
-      - organizationalUnitPath
-      - organizationalUnitName
-      properties:
-        id:
-          type: string
-          description: ShiftLeft id
-          format: guid
-        name:
-          type: string
-          description: ShiftLeft account name in Dome9
-        description:
-          type:
-          - string
-          - 'null'
-          description: ShiftLeft environment description in Dome9
-        creationDate:
-          type: string
-          description: creation date for project in ShiftLeft
-          format: date-time
-        vendor:
-          $ref: '#/components/schemas/CloudVendor'
-        organizationalUnitId:
-          type:
-          - string
-          - 'null'
-          description: ShiftLeft account organizational unit ID
-          format: guid
-        organizationalUnitPath:
-          type: string
-        organizationalUnitName:
-          type: string
-    AttachCloudAccountsViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - entries
-      - organizationalUnitId
-      properties:
-        entries:
-          type:
-          - array
-          - 'null'
-          default: []
-          items:
-            type: string
-        organizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
-    MoveOrganizationalUnitViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - sourceOrganizationalUnitId
-      - targetOrganizationalUnitId
-      properties:
-        sourceOrganizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
-        targetOrganizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
     CloudVendor:
       type: string
       description: ''
@@ -430,6 +342,34 @@ components:
       - ocigov
       - ocigovuk
       - CIEM
+    MoveOrganizationalUnitViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - sourceOrganizationalUnitId
+      - targetOrganizationalUnitId
+      properties:
+        sourceOrganizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        targetOrganizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+    UpdateIdViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - organizationalUnitId
+      properties:
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
     ShiftLeftPostViewModel:
       type: object
       additionalProperties: false
@@ -457,6 +397,66 @@ components:
           - 'null'
           description: ShiftLeft account organizational unit ID
           format: guid
+    AttachCloudAccountsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - entries
+      - organizationalUnitId
+      properties:
+        entries:
+          type:
+          - array
+          - 'null'
+          default: []
+          items:
+            type: string
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+    ShiftLeftAccountViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - name
+      - description
+      - creationDate
+      - vendor
+      - organizationalUnitId
+      - organizationalUnitPath
+      - organizationalUnitName
+      properties:
+        id:
+          type: string
+          description: ShiftLeft id
+          format: guid
+        name:
+          type: string
+          description: ShiftLeft account name in Dome9
+        description:
+          type:
+          - string
+          - 'null'
+          description: ShiftLeft environment description in Dome9
+        creationDate:
+          type: string
+          description: creation date for project in ShiftLeft
+          format: date-time
+        vendor:
+          $ref: '#/components/schemas/CloudVendor'
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          description: ShiftLeft account organizational unit ID
+          format: guid
+        organizationalUnitPath:
+          type: string
+        organizationalUnitName:
+          type: string
   securitySchemes:
     basic:
       type: http

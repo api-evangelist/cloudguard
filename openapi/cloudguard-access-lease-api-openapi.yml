@@ -79,6 +79,17 @@ paths:
       description: Terminate an Access Lease
 components:
   schemas:
+    Dome9.Web.Api.Models.AccessLeasesGroupedViewModel:
+      type: object
+      properties:
+        aws:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Models.AwsAccessLeaseViewModel'
+        agents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Models.AgentAccessLeaseViewModel'
     Dome9.Web.Api.Models.AwsAccessLeasePostViewModel:
       type: object
       properties:
@@ -671,17 +682,6 @@ components:
         srl:
           description: internal use only
           type: string
-    Dome9.Web.Api.Models.AccessLeasesGroupedViewModel:
-      type: object
-      properties:
-        aws:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.Models.AwsAccessLeaseViewModel'
-        agents:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.Models.AgentAccessLeaseViewModel'
     Dome9.Web.Api.Models.AwsAccessLeaseViewModel:
       type: object
       properties:

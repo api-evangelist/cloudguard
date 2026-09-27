@@ -610,17 +610,6 @@ paths:
       description: Get Container registry account summary data
 components:
   schemas:
-    UpdateIdViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - organizationalUnitId
-      properties:
-        organizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
     ContainerRegistryAuthType:
       type: string
       description: ''
@@ -656,7 +645,84 @@ components:
       - GithubToken
       - QuayToken
       - DockerhubToken
-    ContainerRegistryAccountSummaryViewModel:
+    CloudVendor:
+      type: string
+      description: ''
+      x-enumNames:
+      - aws
+      - hp
+      - mellanox
+      - awsgov
+      - azure
+      - google
+      - awschina
+      - azuregov
+      - kubernetes
+      - azurechina
+      - terraform
+      - generic
+      - kubernetesruntimeassurance
+      - shiftleft
+      - sourcecodeassurance
+      - imageassurance
+      - alibaba
+      - cft
+      - containerregistry
+      - oci
+      - ocigov
+      - ocigovuk
+      - CIEM
+      enum:
+      - aws
+      - hp
+      - mellanox
+      - awsgov
+      - azure
+      - google
+      - awschina
+      - azuregov
+      - kubernetes
+      - azurechina
+      - terraform
+      - generic
+      - kubernetesruntimeassurance
+      - shiftleft
+      - sourcecodeassurance
+      - imageassurance
+      - alibaba
+      - cft
+      - containerregistry
+      - oci
+      - ocigov
+      - ocigovuk
+      - CIEM
+    MoveOrganizationalUnitViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - sourceOrganizationalUnitId
+      - targetOrganizationalUnitId
+      properties:
+        sourceOrganizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        targetOrganizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+    ContainerRegistryScanningEnvironmentType:
+      type: string
+      description: ''
+      x-enumNames:
+      - AWS
+      - Kubernetes
+      enum:
+      - AWS
+      - Kubernetes
+    ContainerRegistryAccountAgentSummaryViewModel:
       type: object
       additionalProperties: false
       required:
@@ -664,11 +730,6 @@ components:
       - name
       - agentsStatus
       - agentsStatusDescription
-      - registryType
-      - registryUrl
-      - numberOfImages
-      - numberOfRepositories
-      - linkedAgentsStatuses
       properties:
         id:
           type: string
@@ -679,18 +740,6 @@ components:
           type: string
         agentsStatusDescription:
           type: string
-        registryType:
-          type: string
-        registryUrl:
-          type: string
-        numberOfImages:
-          type: integer
-          format: int32
-        numberOfRepositories:
-          type: integer
-          format: int64
-        linkedAgentsStatuses:
-          $ref: '#/components/schemas/ContainerRegistryLinkedAgentsStatusesViewModel'
     ContainerRegistryType:
       type: string
       description: ''
@@ -716,6 +765,36 @@ components:
       - GitHub
       - Quay
       - DockerHub
+    UpdateIdViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - organizationalUnitId
+      properties:
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+    AttachCloudAccountsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - entries
+      - organizationalUnitId
+      properties:
+        entries:
+          type:
+          - array
+          - 'null'
+          default: []
+          items:
+            type: string
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
     ContainerRegistryAgentSummaryViewModel:
       type: object
       additionalProperties: false
@@ -764,32 +843,129 @@ components:
           type: string
         kubernetesAccountName:
           type: string
-    ContainerRegistryScanningEnvironmentType:
-      type: string
-      description: ''
-      x-enumNames:
-      - AWS
-      - Kubernetes
-      enum:
-      - AWS
-      - Kubernetes
-    MoveOrganizationalUnitViewModel:
+    ContainerRegistryAccountPostModel:
       type: object
       additionalProperties: false
       required:
-      - sourceOrganizationalUnitId
-      - targetOrganizationalUnitId
+      - name
+      - registryType
+      - registryUrl
+      - description
+      - organizationalUnitId
+      - linkedKubernetesEnvironments
+      - linkedScanningEnvironments
       properties:
-        sourceOrganizationalUnitId:
+        name:
+          type: string
+          maxLength: 500
+          minLength: 1
+          pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
+        description:
+          type:
+          - string
+          - 'null'
+          description: "            Container Registry environment description in CloudGuard\t\n            "
+          maxLength: 1000
+          pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
+        organizationalUnitId:
           type:
           - string
           - 'null'
           format: guid
-        targetOrganizationalUnitId:
+        registryType:
+          $ref: '#/components/schemas/ContainerRegistryType'
+        registryUrl:
+          type: string
+          format: uri
+          minLength: 1
+        linkedKubernetesEnvironments:
+          type:
+          - array
+          - 'null'
+          description: Deprecated - please use 'LinkedScanningEnvironments'
+          items:
+            $ref: '#/components/schemas/ContainerRegistryLinkedEnvironmentViewModel'
+        linkedScanningEnvironments:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ContainerRegistryLinkedEnvironmentViewModel'
+    ContainerRegistryLinkedEnvironmentViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - environmentId
+      - pullSecretName
+      - tenantId
+      - applicationClientId
+      - scanningEnvironmentType
+      - registryAuthType
+      - roleArn
+      properties:
+        environmentId:
+          type: string
+          format: guid
+          minLength: 1
+        pullSecretName:
           type:
           - string
           - 'null'
+          pattern: ^(?=.{1,253}$)[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
+        tenantId:
+          type:
+          - string
+          - 'null'
+        applicationClientId:
+          type:
+          - string
+          - 'null'
+        scanningEnvironmentType:
+          oneOf:
+          - $ref: '#/components/schemas/ContainerRegistryScanningEnvironmentType'
+        registryAuthType:
+          oneOf:
+          - $ref: '#/components/schemas/ContainerRegistryAuthType'
+        roleArn:
+          type:
+          - string
+          - 'null'
+          pattern: ^arn:aws:iam::\d{12}:role/[\w+=,.@-]+
+    ContainerRegistryAccountSummaryViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - name
+      - agentsStatus
+      - agentsStatusDescription
+      - registryType
+      - registryUrl
+      - numberOfImages
+      - numberOfRepositories
+      - linkedAgentsStatuses
+      properties:
+        id:
+          type: string
           format: guid
+        name:
+          type: string
+        agentsStatus:
+          type: string
+        agentsStatusDescription:
+          type: string
+        registryType:
+          type: string
+        registryUrl:
+          type: string
+        numberOfImages:
+          type: integer
+          format: int32
+        numberOfRepositories:
+          type: integer
+          format: int64
+        linkedAgentsStatuses:
+          $ref: '#/components/schemas/ContainerRegistryLinkedAgentsStatusesViewModel'
     ContainerRegistryAccountViewModel:
       type: object
       additionalProperties: false
@@ -842,46 +1018,6 @@ components:
           $ref: '#/components/schemas/CloudVendor'
         type:
           $ref: '#/components/schemas/ContainerRegistryType'
-    ContainerRegistryLinkedEnvironmentViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - environmentId
-      - pullSecretName
-      - tenantId
-      - applicationClientId
-      - scanningEnvironmentType
-      - registryAuthType
-      - roleArn
-      properties:
-        environmentId:
-          type: string
-          format: guid
-          minLength: 1
-        pullSecretName:
-          type:
-          - string
-          - 'null'
-          pattern: ^(?=.{1,253}$)[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
-        tenantId:
-          type:
-          - string
-          - 'null'
-        applicationClientId:
-          type:
-          - string
-          - 'null'
-        scanningEnvironmentType:
-          oneOf:
-          - $ref: '#/components/schemas/ContainerRegistryScanningEnvironmentType'
-        registryAuthType:
-          oneOf:
-          - $ref: '#/components/schemas/ContainerRegistryAuthType'
-        roleArn:
-          type:
-          - string
-          - 'null'
-          pattern: ^arn:aws:iam::\d{12}:role/[\w+=,.@-]+
     ContainerRegistryLinkedAgentsStatusesViewModel:
       type: object
       additionalProperties: false
@@ -899,25 +1035,6 @@ components:
         statusPending:
           type: integer
           format: int32
-    AttachCloudAccountsViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - entries
-      - organizationalUnitId
-      properties:
-        entries:
-          type:
-          - array
-          - 'null'
-          default: []
-          items:
-            type: string
-        organizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
     ContainerRegistryUserConfigurationsViewModel:
       type: object
       additionalProperties: false
@@ -941,123 +1058,6 @@ components:
           - integer
           - 'null'
           format: int32
-    CloudVendor:
-      type: string
-      description: ''
-      x-enumNames:
-      - aws
-      - hp
-      - mellanox
-      - awsgov
-      - azure
-      - google
-      - awschina
-      - azuregov
-      - kubernetes
-      - azurechina
-      - terraform
-      - generic
-      - kubernetesruntimeassurance
-      - shiftleft
-      - sourcecodeassurance
-      - imageassurance
-      - alibaba
-      - cft
-      - containerregistry
-      - oci
-      - ocigov
-      - ocigovuk
-      - CIEM
-      enum:
-      - aws
-      - hp
-      - mellanox
-      - awsgov
-      - azure
-      - google
-      - awschina
-      - azuregov
-      - kubernetes
-      - azurechina
-      - terraform
-      - generic
-      - kubernetesruntimeassurance
-      - shiftleft
-      - sourcecodeassurance
-      - imageassurance
-      - alibaba
-      - cft
-      - containerregistry
-      - oci
-      - ocigov
-      - ocigovuk
-      - CIEM
-    ContainerRegistryAccountAgentSummaryViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - id
-      - name
-      - agentsStatus
-      - agentsStatusDescription
-      properties:
-        id:
-          type: string
-          format: guid
-        name:
-          type: string
-        agentsStatus:
-          type: string
-        agentsStatusDescription:
-          type: string
-    ContainerRegistryAccountPostModel:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      - registryType
-      - registryUrl
-      - description
-      - organizationalUnitId
-      - linkedKubernetesEnvironments
-      - linkedScanningEnvironments
-      properties:
-        name:
-          type: string
-          maxLength: 500
-          minLength: 1
-          pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
-        description:
-          type:
-          - string
-          - 'null'
-          description: "            Container Registry environment description in CloudGuard\t\n            "
-          maxLength: 1000
-          pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
-        organizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
-        registryType:
-          $ref: '#/components/schemas/ContainerRegistryType'
-        registryUrl:
-          type: string
-          format: uri
-          minLength: 1
-        linkedKubernetesEnvironments:
-          type:
-          - array
-          - 'null'
-          description: Deprecated - please use 'LinkedScanningEnvironments'
-          items:
-            $ref: '#/components/schemas/ContainerRegistryLinkedEnvironmentViewModel'
-        linkedScanningEnvironments:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ContainerRegistryLinkedEnvironmentViewModel'
   securitySchemes:
     basic:
       type: http

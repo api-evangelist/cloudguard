@@ -68,6 +68,17 @@ paths:
       description: Get status for remediation
 components:
   schemas:
+    RemediationExecuteResponseModel:
+      type: object
+      additionalProperties: false
+      required:
+      - workItemsTriggerStatuses
+      properties:
+        workItemsTriggerStatuses:
+          type: array
+          default: []
+          items:
+            $ref: '#/components/schemas/WorkItemsTriggerStatus'
     Finding2:
       type: object
       additionalProperties: false
@@ -75,6 +86,26 @@ components:
       - key
       properties:
         key:
+          type: string
+    StatusGeneralDetails:
+      type: object
+      additionalProperties: false
+      required:
+      - eventTime
+      - status
+      - remediation
+      - findingKey
+      - botMessage
+      properties:
+        eventTime:
+          type: string
+        status:
+          type: string
+        remediation:
+          type: string
+        findingKey:
+          type: string
+        botMessage:
           type: string
     CloudBot:
       type: object
@@ -112,17 +143,6 @@ components:
           type: string
         workItemFindingKey:
           type: string
-    RemediationExecuteResponseModel:
-      type: object
-      additionalProperties: false
-      required:
-      - workItemsTriggerStatuses
-      properties:
-        workItemsTriggerStatuses:
-          type: array
-          default: []
-          items:
-            $ref: '#/components/schemas/WorkItemsTriggerStatus'
     RemediationExecuteRequestModel:
       type: object
       additionalProperties: false
@@ -141,26 +161,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Finding2'
-    StatusGeneralDetails:
-      type: object
-      additionalProperties: false
-      required:
-      - eventTime
-      - status
-      - remediation
-      - findingKey
-      - botMessage
-      properties:
-        eventTime:
-          type: string
-        status:
-          type: string
-        remediation:
-          type: string
-        findingKey:
-          type: string
-        botMessage:
-          type: string
   securitySchemes:
     basic:
       type: http

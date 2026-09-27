@@ -1,6 +1,9 @@
 aid: cloudguard
 url: https://raw.githubusercontent.com/api-evangelist/cloudguard/refs/heads/main/apis.yml
 name: CloudGuard
+x-docs-platform: readme
+x-docs-platform-confidence: high
+x-docs-platform-checked: 2026-09-24
 tags:
 - Check Point
 - CNAPP
@@ -16,15 +19,20 @@ tags:
 - Dome9
 type: Index
 deliveryModel:
-  model: unknown
-  open_source: false
-  commercial: false
+  model: saas
+  license_evidence:
+    not_product:
+    - checkpointsw/mcp-servers
+  open_source: unknown
+  commercial: true
   callable_host: true
-  label: Delivery model not determined — needs a product licence on record
+  label: Hosted service · you call their endpoint
   confidence: low
   source:
   - openapi
-  generated: '2026-08-28'
+  - pricing
+  - repository-not-product
+  generated: '2026-09-25'
   method: derived
 accessModel:
   pricing: freemium
@@ -56,7 +64,7 @@ description: 'Check Point CloudGuard is a Cloud Native Application Protection Pl
   and serverless workloads, and reading a cross-cloud protected-asset inventory. Authentication is HTTP Basic with a V2
   API key id and secret created in the CloudGuard portal.'
 apis:
-- aid: cloudguard:cloudguard-waf-api
+- aid: cloudguard:cloudguard-waf-appsec-api
   name: CloudGuard WAF API
   description: >-
     CloudGuard WAF (formerly CloudGuard AppSec) protects web applications and APIs with contextual machine-learning

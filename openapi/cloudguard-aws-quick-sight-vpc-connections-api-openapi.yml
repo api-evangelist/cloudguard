@@ -39,20 +39,23 @@ paths:
       summary: Get
 components:
   schemas:
-    Dome9.Web.Api.CloudIamRoles.AwsIamRoleLastUsedViewModel:
+    Dome9.Web.Api.CloudIamRoles.CloudIamRoleInlinePolicyViewModel:
       type: object
       properties:
-        roleLastUsed:
-          format: date-time
+        policyName:
           type: string
-        region:
-          type: string
-    Dome9.Web.Api.Models.CloudIamRoleViewModel.PermissionsBoundary:
+        policyDocument:
+          type: object
+    Dome9.Web.Api.AwsQuickSight.NetworkInterfaceViewModel:
       type: object
       properties:
-        permissionsBoundaryArn:
+        availabilityZone:
           type: string
-        permissionsBoundaryType:
+        errorMessage:
+          type: string
+        networkInterfaceId:
+          type: string
+        status:
           type: string
     Dome9.Web.Api.AwsSecurityGroup.AwsSecurityGroupViewModel:
       type: object
@@ -281,57 +284,13 @@ components:
           type: string
         vpcId:
           type: string
-    Dome9.Web.Api.CloudIamRoles.CloudIamRoleInlinePolicyViewModel:
+    Dome9.Web.Api.CloudIamRoles.AwsIamRolePolicyViewModel:
       type: object
       properties:
-        policyName:
-          type: string
-        policyDocument:
-          type: object
-    Dome9.Web.Api.Models.CloudIamRoleViewModel:
-      type: object
-      properties:
-        externalId:
+        arn:
           type: string
         name:
           type: string
-        srl:
-          type: string
-        accountId:
-          format: int64
-          type: integer
-        cloudAccountId:
-          format: uuid
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
-        arn:
-          type: string
-        createDate:
-          format: date-time
-          type: string
-        path:
-          type: string
-        maxSessionDuration:
-          format: int32
-          type: integer
-        roleLastUsed:
-          $ref: '#/components/schemas/Dome9.Web.Api.CloudIamRoles.AwsIamRoleLastUsedViewModel'
-        attachedManagedPolicies:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.CloudIamRoles.AwsIamRolePolicyViewModel'
-        inlinePolicies:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.CloudIamRoles.CloudIamRoleInlinePolicyViewModel'
-        tags:
-          type: object
-          additionalProperties:
-            type: string
-        rolePermissionsBoundary:
-          $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudIamRoleViewModel.PermissionsBoundary'
-        assumeRolePolicy:
-          type: object
     Dome9.Web.Api.AwsQuickSight.AwsQuickSightVpcConnectionsViewModel:
       type: object
       properties:
@@ -379,23 +338,64 @@ components:
             $ref: '#/components/schemas/Dome9.Web.Api.AwsSecurityGroup.AwsSecurityGroupViewModel'
         role:
           $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudIamRoleViewModel'
-    Dome9.Web.Api.CloudIamRoles.AwsIamRolePolicyViewModel:
+    Dome9.Web.Api.Models.CloudIamRoleViewModel:
       type: object
       properties:
-        arn:
+        externalId:
           type: string
         name:
           type: string
-    Dome9.Web.Api.AwsQuickSight.NetworkInterfaceViewModel:
+        srl:
+          type: string
+        accountId:
+          format: int64
+          type: integer
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        arn:
+          type: string
+        createDate:
+          format: date-time
+          type: string
+        path:
+          type: string
+        maxSessionDuration:
+          format: int32
+          type: integer
+        roleLastUsed:
+          $ref: '#/components/schemas/Dome9.Web.Api.CloudIamRoles.AwsIamRoleLastUsedViewModel'
+        attachedManagedPolicies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.CloudIamRoles.AwsIamRolePolicyViewModel'
+        inlinePolicies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.CloudIamRoles.CloudIamRoleInlinePolicyViewModel'
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        rolePermissionsBoundary:
+          $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudIamRoleViewModel.PermissionsBoundary'
+        assumeRolePolicy:
+          type: object
+    Dome9.Web.Api.CloudIamRoles.AwsIamRoleLastUsedViewModel:
       type: object
       properties:
-        availabilityZone:
+        roleLastUsed:
+          format: date-time
           type: string
-        errorMessage:
+        region:
           type: string
-        networkInterfaceId:
+    Dome9.Web.Api.Models.CloudIamRoleViewModel.PermissionsBoundary:
+      type: object
+      properties:
+        permissionsBoundaryArn:
           type: string
-        status:
+        permissionsBoundaryType:
           type: string
   securitySchemes:
     basic:

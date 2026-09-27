@@ -39,10 +39,6 @@ paths:
       summary: Get
 components:
   schemas:
-    TagsDictionary:
-      type: object
-      additionalProperties:
-        type: string
     AwsSqsRedrivePolicyViewModel:
       type: object
       additionalProperties: false
@@ -555,6 +551,10 @@ components:
           $ref: '#/components/schemas/TagsDictionary'
         sqsManagedSseEnabled:
           type: boolean
+    TagsDictionary:
+      type: object
+      additionalProperties:
+        type: string
   securitySchemes:
     basic:
       type: http

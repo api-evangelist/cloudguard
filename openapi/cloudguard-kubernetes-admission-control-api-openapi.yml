@@ -346,38 +346,6 @@ paths:
         Returns an exclusion matching a given ID.'
 components:
   schemas:
-    RuleTestResultStats:
-      type: object
-      additionalProperties: false
-      required:
-      - testedCount
-      - relevantCount
-      - nonComplyingCount
-      properties:
-        testedCount:
-          type: integer
-          format: int32
-        relevantCount:
-          type: integer
-          format: int32
-        nonComplyingCount:
-          type: integer
-          format: int32
-    AssessmentHistoryMinimizedEntityBase:
-      type: object
-      additionalProperties: false
-      required:
-      - id
-      - type
-      properties:
-        id:
-          type:
-          - string
-          - 'null'
-        type:
-          type:
-          - string
-          - 'null'
     KubernetesAdmissionControlPolicyType:
       type: string
       description: ''
@@ -387,192 +355,155 @@ components:
       enum:
       - Environment
       - OrganizationalUnit
-    AssessmentCloudAccountType:
-      type: string
-      description: ''
-      x-enumNames:
-      - Aws
-      - Azure
-      - Google
-      - Kubernetes
-      - Terraform
-      - Generic
-      - KubernetesRuntimeAssurance
-      - ShiftLeft
-      - SourceCodeAssurance
-      - ImageAssurance
-      - Alibaba
-      - Cft
-      - ContainerRegistry
-      - Oci
-      - CIEM
-      enum:
-      - Aws
-      - Azure
-      - Google
-      - Kubernetes
-      - Terraform
-      - Generic
-      - KubernetesRuntimeAssurance
-      - ShiftLeft
-      - SourceCodeAssurance
-      - ImageAssurance
-      - Alibaba
-      - Cft
-      - ContainerRegistry
-      - Oci
-      - CIEM
-    AssessmentDataSyncStatusEntityViewModel:
+    AssessmentResultCloudAccountMetadataViewModel:
       type: object
       additionalProperties: false
       required:
-      - entityType
-      - recentlySuccessfulSync
-      - generalFetchPermissionIssues
-      - entitiesWithPermissionIssues
-      properties:
-        entityType:
-          type:
-          - string
-          - 'null'
-        recentlySuccessfulSync:
-          type:
-          - boolean
-          - 'null'
-        generalFetchPermissionIssues:
-          type: boolean
-        entitiesWithPermissionIssues:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/EntityWithPermissionIssueViewModel'
-    AdmissionControlAgentPolicySummaryViewModel2:
-      type: object
-      additionalProperties: false
-      required:
-      - action
-      - rules
-      - notifications
-      - exclusions
-      - policyId
-      - bundleName
-      properties:
-        action:
-          type: string
-        rules:
-          type: array
-          items:
-            $ref: '#/components/schemas/RuleObject'
-        notifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/NotificationObject'
-        exclusions:
-          type: array
-          items:
-            $ref: '#/components/schemas/AssessmentExclusionEntity'
-        policyId:
-          type: string
-          format: guid
-        bundleName:
-          type: string
-    ExclusionPostRequestBaseModel:
-      type: object
-      x-abstract: true
-      additionalProperties: false
-      required:
-      - rules
-      - logicExpressions
-      - severities
-      - cloudAccountIds
-      - organizationalUnitIds
-      - comment
-      - dateRange
-      properties:
-        rules:
-          type:
-          - array
-          - 'null'
-          description: '[Optional] List of rules to apply the exclusion on.'
-          items:
-            $ref: '#/components/schemas/RuleViewModel'
-        logicExpressions:
-          type:
-          - array
-          - 'null'
-          description: '[Optional] The GSL logic expressions of the exclusion.'
-          pattern: ((name|id|accountNumber) like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')|(tags contain \[(key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' and value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')( or key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' and value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')*\])|(eventInfo\.userInfo\.username like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')|('[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' in\(eventInfo\.userInfo\.roles\))|(namespace like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')|(rootOwner\.kind like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' and rootOwner\.name like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')|(labels contain-any [ key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' ])|(labels contain-any [ value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' ])|(labels contain-any [ key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' and value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' ])|(annotations contain-any [ key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' ])|(annotations contain-any [ value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' ])|(annotations contain-any [ key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' and value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' ])
-          items:
-            type: string
-        severities:
-          type:
-          - array
-          - 'null'
-          description: '[Optional] List of severities to exclude. Valid values: [''Informational'', ''Low'', ''Medium'', ''High'', ''Critical'']'
-          items:
-            $ref: '#/components/schemas/RuleSeverity'
-        cloudAccountIds:
-          type:
-          - array
-          - 'null'
-          description: '[Optional] List of cloud account IDs to apply exclusion on.
-
-            If neither cloud account IDs nor organizational unit IDs are supplied, exclusion will apply on all cloud accounts.
-
-            If both organizational unit IDs and cloud account IDs are supplied, only organizational unit IDs will take effect.'
-          items:
-            type: string
-            format: guid
-        organizationalUnitIds:
-          type:
-          - array
-          - 'null'
-          description: '[Optional] List of organizational unit IDs to apply exclusion on.
-
-            If neither organizational unit IDs nor cloud account IDs are supplied, exclusion will apply on all cloud accounts.
-
-            If both organizational unit IDs and cloud account IDs are supplied, only organizational unit IDs will take effect.'
-          items:
-            type: string
-            format: guid
-        comment:
-          type:
-          - string
-          - 'null'
-          description: Comment text (free text)
-        dateRange:
-          description: '[Optional] Date range for the exclusion to take effect.
-
-            The exclusion will take effect permanently unless a specific date range is specified.
-
-            Leaving ''From'' null will take only ''To'' into account.
-
-            Leaving ''To'' null will take only ''From'' into account.
-
-            DateRange with both ''From'' and ''To'' null will be disregarded.'
-          oneOf:
-          - $ref: '#/components/schemas/DateTimeRange'
-    EntityWithPermissionIssueViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - externalId
       - name
-      - cloudVendorIdentifier
+      - id
+      - externalId
       properties:
-        externalId:
-          type:
-          - string
-          - 'null'
         name:
           type:
           - string
           - 'null'
-        cloudVendorIdentifier:
+        id:
           type:
           - string
           - 'null'
+        externalId:
+          type:
+          - string
+          - 'null'
+    AdmissionControlGSLRule:
+      type: object
+      additionalProperties: false
+      required:
+      - rule
+      properties:
+        rule:
+          type: string
+    AssessmentExclusionEntity:
+      allOf:
+      - $ref: '#/components/schemas/RootEntityBase'
+      - type: object
+        additionalProperties: false
+        required:
+        - id
+        - exclusion
+        properties:
+          id:
+            type: string
+            format: guid
+          exclusion:
+            oneOf:
+            - $ref: '#/components/schemas/AssessmentExclusion'
+    AdmissionControlPolicyViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - targetId
+      - targetType
+      - rulesetId
+      - action
+      - notificationIds
+      - errorMessage
+      properties:
+        id:
+          type: string
+          format: guid
+        targetId:
+          type: string
+          format: guid
+        targetType:
+          $ref: '#/components/schemas/KubernetesAdmissionControlPolicyType'
+        rulesetId:
+          type: integer
+          format: int64
+        action:
+          $ref: '#/components/schemas/KubernetesRuntimeAssuranceAction'
+        notificationIds:
+          type: array
+          items:
+            type: string
+            format: guid
+        errorMessage:
+          type: string
+    SingleCloudAccountsAssessmentResultViewModelOfAssessmentHistoryMinimizedEntity:
+      type: object
+      additionalProperties: false
+      properties:
+        cloudAccount:
+          description: cloud account metadata
+          oneOf:
+          - $ref: '#/components/schemas/AssessmentResultCloudAccountMetadataViewModel'
+        tests:
+          type:
+          - array
+          - 'null'
+          description: Tests results
+          items:
+            $ref: '#/components/schemas/RuleTestResult'
+        testEntities:
+          type:
+          - object
+          - 'null'
+          description: 'list of the cloud entities that were tested by the bundle '
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/AssessmentHistoryMinimizedEntity'
+        dataSyncStatus:
+          type:
+          - array
+          - 'null'
+          description: data sync status of the entities
+          items:
+            $ref: '#/components/schemas/AssessmentDataSyncStatusEntityViewModel'
+        assessmentPassed:
+          type: boolean
+          description: assessment passed
+        hasTestsErrors:
+          type: boolean
+          description: 'assessment tests has errors '
+        assessmentId:
+          type: string
+          description: assessment id
+          format: guid
+        assessmentError:
+          type:
+          - string
+          - 'null'
+          description: assessment run error
+    TagRuleEntity:
+      type: object
+      additionalProperties: false
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type:
+          - string
+          - 'null'
+        value:
+          type:
+          - string
+          - 'null'
+    MultipleCloudAccountsAssessmentResultViewModelOfAssessmentHistoryMinimizedEntity:
+      type: object
+      additionalProperties: false
+      properties:
+        requestId:
+          type: string
+          format: guid
+        results:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/SingleCloudAccountsAssessmentResultViewModelOfAssessmentHistoryMinimizedEntity'
     ValidationStatusResult:
       type: string
       description: ''
@@ -700,365 +631,15 @@ components:
         isDefault:
           type: boolean
           description: The property represents default rule
-    RootEntityBase:
-      type: object
-      x-abstract: true
-      additionalProperties: false
-      required:
-      - accountId
-      - _created
-      - _updated
-      properties:
-        accountId:
-          type: integer
-          format: int64
-        _created:
-          type: string
-          format: date-time
-        _updated:
-          type: string
-          format: date-time
-    AssessmentResultCloudAccountMetadataViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      - id
-      - externalId
-      properties:
-        name:
-          type:
-          - string
-          - 'null'
-        id:
-          type:
-          - string
-          - 'null'
-        externalId:
-          type:
-          - string
-          - 'null'
-    AssessmentHistoryMinimizedEntity:
-      allOf:
-      - $ref: '#/components/schemas/AssessmentHistoryMinimizedEntityBase'
-      - type: object
-        additionalProperties: false
-        required:
-        - dome9Id
-        - name
-        - category
-        - region
-        - vpc
-        - network
-        - virtualNetwork
-        - tags
-        - accountNumber
-        - vendorIdentifier
-        properties:
-          dome9Id:
-            type:
-            - string
-            - 'null'
-          name:
-            type:
-            - string
-            - 'null'
-          category:
-            type:
-            - string
-            - 'null'
-          region:
-            type:
-            - string
-            - 'null'
-          vpc:
-            oneOf:
-            - $ref: '#/components/schemas/VpcMinimizedEntity'
-          network:
-            type:
-            - string
-            - 'null'
-          virtualNetwork:
-            type:
-            - string
-            - 'null'
-          tags:
-            type:
-            - array
-            - 'null'
-            items:
-              $ref: '#/components/schemas/TagRuleEntity'
-          accountNumber:
-            type:
-            - string
-            - 'null'
-          vendorIdentifier:
-            type:
-            - string
-            - 'null'
-    TagRuleEntity:
-      type: object
-      additionalProperties: false
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type:
-          - string
-          - 'null'
-        value:
-          type:
-          - string
-          - 'null'
-    ValidationResult:
-      type: object
-      additionalProperties: false
-      required:
-      - validationStatus
-      - isRelevant
-      - isValid
-      - isExcluded
-      - exclusionId
-      - remediationId
-      - error
-      - testObj
-      properties:
-        validationStatus:
-          $ref: '#/components/schemas/ValidationStatusResult'
-        isRelevant:
-          type: boolean
-          description: 'means if entity is relevant for this rule
-
-            for example rule = "Instance where name like ''%db%'' should have...", returns false in instance name = ''scheduler1'''
-        isValid:
-          type: boolean
-          description: 'means if entity is compliant.
-
-            for example for rule="Instance should have vpc", return true if instance i-123 is under vpc-234, and false if not'
-        isExcluded:
-          type: boolean
-          description: 'means if entity is excluded.
-
-            for example for rule="Instance should have vpc exclude name=''test''", return true if instance name is test, and false if not'
-        exclusionId:
-          type:
-          - string
-          - 'null'
-          format: guid
-        remediationId:
-          type:
-          - string
-          - 'null'
-          format: guid
-        error:
-          type:
-          - string
-          - 'null'
-          description: note that the lambda is not aware of this field
-          default: ''
-        testObj:
-          description: note that the lambda is not aware of this field
-    AdmissionControlEvalResultViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - violatedRules
-      - result
-      - error
-      - object
-      properties:
-        violatedRules:
-          type: array
-          items:
-            $ref: '#/components/schemas/AdmissionControlGSLRule'
-        result:
-          type: boolean
-        error:
-          type: string
-        object: {}
-    KubernetesRuntimeAssuranceVerifyResult:
-      type: object
-      additionalProperties: false
-      required:
-      - rule
-      - valid
-      - error
-      properties:
-        rule:
-          type:
-          - string
-          - 'null'
-        valid:
-          type: boolean
-        error:
-          type:
-          - string
-          - 'null'
-    AssessmentExclusionEntity:
-      allOf:
-      - $ref: '#/components/schemas/RootEntityBase'
-      - type: object
-        additionalProperties: false
-        required:
-        - id
-        - exclusion
-        properties:
-          id:
-            type: string
-            format: guid
-          exclusion:
-            oneOf:
-            - $ref: '#/components/schemas/AssessmentExclusion'
-    AdmissionControlPoliciesSummaryViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - admissionControlAgentPoliciesSummary
-      - admissionControlAgentOUPoliciesSummary
-      properties:
-        admissionControlAgentPoliciesSummary:
-          type: array
-          items:
-            $ref: '#/components/schemas/AdmissionControlAgentPolicySummaryViewModel2'
-        admissionControlAgentOUPoliciesSummary:
-          type: array
-          items:
-            $ref: '#/components/schemas/AdmissionControlAgentPolicySummaryViewModel2'
-    SingleCloudAccountsAssessmentResultViewModelOfAssessmentHistoryMinimizedEntity:
-      type: object
-      additionalProperties: false
-      properties:
-        cloudAccount:
-          description: cloud account metadata
-          oneOf:
-          - $ref: '#/components/schemas/AssessmentResultCloudAccountMetadataViewModel'
-        tests:
-          type:
-          - array
-          - 'null'
-          description: Tests results
-          items:
-            $ref: '#/components/schemas/RuleTestResult'
-        testEntities:
-          type:
-          - object
-          - 'null'
-          description: 'list of the cloud entities that were tested by the bundle '
-          additionalProperties:
-            type: array
-            items:
-              $ref: '#/components/schemas/AssessmentHistoryMinimizedEntity'
-        dataSyncStatus:
-          type:
-          - array
-          - 'null'
-          description: data sync status of the entities
-          items:
-            $ref: '#/components/schemas/AssessmentDataSyncStatusEntityViewModel'
-        assessmentPassed:
-          type: boolean
-          description: assessment passed
-        hasTestsErrors:
-          type: boolean
-          description: 'assessment tests has errors '
-        assessmentId:
-          type: string
-          description: assessment id
-          format: guid
-        assessmentError:
-          type:
-          - string
-          - 'null'
-          description: assessment run error
-    RuleTestResult:
-      type: object
-      additionalProperties: false
-      required:
-      - error
-      - testedCount
-      - relevantCount
-      - nonComplyingCount
-      - exclusionStats
-      - entityResults
-      - rule
-      - testPassed
-      properties:
-        error:
-          type:
-          - string
-          - 'null'
-        testedCount:
-          type: integer
-          format: int32
-        relevantCount:
-          type: integer
-          format: int32
-        nonComplyingCount:
-          type: integer
-          format: int32
-        exclusionStats:
-          oneOf:
-          - $ref: '#/components/schemas/RuleTestResultStats'
-        entityResults:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ValidationResult'
-        rule:
-          oneOf:
-          - $ref: '#/components/schemas/RuleEntity'
-        testPassed:
-          type: boolean
-    AdmissionControlPolicyViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - id
-      - targetId
-      - targetType
-      - rulesetId
-      - action
-      - notificationIds
-      - errorMessage
-      properties:
-        id:
-          type: string
-          format: guid
-        targetId:
-          type: string
-          format: guid
-        targetType:
-          $ref: '#/components/schemas/KubernetesAdmissionControlPolicyType'
-        rulesetId:
-          type: integer
-          format: int64
-        action:
-          $ref: '#/components/schemas/KubernetesRuntimeAssuranceAction'
-        notificationIds:
-          type: array
-          items:
-            type: string
-            format: guid
-        errorMessage:
-          type: string
-    KubernetesAdmissionControlVerifyResult:
-      type: object
-      additionalProperties: false
-      required:
-      - syntaxResults
-      - assesmentResults
-      properties:
-        syntaxResults:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/KubernetesRuntimeAssuranceVerifyResult'
-        assesmentResults:
-          oneOf:
-          - $ref: '#/components/schemas/MultipleCloudAccountsAssessmentResultViewModelOfAssessmentHistoryMinimizedEntity'
+    KubernetesRuntimeAssuranceAction:
+      type: string
+      description: ''
+      x-enumNames:
+      - Detection
+      - Prevention
+      enum:
+      - Detection
+      - Prevention
     AssessmentExclusion:
       type: object
       additionalProperties: false
@@ -1140,20 +721,123 @@ components:
           - 'null'
         platform:
           $ref: '#/components/schemas/AssessmentCloudAccountType'
-    NotificationObject:
+    AdmissionControlVerifyRequestViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - cloudAccountId
+      - rules
+      - gslVersion
+      properties:
+        cloudAccountId:
+          type: string
+          minLength: 1
+        rules:
+          type: array
+          items:
+            type: string
+        gslVersion:
+          type:
+          - integer
+          - 'null'
+    AssessmentHistoryMinimizedEntityBase:
       type: object
       additionalProperties: false
       required:
       - id
-      - name
+      - type
       properties:
         id:
-          type: string
-          format: guid
-        name:
           type:
           - string
           - 'null'
+        type:
+          type:
+          - string
+          - 'null'
+    ValidationResult:
+      type: object
+      additionalProperties: false
+      required:
+      - validationStatus
+      - isRelevant
+      - isValid
+      - isExcluded
+      - exclusionId
+      - remediationId
+      - error
+      - testObj
+      properties:
+        validationStatus:
+          $ref: '#/components/schemas/ValidationStatusResult'
+        isRelevant:
+          type: boolean
+          description: 'means if entity is relevant for this rule
+
+            for example rule = "Instance where name like ''%db%'' should have...", returns false in instance name = ''scheduler1'''
+        isValid:
+          type: boolean
+          description: 'means if entity is compliant.
+
+            for example for rule="Instance should have vpc", return true if instance i-123 is under vpc-234, and false if not'
+        isExcluded:
+          type: boolean
+          description: 'means if entity is excluded.
+
+            for example for rule="Instance should have vpc exclude name=''test''", return true if instance name is test, and false if not'
+        exclusionId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        remediationId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        error:
+          type:
+          - string
+          - 'null'
+          description: note that the lambda is not aware of this field
+          default: ''
+        testObj:
+          description: note that the lambda is not aware of this field
+    RuleTestResultStats:
+      type: object
+      additionalProperties: false
+      required:
+      - testedCount
+      - relevantCount
+      - nonComplyingCount
+      properties:
+        testedCount:
+          type: integer
+          format: int32
+        relevantCount:
+          type: integer
+          format: int32
+        nonComplyingCount:
+          type: integer
+          format: int32
+    AdmissionControlEvalResultViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - violatedRules
+      - result
+      - error
+      - object
+      properties:
+        violatedRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdmissionControlGSLRule'
+        result:
+          type: boolean
+        error:
+          type: string
+        object: {}
     AdmissionControlPolicyRequestModel:
       type: object
       additionalProperties: false
@@ -1185,55 +869,87 @@ components:
         rulesetId:
           type: integer
           format: int64
-    DateTimeRange:
+    AdmissionControlAgentPolicySummaryViewModel2:
       type: object
-      deprecated: true
-      x-deprecatedMessage: 'This class was duplicated to new Domain (as part of DDD refactoring effort), please refer to the new Project: CGN.RuleEngine.Common.Infra.DateTimeRange'
       additionalProperties: false
       required:
-      - from
-      - to
+      - action
+      - rules
+      - notifications
+      - exclusions
+      - policyId
+      - bundleName
       properties:
-        from:
-          type:
-          - string
-          - 'null'
-          description: From date time
-          format: date-time
-        to:
-          type:
-          - string
-          - 'null'
-          description: To date time
-          format: date-time
-    MultipleCloudAccountsAssessmentResultViewModelOfAssessmentHistoryMinimizedEntity:
-      type: object
-      additionalProperties: false
-      properties:
-        requestId:
+        action:
+          type: string
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleObject'
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/NotificationObject'
+        exclusions:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssessmentExclusionEntity'
+        policyId:
           type: string
           format: guid
-        results:
+        bundleName:
+          type: string
+    AssessmentCloudAccountType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Aws
+      - Azure
+      - Google
+      - Kubernetes
+      - Terraform
+      - Generic
+      - KubernetesRuntimeAssurance
+      - ShiftLeft
+      - SourceCodeAssurance
+      - ImageAssurance
+      - Alibaba
+      - Cft
+      - ContainerRegistry
+      - Oci
+      - CIEM
+      enum:
+      - Aws
+      - Azure
+      - Google
+      - Kubernetes
+      - Terraform
+      - Generic
+      - KubernetesRuntimeAssurance
+      - ShiftLeft
+      - SourceCodeAssurance
+      - ImageAssurance
+      - Alibaba
+      - Cft
+      - ContainerRegistry
+      - Oci
+      - CIEM
+    KubernetesAdmissionControlVerifyResult:
+      type: object
+      additionalProperties: false
+      required:
+      - syntaxResults
+      - assesmentResults
+      properties:
+        syntaxResults:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/SingleCloudAccountsAssessmentResultViewModelOfAssessmentHistoryMinimizedEntity'
-    VpcMinimizedEntity:
-      type: object
-      additionalProperties: false
-      required:
-      - id
-      - name
-      properties:
-        id:
-          type:
-          - string
-          - 'null'
-        name:
-          type:
-          - string
-          - 'null'
+            $ref: '#/components/schemas/KubernetesRuntimeAssuranceVerifyResult'
+        assesmentResults:
+          oneOf:
+          - $ref: '#/components/schemas/MultipleCloudAccountsAssessmentResultViewModelOfAssessmentHistoryMinimizedEntity'
     RuleObject:
       type: object
       additionalProperties: false
@@ -1262,78 +978,6 @@ components:
           type:
           - string
           - 'null'
-    AdmissionControlExclusionPostRequestModel:
-      allOf:
-      - $ref: '#/components/schemas/ExclusionPostRequestBaseModel'
-      - type: object
-        additionalProperties: false
-        required:
-        - rulesetId
-        properties:
-          rulesetId:
-            type: integer
-            description: Ruleset ID to apply exclusion on. Use '0' to apply on all rulesets.
-            format: int64
-    AdmissionControlVerifyRequestViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - cloudAccountId
-      - rules
-      - gslVersion
-      properties:
-        cloudAccountId:
-          type: string
-          minLength: 1
-        rules:
-          type: array
-          items:
-            type: string
-        gslVersion:
-          type:
-          - integer
-          - 'null'
-    AdmissionControlVerifyResultViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - rule
-      - valid
-      - error
-      properties:
-        rule:
-          type: string
-        valid:
-          type: boolean
-        error:
-          type: string
-    RuleSeverity:
-      type: string
-      description: ''
-      x-enumNames:
-      - Informational
-      - Low
-      - Medium
-      - High
-      - Critical
-      enum:
-      - Informational
-      - Low
-      - Medium
-      - High
-      - Critical
-    AdmissionControlExclusionPutRequestViewModel:
-      allOf:
-      - $ref: '#/components/schemas/AdmissionControlExclusionPostRequestModel'
-      - type: object
-        additionalProperties: false
-        required:
-        - id
-        properties:
-          id:
-            type: string
-            description: '[Required] Exclusion ID'
-            format: guid
     RuleViewModel:
       type: object
       additionalProperties: false
@@ -1443,22 +1087,378 @@ components:
         isDefault:
           type: boolean
           description: The property represents default rule
-    KubernetesRuntimeAssuranceAction:
-      type: string
-      description: ''
-      x-enumNames:
-      - Detection
-      - Prevention
-      enum:
-      - Detection
-      - Prevention
-    AdmissionControlGSLRule:
+    KubernetesRuntimeAssuranceVerifyResult:
       type: object
       additionalProperties: false
       required:
       - rule
+      - valid
+      - error
       properties:
         rule:
+          type:
+          - string
+          - 'null'
+        valid:
+          type: boolean
+        error:
+          type:
+          - string
+          - 'null'
+    RootEntityBase:
+      type: object
+      x-abstract: true
+      additionalProperties: false
+      required:
+      - accountId
+      - _created
+      - _updated
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        _created:
+          type: string
+          format: date-time
+        _updated:
+          type: string
+          format: date-time
+    ExclusionPostRequestBaseModel:
+      type: object
+      x-abstract: true
+      additionalProperties: false
+      required:
+      - rules
+      - logicExpressions
+      - severities
+      - cloudAccountIds
+      - organizationalUnitIds
+      - comment
+      - dateRange
+      properties:
+        rules:
+          type:
+          - array
+          - 'null'
+          description: '[Optional] List of rules to apply the exclusion on.'
+          items:
+            $ref: '#/components/schemas/RuleViewModel'
+        logicExpressions:
+          type:
+          - array
+          - 'null'
+          description: '[Optional] The GSL logic expressions of the exclusion.'
+          pattern: ((name|id|accountNumber) like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')|(tags contain \[(key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' and value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')( or key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' and value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')*\])|(eventInfo\.userInfo\.username like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')|('[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' in\(eventInfo\.userInfo\.roles\))|(namespace like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')|(rootOwner\.kind like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' and rootOwner\.name like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+')|(labels contain-any [ key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' ])|(labels contain-any [ value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' ])|(labels contain-any [ key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' and value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' ])|(annotations contain-any [ key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' ])|(annotations contain-any [ value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' ])|(annotations contain-any [ key like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' and value like '[a-zA-Z0-9/.\-_:%"*{},;()=!&|\$#~^+@?<>\[\] À-ÖØ-öø-ÿ]+' ])
+          items:
+            type: string
+        severities:
+          type:
+          - array
+          - 'null'
+          description: '[Optional] List of severities to exclude. Valid values: [''Informational'', ''Low'', ''Medium'', ''High'', ''Critical'']'
+          items:
+            $ref: '#/components/schemas/RuleSeverity'
+        cloudAccountIds:
+          type:
+          - array
+          - 'null'
+          description: '[Optional] List of cloud account IDs to apply exclusion on.
+
+            If neither cloud account IDs nor organizational unit IDs are supplied, exclusion will apply on all cloud accounts.
+
+            If both organizational unit IDs and cloud account IDs are supplied, only organizational unit IDs will take effect.'
+          items:
+            type: string
+            format: guid
+        organizationalUnitIds:
+          type:
+          - array
+          - 'null'
+          description: '[Optional] List of organizational unit IDs to apply exclusion on.
+
+            If neither organizational unit IDs nor cloud account IDs are supplied, exclusion will apply on all cloud accounts.
+
+            If both organizational unit IDs and cloud account IDs are supplied, only organizational unit IDs will take effect.'
+          items:
+            type: string
+            format: guid
+        comment:
+          type:
+          - string
+          - 'null'
+          description: Comment text (free text)
+        dateRange:
+          description: '[Optional] Date range for the exclusion to take effect.
+
+            The exclusion will take effect permanently unless a specific date range is specified.
+
+            Leaving ''From'' null will take only ''To'' into account.
+
+            Leaving ''To'' null will take only ''From'' into account.
+
+            DateRange with both ''From'' and ''To'' null will be disregarded.'
+          oneOf:
+          - $ref: '#/components/schemas/DateTimeRange'
+    AssessmentHistoryMinimizedEntity:
+      allOf:
+      - $ref: '#/components/schemas/AssessmentHistoryMinimizedEntityBase'
+      - type: object
+        additionalProperties: false
+        required:
+        - dome9Id
+        - name
+        - category
+        - region
+        - vpc
+        - network
+        - virtualNetwork
+        - tags
+        - accountNumber
+        - vendorIdentifier
+        properties:
+          dome9Id:
+            type:
+            - string
+            - 'null'
+          name:
+            type:
+            - string
+            - 'null'
+          category:
+            type:
+            - string
+            - 'null'
+          region:
+            type:
+            - string
+            - 'null'
+          vpc:
+            oneOf:
+            - $ref: '#/components/schemas/VpcMinimizedEntity'
+          network:
+            type:
+            - string
+            - 'null'
+          virtualNetwork:
+            type:
+            - string
+            - 'null'
+          tags:
+            type:
+            - array
+            - 'null'
+            items:
+              $ref: '#/components/schemas/TagRuleEntity'
+          accountNumber:
+            type:
+            - string
+            - 'null'
+          vendorIdentifier:
+            type:
+            - string
+            - 'null'
+    AdmissionControlPoliciesSummaryViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - admissionControlAgentPoliciesSummary
+      - admissionControlAgentOUPoliciesSummary
+      properties:
+        admissionControlAgentPoliciesSummary:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdmissionControlAgentPolicySummaryViewModel2'
+        admissionControlAgentOUPoliciesSummary:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdmissionControlAgentPolicySummaryViewModel2'
+    RuleSeverity:
+      type: string
+      description: ''
+      x-enumNames:
+      - Informational
+      - Low
+      - Medium
+      - High
+      - Critical
+      enum:
+      - Informational
+      - Low
+      - Medium
+      - High
+      - Critical
+    AssessmentDataSyncStatusEntityViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - entityType
+      - recentlySuccessfulSync
+      - generalFetchPermissionIssues
+      - entitiesWithPermissionIssues
+      properties:
+        entityType:
+          type:
+          - string
+          - 'null'
+        recentlySuccessfulSync:
+          type:
+          - boolean
+          - 'null'
+        generalFetchPermissionIssues:
+          type: boolean
+        entitiesWithPermissionIssues:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EntityWithPermissionIssueViewModel'
+    RuleTestResult:
+      type: object
+      additionalProperties: false
+      required:
+      - error
+      - testedCount
+      - relevantCount
+      - nonComplyingCount
+      - exclusionStats
+      - entityResults
+      - rule
+      - testPassed
+      properties:
+        error:
+          type:
+          - string
+          - 'null'
+        testedCount:
+          type: integer
+          format: int32
+        relevantCount:
+          type: integer
+          format: int32
+        nonComplyingCount:
+          type: integer
+          format: int32
+        exclusionStats:
+          oneOf:
+          - $ref: '#/components/schemas/RuleTestResultStats'
+        entityResults:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ValidationResult'
+        rule:
+          oneOf:
+          - $ref: '#/components/schemas/RuleEntity'
+        testPassed:
+          type: boolean
+    EntityWithPermissionIssueViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - externalId
+      - name
+      - cloudVendorIdentifier
+      properties:
+        externalId:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        cloudVendorIdentifier:
+          type:
+          - string
+          - 'null'
+    DateTimeRange:
+      type: object
+      deprecated: true
+      x-deprecatedMessage: 'This class was duplicated to new Domain (as part of DDD refactoring effort), please refer to the new Project: CGN.RuleEngine.Common.Infra.DateTimeRange'
+      additionalProperties: false
+      required:
+      - from
+      - to
+      properties:
+        from:
+          type:
+          - string
+          - 'null'
+          description: From date time
+          format: date-time
+        to:
+          type:
+          - string
+          - 'null'
+          description: To date time
+          format: date-time
+    NotificationObject:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          format: guid
+        name:
+          type:
+          - string
+          - 'null'
+    AdmissionControlExclusionPostRequestModel:
+      allOf:
+      - $ref: '#/components/schemas/ExclusionPostRequestBaseModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - rulesetId
+        properties:
+          rulesetId:
+            type: integer
+            description: Ruleset ID to apply exclusion on. Use '0' to apply on all rulesets.
+            format: int64
+    VpcMinimizedEntity:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+    AdmissionControlExclusionPutRequestViewModel:
+      allOf:
+      - $ref: '#/components/schemas/AdmissionControlExclusionPostRequestModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - id
+        properties:
+          id:
+            type: string
+            description: '[Required] Exclusion ID'
+            format: guid
+    AdmissionControlVerifyResultViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - rule
+      - valid
+      - error
+      properties:
+        rule:
+          type: string
+        valid:
+          type: boolean
+        error:
           type: string
   securitySchemes:
     basic:

@@ -73,24 +73,6 @@ paths:
       summary: Export To Csv DownloadCSV
 components:
   schemas:
-    CGN.OpenSearch.Model.CommonViewModels.FieldFilterViewModel:
-      type: object
-      properties:
-        name:
-          type: string
-        value:
-          type: string
-    CGN.OpenSearch.Model.CommonViewModels.AdditionalFieldsRequestViewModel:
-      type: object
-      properties:
-        source:
-          type: string
-        filterFields:
-          type: array
-          items:
-            $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.FieldFilterViewModel'
-        sortField:
-          $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.SortingViewModel'
     CGN.OpenSearch.Model.CommonViewModels.SearchFilterViewModel:
       type: object
       properties:
@@ -113,32 +95,6 @@ components:
           items:
             type: string
         excludedEntityTypes:
-          type: array
-          items:
-            type: string
-    CGN.OpenSearch.Model.CommonViewModels.SortingViewModel:
-      type: object
-      properties:
-        fieldName:
-          type: string
-        direction:
-          format: int32
-          type: integer
-    CGN.OpenSearch.Model.CommonViewModels.TagViewModel:
-      type: object
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-    Falconetix.Model.ProtectedAssetsReport.ProtectedAssetsReportViewModel_Dome9.Web.Api.ProtectedAsset.SearchRequestViewModel_:
-      type: object
-      properties:
-        searchRequest:
-          $ref: '#/components/schemas/Dome9.Web.Api.ProtectedAsset.SearchRequestViewModel'
-          description: Search request for protected assets
-        recipients:
-          description: Recipients for email
           type: array
           items:
             type: string
@@ -179,6 +135,50 @@ components:
           $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.AdditionalFieldsRequestViewModel'
         filterEntitiesWithoutRiskScore:
           type: boolean
+    CGN.OpenSearch.Model.CommonViewModels.FieldFilterViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    CGN.OpenSearch.Model.CommonViewModels.SortingViewModel:
+      type: object
+      properties:
+        fieldName:
+          type: string
+        direction:
+          format: int32
+          type: integer
+    Falconetix.Model.ProtectedAssetsReport.ProtectedAssetsReportViewModel_Dome9.Web.Api.ProtectedAsset.SearchRequestViewModel_:
+      type: object
+      properties:
+        searchRequest:
+          $ref: '#/components/schemas/Dome9.Web.Api.ProtectedAsset.SearchRequestViewModel'
+          description: Search request for protected assets
+        recipients:
+          description: Recipients for email
+          type: array
+          items:
+            type: string
+    CGN.OpenSearch.Model.CommonViewModels.AdditionalFieldsRequestViewModel:
+      type: object
+      properties:
+        source:
+          type: string
+        filterFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.FieldFilterViewModel'
+        sortField:
+          $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.SortingViewModel'
+    CGN.OpenSearch.Model.CommonViewModels.TagViewModel:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
   requestBodies:
     Falconetix.Model.ProtectedAssetsReport.ProtectedAssetsReportViewModel_Dome9.Web.Api.ProtectedAsset.SearchRequestViewModel_:
       content:

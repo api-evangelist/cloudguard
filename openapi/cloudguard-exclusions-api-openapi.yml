@@ -174,15 +174,6 @@ components:
       required:
       - name
       - _id
-    ExclusionFilterOperator:
-      type: string
-      description: 'eq: equal, in: equal to one of the values, between: between values, has_any: field has any of the values, like_any: like any'
-      enum:
-      - in
-      - eq
-      - like_any
-      - has_any
-      - between
     ExclusionSearchAdvFilterViewModel:
       type: object
       properties:
@@ -235,6 +226,15 @@ components:
       - name
       - values
       - operator
+    ExclusionFilterOperator:
+      type: string
+      description: 'eq: equal, in: equal to one of the values, between: between values, has_any: field has any of the values, like_any: like any'
+      enum:
+      - in
+      - eq
+      - like_any
+      - has_any
+      - between
   securitySchemes:
     basic:
       type: http

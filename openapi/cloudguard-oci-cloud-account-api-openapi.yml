@@ -505,6 +505,118 @@ paths:
       description: Attach several cloud accounts to a specific Organizational Unit. User 'null' as root Organizational Unit as target
 components:
   schemas:
+    CloudVendor:
+      type: string
+      description: ''
+      x-enumNames:
+      - aws
+      - hp
+      - mellanox
+      - awsgov
+      - azure
+      - google
+      - awschina
+      - azuregov
+      - kubernetes
+      - azurechina
+      - terraform
+      - generic
+      - kubernetesruntimeassurance
+      - shiftleft
+      - sourcecodeassurance
+      - imageassurance
+      - alibaba
+      - cft
+      - containerregistry
+      - oci
+      - ocigov
+      - ocigovuk
+      - CIEM
+      enum:
+      - aws
+      - hp
+      - mellanox
+      - awsgov
+      - azure
+      - google
+      - awschina
+      - azuregov
+      - kubernetes
+      - azurechina
+      - terraform
+      - generic
+      - kubernetesruntimeassurance
+      - shiftleft
+      - sourcecodeassurance
+      - imageassurance
+      - alibaba
+      - cft
+      - containerregistry
+      - oci
+      - ocigov
+      - ocigovuk
+      - CIEM
+    MissingPermissionMetadataViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - missingPermissions
+      - entityType
+      - subType
+      properties:
+        missingPermissions:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        entityType:
+          type:
+          - string
+          - 'null'
+        subType:
+          type:
+          - string
+          - 'null'
+    MoveOrganizationalUnitViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - sourceOrganizationalUnitId
+      - targetOrganizationalUnitId
+      properties:
+        sourceOrganizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        targetOrganizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+    OciAccountCreationInput:
+      type: object
+      additionalProperties: false
+      required:
+      - userOcid
+      - tenancyId
+      - organizationalUnitId
+      properties:
+        userOcid:
+          type: string
+          description: The created user’s OCID (from the terraform output)
+          minLength: 1
+        tenancyId:
+          type: string
+          description: The tenancy’s OCID (from the previous step)
+          minLength: 1
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          description: The organizationalUnitId to add this cloud account to, or an empty GUID – “00000000-0000-0000-0000-000000000000”
+          format: guid
     UpdateIdViewModel:
       type: object
       additionalProperties: false
@@ -516,15 +628,6 @@ components:
           - string
           - 'null'
           format: guid
-    OciAccountNameViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          minLength: 1
     OciCloudAccountViewModel:
       type: object
       additionalProperties: false
@@ -582,26 +685,25 @@ components:
           - 'null'
         vendor:
           $ref: '#/components/schemas/CloudVendor'
-    OciAccountCredentialsViewModel:
+    AttachCloudAccountsViewModel:
       type: object
       additionalProperties: false
       required:
-      - user
-      - fingerprint
-      - publicKey
+      - entries
+      - organizationalUnitId
       properties:
-        user:
-          type: string
-          description: OCI user ocid.
-          minLength: 1
-        fingerprint:
-          type: string
-          description: Hash of the public key.
-          minLength: 1
-        publicKey:
-          type: string
-          description: The public key that should be used in OCI "identity api key".
-          minLength: 1
+        entries:
+          type:
+          - array
+          - 'null'
+          default: []
+          items:
+            type: string
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
     MissingPermissionViewModel:
       type: object
       additionalProperties: false
@@ -669,21 +771,6 @@ components:
           description: cloud account provider (AWS, Azure, GCP)
           oneOf:
           - $ref: '#/components/schemas/CloudVendor'
-    CloudAccountActionFailureViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
     MissingPermissionsIgnorableViewModel:
       allOf:
       - $ref: '#/components/schemas/CloudAccountExternalActionStatusViewModel'
@@ -702,191 +789,6 @@ components:
             type:
             - boolean
             - 'null'
-    MissingPermissionsIgnorableUpdateViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - isIgnored
-      - cloudAccountId
-      - permissionId
-      - type
-      - subType
-      - errorCode
-      - errorMessage
-      properties:
-        cloudAccountId:
-          type: string
-          format: guid
-        permissionId:
-          type:
-          - string
-          - 'null'
-          format: guid
-        isIgnored:
-          type: boolean
-        type:
-          type:
-          - string
-          - 'null'
-        subType:
-          type:
-          - string
-          - 'null'
-        errorCode:
-          type:
-          - string
-          - 'null'
-        errorMessage:
-          type:
-          - string
-          - 'null'
-    CloudAccountMissingPermissionsViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - accountId
-      - actions
-      properties:
-        accountId:
-          type: string
-          format: guid
-        actions:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/CloudAccountExternalActionStatusViewModel'
-    OciAccountCreationInput:
-      type: object
-      additionalProperties: false
-      required:
-      - userOcid
-      - tenancyId
-      - organizationalUnitId
-      properties:
-        userOcid:
-          type: string
-          description: The created user’s OCID (from the terraform output)
-          minLength: 1
-        tenancyId:
-          type: string
-          description: The tenancy’s OCID (from the previous step)
-          minLength: 1
-        organizationalUnitId:
-          type:
-          - string
-          - 'null'
-          description: The organizationalUnitId to add this cloud account to, or an empty GUID – “00000000-0000-0000-0000-000000000000”
-          format: guid
-    AttachCloudAccountsViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - entries
-      - organizationalUnitId
-      properties:
-        entries:
-          type:
-          - array
-          - 'null'
-          default: []
-          items:
-            type: string
-        organizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
-    MoveOrganizationalUnitViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - sourceOrganizationalUnitId
-      - targetOrganizationalUnitId
-      properties:
-        sourceOrganizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
-        targetOrganizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
-    MissingPermissionMetadataViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - missingPermissions
-      - entityType
-      - subType
-      properties:
-        missingPermissions:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        entityType:
-          type:
-          - string
-          - 'null'
-        subType:
-          type:
-          - string
-          - 'null'
-    CloudVendor:
-      type: string
-      description: ''
-      x-enumNames:
-      - aws
-      - hp
-      - mellanox
-      - awsgov
-      - azure
-      - google
-      - awschina
-      - azuregov
-      - kubernetes
-      - azurechina
-      - terraform
-      - generic
-      - kubernetesruntimeassurance
-      - shiftleft
-      - sourcecodeassurance
-      - imageassurance
-      - alibaba
-      - cft
-      - containerregistry
-      - oci
-      - ocigov
-      - ocigovuk
-      - CIEM
-      enum:
-      - aws
-      - hp
-      - mellanox
-      - awsgov
-      - azure
-      - google
-      - awschina
-      - azuregov
-      - kubernetes
-      - azurechina
-      - terraform
-      - generic
-      - kubernetesruntimeassurance
-      - shiftleft
-      - sourcecodeassurance
-      - imageassurance
-      - alibaba
-      - cft
-      - containerregistry
-      - oci
-      - ocigov
-      - ocigovuk
-      - CIEM
     CloudAccountMissingPermissionsIgnorableViewModel:
       type: object
       additionalProperties: false
@@ -904,6 +806,22 @@ components:
           - 'null'
           items:
             $ref: '#/components/schemas/MissingPermissionsIgnorableViewModel'
+    CloudAccountMissingPermissionsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - accountId
+      - actions
+      properties:
+        accountId:
+          type: string
+          format: guid
+        actions:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CloudAccountExternalActionStatusViewModel'
     OciCloudAccountTempDataCreationModel:
       type: object
       additionalProperties: false
@@ -953,6 +871,59 @@ components:
           - string
           - 'null'
           description: (*Optional) - The desired name for the Policy that will be created in the Tenancy (default - “CloudGuard-Policy”)
+    MissingPermissionsIgnorableUpdateViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - isIgnored
+      - cloudAccountId
+      - permissionId
+      - type
+      - subType
+      - errorCode
+      - errorMessage
+      properties:
+        cloudAccountId:
+          type: string
+          format: guid
+        permissionId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        isIgnored:
+          type: boolean
+        type:
+          type:
+          - string
+          - 'null'
+        subType:
+          type:
+          - string
+          - 'null'
+        errorCode:
+          type:
+          - string
+          - 'null'
+        errorMessage:
+          type:
+          - string
+          - 'null'
+    CloudAccountActionFailureViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
     CloudAccountExternalActionStatusViewModel:
       type: object
       additionalProperties: false
@@ -978,6 +949,35 @@ components:
         error:
           oneOf:
           - $ref: '#/components/schemas/CloudAccountActionFailureViewModel'
+    OciAccountNameViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          minLength: 1
+    OciAccountCredentialsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - user
+      - fingerprint
+      - publicKey
+      properties:
+        user:
+          type: string
+          description: OCI user ocid.
+          minLength: 1
+        fingerprint:
+          type: string
+          description: Hash of the public key.
+          minLength: 1
+        publicKey:
+          type: string
+          description: The public key that should be used in OCI "identity api key".
+          minLength: 1
   securitySchemes:
     basic:
       type: http

@@ -175,126 +175,6 @@ paths:
         Please follow the Intelligence onboarding "Prerequisites" screen on the CloudGuard portal.'
 components:
   schemas:
-    CentralizedNetworkTrafficArmApiRequest:
-      type: object
-      additionalProperties: false
-      required:
-      - subscriptionId
-      - storagesNames
-      - returnJsonUrl
-      properties:
-        subscriptionId:
-          type: string
-          description: Azure Subscription ID of the Storage Accounts
-        storagesNames:
-          type: array
-          description: List of storages to be onboarded to Intelligence Network Traffic
-          items:
-            type: string
-        returnJsonUrl:
-          type: boolean
-          description: Indicates if to return json or full ARM template URL. Deault value is true, so the API will return a json URL.
-          default: true
-    ArmApiResponseDetails:
-      type: object
-      additionalProperties: false
-      required:
-      - arm
-      - warnings
-      properties:
-        arm:
-          type: string
-        warnings:
-          type: array
-          items:
-            $ref: '#/components/schemas/ArmApiWarning'
-    AccountActivityStorageDetails:
-      type: object
-      additionalProperties: false
-      required:
-      - logTypes
-      - storageName
-      properties:
-        logTypes:
-          type: array
-          description: '[Required] List of log types to be onboarded to Intelligence Account Activity'
-          items:
-            $ref: '#/components/schemas/CdrAzureActivityLogTypeEnum'
-        storageName:
-          type: string
-          description: '[Required] Storage Account Name'
-    MagellanAzureFlowLogsParamsFromCliForApi:
-      type: object
-      additionalProperties: false
-      required:
-      - rgName
-      - nsgsNames
-      properties:
-        rgName:
-          type: string
-        nsgsNames:
-          type: array
-          items:
-            type: string
-    AccountActivityArmApiRequest:
-      type: object
-      additionalProperties: false
-      required:
-      - subscriptionId
-      - storagesDetails
-      - returnJsonUrl
-      properties:
-        subscriptionId:
-          type: string
-          description: Azure Subscription ID of the Storage Accounts
-        storagesDetails:
-          type: array
-          description: List of storages to be onboarded to Intelligence Account Activity
-          items:
-            $ref: '#/components/schemas/AccountActivityStorageDetails'
-        returnJsonUrl:
-          type: boolean
-          description: Indicates whether to return json or full ARM template URL. The deault value is true, meaning the API will return a json URL.
-          default: true
-    MagellanAzureNetworkActivityOnboardingArmModelForApi:
-      type: object
-      additionalProperties: false
-      required:
-      - subscriptionId
-      - nsgsDetails
-      properties:
-        subscriptionId:
-          type: string
-        nsgsDetails:
-          type: array
-          items:
-            $ref: '#/components/schemas/MagellanAzureFlowLogsParamsFromCliForApi'
-    ArmApiWarning:
-      type: object
-      additionalProperties: false
-      required:
-      - warning
-      - storagesNames
-      properties:
-        warning:
-          type: string
-        storagesNames:
-          type: array
-          items:
-            type: string
-    CdrAzureActivityLogTypeEnum:
-      type: string
-      description: ''
-      x-enumNames:
-      - ActivityLogs
-      - SignIns
-      - AuditLogs
-      - StorageAccounts
-      enum:
-      - ActivityLogs
-      - SignIns
-      - AuditLogs
-      - StorageAccounts
     HttpStatusCode:
       type: string
       description: ''
@@ -434,6 +314,126 @@ components:
       - LoopDetected
       - NotExtended
       - NetworkAuthenticationRequired
+    ArmApiResponseDetails:
+      type: object
+      additionalProperties: false
+      required:
+      - arm
+      - warnings
+      properties:
+        arm:
+          type: string
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArmApiWarning'
+    MagellanAzureNetworkActivityOnboardingArmModelForApi:
+      type: object
+      additionalProperties: false
+      required:
+      - subscriptionId
+      - nsgsDetails
+      properties:
+        subscriptionId:
+          type: string
+        nsgsDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/MagellanAzureFlowLogsParamsFromCliForApi'
+    ArmApiWarning:
+      type: object
+      additionalProperties: false
+      required:
+      - warning
+      - storagesNames
+      properties:
+        warning:
+          type: string
+        storagesNames:
+          type: array
+          items:
+            type: string
+    AccountActivityStorageDetails:
+      type: object
+      additionalProperties: false
+      required:
+      - logTypes
+      - storageName
+      properties:
+        logTypes:
+          type: array
+          description: '[Required] List of log types to be onboarded to Intelligence Account Activity'
+          items:
+            $ref: '#/components/schemas/CdrAzureActivityLogTypeEnum'
+        storageName:
+          type: string
+          description: '[Required] Storage Account Name'
+    AccountActivityArmApiRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - subscriptionId
+      - storagesDetails
+      - returnJsonUrl
+      properties:
+        subscriptionId:
+          type: string
+          description: Azure Subscription ID of the Storage Accounts
+        storagesDetails:
+          type: array
+          description: List of storages to be onboarded to Intelligence Account Activity
+          items:
+            $ref: '#/components/schemas/AccountActivityStorageDetails'
+        returnJsonUrl:
+          type: boolean
+          description: Indicates whether to return json or full ARM template URL. The deault value is true, meaning the API will return a json URL.
+          default: true
+    CdrAzureActivityLogTypeEnum:
+      type: string
+      description: ''
+      x-enumNames:
+      - ActivityLogs
+      - SignIns
+      - AuditLogs
+      - StorageAccounts
+      enum:
+      - ActivityLogs
+      - SignIns
+      - AuditLogs
+      - StorageAccounts
+    CentralizedNetworkTrafficArmApiRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - subscriptionId
+      - storagesNames
+      - returnJsonUrl
+      properties:
+        subscriptionId:
+          type: string
+          description: Azure Subscription ID of the Storage Accounts
+        storagesNames:
+          type: array
+          description: List of storages to be onboarded to Intelligence Network Traffic
+          items:
+            type: string
+        returnJsonUrl:
+          type: boolean
+          description: Indicates if to return json or full ARM template URL. Deault value is true, so the API will return a json URL.
+          default: true
+    MagellanAzureFlowLogsParamsFromCliForApi:
+      type: object
+      additionalProperties: false
+      required:
+      - rgName
+      - nsgsNames
+      properties:
+        rgName:
+          type: string
+        nsgsNames:
+          type: array
+          items:
+            type: string
   securitySchemes:
     basic:
       type: http

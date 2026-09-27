@@ -68,27 +68,6 @@ components:
         value:
           type: string
           readOnly: true
-    Dome9.Web.Api.Azure.RedisCache.ViewModels.AzureRedisScheduleEntryViewModel:
-      type: object
-      properties:
-        dayOfWeek:
-          type: string
-        maintenanceWindow:
-          type: string
-        startHourUtc:
-          format: int32
-          type: integer
-    Dome9.Web.Api.Azure.RedisCache.ViewModels.AzureRedisFirewallRuleViewModel:
-      type: object
-      properties:
-        endIp:
-          type: string
-        externalId:
-          type: string
-        name:
-          type: string
-        startIp:
-          type: string
     Dome9.Web.Api.Azure.RedisCache.ViewModels.AzureSkuViewModel:
       type: object
       properties:
@@ -99,20 +78,27 @@ components:
           type: string
         name:
           type: string
-    Dome9.Web.Api.Azure.DiagnosticSettings.LogAuditViewModel:
+    Dome9.Web.Api.Azure.DiagnosticSettings.DiagnosticSettingsViewModel:
       type: object
       properties:
-        category:
+        id:
           type: string
-        categoryGroup:
+        eventHubAuthorizationRuleId:
           type: string
-        enabled:
-          type: boolean
-        retentionDays:
-          format: int32
-          type: integer
-        retentionStatus:
-          type: boolean
+        eventHubName:
+          type: string
+        logs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Azure.DiagnosticSettings.LogAuditViewModel'
+        metrics:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Azure.DiagnosticSettings.MetricAuditViewModel'
+        storageAccount:
+          type: string
+        workspaceId:
+          type: string
     Dome9.Web.Api.Azure.RedisCache.ViewModels.AzureRedisLinkedServerViewModel:
       type: object
       properties:
@@ -127,6 +113,17 @@ components:
         provisioningState:
           type: string
         serverRole:
+          type: string
+    Dome9.Web.Api.Azure.RedisCache.ViewModels.AzureRedisFirewallRuleViewModel:
+      type: object
+      properties:
+        endIp:
+          type: string
+        externalId:
+          type: string
+        name:
+          type: string
+        startIp:
           type: string
     Dome9.Web.Api.Azure.RedisCache.ViewModels.AzureRedisCacheViewModel:
       type: object
@@ -207,6 +204,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Dome9.Web.Api.Azure.DiagnosticSettings.DiagnosticSettingsViewModel'
+    Dome9.Web.Api.Azure.RedisCache.ViewModels.AzureRedisScheduleEntryViewModel:
+      type: object
+      properties:
+        dayOfWeek:
+          type: string
+        maintenanceWindow:
+          type: string
+        startHourUtc:
+          format: int32
+          type: integer
     Dome9.Web.Api.Azure.DiagnosticSettings.MetricAuditViewModel:
       type: object
       properties:
@@ -221,27 +228,20 @@ components:
           type: boolean
         timeGrain:
           type: string
-    Dome9.Web.Api.Azure.DiagnosticSettings.DiagnosticSettingsViewModel:
+    Dome9.Web.Api.Azure.DiagnosticSettings.LogAuditViewModel:
       type: object
       properties:
-        id:
+        category:
           type: string
-        eventHubAuthorizationRuleId:
+        categoryGroup:
           type: string
-        eventHubName:
-          type: string
-        logs:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.Azure.DiagnosticSettings.LogAuditViewModel'
-        metrics:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.Azure.DiagnosticSettings.MetricAuditViewModel'
-        storageAccount:
-          type: string
-        workspaceId:
-          type: string
+        enabled:
+          type: boolean
+        retentionDays:
+          format: int32
+          type: integer
+        retentionStatus:
+          type: boolean
   securitySchemes:
     basic:
       type: http

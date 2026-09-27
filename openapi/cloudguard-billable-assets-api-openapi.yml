@@ -37,6 +37,38 @@ paths:
       summary: Get
 components:
   schemas:
+    Dome9.Web.Api.BillableAssets.CloudAccountBillableAssetsViewModel:
+      type: object
+      properties:
+        cloudVendor:
+          type: string
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        assetsCount:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.BillableAssets.AssetsViewModel'
+    Falconetix.Model.BillableAssets.AccountAssetsTotalData:
+      type: object
+      properties:
+        vendor:
+          type: string
+        assetType:
+          type: string
+        totalCount:
+          format: int32
+          type: integer
+        totalBillable:
+          format: int32
+          type: integer
+        totalNonBillable:
+          format: int32
+          type: integer
+        totalOnLineCount:
+          format: int32
+          type: integer
     Dome9.Web.Api.BillableAssets.AccountBillableAssetsViewModel:
       type: object
       properties:
@@ -71,38 +103,6 @@ components:
           format: int32
           type: integer
         grandTotalOnLineCount:
-          format: int32
-          type: integer
-    Dome9.Web.Api.BillableAssets.CloudAccountBillableAssetsViewModel:
-      type: object
-      properties:
-        cloudVendor:
-          type: string
-        cloudAccountId:
-          format: uuid
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
-        assetsCount:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.BillableAssets.AssetsViewModel'
-    Falconetix.Model.BillableAssets.AccountAssetsTotalData:
-      type: object
-      properties:
-        vendor:
-          type: string
-        assetType:
-          type: string
-        totalCount:
-          format: int32
-          type: integer
-        totalBillable:
-          format: int32
-          type: integer
-        totalNonBillable:
-          format: int32
-          type: integer
-        totalOnLineCount:
           format: int32
           type: integer
     Dome9.Web.Api.BillableAssets.AssetsViewModel:

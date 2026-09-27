@@ -312,6 +312,18 @@ paths:
       description: Get audit metadata
 components:
   schemas:
+    Falconetix.Model.Audit.SystemAuditResult:
+      type: object
+      properties:
+        description:
+          type: string
+        time:
+          format: date-time
+          type: string
+        event_name:
+          type: string
+        cloud_account_id:
+          type: string
     Dome9.Web.Api.Models.AuditViewModel:
       type: object
       properties:
@@ -331,18 +343,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Dome9.Web.Api.Models.AuditEntryViewModel'
-    Falconetix.Model.Audit.SystemAuditResult:
-      type: object
-      properties:
-        description:
-          type: string
-        time:
-          format: date-time
-          type: string
-        event_name:
-          type: string
-        cloud_account_id:
-          type: string
     Dome9.Web.Api.Models.AuditEntryViewModel:
       type: object
       properties:

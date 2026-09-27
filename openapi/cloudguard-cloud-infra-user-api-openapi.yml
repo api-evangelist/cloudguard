@@ -61,13 +61,6 @@ paths:
       summary: Post
 components:
   schemas:
-    Dome9.Web.Api.UserAndRole.CloudInfraUserCreationFailureResult:
-      type: object
-      properties:
-        user:
-          $ref: '#/components/schemas/Falconetix.Model.CloudInfra.CloudInfraUserViewModel'
-        errorMessage:
-          type: string
     Dome9.Web.Api.UserAndRole.CreateDome9CloudInfraUserResponseViewModel:
       type: object
       properties:
@@ -118,6 +111,13 @@ components:
           items:
             format: int64
             type: integer
+    Dome9.Web.Api.UserAndRole.CloudInfraUserCreationFailureResult:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/Falconetix.Model.CloudInfra.CloudInfraUserViewModel'
+        errorMessage:
+          type: string
   securitySchemes:
     basic:
       type: http

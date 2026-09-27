@@ -109,16 +109,14 @@ paths:
                 $ref: '#/components/schemas/ReportOperationResponse'
 components:
   schemas:
-    ReportFiltersItem:
+    ReportOperationResponse:
       type: object
       additionalProperties: false
       required:
-      - name
-      - value
+      - message
       properties:
-        name:
+        message:
           type: string
-        value: {}
     ReportNotificationItem:
       type: object
       additionalProperties: false
@@ -130,6 +128,17 @@ components:
           type: string
         value:
           type: string
+    DeleteReportRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - scheduleIds
+      properties:
+        scheduleIds:
+          type: array
+          items:
+            type: integer
+            format: int32
     FullReportResponseModel:
       allOf:
       - $ref: '#/components/schemas/BaseReportModel'
@@ -178,25 +187,16 @@ components:
             $ref: '#/components/schemas/ReportNotificationItem'
         scheduleDetails:
           $ref: '#/components/schemas/ReportScheduleDetails'
-    DeleteReportRequest:
+    ReportFiltersItem:
       type: object
       additionalProperties: false
       required:
-      - scheduleIds
+      - name
+      - value
       properties:
-        scheduleIds:
-          type: array
-          items:
-            type: integer
-            format: int32
-    ReportOperationResponse:
-      type: object
-      additionalProperties: false
-      required:
-      - message
-      properties:
-        message:
+        name:
           type: string
+        value: {}
     ReportScheduleDetails:
       type: object
       additionalProperties: false

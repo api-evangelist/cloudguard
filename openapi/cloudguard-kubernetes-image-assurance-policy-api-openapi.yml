@@ -199,6 +199,15 @@ components:
           description: '[Preview feature - Image Admission] Image Admission unScanned action of Detection or Prevention to alert on or block images that have not been scanned.
 
             Options: ''Prevention'', ''Detection'', or null.'
+    ImageAssurancePolicyType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Environment
+      - OrganizationalUnit
+      enum:
+      - Environment
+      - OrganizationalUnit
     ImageAssurancePolicyPlatform:
       type: string
       description: ''
@@ -214,15 +223,29 @@ components:
       - OrganizationalUnit
       - ShiftLeft
       - ContainerRegistry
-    ImageAssurancePolicyType:
-      type: string
-      description: ''
-      x-enumNames:
-      - Environment
-      - OrganizationalUnit
-      enum:
-      - Environment
-      - OrganizationalUnit
+    ImageAssurancePolicyRequestModel:
+      allOf:
+      - $ref: '#/components/schemas/ImageAssurancePolicyRequestModelOld'
+      - type: object
+        additionalProperties: false
+        required:
+        - admissionControllerAction
+        - admissionControlUnScannedAction
+        properties:
+          admissionControllerAction:
+            type:
+            - string
+            - 'null'
+            description: '[Preview feature - Image Admission] Image Admission action to block non-compliant images according to the relevant ruleset.
+
+              Options: ''Prevention'', ''Detection'', or null.'
+          admissionControlUnScannedAction:
+            type:
+            - string
+            - 'null'
+            description: '[Preview feature - Image Admission] Image Admission unScanned action of Detection or Prevention to alert on or block images that have not been scanned.
+
+              Options: ''Prevention'', ''Detection'', or null.'
     ImageAssurancePolicyRequestModelOld:
       type: object
       additionalProperties: false
@@ -258,29 +281,6 @@ components:
         rulesetId:
           type: integer
           format: int64
-    ImageAssurancePolicyRequestModel:
-      allOf:
-      - $ref: '#/components/schemas/ImageAssurancePolicyRequestModelOld'
-      - type: object
-        additionalProperties: false
-        required:
-        - admissionControllerAction
-        - admissionControlUnScannedAction
-        properties:
-          admissionControllerAction:
-            type:
-            - string
-            - 'null'
-            description: '[Preview feature - Image Admission] Image Admission action to block non-compliant images according to the relevant ruleset.
-
-              Options: ''Prevention'', ''Detection'', or null.'
-          admissionControlUnScannedAction:
-            type:
-            - string
-            - 'null'
-            description: '[Preview feature - Image Admission] Image Admission unScanned action of Detection or Prevention to alert on or block images that have not been scanned.
-
-              Options: ''Prevention'', ''Detection'', or null.'
   securitySchemes:
     basic:
       type: http

@@ -171,6 +171,13 @@ paths:
       description: Get the schema of entities and relationships
 components:
   schemas:
+    QueryExecutionEvidencePathResponseViewModel:
+      type: object
+      properties:
+        evidencePath:
+          $ref: '#/components/schemas/GraphDataViewModel'
+        error:
+          type: string
     SgqlQueryRunSrlsResponseViewModel:
       type: object
       properties:
@@ -178,13 +185,6 @@ components:
           type: array
           items:
             type: array
-        error:
-          type: string
-    SgqlQueryRunEvidenceResponseViewModel:
-      type: object
-      properties:
-        evidencePerSrl:
-          type: object
         error:
           type: string
     SgqlQueryRunSrlsEnhancedResponseViewModel:
@@ -200,20 +200,17 @@ components:
           type: string
       required:
       - queryRunRequestId
-    QueryExecutionEvidencePathResponseViewModel:
-      type: object
-      properties:
-        evidencePath:
-          $ref: '#/components/schemas/GraphDataViewModel'
-        error:
-          type: string
-    GraphDataViewModel:
-      type: object
-      properties: {}
     SgqlQueryRunEvidencePathRequestModel:
       type: object
       properties: {}
-    SgqlQueryRunRequestModel:
+    SgqlQueryRunEvidenceResponseViewModel:
+      type: object
+      properties:
+        evidencePerSrl:
+          type: object
+        error:
+          type: string
+    GraphDataViewModel:
       type: object
       properties: {}
     EntitySchemaViewModel:
@@ -226,6 +223,9 @@ components:
       required:
       - EntitySchemas
       - RelationshipSchemas
+    SgqlQueryRunRequestModel:
+      type: object
+      properties: {}
   securitySchemes:
     basic:
       type: http

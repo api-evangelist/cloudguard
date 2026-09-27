@@ -227,41 +227,21 @@ components:
             format: uuid
             type: string
             example: 00000000-0000-0000-0000-000000000000
-    ContinuousCompliancePolicyTargetType:
-      type: string
-      description: ''
-      x-enumNames:
-      - Aws
-      - Azure
-      - Gcp
-      - Kubernetes
-      - OrganizationalUnit
-      - Terraform
-      - Generic
-      - KubernetesRuntimeAssurance
-      - ShiftLeft
-      - Alibaba
-      - Cft
-      - ContainerRegistry
-      - Vendor
-      - Oci
-      - CIEM
-      enum:
-      - Aws
-      - Azure
-      - Gcp
-      - Kubernetes
-      - OrganizationalUnit
-      - Terraform
-      - Generic
-      - KubernetesRuntimeAssurance
-      - ShiftLeft
-      - Alibaba
-      - Cft
-      - ContainerRegistry
-      - Vendor
-      - Oci
-      - CIEM
+    EvaluateRulesetVersionsRequestModel:
+      type: object
+      additionalProperties: false
+      required:
+      - rulesetId
+      - cloudAccountIds
+      properties:
+        rulesetId:
+          type: integer
+          format: int64
+        cloudAccountIds:
+          type: array
+          items:
+            type: string
+            format: guid
     ContinuousCompliancePolicyViewModel:
       type: object
       additionalProperties: false
@@ -301,21 +281,6 @@ components:
             format: guid
         errorMessage:
           type: string
-    EvaluateRulesetVersionsRequestModel:
-      type: object
-      additionalProperties: false
-      required:
-      - rulesetId
-      - cloudAccountIds
-      properties:
-        rulesetId:
-          type: integer
-          format: int64
-        cloudAccountIds:
-          type: array
-          items:
-            type: string
-            format: guid
     ContinuousCompliancePolicyRequestModel:
       type: object
       additionalProperties: false
@@ -342,6 +307,41 @@ components:
           items:
             type: string
             format: guid
+    ContinuousCompliancePolicyTargetType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Aws
+      - Azure
+      - Gcp
+      - Kubernetes
+      - OrganizationalUnit
+      - Terraform
+      - Generic
+      - KubernetesRuntimeAssurance
+      - ShiftLeft
+      - Alibaba
+      - Cft
+      - ContainerRegistry
+      - Vendor
+      - Oci
+      - CIEM
+      enum:
+      - Aws
+      - Azure
+      - Gcp
+      - Kubernetes
+      - OrganizationalUnit
+      - Terraform
+      - Generic
+      - KubernetesRuntimeAssurance
+      - ShiftLeft
+      - Alibaba
+      - Cft
+      - ContainerRegistry
+      - Vendor
+      - Oci
+      - CIEM
   securitySchemes:
     basic:
       type: http

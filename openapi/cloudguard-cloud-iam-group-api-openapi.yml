@@ -39,6 +39,13 @@ paths:
       summary: Get
 components:
   schemas:
+    Dome9.Web.Api.CloudIamGroups.CloudIamGroupInlinePolicyViewModel:
+      type: object
+      properties:
+        policyName:
+          type: string
+        policyDocument:
+          type: object
     Dome9.Web.Api.CloudIamGroupPolicy.AwsIamGroupPolicyViewModel:
       type: object
       properties:
@@ -48,13 +55,6 @@ components:
         name:
           description: name
           type: string
-    Dome9.Web.Api.CloudIamGroups.CloudIamGroupInlinePolicyViewModel:
-      type: object
-      properties:
-        policyName:
-          type: string
-        policyDocument:
-          type: object
     Dome9.Web.Api.CloudIamGroups.CloudIamGroupViewModel:
       type: object
       properties:

@@ -55,6 +55,46 @@ paths:
       summary: Get Accounts
 components:
   schemas:
+    Dome9.Web.Api.AwsOrganizationAccountViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        arn:
+          type: string
+        ouPath:
+          type: string
+        email:
+          format: email
+          description: Email Address
+          type: string
+          example: MyName@gmail.com
+        joinedMethod:
+          enum:
+          - CREATED
+          - INVITED
+          type: string
+        status:
+          enum:
+          - ACTIVE
+          - SUSPENDED
+          type: string
+        organizationType:
+          enum:
+          - Root
+          - Account
+          - Unit
+          type: string
+        organizationPolicies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Organizations.AwsOrganizationPolicyViewModel'
+        organizationTags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Organizations.AwsOrganizationTagViewModel'
     Dome9.Web.Api.AwsOrganizationViewModel:
       type: object
       properties:
@@ -100,46 +140,6 @@ components:
           type: string
         summaryType:
           type: string
-    Dome9.Web.Api.AwsOrganizationAccountViewModel:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        arn:
-          type: string
-        ouPath:
-          type: string
-        email:
-          format: email
-          description: Email Address
-          type: string
-          example: MyName@gmail.com
-        joinedMethod:
-          enum:
-          - CREATED
-          - INVITED
-          type: string
-        status:
-          enum:
-          - ACTIVE
-          - SUSPENDED
-          type: string
-        organizationType:
-          enum:
-          - Root
-          - Account
-          - Unit
-          type: string
-        organizationPolicies:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.Organizations.AwsOrganizationPolicyViewModel'
-        organizationTags:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.Organizations.AwsOrganizationTagViewModel'
   securitySchemes:
     basic:
       type: http

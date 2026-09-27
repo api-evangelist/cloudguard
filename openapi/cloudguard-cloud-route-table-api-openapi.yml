@@ -79,6 +79,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Dome9.Web.Api.CloudRouteTables.CloudRouteTableAssociationViewModel'
+    Dome9.Web.Api.CloudRouteTables.CloudRouteTableAssociationViewModel:
+      type: object
+      properties:
+        isMain:
+          type: boolean
+        routeTableAssociationId:
+          type: string
+        routeTableId:
+          type: string
+        subnetId:
+          type: string
     Dome9.Web.Api.CloudRouteTables.CloudRouteViewModel:
       type: object
       properties:
@@ -107,17 +118,6 @@ components:
         vpcPeeringConnectionId:
           type: string
         transitGatewayId:
-          type: string
-    Dome9.Web.Api.CloudRouteTables.CloudRouteTableAssociationViewModel:
-      type: object
-      properties:
-        isMain:
-          type: boolean
-        routeTableAssociationId:
-          type: string
-        routeTableId:
-          type: string
-        subnetId:
           type: string
   securitySchemes:
     basic:

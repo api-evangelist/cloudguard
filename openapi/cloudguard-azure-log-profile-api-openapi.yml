@@ -63,14 +63,6 @@ components:
           example: 00000000-0000-0000-0000-000000000000
         resourceGroup:
           type: string
-    Dome9.Web.Api.Azure.LogProfile.AzureLogProfileRetentionPolicyViewModel:
-      type: object
-      properties:
-        enabled:
-          type: string
-        days:
-          format: int32
-          type: integer
     Dome9.Web.Api.Azure.LogProfile.AzureLogProfilePropertiesViewModel:
       type: object
       properties:
@@ -88,6 +80,14 @@ components:
             type: string
         retentionPolicy:
           $ref: '#/components/schemas/Dome9.Web.Api.Azure.LogProfile.AzureLogProfileRetentionPolicyViewModel'
+    Dome9.Web.Api.Azure.LogProfile.AzureLogProfileRetentionPolicyViewModel:
+      type: object
+      properties:
+        enabled:
+          type: string
+        days:
+          format: int32
+          type: integer
   securitySchemes:
     basic:
       type: http

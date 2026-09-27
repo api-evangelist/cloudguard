@@ -39,6 +39,73 @@ paths:
       summary: Get
 components:
   schemas:
+    Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineIdSubFieldViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+    Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineImageViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+        externalId:
+          type: string
+        name:
+          type: string
+        location:
+          type: string
+        extendedLocation:
+          $ref: '#/components/schemas/Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineExtendedLocationViewModel'
+        properties:
+          $ref: '#/components/schemas/Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineImagePropertiesViewModel'
+        usedBy:
+          type: array
+          items:
+            type: string
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+    Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineExtendedLocationViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+    Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineStorageProfileDataDiskViewModel:
+      type: object
+      properties:
+        lun:
+          format: int32
+          type: integer
+        diskSizeGb:
+          format: int32
+          type: integer
+        blobUri:
+          type: string
+        caching:
+          type: string
+        storageAccountType:
+          type: string
+        diskEncryptionSet:
+          $ref: '#/components/schemas/Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineIdSubFieldViewModel'
+        managedDisk:
+          $ref: '#/components/schemas/Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineIdSubFieldViewModel'
+        snapshot:
+          $ref: '#/components/schemas/Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineIdSubFieldViewModel'
+    Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineStorageProfileViewModel:
+      type: object
+      properties:
+        osDisk:
+          $ref: '#/components/schemas/Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineStorageProfileOsDiskViewModel'
+        dataDisks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineStorageProfileDataDiskViewModel'
+        zoneResilient:
+          type: boolean
     Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineStorageProfileOsDiskViewModel:
       type: object
       properties:
@@ -72,73 +139,6 @@ components:
           type: string
         hyperVGeneration:
           type: string
-    Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineStorageProfileViewModel:
-      type: object
-      properties:
-        osDisk:
-          $ref: '#/components/schemas/Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineStorageProfileOsDiskViewModel'
-        dataDisks:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineStorageProfileDataDiskViewModel'
-        zoneResilient:
-          type: boolean
-    Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineIdSubFieldViewModel:
-      type: object
-      properties:
-        id:
-          type: string
-    Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineExtendedLocationViewModel:
-      type: object
-      properties:
-        name:
-          type: string
-        type:
-          type: string
-    Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineImageViewModel:
-      type: object
-      properties:
-        id:
-          type: string
-        externalId:
-          type: string
-        name:
-          type: string
-        location:
-          type: string
-        extendedLocation:
-          $ref: '#/components/schemas/Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineExtendedLocationViewModel'
-        properties:
-          $ref: '#/components/schemas/Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineImagePropertiesViewModel'
-        usedBy:
-          type: array
-          items:
-            type: string
-        tags:
-          type: object
-          additionalProperties:
-            type: string
-    Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineStorageProfileDataDiskViewModel:
-      type: object
-      properties:
-        lun:
-          format: int32
-          type: integer
-        diskSizeGb:
-          format: int32
-          type: integer
-        blobUri:
-          type: string
-        caching:
-          type: string
-        storageAccountType:
-          type: string
-        diskEncryptionSet:
-          $ref: '#/components/schemas/Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineIdSubFieldViewModel'
-        managedDisk:
-          $ref: '#/components/schemas/Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineIdSubFieldViewModel'
-        snapshot:
-          $ref: '#/components/schemas/Dome9.Web.Api.Azure.VirtualMachineImage.AzureVirtualMachineIdSubFieldViewModel'
   securitySchemes:
     basic:
       type: http
