@@ -167,131 +167,6 @@ paths:
       description: Get a specific versioned ruleset
 components:
   schemas:
-    CloudVendor:
-      type: string
-      description: ''
-      x-enumNames:
-      - aws
-      - hp
-      - mellanox
-      - awsgov
-      - azure
-      - google
-      - awschina
-      - azuregov
-      - kubernetes
-      - azurechina
-      - terraform
-      - generic
-      - kubernetesruntimeassurance
-      - shiftleft
-      - sourcecodeassurance
-      - imageassurance
-      - alibaba
-      - cft
-      - containerregistry
-      - oci
-      - ocigov
-      - ocigovuk
-      - CIEM
-      enum:
-      - aws
-      - hp
-      - mellanox
-      - awsgov
-      - azure
-      - google
-      - awschina
-      - azuregov
-      - kubernetes
-      - azurechina
-      - terraform
-      - generic
-      - kubernetesruntimeassurance
-      - shiftleft
-      - sourcecodeassurance
-      - imageassurance
-      - alibaba
-      - cft
-      - containerregistry
-      - oci
-      - ocigov
-      - ocigovuk
-      - CIEM
-    RuleBundleRequestPostViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      - cloudVendor
-      - description
-      - rules
-      - hideInCompliance
-      - minFeatureTier
-      - language
-      properties:
-        name:
-          type: string
-          description: bundle name
-          default: ''
-          minLength: 1
-        description:
-          type:
-          - string
-          - 'null'
-          description: description of the bundle
-          default: ''
-        rules:
-          type:
-          - array
-          - 'null'
-          description: list of rules in the bundle
-          default: []
-          items:
-            $ref: '#/components/schemas/RuleViewModel2'
-        hideInCompliance:
-          type: boolean
-        minFeatureTier:
-          default: 30
-          $ref: '#/components/schemas/FeatureTier'
-        cloudVendor:
-          description: the cloud provider on which the rule will be run
-          oneOf:
-          - $ref: '#/components/schemas/CloudVendor'
-        language:
-          type:
-          - string
-          - 'null'
-          description: the language of the text (default, 'en' - English)
-          default: en
-    RuleBundleResultViewModel:
-      allOf:
-      - $ref: '#/components/schemas/BaseRuleBundleResultViewModelOfRuleBundleEntity'
-      - type: object
-        additionalProperties: false
-        required:
-        - rules
-        properties:
-          rules:
-            type:
-            - array
-            - 'null'
-            description: list of rules in the bundle
-            items:
-              $ref: '#/components/schemas/RuleViewModel2'
-    FeatureTier:
-      type: string
-      description: ''
-      x-enumNames:
-      - Trial
-      - Basic
-      - Advanced
-      - Premium
-      enum:
-      - Trial
-      - Basic
-      - Advanced
-      - Premium
     BaseRuleBundleResultViewModelOfRuleBundleEntity:
       type: object
       x-abstract: true
@@ -370,6 +245,85 @@ components:
           type:
           - string
           - 'null'
+    RuleBundleResultViewModel:
+      allOf:
+      - $ref: '#/components/schemas/BaseRuleBundleResultViewModelOfRuleBundleEntity'
+      - type: object
+        additionalProperties: false
+        required:
+        - rules
+        properties:
+          rules:
+            type:
+            - array
+            - 'null'
+            description: list of rules in the bundle
+            items:
+              $ref: '#/components/schemas/RuleViewModel2'
+    FeatureTier:
+      type: string
+      description: ''
+      x-enumNames:
+      - Trial
+      - Basic
+      - Advanced
+      - Premium
+      enum:
+      - Trial
+      - Basic
+      - Advanced
+      - Premium
+    CloudVendor:
+      type: string
+      description: ''
+      x-enumNames:
+      - aws
+      - hp
+      - mellanox
+      - awsgov
+      - azure
+      - google
+      - awschina
+      - azuregov
+      - kubernetes
+      - azurechina
+      - terraform
+      - generic
+      - kubernetesruntimeassurance
+      - shiftleft
+      - sourcecodeassurance
+      - imageassurance
+      - alibaba
+      - cft
+      - containerregistry
+      - oci
+      - ocigov
+      - ocigovuk
+      - CIEM
+      enum:
+      - aws
+      - hp
+      - mellanox
+      - awsgov
+      - azure
+      - google
+      - awschina
+      - azuregov
+      - kubernetes
+      - azurechina
+      - terraform
+      - generic
+      - kubernetesruntimeassurance
+      - shiftleft
+      - sourcecodeassurance
+      - imageassurance
+      - alibaba
+      - cft
+      - containerregistry
+      - oci
+      - ocigov
+      - ocigovuk
+      - CIEM
     RuleBundleVersionViewModel:
       type: object
       additionalProperties: false
@@ -385,6 +339,73 @@ components:
           type:
           - string
           - 'null'
+    RuleBundleRequestPostViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - cloudVendor
+      - description
+      - rules
+      - hideInCompliance
+      - minFeatureTier
+      - language
+      properties:
+        name:
+          type: string
+          description: bundle name
+          default: ''
+          minLength: 1
+        description:
+          type:
+          - string
+          - 'null'
+          description: description of the bundle
+          default: ''
+        rules:
+          type:
+          - array
+          - 'null'
+          description: list of rules in the bundle
+          default: []
+          items:
+            $ref: '#/components/schemas/RuleViewModel2'
+        hideInCompliance:
+          type: boolean
+        minFeatureTier:
+          default: 30
+          $ref: '#/components/schemas/FeatureTier'
+        cloudVendor:
+          description: the cloud provider on which the rule will be run
+          oneOf:
+          - $ref: '#/components/schemas/CloudVendor'
+        language:
+          type:
+          - string
+          - 'null'
+          description: the language of the text (default, 'en' - English)
+          default: en
+    RuleBundleRequestViewModel:
+      allOf:
+      - $ref: '#/components/schemas/RuleBundleRequestPostViewModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - id
+        - rlmId
+        properties:
+          id:
+            type: integer
+            description: the bundle id (returned in response)
+            format: int64
+          rlmId:
+            type:
+            - string
+            - 'null'
+            description: 'RDS database table entity (row) id
+
+              Is null for non-RLM customers (using legacy Mongo)'
+            format: guid
     RuleViewModel2:
       type: object
       additionalProperties: false
@@ -414,27 +435,6 @@ components:
           type:
           - string
           - 'null'
-    RuleBundleRequestViewModel:
-      allOf:
-      - $ref: '#/components/schemas/RuleBundleRequestPostViewModel'
-      - type: object
-        additionalProperties: false
-        required:
-        - id
-        - rlmId
-        properties:
-          id:
-            type: integer
-            description: the bundle id (returned in response)
-            format: int64
-          rlmId:
-            type:
-            - string
-            - 'null'
-            description: 'RDS database table entity (row) id
-
-              Is null for non-RLM customers (using legacy Mongo)'
-            format: guid
   securitySchemes:
     basic:
       type: http

@@ -46,6 +46,21 @@ components:
           type: string
         policyDocument:
           type: object
+    Dome9.Web.Api.CloudIamRoles.AwsIamRoleLastUsedViewModel:
+      type: object
+      properties:
+        roleLastUsed:
+          format: date-time
+          type: string
+        region:
+          type: string
+    Dome9.Web.Api.Models.CloudIamRoleViewModel.PermissionsBoundary:
+      type: object
+      properties:
+        permissionsBoundaryArn:
+          type: string
+        permissionsBoundaryType:
+          type: string
     Dome9.Web.Api.AwsQuickSight.NetworkInterfaceViewModel:
       type: object
       properties:
@@ -56,6 +71,13 @@ components:
         networkInterfaceId:
           type: string
         status:
+          type: string
+    Dome9.Web.Api.CloudIamRoles.AwsIamRolePolicyViewModel:
+      type: object
+      properties:
+        arn:
+          type: string
+        name:
           type: string
     Dome9.Web.Api.AwsSecurityGroup.AwsSecurityGroupViewModel:
       type: object
@@ -284,13 +306,6 @@ components:
           type: string
         vpcId:
           type: string
-    Dome9.Web.Api.CloudIamRoles.AwsIamRolePolicyViewModel:
-      type: object
-      properties:
-        arn:
-          type: string
-        name:
-          type: string
     Dome9.Web.Api.AwsQuickSight.AwsQuickSightVpcConnectionsViewModel:
       type: object
       properties:
@@ -382,21 +397,6 @@ components:
           $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudIamRoleViewModel.PermissionsBoundary'
         assumeRolePolicy:
           type: object
-    Dome9.Web.Api.CloudIamRoles.AwsIamRoleLastUsedViewModel:
-      type: object
-      properties:
-        roleLastUsed:
-          format: date-time
-          type: string
-        region:
-          type: string
-    Dome9.Web.Api.Models.CloudIamRoleViewModel.PermissionsBoundary:
-      type: object
-      properties:
-        permissionsBoundaryArn:
-          type: string
-        permissionsBoundaryType:
-          type: string
   securitySchemes:
     basic:
       type: http

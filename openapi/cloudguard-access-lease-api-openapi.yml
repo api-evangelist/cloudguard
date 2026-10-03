@@ -79,18 +79,7 @@ paths:
       description: Terminate an Access Lease
 components:
   schemas:
-    Dome9.Web.Api.Models.AccessLeasesGroupedViewModel:
-      type: object
-      properties:
-        aws:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.Models.AwsAccessLeaseViewModel'
-        agents:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.Models.AgentAccessLeaseViewModel'
-    Dome9.Web.Api.Models.AwsAccessLeasePostViewModel:
+    Dome9.Web.Api.Models.AwsAccessLeaseViewModel:
       type: object
       properties:
         cloudAccountId:
@@ -312,8 +301,9 @@ components:
           - ap_singapore_2
           type: string
         securityGroupId:
-          description: Security Group id of Security Group affected by lease. Can be in internal Dome9 format (integer) or external AWS format ("sg-XXXXX")
-          type: string
+          format: int64
+          description: Security Group affected by lease
+          type: integer
         id:
           format: uuid
           description: '[readonly] lease id'
@@ -682,7 +672,18 @@ components:
         srl:
           description: internal use only
           type: string
-    Dome9.Web.Api.Models.AwsAccessLeaseViewModel:
+    Dome9.Web.Api.Models.AccessLeasesGroupedViewModel:
+      type: object
+      properties:
+        aws:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Models.AwsAccessLeaseViewModel'
+        agents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Models.AgentAccessLeaseViewModel'
+    Dome9.Web.Api.Models.AwsAccessLeasePostViewModel:
       type: object
       properties:
         cloudAccountId:
@@ -904,9 +905,8 @@ components:
           - ap_singapore_2
           type: string
         securityGroupId:
-          format: int64
-          description: Security Group affected by lease
-          type: integer
+          description: Security Group id of Security Group affected by lease. Can be in internal Dome9 format (integer) or external AWS format ("sg-XXXXX")
+          type: string
         id:
           format: uuid
           description: '[readonly] lease id'

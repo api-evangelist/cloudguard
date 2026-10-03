@@ -207,21 +207,21 @@ paths:
       description: Resets all environments of the given aws organization id.
 components:
   schemas:
-    UpdateStackSetArnRequest:
+    OnboardingUpdateRequest:
       type: object
       additionalProperties: false
       required:
-      - stackSetArn
+      - awsOrganizationName
+      - enableStackModify
       properties:
-        stackSetArn:
-          type: string
-          description: The created StackSet ARN.
-          pattern: ^arn:(?<partition>(aws[\w\-]*)):(?<service>[\w]*):(?<region>[\w\d-]*):(?<accountId>[\d]*):stackset\/(((?<resource>[\w+=,\.@\-_ ]+)[\/]?)+):(((?<subresource>[\w+=,\.@\-_ ]+)[\/:]?)+)?$
-    AwsOrganizationOnboardingConfiguration:
-      allOf:
-      - $ref: '#/components/schemas/OrganizationOnboardingConfigurationBase'
-      - type: object
-        additionalProperties: false
+        awsOrganizationName:
+          type:
+          - string
+          - 'null'
+          description: AWS organization name.
+        enableStackModify:
+          type: boolean
+          description: Required. Default is false, it's for future use.
     UpdateConfigurationRequest:
       type: object
       additionalProperties: false
@@ -239,15 +239,51 @@ components:
           $ref: '#/components/schemas/MappingStrategyType'
         postureManagement:
           $ref: '#/components/schemas/PostureManagementConfiguration'
-    OnboardingMode:
-      type: string
-      description: ''
-      x-enumNames:
-      - Read
-      - Manage
-      enum:
-      - read-only
-      - manage
+    UpdateStackSetArnRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - stackSetArn
+      properties:
+        stackSetArn:
+          type: string
+          description: The created StackSet ARN.
+          pattern: ^arn:(?<partition>(aws[\w\-]*)):(?<service>[\w]*):(?<region>[\w\d-]*):(?<accountId>[\d]*):stackset\/(((?<resource>[\w+=,\.@\-_ ]+)[\/]?)+):(((?<subresource>[\w+=,\.@\-_ ]+)[\/:]?)+)?$
+    ValidateStackSetArnRequest:
+      allOf:
+      - $ref: '#/components/schemas/OnboardingPermissionRequest'
+      - type: object
+        additionalProperties: false
+        required:
+        - stackSetArn
+        properties:
+          stackSetArn:
+            type: string
+            description: The created StackSet ARN.
+            pattern: ^arn:(?<partition>(aws[\w\-]*)):(?<service>[\w]*):(?<region>[\w\d-]*):(?<accountId>[\d]*):stackset\/(((?<resource>[\w+=,\.@\-_ ]+)[\/]?)+):(((?<subresource>[\w+=,\.@\-_ ]+)[\/:]?)+)?$
+    AwsOrganizationOnboardingConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/OrganizationOnboardingConfigurationBase'
+      - type: object
+        additionalProperties: false
+    OrganizationOnboardingConfigurationBase:
+      type: object
+      additionalProperties: false
+      required:
+      - organizationRootOuId
+      - mappingStrategy
+      - postureManagement
+      properties:
+        organizationRootOuId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        mappingStrategy:
+          $ref: '#/components/schemas/MappingStrategyType'
+        postureManagement:
+          oneOf:
+          - $ref: '#/components/schemas/PostureManagementConfiguration'
     PostureManagementConfiguration:
       type: object
       additionalProperties: false
@@ -265,54 +301,6 @@ components:
             format: int64
         onboardingMode:
           $ref: '#/components/schemas/OnboardingMode'
-    OnboardingPermissionRequest:
-      type: object
-      additionalProperties: false
-      required:
-      - secret
-      - workflowId
-      - roleArn
-      - apiKey
-      properties:
-        workflowId:
-          type: string
-          description: Not required
-          format: guid
-          default: 9dae2043-7b84-4afe-a3ff-e11ceebc22a2
-        roleArn:
-          type: string
-          description: 'CloudGuard role arn from AWS.
-
-            AWS China accounts supported only in CloudGuard China DC.'
-          pattern: ^arn:(aws|aws-cn):iam::\d{12}:role\/[A-Za-z0-9]+(?:-[A-Za-z0-9]+)+$
-        secret:
-          type: string
-          description: 'Also known as ExternalId from management-stack API.
-
-            this value should be the one that returns from: management-stack API.'
-          pattern: ^[\w+=,.@:\/-]{12,1224}$
-        apiKey:
-          type:
-          - string
-          - 'null'
-          description: 'Should be null.
-
-            Needed only for ''UserBased'' Type.'
-    OnboardingUpdateRequest:
-      type: object
-      additionalProperties: false
-      required:
-      - awsOrganizationName
-      - enableStackModify
-      properties:
-        awsOrganizationName:
-          type:
-          - string
-          - 'null'
-          description: AWS organization name.
-        enableStackModify:
-          type: boolean
-          description: Required. Default is false, it's for future use.
     OrganizationManagementViewModel:
       type: object
       additionalProperties: false
@@ -379,24 +367,48 @@ components:
           description: The organization root ID or organizational unit (OU) IDs that the client specified for the StackSet DeploymentTargets.
           items:
             type: string
-    OrganizationOnboardingConfigurationBase:
+    OnboardingPermissionRequest:
       type: object
       additionalProperties: false
       required:
-      - organizationRootOuId
-      - mappingStrategy
-      - postureManagement
+      - secret
+      - workflowId
+      - roleArn
+      - apiKey
       properties:
-        organizationRootOuId:
+        workflowId:
+          type: string
+          description: Not required
+          format: guid
+          default: 9dae2043-7b84-4afe-a3ff-e11ceebc22a2
+        roleArn:
+          type: string
+          description: 'CloudGuard role arn from AWS.
+
+            AWS China accounts supported only in CloudGuard China DC.'
+          pattern: ^arn:(aws|aws-cn):iam::\d{12}:role\/[A-Za-z0-9]+(?:-[A-Za-z0-9]+)+$
+        secret:
+          type: string
+          description: 'Also known as ExternalId from management-stack API.
+
+            this value should be the one that returns from: management-stack API.'
+          pattern: ^[\w+=,.@:\/-]{12,1224}$
+        apiKey:
           type:
           - string
           - 'null'
-          format: guid
-        mappingStrategy:
-          $ref: '#/components/schemas/MappingStrategyType'
-        postureManagement:
-          oneOf:
-          - $ref: '#/components/schemas/PostureManagementConfiguration'
+          description: 'Should be null.
+
+            Needed only for ''UserBased'' Type.'
+    MappingStrategyType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Flat
+      - Clone
+      enum:
+      - Flat
+      - Clone
     OnboardingRequest:
       allOf:
       - $ref: '#/components/schemas/ValidateStackSetArnRequest'
@@ -414,27 +426,15 @@ components:
           enableStackModify:
             type: boolean
             description: Required. Default is false, it's for future use.
-    MappingStrategyType:
+    OnboardingMode:
       type: string
       description: ''
       x-enumNames:
-      - Flat
-      - Clone
+      - Read
+      - Manage
       enum:
-      - Flat
-      - Clone
-    ValidateStackSetArnRequest:
-      allOf:
-      - $ref: '#/components/schemas/OnboardingPermissionRequest'
-      - type: object
-        additionalProperties: false
-        required:
-        - stackSetArn
-        properties:
-          stackSetArn:
-            type: string
-            description: The created StackSet ARN.
-            pattern: ^arn:(?<partition>(aws[\w\-]*)):(?<service>[\w]*):(?<region>[\w\d-]*):(?<accountId>[\d]*):stackset\/(((?<resource>[\w+=,\.@\-_ ]+)[\/]?)+):(((?<subresource>[\w+=,\.@\-_ ]+)[\/:]?)+)?$
+      - read-only
+      - manage
   securitySchemes:
     basic:
       type: http

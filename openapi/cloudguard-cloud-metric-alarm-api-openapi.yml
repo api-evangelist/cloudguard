@@ -39,6 +39,13 @@ paths:
       summary: Get
 components:
   schemas:
+    Dome9.Web.Api.CloudMetricAlarms.CloudMetricAlarmDimension:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
     Dome9.Web.Api.CloudMetricAlarms.CloudMetricAlarmViewModel:
       type: object
       properties:
@@ -409,13 +416,6 @@ components:
           description: 'Gets and sets the property Unit.
 
             The unit of the alarm''s associated metric.'
-          type: string
-    Dome9.Web.Api.CloudMetricAlarms.CloudMetricAlarmDimension:
-      type: object
-      properties:
-        name:
-          type: string
-        value:
           type: string
   securitySchemes:
     basic:

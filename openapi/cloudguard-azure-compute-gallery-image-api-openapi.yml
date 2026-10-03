@@ -39,21 +39,6 @@ paths:
       summary: Get
 components:
   schemas:
-    Dome9.Web.Api.Azure.ComputeGalleryImage.ViewModels.AzureComputeGalleryImageVersionViewModel:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        imageId:
-          type: string
-        publishedDate:
-          format: int64
-          type: integer
-        endOfLifeDate:
-          format: int64
-          type: integer
     Dome9.Web.Api.Azure.ComputeGalleryImage.ViewModels.AzureComputeGalleryImageViewModel:
       type: object
       properties:
@@ -86,6 +71,21 @@ components:
           format: uuid
           type: string
           example: 00000000-0000-0000-0000-000000000000
+    Dome9.Web.Api.Azure.ComputeGalleryImage.ViewModels.AzureComputeGalleryImageVersionViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        imageId:
+          type: string
+        publishedDate:
+          format: int64
+          type: integer
+        endOfLifeDate:
+          format: int64
+          type: integer
   securitySchemes:
     basic:
       type: http

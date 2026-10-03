@@ -39,18 +39,6 @@ paths:
       summary: Get
 components:
   schemas:
-    AwsSqsRedrivePolicyViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - deadLetterTargetArn
-      - maxReceiveCount
-      properties:
-        deadLetterTargetArn:
-          type: string
-        maxReceiveCount:
-          type: integer
-          format: int32
     CloudRegion:
       type: string
       description: ''
@@ -555,6 +543,18 @@ components:
       type: object
       additionalProperties:
         type: string
+    AwsSqsRedrivePolicyViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - deadLetterTargetArn
+      - maxReceiveCount
+      properties:
+        deadLetterTargetArn:
+          type: string
+        maxReceiveCount:
+          type: integer
+          format: int32
   securitySchemes:
     basic:
       type: http

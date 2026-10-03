@@ -59,6 +59,50 @@ paths:
       summary: Get
 components:
   schemas:
+    Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+        externalId:
+          type: string
+        name:
+          type: string
+        location:
+          type: string
+        identity:
+          $ref: '#/components/schemas/Dome9.Web.Api.Azure.AzureRestApiIdentityViewModel'
+        sku:
+          $ref: '#/components/schemas/Dome9.Web.Api.Azure.AzureRestApiSkuViewModel'
+        properties:
+          $ref: '#/components/schemas/Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentPropertiesViewModel'
+    Dome9.Web.Api.Azure.AzureRestApiIdentityViewModel:
+      type: object
+      properties:
+        type:
+          type: string
+        principalId:
+          type: string
+        tenantId:
+          type: string
+    Dome9.Web.Api.Azure.AzureRestApiSkuViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        tier:
+          type: string
+    Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentMetadataViewModel:
+      type: object
+      properties:
+        assignedBy:
+          type: string
+        createdOn:
+          format: date-time
+          type: string
+        updatedOn:
+          format: date-time
+          type: string
     Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentPropertiesViewModel:
       type: object
       properties:
@@ -82,50 +126,6 @@ components:
             type: array
             items:
               type: string
-    Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentViewModel:
-      type: object
-      properties:
-        id:
-          type: string
-        externalId:
-          type: string
-        name:
-          type: string
-        location:
-          type: string
-        identity:
-          $ref: '#/components/schemas/Dome9.Web.Api.Azure.AzureRestApiIdentityViewModel'
-        sku:
-          $ref: '#/components/schemas/Dome9.Web.Api.Azure.AzureRestApiSkuViewModel'
-        properties:
-          $ref: '#/components/schemas/Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentPropertiesViewModel'
-    Dome9.Web.Api.Azure.AzureRestApiSkuViewModel:
-      type: object
-      properties:
-        name:
-          type: string
-        tier:
-          type: string
-    Dome9.Web.Api.Azure.AzureRestApiIdentityViewModel:
-      type: object
-      properties:
-        type:
-          type: string
-        principalId:
-          type: string
-        tenantId:
-          type: string
-    Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentMetadataViewModel:
-      type: object
-      properties:
-        assignedBy:
-          type: string
-        createdOn:
-          format: date-time
-          type: string
-        updatedOn:
-          format: date-time
-          type: string
   securitySchemes:
     basic:
       type: http

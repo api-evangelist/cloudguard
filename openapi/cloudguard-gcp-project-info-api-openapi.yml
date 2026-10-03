@@ -46,12 +46,26 @@ paths:
       description: Get Project Info for a Google account
 components:
   schemas:
-    Dome9.Web.Api.Google.ProjectInfo.GcpProjectEnrolledServiceViewModel:
+    Dome9.Web.Api.Google.OrgPolicy.GcpOrgPolicyViewModel:
       type: object
       properties:
-        cloudProduct:
+        version:
+          format: int32
+          type: integer
+        constraint:
           type: string
-        enrollmentLevel:
+        eTag:
+          type: string
+        listPolicy:
+          $ref: '#/components/schemas/Dome9.Web.Api.Google.OrgPolicy.GcpOrgPolicyListPolicyViewModel'
+        booleanPolicy:
+          $ref: '#/components/schemas/Dome9.Web.Api.Google.OrgPolicy.GcpOrgPolicyBooleanPolicyViewModel'
+    Dome9.Web.Api.Shared.SharedViewModels.TagViewModel:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
           type: string
     Dome9.Web.Api.Google.OrgPolicy.GcpOrgPolicyListPolicyViewModel:
       type: object
@@ -70,20 +84,13 @@ components:
           type: string
         inheritFromParent:
           type: boolean
-    Dome9.Web.Api.Google.OrgPolicy.GcpOrgPolicyViewModel:
+    Dome9.Web.Api.Google.ProjectInfo.GcpProjectEnrolledServiceViewModel:
       type: object
       properties:
-        version:
-          format: int32
-          type: integer
-        constraint:
+        cloudProduct:
           type: string
-        eTag:
+        enrollmentLevel:
           type: string
-        listPolicy:
-          $ref: '#/components/schemas/Dome9.Web.Api.Google.OrgPolicy.GcpOrgPolicyListPolicyViewModel'
-        booleanPolicy:
-          $ref: '#/components/schemas/Dome9.Web.Api.Google.OrgPolicy.GcpOrgPolicyBooleanPolicyViewModel'
     Dome9.Web.Api.Google.ProjectInfo.GcpProjectInfoViewModel:
       type: object
       properties:
@@ -118,13 +125,6 @@ components:
             $ref: '#/components/schemas/Dome9.Web.Api.Google.OrgPolicy.GcpOrgPolicyViewModel'
         accessApprovalSettings:
           $ref: '#/components/schemas/Dome9.Web.Api.Google.ProjectInfo.GcpProjectAccessApprovalSettingsViewModel'
-    Dome9.Web.Api.Shared.SharedViewModels.TagViewModel:
-      type: object
-      properties:
-        key:
-          type: string
-        value:
-          type: string
     Dome9.Web.Api.Google.ProjectInfo.GcpProjectAccessApprovalSettingsViewModel:
       type: object
       properties:
@@ -151,6 +151,11 @@ components:
           type: string
         value:
           type: string
+    Dome9.Web.Api.Google.OrgPolicy.GcpOrgPolicyBooleanPolicyViewModel:
+      type: object
+      properties:
+        enforced:
+          type: boolean
     Dome9.Web.Api.Google.ProjectInfo.GcpProjectMetadataViewModel:
       type: object
       properties:
@@ -162,11 +167,6 @@ components:
           type: string
         kind:
           type: string
-    Dome9.Web.Api.Google.OrgPolicy.GcpOrgPolicyBooleanPolicyViewModel:
-      type: object
-      properties:
-        enforced:
-          type: boolean
   securitySchemes:
     basic:
       type: http

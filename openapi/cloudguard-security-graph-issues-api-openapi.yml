@@ -212,147 +212,6 @@ paths:
       description: Get all enrichment categories for an issue
 components:
   schemas:
-    CveVulnerabilityResponse:
-      type: object
-      properties:
-        cveId:
-          type: string
-        baseScore:
-          type: object
-        baseScoreVector:
-          type: object
-        description:
-          type: object
-        severity:
-          type: string
-          enum:
-          - Critical
-          - High
-          - Medium
-          - Low
-        fixable:
-          type: object
-        knownExploit:
-          type: boolean
-        epssScore:
-          type: object
-        packages:
-          type: array
-          items:
-            $ref: '#/components/schemas/PackageDetailsResponse'
-      required:
-      - cveId
-      - severity
-      - knownExploit
-      - packages
-    PackageDetailsResponse:
-      type: object
-      properties:
-        name:
-          type: string
-        filePath:
-          type: string
-        upgradeTo:
-          type: string
-        packageId:
-          type: string
-    MalwareViewModel:
-      type: object
-      properties:
-        malwareId:
-          type: string
-        severity:
-          type: string
-        family:
-          type: string
-          enum:
-          - Adware
-          - Botnet
-          - Dropper
-          - Exploit
-          - Generic
-          - HackTool
-          - Infostealer
-          - Ransomware
-          - RiskTool
-          - Trojan
-          - Virus
-          - HEUR:Backdoor
-          - HEUR:Trojan
-        hash:
-          type: string
-        scanData:
-          $ref: '#/components/schemas/MalwareScanEnrichment'
-      required:
-      - malwareId
-      - severity
-      - family
-      - hash
-      - scanData
-    SecurityEventPartialViewModel:
-      type: object
-      properties:
-        findingKey:
-          type: string
-        accountId:
-          type: string
-        cloudAccountId:
-          type: string
-        cloudAccountExternalId:
-          type: string
-        cloudAccountName:
-          type: string
-        bundleId:
-          type: string
-        bundleName:
-          type: string
-        ruleId:
-          type: string
-        ruleName:
-          type: string
-        ruleLogic:
-          type: string
-        severity:
-          type: string
-        entityExternalId:
-          type: string
-        entityDome9Id:
-          type: string
-        createdTime:
-          type: string
-      required:
-      - findingKey
-      - accountId
-      - cloudAccountId
-      - cloudAccountExternalId
-      - cloudAccountName
-      - bundleId
-      - bundleName
-      - ruleId
-      - ruleName
-      - ruleLogic
-      - severity
-      - entityExternalId
-      - createdTime
-    ContainerImageIssueViewModel:
-      type: object
-      properties:
-        cloudAccountId:
-          type: string
-        platform:
-          type: string
-        imageId:
-          type: string
-        imageType:
-          type: string
-        typeByPlatform:
-          type: string
-      required:
-      - cloudAccountId
-      - platform
-      - imageId
-      - imageType
-      - typeByPlatform
     ProtectedAssetViewModel:
       type: object
       properties:
@@ -426,6 +285,102 @@ components:
       - resourceGroup
       - additionalFields
       - externalAdditionalFields
+    PackageDetailsResponse:
+      type: object
+      properties:
+        name:
+          type: string
+        filePath:
+          type: string
+        upgradeTo:
+          type: string
+        packageId:
+          type: string
+    MalwareViewModel:
+      type: object
+      properties:
+        malwareId:
+          type: string
+        severity:
+          type: string
+        family:
+          type: string
+          enum:
+          - Adware
+          - Botnet
+          - Dropper
+          - Exploit
+          - Generic
+          - HackTool
+          - Infostealer
+          - Ransomware
+          - RiskTool
+          - Trojan
+          - Virus
+          - HEUR:Backdoor
+          - HEUR:Trojan
+        hash:
+          type: string
+        scanData:
+          $ref: '#/components/schemas/MalwareScanEnrichment'
+      required:
+      - malwareId
+      - severity
+      - family
+      - hash
+      - scanData
+    ContainerImageIssueViewModel:
+      type: object
+      properties:
+        cloudAccountId:
+          type: string
+        platform:
+          type: string
+        imageId:
+          type: string
+        imageType:
+          type: string
+        typeByPlatform:
+          type: string
+      required:
+      - cloudAccountId
+      - platform
+      - imageId
+      - imageType
+      - typeByPlatform
+    CveVulnerabilityResponse:
+      type: object
+      properties:
+        cveId:
+          type: string
+        baseScore:
+          type: object
+        baseScoreVector:
+          type: object
+        description:
+          type: object
+        severity:
+          type: string
+          enum:
+          - Critical
+          - High
+          - Medium
+          - Low
+        fixable:
+          type: object
+        knownExploit:
+          type: boolean
+        epssScore:
+          type: object
+        packages:
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageDetailsResponse'
+      required:
+      - cveId
+      - severity
+      - knownExploit
+      - packages
     IamSensitivityResponse:
       type: object
       properties:
@@ -482,13 +437,51 @@ components:
       required:
       - roleScopeActions
       - entityType
-    MalwareScanEnrichment:
+    SecurityEventPartialViewModel:
       type: object
       properties:
-        filePath:
+        findingKey:
+          type: string
+        accountId:
+          type: string
+        cloudAccountId:
+          type: string
+        cloudAccountExternalId:
+          type: string
+        cloudAccountName:
+          type: string
+        bundleId:
+          type: string
+        bundleName:
+          type: string
+        ruleId:
+          type: string
+        ruleName:
+          type: string
+        ruleLogic:
+          type: string
+        severity:
+          type: string
+        entityExternalId:
+          type: string
+        entityDome9Id:
+          type: string
+        createdTime:
           type: string
       required:
-      - filePath
+      - findingKey
+      - accountId
+      - cloudAccountId
+      - cloudAccountExternalId
+      - cloudAccountName
+      - bundleId
+      - bundleName
+      - ruleId
+      - ruleName
+      - ruleLogic
+      - severity
+      - entityExternalId
+      - createdTime
     DataSensitivityViewModel:
       type: object
       properties:
@@ -511,6 +504,13 @@ components:
       - platform
       - cloudAccountId
       - context
+    MalwareScanEnrichment:
+      type: object
+      properties:
+        filePath:
+          type: string
+      required:
+      - filePath
   securitySchemes:
     basic:
       type: http

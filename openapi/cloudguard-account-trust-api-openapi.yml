@@ -162,11 +162,18 @@ components:
           type: string
         restrictions:
           $ref: '#/components/schemas/Dome9.Web.Api.Account.AccountTrustRestrictionsViewModel'
-    Dome9.Web.Api.Account.AccountTrustRestrictionsViewModel:
+    Dome9.Web.Api.Account.AccountTrustAssumableRolesViewModel:
       type: object
       properties:
+        accountName:
+          description: The trsuted account name
+          type: string
+        accountId:
+          format: int64
+          description: The trsuted account Id
+          type: integer
         roles:
-          description: A list of role names that can be assumed by a user in the trusted account, leave empty to allow all roles to be assumed
+          description: List of roles that can be assumed by a user in the trusted account
           type: array
           items:
             type: string
@@ -181,18 +188,11 @@ components:
         restrictions:
           $ref: '#/components/schemas/Dome9.Web.Api.Account.AccountTrustRestrictionsViewModel'
           description: Restrictions configuration for the account trust
-    Dome9.Web.Api.Account.AccountTrustAssumableRolesViewModel:
+    Dome9.Web.Api.Account.AccountTrustRestrictionsViewModel:
       type: object
       properties:
-        accountName:
-          description: The trsuted account name
-          type: string
-        accountId:
-          format: int64
-          description: The trsuted account Id
-          type: integer
         roles:
-          description: List of roles that can be assumed by a user in the trusted account
+          description: A list of role names that can be assumed by a user in the trusted account, leave empty to allow all roles to be assumed
           type: array
           items:
             type: string

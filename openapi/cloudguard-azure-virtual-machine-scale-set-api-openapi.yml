@@ -47,6 +47,17 @@ paths:
       description: Get all ScaleSets by CloudAccountId
 components:
   schemas:
+    Falconetix.Model.AzureVirtualMachineScaleSetVMProfileViewModel:
+      type: object
+      properties:
+        osProfile:
+          $ref: '#/components/schemas/Falconetix.Model.AzureVirtualMachineScaleSetOSProfileViewModel'
+        storageProfile:
+          $ref: '#/components/schemas/Falconetix.Model.AzureVirtualMachineScaleSetStorageProfileViewModel'
+        networkProfile:
+          $ref: '#/components/schemas/Falconetix.Model.AzureVirtualMachineScaleSetNetworkProfileViewModel'
+        licenseType:
+          type: string
     Falconetix.Model.AzureWinRMConfigurationViewModel:
       type: object
       properties:
@@ -54,39 +65,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Falconetix.Model.AzureWinRMListenerViewModel'
-    Falconetix.Model.AzureVirtualMachineScaleSetManagedDiskParametersViewModel:
-      type: object
-      properties:
-        storageAccountType:
-          type: string
-    Falconetix.Model.AzureVirtualMachineScaleSetIdentityViewModel:
-      type: object
-      properties:
-        principalId:
-          type: string
-        tenantId:
-          type: string
-        type:
-          type: string
-    Falconetix.Model.AzureVirtualMachineScaleSetOSDiskViewModel:
-      type: object
-      properties:
-        name:
-          type: string
-        caching:
-          type: string
-        createOption:
-          type: string
-        osType:
-          type: string
-        image:
-          $ref: '#/components/schemas/Falconetix.Model.AzureVirtualHardDiskViewModel'
-        vhdContainers:
-          type: array
-          items:
-            type: string
-        managedDisk:
-          $ref: '#/components/schemas/Falconetix.Model.AzureVirtualMachineScaleSetManagedDiskParametersViewModel'
     Falconetix.Model.AzureVirtualMachineScaleSetNetworkConfigurationViewModel:
       type: object
       properties:
@@ -106,51 +84,17 @@ components:
             $ref: '#/components/schemas/Falconetix.Model.AzureVirtualMachineScaleSetIPConfigurationViewModel'
         id:
           type: string
-    Falconetix.Model.AzureWinRMListenerViewModel:
+    Falconetix.Model.AzureVirtualMachineScaleSetStorageProfileViewModel:
       type: object
       properties:
-        protocol:
-          type: string
-        certificateUrl:
-          type: string
-    Falconetix.Model.AzureVirtualMachineScaleSetVMProfileViewModel:
-      type: object
-      properties:
-        osProfile:
-          $ref: '#/components/schemas/Falconetix.Model.AzureVirtualMachineScaleSetOSProfileViewModel'
-        storageProfile:
-          $ref: '#/components/schemas/Falconetix.Model.AzureVirtualMachineScaleSetStorageProfileViewModel'
-        networkProfile:
-          $ref: '#/components/schemas/Falconetix.Model.AzureVirtualMachineScaleSetNetworkProfileViewModel'
-        licenseType:
-          type: string
-    Falconetix.Model.AzureVirtualMachineScaleSetNetworkProfileViewModel:
-      type: object
-      properties:
-        networkInterfaceConfigurations:
+        imageReference:
+          $ref: '#/components/schemas/Falconetix.Model.AzureImageReferenceViewModel'
+        osDisk:
+          $ref: '#/components/schemas/Falconetix.Model.AzureVirtualMachineScaleSetOSDiskViewModel'
+        dataDisks:
           type: array
           items:
-            $ref: '#/components/schemas/Falconetix.Model.AzureVirtualMachineScaleSetNetworkConfigurationViewModel'
-    Falconetix.Model.AzureScaleSetPublicIPAddressConfigurationViewModel:
-      type: object
-      properties:
-        name:
-          type: string
-        idleTimeoutInMinutes:
-          format: int32
-          type: integer
-        dnsSettings:
-          $ref: '#/components/schemas/Falconetix.Model.AzureScaleSetPublicIPAddressDnsSettingsViewModel'
-    Falconetix.Model.AzureVirtualMachineScaleSetSkuViewModel:
-      type: object
-      properties:
-        name:
-          type: string
-        tier:
-          type: string
-        capacity:
-          format: int64
-          type: integer
+            $ref: '#/components/schemas/Falconetix.Model.AzureVirtualMachineScaleSetDataDiskViewModel'
     Falconetix.Model.AzureVirtualMachineScaleSetViewModel:
       type: object
       properties:
@@ -188,35 +132,43 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Dome9.Web.Api.Azure.VirtualMachineScaleSet.AzureVirtualMachineScaleSetInstanceViewModel'
-    Falconetix.Model.AzureImageReferenceViewModel:
+    Falconetix.Model.AzureVirtualMachineScaleSetSkuViewModel:
       type: object
       properties:
-        publisher:
+        name:
           type: string
-        offer:
+        tier:
           type: string
-        sku:
-          type: string
-        version:
-          type: string
-    Falconetix.Model.AzureLinuxConfigurationViewModel:
+        capacity:
+          format: int64
+          type: integer
+    Falconetix.Model.AzureVirtualMachineScaleSetManagedDiskParametersViewModel:
       type: object
       properties:
-        disablePasswordAuthentication:
+        storageAccountType:
+          type: string
+    Falconetix.Model.AzureWinRMListenerViewModel:
+      type: object
+      properties:
+        protocol:
+          type: string
+        certificateUrl:
+          type: string
+    Falconetix.Model.AzureWindowsConfigurationViewModel:
+      type: object
+      properties:
+        provisionVMAgent:
           type: boolean
-    Falconetix.Model.AzureVirtualMachineScaleSetOSProfileViewModel:
-      type: object
-      properties:
-        computerNamePrefix:
+        enableAutomaticUpdates:
+          type: boolean
+        timeZone:
           type: string
-        adminUsername:
-          type: string
-        customData:
-          type: string
-        windowsConfiguration:
-          $ref: '#/components/schemas/Falconetix.Model.AzureWindowsConfigurationViewModel'
-        linuxConfiguration:
-          $ref: '#/components/schemas/Falconetix.Model.AzureLinuxConfigurationViewModel'
+        additionalUnattendContent:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.AzureAdditionalUnattendContentViewModel'
+        winRM:
+          $ref: '#/components/schemas/Falconetix.Model.AzureWinRMConfigurationViewModel'
     Falconetix.Model.AzureVirtualMachineScaleSetIPConfigurationViewModel:
       type: object
       properties:
@@ -244,54 +196,53 @@ components:
             $ref: '#/components/schemas/Falconetix.Model.AzureSubResourceViewModel'
         id:
           type: string
-    Falconetix.Model.AzureScaleSetPublicIPAddressDnsSettingsViewModel:
-      type: object
-      properties:
-        domainNameLabel:
-          type: string
-    Falconetix.Model.AzureVirtualMachineScaleSetDataDiskViewModel:
+    Falconetix.Model.AzureScaleSetPublicIPAddressConfigurationViewModel:
       type: object
       properties:
         name:
           type: string
-        lun:
+        idleTimeoutInMinutes:
           format: int32
           type: integer
-        caching:
+        dnsSettings:
+          $ref: '#/components/schemas/Falconetix.Model.AzureScaleSetPublicIPAddressDnsSettingsViewModel'
+    Falconetix.Model.AzureVirtualMachineScaleSetIdentityViewModel:
+      type: object
+      properties:
+        principalId:
           type: string
-        createOption:
+        tenantId:
           type: string
-        diskSizeGB:
-          format: int32
-          type: integer
-        managedDisk:
-          $ref: '#/components/schemas/Falconetix.Model.AzureVirtualMachineScaleSetManagedDiskParametersViewModel'
+        type:
+          type: string
     Falconetix.Model.AzureSubResourceViewModel:
       type: object
       properties:
         id:
           type: string
+    Falconetix.Model.AzureScaleSetNetworkDnsSettingsViewModel:
+      type: object
+      properties:
+        dnsServers:
+          type: array
+          items:
+            type: string
     Falconetix.Model.AzureVirtualHardDiskViewModel:
       type: object
       properties:
         uri:
           type: string
-    Falconetix.Model.AzureApiEntityReferenceViewModel:
+    Falconetix.Model.AzureAdditionalUnattendContentViewModel:
       type: object
       properties:
-        id:
+        passName:
           type: string
-    Falconetix.Model.AzureVirtualMachineScaleSetStorageProfileViewModel:
-      type: object
-      properties:
-        imageReference:
-          $ref: '#/components/schemas/Falconetix.Model.AzureImageReferenceViewModel'
-        osDisk:
-          $ref: '#/components/schemas/Falconetix.Model.AzureVirtualMachineScaleSetOSDiskViewModel'
-        dataDisks:
-          type: array
-          items:
-            $ref: '#/components/schemas/Falconetix.Model.AzureVirtualMachineScaleSetDataDiskViewModel'
+        componentName:
+          type: string
+        settingName:
+          type: string
+        content:
+          type: string
     Dome9.Web.Api.Azure.VirtualMachineScaleSet.AzureVirtualMachineScaleSetInstanceViewModel:
       type: object
       properties:
@@ -319,39 +270,88 @@ components:
         instanceId:
           description: 'Index of VM in ScaleSet. For ex: 1'
           type: string
-    Falconetix.Model.AzureAdditionalUnattendContentViewModel:
+    Falconetix.Model.AzureScaleSetPublicIPAddressDnsSettingsViewModel:
       type: object
       properties:
-        passName:
+        domainNameLabel:
           type: string
-        componentName:
-          type: string
-        settingName:
-          type: string
-        content:
-          type: string
-    Falconetix.Model.AzureScaleSetNetworkDnsSettingsViewModel:
+    Falconetix.Model.AzureVirtualMachineScaleSetDataDiskViewModel:
       type: object
       properties:
-        dnsServers:
+        name:
+          type: string
+        lun:
+          format: int32
+          type: integer
+        caching:
+          type: string
+        createOption:
+          type: string
+        diskSizeGB:
+          format: int32
+          type: integer
+        managedDisk:
+          $ref: '#/components/schemas/Falconetix.Model.AzureVirtualMachineScaleSetManagedDiskParametersViewModel'
+    Falconetix.Model.AzureVirtualMachineScaleSetOSDiskViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        caching:
+          type: string
+        createOption:
+          type: string
+        osType:
+          type: string
+        image:
+          $ref: '#/components/schemas/Falconetix.Model.AzureVirtualHardDiskViewModel'
+        vhdContainers:
           type: array
           items:
             type: string
-    Falconetix.Model.AzureWindowsConfigurationViewModel:
+        managedDisk:
+          $ref: '#/components/schemas/Falconetix.Model.AzureVirtualMachineScaleSetManagedDiskParametersViewModel'
+    Falconetix.Model.AzureApiEntityReferenceViewModel:
       type: object
       properties:
-        provisionVMAgent:
-          type: boolean
-        enableAutomaticUpdates:
-          type: boolean
-        timeZone:
+        id:
           type: string
-        additionalUnattendContent:
+    Falconetix.Model.AzureVirtualMachineScaleSetNetworkProfileViewModel:
+      type: object
+      properties:
+        networkInterfaceConfigurations:
           type: array
           items:
-            $ref: '#/components/schemas/Falconetix.Model.AzureAdditionalUnattendContentViewModel'
-        winRM:
-          $ref: '#/components/schemas/Falconetix.Model.AzureWinRMConfigurationViewModel'
+            $ref: '#/components/schemas/Falconetix.Model.AzureVirtualMachineScaleSetNetworkConfigurationViewModel'
+    Falconetix.Model.AzureLinuxConfigurationViewModel:
+      type: object
+      properties:
+        disablePasswordAuthentication:
+          type: boolean
+    Falconetix.Model.AzureVirtualMachineScaleSetOSProfileViewModel:
+      type: object
+      properties:
+        computerNamePrefix:
+          type: string
+        adminUsername:
+          type: string
+        customData:
+          type: string
+        windowsConfiguration:
+          $ref: '#/components/schemas/Falconetix.Model.AzureWindowsConfigurationViewModel'
+        linuxConfiguration:
+          $ref: '#/components/schemas/Falconetix.Model.AzureLinuxConfigurationViewModel'
+    Falconetix.Model.AzureImageReferenceViewModel:
+      type: object
+      properties:
+        publisher:
+          type: string
+        offer:
+          type: string
+        sku:
+          type: string
+        version:
+          type: string
   securitySchemes:
     basic:
       type: http

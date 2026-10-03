@@ -46,13 +46,41 @@ paths:
       description: Get all Gcp Cloud Functions for account
 components:
   schemas:
-    Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionEnvironmentVariableViewModel:
+    Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionFailurePolicyViewModel:
+      type: object
+      properties:
+        retry:
+          $ref: '#/components/schemas/Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionRetryViewModel'
+        eTag:
+          type: string
+    Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionSourceRepositoryViewModel:
+      type: object
+      properties:
+        deployedUrl:
+          type: string
+        url:
+          type: string
+        eTag:
+          type: string
+    Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionLabelViewModel:
       type: object
       properties:
         key:
           type: string
         value:
           type: string
+    Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionRetryViewModel:
+      type: object
+      properties:
+        eTag:
+          type: string
+    Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionTriggerViewModel:
+      type: object
+      properties:
+        eventTrigger:
+          $ref: '#/components/schemas/Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionEventTriggerViewModel'
+        httpsTrigger:
+          $ref: '#/components/schemas/Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionHttpsTriggerViewModel'
     Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionViewModel:
       type: object
       properties:
@@ -112,40 +140,19 @@ components:
           example: 00000000-0000-0000-0000-000000000000
         name:
           type: string
-    Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionTriggerViewModel:
+    Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionHttpsTriggerViewModel:
       type: object
       properties:
-        eventTrigger:
-          $ref: '#/components/schemas/Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionEventTriggerViewModel'
-        httpsTrigger:
-          $ref: '#/components/schemas/Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionHttpsTriggerViewModel'
-    Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionLabelViewModel:
+        url:
+          type: string
+        eTag:
+          type: string
+    Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionEnvironmentVariableViewModel:
       type: object
       properties:
         key:
           type: string
         value:
-          type: string
-    Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionFailurePolicyViewModel:
-      type: object
-      properties:
-        retry:
-          $ref: '#/components/schemas/Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionRetryViewModel'
-        eTag:
-          type: string
-    Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionRetryViewModel:
-      type: object
-      properties:
-        eTag:
-          type: string
-    Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionSourceRepositoryViewModel:
-      type: object
-      properties:
-        deployedUrl:
-          type: string
-        url:
-          type: string
-        eTag:
           type: string
     Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionEventTriggerViewModel:
       type: object
@@ -157,13 +164,6 @@ components:
         resource:
           type: string
         service:
-          type: string
-        eTag:
-          type: string
-    Dome9.Web.Api.Google.CloudFunction.GoogleCloudFunctionHttpsTriggerViewModel:
-      type: object
-      properties:
-        url:
           type: string
         eTag:
           type: string

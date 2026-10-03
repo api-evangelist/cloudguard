@@ -351,6 +351,10 @@ components:
                   type: boolean
                 includeAllRegions:
                   type: boolean
+    BaseConfiguration:
+      type: object
+      x-abstract: true
+      additionalProperties: false
     IntegrationUpdateRequestModel:
       type: object
       additionalProperties: false
@@ -404,6 +408,43 @@ components:
             $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/13'
           - title: AwsSecurityHubConfiguration
             $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/14'
+    IntegrationType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Undefined
+      - SNS
+      - Email
+      - PagerDuty
+      - AwsSecurityHub
+      - AzureDefender
+      - GcpSecurityCommandCenter
+      - Webhook
+      - ServiceNow
+      - Splunk
+      - Jira
+      - SumoLogic
+      - QRadar
+      - Slack
+      - Teams
+      - EventArc
+      enum:
+      - Undefined
+      - SNS
+      - Email
+      - PagerDuty
+      - AwsSecurityHub
+      - AzureDefender
+      - GcpSecurityCommandCenter
+      - Webhook
+      - ServiceNow
+      - Splunk
+      - Jira
+      - SumoLogic
+      - QRadar
+      - Slack
+      - Teams
+      - EventArc
     CloudRegion:
       type: string
       description: ''
@@ -827,43 +868,15 @@ components:
       - mx_monterrey_1
       - eu_jovanovac_1
       - ap_singapore_2
-    IntegrationType:
+    MethodType:
       type: string
       description: ''
       x-enumNames:
-      - Undefined
-      - SNS
-      - Email
-      - PagerDuty
-      - AwsSecurityHub
-      - AzureDefender
-      - GcpSecurityCommandCenter
-      - Webhook
-      - ServiceNow
-      - Splunk
-      - Jira
-      - SumoLogic
-      - QRadar
-      - Slack
-      - Teams
-      - EventArc
+      - Post
+      - Put
       enum:
-      - Undefined
-      - SNS
-      - Email
-      - PagerDuty
-      - AwsSecurityHub
-      - AzureDefender
-      - GcpSecurityCommandCenter
-      - Webhook
-      - ServiceNow
-      - Splunk
-      - Jira
-      - SumoLogic
-      - QRadar
-      - Slack
-      - Teams
-      - EventArc
+      - Post
+      - Put
     IntegrationPostRequestModel:
       type: object
       additionalProperties: false
@@ -914,15 +927,6 @@ components:
             $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/13'
           - title: AwsSecurityHubConfiguration
             $ref: '#/components/schemas/IntegrationViewModel/properties/configuration/anyOf/14'
-    MethodType:
-      type: string
-      description: ''
-      x-enumNames:
-      - Post
-      - Put
-      enum:
-      - Post
-      - Put
     AuthType:
       type: string
       description: ''
@@ -932,10 +936,6 @@ components:
       enum:
       - NoAuth
       - BasicAuth
-    BaseConfiguration:
-      type: object
-      x-abstract: true
-      additionalProperties: false
   securitySchemes:
     basic:
       type: http

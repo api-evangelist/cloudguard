@@ -117,17 +117,6 @@ paths:
       description: Get the script that performs GCP account onboarding
 components:
   schemas:
-    ScopeMode:
-      type: string
-      description: ''
-      x-enumNames:
-      - Project
-      - Folder
-      - Organization
-      enum:
-      - Project
-      - Folder
-      - Organization
     GcpOnboardingExecCmdResponse:
       type: object
       additionalProperties: false
@@ -144,6 +133,17 @@ components:
       properties:
         script:
           type: string
+    ScopeMode:
+      type: string
+      description: ''
+      x-enumNames:
+      - Project
+      - Folder
+      - Organization
+      enum:
+      - Project
+      - Folder
+      - Organization
   securitySchemes:
     basic:
       type: http

@@ -144,41 +144,6 @@ paths:
       description: Delete policy by its ID. (move to use /v2/vulnerability/policy)
 components:
   schemas:
-    ContinuousCompliancePolicyTargetType:
-      type: string
-      description: ''
-      x-enumNames:
-      - Aws
-      - Azure
-      - Gcp
-      - Kubernetes
-      - OrganizationalUnit
-      - Terraform
-      - Generic
-      - KubernetesRuntimeAssurance
-      - ShiftLeft
-      - Alibaba
-      - Cft
-      - ContainerRegistry
-      - Vendor
-      - Oci
-      - CIEM
-      enum:
-      - Aws
-      - Azure
-      - Gcp
-      - Kubernetes
-      - OrganizationalUnit
-      - Terraform
-      - Generic
-      - KubernetesRuntimeAssurance
-      - ShiftLeft
-      - Alibaba
-      - Cft
-      - ContainerRegistry
-      - Vendor
-      - Oci
-      - CIEM
     ShiftLeftPolicyViewModel:
       type: object
       additionalProperties: false
@@ -229,6 +194,41 @@ components:
           description: '[Preview feature - Image Admission] Image Admission unScanned action of Detection or Prevention to alert on or block images that have not been scanned.
 
             Options: ''Prevention'', ''Detection'', or null.'
+    ContinuousCompliancePolicyTargetType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Aws
+      - Azure
+      - Gcp
+      - Kubernetes
+      - OrganizationalUnit
+      - Terraform
+      - Generic
+      - KubernetesRuntimeAssurance
+      - ShiftLeft
+      - Alibaba
+      - Cft
+      - ContainerRegistry
+      - Vendor
+      - Oci
+      - CIEM
+      enum:
+      - Aws
+      - Azure
+      - Gcp
+      - Kubernetes
+      - OrganizationalUnit
+      - Terraform
+      - Generic
+      - KubernetesRuntimeAssurance
+      - ShiftLeft
+      - Alibaba
+      - Cft
+      - ContainerRegistry
+      - Vendor
+      - Oci
+      - CIEM
     ShiftLeftPolicyRequestModel:
       type: object
       additionalProperties: false

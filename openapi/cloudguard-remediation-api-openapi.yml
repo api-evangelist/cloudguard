@@ -68,24 +68,42 @@ paths:
       description: Get status for remediation
 components:
   schemas:
-    RemediationExecuteResponseModel:
+    RemediationExecuteRequestModel:
       type: object
       additionalProperties: false
       required:
-      - workItemsTriggerStatuses
+      - triggerEndpoint
+      - cloudbots
+      - findings
       properties:
-        workItemsTriggerStatuses:
+        triggerEndpoint:
+          type: string
+        cloudbots:
           type: array
-          default: []
           items:
-            $ref: '#/components/schemas/WorkItemsTriggerStatus'
-    Finding2:
+            $ref: '#/components/schemas/CloudBot'
+        findings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Finding2'
+    WorkItemsTriggerStatus:
       type: object
       additionalProperties: false
       required:
-      - key
+      - errorMessage
+      - isTriggered
+      - workItemExecutionId
+      - workItemFindingKey
       properties:
-        key:
+        errorMessage:
+          type:
+          - string
+          - 'null'
+        isTriggered:
+          type: boolean
+        workItemExecutionId:
+          type: string
+        workItemFindingKey:
           type: string
     StatusGeneralDetails:
       type: object
@@ -107,6 +125,25 @@ components:
           type: string
         botMessage:
           type: string
+    Finding2:
+      type: object
+      additionalProperties: false
+      required:
+      - key
+      properties:
+        key:
+          type: string
+    RemediationExecuteResponseModel:
+      type: object
+      additionalProperties: false
+      required:
+      - workItemsTriggerStatuses
+      properties:
+        workItemsTriggerStatuses:
+          type: array
+          default: []
+          items:
+            $ref: '#/components/schemas/WorkItemsTriggerStatus'
     CloudBot:
       type: object
       additionalProperties: false
@@ -124,43 +161,6 @@ components:
           - 'null'
           items:
             type: string
-    WorkItemsTriggerStatus:
-      type: object
-      additionalProperties: false
-      required:
-      - errorMessage
-      - isTriggered
-      - workItemExecutionId
-      - workItemFindingKey
-      properties:
-        errorMessage:
-          type:
-          - string
-          - 'null'
-        isTriggered:
-          type: boolean
-        workItemExecutionId:
-          type: string
-        workItemFindingKey:
-          type: string
-    RemediationExecuteRequestModel:
-      type: object
-      additionalProperties: false
-      required:
-      - triggerEndpoint
-      - cloudbots
-      - findings
-      properties:
-        triggerEndpoint:
-          type: string
-        cloudbots:
-          type: array
-          items:
-            $ref: '#/components/schemas/CloudBot'
-        findings:
-          type: array
-          items:
-            $ref: '#/components/schemas/Finding2'
   securitySchemes:
     basic:
       type: http

@@ -215,6 +215,32 @@ paths:
       description: Evaluate the ruleset version elected for each cloud account, based on the configured policies.
 components:
   schemas:
+    ContinuousCompliancePolicyRequestModel:
+      type: object
+      additionalProperties: false
+      required:
+      - targetType
+      - rulesetId
+      - notificationIds
+      - targetId
+      - rulesetVersion
+      properties:
+        targetId:
+          type: string
+        targetType:
+          $ref: '#/components/schemas/ContinuousCompliancePolicyTargetType'
+        rulesetId:
+          type: integer
+          format: int64
+        rulesetVersion:
+          type:
+          - string
+          - 'null'
+        notificationIds:
+          type: array
+          items:
+            type: string
+            format: guid
     Dome9.Web.Api.Compliance.ContinuousCompliancePolicyV2.EvaluateRulesetVersionsRequestModel:
       type: object
       properties:
@@ -227,6 +253,41 @@ components:
             format: uuid
             type: string
             example: 00000000-0000-0000-0000-000000000000
+    ContinuousCompliancePolicyTargetType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Aws
+      - Azure
+      - Gcp
+      - Kubernetes
+      - OrganizationalUnit
+      - Terraform
+      - Generic
+      - KubernetesRuntimeAssurance
+      - ShiftLeft
+      - Alibaba
+      - Cft
+      - ContainerRegistry
+      - Vendor
+      - Oci
+      - CIEM
+      enum:
+      - Aws
+      - Azure
+      - Gcp
+      - Kubernetes
+      - OrganizationalUnit
+      - Terraform
+      - Generic
+      - KubernetesRuntimeAssurance
+      - ShiftLeft
+      - Alibaba
+      - Cft
+      - ContainerRegistry
+      - Vendor
+      - Oci
+      - CIEM
     EvaluateRulesetVersionsRequestModel:
       type: object
       additionalProperties: false
@@ -281,67 +342,6 @@ components:
             format: guid
         errorMessage:
           type: string
-    ContinuousCompliancePolicyRequestModel:
-      type: object
-      additionalProperties: false
-      required:
-      - targetType
-      - rulesetId
-      - notificationIds
-      - targetId
-      - rulesetVersion
-      properties:
-        targetId:
-          type: string
-        targetType:
-          $ref: '#/components/schemas/ContinuousCompliancePolicyTargetType'
-        rulesetId:
-          type: integer
-          format: int64
-        rulesetVersion:
-          type:
-          - string
-          - 'null'
-        notificationIds:
-          type: array
-          items:
-            type: string
-            format: guid
-    ContinuousCompliancePolicyTargetType:
-      type: string
-      description: ''
-      x-enumNames:
-      - Aws
-      - Azure
-      - Gcp
-      - Kubernetes
-      - OrganizationalUnit
-      - Terraform
-      - Generic
-      - KubernetesRuntimeAssurance
-      - ShiftLeft
-      - Alibaba
-      - Cft
-      - ContainerRegistry
-      - Vendor
-      - Oci
-      - CIEM
-      enum:
-      - Aws
-      - Azure
-      - Gcp
-      - Kubernetes
-      - OrganizationalUnit
-      - Terraform
-      - Generic
-      - KubernetesRuntimeAssurance
-      - ShiftLeft
-      - Alibaba
-      - Cft
-      - ContainerRegistry
-      - Vendor
-      - Oci
-      - CIEM
   securitySchemes:
     basic:
       type: http

@@ -195,6 +195,53 @@ paths:
       description: Delete Multiple Exclusions by Ids
 components:
   schemas:
+    ExclusionViewModel:
+      allOf:
+      - $ref: '#/components/schemas/ExclusionPutRequestModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - platform
+        properties:
+          platform:
+            description: Exclusion platform
+            oneOf:
+            - $ref: '#/components/schemas/AssessmentCloudAccountType'
+    AssessmentCloudAccountType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Aws
+      - Azure
+      - Google
+      - Kubernetes
+      - Terraform
+      - Generic
+      - KubernetesRuntimeAssurance
+      - ShiftLeft
+      - SourceCodeAssurance
+      - ImageAssurance
+      - Alibaba
+      - Cft
+      - ContainerRegistry
+      - Oci
+      - CIEM
+      enum:
+      - Aws
+      - Azure
+      - Google
+      - Kubernetes
+      - Terraform
+      - Generic
+      - KubernetesRuntimeAssurance
+      - ShiftLeft
+      - SourceCodeAssurance
+      - ImageAssurance
+      - Alibaba
+      - Cft
+      - ContainerRegistry
+      - Oci
+      - CIEM
     ExclusionPostByFindingKeyRequestModel:
       type: object
       additionalProperties: false
@@ -219,6 +266,20 @@ components:
             DateRange with both ''From'' and ''To'' null will be disregarded.'
           oneOf:
           - $ref: '#/components/schemas/DateTimeRange'
+    ExclusionMultiStatusResponseViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - exclusions
+      properties:
+        exclusions:
+          type:
+          - object
+          - 'null'
+          default: {}
+          additionalProperties:
+            type: integer
+            format: int32
     ExclusionPostByFindingIdRequestModel:
       type: object
       additionalProperties: false
@@ -242,27 +303,6 @@ components:
             DateRange with both ''From'' and ''To'' null will be disregarded.'
           oneOf:
           - $ref: '#/components/schemas/DateTimeRange'
-    DateTimeRange:
-      type: object
-      deprecated: true
-      x-deprecatedMessage: 'This class was duplicated to new Domain (as part of DDD refactoring effort), please refer to the new Project: CGN.RuleEngine.Common.Infra.DateTimeRange'
-      additionalProperties: false
-      required:
-      - from
-      - to
-      properties:
-        from:
-          type:
-          - string
-          - 'null'
-          description: From date time
-          format: date-time
-        to:
-          type:
-          - string
-          - 'null'
-          description: To date time
-          format: date-time
     ExclusionPostRequestModel:
       type: object
       additionalProperties: false
@@ -341,20 +381,27 @@ components:
             DateRange with both ''From'' and ''To'' null will be disregarded.'
           oneOf:
           - $ref: '#/components/schemas/DateTimeRange'
-    ExclusionMultiStatusResponseViewModel:
+    DateTimeRange:
       type: object
+      deprecated: true
+      x-deprecatedMessage: 'This class was duplicated to new Domain (as part of DDD refactoring effort), please refer to the new Project: CGN.RuleEngine.Common.Infra.DateTimeRange'
       additionalProperties: false
       required:
-      - exclusions
+      - from
+      - to
       properties:
-        exclusions:
+        from:
           type:
-          - object
+          - string
           - 'null'
-          default: {}
-          additionalProperties:
-            type: integer
-            format: int32
+          description: From date time
+          format: date-time
+        to:
+          type:
+          - string
+          - 'null'
+          description: To date time
+          format: date-time
     ExclusionPutRequestModel:
       allOf:
       - $ref: '#/components/schemas/ExclusionPostRequestModel'
@@ -367,53 +414,6 @@ components:
             type: string
             description: Exclusion ID
             format: guid
-    AssessmentCloudAccountType:
-      type: string
-      description: ''
-      x-enumNames:
-      - Aws
-      - Azure
-      - Google
-      - Kubernetes
-      - Terraform
-      - Generic
-      - KubernetesRuntimeAssurance
-      - ShiftLeft
-      - SourceCodeAssurance
-      - ImageAssurance
-      - Alibaba
-      - Cft
-      - ContainerRegistry
-      - Oci
-      - CIEM
-      enum:
-      - Aws
-      - Azure
-      - Google
-      - Kubernetes
-      - Terraform
-      - Generic
-      - KubernetesRuntimeAssurance
-      - ShiftLeft
-      - SourceCodeAssurance
-      - ImageAssurance
-      - Alibaba
-      - Cft
-      - ContainerRegistry
-      - Oci
-      - CIEM
-    ExclusionViewModel:
-      allOf:
-      - $ref: '#/components/schemas/ExclusionPutRequestModel'
-      - type: object
-        additionalProperties: false
-        required:
-        - platform
-        properties:
-          platform:
-            description: Exclusion platform
-            oneOf:
-            - $ref: '#/components/schemas/AssessmentCloudAccountType'
     RuleViewModel2:
       type: object
       additionalProperties: false

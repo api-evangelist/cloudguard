@@ -116,22 +116,44 @@ paths:
       description: Delete an automated action by ID
 components:
   schemas:
-    FindingsPoliciesFilterOperator:
-      type: string
-      description: 'eq: equal, !eq: not equal, has: field contains the value as a word, !has: not has, hasprefix: field contains the value as prefix, !hasprefix: not hasprefix, in: equal to one of the values, !in: not in, has_any: field has any of the values, !has_any: not has_any, has_all: field has all the values, !has_all: not has_all'
-      enum:
-      - eq
-      - '!eq'
-      - in
-      - '!in'
-      - has
-      - '!has'
-      - hasprefix
-      - '!hasprefix'
-      - has_any
-      - '!has_any'
-      - has_all
-      - '!has_all'
+    FindingsPolicySearchFieldFilterViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+          - platform
+          - environmentId
+          - statusReason
+          - isExcluded
+          - origin
+          - ruleId
+          - severity
+          - systemLabels
+          - entityType
+          - entityLabels
+          - region
+          - entityTypeByPlatform
+          description: Field name.
+        values:
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: array
+            items:
+              type: number
+          - type: array
+            items:
+              type: boolean
+          minItems: 1
+          maxItems: 50
+        operator:
+          $ref: '#/components/schemas/FindingsPoliciesFilterOperator'
+      required:
+      - name
+      - values
+      - operator
     FindingsPolicyRequestModel:
       type: object
       properties:
@@ -173,65 +195,22 @@ components:
       - name
       - triggers
       - integrationIds
-    FindingsPolicySearchAdvFilterViewModel:
-      type: object
-      properties:
-        logicalOperator:
-          type: string
-          enum:
-          - and
-          - or
-          description: Logical operator to apply on operands.
-        operands:
-          type: array
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/FindingsPolicySearchFieldFilterViewModel'
-            - $ref: '#/components/schemas/FindingsPolicySearchAdvFilterViewModel'
-          minItems: 1
-          maxItems: 15
-          description: Array of filter operands. An operand can either be an array of FindingsPolicySearchAdvFilterViewModel or a recursive FindingsPolicySearchFieldFilterViewModel.
-      required:
-      - logicalOperator
-      - operands
-    FindingsPolicySearchFieldFilterViewModel:
-      type: object
-      properties:
-        name:
-          type: string
-          enum:
-          - platform
-          - environmentId
-          - statusReason
-          - isExcluded
-          - origin
-          - ruleId
-          - severity
-          - systemLabels
-          - entityType
-          - entityLabels
-          - region
-          - entityTypeByPlatform
-          description: Field name.
-        values:
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: array
-            items:
-              type: number
-          - type: array
-            items:
-              type: boolean
-          minItems: 1
-          maxItems: 50
-        operator:
-          $ref: '#/components/schemas/FindingsPoliciesFilterOperator'
-      required:
-      - name
-      - values
-      - operator
+    FindingsPoliciesFilterOperator:
+      type: string
+      description: 'eq: equal, !eq: not equal, has: field contains the value as a word, !has: not has, hasprefix: field contains the value as prefix, !hasprefix: not hasprefix, in: equal to one of the values, !in: not in, has_any: field has any of the values, !has_any: not has_any, has_all: field has all the values, !has_all: not has_all'
+      enum:
+      - eq
+      - '!eq'
+      - in
+      - '!in'
+      - has
+      - '!has'
+      - hasprefix
+      - '!hasprefix'
+      - has_any
+      - '!has_any'
+      - has_all
+      - '!has_all'
     FindingsPolicyCreationViewModel:
       type: object
       properties:
@@ -274,6 +253,27 @@ components:
       - triggers
       - integrationIds
       - created
+    FindingsPolicySearchAdvFilterViewModel:
+      type: object
+      properties:
+        logicalOperator:
+          type: string
+          enum:
+          - and
+          - or
+          description: Logical operator to apply on operands.
+        operands:
+          type: array
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/FindingsPolicySearchFieldFilterViewModel'
+            - $ref: '#/components/schemas/FindingsPolicySearchAdvFilterViewModel'
+          minItems: 1
+          maxItems: 15
+          description: Array of filter operands. An operand can either be an array of FindingsPolicySearchAdvFilterViewModel or a recursive FindingsPolicySearchFieldFilterViewModel.
+      required:
+      - logicalOperator
+      - operands
   securitySchemes:
     basic:
       type: http

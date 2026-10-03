@@ -39,11 +39,6 @@ paths:
       summary: Get
 components:
   schemas:
-    Dome9.Web.Api.CloudRouteTables.CloudPropagatingVgwViewModel:
-      type: object
-      properties:
-        gatewayId:
-          type: string
     Dome9.Web.Api.CloudRouteTables.CloudRouteTableViewModel:
       type: object
       properties:
@@ -118,6 +113,11 @@ components:
         vpcPeeringConnectionId:
           type: string
         transitGatewayId:
+          type: string
+    Dome9.Web.Api.CloudRouteTables.CloudPropagatingVgwViewModel:
+      type: object
+      properties:
+        gatewayId:
           type: string
   securitySchemes:
     basic:

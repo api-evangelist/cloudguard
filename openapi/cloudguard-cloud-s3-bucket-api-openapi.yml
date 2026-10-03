@@ -59,17 +59,17 @@ components:
           format: int32
         expiredObjectDeleteMarker:
           type: boolean
-    CloudS3RoutingRuleConditionViewModel:
+    CloudS3BucketVersioningViewModel:
       type: object
       additionalProperties: false
       required:
-      - httpErrorCodeReturnedEquals
-      - keyPrefixEquals
+      - status
+      - mfaDelete
       properties:
-        httpErrorCodeReturnedEquals:
+        status:
           type: string
-        keyPrefixEquals:
-          type: string
+        mfaDelete:
+          type: boolean
     CloudS3LifecycleRuleViewModel:
       type: object
       additionalProperties: false
@@ -112,35 +112,86 @@ components:
             $ref: '#/components/schemas/CloudS3LifecycleRuleNoncurrentVersionTransitionViewModel'
         abortIncompleteMultipartUpload:
           $ref: '#/components/schemas/CloudS3LifecycleRuleAbortIncompleteMultipartUploadViewModel'
-    CloudS3BucketAclViewModel:
+    CloudS3BucketLoggingViewModel:
       type: object
       additionalProperties: false
       required:
-      - ownerId
-      - ownerDisplayName
+      - targetPrefix
+      - targetBucketName
       - grants
       properties:
-        ownerId:
+        targetPrefix:
           type: string
-        ownerDisplayName:
+        targetBucketName:
           type: string
         grants:
           type: array
           items:
             $ref: '#/components/schemas/CloudS3BucketGrantViewModel'
-    CloudS3LifecycleFilterPredicateViewModel:
+    CloudS3BucketGrantViewModel:
       type: object
       additionalProperties: false
       required:
-      - prefixOperand
-      - tagOperands
+      - granteeType
+      - granteeCanonicalUser
+      - granteeDisplayName
+      - granteeEmailAddress
+      - granteeURI
+      - granteePremissionHeaderName
+      - granteePremission
       properties:
-        prefixOperand:
-          $ref: '#/components/schemas/CloudS3LifecyclePrefixPredicateViewModel'
-        tagOperands:
+        granteeType:
+          type: string
+        granteeCanonicalUser:
+          type: string
+        granteeDisplayName:
+          type: string
+        granteeEmailAddress:
+          type: string
+        granteeURI:
+          type: string
+        granteePremissionHeaderName:
+          type: string
+        granteePremission:
+          type: string
+    CloudS3BucketWebsiteViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - indexDocumentSuffix
+      - errorDocument
+      - routingRules
+      - redirectAllRequestsTo
+      properties:
+        indexDocumentSuffix:
+          type: string
+        errorDocument:
+          type: string
+        routingRules:
           type: array
           items:
-            $ref: '#/components/schemas/CloudS3LifecycleTagPredicateViewModel'
+            $ref: '#/components/schemas/CloudS3RoutingRuleViewModel'
+        redirectAllRequestsTo:
+          $ref: '#/components/schemas/CloudS3RoutingRuleRedirectViewModel'
+    CloudS3LifecycleRuleAbortIncompleteMultipartUploadViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - daysAfterInitiation
+      properties:
+        daysAfterInitiation:
+          type: integer
+          format: int32
+    CloudS3ServerSideEncryptionConfigurationViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - serverSideEncryptionRules
+      properties:
+        serverSideEncryptionRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudS3ServerSideEncryptionRuleViewModel'
     CloudS3LifecycleRuleNoncurrentVersionTransitionViewModel:
       type: object
       additionalProperties: false
@@ -153,42 +204,28 @@ components:
           format: int32
         storageClass:
           type: string
-    CloudS3RoutingRuleViewModel:
+    CloudS3ServerSideEncryptionByDefaultViewModel:
       type: object
       additionalProperties: false
       required:
-      - condition
-      - redirect
+      - serverSideEncryptionAlgorithm
+      - serverSideEncryptionKeyManagementServiceKeyId
       properties:
-        condition:
-          $ref: '#/components/schemas/CloudS3RoutingRuleConditionViewModel'
-        redirect:
-          $ref: '#/components/schemas/CloudS3RoutingRuleRedirectViewModel'
-    CloudS3BucketPublicAccessBlockViewModel:
+        serverSideEncryptionAlgorithm:
+          type: string
+        serverSideEncryptionKeyManagementServiceKeyId:
+          type: string
+    CloudS3RoutingRuleConditionViewModel:
       type: object
       additionalProperties: false
       required:
-      - blockPublicAcls
-      - ignorePublicAcls
-      - blockPublicPolicy
-      - restrictPublicBuckets
+      - httpErrorCodeReturnedEquals
+      - keyPrefixEquals
       properties:
-        blockPublicAcls:
-          type:
-          - boolean
-          - 'null'
-        ignorePublicAcls:
-          type:
-          - boolean
-          - 'null'
-        blockPublicPolicy:
-          type:
-          - boolean
-          - 'null'
-        restrictPublicBuckets:
-          type:
-          - boolean
-          - 'null'
+        httpErrorCodeReturnedEquals:
+          type: string
+        keyPrefixEquals:
+          type: string
     CloudRegion:
       type: string
       description: ''
@@ -612,89 +649,6 @@ components:
       - mx_monterrey_1
       - eu_jovanovac_1
       - ap_singapore_2
-    CloudS3LifecycleRuleNoncurrentVersionExpirationViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - noncurrentDays
-      properties:
-        noncurrentDays:
-          type: integer
-          format: int32
-    CloudS3BucketGrantViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - granteeType
-      - granteeCanonicalUser
-      - granteeDisplayName
-      - granteeEmailAddress
-      - granteeURI
-      - granteePremissionHeaderName
-      - granteePremission
-      properties:
-        granteeType:
-          type: string
-        granteeCanonicalUser:
-          type: string
-        granteeDisplayName:
-          type: string
-        granteeEmailAddress:
-          type: string
-        granteeURI:
-          type: string
-        granteePremissionHeaderName:
-          type: string
-        granteePremission:
-          type: string
-    CloudS3BucketVersioningViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - status
-      - mfaDelete
-      properties:
-        status:
-          type: string
-        mfaDelete:
-          type: boolean
-    CloudS3BucketLoggingViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - targetPrefix
-      - targetBucketName
-      - grants
-      properties:
-        targetPrefix:
-          type: string
-        targetBucketName:
-          type: string
-        grants:
-          type: array
-          items:
-            $ref: '#/components/schemas/CloudS3BucketGrantViewModel'
-    CloudS3LifecycleConfigurationViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - rules
-      properties:
-        rules:
-          type: array
-          items:
-            $ref: '#/components/schemas/CloudS3LifecycleRuleViewModel'
-    CloudS3ServerSideEncryptionByDefaultViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - serverSideEncryptionAlgorithm
-      - serverSideEncryptionKeyManagementServiceKeyId
-      properties:
-        serverSideEncryptionAlgorithm:
-          type: string
-        serverSideEncryptionKeyManagementServiceKeyId:
-          type: string
     CloudS3RoutingRuleRedirectViewModel:
       type: object
       additionalProperties: false
@@ -715,17 +669,31 @@ components:
           type: string
         replaceKeyWith:
           type: string
-    CloudS3ReplicationDestinationViewModel:
+    CloudS3BucketPublicAccessBlockViewModel:
       type: object
       additionalProperties: false
       required:
-      - bucketArn
-      - storageClass
+      - blockPublicAcls
+      - ignorePublicAcls
+      - blockPublicPolicy
+      - restrictPublicBuckets
       properties:
-        bucketArn:
-          type: string
-        storageClass:
-          type: string
+        blockPublicAcls:
+          type:
+          - boolean
+          - 'null'
+        ignorePublicAcls:
+          type:
+          - boolean
+          - 'null'
+        blockPublicPolicy:
+          type:
+          - boolean
+          - 'null'
+        restrictPublicBuckets:
+          type:
+          - boolean
+          - 'null'
     CloudS3LifecycleTagPredicateViewModel:
       type: object
       additionalProperties: false
@@ -734,14 +702,17 @@ components:
       properties:
         tag:
           $ref: '#/components/schemas/CloudS3TagViewModel'
-    CloudS3LifecycleFilterViewModel:
+    CloudS3TagViewModel:
       type: object
       additionalProperties: false
       required:
-      - lifecycleFilterPredicate
+      - key
+      - value
       properties:
-        lifecycleFilterPredicate:
-          $ref: '#/components/schemas/CloudS3LifecycleFilterPredicateViewModel'
+        key:
+          type: string
+        value:
+          type: string
     CloudS3ServerSideEncryptionRuleViewModel:
       type: object
       additionalProperties: false
@@ -750,44 +721,6 @@ components:
       properties:
         serverSideEncryptionByDefault:
           $ref: '#/components/schemas/CloudS3ServerSideEncryptionByDefaultViewModel'
-    CloudS3ReplicationRuleViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - id
-      - prefix
-      - status
-      - destination
-      properties:
-        id:
-          type: string
-        prefix:
-          type: string
-        status:
-          type: string
-        destination:
-          $ref: '#/components/schemas/CloudS3ReplicationDestinationViewModel'
-    CloudS3LifecyclePrefixPredicateViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - prefix
-      properties:
-        prefix:
-          type: string
-    CloudS3ReplicationConfigurationViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - role
-      - rules
-      properties:
-        role:
-          type: string
-        rules:
-          type: array
-          items:
-            $ref: '#/components/schemas/CloudS3ReplicationRuleViewModel'
     CloudS3BucketViewModel:
       type: object
       additionalProperties: false
@@ -854,25 +787,26 @@ components:
           type: string
         tags:
           $ref: '#/components/schemas/TagsDictionary'
-    CloudS3LifecycleRuleAbortIncompleteMultipartUploadViewModel:
+    CloudS3LifecycleFilterPredicateViewModel:
       type: object
       additionalProperties: false
       required:
-      - daysAfterInitiation
+      - prefixOperand
+      - tagOperands
       properties:
-        daysAfterInitiation:
-          type: integer
-          format: int32
-    CloudS3TagViewModel:
+        prefixOperand:
+          $ref: '#/components/schemas/CloudS3LifecyclePrefixPredicateViewModel'
+        tagOperands:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudS3LifecycleTagPredicateViewModel'
+    CloudS3LifecyclePrefixPredicateViewModel:
       type: object
       additionalProperties: false
       required:
-      - key
-      - value
+      - prefix
       properties:
-        key:
-          type: string
-        value:
+        prefix:
           type: string
     CloudS3BucketPolicyViewModel:
       type: object
@@ -882,6 +816,51 @@ components:
       properties:
         document:
           type: string
+    CloudS3ReplicationRuleViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - prefix
+      - status
+      - destination
+      properties:
+        id:
+          type: string
+        prefix:
+          type: string
+        status:
+          type: string
+        destination:
+          $ref: '#/components/schemas/CloudS3ReplicationDestinationViewModel'
+    CloudS3LifecycleRuleNoncurrentVersionExpirationViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - noncurrentDays
+      properties:
+        noncurrentDays:
+          type: integer
+          format: int32
+    CloudS3LifecycleFilterViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - lifecycleFilterPredicate
+      properties:
+        lifecycleFilterPredicate:
+          $ref: '#/components/schemas/CloudS3LifecycleFilterPredicateViewModel'
+    CloudS3RoutingRuleViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - condition
+      - redirect
+      properties:
+        condition:
+          $ref: '#/components/schemas/CloudS3RoutingRuleConditionViewModel'
+        redirect:
+          $ref: '#/components/schemas/CloudS3RoutingRuleRedirectViewModel'
     CloudS3LifecycleTransitionViewModel:
       type: object
       additionalProperties: false
@@ -906,35 +885,56 @@ components:
       type: object
       additionalProperties:
         type: string
-    CloudS3BucketWebsiteViewModel:
+    CloudS3BucketAclViewModel:
       type: object
       additionalProperties: false
       required:
-      - indexDocumentSuffix
-      - errorDocument
-      - routingRules
-      - redirectAllRequestsTo
+      - ownerId
+      - ownerDisplayName
+      - grants
       properties:
-        indexDocumentSuffix:
+        ownerId:
           type: string
-        errorDocument:
+        ownerDisplayName:
           type: string
-        routingRules:
+        grants:
           type: array
           items:
-            $ref: '#/components/schemas/CloudS3RoutingRuleViewModel'
-        redirectAllRequestsTo:
-          $ref: '#/components/schemas/CloudS3RoutingRuleRedirectViewModel'
-    CloudS3ServerSideEncryptionConfigurationViewModel:
+            $ref: '#/components/schemas/CloudS3BucketGrantViewModel'
+    CloudS3ReplicationDestinationViewModel:
       type: object
       additionalProperties: false
       required:
-      - serverSideEncryptionRules
+      - bucketArn
+      - storageClass
       properties:
-        serverSideEncryptionRules:
+        bucketArn:
+          type: string
+        storageClass:
+          type: string
+    CloudS3LifecycleConfigurationViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - rules
+      properties:
+        rules:
           type: array
           items:
-            $ref: '#/components/schemas/CloudS3ServerSideEncryptionRuleViewModel'
+            $ref: '#/components/schemas/CloudS3LifecycleRuleViewModel'
+    CloudS3ReplicationConfigurationViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - role
+      - rules
+      properties:
+        role:
+          type: string
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudS3ReplicationRuleViewModel'
   securitySchemes:
     basic:
       type: http

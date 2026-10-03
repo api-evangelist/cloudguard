@@ -60,6 +60,16 @@ paths:
       description: Get Analysis Service Server by Dome9Id or throw exception
 components:
   schemas:
+    Dome9.Web.Api.Azure.AnalysisService.AzureAnalysisServiceSkuViewModel:
+      type: object
+      properties:
+        capacity:
+          format: int64
+          type: integer
+        name:
+          type: string
+        tier:
+          type: string
     Dome9.Web.Api.Azure.AnalysisService.AzureAnalysisServiceIPv4FirewallRuleViewModel:
       type: object
       properties:
@@ -68,15 +78,6 @@ components:
         rangeStart:
           type: string
         rangeEnd:
-          type: string
-    Dome9.Web.Api.Azure.AnalysisService.AzureAnalysisServiceGatewayDetailsViewModel:
-      type: object
-      properties:
-        dmtsClusterUri:
-          type: string
-        gatewayObjectId:
-          type: string
-        gatewayResourceId:
           type: string
     Dome9.Web.Api.Azure.AnalysisService.AzureAnalysisServiceViewModel:
       type: object
@@ -105,15 +106,6 @@ components:
           type: object
           additionalProperties:
             type: string
-    Dome9.Web.Api.Azure.AnalysisService.AzureAnalysisServiceIpV4FirewallSettingsViewModel:
-      type: object
-      properties:
-        enablePowerBIService:
-          type: boolean
-        firewallRules:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.Azure.AnalysisService.AzureAnalysisServiceIPv4FirewallRuleViewModel'
     Dome9.Web.Api.Models.AzureResourceGroupViewModel:
       type: object
       properties:
@@ -134,16 +126,6 @@ components:
           type: object
           additionalProperties:
             type: string
-    Dome9.Web.Api.Azure.AnalysisService.AzureAnalysisServiceSkuViewModel:
-      type: object
-      properties:
-        capacity:
-          format: int64
-          type: integer
-        name:
-          type: string
-        tier:
-          type: string
     Dome9.Web.Api.Azure.AnalysisService.AzureAnalysisServicePropertiesViewModel:
       type: object
       properties:
@@ -164,6 +146,24 @@ components:
         serverFullName:
           type: string
         state:
+          type: string
+    Dome9.Web.Api.Azure.AnalysisService.AzureAnalysisServiceIpV4FirewallSettingsViewModel:
+      type: object
+      properties:
+        enablePowerBIService:
+          type: boolean
+        firewallRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Azure.AnalysisService.AzureAnalysisServiceIPv4FirewallRuleViewModel'
+    Dome9.Web.Api.Azure.AnalysisService.AzureAnalysisServiceGatewayDetailsViewModel:
+      type: object
+      properties:
+        dmtsClusterUri:
+          type: string
+        gatewayObjectId:
+          type: string
+        gatewayResourceId:
           type: string
   securitySchemes:
     basic:

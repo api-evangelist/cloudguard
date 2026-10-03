@@ -145,69 +145,6 @@ paths:
         Returns a multi status response containing successfully updated policies without an error message and failed policies with an error message. (move to use /v2/vulnerability/policy)'
 components:
   schemas:
-    ImageAssurancePolicyViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - id
-      - targetType
-      - targetPlatform
-      - targetId
-      - rulesetId
-      - notificationIds
-      - errorMessage
-      - admissionControllerAction
-      - admissionControlUnScannedAction
-      properties:
-        id:
-          type: string
-          format: guid
-        targetType:
-          deprecated: true
-          x-deprecatedMessage: use TargetPlatform instead
-          oneOf:
-          - $ref: '#/components/schemas/ImageAssurancePolicyType'
-        targetPlatform:
-          $ref: '#/components/schemas/ImageAssurancePolicyPlatform'
-        targetId:
-          type: string
-          format: guid
-        rulesetId:
-          type: integer
-          format: int64
-        notificationIds:
-          type: array
-          default: []
-          items:
-            type: string
-            format: guid
-        errorMessage:
-          type:
-          - string
-          - 'null'
-        admissionControllerAction:
-          type:
-          - string
-          - 'null'
-          description: '[Preview feature - Image Admission] Image Admission action to block non-compliant images according to the relevant ruleset.
-
-            Options: ''Prevention'', ''Detection'', or null.'
-        admissionControlUnScannedAction:
-          type:
-          - string
-          - 'null'
-          description: '[Preview feature - Image Admission] Image Admission unScanned action of Detection or Prevention to alert on or block images that have not been scanned.
-
-            Options: ''Prevention'', ''Detection'', or null.'
-    ImageAssurancePolicyType:
-      type: string
-      description: ''
-      x-enumNames:
-      - Environment
-      - OrganizationalUnit
-      enum:
-      - Environment
-      - OrganizationalUnit
     ImageAssurancePolicyPlatform:
       type: string
       description: ''
@@ -281,6 +218,69 @@ components:
         rulesetId:
           type: integer
           format: int64
+    ImageAssurancePolicyViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - targetType
+      - targetPlatform
+      - targetId
+      - rulesetId
+      - notificationIds
+      - errorMessage
+      - admissionControllerAction
+      - admissionControlUnScannedAction
+      properties:
+        id:
+          type: string
+          format: guid
+        targetType:
+          deprecated: true
+          x-deprecatedMessage: use TargetPlatform instead
+          oneOf:
+          - $ref: '#/components/schemas/ImageAssurancePolicyType'
+        targetPlatform:
+          $ref: '#/components/schemas/ImageAssurancePolicyPlatform'
+        targetId:
+          type: string
+          format: guid
+        rulesetId:
+          type: integer
+          format: int64
+        notificationIds:
+          type: array
+          default: []
+          items:
+            type: string
+            format: guid
+        errorMessage:
+          type:
+          - string
+          - 'null'
+        admissionControllerAction:
+          type:
+          - string
+          - 'null'
+          description: '[Preview feature - Image Admission] Image Admission action to block non-compliant images according to the relevant ruleset.
+
+            Options: ''Prevention'', ''Detection'', or null.'
+        admissionControlUnScannedAction:
+          type:
+          - string
+          - 'null'
+          description: '[Preview feature - Image Admission] Image Admission unScanned action of Detection or Prevention to alert on or block images that have not been scanned.
+
+            Options: ''Prevention'', ''Detection'', or null.'
+    ImageAssurancePolicyType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Environment
+      - OrganizationalUnit
+      enum:
+      - Environment
+      - OrganizationalUnit
   securitySchemes:
     basic:
       type: http

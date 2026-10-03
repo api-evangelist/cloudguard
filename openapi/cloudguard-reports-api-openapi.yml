@@ -109,84 +109,6 @@ paths:
                 $ref: '#/components/schemas/ReportOperationResponse'
 components:
   schemas:
-    ReportOperationResponse:
-      type: object
-      additionalProperties: false
-      required:
-      - message
-      properties:
-        message:
-          type: string
-    ReportNotificationItem:
-      type: object
-      additionalProperties: false
-      required:
-      - type
-      - value
-      properties:
-        type:
-          type: string
-        value:
-          type: string
-    DeleteReportRequest:
-      type: object
-      additionalProperties: false
-      required:
-      - scheduleIds
-      properties:
-        scheduleIds:
-          type: array
-          items:
-            type: integer
-            format: int32
-    FullReportResponseModel:
-      allOf:
-      - $ref: '#/components/schemas/BaseReportModel'
-      - type: object
-        additionalProperties: false
-        required:
-        - scheduleId
-        - accountId
-        - scheduledCron
-        - lastRun
-        - nextRun
-        properties:
-          scheduleId:
-            type: integer
-            format: int32
-          accountId:
-            type: integer
-            format: int32
-          scheduledCron:
-            type: string
-          lastRun:
-            type: string
-          nextRun:
-            type: string
-    BaseReportModel:
-      type: object
-      additionalProperties: false
-      required:
-      - reportName
-      - reportType
-      - filters
-      - notifications
-      - scheduleDetails
-      properties:
-        reportName:
-          type: string
-        reportType:
-          type: string
-        filters:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReportFiltersItem'
-        notifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReportNotificationItem'
-        scheduleDetails:
-          $ref: '#/components/schemas/ReportScheduleDetails'
     ReportFiltersItem:
       type: object
       additionalProperties: false
@@ -222,6 +144,84 @@ components:
           - integer
           - 'null'
           format: int32
+    DeleteReportRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - scheduleIds
+      properties:
+        scheduleIds:
+          type: array
+          items:
+            type: integer
+            format: int32
+    ReportNotificationItem:
+      type: object
+      additionalProperties: false
+      required:
+      - type
+      - value
+      properties:
+        type:
+          type: string
+        value:
+          type: string
+    ReportOperationResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - message
+      properties:
+        message:
+          type: string
+    BaseReportModel:
+      type: object
+      additionalProperties: false
+      required:
+      - reportName
+      - reportType
+      - filters
+      - notifications
+      - scheduleDetails
+      properties:
+        reportName:
+          type: string
+        reportType:
+          type: string
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportFiltersItem'
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportNotificationItem'
+        scheduleDetails:
+          $ref: '#/components/schemas/ReportScheduleDetails'
+    FullReportResponseModel:
+      allOf:
+      - $ref: '#/components/schemas/BaseReportModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - scheduleId
+        - accountId
+        - scheduledCron
+        - lastRun
+        - nextRun
+        properties:
+          scheduleId:
+            type: integer
+            format: int32
+          accountId:
+            type: integer
+            format: int32
+          scheduledCron:
+            type: string
+          lastRun:
+            type: string
+          nextRun:
+            type: string
   securitySchemes:
     basic:
       type: http

@@ -794,6 +794,254 @@ paths:
       summary: Get Origins
 components:
   schemas:
+    Falconetix.Model.RuleEngine.Entities.Compliance.AssessmentFinding.MagellanData:
+      type: object
+      properties:
+        alertWindowStartTime:
+          format: date-time
+          type: string
+        alertWindowEndTime:
+          format: date-time
+          type: string
+    Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Compliance.Models.ActionType_:
+      type: object
+      properties:
+        searchRequest:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel'
+        actionRequest:
+          enum:
+          - Undefined
+          - Acknowledge
+          - Severity
+          - Assign
+          - Comment
+          - Close
+          - Archive
+          - Delete
+          - Unarchive
+          type: string
+        excludedFindingsIds:
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+    Dome9.Web.Api.Compliance.Finding.FindingController.AssessmentFindingOriginProperties:
+      type: object
+      properties:
+        origin:
+          type: string
+        originNumber:
+          format: int32
+          type: integer
+        originDescription:
+          type: string
+    Falconetix.Model.RuleEngine.Entities.TagRuleEntity:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    Dome9.Web.Api.Compliance.Finding.FindingPaganationViewModel:
+      type: object
+      properties:
+        searchRequest:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel'
+          description: search request for findings
+        findings:
+          description: current page of findings
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.BaseFindingViewModel'
+        totalFindingsCount:
+          format: int64
+          description: total number of findings
+          type: integer
+        aggregations:
+          description: aggregate findings per search or filter entity (facet)
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.FieldAggregationViewModel'
+        searchAfter:
+          description: token for next page of results
+          type: array
+          items:
+            type: string
+    Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PostCommentViewModel_:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        details:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PostCommentViewModel'
+    Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PostCommentViewModel_:
+      type: object
+      properties:
+        searchRequest:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel'
+        actionRequest:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PostCommentViewModel'
+        excludedFindingsIds:
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+    Dome9.Web.Api.Compliance.Finding.PostCommentByFindingKeyViewModel:
+      required:
+      - findingKey
+      - text
+      type: object
+      properties:
+        findingKey:
+          type: string
+        text:
+          description: general comment for finding
+          maxLength: 200
+          minLength: 1
+          type: string
+    Dome9.Web.Api.Shared.SharedViewModels.DateRangeViewModel:
+      type: object
+      properties:
+        from:
+          format: date-time
+          type: string
+        to:
+          format: date-time
+          type: string
+    Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel:
+      type: object
+      properties:
+        assigneeUserName:
+          description: assigned Dome9 user name (email address)
+          type: string
+    Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel_:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        details:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel'
+    Dome9.Web.Api.Compliance.Finding.FieldAggregationViewModel:
+      type: object
+      properties:
+        value:
+          type: object
+        count:
+          format: int64
+          type: integer
+    Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel:
+      type: object
+      properties:
+        searchAfter:
+          description: token for the page of findings (first page if not specified)
+          type: array
+          items:
+            type: string
+        pageSize:
+          format: int32
+          description: 'page size (number of findings returned per page). default: 10.'
+          maximum: 10000
+          minimum: 0
+          type: integer
+        skipAggregations:
+          type: boolean
+        lowAggregationsSize:
+          type: boolean
+        sorting:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SortingViewModel'
+          description: sort data
+        multiSorting:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SortingViewModel'
+        filter:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchFilterViewModel'
+          description: filter
+        dataSource:
+          enum:
+          - Finding
+          - Archive
+          type: string
+    Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel_:
+      type: object
+      properties:
+        searchRequest:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel'
+        actionRequest:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel'
+        excludedFindingsIds:
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+    Dome9.Web.Api.Compliance.Finding.FindingCommentViewModel:
+      description: comments for a finding (listed by user)
+      type: object
+      properties:
+        text:
+          type: string
+        timestamp:
+          format: date-time
+          type: string
+        userName:
+          type: string
+    ? Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel_
+    : type: object
+      properties:
+        ids:
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        details:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel'
+    Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel_:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        details:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel'
+    Dome9.Web.Api.Compliance.Finding.SearchFilterViewModel:
+      type: object
+      properties:
+        freeTextPhrase:
+          description: free text
+          type: string
+        fields:
+          description: fields
+          type: array
+          items:
+            $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.FieldFilterViewModel'
+        onlyCIEM:
+          type: boolean
+        onlyCustomPolicy:
+          description: Filtering all findings created by custom policy
+          type: boolean
+        creationTime:
+          $ref: '#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.DateRangeViewModel'
+        updatedTime:
+          $ref: '#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.DateRangeViewModel'
+        hasRemediation:
+          type: boolean
     Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel:
       required:
       - severity
@@ -812,15 +1060,6 @@ components:
           description: severity comment (if severity is changed)
           maxLength: 200
           minLength: 0
-          type: string
-    Falconetix.Model.RuleEngine.Entities.Compliance.AssessmentFinding.MagellanData:
-      type: object
-      properties:
-        alertWindowStartTime:
-          format: date-time
-          type: string
-        alertWindowEndTime:
-          format: date-time
           type: string
     Dome9.Web.Api.Compliance.Finding.FindingController.FindingSourceViewModel:
       type: object
@@ -848,41 +1087,107 @@ components:
           - WorkloadChangeMonitoring
           - Agentless
           type: string
-    Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PostCommentViewModel_:
+    Dome9.Web.Api.Compliance.Finding.FindingsStatsViewModel:
+      description: Statistics (passes/fails) for a bundle
+      type: object
+      properties:
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.ElasticSearch.Std.Finding.RuleStatistics'
+    Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.ArchiveFindingModel_:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        details:
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.ArchiveFindingModel'
+    Dome9.Web.Api.Compliance.Finding.SortingViewModel:
+      type: object
+      properties:
+        fieldName:
+          description: Field name
+          type: string
+        direction:
+          format: int32
+          description: direction. 1 is asc, -1 desc
+          type: integer
+    Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel_:
       type: object
       properties:
         searchRequest:
           $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel'
         actionRequest:
-          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PostCommentViewModel'
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel'
         excludedFindingsIds:
           type: array
           items:
             format: uuid
             type: string
             example: 00000000-0000-0000-0000-000000000000
-    Dome9.Web.Api.Shared.SharedViewModels.DateRangeViewModel:
+    Falconetix.Model.ElasticSearch.WebhookResponse.WebhookResponseMessage:
       type: object
       properties:
-        from:
+        requestTime:
           format: date-time
           type: string
-        to:
-          format: date-time
-          type: string
-    Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel_:
+        responseContent:
+          type: object
+    Dome9.ElasticSearch.Std.Finding.RuleStatistics:
       type: object
       properties:
-        searchRequest:
-          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel'
-        actionRequest:
-          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel'
-        excludedFindingsIds:
-          type: array
-          items:
-            format: uuid
-            type: string
-            example: 00000000-0000-0000-0000-000000000000
+        ruleLogicHash:
+          type: string
+        numberOfFindings:
+          format: int64
+          type: integer
+    Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel:
+      type: object
+      properties:
+        acknowledged:
+          description: acknowledge finding
+          type: boolean
+        comment:
+          description: acknowledge comment
+          maxLength: 200
+          minLength: 0
+          type: string
+    Dome9.Web.Api.Compliance.Finding.PostCommentViewModel:
+      required:
+      - text
+      type: object
+      properties:
+        text:
+          description: general comment for finding
+          maxLength: 200
+          minLength: 1
+          type: string
+    Falconetix.Model.RuleEngine.Entities.FindingAdditionalFieldViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    Dome9.ElasticSearch.Std.Base.AggKeyStatistics:
+      type: object
+      properties:
+        key:
+          type: string
+        numberOfDocuments:
+          format: int64
+          type: integer
+    CGN.OpenSearch.Model.CommonViewModels.FieldFilterViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
     Dome9.Web.Api.Compliance.Finding.FindingViewModel:
       type: object
       properties:
@@ -1096,232 +1401,26 @@ components:
           type: array
           items:
             type: string
-    Dome9.ElasticSearch.Std.Base.AggKeyStatistics:
-      type: object
-      properties:
-        key:
-          type: string
-        numberOfDocuments:
-          format: int64
-          type: integer
-    Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PostCommentViewModel_:
-      type: object
-      properties:
-        ids:
-          type: array
-          items:
-            format: uuid
-            type: string
-            example: 00000000-0000-0000-0000-000000000000
-        details:
-          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PostCommentViewModel'
-    Dome9.ElasticSearch.Std.Finding.RuleStatistics:
-      type: object
-      properties:
-        ruleLogicHash:
-          type: string
-        numberOfFindings:
-          format: int64
-          type: integer
-    Falconetix.Model.ElasticSearch.WebhookResponse.WebhookResponseMessage:
-      type: object
-      properties:
-        requestTime:
-          format: date-time
-          type: string
-        responseContent:
-          type: object
-    Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel:
-      type: object
-      properties:
-        searchAfter:
-          description: token for the page of findings (first page if not specified)
-          type: array
-          items:
-            type: string
-        pageSize:
-          format: int32
-          description: 'page size (number of findings returned per page). default: 10.'
-          maximum: 10000
-          minimum: 0
-          type: integer
-        skipAggregations:
-          type: boolean
-        lowAggregationsSize:
-          type: boolean
-        sorting:
-          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SortingViewModel'
-          description: sort data
-        multiSorting:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SortingViewModel'
-        filter:
-          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchFilterViewModel'
-          description: filter
-        dataSource:
-          enum:
-          - Finding
-          - Archive
-          type: string
-    Dome9.Web.Api.Compliance.Finding.FindingsStatsViewModel:
-      description: Statistics (passes/fails) for a bundle
-      type: object
-      properties:
-        rules:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.ElasticSearch.Std.Finding.RuleStatistics'
-    Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel_:
-      type: object
-      properties:
-        searchRequest:
-          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel'
-        actionRequest:
-          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel'
-        excludedFindingsIds:
-          type: array
-          items:
-            format: uuid
-            type: string
-            example: 00000000-0000-0000-0000-000000000000
-    Dome9.Web.Api.Compliance.Finding.PostCommentByFindingKeyViewModel:
+    Dome9.Web.Api.Compliance.Finding.GetFindingByKeyViewModel:
       required:
       - findingKey
-      - text
       type: object
       properties:
         findingKey:
           type: string
-        text:
-          description: general comment for finding
-          maxLength: 200
-          minLength: 1
-          type: string
-    Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel:
-      type: object
-      properties:
-        acknowledged:
-          description: acknowledge finding
-          type: boolean
-        comment:
-          description: acknowledge comment
-          maxLength: 200
-          minLength: 0
-          type: string
-    Falconetix.Model.RuleEngine.Entities.TagRuleEntity:
-      type: object
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-    Falconetix.Model.RuleEngine.Entities.FindingAdditionalFieldViewModel:
-      type: object
-      properties:
-        name:
-          type: string
-        value:
-          type: string
-    Dome9.Web.Api.Compliance.Finding.ArchiveFindingModel:
-      type: object
-      properties: {}
-    Dome9.Web.Api.Compliance.Finding.SearchFilterViewModel:
-      type: object
-      properties:
-        freeTextPhrase:
-          description: free text
-          type: string
-        fields:
-          description: fields
-          type: array
-          items:
-            $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.FieldFilterViewModel'
-        onlyCIEM:
-          type: boolean
-        onlyCustomPolicy:
-          description: Filtering all findings created by custom policy
-          type: boolean
-        creationTime:
-          $ref: '#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.DateRangeViewModel'
-        updatedTime:
-          $ref: '#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.DateRangeViewModel'
-        hasRemediation:
-          type: boolean
-    Dome9.Web.Api.Compliance.Finding.FindingController.AssessmentFindingOriginProperties:
-      type: object
-      properties:
-        origin:
-          type: string
-        originNumber:
-          format: int32
-          type: integer
-        originDescription:
-          type: string
-    Dome9.Web.Api.Compliance.Finding.FindingsStatsBySeverityViewModel:
-      description: Statistics (passes/fails) per severity
-      type: object
-      properties:
-        aggByProperty:
-          type: string
-        aggStatistics:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.ElasticSearch.Std.Base.AggKeyStatistics'
-    Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel_:
+    Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel_:
       type: object
       properties:
         searchRequest:
           $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel'
         actionRequest:
-          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel'
+          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel'
         excludedFindingsIds:
           type: array
           items:
             format: uuid
             type: string
             example: 00000000-0000-0000-0000-000000000000
-    Dome9.Web.Api.Compliance.Finding.SelectAllRequestViewModel_Dome9.Compliance.Models.ActionType_:
-      type: object
-      properties:
-        searchRequest:
-          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel'
-        actionRequest:
-          enum:
-          - Undefined
-          - Acknowledge
-          - Severity
-          - Assign
-          - Comment
-          - Close
-          - Archive
-          - Delete
-          - Unarchive
-          type: string
-        excludedFindingsIds:
-          type: array
-          items:
-            format: uuid
-            type: string
-            example: 00000000-0000-0000-0000-000000000000
-    CGN.OpenSearch.Model.CommonViewModels.FieldFilterViewModel:
-      type: object
-      properties:
-        name:
-          type: string
-        value:
-          type: string
-    ? Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel_
-    : type: object
-      properties:
-        ids:
-          type: array
-          items:
-            format: uuid
-            type: string
-            example: 00000000-0000-0000-0000-000000000000
-        details:
-          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutAcknowledgedViewModel'
     Dome9.Web.Api.Compliance.Finding.SelectAllResponseViewModel:
       type: object
       properties:
@@ -1398,108 +1497,16 @@ components:
           type: integer
         error:
           type: string
-    Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel:
+    Dome9.Web.Api.Compliance.Finding.FindingsStatsBySeverityViewModel:
+      description: Statistics (passes/fails) per severity
       type: object
       properties:
-        assigneeUserName:
-          description: assigned Dome9 user name (email address)
+        aggByProperty:
           type: string
-    Dome9.Web.Api.Compliance.Finding.FieldAggregationViewModel:
-      type: object
-      properties:
-        value:
-          type: object
-        count:
-          format: int64
-          type: integer
-    Dome9.Web.Api.Compliance.Finding.GetFindingByKeyViewModel:
-      required:
-      - findingKey
-      type: object
-      properties:
-        findingKey:
-          type: string
-    Dome9.Web.Api.Compliance.Finding.SortingViewModel:
-      type: object
-      properties:
-        fieldName:
-          description: Field name
-          type: string
-        direction:
-          format: int32
-          description: direction. 1 is asc, -1 desc
-          type: integer
-    Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel_:
-      type: object
-      properties:
-        ids:
+        aggStatistics:
           type: array
           items:
-            format: uuid
-            type: string
-            example: 00000000-0000-0000-0000-000000000000
-        details:
-          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutAssigneeViewModel'
-    Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel_:
-      type: object
-      properties:
-        ids:
-          type: array
-          items:
-            format: uuid
-            type: string
-            example: 00000000-0000-0000-0000-000000000000
-        details:
-          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.PutSeverityViewModel'
-    Dome9.Web.Api.Compliance.Finding.BulkViewModel.BulkRequestViewModel_Dome9.Web.Api.Compliance.Finding.ArchiveFindingModel_:
-      type: object
-      properties:
-        ids:
-          type: array
-          items:
-            format: uuid
-            type: string
-            example: 00000000-0000-0000-0000-000000000000
-        details:
-          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.ArchiveFindingModel'
-    Dome9.Web.Api.Compliance.Finding.FindingPaganationViewModel:
-      type: object
-      properties:
-        searchRequest:
-          $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel'
-          description: search request for findings
-        findings:
-          description: current page of findings
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.BaseFindingViewModel'
-        totalFindingsCount:
-          format: int64
-          description: total number of findings
-          type: integer
-        aggregations:
-          description: aggregate findings per search or filter entity (facet)
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              $ref: '#/components/schemas/Dome9.Web.Api.Compliance.Finding.FieldAggregationViewModel'
-        searchAfter:
-          description: token for next page of results
-          type: array
-          items:
-            type: string
-    Dome9.Web.Api.Compliance.Finding.FindingCommentViewModel:
-      description: comments for a finding (listed by user)
-      type: object
-      properties:
-        text:
-          type: string
-        timestamp:
-          format: date-time
-          type: string
-        userName:
-          type: string
+            $ref: '#/components/schemas/Dome9.ElasticSearch.Std.Base.AggKeyStatistics'
     Dome9.Web.Api.Compliance.Finding.BaseFindingViewModel:
       type: object
       properties:
@@ -1710,16 +1717,9 @@ components:
           type: array
           items:
             type: string
-    Dome9.Web.Api.Compliance.Finding.PostCommentViewModel:
-      required:
-      - text
+    Dome9.Web.Api.Compliance.Finding.ArchiveFindingModel:
       type: object
-      properties:
-        text:
-          description: general comment for finding
-          maxLength: 200
-          minLength: 1
-          type: string
+      properties: {}
   requestBodies:
     Finding_BulkDeleteAsyncIds:
       content:

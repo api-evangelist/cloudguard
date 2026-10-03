@@ -59,6 +59,23 @@ paths:
       summary: Get
 components:
   schemas:
+    Dome9.Web.Api.Azure.CosmosDbAccount.AzureCosmosDbConsistencyPolicyViewModel:
+      type: object
+      properties:
+        defaultConsistencyLevel:
+          enum:
+          - Eventual
+          - Session
+          - BoundedStaleness
+          - Strong
+          - ConsistentPrefix
+          type: string
+        maxStalenessPrefix:
+          format: int64
+          type: integer
+        maxIntervalInSeconds:
+          format: int32
+          type: integer
     Dome9.Web.Api.Azure.CosmosDbAccount.AzureCosmosDbLocationViewModel:
       type: object
       properties:
@@ -131,23 +148,6 @@ components:
           type: array
           items:
             type: string
-    Dome9.Web.Api.Azure.CosmosDbAccount.AzureCosmosDbConsistencyPolicyViewModel:
-      type: object
-      properties:
-        defaultConsistencyLevel:
-          enum:
-          - Eventual
-          - Session
-          - BoundedStaleness
-          - Strong
-          - ConsistentPrefix
-          type: string
-        maxStalenessPrefix:
-          format: int64
-          type: integer
-        maxIntervalInSeconds:
-          format: int32
-          type: integer
   securitySchemes:
     basic:
       type: http

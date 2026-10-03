@@ -148,13 +148,6 @@ components:
         createdAt:
           format: date-time
           type: string
-    Dome9.Web.Api.AwsECSPlacementConstraintViewModel:
-      type: object
-      properties:
-        expression:
-          type: string
-        type:
-          type: string
     Dome9.Web.Api.AwsECSLoadBalancerViewModel:
       type: object
       properties:
@@ -166,6 +159,13 @@ components:
         loadBalancerName:
           type: string
         targetGroupArn:
+          type: string
+    Dome9.Web.Api.AwsECSPlacementConstraintViewModel:
+      type: object
+      properties:
+        expression:
+          type: string
+        type:
           type: string
   securitySchemes:
     basic:

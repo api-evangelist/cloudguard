@@ -59,6 +59,11 @@ paths:
       summary: Get
 components:
   schemas:
+    Falconetix.Model.AwsPrivateDnsDetailsViewModel:
+      type: object
+      properties:
+        privateDnsName:
+          type: string
     Falconetix.Model.AwsVpcEndpointViewModel:
       type: object
       properties:
@@ -86,10 +91,10 @@ components:
           type: string
         vpcId:
           type: string
-    Falconetix.Model.AwsPrivateDnsDetailsViewModel:
+    Falconetix.Model.AwsServiceTypeDetailViewModel:
       type: object
       properties:
-        privateDnsName:
+        serviceType:
           type: string
     Falconetix.Model.VpcEndpointServiceViewModel:
       type: object
@@ -136,11 +141,6 @@ components:
             type: string
         vpcEndpointPolicySupported:
           type: boolean
-    Falconetix.Model.AwsServiceTypeDetailViewModel:
-      type: object
-      properties:
-        serviceType:
-          type: string
   securitySchemes:
     basic:
       type: http

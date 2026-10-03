@@ -46,6 +46,15 @@ paths:
       description: Search API for protected assets.
 components:
   schemas:
+    CGN.Common.Model.Vlm.VlmAssetMetadata:
+      type: object
+      properties:
+        stats:
+          $ref: '#/components/schemas/CGN.VLM.Model.Entities.VulnerabilityStats'
+        scanStatus:
+          type: string
+        scanStatusDetails:
+          type: string
     Dome9.Web.Api.ProtectedAsset.OpenSecurityIssuesViewModel:
       type: object
       properties:
@@ -61,6 +70,15 @@ components:
         low:
           format: int32
           type: integer
+    CGN.OpenSearch.Model.AssetsIndexer.AssetIndexerExternalAdditionalField:
+      type: object
+      properties:
+        source:
+          type: string
+        name:
+          type: string
+        value:
+          type: string
     CGN.OpenSearch.Model.CommonViewModels.SearchFilterViewModel:
       type: object
       properties:
@@ -86,43 +104,59 @@ components:
           type: array
           items:
             type: string
-    CGN.OpenSearch.Model.CommonViewModels.FieldAggregationViewModel:
+    CGN.OpenSearch.Model.CommonViewModels.SortingViewModel:
       type: object
       properties:
-        value:
-          type: object
-        count:
-          format: int64
-          type: integer
-    CGN.VLM.Model.Entities.VulnerabilitySeverityStats:
-      type: object
-      properties:
-        all:
+        fieldName:
+          type: string
+        direction:
           format: int32
           type: integer
-        critical:
-          format: int32
-          type: integer
-        high:
-          format: int32
-          type: integer
-        medium:
-          format: int32
-          type: integer
-        low:
-          format: int32
-          type: integer
-        informational:
-          format: int32
-          type: integer
-        unknown:
-          format: int32
-          type: integer
-    CGN.OpenSearch.Model.AssetsIndexer.AssetIndexerExternalAdditionalField:
+    CGN.OpenSearch.Model.CommonViewModels.AdditionalFieldsRequestViewModel:
       type: object
       properties:
         source:
           type: string
+        filterFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.FieldFilterViewModel'
+        sortField:
+          $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.SortingViewModel'
+    Dome9.Web.Api.ProtectedAsset.ContextViewModel:
+      type: object
+      properties:
+        networkExposure:
+          type: string
+        iamSensitivity:
+          format: double
+          type: number
+        dataSensitivity:
+          type: string
+        iamExposure:
+          type: string
+        dataClassifications:
+          type: array
+          items:
+            type: string
+        wafProtection:
+          type: string
+        openSecurityIssues:
+          $ref: '#/components/schemas/Dome9.Web.Api.ProtectedAsset.OpenSecurityIssuesViewModel'
+        networkInspection:
+          type: array
+          items:
+            type: string
+    CGN.OpenSearch.Model.CommonViewModels.TagViewModel:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    CGN.OpenSearch.Model.AssetsIndexer.AssetIndexerAdditionalField:
+      type: object
+      properties:
         name:
           type: string
         value:
@@ -154,58 +188,30 @@ components:
           type: array
           items:
             type: string
-    Dome9.Web.Api.ProtectedAsset.SearchRequestViewModel:
-      description: Search or filter parameters. This object is passed via url so the field names are short because quary params are limited (about 2000 chars)
+    CGN.VLM.Model.Entities.VulnerabilitySeverityStats:
       type: object
       properties:
-        pageSize:
-          format: int32
-          description: 'page size (number of findings returned per page). default: 10.'
-          maximum: 1000
-          minimum: 0
-          type: integer
-        skipAggregations:
-          type: boolean
-        aggregations:
-          type: array
-          items:
-            type: string
-        sorting:
-          $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.SortingViewModel'
-          description: sort data
-        filter:
-          $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.SearchFilterViewModel'
-          description: filter
-        searchAfter:
-          description: token for the page of findings (first page if not specified)
-          type: array
-          items:
-            type: string
-        additionalFields:
-          $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.AdditionalFieldsRequestViewModel'
-        optionalAggregationFields:
-          type: array
-          items:
-            type: string
-        externalAdditionalFields:
-          $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.AdditionalFieldsRequestViewModel'
-        filterEntitiesWithoutRiskScore:
-          type: boolean
-    CGN.OpenSearch.Model.CommonViewModels.SortingViewModel:
-      type: object
-      properties:
-        fieldName:
-          type: string
-        direction:
+        all:
           format: int32
           type: integer
-    CGN.OpenSearch.Model.CommonViewModels.FieldFilterViewModel:
-      type: object
-      properties:
-        name:
-          type: string
-        value:
-          type: string
+        critical:
+          format: int32
+          type: integer
+        high:
+          format: int32
+          type: integer
+        medium:
+          format: int32
+          type: integer
+        low:
+          format: int32
+          type: integer
+        informational:
+          format: int32
+          type: integer
+        unknown:
+          format: int32
+          type: integer
     Dome9.Web.Api.ProtectedAsset.ProtectedAssetViewModel:
       type: object
       properties:
@@ -312,6 +318,21 @@ components:
           description: Asset context
         vulnerability:
           $ref: '#/components/schemas/CGN.Common.Model.Vlm.VlmAssetMetadata'
+    CGN.OpenSearch.Model.CommonViewModels.FieldFilterViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    CGN.OpenSearch.Model.CommonViewModels.FieldAggregationViewModel:
+      type: object
+      properties:
+        value:
+          type: object
+        count:
+          format: int64
+          type: integer
     CGN.VLM.Model.Entities.VulnerabilityStats:
       type: object
       properties:
@@ -331,64 +352,43 @@ components:
           $ref: '#/components/schemas/CGN.VLM.Model.Entities.VulnerabilitySeverityStats'
         secretExcluded:
           $ref: '#/components/schemas/CGN.VLM.Model.Entities.VulnerabilitySeverityStats'
-    CGN.OpenSearch.Model.AssetsIndexer.AssetIndexerAdditionalField:
+    Dome9.Web.Api.ProtectedAsset.SearchRequestViewModel:
+      description: Search or filter parameters. This object is passed via url so the field names are short because quary params are limited (about 2000 chars)
       type: object
       properties:
-        name:
-          type: string
-        value:
-          type: string
-    CGN.OpenSearch.Model.CommonViewModels.AdditionalFieldsRequestViewModel:
-      type: object
-      properties:
-        source:
-          type: string
-        filterFields:
+        pageSize:
+          format: int32
+          description: 'page size (number of findings returned per page). default: 10.'
+          maximum: 1000
+          minimum: 0
+          type: integer
+        skipAggregations:
+          type: boolean
+        aggregations:
           type: array
           items:
-            $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.FieldFilterViewModel'
-        sortField:
+            type: string
+        sorting:
           $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.SortingViewModel'
-    Dome9.Web.Api.ProtectedAsset.ContextViewModel:
-      type: object
-      properties:
-        networkExposure:
-          type: string
-        iamSensitivity:
-          format: double
-          type: number
-        dataSensitivity:
-          type: string
-        iamExposure:
-          type: string
-        dataClassifications:
+          description: sort data
+        filter:
+          $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.SearchFilterViewModel'
+          description: filter
+        searchAfter:
+          description: token for the page of findings (first page if not specified)
           type: array
           items:
             type: string
-        wafProtection:
-          type: string
-        openSecurityIssues:
-          $ref: '#/components/schemas/Dome9.Web.Api.ProtectedAsset.OpenSecurityIssuesViewModel'
-        networkInspection:
+        additionalFields:
+          $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.AdditionalFieldsRequestViewModel'
+        optionalAggregationFields:
           type: array
           items:
             type: string
-    CGN.OpenSearch.Model.CommonViewModels.TagViewModel:
-      type: object
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-    CGN.Common.Model.Vlm.VlmAssetMetadata:
-      type: object
-      properties:
-        stats:
-          $ref: '#/components/schemas/CGN.VLM.Model.Entities.VulnerabilityStats'
-        scanStatus:
-          type: string
-        scanStatusDetails:
-          type: string
+        externalAdditionalFields:
+          $ref: '#/components/schemas/CGN.OpenSearch.Model.CommonViewModels.AdditionalFieldsRequestViewModel'
+        filterEntitiesWithoutRiskScore:
+          type: boolean
   securitySchemes:
     basic:
       type: http

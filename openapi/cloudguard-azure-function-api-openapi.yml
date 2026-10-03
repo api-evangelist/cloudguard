@@ -59,21 +59,21 @@ paths:
       summary: Get
 components:
   schemas:
-    Falconetix.Model.AppServiceHostNameSslStateViewModel:
+    Falconetix.Model.AppServiceApplicationSettings:
       type: object
       properties:
+        id:
+          type: string
         name:
           type: string
-        sslState:
+        type:
           type: string
-        virtualIP:
+        kind:
           type: string
-        thumbprint:
-          type: string
-        toUpdate:
-          type: boolean
-        hostType:
-          type: string
+        properties:
+          type: object
+          additionalProperties:
+            type: string
     Falconetix.Model.AzureAppServiceViewModel:
       type: object
       properties:
@@ -107,21 +107,21 @@ components:
             $ref: '#/components/schemas/Falconetix.Model.AppServiceFunctionsViewModel'
         applicationSettings:
           $ref: '#/components/schemas/Falconetix.Model.AppServiceApplicationSettings'
-    Falconetix.Model.AppServiceApplicationSettings:
+    Falconetix.Model.AppServiceHostNameSslStateViewModel:
       type: object
       properties:
-        id:
-          type: string
         name:
           type: string
-        type:
+        sslState:
           type: string
-        kind:
+        virtualIP:
           type: string
-        properties:
-          type: object
-          additionalProperties:
-            type: string
+        thumbprint:
+          type: string
+        toUpdate:
+          type: boolean
+        hostType:
+          type: string
     Falconetix.Model.AppServiceSiteInnerViewModel:
       type: object
       properties:

@@ -610,41 +610,80 @@ paths:
       description: Get Container registry account summary data
 components:
   schemas:
-    ContainerRegistryAuthType:
+    ContainerRegistryUserConfigurationsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - imageListIntervalSeconds
+      - maxImagesPerRepo
+      - maxImagesPerBaseRepo
+      properties:
+        imageListIntervalSeconds:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        maxImagesPerRepo:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        maxImagesPerBaseRepo:
+          type:
+          - integer
+          - 'null'
+          format: int32
+    ContainerRegistryScanningEnvironmentType:
       type: string
       description: ''
       x-enumNames:
-      - AcrServicePrincipal
-      - AcrManagedId
-      - EcrUserAccessKeys
-      - EcrNodeGroupRole
-      - GcpServiceAccountKey
-      - GcpGkeInternalAuth
-      - ArtifactoryUserPassword
-      - ArtifactoryToken
-      - HarborUserPassword
-      - EcrCustomRole
-      - NexusUserPassword
-      - EcrEcsTaskRole
-      - GithubToken
-      - QuayToken
-      - DockerhubToken
+      - AWS
+      - Kubernetes
       enum:
-      - AcrServicePrincipal
-      - AcrManagedId
-      - EcrUserAccessKeys
-      - EcrNodeGroupRole
-      - GcpServiceAccountKey
-      - GcpGkeInternalAuth
-      - ArtifactoryUserPassword
-      - ArtifactoryToken
-      - HarborUserPassword
-      - EcrCustomRole
-      - NexusUserPassword
-      - EcrEcsTaskRole
-      - GithubToken
-      - QuayToken
-      - DockerhubToken
+      - AWS
+      - Kubernetes
+    MoveOrganizationalUnitViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - sourceOrganizationalUnitId
+      - targetOrganizationalUnitId
+      properties:
+        sourceOrganizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        targetOrganizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+    ContainerRegistryType:
+      type: string
+      description: ''
+      x-enumNames:
+      - ACR
+      - ECR
+      - GCR
+      - GAR
+      - Artifactory
+      - Harbor
+      - Nexus
+      - GitHub
+      - Quay
+      - DockerHub
+      enum:
+      - ACR
+      - ECR
+      - GCR
+      - GAR
+      - Artifactory
+      - Harbor
+      - Nexus
+      - GitHub
+      - Quay
+      - DockerHub
     CloudVendor:
       type: string
       description: ''
@@ -696,153 +735,6 @@ components:
       - ocigov
       - ocigovuk
       - CIEM
-    MoveOrganizationalUnitViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - sourceOrganizationalUnitId
-      - targetOrganizationalUnitId
-      properties:
-        sourceOrganizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
-        targetOrganizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
-    ContainerRegistryScanningEnvironmentType:
-      type: string
-      description: ''
-      x-enumNames:
-      - AWS
-      - Kubernetes
-      enum:
-      - AWS
-      - Kubernetes
-    ContainerRegistryAccountAgentSummaryViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - id
-      - name
-      - agentsStatus
-      - agentsStatusDescription
-      properties:
-        id:
-          type: string
-          format: guid
-        name:
-          type: string
-        agentsStatus:
-          type: string
-        agentsStatusDescription:
-          type: string
-    ContainerRegistryType:
-      type: string
-      description: ''
-      x-enumNames:
-      - ACR
-      - ECR
-      - GCR
-      - GAR
-      - Artifactory
-      - Harbor
-      - Nexus
-      - GitHub
-      - Quay
-      - DockerHub
-      enum:
-      - ACR
-      - ECR
-      - GCR
-      - GAR
-      - Artifactory
-      - Harbor
-      - Nexus
-      - GitHub
-      - Quay
-      - DockerHub
-    UpdateIdViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - organizationalUnitId
-      properties:
-        organizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
-    AttachCloudAccountsViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - entries
-      - organizationalUnitId
-      properties:
-        entries:
-          type:
-          - array
-          - 'null'
-          default: []
-          items:
-            type: string
-        organizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
-    ContainerRegistryAgentSummaryViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - version
-      - isAgentUpToDate
-      - lastCommunication
-      - lastCommunicationDate
-      - status
-      - description
-      - supportUrl
-      - creationTime
-      - creationDate
-      - kubernetesAccountId
-      - kubernetesAccountName
-      properties:
-        version:
-          type: string
-        isAgentUpToDate:
-          type: boolean
-        lastCommunication:
-          type: string
-          deprecated: true
-          x-deprecatedMessage: use LastCommunicationDate
-        lastCommunicationDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        status:
-          type: string
-        description:
-          type: string
-        supportUrl:
-          type: string
-        creationTime:
-          type: string
-          deprecated: true
-          x-deprecatedMessage: use CreationDate
-        creationDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        kubernetesAccountId:
-          type: string
-        kubernetesAccountName:
-          type: string
     ContainerRegistryAccountPostModel:
       type: object
       additionalProperties: false
@@ -891,6 +783,126 @@ components:
           - 'null'
           items:
             $ref: '#/components/schemas/ContainerRegistryLinkedEnvironmentViewModel'
+    ContainerRegistryAccountSummaryViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - name
+      - agentsStatus
+      - agentsStatusDescription
+      - registryType
+      - registryUrl
+      - numberOfImages
+      - numberOfRepositories
+      - linkedAgentsStatuses
+      properties:
+        id:
+          type: string
+          format: guid
+        name:
+          type: string
+        agentsStatus:
+          type: string
+        agentsStatusDescription:
+          type: string
+        registryType:
+          type: string
+        registryUrl:
+          type: string
+        numberOfImages:
+          type: integer
+          format: int32
+        numberOfRepositories:
+          type: integer
+          format: int64
+        linkedAgentsStatuses:
+          $ref: '#/components/schemas/ContainerRegistryLinkedAgentsStatusesViewModel'
+    ContainerRegistryAgentSummaryViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - isAgentUpToDate
+      - lastCommunication
+      - lastCommunicationDate
+      - status
+      - description
+      - supportUrl
+      - creationTime
+      - creationDate
+      - kubernetesAccountId
+      - kubernetesAccountName
+      properties:
+        version:
+          type: string
+        isAgentUpToDate:
+          type: boolean
+        lastCommunication:
+          type: string
+          deprecated: true
+          x-deprecatedMessage: use LastCommunicationDate
+        lastCommunicationDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        status:
+          type: string
+        description:
+          type: string
+        supportUrl:
+          type: string
+        creationTime:
+          type: string
+          deprecated: true
+          x-deprecatedMessage: use CreationDate
+        creationDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        kubernetesAccountId:
+          type: string
+        kubernetesAccountName:
+          type: string
+    ContainerRegistryAccountAgentSummaryViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - name
+      - agentsStatus
+      - agentsStatusDescription
+      properties:
+        id:
+          type: string
+          format: guid
+        name:
+          type: string
+        agentsStatus:
+          type: string
+        agentsStatusDescription:
+          type: string
+    AttachCloudAccountsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - entries
+      - organizationalUnitId
+      properties:
+        entries:
+          type:
+          - array
+          - 'null'
+          default: []
+          items:
+            type: string
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
     ContainerRegistryLinkedEnvironmentViewModel:
       type: object
       additionalProperties: false
@@ -931,41 +943,52 @@ components:
           - string
           - 'null'
           pattern: ^arn:aws:iam::\d{12}:role/[\w+=,.@-]+
-    ContainerRegistryAccountSummaryViewModel:
+    ContainerRegistryAuthType:
+      type: string
+      description: ''
+      x-enumNames:
+      - AcrServicePrincipal
+      - AcrManagedId
+      - EcrUserAccessKeys
+      - EcrNodeGroupRole
+      - GcpServiceAccountKey
+      - GcpGkeInternalAuth
+      - ArtifactoryUserPassword
+      - ArtifactoryToken
+      - HarborUserPassword
+      - EcrCustomRole
+      - NexusUserPassword
+      - EcrEcsTaskRole
+      - GithubToken
+      - QuayToken
+      - DockerhubToken
+      enum:
+      - AcrServicePrincipal
+      - AcrManagedId
+      - EcrUserAccessKeys
+      - EcrNodeGroupRole
+      - GcpServiceAccountKey
+      - GcpGkeInternalAuth
+      - ArtifactoryUserPassword
+      - ArtifactoryToken
+      - HarborUserPassword
+      - EcrCustomRole
+      - NexusUserPassword
+      - EcrEcsTaskRole
+      - GithubToken
+      - QuayToken
+      - DockerhubToken
+    UpdateIdViewModel:
       type: object
       additionalProperties: false
       required:
-      - id
-      - name
-      - agentsStatus
-      - agentsStatusDescription
-      - registryType
-      - registryUrl
-      - numberOfImages
-      - numberOfRepositories
-      - linkedAgentsStatuses
+      - organizationalUnitId
       properties:
-        id:
-          type: string
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
           format: guid
-        name:
-          type: string
-        agentsStatus:
-          type: string
-        agentsStatusDescription:
-          type: string
-        registryType:
-          type: string
-        registryUrl:
-          type: string
-        numberOfImages:
-          type: integer
-          format: int32
-        numberOfRepositories:
-          type: integer
-          format: int64
-        linkedAgentsStatuses:
-          $ref: '#/components/schemas/ContainerRegistryLinkedAgentsStatusesViewModel'
     ContainerRegistryAccountViewModel:
       type: object
       additionalProperties: false
@@ -1034,29 +1057,6 @@ components:
           format: int32
         statusPending:
           type: integer
-          format: int32
-    ContainerRegistryUserConfigurationsViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - imageListIntervalSeconds
-      - maxImagesPerRepo
-      - maxImagesPerBaseRepo
-      properties:
-        imageListIntervalSeconds:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        maxImagesPerRepo:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        maxImagesPerBaseRepo:
-          type:
-          - integer
-          - 'null'
           format: int32
   securitySchemes:
     basic:

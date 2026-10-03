@@ -68,34 +68,45 @@ paths:
       summary: Get By Id
 components:
   schemas:
-    CloudV2LoadBalancerListenerViewModel:
+    CloudV2LoadBalancerListenerRuleViewModel:
       type: object
       additionalProperties: false
       required:
-      - listenerArn
-      - port
-      - protocol
-      - certificates
-      - securityPolicy
-      - listenerRules
+      - ruleArn
+      - priority
+      - isDefault
+      - targetGroupName
+      - conditions
       properties:
-        listenerArn:
+        ruleArn:
           type: string
-        port:
-          type: integer
-          format: int32
-        protocol:
+        priority:
           type: string
-        certificates:
+        isDefault:
+          type: boolean
+        targetGroupName:
+          type: string
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListenerRuleConditionViewModel'
+    ListenerRuleConditionViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - values
+      properties:
+        name:
+          type: string
+        values:
           type: array
           items:
             type: string
-        securityPolicy:
-          type: string
-        listenerRules:
-          type: array
-          items:
-            $ref: '#/components/schemas/CloudV2LoadBalancerListenerRuleViewModel'
+    TagsDictionary:
+      type: object
+      additionalProperties:
+        type: string
     CloudRegion:
       type: string
       description: ''
@@ -519,41 +530,34 @@ components:
       - mx_monterrey_1
       - eu_jovanovac_1
       - ap_singapore_2
-    CloudV2LoadBalancerListenerRuleViewModel:
+    CloudV2LoadBalancerListenerViewModel:
       type: object
       additionalProperties: false
       required:
-      - ruleArn
-      - priority
-      - isDefault
-      - targetGroupName
-      - conditions
+      - listenerArn
+      - port
+      - protocol
+      - certificates
+      - securityPolicy
+      - listenerRules
       properties:
-        ruleArn:
+        listenerArn:
           type: string
-        priority:
+        port:
+          type: integer
+          format: int32
+        protocol:
           type: string
-        isDefault:
-          type: boolean
-        targetGroupName:
-          type: string
-        conditions:
-          type: array
-          items:
-            $ref: '#/components/schemas/ListenerRuleConditionViewModel'
-    ListenerRuleConditionViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      - values
-      properties:
-        name:
-          type: string
-        values:
+        certificates:
           type: array
           items:
             type: string
+        securityPolicy:
+          type: string
+        listenerRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudV2LoadBalancerListenerRuleViewModel'
     CloudV2LoadBalancerTargetViewModel:
       type: object
       additionalProperties: false
@@ -569,36 +573,6 @@ components:
           format: int32
         status:
           type: string
-    TagsDictionary:
-      type: object
-      additionalProperties:
-        type: string
-    CloudV2LoadBalancerTargetGroupViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - targetGroupArn
-      - name
-      - port
-      - protocol
-      - targets
-      - tags
-      properties:
-        targetGroupArn:
-          type: string
-        name:
-          type: string
-        port:
-          type: integer
-          format: int32
-        protocol:
-          type: string
-        targets:
-          type: array
-          items:
-            $ref: '#/components/schemas/CloudV2LoadBalancerTargetViewModel'
-        tags:
-          $ref: '#/components/schemas/TagsDictionary'
     CloudV2LoadBalancerViewModel:
       type: object
       additionalProperties: false
@@ -666,6 +640,32 @@ components:
           type: string
         arn:
           type: string
+    CloudV2LoadBalancerTargetGroupViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - targetGroupArn
+      - name
+      - port
+      - protocol
+      - targets
+      - tags
+      properties:
+        targetGroupArn:
+          type: string
+        name:
+          type: string
+        port:
+          type: integer
+          format: int32
+        protocol:
+          type: string
+        targets:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudV2LoadBalancerTargetViewModel'
+        tags:
+          $ref: '#/components/schemas/TagsDictionary'
   securitySchemes:
     basic:
       type: http

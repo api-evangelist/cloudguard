@@ -59,6 +59,31 @@ paths:
       summary: Get
 components:
   schemas:
+    Dome9.Web.Api.CloudAmi.CloudEc2ProductCodeViewModel:
+      type: object
+      properties:
+        productCodeId:
+          type: string
+        productCodeType:
+          type: string
+    Dome9.Web.Api.CloudAmi.CloudEc2TagViewModel:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    Dome9.Web.Api.CloudAmi.CloudEc2BlockDeviceMappingViewModel:
+      type: object
+      properties:
+        deviceName:
+          type: string
+        ebs:
+          $ref: '#/components/schemas/Dome9.Web.Api.CloudAmi.CloudEc2EbsBlockDeviceViewModel'
+        noDevice:
+          type: string
+        virtualName:
+          type: string
     Dome9.Web.Api.CloudAmi.CloudEc2ImageViewModel:
       type: object
       properties:
@@ -141,31 +166,6 @@ components:
           format: int32
           type: integer
         volumeType:
-          type: string
-    Dome9.Web.Api.CloudAmi.CloudEc2TagViewModel:
-      type: object
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-    Dome9.Web.Api.CloudAmi.CloudEc2BlockDeviceMappingViewModel:
-      type: object
-      properties:
-        deviceName:
-          type: string
-        ebs:
-          $ref: '#/components/schemas/Dome9.Web.Api.CloudAmi.CloudEc2EbsBlockDeviceViewModel'
-        noDevice:
-          type: string
-        virtualName:
-          type: string
-    Dome9.Web.Api.CloudAmi.CloudEc2ProductCodeViewModel:
-      type: object
-      properties:
-        productCodeId:
-          type: string
-        productCodeType:
           type: string
     Dome9.Web.Api.CloudAmi.CloudEc2StateReasonViewModel:
       type: object

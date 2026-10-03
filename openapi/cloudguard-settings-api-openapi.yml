@@ -193,34 +193,17 @@ paths:
       description: Update account settings (partial)
 components:
   schemas:
-    Falconetix.Model.IamSafeEmailNotificationsDescriptor:
+    Falconetix.Model.KubernetesEmailNotificationsDescriptor:
       type: object
       properties:
-        leaseEvent:
+        agentStatusDegradation:
           type: boolean
-        leaseNotificationsOthers:
-          type: boolean
-        tamperDetected:
-          type: boolean
-        enrollmentEvent:
-          type: boolean
-        iamSafetyAccount:
-          type: boolean
-        iamSafetyInvalidCredentials:
-          type: boolean
-    Falconetix.Model.ComplianceEmailNotificationsDescriptor:
+    Dome9.Web.Api.Models.SnsSettingsViewModel:
       type: object
       properties:
-        bundleAdded:
-          type: boolean
-        bundleDeleted:
-          type: boolean
-        ruleAdded:
-          type: boolean
-        ruleChanged:
-          type: boolean
-        ruleDeleted:
-          type: boolean
+        topicArn:
+          description: AWS SNS Topic ARN value
+          type: string
     Falconetix.Model.EmailNotificationsDescriptor:
       type: object
       properties:
@@ -291,16 +274,18 @@ components:
           $ref: '#/components/schemas/Falconetix.Model.ComplianceEmailNotificationsDescriptor'
         kubernetes:
           $ref: '#/components/schemas/Falconetix.Model.KubernetesEmailNotificationsDescriptor'
-    Dome9.Web.Api.Models.SnsSettingsViewModel:
+    Falconetix.Model.ComplianceEmailNotificationsDescriptor:
       type: object
       properties:
-        topicArn:
-          description: AWS SNS Topic ARN value
-          type: string
-    Falconetix.Model.KubernetesEmailNotificationsDescriptor:
-      type: object
-      properties:
-        agentStatusDegradation:
+        bundleAdded:
+          type: boolean
+        bundleDeleted:
+          type: boolean
+        ruleAdded:
+          type: boolean
+        ruleChanged:
+          type: boolean
+        ruleDeleted:
           type: boolean
     Dome9.Web.Api.Models.EmailNotificationFiltersViewModel:
       type: object
@@ -309,6 +294,21 @@ components:
           type: array
           items:
             type: string
+    Falconetix.Model.IamSafeEmailNotificationsDescriptor:
+      type: object
+      properties:
+        leaseEvent:
+          type: boolean
+        leaseNotificationsOthers:
+          type: boolean
+        tamperDetected:
+          type: boolean
+        enrollmentEvent:
+          type: boolean
+        iamSafetyAccount:
+          type: boolean
+        iamSafetyInvalidCredentials:
+          type: boolean
     Dome9.Web.Api.Models.SettingsViewModel:
       type: object
       properties:

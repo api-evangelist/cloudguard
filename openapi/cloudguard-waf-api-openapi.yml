@@ -48,6 +48,28 @@ paths:
       description: Get statistics of Cloud Guard WAF coverage and risk distribution of publicly exposed assets
 components:
   schemas:
+    StatsFilterViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - platform
+      - environment
+      properties:
+        platform:
+          type:
+          - array
+          - 'null'
+          description: Filter the results for the selected platforms
+          items:
+            $ref: '#/components/schemas/CloudVendor'
+        environment:
+          type:
+          - array
+          - 'null'
+          description: Filter the results for the selected environments
+          items:
+            type: string
+            format: guid
     CloudVendor:
       type: string
       description: ''
@@ -99,28 +121,6 @@ components:
       - ocigov
       - ocigovuk
       - CIEM
-    StatsFilterViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - platform
-      - environment
-      properties:
-        platform:
-          type:
-          - array
-          - 'null'
-          description: Filter the results for the selected platforms
-          items:
-            $ref: '#/components/schemas/CloudVendor'
-        environment:
-          type:
-          - array
-          - 'null'
-          description: Filter the results for the selected environments
-          items:
-            type: string
-            format: guid
   securitySchemes:
     basic:
       type: http

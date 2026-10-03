@@ -84,17 +84,6 @@ components:
           example: 00000000-0000-0000-0000-000000000000
         name:
           type: string
-    Dome9.Web.Api.Google.IamPolicy.GcpIamPolicyAuditConfigsViewModel.GcpIamPolicyAuditLogConfigsViewModel:
-      type: object
-      properties:
-        eTag:
-          type: string
-        logType:
-          type: string
-        exemptedMembers:
-          type: array
-          items:
-            type: string
     Dome9.Web.Api.Google.IamPolicy.GcpIamPolicyBindingsViewModel:
       type: object
       properties:
@@ -103,6 +92,17 @@ components:
         role:
           type: string
         members:
+          type: array
+          items:
+            type: string
+    Dome9.Web.Api.Google.IamPolicy.GcpIamPolicyAuditConfigsViewModel.GcpIamPolicyAuditLogConfigsViewModel:
+      type: object
+      properties:
+        eTag:
+          type: string
+        logType:
+          type: string
+        exemptedMembers:
           type: array
           items:
             type: string

@@ -59,21 +59,6 @@ paths:
       summary: Get
 components:
   schemas:
-    Dome9.Web.Api.Models.CloudLoadBalancerListenerViewModel:
-      type: object
-      properties:
-        sourcePort:
-          format: int32
-          type: integer
-        instancePort:
-          format: int32
-          type: integer
-        sourceProtocol:
-          type: string
-        instanceProtocol:
-          type: string
-        sslCertificateId:
-          type: string
     Dome9.Web.Api.Models.CloudLoadBalancerViewModel:
       type: object
       properties:
@@ -329,6 +314,21 @@ components:
           type: string
         accessLog:
           $ref: '#/components/schemas/Dome9.Web.Api.Models.CloudLoadBalancerAccessLogViewModel'
+    Dome9.Web.Api.Models.CloudLoadBalancerListenerViewModel:
+      type: object
+      properties:
+        sourcePort:
+          format: int32
+          type: integer
+        instancePort:
+          format: int32
+          type: integer
+        sourceProtocol:
+          type: string
+        instanceProtocol:
+          type: string
+        sslCertificateId:
+          type: string
     Dome9.Web.Api.Models.CloudLoadBalancerAccessLogViewModel:
       type: object
       properties:

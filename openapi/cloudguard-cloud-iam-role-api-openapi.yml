@@ -59,6 +59,13 @@ components:
           type: string
         name:
           type: string
+    Dome9.Web.Api.Models.CloudIamRoleViewModel.PermissionsBoundary:
+      type: object
+      properties:
+        permissionsBoundaryArn:
+          type: string
+        permissionsBoundaryType:
+          type: string
     Dome9.Web.Api.Models.CloudIamRoleViewModel:
       type: object
       properties:
@@ -110,13 +117,6 @@ components:
           format: date-time
           type: string
         region:
-          type: string
-    Dome9.Web.Api.Models.CloudIamRoleViewModel.PermissionsBoundary:
-      type: object
-      properties:
-        permissionsBoundaryArn:
-          type: string
-        permissionsBoundaryType:
           type: string
   securitySchemes:
     basic:

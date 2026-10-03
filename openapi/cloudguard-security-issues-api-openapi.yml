@@ -119,12 +119,35 @@ paths:
       description: Group findings with recursive filter
 components:
   schemas:
-    SearchSortViewModel:
+    SearchAdvFilterViewModel:
       type: object
       properties:
-        fieldName:
+        logicalOperator:
           type: string
           enum:
+          - and
+          - or
+          description: Logical operator to apply on operands.
+        operands:
+          type: array
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/SearchFieldFilterViewModel'
+            - $ref: '#/components/schemas/SearchAdvFilterViewModel'
+          minItems: 1
+          maxItems: 15
+          description: Array of filter operands. An operand can either be an array of SearchFieldFilterViewModel or a recursive SearchFieldFilterViewModel.
+      required:
+      - logicalOperator
+      - operands
+    SearchFieldFilterViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+          - id
+          - findingKey
           - createdTime
           - updatedTime
           - platform
@@ -138,64 +161,62 @@ components:
           - alertType
           - ruleId
           - ruleTitle
+          - description
           - severity
-          - entityExternalId
-          - entityType
-          - entityName
-          - region
-          - entityTypeByPlatform
-        direction:
-          type: string
-          enum:
-          - asc
-          - desc
-      required:
-      - fieldName
-      - direction
-    FacetsResultsViewModel:
-      type: object
-      properties:
-        facet:
-          type: string
-          enum:
-          - platform
-          - environmentId
-          - environmentExternalId
-          - organizationalUnitId
-          - status
-          - statusReason
-          - isExcluded
-          - origin
-          - alertType
-          - ruleId
-          - ruleTitle
-          - severity
+          - frameworks
+          - systemLabels
           - entityId
           - entityExternalId
           - entityType
+          - entityLabels
           - entityName
           - region
           - entityTypeByPlatform
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/FacetResultDataViewModel'
+          description: Field name.
+        values:
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: array
+            items:
+              type: number
+          - type: array
+            items:
+              type: boolean
+          minItems: 1
+          maxItems: 50
+        operator:
+          $ref: '#/components/schemas/FindingsFilterOperator'
       required:
-      - facet
-      - data
-    FacetResultDataViewModel:
+      - name
+      - values
+      - operator
+    SearchFreeTextViewModel:
       type: object
       properties:
-        value:
-          oneOf:
-          - type: string
-          - type: number
-          - type: boolean
-        count:
-          type: number
+        text:
+          type: string
+        fieldNames:
+          type: array
+          uniqueItems: true
+          minItems: 1
+          maxItems: 15
+          items:
+            type: string
+            enum:
+            - ruleTitle
+            - description
+            - frameworks
+            - systemLabels
+            - entityType
+            - entityLabels
+            - entityName
+            - region
+            - entityTypeByPlatform
       required:
-      - value
-      - count
+      - text
+      - fieldNames
     FindingSearchGroupRequestModel:
       type: object
       properties:
@@ -257,39 +278,103 @@ components:
             $ref: '#/components/schemas/SearchGroupSortViewModel'
       required:
       - groups
-    SearchAdvFilterViewModel:
+    SearchSortViewModel:
       type: object
       properties:
-        logicalOperator:
+        fieldName:
           type: string
           enum:
-          - and
-          - or
-          description: Logical operator to apply on operands.
-        operands:
+          - createdTime
+          - updatedTime
+          - platform
+          - environmentId
+          - environmentExternalId
+          - organizationalUnitId
+          - status
+          - statusReason
+          - isExcluded
+          - origin
+          - alertType
+          - ruleId
+          - ruleTitle
+          - severity
+          - entityExternalId
+          - entityType
+          - entityName
+          - region
+          - entityTypeByPlatform
+        direction:
+          type: string
+          enum:
+          - asc
+          - desc
+      required:
+      - fieldName
+      - direction
+    SearchGroupSortViewModel:
+      type: object
+      properties:
+        fieldName:
+          type: string
+          enum:
+          - platform
+          - environmentId
+          - environmentExternalId
+          - organizationalUnitId
+          - status
+          - statusReason
+          - isExcluded
+          - origin
+          - alertType
+          - ruleId
+          - ruleTitle
+          - severity
+          - entityId
+          - entityExternalId
+          - entityType
+          - entityName
+          - region
+          - entityTypeByPlatform
+          - count
+        direction:
+          type: string
+          enum:
+          - asc
+          - desc
+      required:
+      - fieldName
+      - direction
+    FacetsResultsViewModel:
+      type: object
+      properties:
+        facet:
+          type: string
+          enum:
+          - platform
+          - environmentId
+          - environmentExternalId
+          - organizationalUnitId
+          - status
+          - statusReason
+          - isExcluded
+          - origin
+          - alertType
+          - ruleId
+          - ruleTitle
+          - severity
+          - entityId
+          - entityExternalId
+          - entityType
+          - entityName
+          - region
+          - entityTypeByPlatform
+        data:
           type: array
           items:
-            anyOf:
-            - $ref: '#/components/schemas/SearchFieldFilterViewModel'
-            - $ref: '#/components/schemas/SearchAdvFilterViewModel'
-          minItems: 1
-          maxItems: 15
-          description: Array of filter operands. An operand can either be an array of SearchFieldFilterViewModel or a recursive SearchFieldFilterViewModel.
+            $ref: '#/components/schemas/FacetResultDataViewModel'
       required:
-      - logicalOperator
-      - operands
-    SeverityLevel:
-      type: number
-      description: '0: Unknown, 1: Informational, 2: Low, 3: Medium, 4: High, 5: Critical, 6: Fatal, 99: Other'
-      enum:
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-      - 6
-      - 99
+      - facet
+      - data
     FindingSearchRequestModel:
       type: object
       properties:
@@ -393,22 +478,6 @@ components:
         totalCount:
           type: boolean
           description: Return total count of results. This value is affected by the requested filters.
-    FindingSearchResultsViewModel:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/FindingViewModel'
-        facets:
-          type: array
-          items:
-            $ref: '#/components/schemas/FacetsResultsViewModel'
-        totalCount:
-          type: number
-      required:
-      - results
-      - totalCount
     FindingSearchAdvGroupRequestModel:
       type: object
       properties:
@@ -462,213 +531,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SearchGroupSortViewModel'
-    SearchFieldFilterViewModel:
-      type: object
-      properties:
-        name:
-          type: string
-          enum:
-          - id
-          - findingKey
-          - createdTime
-          - updatedTime
-          - platform
-          - environmentId
-          - environmentExternalId
-          - organizationalUnitId
-          - status
-          - statusReason
-          - isExcluded
-          - origin
-          - alertType
-          - ruleId
-          - ruleTitle
-          - description
-          - severity
-          - frameworks
-          - systemLabels
-          - entityId
-          - entityExternalId
-          - entityType
-          - entityLabels
-          - entityName
-          - region
-          - entityTypeByPlatform
-          description: Field name.
-        values:
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: array
-            items:
-              type: number
-          - type: array
-            items:
-              type: boolean
-          minItems: 1
-          maxItems: 50
-        operator:
-          $ref: '#/components/schemas/FindingsFilterOperator'
-      required:
-      - name
-      - values
-      - operator
-    SearchGroupSortViewModel:
-      type: object
-      properties:
-        fieldName:
-          type: string
-          enum:
-          - platform
-          - environmentId
-          - environmentExternalId
-          - organizationalUnitId
-          - status
-          - statusReason
-          - isExcluded
-          - origin
-          - alertType
-          - ruleId
-          - ruleTitle
-          - severity
-          - entityId
-          - entityExternalId
-          - entityType
-          - entityName
-          - region
-          - entityTypeByPlatform
-          - count
-        direction:
-          type: string
-          enum:
-          - asc
-          - desc
-      required:
-      - fieldName
-      - direction
-    FindingSearchAdvRequestModel:
-      type: object
-      properties:
-        resultSetSize:
-          type: number
-          minimum: 0
-          maximum: 10000
-          default: 10000
-          description: Number of items to return.
-        filter:
-          description: Filter object. A recursive filter object which provides complex filters.
-          allOf:
-          - $ref: '#/components/schemas/SearchAdvFilterViewModel'
-        orgUnitIdsFilter:
-          uniqueItems: true
-          maxItems: 50
-          description: List of organizational unit IDs filter.             Filters findings which their environment ID is under the organizational unit IDs or any of their descendants.
-          type: array
-          items:
-            type: string
-        sort:
-          maxItems: 10
-          description: Array of field names to sort by.
-          type: array
-          items:
-            $ref: '#/components/schemas/SearchSortViewModel'
-        facets:
-          type: array
-          uniqueItems: true
-          maxItems: 10
-          description: Array of field names to facet by. Facets will return as additional data.
-          items:
-            type: string
-            enum:
-            - platform
-            - environmentId
-            - environmentExternalId
-            - organizationalUnitId
-            - status
-            - statusReason
-            - isExcluded
-            - origin
-            - alertType
-            - ruleId
-            - ruleTitle
-            - severity
-            - entityId
-            - entityExternalId
-            - entityType
-            - entityName
-            - region
-            - entityTypeByPlatform
-        facetResultSetSize:
-          type: number
-          minimum: 1
-          maximum: 250
-          default: 250
-          description: Number of items per facet.
-        includeFields:
-          type: array
-          uniqueItems: true
-          description: Array of field names to return. Only these fields will be returned.
-          items:
-            type: string
-            enum:
-            - id
-            - findingKey
-            - createdTime
-            - updatedTime
-            - platform
-            - environmentId
-            - environmentExternalId
-            - organizationalUnitId
-            - status
-            - statusReason
-            - isExcluded
-            - origin
-            - alertType
-            - ruleId
-            - ruleTitle
-            - ruleLogic
-            - description
-            - severity
-            - frameworks
-            - systemLabels
-            - remediation
-            - entityId
-            - entityIdType
-            - entityExternalId
-            - entityType
-            - entityLabels
-            - entityName
-            - region
-            - entityTypeByPlatform
-        totalCount:
-          type: boolean
-          description: Return total count of results. This value is affected by the requested filters.
-    SearchFreeTextViewModel:
-      type: object
-      properties:
-        text:
-          type: string
-        fieldNames:
-          type: array
-          uniqueItems: true
-          minItems: 1
-          maxItems: 15
-          items:
-            type: string
-            enum:
-            - ruleTitle
-            - description
-            - frameworks
-            - systemLabels
-            - entityType
-            - entityLabels
-            - entityName
-            - region
-            - entityTypeByPlatform
-      required:
-      - text
-      - fieldNames
     FindingViewModel:
       type: object
       properties:
@@ -809,6 +671,116 @@ components:
       - entityName
       - payload
       - entityTypeByPlatform
+    FacetResultDataViewModel:
+      type: object
+      properties:
+        value:
+          oneOf:
+          - type: string
+          - type: number
+          - type: boolean
+        count:
+          type: number
+      required:
+      - value
+      - count
+    FindingSearchAdvRequestModel:
+      type: object
+      properties:
+        resultSetSize:
+          type: number
+          minimum: 0
+          maximum: 10000
+          default: 10000
+          description: Number of items to return.
+        filter:
+          description: Filter object. A recursive filter object which provides complex filters.
+          allOf:
+          - $ref: '#/components/schemas/SearchAdvFilterViewModel'
+        orgUnitIdsFilter:
+          uniqueItems: true
+          maxItems: 50
+          description: List of organizational unit IDs filter.             Filters findings which their environment ID is under the organizational unit IDs or any of their descendants.
+          type: array
+          items:
+            type: string
+        sort:
+          maxItems: 10
+          description: Array of field names to sort by.
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchSortViewModel'
+        facets:
+          type: array
+          uniqueItems: true
+          maxItems: 10
+          description: Array of field names to facet by. Facets will return as additional data.
+          items:
+            type: string
+            enum:
+            - platform
+            - environmentId
+            - environmentExternalId
+            - organizationalUnitId
+            - status
+            - statusReason
+            - isExcluded
+            - origin
+            - alertType
+            - ruleId
+            - ruleTitle
+            - severity
+            - entityId
+            - entityExternalId
+            - entityType
+            - entityName
+            - region
+            - entityTypeByPlatform
+        facetResultSetSize:
+          type: number
+          minimum: 1
+          maximum: 250
+          default: 250
+          description: Number of items per facet.
+        includeFields:
+          type: array
+          uniqueItems: true
+          description: Array of field names to return. Only these fields will be returned.
+          items:
+            type: string
+            enum:
+            - id
+            - findingKey
+            - createdTime
+            - updatedTime
+            - platform
+            - environmentId
+            - environmentExternalId
+            - organizationalUnitId
+            - status
+            - statusReason
+            - isExcluded
+            - origin
+            - alertType
+            - ruleId
+            - ruleTitle
+            - ruleLogic
+            - description
+            - severity
+            - frameworks
+            - systemLabels
+            - remediation
+            - entityId
+            - entityIdType
+            - entityExternalId
+            - entityType
+            - entityLabels
+            - entityName
+            - region
+            - entityTypeByPlatform
+        totalCount:
+          type: boolean
+          description: Return total count of results. This value is affected by the requested filters.
     FindingsFilterOperator:
       type: string
       description: 'eq: equal, !eq: not equal, gt: greater than, gte: greater than equal, lt: less than, lte: less than equal, has: field contains the value as a word, !has: not has, hasprefix: field contains the value as prefix, !hasprefix: not hasprefix, in: equal to one of the values, !in: not in, between: between values, !between: not between, has_any: field has any of the values, !has_any: not has_any, has_all: field has all the values, !has_all: not has_all'
@@ -831,6 +803,34 @@ components:
       - '!has_any'
       - has_all
       - '!has_all'
+    FindingSearchResultsViewModel:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FindingViewModel'
+        facets:
+          type: array
+          items:
+            $ref: '#/components/schemas/FacetsResultsViewModel'
+        totalCount:
+          type: number
+      required:
+      - results
+      - totalCount
+    SeverityLevel:
+      type: number
+      description: '0: Unknown, 1: Informational, 2: Low, 3: Medium, 4: High, 5: Critical, 6: Fatal, 99: Other'
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 99
   securitySchemes:
     basic:
       type: http

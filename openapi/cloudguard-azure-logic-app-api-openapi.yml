@@ -71,20 +71,6 @@ components:
           type: object
         metadata:
           type: object
-    Falconetix.Model.AzureLogicAppSkuViewModel:
-      type: object
-      properties:
-        name:
-          enum:
-          - NotSpecified
-          - Free
-          - Shared
-          - Basic
-          - Standard
-          - Premium
-          type: string
-        plan:
-          $ref: '#/components/schemas/Falconetix.Model.AzureLogicAppResourceReferenceViewModel'
     Falconetix.Model.AzureLogicAppViewModel:
       type: object
       properties:
@@ -161,6 +147,20 @@ components:
           type: string
         type:
           type: string
+    Falconetix.Model.AzureLogicAppSkuViewModel:
+      type: object
+      properties:
+        name:
+          enum:
+          - NotSpecified
+          - Free
+          - Shared
+          - Basic
+          - Standard
+          - Premium
+          type: string
+        plan:
+          $ref: '#/components/schemas/Falconetix.Model.AzureLogicAppResourceReferenceViewModel'
   securitySchemes:
     basic:
       type: http
