@@ -59,6 +59,27 @@ paths:
       summary: Get
 components:
   schemas:
+    Dome9.Web.Api.CloudEfsMountTargetViewModel:
+      type: object
+      properties:
+        fileSystemId:
+          type: string
+        ipAddress:
+          type: string
+        lifeCycleState:
+          type: string
+        mountTargetId:
+          type: string
+        networkInterfaceId:
+          type: string
+        ownerId:
+          type: string
+        subnetId:
+          type: string
+        securityGroups:
+          type: array
+          items:
+            type: string
     Dome9.Web.Api.CloudEfsViewModel:
       type: object
       properties:
@@ -348,27 +369,6 @@ components:
         value:
           format: int64
           type: integer
-    Dome9.Web.Api.CloudEfsMountTargetViewModel:
-      type: object
-      properties:
-        fileSystemId:
-          type: string
-        ipAddress:
-          type: string
-        lifeCycleState:
-          type: string
-        mountTargetId:
-          type: string
-        networkInterfaceId:
-          type: string
-        ownerId:
-          type: string
-        subnetId:
-          type: string
-        securityGroups:
-          type: array
-          items:
-            type: string
   securitySchemes:
     basic:
       type: http

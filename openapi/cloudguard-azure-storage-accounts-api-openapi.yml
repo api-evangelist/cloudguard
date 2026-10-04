@@ -127,27 +127,6 @@ components:
           type: boolean
         advancedThreatProtectionEnabled:
           type: boolean
-    Dome9.Web.Api.Azure.Storage.ViewModels.AzureStorageAccountEncryptionViewModel:
-      type: object
-      properties:
-        keySource:
-          type: string
-        keyVaultProperties:
-          $ref: '#/components/schemas/Dome9.Web.Api.Azure.Storage.ViewModels.AzureStorageAccountKeyVaultPropertiesViewModel'
-        servicesEncryption:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.Azure.Storage.ViewModels.AzureStorageAccountEncryptionServiceViewModel'
-    Dome9.Web.Api.Azure.Storage.ViewModels.AzureStorageAccountEncryptionServiceViewModel:
-      type: object
-      properties:
-        serviceType:
-          type: string
-        enabled:
-          type: boolean
-        lastEnabledTime:
-          format: date-time
-          type: string
     Dome9.Web.Api.Azure.Storage.ViewModels.AzureStorageAccountIPRuleViewModel:
       type: object
       properties:
@@ -170,22 +149,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Dome9.Web.Api.Azure.Storage.ViewModels.AzureStorageAccountVirtualNetworkRuleViewModel'
-    Dome9.Web.Api.Azure.Storage.ViewModels.AzureStorageAccountVirtualNetworkRuleViewModel:
-      type: object
-      properties:
-        action:
-          type: string
-        state:
-          type: string
-        virtualNetworkResourceId:
-          type: string
-    Dome9.Web.Api.Azure.Storage.ViewModels.AzureStorageAccountEndPointViewModel:
-      type: object
-      properties:
-        service:
-          type: string
-        uri:
-          type: string
     Dome9.Web.Api.Azure.Storage.ViewModels.AzureStorageAccountKeyVaultPropertiesViewModel:
       type: object
       properties:
@@ -194,6 +157,43 @@ components:
         keyVaultUri:
           type: string
         keyVersion:
+          type: string
+    Dome9.Web.Api.Azure.Storage.ViewModels.AzureStorageAccountEndPointViewModel:
+      type: object
+      properties:
+        service:
+          type: string
+        uri:
+          type: string
+    Dome9.Web.Api.Azure.Storage.ViewModels.AzureStorageAccountEncryptionServiceViewModel:
+      type: object
+      properties:
+        serviceType:
+          type: string
+        enabled:
+          type: boolean
+        lastEnabledTime:
+          format: date-time
+          type: string
+    Dome9.Web.Api.Azure.Storage.ViewModels.AzureStorageAccountEncryptionViewModel:
+      type: object
+      properties:
+        keySource:
+          type: string
+        keyVaultProperties:
+          $ref: '#/components/schemas/Dome9.Web.Api.Azure.Storage.ViewModels.AzureStorageAccountKeyVaultPropertiesViewModel'
+        servicesEncryption:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Azure.Storage.ViewModels.AzureStorageAccountEncryptionServiceViewModel'
+    Dome9.Web.Api.Azure.Storage.ViewModels.AzureStorageAccountVirtualNetworkRuleViewModel:
+      type: object
+      properties:
+        action:
+          type: string
+        state:
+          type: string
+        virtualNetworkResourceId:
           type: string
   securitySchemes:
     basic:

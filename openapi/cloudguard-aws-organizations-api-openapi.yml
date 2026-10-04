@@ -76,30 +76,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Dome9.Web.Api.Organizations.AwsOrganizationPolicyViewModel'
-    Dome9.Web.Api.Organizations.AwsOrganizationTagViewModel:
-      type: object
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-    Dome9.Web.Api.Organizations.AwsOrganizationPolicyViewModel:
-      type: object
-      properties:
-        policyDocument:
-          type: string
-        arn:
-          type: string
-        awsManaged:
-          type: boolean
-        description:
-          type: string
-        id:
-          type: string
-        name:
-          type: string
-        summaryType:
-          type: string
     Dome9.Web.Api.AwsOrganizationAccountViewModel:
       type: object
       properties:
@@ -140,6 +116,30 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Dome9.Web.Api.Organizations.AwsOrganizationTagViewModel'
+    Dome9.Web.Api.Organizations.AwsOrganizationTagViewModel:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    Dome9.Web.Api.Organizations.AwsOrganizationPolicyViewModel:
+      type: object
+      properties:
+        policyDocument:
+          type: string
+        arn:
+          type: string
+        awsManaged:
+          type: boolean
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        summaryType:
+          type: string
   securitySchemes:
     basic:
       type: http

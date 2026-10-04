@@ -43,20 +43,19 @@ paths:
       description: Get the evidence path for a given findingId
 components:
   schemas:
-    EvidencePathViewModel:
+    RelationshipViewModel:
       type: object
       properties:
-        nodes:
-          type: array
-          items:
-            $ref: '#/components/schemas/NodeViewModel'
-        relationships:
-          type: array
-          items:
-            $ref: '#/components/schemas/RelationshipViewModel'
+        fromId:
+          type: string
+        toId:
+          type: string
+        label:
+          type: string
       required:
-      - nodes
-      - relationships
+      - fromId
+      - toId
+      - label
     NodeViewModel:
       type: object
       properties:
@@ -86,19 +85,20 @@ components:
       - srl
       - label
       - properties
-    RelationshipViewModel:
+    EvidencePathViewModel:
       type: object
       properties:
-        fromId:
-          type: string
-        toId:
-          type: string
-        label:
-          type: string
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/NodeViewModel'
+        relationships:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelationshipViewModel'
       required:
-      - fromId
-      - toId
-      - label
+      - nodes
+      - relationships
   securitySchemes:
     basic:
       type: http

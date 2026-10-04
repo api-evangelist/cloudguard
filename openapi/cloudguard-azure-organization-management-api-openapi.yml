@@ -188,56 +188,6 @@ paths:
       description: Resets all environments of the given CloudGuard's Azure organization management id.
 components:
   schemas:
-    AwpOnboardingMode:
-      type: string
-      description: ''
-      x-enumNames:
-      - saas
-      - inAccount
-      - inAccountHub
-      enum:
-      - saas
-      - inAccount
-      - inAccountHub
-    BladeConfiguration:
-      type: object
-      additionalProperties: false
-      required:
-      - isEnabled
-      properties:
-        isEnabled:
-          type: boolean
-    OrganizationOnboardingConfigurationBase:
-      type: object
-      additionalProperties: false
-      required:
-      - organizationRootOuId
-      - mappingStrategy
-      - postureManagement
-      properties:
-        organizationRootOuId:
-          type:
-          - string
-          - 'null'
-          format: guid
-        mappingStrategy:
-          $ref: '#/components/schemas/MappingStrategyType'
-        postureManagement:
-          oneOf:
-          - $ref: '#/components/schemas/PostureManagementConfiguration'
-    OnboardingVersions:
-      type: object
-      additionalProperties: false
-      required:
-      - currentVersion
-      - latestVersion
-      properties:
-        currentVersion:
-          type: string
-        latestVersion:
-          type:
-          - string
-          - 'null'
     PostureManagementConfiguration:
       type: object
       additionalProperties: false
@@ -255,14 +205,213 @@ components:
             format: int64
         onboardingMode:
           $ref: '#/components/schemas/OnboardingMode'
-    PostureManagement:
+    AwpConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/BladeConfiguration'
+      - type: object
+        additionalProperties: false
+        required:
+        - onboardingMode
+        - centralizedSubscriptionId
+        - withFunctionAppsScan
+        - withSseCmkEncryptedDisksScan
+        properties:
+          onboardingMode:
+            default: 1
+            $ref: '#/components/schemas/AwpOnboardingMode'
+          centralizedSubscriptionId:
+            type:
+            - string
+            - 'null'
+          withFunctionAppsScan:
+            type: boolean
+          withSseCmkEncryptedDisksScan:
+            type: boolean
+    ServerlessConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/BladeConfiguration'
+      - type: object
+        additionalProperties: false
+    CloudVendor:
+      type: string
+      description: ''
+      x-enumNames:
+      - aws
+      - hp
+      - mellanox
+      - awsgov
+      - azure
+      - google
+      - awschina
+      - azuregov
+      - kubernetes
+      - azurechina
+      - terraform
+      - generic
+      - kubernetesruntimeassurance
+      - shiftleft
+      - sourcecodeassurance
+      - imageassurance
+      - alibaba
+      - cft
+      - containerregistry
+      - oci
+      - ocigov
+      - ocigovuk
+      - CIEM
+      enum:
+      - aws
+      - hp
+      - mellanox
+      - awsgov
+      - azure
+      - google
+      - awschina
+      - azuregov
+      - kubernetes
+      - azurechina
+      - terraform
+      - generic
+      - kubernetesruntimeassurance
+      - shiftleft
+      - sourcecodeassurance
+      - imageassurance
+      - alibaba
+      - cft
+      - containerregistry
+      - oci
+      - ocigov
+      - ocigovuk
+      - CIEM
+    OnboardingUpdateRequest2:
       type: object
       additionalProperties: false
       required:
-      - onboardingMode
+      - organizationName
       properties:
-        onboardingMode:
-          $ref: '#/components/schemas/OnboardingMode'
+        organizationName:
+          type: string
+          description: New Organization Name
+    StorageAccount:
+      type: object
+      additionalProperties: false
+      required:
+      - storageId
+      - logTypes
+      properties:
+        storageId:
+          type:
+          - string
+          - 'null'
+        logTypes:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+    OnboardingMode:
+      type: string
+      description: ''
+      x-enumNames:
+      - Read
+      - Manage
+      enum:
+      - read-only
+      - manage
+    OnboardingVersions:
+      type: object
+      additionalProperties: false
+      required:
+      - currentVersion
+      - latestVersion
+      properties:
+        currentVersion:
+          type: string
+        latestVersion:
+          type:
+          - string
+          - 'null'
+    BladeConfiguration:
+      type: object
+      additionalProperties: false
+      required:
+      - isEnabled
+      properties:
+        isEnabled:
+          type: boolean
+    AwpOnboardingMode:
+      type: string
+      description: ''
+      x-enumNames:
+      - saas
+      - inAccount
+      - inAccountHub
+      enum:
+      - saas
+      - inAccount
+      - inAccountHub
+    OrganizationManagementViewModel2:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - accountId
+      - userId
+      - organizationName
+      - tenantId
+      - managementGroupId
+      - appRegistrationName
+      - onboardingConfiguration
+      - managedSubscriptionsIds
+      - updateTime
+      - creationTime
+      - isAutoOnboarding
+      - onboardingVersions
+      properties:
+        id:
+          type: string
+          format: guid
+        accountId:
+          type: integer
+          format: int64
+        userId:
+          type: integer
+          format: int32
+        organizationName:
+          type: string
+        tenantId:
+          type: string
+        managementGroupId:
+          type: string
+        appRegistrationName:
+          type:
+          - string
+          - 'null'
+        onboardingConfiguration:
+          $ref: '#/components/schemas/AzureOrganizationOnboardingConfiguration'
+        managedSubscriptionsIds:
+          type: array
+          items:
+            type: string
+        updateTime:
+          type: string
+          format: date-time
+        creationTime:
+          type: string
+          format: date-time
+        isAutoOnboarding:
+          type: boolean
+        onboardingVersions:
+          $ref: '#/components/schemas/OnboardingVersions'
+    MappingStrategyType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Flat
+      - Clone
+      enum:
+      - Flat
+      - Clone
     OnboardingRequest2:
       type: object
       additionalProperties: false
@@ -347,150 +496,14 @@ components:
 
             Declares if the onboarding pipeline automatically onboards newly discovered subscriptions after the initial onboarding. '
           default: true
-    OrganizationManagementViewModel2:
+    PostureManagement:
       type: object
       additionalProperties: false
       required:
-      - id
-      - accountId
-      - userId
-      - organizationName
-      - tenantId
-      - managementGroupId
-      - appRegistrationName
-      - onboardingConfiguration
-      - managedSubscriptionsIds
-      - updateTime
-      - creationTime
-      - isAutoOnboarding
-      - onboardingVersions
+      - onboardingMode
       properties:
-        id:
-          type: string
-          format: guid
-        accountId:
-          type: integer
-          format: int64
-        userId:
-          type: integer
-          format: int32
-        organizationName:
-          type: string
-        tenantId:
-          type: string
-        managementGroupId:
-          type: string
-        appRegistrationName:
-          type:
-          - string
-          - 'null'
-        onboardingConfiguration:
-          $ref: '#/components/schemas/AzureOrganizationOnboardingConfiguration'
-        managedSubscriptionsIds:
-          type: array
-          items:
-            type: string
-        updateTime:
-          type: string
-          format: date-time
-        creationTime:
-          type: string
-          format: date-time
-        isAutoOnboarding:
-          type: boolean
-        onboardingVersions:
-          $ref: '#/components/schemas/OnboardingVersions'
-    AwpConfiguration:
-      allOf:
-      - $ref: '#/components/schemas/BladeConfiguration'
-      - type: object
-        additionalProperties: false
-        required:
-        - onboardingMode
-        - centralizedSubscriptionId
-        - withFunctionAppsScan
-        - withSseCmkEncryptedDisksScan
-        properties:
-          onboardingMode:
-            default: 1
-            $ref: '#/components/schemas/AwpOnboardingMode'
-          centralizedSubscriptionId:
-            type:
-            - string
-            - 'null'
-          withFunctionAppsScan:
-            type: boolean
-          withSseCmkEncryptedDisksScan:
-            type: boolean
-    CloudVendor:
-      type: string
-      description: ''
-      x-enumNames:
-      - aws
-      - hp
-      - mellanox
-      - awsgov
-      - azure
-      - google
-      - awschina
-      - azuregov
-      - kubernetes
-      - azurechina
-      - terraform
-      - generic
-      - kubernetesruntimeassurance
-      - shiftleft
-      - sourcecodeassurance
-      - imageassurance
-      - alibaba
-      - cft
-      - containerregistry
-      - oci
-      - ocigov
-      - ocigovuk
-      - CIEM
-      enum:
-      - aws
-      - hp
-      - mellanox
-      - awsgov
-      - azure
-      - google
-      - awschina
-      - azuregov
-      - kubernetes
-      - azurechina
-      - terraform
-      - generic
-      - kubernetesruntimeassurance
-      - shiftleft
-      - sourcecodeassurance
-      - imageassurance
-      - alibaba
-      - cft
-      - containerregistry
-      - oci
-      - ocigov
-      - ocigovuk
-      - CIEM
-    MappingStrategyType:
-      type: string
-      description: ''
-      x-enumNames:
-      - Flat
-      - Clone
-      enum:
-      - Flat
-      - Clone
-    OnboardingUpdateRequest2:
-      type: object
-      additionalProperties: false
-      required:
-      - organizationName
-      properties:
-        organizationName:
-          type: string
-          description: New Organization Name
+        onboardingMode:
+          $ref: '#/components/schemas/OnboardingMode'
     AzureOrganizationOnboardingConfiguration:
       allOf:
       - $ref: '#/components/schemas/OrganizationOnboardingConfigurationBase'
@@ -516,51 +529,6 @@ components:
             - $ref: '#/components/schemas/CdrConfiguration'
           isAutoOnboarding:
             type: boolean
-    OnboardingMode:
-      type: string
-      description: ''
-      x-enumNames:
-      - Read
-      - Manage
-      enum:
-      - read-only
-      - manage
-    CdrConfiguration:
-      allOf:
-      - $ref: '#/components/schemas/BladeConfiguration'
-      - type: object
-        additionalProperties: false
-        required:
-        - accounts
-        properties:
-          accounts:
-            type:
-            - array
-            - 'null'
-            items:
-              $ref: '#/components/schemas/StorageAccount'
-    ServerlessConfiguration:
-      allOf:
-      - $ref: '#/components/schemas/BladeConfiguration'
-      - type: object
-        additionalProperties: false
-    StorageAccount:
-      type: object
-      additionalProperties: false
-      required:
-      - storageId
-      - logTypes
-      properties:
-        storageId:
-          type:
-          - string
-          - 'null'
-        logTypes:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
     Blades:
       type: object
       additionalProperties: false
@@ -578,6 +546,38 @@ components:
           $ref: '#/components/schemas/CdrConfiguration'
         postureManagement:
           $ref: '#/components/schemas/PostureManagement'
+    CdrConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/BladeConfiguration'
+      - type: object
+        additionalProperties: false
+        required:
+        - accounts
+        properties:
+          accounts:
+            type:
+            - array
+            - 'null'
+            items:
+              $ref: '#/components/schemas/StorageAccount'
+    OrganizationOnboardingConfigurationBase:
+      type: object
+      additionalProperties: false
+      required:
+      - organizationRootOuId
+      - mappingStrategy
+      - postureManagement
+      properties:
+        organizationRootOuId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        mappingStrategy:
+          $ref: '#/components/schemas/MappingStrategyType'
+        postureManagement:
+          oneOf:
+          - $ref: '#/components/schemas/PostureManagementConfiguration'
   securitySchemes:
     basic:
       type: http

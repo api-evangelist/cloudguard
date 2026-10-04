@@ -73,32 +73,6 @@ paths:
       summary: Export To Csv DownloadCSV
 components:
   schemas:
-    Dome9.Web.Api.Shared.SharedViewModels.DateRangeViewModel:
-      type: object
-      properties:
-        from:
-          format: date-time
-          type: string
-        to:
-          format: date-time
-          type: string
-    Dome9.Web.Api.Compliance.Finding.SortingViewModel:
-      type: object
-      properties:
-        fieldName:
-          description: Field name
-          type: string
-        direction:
-          format: int32
-          description: direction. 1 is asc, -1 desc
-          type: integer
-    CGN.OpenSearch.Model.CommonViewModels.FieldFilterViewModel:
-      type: object
-      properties:
-        name:
-          type: string
-        value:
-          type: string
     Dome9.Web.Api.Compliance.Finding.SearchRequestViewModel:
       type: object
       properties:
@@ -132,6 +106,22 @@ components:
           - Finding
           - Archive
           type: string
+    CGN.OpenSearch.Model.CommonViewModels.FieldFilterViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    Dome9.Web.Api.Shared.SharedViewModels.DateRangeViewModel:
+      type: object
+      properties:
+        from:
+          format: date-time
+          type: string
+        to:
+          format: date-time
+          type: string
     Dome9.Web.Api.Compliance.Report.FindingsReportViewModel:
       type: object
       properties:
@@ -151,6 +141,16 @@ components:
         showExcluded:
           description: Show Excluded Column
           type: boolean
+    Dome9.Web.Api.Compliance.Finding.SortingViewModel:
+      type: object
+      properties:
+        fieldName:
+          description: Field name
+          type: string
+        direction:
+          format: int32
+          description: direction. 1 is asc, -1 desc
+          type: integer
     Dome9.Web.Api.Compliance.Finding.SearchFilterViewModel:
       type: object
       properties:

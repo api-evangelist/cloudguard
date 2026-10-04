@@ -59,6 +59,13 @@ paths:
       summary: Get
 components:
   schemas:
+    Dome9.Web.Api.Azure.AzureRestApiSkuViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        tier:
+          type: string
     Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentViewModel:
       type: object
       properties:
@@ -76,22 +83,6 @@ components:
           $ref: '#/components/schemas/Dome9.Web.Api.Azure.AzureRestApiSkuViewModel'
         properties:
           $ref: '#/components/schemas/Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentPropertiesViewModel'
-    Dome9.Web.Api.Azure.AzureRestApiIdentityViewModel:
-      type: object
-      properties:
-        type:
-          type: string
-        principalId:
-          type: string
-        tenantId:
-          type: string
-    Dome9.Web.Api.Azure.AzureRestApiSkuViewModel:
-      type: object
-      properties:
-        name:
-          type: string
-        tier:
-          type: string
     Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentMetadataViewModel:
       type: object
       properties:
@@ -102,6 +93,15 @@ components:
           type: string
         updatedOn:
           format: date-time
+          type: string
+    Dome9.Web.Api.Azure.AzureRestApiIdentityViewModel:
+      type: object
+      properties:
+        type:
+          type: string
+        principalId:
+          type: string
+        tenantId:
           type: string
     Dome9.Web.Api.Azure.PolicyAssignment.AzurePolicyAssignmentPropertiesViewModel:
       type: object

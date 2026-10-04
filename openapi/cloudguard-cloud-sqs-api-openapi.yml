@@ -39,6 +39,99 @@ paths:
       summary: Get
 components:
   schemas:
+    TagsDictionary:
+      type: object
+      additionalProperties:
+        type: string
+    CloudSqsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - externalId
+      - region
+      - accountId
+      - cloudAccountId
+      - createdTimestamp
+      - lastModifiedTimestamp
+      - messageRetentionPeriod
+      - policy
+      - name
+      - receiveMessageWaitTimeSeconds
+      - kmsDataKeyReusePeriodSeconds
+      - redrivePolicy
+      - kmsMasterKeyId
+      - visibilityTimeout
+      - queueUrl
+      - maximumMessageSize
+      - delaySeconds
+      - tags
+      - sqsManagedSseEnabled
+      properties:
+        id:
+          type: string
+        externalId:
+          type: string
+        region:
+          $ref: '#/components/schemas/CloudRegion'
+        accountId:
+          type: integer
+          format: int64
+        cloudAccountId:
+          type: string
+          format: guid
+        createdTimestamp:
+          type: string
+          format: date-time
+        lastModifiedTimestamp:
+          type: string
+          format: date-time
+        messageRetentionPeriod:
+          type: integer
+          format: int32
+        policy:
+          type: string
+        name:
+          type: string
+        receiveMessageWaitTimeSeconds:
+          type: integer
+          format: int32
+        kmsDataKeyReusePeriodSeconds:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        redrivePolicy:
+          $ref: '#/components/schemas/AwsSqsRedrivePolicyViewModel'
+        kmsMasterKeyId:
+          type: string
+        visibilityTimeout:
+          type: integer
+          format: int32
+        queueUrl:
+          type: string
+        maximumMessageSize:
+          type: integer
+          format: int32
+        delaySeconds:
+          type: integer
+          format: int32
+        tags:
+          $ref: '#/components/schemas/TagsDictionary'
+        sqsManagedSseEnabled:
+          type: boolean
+    AwsSqsRedrivePolicyViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - deadLetterTargetArn
+      - maxReceiveCount
+      properties:
+        deadLetterTargetArn:
+          type: string
+        maxReceiveCount:
+          type: integer
+          format: int32
     CloudRegion:
       type: string
       description: ''
@@ -462,99 +555,6 @@ components:
       - mx_monterrey_1
       - eu_jovanovac_1
       - ap_singapore_2
-    CloudSqsViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - id
-      - externalId
-      - region
-      - accountId
-      - cloudAccountId
-      - createdTimestamp
-      - lastModifiedTimestamp
-      - messageRetentionPeriod
-      - policy
-      - name
-      - receiveMessageWaitTimeSeconds
-      - kmsDataKeyReusePeriodSeconds
-      - redrivePolicy
-      - kmsMasterKeyId
-      - visibilityTimeout
-      - queueUrl
-      - maximumMessageSize
-      - delaySeconds
-      - tags
-      - sqsManagedSseEnabled
-      properties:
-        id:
-          type: string
-        externalId:
-          type: string
-        region:
-          $ref: '#/components/schemas/CloudRegion'
-        accountId:
-          type: integer
-          format: int64
-        cloudAccountId:
-          type: string
-          format: guid
-        createdTimestamp:
-          type: string
-          format: date-time
-        lastModifiedTimestamp:
-          type: string
-          format: date-time
-        messageRetentionPeriod:
-          type: integer
-          format: int32
-        policy:
-          type: string
-        name:
-          type: string
-        receiveMessageWaitTimeSeconds:
-          type: integer
-          format: int32
-        kmsDataKeyReusePeriodSeconds:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        redrivePolicy:
-          $ref: '#/components/schemas/AwsSqsRedrivePolicyViewModel'
-        kmsMasterKeyId:
-          type: string
-        visibilityTimeout:
-          type: integer
-          format: int32
-        queueUrl:
-          type: string
-        maximumMessageSize:
-          type: integer
-          format: int32
-        delaySeconds:
-          type: integer
-          format: int32
-        tags:
-          $ref: '#/components/schemas/TagsDictionary'
-        sqsManagedSseEnabled:
-          type: boolean
-    TagsDictionary:
-      type: object
-      additionalProperties:
-        type: string
-    AwsSqsRedrivePolicyViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - deadLetterTargetArn
-      - maxReceiveCount
-      properties:
-        deadLetterTargetArn:
-          type: string
-        maxReceiveCount:
-          type: integer
-          format: int32
   securitySchemes:
     basic:
       type: http

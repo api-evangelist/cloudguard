@@ -39,23 +39,6 @@ paths:
       summary: Get
 components:
   schemas:
-    Falconetix.Model.CloudAcmExtendedKeyUsageViewModel:
-      type: object
-      properties:
-        name:
-          type: string
-        oid:
-          type: string
-    Falconetix.Model.CloudAcmKeyUsageViewModel:
-      type: object
-      properties:
-        name:
-          type: string
-    Falconetix.Model.CloudAcmCertificateOptionsSummaryViewModel:
-      type: object
-      properties:
-        certificateTransparencyLoggingPreference:
-          type: string
     Falconetix.Model.CloudAcmCertificateDetailViewModel:
       type: object
       properties:
@@ -128,6 +111,27 @@ components:
           additionalProperties:
             type: string
           readOnly: true
+    Falconetix.Model.CloudAcmExtendedKeyUsageViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        oid:
+          type: string
+    Falconetix.Model.CloudAcmRenewalSummaryViewModel:
+      type: object
+      properties:
+        domainValidationOptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.CloudAcmDomainValidationViewModel'
+        renewalStatus:
+          type: string
+    Falconetix.Model.CloudAcmCertificateOptionsSummaryViewModel:
+      type: object
+      properties:
+        certificateTransparencyLoggingPreference:
+          type: string
     Falconetix.Model.CloudAcmDomainValidationViewModel:
       type: object
       properties:
@@ -154,14 +158,10 @@ components:
           type: string
         value:
           type: string
-    Falconetix.Model.CloudAcmRenewalSummaryViewModel:
+    Falconetix.Model.CloudAcmKeyUsageViewModel:
       type: object
       properties:
-        domainValidationOptions:
-          type: array
-          items:
-            $ref: '#/components/schemas/Falconetix.Model.CloudAcmDomainValidationViewModel'
-        renewalStatus:
+        name:
           type: string
   securitySchemes:
     basic:

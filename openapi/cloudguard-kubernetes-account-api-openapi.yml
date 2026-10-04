@@ -629,50 +629,44 @@ components:
       - EKS
       - AKS
       - Openshift
-    KubernetesAccountAgentStatusViewModel:
+    AttachCloudAccountsViewModel:
       type: object
       additionalProperties: false
       required:
-      - id
-      - agentsStatus
-      - agentsStatusDescription
-      - agentsStatusSupportUrl
-      - admissionControlEnabled
-      - imageAssuranceEnabled
-      - runtimeProtectionEnabled
-      - threatIntelligenceEnabled
-      - features
+      - entries
+      - organizationalUnitId
       properties:
-        id:
-          type: string
-          description: Kubernetes account id
-          format: guid
-        agentsStatus:
-          type: string
-          description: Kubernetes cluster agent status
-        agentsStatusDescription:
-          type: string
-          description: Kubernetes cluster agent status description
-        agentsStatusSupportUrl:
-          type: string
-          description: Kubernetes cluster agent status support URL
-        admissionControlEnabled:
-          type: boolean
-          description: Kubernetes AdmissionControl Enabled
-        imageAssuranceEnabled:
-          type: boolean
-          description: Kubernetes ImageAssurance Enabled
-        runtimeProtectionEnabled:
-          type: boolean
-          description: Kubernetes RuntimeProtection Enabled
-        threatIntelligenceEnabled:
-          type: boolean
-          description: Kubernetes ThreatIntelligence Enabled
-        features:
-          type: array
-          description: Kubernetes account features status
+        entries:
+          type:
+          - array
+          - 'null'
+          default: []
           items:
-            $ref: '#/components/schemas/KubernetesAccountFeatureSummaryViewModel'
+            type: string
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+    KubernetesAgentStatusOptions:
+      type: string
+      description: ''
+      x-enumNames:
+      - OK
+      - INITIALIZING
+      - PENDING_CLEANUP
+      - PENDING
+      - WARNING
+      - ERROR
+      - DISABLED
+      enum:
+      - OK
+      - INITIALIZING
+      - PENDING_CLEANUP
+      - PENDING
+      - WARNING
+      - ERROR
+      - DISABLED
     KubernetesAgentSummaryViewModel:
       type: object
       additionalProperties: false
@@ -726,6 +720,103 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/KubernetesAgentComponentViewModel'
+    UpdateIdViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - organizationalUnitId
+      properties:
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+    KubernetesAccountAgentStatusFiltersViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - statuses
+      - isAgentUpToDate
+      - organizationalUnitIds
+      properties:
+        statuses:
+          type:
+          - array
+          - 'null'
+          description: Filter agents by status (OK/WARNING/ERROR/PENDING/PENDING_CLEANUP/INITIALIZING/DISABLED).
+          items:
+            $ref: '#/components/schemas/KubernetesAgentStatusOptions'
+        isAgentUpToDate:
+          type:
+          - boolean
+          - 'null'
+          description: Filter agents that are up to date or not. Set to 'null' to include all.
+        organizationalUnitIds:
+          type:
+          - array
+          - 'null'
+          description: Filter agents by the organizational unit.
+          items:
+            type: string
+            format: guid
+    KubernetesAccountSummaryViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - name
+      - numberOfNodes
+      - numberOfPods
+      - numberOfServices
+      - clusterVersion
+      - agentsStatus
+      - agentsStatusDescription
+      - agentsStatusSuportUrl
+      - featureStatuses
+      - isAutoUpgradeActive
+      - description
+      properties:
+        id:
+          type: string
+          description: Kubernetes id
+          format: guid
+        name:
+          type: string
+          description: Kubernetes account name in Dome9
+        numberOfNodes:
+          type: integer
+          description: Total Number of Nodes in the Kubernetes account
+          format: int32
+        numberOfPods:
+          type: integer
+          description: Total Number of Pods in the Kubernetes account
+          format: int32
+        numberOfServices:
+          type: integer
+          description: Total Number of Services in the Kubernetes account
+          format: int32
+        clusterVersion:
+          type: string
+          description: Kubernetes cluster server version
+        agentsStatus:
+          type: string
+          description: Kubernetes cluster agent version
+        agentsStatusDescription:
+          type: string
+          description: Kubernetes cluster agents status description
+        agentsStatusSuportUrl:
+          type: string
+          description: Kubernetes cluster agents status support URL
+        featureStatuses:
+          type: array
+          description: Kubernetes cluster agent feature status list
+          items:
+            $ref: '#/components/schemas/KubernetesAccountFeatureAgentStatusViewModel'
+        isAutoUpgradeActive:
+          type: boolean
+        description:
+          type: string
+          description: Kubernetes cluster description
     MoveOrganizationalUnitViewModel:
       type: object
       additionalProperties: false
@@ -794,6 +885,19 @@ components:
       - ocigov
       - ocigovuk
       - CIEM
+    KubernetesAgentsSummaryViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - agentType
+      - agentSummary
+      properties:
+        agentType:
+          type: string
+        agentSummary:
+          type: array
+          items:
+            $ref: '#/components/schemas/KubernetesAgentSummaryViewModel'
     KubernetesPostViewModel:
       type: object
       additionalProperties: false
@@ -820,34 +924,6 @@ components:
           description: Kubernetes account description in CloudGuard
           maxLength: 1000
           pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
-    KubernetesAccountAgentStatusFiltersViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - statuses
-      - isAgentUpToDate
-      - organizationalUnitIds
-      properties:
-        statuses:
-          type:
-          - array
-          - 'null'
-          description: Filter agents by status (OK/WARNING/ERROR/PENDING/PENDING_CLEANUP/INITIALIZING/DISABLED).
-          items:
-            $ref: '#/components/schemas/KubernetesAgentStatusOptions'
-        isAgentUpToDate:
-          type:
-          - boolean
-          - 'null'
-          description: Filter agents that are up to date or not. Set to 'null' to include all.
-        organizationalUnitIds:
-          type:
-          - array
-          - 'null'
-          description: Filter agents by the organizational unit.
-          items:
-            type: string
-            format: guid
     KubernetesAgentComponentViewModel:
       type: object
       additionalProperties: false
@@ -890,38 +966,93 @@ components:
           - string
           - 'null'
           format: date-time
-    AttachCloudAccountsViewModel:
+    KubernetesAccountFeatureSummaryViewModel:
       type: object
       additionalProperties: false
       required:
-      - entries
-      - organizationalUnitId
+      - name
+      - status
+      - statusDescription
       properties:
-        entries:
-          type:
-          - array
-          - 'null'
-          default: []
-          items:
-            type: string
-        organizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
-    KubernetesAgentsSummaryViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - agentType
-      - agentSummary
-      properties:
-        agentType:
+        name:
           type: string
-        agentSummary:
+        status:
+          $ref: '#/components/schemas/KubernetesAgentStatusOptions'
+        statusDescription:
+          type: string
+    KubernetesAccountFeatureAgentStatusViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - kubernetesFeature
+      - statusOk
+      - statusError
+      - statusInit
+      - statusPending
+      properties:
+        kubernetesFeature:
+          type: string
+          description: Feature
+        statusOk:
+          type: integer
+          description: Status Ok
+          format: int32
+        statusError:
+          type: integer
+          description: Status Error
+          format: int32
+        statusInit:
+          type: integer
+          description: Status Init
+          format: int32
+        statusPending:
+          type: integer
+          description: Status Pending
+          format: int32
+    KubernetesAccountAgentStatusViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - agentsStatus
+      - agentsStatusDescription
+      - agentsStatusSupportUrl
+      - admissionControlEnabled
+      - imageAssuranceEnabled
+      - runtimeProtectionEnabled
+      - threatIntelligenceEnabled
+      - features
+      properties:
+        id:
+          type: string
+          description: Kubernetes account id
+          format: guid
+        agentsStatus:
+          type: string
+          description: Kubernetes cluster agent status
+        agentsStatusDescription:
+          type: string
+          description: Kubernetes cluster agent status description
+        agentsStatusSupportUrl:
+          type: string
+          description: Kubernetes cluster agent status support URL
+        admissionControlEnabled:
+          type: boolean
+          description: Kubernetes AdmissionControl Enabled
+        imageAssuranceEnabled:
+          type: boolean
+          description: Kubernetes ImageAssurance Enabled
+        runtimeProtectionEnabled:
+          type: boolean
+          description: Kubernetes RuntimeProtection Enabled
+        threatIntelligenceEnabled:
+          type: boolean
+          description: Kubernetes ThreatIntelligence Enabled
+        features:
           type: array
+          description: Kubernetes account features status
           items:
-            $ref: '#/components/schemas/KubernetesAgentSummaryViewModel'
+            $ref: '#/components/schemas/KubernetesAccountFeatureSummaryViewModel'
     KubernetesAccountViewModel:
       type: object
       additionalProperties: false
@@ -1014,137 +1145,6 @@ components:
           $ref: '#/components/schemas/CloudVendor'
         type:
           $ref: '#/components/schemas/KubernetesPlatformType'
-    UpdateIdViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - organizationalUnitId
-      properties:
-        organizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
-    KubernetesAccountFeatureSummaryViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      - status
-      - statusDescription
-      properties:
-        name:
-          type: string
-        status:
-          $ref: '#/components/schemas/KubernetesAgentStatusOptions'
-        statusDescription:
-          type: string
-    KubernetesAccountFeatureAgentStatusViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - kubernetesFeature
-      - statusOk
-      - statusError
-      - statusInit
-      - statusPending
-      properties:
-        kubernetesFeature:
-          type: string
-          description: Feature
-        statusOk:
-          type: integer
-          description: Status Ok
-          format: int32
-        statusError:
-          type: integer
-          description: Status Error
-          format: int32
-        statusInit:
-          type: integer
-          description: Status Init
-          format: int32
-        statusPending:
-          type: integer
-          description: Status Pending
-          format: int32
-    KubernetesAccountSummaryViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - id
-      - name
-      - numberOfNodes
-      - numberOfPods
-      - numberOfServices
-      - clusterVersion
-      - agentsStatus
-      - agentsStatusDescription
-      - agentsStatusSuportUrl
-      - featureStatuses
-      - isAutoUpgradeActive
-      - description
-      properties:
-        id:
-          type: string
-          description: Kubernetes id
-          format: guid
-        name:
-          type: string
-          description: Kubernetes account name in Dome9
-        numberOfNodes:
-          type: integer
-          description: Total Number of Nodes in the Kubernetes account
-          format: int32
-        numberOfPods:
-          type: integer
-          description: Total Number of Pods in the Kubernetes account
-          format: int32
-        numberOfServices:
-          type: integer
-          description: Total Number of Services in the Kubernetes account
-          format: int32
-        clusterVersion:
-          type: string
-          description: Kubernetes cluster server version
-        agentsStatus:
-          type: string
-          description: Kubernetes cluster agent version
-        agentsStatusDescription:
-          type: string
-          description: Kubernetes cluster agents status description
-        agentsStatusSuportUrl:
-          type: string
-          description: Kubernetes cluster agents status support URL
-        featureStatuses:
-          type: array
-          description: Kubernetes cluster agent feature status list
-          items:
-            $ref: '#/components/schemas/KubernetesAccountFeatureAgentStatusViewModel'
-        isAutoUpgradeActive:
-          type: boolean
-        description:
-          type: string
-          description: Kubernetes cluster description
-    KubernetesAgentStatusOptions:
-      type: string
-      description: ''
-      x-enumNames:
-      - OK
-      - INITIALIZING
-      - PENDING_CLEANUP
-      - PENDING
-      - WARNING
-      - ERROR
-      - DISABLED
-      enum:
-      - OK
-      - INITIALIZING
-      - PENDING_CLEANUP
-      - PENDING
-      - WARNING
-      - ERROR
-      - DISABLED
   securitySchemes:
     basic:
       type: http

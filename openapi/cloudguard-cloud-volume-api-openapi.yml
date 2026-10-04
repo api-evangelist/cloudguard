@@ -39,6 +39,22 @@ paths:
       summary: Get
 components:
   schemas:
+    Dome9.Web.Api.CloudVolume.CloudVolumeAttachmentViewModel:
+      type: object
+      properties:
+        attachTime:
+          format: date-time
+          type: string
+        deleteOnTermination:
+          type: boolean
+        device:
+          type: string
+        instanceId:
+          type: string
+        state:
+          type: string
+        volumeId:
+          type: string
     Dome9.Web.Api.CloudVolume.CloudVolumeViewModel:
       type: object
       properties:
@@ -82,22 +98,6 @@ components:
         externalAccountNumber:
           type: string
         id:
-          type: string
-    Dome9.Web.Api.CloudVolume.CloudVolumeAttachmentViewModel:
-      type: object
-      properties:
-        attachTime:
-          format: date-time
-          type: string
-        deleteOnTermination:
-          type: boolean
-        device:
-          type: string
-        instanceId:
-          type: string
-        state:
-          type: string
-        volumeId:
           type: string
   securitySchemes:
     basic:

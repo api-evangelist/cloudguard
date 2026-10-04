@@ -105,13 +105,6 @@ components:
         version:
           format: int32
           type: integer
-    Dome9.Web.Api.Google.PubSub.GcpPubSubTopicMessageStoragePolicyViewModel:
-      type: object
-      properties:
-        allowedRegions:
-          type: array
-          items:
-            type: string
     Dome9.Web.Api.Google.PubSub.GcpPubSubSubscriptionViewModel:
       type: object
       properties:
@@ -139,17 +132,6 @@ components:
           example: 00000000-0000-0000-0000-000000000000
         name:
           type: string
-    Dome9.Web.Api.Google.PubSub.GcpPubSubIamPolicyViewModel.GcpPubSubPolicyBindingViewModel:
-      type: object
-      properties:
-        condition:
-          type: object
-        members:
-          type: array
-          items:
-            type: string
-        role:
-          type: string
     Dome9.Web.Api.Google.PubSub.GcpPubSubTopicViewModel:
       type: object
       properties:
@@ -169,6 +151,24 @@ components:
           example: 00000000-0000-0000-0000-000000000000
         name:
           type: string
+    Dome9.Web.Api.Google.PubSub.GcpPubSubIamPolicyViewModel.GcpPubSubPolicyBindingViewModel:
+      type: object
+      properties:
+        condition:
+          type: object
+        members:
+          type: array
+          items:
+            type: string
+        role:
+          type: string
+    Dome9.Web.Api.Google.PubSub.GcpPubSubTopicMessageStoragePolicyViewModel:
+      type: object
+      properties:
+        allowedRegions:
+          type: array
+          items:
+            type: string
   securitySchemes:
     basic:
       type: http

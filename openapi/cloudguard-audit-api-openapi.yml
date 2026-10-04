@@ -312,37 +312,6 @@ paths:
       description: Get audit metadata
 components:
   schemas:
-    Falconetix.Model.Audit.CountAuditResult:
-      type: object
-      properties:
-        count:
-          format: int32
-          type: integer
-    Falconetix.Model.Audit.SystemAuditResult:
-      type: object
-      properties:
-        description:
-          type: string
-        time:
-          format: date-time
-          type: string
-        event_name:
-          type: string
-        cloud_account_id:
-          type: string
-    Dome9.Web.Api.Models.AuditEntryViewModel:
-      type: object
-      properties:
-        id:
-          type: object
-        cell:
-          type: array
-          items:
-            type: object
-        metadata:
-          type: object
-          additionalProperties:
-            type: string
     Falconetix.Model.Audit.ApiAuditResult:
       type: object
       properties:
@@ -365,6 +334,37 @@ components:
           type: string
         client_ip:
           type: string
+    Falconetix.Model.Audit.SystemAuditResult:
+      type: object
+      properties:
+        description:
+          type: string
+        time:
+          format: date-time
+          type: string
+        event_name:
+          type: string
+        cloud_account_id:
+          type: string
+    Falconetix.Model.Audit.CountAuditResult:
+      type: object
+      properties:
+        count:
+          format: int32
+          type: integer
+    Dome9.Web.Api.Models.AuditEntryViewModel:
+      type: object
+      properties:
+        id:
+          type: object
+        cell:
+          type: array
+          items:
+            type: object
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
     Dome9.Web.Api.Models.AuditViewModel:
       type: object
       properties:

@@ -68,6 +68,62 @@ paths:
       description: Get status for remediation
 components:
   schemas:
+    StatusGeneralDetails:
+      type: object
+      additionalProperties: false
+      required:
+      - eventTime
+      - status
+      - remediation
+      - findingKey
+      - botMessage
+      properties:
+        eventTime:
+          type: string
+        status:
+          type: string
+        remediation:
+          type: string
+        findingKey:
+          type: string
+        botMessage:
+          type: string
+    RemediationExecuteResponseModel:
+      type: object
+      additionalProperties: false
+      required:
+      - workItemsTriggerStatuses
+      properties:
+        workItemsTriggerStatuses:
+          type: array
+          default: []
+          items:
+            $ref: '#/components/schemas/WorkItemsTriggerStatus'
+    CloudBot:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - params
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        params:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+    Finding2:
+      type: object
+      additionalProperties: false
+      required:
+      - key
+      properties:
+        key:
+          type: string
     RemediationExecuteRequestModel:
       type: object
       additionalProperties: false
@@ -105,62 +161,6 @@ components:
           type: string
         workItemFindingKey:
           type: string
-    StatusGeneralDetails:
-      type: object
-      additionalProperties: false
-      required:
-      - eventTime
-      - status
-      - remediation
-      - findingKey
-      - botMessage
-      properties:
-        eventTime:
-          type: string
-        status:
-          type: string
-        remediation:
-          type: string
-        findingKey:
-          type: string
-        botMessage:
-          type: string
-    Finding2:
-      type: object
-      additionalProperties: false
-      required:
-      - key
-      properties:
-        key:
-          type: string
-    RemediationExecuteResponseModel:
-      type: object
-      additionalProperties: false
-      required:
-      - workItemsTriggerStatuses
-      properties:
-        workItemsTriggerStatuses:
-          type: array
-          default: []
-          items:
-            $ref: '#/components/schemas/WorkItemsTriggerStatus'
-    CloudBot:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      - params
-      properties:
-        name:
-          type:
-          - string
-          - 'null'
-        params:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
   securitySchemes:
     basic:
       type: http

@@ -128,27 +128,12 @@ paths:
         Returns the created generic list'
 components:
   schemas:
-    Dome9.Web.Api.GenericList.GenericListValueViewModel:
+    Dome9.Web.Api.GenericList.GenericListViewModelBase:
       required:
-      - value
-      type: object
-      properties:
-        value:
-          pattern: '[a-zA-Z0-9/.\-_:%*{}()=!&|\\$#~^+@ \u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff]+'
-          type: string
-        comment:
-          type: string
-    Dome9.Web.Api.GenericList.GenericListViewModel:
-      required:
-      - id
       - name
       - items
       type: object
       properties:
-        id:
-          format: uuid
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
         name:
           pattern: '[a-zA-Z0-9/\-_:]*[a-zA-Z]+[a-zA-Z0-9/\-_:]*'
           type: string
@@ -180,12 +165,27 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Dome9.Web.Api.GenericList.GenericListValueViewModel'
-    Dome9.Web.Api.GenericList.GenericListViewModelBase:
+    Dome9.Web.Api.GenericList.GenericListValueViewModel:
       required:
+      - value
+      type: object
+      properties:
+        value:
+          pattern: '[a-zA-Z0-9/.\-_:%*{}()=!&|\\$#~^+@ \u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff]+'
+          type: string
+        comment:
+          type: string
+    Dome9.Web.Api.GenericList.GenericListViewModel:
+      required:
+      - id
       - name
       - items
       type: object
       properties:
+        id:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
         name:
           pattern: '[a-zA-Z0-9/\-_:]*[a-zA-Z]+[a-zA-Z0-9/\-_:]*'
           type: string

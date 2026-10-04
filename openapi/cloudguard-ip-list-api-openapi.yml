@@ -128,22 +128,6 @@ paths:
       description: Delete an IP List by id
 components:
   schemas:
-    Dome9.Web.Api.IPList.IpListPutViewModel:
-      type: object
-      properties:
-        id:
-          format: int64
-          description: IP List Id
-          type: integer
-        description:
-          description: IP List Description
-          maxLength: 500
-          minLength: 0
-          type: string
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Falconetix.Model.IPDescriptor'
     Falconetix.Model.IPDescriptor:
       required:
       - ip
@@ -164,6 +148,22 @@ components:
           minLength: 0
           pattern: '[a-zA-Z0-9/\-_:]*[a-zA-Z]+[a-zA-Z0-9/\-_:]*'
           type: string
+        id:
+          format: int64
+          description: IP List Id
+          type: integer
+        description:
+          description: IP List Description
+          maxLength: 500
+          minLength: 0
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.IPDescriptor'
+    Dome9.Web.Api.IPList.IpListPutViewModel:
+      type: object
+      properties:
         id:
           format: int64
           description: IP List Id

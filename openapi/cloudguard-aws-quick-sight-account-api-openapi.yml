@@ -39,13 +39,6 @@ paths:
       summary: Get
 components:
   schemas:
-    Dome9.Web.Api.AwsQuickSight.IpRestrictionRuleViewModel:
-      type: object
-      properties:
-        key:
-          type: string
-        value:
-          type: string
     Dome9.Web.Api.AwsQuickSight.AwsQuickSightAccountViewModel:
       type: object
       properties:
@@ -75,6 +68,13 @@ components:
         accountNumber:
           type: string
         region:
+          type: string
+    Dome9.Web.Api.AwsQuickSight.IpRestrictionRuleViewModel:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
           type: string
   securitySchemes:
     basic:

@@ -299,221 +299,6 @@ paths:
       description: export vulnerabilities scan results for an entity
 components:
   schemas:
-    UnifiedScanResultInsecureContent:
-      allOf:
-      - $ref: '#/components/schemas/UnifiedScanResultWithFiles'
-      - type: object
-        additionalProperties: false
-        required:
-        - type
-        - classification
-        - cgType
-        properties:
-          type:
-            type:
-            - string
-            - 'null'
-            default: InsecureContent
-          classification:
-            type:
-            - string
-            - 'null'
-          cgType:
-            type:
-            - string
-            - 'null'
-            default: InsecureContent
-    VlmImageGroupDetails:
-      type: object
-      additionalProperties: false
-      required:
-      - type
-      - name
-      properties:
-        type:
-          $ref: '#/components/schemas/VlmImageGroupType'
-        name:
-          type:
-          - string
-          - 'null'
-    UnifiedScanResultBase:
-      type: object
-      additionalProperties: false
-      required:
-      - scannedAsset
-      - scanInfo
-      - id
-      - severity
-      - scanEngineVersion
-      - affectedAssetsSnapshot
-      - type
-      - category
-      - remediation
-      - cgType
-      - customUniqueKeyHash
-      - image
-      - baseImages
-      properties:
-        scannedAsset:
-          oneOf:
-          - $ref: '#/components/schemas/VlmScannedAsset'
-        scanInfo:
-          oneOf:
-          - $ref: '#/components/schemas/VlmScanInfo'
-        id:
-          type:
-          - string
-          - 'null'
-        severity:
-          type:
-          - string
-          - 'null'
-        scanEngineVersion:
-          type:
-          - string
-          - 'null'
-        affectedAssetsSnapshot:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/VlmAffectedAssetSnapshot'
-        type:
-          type:
-          - string
-          - 'null'
-        category:
-          type:
-          - string
-          - 'null'
-        remediation:
-          type:
-          - string
-          - 'null'
-        cgType:
-          type:
-          - string
-          - 'null'
-        customUniqueKeyHash:
-          type:
-          - string
-          - 'null'
-        image:
-          deprecated: true
-          oneOf:
-          - $ref: '#/components/schemas/ImageMetadata'
-        baseImages:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/VlmBaseImageDetails'
-    Layer:
-      type: object
-      additionalProperties: false
-      required:
-      - created
-      - author
-      - comment
-      properties:
-        created:
-          type:
-          - string
-          - 'null'
-        created_by:
-          type:
-          - string
-          - 'null'
-        author:
-          type:
-          - string
-          - 'null'
-        comment:
-          type:
-          - string
-          - 'null'
-        empty_layer:
-          type: boolean
-    UnifiedLicense:
-      type: object
-      additionalProperties: false
-      required:
-      - value
-      - spdxExpression
-      - locations
-      properties:
-        value:
-          type:
-          - string
-          - 'null'
-        spdxExpression:
-          type:
-          - string
-          - 'null'
-        locations:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/UnifiedLicenseLocation'
-    VlmScanMetadataViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - scannedAsset
-      - scanInfo
-      - vulnerabilityStats
-      - layersDetails
-      properties:
-        scannedAsset:
-          $ref: '#/components/schemas/VlmScannedAsset'
-        scanInfo:
-          $ref: '#/components/schemas/VlmScanInfo'
-        vulnerabilityStats:
-          $ref: '#/components/schemas/VulnerabilityStats'
-        layersDetails:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/Layer'
-    UnifiedVulnerabilityExclusion:
-      type: object
-      additionalProperties: false
-      required:
-      - id
-      - comment
-      - includeInAssessment
-      - author
-      - creationDate
-      properties:
-        id:
-          type:
-          - string
-          - 'null'
-          format: guid
-        comment:
-          type:
-          - string
-          - 'null'
-        includeInAssessment:
-          type: boolean
-        author:
-          type:
-          - string
-          - 'null'
-        creationDate:
-          type: string
-          format: date-time
-    VlmImageGroupType:
-      type: string
-      description: ''
-      x-enumNames:
-      - None
-      - VendorImage
-      - BaseImage
-      enum:
-      - None
-      - VendorImage
-      - BaseImage
     VlmScanInfo:
       type: object
       additionalProperties: false
@@ -530,507 +315,6 @@ components:
           - string
           - 'null'
           format: date-time
-    UnifiedRemediationSummaryCategoryRemediations:
-      type: object
-      additionalProperties: false
-      required:
-      - finding
-      - severity
-      - action
-      - lines
-      properties:
-        finding:
-          type:
-          - string
-          - 'null'
-        severity:
-          type:
-          - string
-          - 'null'
-        action:
-          type:
-          - string
-          - 'null'
-        lines:
-          type:
-          - array
-          - 'null'
-          default: []
-          items:
-            type: integer
-            format: int32
-    UnifiedScanResultWithFiles:
-      allOf:
-      - $ref: '#/components/schemas/UnifiedScanResultBase'
-      - type: object
-        additionalProperties: false
-        required:
-        - name
-        - description
-        - isExcluded
-        - exclusion
-        - files
-        properties:
-          name:
-            type:
-            - string
-            - 'null'
-          description:
-            type:
-            - string
-            - 'null'
-          isExcluded:
-            type: boolean
-          exclusion:
-            oneOf:
-            - $ref: '#/components/schemas/UnifiedVulnerabilityExclusion'
-          files:
-            type:
-            - array
-            - 'null'
-            default: []
-            items:
-              $ref: '#/components/schemas/UnifiedScanResultFile'
-    UnifiedPackageCve:
-      type: object
-      additionalProperties: false
-      required:
-      - id
-      - sourceUrl
-      - severity
-      - remediation
-      - description
-      - isFixedByPackageRemediation
-      - source
-      - epssScore
-      - knownExploit
-      - knownExploitDueDate
-      - urls
-      - relatedIds
-      - isExcluded
-      - exclusion
-      properties:
-        id:
-          type:
-          - string
-          - 'null'
-        sourceUrl:
-          type:
-          - string
-          - 'null'
-        severity:
-          type:
-          - string
-          - 'null'
-        remediation:
-          type:
-          - string
-          - 'null'
-        description:
-          type:
-          - string
-          - 'null'
-        last-modified:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        isFixedByPackageRemediation:
-          type: boolean
-        source:
-          type:
-          - string
-          - 'null'
-        cvss-info:
-          oneOf:
-          - $ref: '#/components/schemas/CvssData'
-        epssScore:
-          type:
-          - number
-          - 'null'
-          format: double
-        knownExploit:
-          type:
-          - boolean
-          - 'null'
-        knownExploitDueDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        urls:
-          type:
-          - array
-          - 'null'
-          default: []
-          items:
-            type: string
-        relatedIds:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        isExcluded:
-          type: boolean
-        exclusion:
-          oneOf:
-          - $ref: '#/components/schemas/UnifiedVulnerabilityExclusion'
-    UnifiedPackageParent:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      - version
-      - line
-      properties:
-        name:
-          type:
-          - string
-          - 'null'
-        version:
-          type:
-          - string
-          - 'null'
-        line:
-          type: integer
-          format: int32
-    CvssData:
-      type: object
-      additionalProperties: false
-      required:
-      - version
-      - metrics
-      - source
-      properties:
-        base-score:
-          type: number
-          format: float
-        impact-score:
-          type:
-          - number
-          - 'null'
-          format: float
-        exploitability-score:
-          type:
-          - number
-          - 'null'
-          format: float
-        vector-string:
-          type:
-          - string
-          - 'null'
-        version:
-          type:
-          - string
-          - 'null'
-        metrics:
-          oneOf:
-          - $ref: '#/components/schemas/CvssMetrics'
-        source:
-          type:
-          - string
-          - 'null'
-    AssessmentCloudAccountType:
-      type: string
-      description: ''
-      x-enumNames:
-      - Aws
-      - Azure
-      - Google
-      - Kubernetes
-      - Terraform
-      - Generic
-      - KubernetesRuntimeAssurance
-      - ShiftLeft
-      - SourceCodeAssurance
-      - ImageAssurance
-      - Alibaba
-      - Cft
-      - ContainerRegistry
-      - Oci
-      - CIEM
-      enum:
-      - Aws
-      - Azure
-      - Google
-      - Kubernetes
-      - Terraform
-      - Generic
-      - KubernetesRuntimeAssurance
-      - ShiftLeft
-      - SourceCodeAssurance
-      - ImageAssurance
-      - Alibaba
-      - Cft
-      - ContainerRegistry
-      - Oci
-      - CIEM
-    VlmScanResultMetadataViewModel:
-      type: object
-      deprecated: true
-      additionalProperties: false
-      required:
-      - platform
-      - environmentId
-      - entityType
-      - entityExternalId
-      - entityExternalIds
-      - scanProducer
-      - scanTime
-      - vulnerabilityStats
-      properties:
-        platform:
-          type: string
-        environmentId:
-          type: string
-          format: guid
-        entityType:
-          type: string
-        entityExternalId:
-          type: string
-        entityExternalIds:
-          type: array
-          items:
-            type: string
-        scanProducer:
-          type: string
-        scanTime:
-          type: string
-          format: date-time
-        vulnerabilityStats:
-          $ref: '#/components/schemas/VulnerabilityStats'
-    UnifiedPackageManager:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      - path
-      properties:
-        name:
-          type:
-          - string
-          - 'null'
-        path:
-          type:
-          - string
-          - 'null'
-    VlmScannedAsset:
-      type: object
-      additionalProperties: false
-      required:
-      - id
-      - platform
-      - environmentId
-      - entityType
-      - externalId
-      - entityName
-      - operatingSystem
-      - additionalFields
-      - imageGroups
-      properties:
-        id:
-          type:
-          - string
-          - 'null'
-        platform:
-          oneOf:
-          - $ref: '#/components/schemas/AssessmentCloudAccountType'
-        environmentId:
-          type:
-          - string
-          - 'null'
-          format: guid
-        entityType:
-          oneOf:
-          - $ref: '#/components/schemas/VlmEntityType'
-        externalId:
-          type:
-          - string
-          - 'null'
-        entityName:
-          type:
-          - string
-          - 'null'
-        operatingSystem:
-          type:
-          - string
-          - 'null'
-        additionalFields:
-          type:
-          - object
-          - 'null'
-          default: {}
-          additionalProperties: {}
-        imageGroups:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/VlmImageGroupDetails'
-    VulnerabilitySeverityStats:
-      type: object
-      additionalProperties: false
-      required:
-      - all
-      - critical
-      - high
-      - medium
-      - low
-      - informational
-      - unknown
-      properties:
-        all:
-          type: integer
-          format: int32
-        critical:
-          type: integer
-          format: int32
-        high:
-          type: integer
-          format: int32
-        medium:
-          type: integer
-          format: int32
-        low:
-          type: integer
-          format: int32
-        informational:
-          type: integer
-          format: int32
-        unknown:
-          type: integer
-          format: int32
-    UnifiedScanResultMalware:
-      allOf:
-      - $ref: '#/components/schemas/UnifiedScanResultWithFiles'
-      - type: object
-        additionalProperties: false
-        required:
-        - type
-        - classification
-        - cgType
-        properties:
-          type:
-            type:
-            - string
-            - 'null'
-            default: Malware
-          classification:
-            type:
-            - string
-            - 'null'
-          cgType:
-            type:
-            - string
-            - 'null'
-            default: Malware
-    ScanResultViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - scannedAsset
-      - scanInfo
-      - ScanSummary
-      - LayersDetails
-      properties:
-        scannedAsset:
-          $ref: '#/components/schemas/VlmScannedAsset'
-        scanInfo:
-          $ref: '#/components/schemas/VlmScanInfo'
-        ScanSummary:
-          $ref: '#/components/schemas/UnifiedScanResultScanSummary'
-        Package:
-          type: array
-          items:
-            $ref: '#/components/schemas/UnifiedScanResultPackage'
-        InsecureContent:
-          type: array
-          items:
-            $ref: '#/components/schemas/UnifiedScanResultInsecureContent'
-        Malware:
-          type: array
-          items:
-            $ref: '#/components/schemas/UnifiedScanResultMalware'
-        LayersDetails:
-          type:
-          - object
-          - 'null'
-          additionalProperties:
-            $ref: '#/components/schemas/Layer'
-    CvssMetrics:
-      type: object
-      additionalProperties: false
-      required:
-      - scope
-      properties:
-        attack-vector:
-          type:
-          - string
-          - 'null'
-        attack-complexity:
-          type:
-          - string
-          - 'null'
-        privileges-required:
-          type:
-          - string
-          - 'null'
-        user-interaction:
-          type:
-          - string
-          - 'null'
-        scope:
-          type:
-          - string
-          - 'null'
-        confidentiality-impact:
-          type:
-          - string
-          - 'null'
-        integrity-impact:
-          type:
-          - string
-          - 'null'
-        availability-impact:
-          type:
-          - string
-          - 'null'
-        exploit-code_maturity:
-          type:
-          - string
-          - 'null'
-        remediation-level:
-          type:
-          - string
-          - 'null'
-        report-confidence:
-          type:
-          - string
-          - 'null'
-    UnifiedScanResultFileContent:
-      type: object
-      additionalProperties: {}
-      required:
-      - payload
-      - lines
-      properties:
-        payload:
-          type:
-          - string
-          - 'null'
-        payload-sha256:
-          type:
-          - string
-          - 'null'
-        lines:
-          type:
-          - array
-          - 'null'
-          default: []
-          items:
-            type: integer
-            format: int32
     UnifiedScanResultPackage:
       allOf:
       - $ref: '#/components/schemas/UnifiedScanResultSBOMPackage'
@@ -1088,144 +372,352 @@ components:
             - string
             - 'null'
             default: Package
-    VlmEntityTypeBC:
+    AssessmentCloudAccountType:
       type: string
       description: ''
       x-enumNames:
-      - Image
-      - Instance
-      - VirtualMachine
-      - VMInstance
-      - Lambda
-      - FunctionApp
-      - CloudFunction
+      - Aws
+      - Azure
+      - Google
+      - Kubernetes
+      - Terraform
+      - Generic
+      - KubernetesRuntimeAssurance
+      - ShiftLeft
+      - SourceCodeAssurance
+      - ImageAssurance
+      - Alibaba
+      - Cft
+      - ContainerRegistry
+      - Oci
+      - CIEM
       enum:
-      - Image
-      - Instance
-      - VirtualMachine
-      - VMInstance
-      - Lambda
-      - FunctionApp
-      - CloudFunction
-    UnifiedRemediationSummaryCategory:
+      - Aws
+      - Azure
+      - Google
+      - Kubernetes
+      - Terraform
+      - Generic
+      - KubernetesRuntimeAssurance
+      - ShiftLeft
+      - SourceCodeAssurance
+      - ImageAssurance
+      - Alibaba
+      - Cft
+      - ContainerRegistry
+      - Oci
+      - CIEM
+    UnifiedRemediationSummaryCategoryRemediations:
       type: object
       additionalProperties: false
       required:
-      - category
-      - remediations
+      - finding
+      - severity
+      - action
+      - lines
       properties:
-        category:
+        finding:
           type:
           - string
           - 'null'
-        remediations:
+        severity:
+          type:
+          - string
+          - 'null'
+        action:
+          type:
+          - string
+          - 'null'
+        lines:
           type:
           - array
           - 'null'
           default: []
           items:
-            $ref: '#/components/schemas/UnifiedRemediationSummaryCategoryRemediations'
-    UnifiedRemediationSummary:
+            type: integer
+            format: int32
+    ImageMetadata:
       type: object
+      deprecated: true
       additionalProperties: false
-      required:
-      - categories
       properties:
-        file-path:
+        image-id:
           type:
           - string
           - 'null'
-        categories:
+        repo-tag:
+          type:
+          - string
+          - 'null'
+        repo-url:
+          type:
+          - string
+          - 'null'
+        external-id:
+          type:
+          - string
+          - 'null'
+        image-digest:
+          type:
+          - string
+          - 'null'
+    VlmScanResultMetadataViewModel:
+      type: object
+      deprecated: true
+      additionalProperties: false
+      required:
+      - platform
+      - environmentId
+      - entityType
+      - entityExternalId
+      - entityExternalIds
+      - scanProducer
+      - scanTime
+      - vulnerabilityStats
+      properties:
+        platform:
+          type: string
+        environmentId:
+          type: string
+          format: guid
+        entityType:
+          type: string
+        entityExternalId:
+          type: string
+        entityExternalIds:
+          type: array
+          items:
+            type: string
+        scanProducer:
+          type: string
+        scanTime:
+          type: string
+          format: date-time
+        vulnerabilityStats:
+          $ref: '#/components/schemas/VulnerabilityStats'
+    UnifiedLicense:
+      type: object
+      additionalProperties: false
+      required:
+      - value
+      - spdxExpression
+      - locations
+      properties:
+        value:
+          type:
+          - string
+          - 'null'
+        spdxExpression:
+          type:
+          - string
+          - 'null'
+        locations:
           type:
           - array
           - 'null'
-          default: []
           items:
-            $ref: '#/components/schemas/UnifiedRemediationSummaryCategory'
-    UnifiedLicenseLocation:
+            $ref: '#/components/schemas/UnifiedLicenseLocation'
+    CvssData:
       type: object
       additionalProperties: false
       required:
-      - path
-      - layerID
+      - version
+      - metrics
+      - source
       properties:
-        path:
+        base-score:
+          type: number
+          format: float
+        impact-score:
+          type:
+          - number
+          - 'null'
+          format: float
+        exploitability-score:
+          type:
+          - number
+          - 'null'
+          format: float
+        vector-string:
           type:
           - string
           - 'null'
-        layerID:
+        version:
           type:
           - string
           - 'null'
-    UnifiedScanResultSBOMPackage:
+        metrics:
+          oneOf:
+          - $ref: '#/components/schemas/CvssMetrics'
+        source:
+          type:
+          - string
+          - 'null'
+    UnifiedScanResultInsecureContent:
       allOf:
-      - $ref: '#/components/schemas/UnifiedScanResultBase'
+      - $ref: '#/components/schemas/UnifiedScanResultWithFiles'
       - type: object
         additionalProperties: false
         required:
-        - category
         - type
-        - name
-        - description
-        - version
-        - os
-        - source
-        - inUse
-        - licenses
+        - classification
         - cgType
         properties:
-          category:
-            type:
-            - string
-            - 'null'
-            default: Package
           type:
             type:
             - string
             - 'null'
-            default: Package
-          package-manager:
-            oneOf:
-            - $ref: '#/components/schemas/UnifiedPackageManager'
-          name:
+            default: InsecureContent
+          classification:
             type:
             - string
             - 'null'
-          description:
-            type:
-            - string
-            - 'null'
-          version:
-            type:
-            - string
-            - 'null'
-          is-os-package:
-            type:
-            - boolean
-            - 'null'
-          os:
-            type:
-            - string
-            - 'null'
-          source:
-            type:
-            - string
-            - 'null'
-          inUse:
-            type:
-            - boolean
-            - 'null'
-          licenses:
-            type:
-            - array
-            - 'null'
-            items:
-              $ref: '#/components/schemas/UnifiedLicense'
           cgType:
             type:
             - string
             - 'null'
-            default: Package
+            default: InsecureContent
+    UnifiedScanResultMalware:
+      allOf:
+      - $ref: '#/components/schemas/UnifiedScanResultWithFiles'
+      - type: object
+        additionalProperties: false
+        required:
+        - type
+        - classification
+        - cgType
+        properties:
+          type:
+            type:
+            - string
+            - 'null'
+            default: Malware
+          classification:
+            type:
+            - string
+            - 'null'
+          cgType:
+            type:
+            - string
+            - 'null'
+            default: Malware
+    VlmBaseImageDetails:
+      type: object
+      additionalProperties: false
+      required:
+      - names
+      - externalId
+      - groups
+      properties:
+        names:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        externalId:
+          type:
+          - string
+          - 'null'
+        groups:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+    VlmImageGroupDetails:
+      type: object
+      additionalProperties: false
+      required:
+      - type
+      - name
+      properties:
+        type:
+          $ref: '#/components/schemas/VlmImageGroupType'
+        name:
+          type:
+          - string
+          - 'null'
+    VulnerabilitySeverityStats:
+      type: object
+      additionalProperties: false
+      required:
+      - all
+      - critical
+      - high
+      - medium
+      - low
+      - informational
+      - unknown
+      properties:
+        all:
+          type: integer
+          format: int32
+        critical:
+          type: integer
+          format: int32
+        high:
+          type: integer
+          format: int32
+        medium:
+          type: integer
+          format: int32
+        low:
+          type: integer
+          format: int32
+        informational:
+          type: integer
+          format: int32
+        unknown:
+          type: integer
+          format: int32
+    UnifiedPackageParent:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - version
+      - line
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        version:
+          type:
+          - string
+          - 'null'
+        line:
+          type: integer
+          format: int32
+    UnifiedVulnerabilityExclusion:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - comment
+      - includeInAssessment
+      - author
+      - creationDate
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          format: guid
+        comment:
+          type:
+          - string
+          - 'null'
+        includeInAssessment:
+          type: boolean
+        author:
+          type:
+          - string
+          - 'null'
+        creationDate:
+          type: string
+          format: date-time
     VulnerabilityStats:
       type: object
       additionalProperties: false
@@ -1327,100 +819,276 @@ components:
             Unknown: 0
           oneOf:
           - $ref: '#/components/schemas/VulnerabilitySeverityStats'
-    UnifiedScanResultFile:
+    VlmEntityType:
+      type: string
+      description: ''
+      x-enumNames:
+      - Instance
+      - VirtualMachine
+      - VMInstance
+      - Lambda
+      - FunctionApp
+      - CloudFunction
+      - KubernetesImage
+      - ContainerRegistryImage
+      - EcsImage
+      - ShiftLeftImage
+      enum:
+      - Instance
+      - VirtualMachine
+      - VMInstance
+      - Lambda
+      - FunctionApp
+      - CloudFunction
+      - KubernetesImage
+      - ContainerRegistryImage
+      - EcsImage
+      - ShiftLeftImage
+    UnifiedScanResultBase:
       type: object
-      additionalProperties: {}
+      additionalProperties: false
       required:
-      - sha256
-      - md5
-      - contents
-      - layerId
+      - scannedAsset
+      - scanInfo
+      - id
+      - severity
+      - scanEngineVersion
+      - affectedAssetsSnapshot
+      - type
+      - category
+      - remediation
+      - cgType
+      - customUniqueKeyHash
+      - image
+      - baseImages
       properties:
-        file-path:
+        scannedAsset:
+          oneOf:
+          - $ref: '#/components/schemas/VlmScannedAsset'
+        scanInfo:
+          oneOf:
+          - $ref: '#/components/schemas/VlmScanInfo'
+        id:
           type:
           - string
           - 'null'
-        sha256:
+        severity:
           type:
           - string
           - 'null'
-        md5:
+        scanEngineVersion:
           type:
           - string
           - 'null'
-        contents:
+        affectedAssetsSnapshot:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/VlmAffectedAssetSnapshot'
+        type:
+          type:
+          - string
+          - 'null'
+        category:
+          type:
+          - string
+          - 'null'
+        remediation:
+          type:
+          - string
+          - 'null'
+        cgType:
+          type:
+          - string
+          - 'null'
+        customUniqueKeyHash:
+          type:
+          - string
+          - 'null'
+        image:
+          deprecated: true
+          oneOf:
+          - $ref: '#/components/schemas/ImageMetadata'
+        baseImages:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/VlmBaseImageDetails'
+    UnifiedScanResultWithFiles:
+      allOf:
+      - $ref: '#/components/schemas/UnifiedScanResultBase'
+      - type: object
+        additionalProperties: false
+        required:
+        - name
+        - description
+        - isExcluded
+        - exclusion
+        - files
+        properties:
+          name:
+            type:
+            - string
+            - 'null'
+          description:
+            type:
+            - string
+            - 'null'
+          isExcluded:
+            type: boolean
+          exclusion:
+            oneOf:
+            - $ref: '#/components/schemas/UnifiedVulnerabilityExclusion'
+          files:
+            type:
+            - array
+            - 'null'
+            default: []
+            items:
+              $ref: '#/components/schemas/UnifiedScanResultFile'
+    UnifiedRemediationSummaryCategory:
+      type: object
+      additionalProperties: false
+      required:
+      - category
+      - remediations
+      properties:
+        category:
+          type:
+          - string
+          - 'null'
+        remediations:
           type:
           - array
           - 'null'
           default: []
           items:
-            $ref: '#/components/schemas/UnifiedScanResultFileContent'
-        layerId:
-          type:
-          - string
-          - 'null'
-    VlmBaseImageDetails:
+            $ref: '#/components/schemas/UnifiedRemediationSummaryCategoryRemediations'
+    UnifiedScanResultFileContent:
       type: object
-      additionalProperties: false
+      additionalProperties: {}
       required:
-      - names
-      - externalId
-      - groups
+      - payload
+      - lines
       properties:
-        names:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        externalId:
+        payload:
           type:
           - string
           - 'null'
-        groups:
+        payload-sha256:
+          type:
+          - string
+          - 'null'
+        lines:
           type:
           - array
           - 'null'
+          default: []
           items:
-            type: string
-    VlmAffectedAssetSnapshot:
+            type: integer
+            format: int32
+    UnifiedPackageCve:
       type: object
       additionalProperties: false
       required:
       - id
-      - platform
-      - environmentId
-      - entityType
-      - externalId
-      - entityName
-      - additionalFields
+      - sourceUrl
+      - severity
+      - remediation
+      - description
+      - isFixedByPackageRemediation
+      - source
+      - epssScore
+      - knownExploit
+      - knownExploitDueDate
+      - urls
+      - relatedIds
+      - isExcluded
+      - exclusion
       properties:
         id:
           type:
           - string
           - 'null'
-        platform:
-          $ref: '#/components/schemas/AssessmentCloudAccountType'
-        environmentId:
-          type: string
-          format: guid
-        entityType:
+        sourceUrl:
           type:
           - string
           - 'null'
-        externalId:
+        severity:
           type:
           - string
           - 'null'
-        entityName:
+        remediation:
           type:
           - string
           - 'null'
-        additionalFields:
+        description:
           type:
-          - object
+          - string
           - 'null'
-          additionalProperties: {}
+        last-modified:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        isFixedByPackageRemediation:
+          type: boolean
+        source:
+          type:
+          - string
+          - 'null'
+        cvss-info:
+          oneOf:
+          - $ref: '#/components/schemas/CvssData'
+        epssScore:
+          type:
+          - number
+          - 'null'
+          format: double
+        knownExploit:
+          type:
+          - boolean
+          - 'null'
+        knownExploitDueDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        urls:
+          type:
+          - array
+          - 'null'
+          default: []
+          items:
+            type: string
+        relatedIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        isExcluded:
+          type: boolean
+        exclusion:
+          oneOf:
+          - $ref: '#/components/schemas/UnifiedVulnerabilityExclusion'
+    UnifiedLicenseLocation:
+      type: object
+      additionalProperties: false
+      required:
+      - path
+      - layerID
+      properties:
+        path:
+          type:
+          - string
+          - 'null'
+        layerID:
+          type:
+          - string
+          - 'null'
     UnifiedScanResultScanSummary:
       allOf:
       - $ref: '#/components/schemas/UnifiedScanResultBase'
@@ -1466,56 +1134,388 @@ components:
             - string
             - 'null'
             default: ScanSummary
-    ImageMetadata:
-      type: object
-      deprecated: true
-      additionalProperties: false
-      properties:
-        image-id:
-          type:
-          - string
-          - 'null'
-        repo-tag:
-          type:
-          - string
-          - 'null'
-        repo-url:
-          type:
-          - string
-          - 'null'
-        external-id:
-          type:
-          - string
-          - 'null'
-        image-digest:
-          type:
-          - string
-          - 'null'
-    VlmEntityType:
+    VlmEntityTypeBC:
       type: string
       description: ''
       x-enumNames:
+      - Image
       - Instance
       - VirtualMachine
       - VMInstance
       - Lambda
       - FunctionApp
       - CloudFunction
-      - KubernetesImage
-      - ContainerRegistryImage
-      - EcsImage
-      - ShiftLeftImage
       enum:
+      - Image
       - Instance
       - VirtualMachine
       - VMInstance
       - Lambda
       - FunctionApp
       - CloudFunction
-      - KubernetesImage
-      - ContainerRegistryImage
-      - EcsImage
-      - ShiftLeftImage
+    VlmScannedAsset:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - platform
+      - environmentId
+      - entityType
+      - externalId
+      - entityName
+      - operatingSystem
+      - additionalFields
+      - imageGroups
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+        platform:
+          oneOf:
+          - $ref: '#/components/schemas/AssessmentCloudAccountType'
+        environmentId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        entityType:
+          oneOf:
+          - $ref: '#/components/schemas/VlmEntityType'
+        externalId:
+          type:
+          - string
+          - 'null'
+        entityName:
+          type:
+          - string
+          - 'null'
+        operatingSystem:
+          type:
+          - string
+          - 'null'
+        additionalFields:
+          type:
+          - object
+          - 'null'
+          default: {}
+          additionalProperties: {}
+        imageGroups:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/VlmImageGroupDetails'
+    CvssMetrics:
+      type: object
+      additionalProperties: false
+      required:
+      - scope
+      properties:
+        attack-vector:
+          type:
+          - string
+          - 'null'
+        attack-complexity:
+          type:
+          - string
+          - 'null'
+        privileges-required:
+          type:
+          - string
+          - 'null'
+        user-interaction:
+          type:
+          - string
+          - 'null'
+        scope:
+          type:
+          - string
+          - 'null'
+        confidentiality-impact:
+          type:
+          - string
+          - 'null'
+        integrity-impact:
+          type:
+          - string
+          - 'null'
+        availability-impact:
+          type:
+          - string
+          - 'null'
+        exploit-code_maturity:
+          type:
+          - string
+          - 'null'
+        remediation-level:
+          type:
+          - string
+          - 'null'
+        report-confidence:
+          type:
+          - string
+          - 'null'
+    UnifiedScanResultFile:
+      type: object
+      additionalProperties: {}
+      required:
+      - sha256
+      - md5
+      - contents
+      - layerId
+      properties:
+        file-path:
+          type:
+          - string
+          - 'null'
+        sha256:
+          type:
+          - string
+          - 'null'
+        md5:
+          type:
+          - string
+          - 'null'
+        contents:
+          type:
+          - array
+          - 'null'
+          default: []
+          items:
+            $ref: '#/components/schemas/UnifiedScanResultFileContent'
+        layerId:
+          type:
+          - string
+          - 'null'
+    VlmScanMetadataViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - scannedAsset
+      - scanInfo
+      - vulnerabilityStats
+      - layersDetails
+      properties:
+        scannedAsset:
+          $ref: '#/components/schemas/VlmScannedAsset'
+        scanInfo:
+          $ref: '#/components/schemas/VlmScanInfo'
+        vulnerabilityStats:
+          $ref: '#/components/schemas/VulnerabilityStats'
+        layersDetails:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Layer'
+    VlmImageGroupType:
+      type: string
+      description: ''
+      x-enumNames:
+      - None
+      - VendorImage
+      - BaseImage
+      enum:
+      - None
+      - VendorImage
+      - BaseImage
+    UnifiedRemediationSummary:
+      type: object
+      additionalProperties: false
+      required:
+      - categories
+      properties:
+        file-path:
+          type:
+          - string
+          - 'null'
+        categories:
+          type:
+          - array
+          - 'null'
+          default: []
+          items:
+            $ref: '#/components/schemas/UnifiedRemediationSummaryCategory'
+    Layer:
+      type: object
+      additionalProperties: false
+      required:
+      - created
+      - author
+      - comment
+      properties:
+        created:
+          type:
+          - string
+          - 'null'
+        created_by:
+          type:
+          - string
+          - 'null'
+        author:
+          type:
+          - string
+          - 'null'
+        comment:
+          type:
+          - string
+          - 'null'
+        empty_layer:
+          type: boolean
+    UnifiedPackageManager:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - path
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        path:
+          type:
+          - string
+          - 'null'
+    VlmAffectedAssetSnapshot:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - platform
+      - environmentId
+      - entityType
+      - externalId
+      - entityName
+      - additionalFields
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+        platform:
+          $ref: '#/components/schemas/AssessmentCloudAccountType'
+        environmentId:
+          type: string
+          format: guid
+        entityType:
+          type:
+          - string
+          - 'null'
+        externalId:
+          type:
+          - string
+          - 'null'
+        entityName:
+          type:
+          - string
+          - 'null'
+        additionalFields:
+          type:
+          - object
+          - 'null'
+          additionalProperties: {}
+    UnifiedScanResultSBOMPackage:
+      allOf:
+      - $ref: '#/components/schemas/UnifiedScanResultBase'
+      - type: object
+        additionalProperties: false
+        required:
+        - category
+        - type
+        - name
+        - description
+        - version
+        - os
+        - source
+        - inUse
+        - licenses
+        - cgType
+        properties:
+          category:
+            type:
+            - string
+            - 'null'
+            default: Package
+          type:
+            type:
+            - string
+            - 'null'
+            default: Package
+          package-manager:
+            oneOf:
+            - $ref: '#/components/schemas/UnifiedPackageManager'
+          name:
+            type:
+            - string
+            - 'null'
+          description:
+            type:
+            - string
+            - 'null'
+          version:
+            type:
+            - string
+            - 'null'
+          is-os-package:
+            type:
+            - boolean
+            - 'null'
+          os:
+            type:
+            - string
+            - 'null'
+          source:
+            type:
+            - string
+            - 'null'
+          inUse:
+            type:
+            - boolean
+            - 'null'
+          licenses:
+            type:
+            - array
+            - 'null'
+            items:
+              $ref: '#/components/schemas/UnifiedLicense'
+          cgType:
+            type:
+            - string
+            - 'null'
+            default: Package
+    ScanResultViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - scannedAsset
+      - scanInfo
+      - ScanSummary
+      - LayersDetails
+      properties:
+        scannedAsset:
+          $ref: '#/components/schemas/VlmScannedAsset'
+        scanInfo:
+          $ref: '#/components/schemas/VlmScanInfo'
+        ScanSummary:
+          $ref: '#/components/schemas/UnifiedScanResultScanSummary'
+        Package:
+          type: array
+          items:
+            $ref: '#/components/schemas/UnifiedScanResultPackage'
+        InsecureContent:
+          type: array
+          items:
+            $ref: '#/components/schemas/UnifiedScanResultInsecureContent'
+        Malware:
+          type: array
+          items:
+            $ref: '#/components/schemas/UnifiedScanResultMalware'
+        LayersDetails:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            $ref: '#/components/schemas/Layer'
   securitySchemes:
     basic:
       type: http

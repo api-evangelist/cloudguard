@@ -145,44 +145,6 @@ paths:
         Returns a multi status response containing successfully updated policies without an error message and failed policies with an error message. (move to use /v2/vulnerability/policy)'
 components:
   schemas:
-    ImageAssurancePolicyPlatform:
-      type: string
-      description: ''
-      x-enumNames:
-      - Aws
-      - Kubernetes
-      - OrganizationalUnit
-      - ShiftLeft
-      - ContainerRegistry
-      enum:
-      - Aws
-      - Kubernetes
-      - OrganizationalUnit
-      - ShiftLeft
-      - ContainerRegistry
-    ImageAssurancePolicyRequestModel:
-      allOf:
-      - $ref: '#/components/schemas/ImageAssurancePolicyRequestModelOld'
-      - type: object
-        additionalProperties: false
-        required:
-        - admissionControllerAction
-        - admissionControlUnScannedAction
-        properties:
-          admissionControllerAction:
-            type:
-            - string
-            - 'null'
-            description: '[Preview feature - Image Admission] Image Admission action to block non-compliant images according to the relevant ruleset.
-
-              Options: ''Prevention'', ''Detection'', or null.'
-          admissionControlUnScannedAction:
-            type:
-            - string
-            - 'null'
-            description: '[Preview feature - Image Admission] Image Admission unScanned action of Detection or Prevention to alert on or block images that have not been scanned.
-
-              Options: ''Prevention'', ''Detection'', or null.'
     ImageAssurancePolicyRequestModelOld:
       type: object
       additionalProperties: false
@@ -272,6 +234,21 @@ components:
           description: '[Preview feature - Image Admission] Image Admission unScanned action of Detection or Prevention to alert on or block images that have not been scanned.
 
             Options: ''Prevention'', ''Detection'', or null.'
+    ImageAssurancePolicyPlatform:
+      type: string
+      description: ''
+      x-enumNames:
+      - Aws
+      - Kubernetes
+      - OrganizationalUnit
+      - ShiftLeft
+      - ContainerRegistry
+      enum:
+      - Aws
+      - Kubernetes
+      - OrganizationalUnit
+      - ShiftLeft
+      - ContainerRegistry
     ImageAssurancePolicyType:
       type: string
       description: ''
@@ -281,6 +258,29 @@ components:
       enum:
       - Environment
       - OrganizationalUnit
+    ImageAssurancePolicyRequestModel:
+      allOf:
+      - $ref: '#/components/schemas/ImageAssurancePolicyRequestModelOld'
+      - type: object
+        additionalProperties: false
+        required:
+        - admissionControllerAction
+        - admissionControlUnScannedAction
+        properties:
+          admissionControllerAction:
+            type:
+            - string
+            - 'null'
+            description: '[Preview feature - Image Admission] Image Admission action to block non-compliant images according to the relevant ruleset.
+
+              Options: ''Prevention'', ''Detection'', or null.'
+          admissionControlUnScannedAction:
+            type:
+            - string
+            - 'null'
+            description: '[Preview feature - Image Admission] Image Admission unScanned action of Detection or Prevention to alert on or block images that have not been scanned.
+
+              Options: ''Prevention'', ''Detection'', or null.'
   securitySchemes:
     basic:
       type: http

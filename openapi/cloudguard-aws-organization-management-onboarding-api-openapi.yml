@@ -61,6 +61,19 @@ paths:
       description: Get onboarding CFT.
 components:
   schemas:
+    OnboardingCftBase:
+      type: object
+      additionalProperties: false
+      required:
+      - externalId
+      - content
+      properties:
+        externalId:
+          type: string
+          description: Used in the CloudGuard role.
+        content:
+          type: string
+          description: Content of the CFT.
     ManagementCftConfiguration:
       allOf:
       - $ref: '#/components/schemas/OnboardingCftBase'
@@ -86,19 +99,6 @@ components:
         properties:
           onboardingCftUrl:
             type: string
-    OnboardingCftBase:
-      type: object
-      additionalProperties: false
-      required:
-      - externalId
-      - content
-      properties:
-        externalId:
-          type: string
-          description: Used in the CloudGuard role.
-        content:
-          type: string
-          description: Content of the CFT.
   securitySchemes:
     basic:
       type: http

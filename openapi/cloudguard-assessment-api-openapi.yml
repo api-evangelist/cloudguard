@@ -49,30 +49,112 @@ paths:
       description: Run an assessment on a cloud environment using a bundle (V2)
 components:
   schemas:
-    Falconetix.Model.RuleEngine.Entities.RuleTestResult:
+    Falconetix.Model.RuleEngine.ViewModels.Assessment.BaseAssessmentRequestViewModel:
+      description: 'Roy note: This is a temp impl that unites the request the result and the rule. All these 3 concepts will be split.'
       type: object
       properties:
-        error:
+        dome9CloudAccountId:
+          format: uuid
+          description: The Dome9 account id
           type: string
-        testedCount:
-          format: int32
-          type: integer
-        relevantCount:
-          format: int32
-          type: integer
-        nonComplyingCount:
-          format: int32
-          type: integer
-        exclusionStats:
-          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.RuleTestResultStats'
-        entityResults:
-          type: array
-          items:
-            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.ValidationResult'
-        rule:
-          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.RuleEntity'
-        testPassed:
+          example: 00000000-0000-0000-0000-000000000000
+        externalCloudAccountId:
+          description: account id on cloud provider (AWS, Azure, GCP)
+          type: string
+        cloudAccountId:
+          description: account id on cloud provider (AWS, Azure, GCP)
+          type: string
+        cloudAccountType:
+          description: the cloud provider (AWS/Azure/GCP)
+          enum:
+          - Aws
+          - Azure
+          - Google
+          - Kubernetes
+          - Terraform
+          - Generic
+          - KubernetesRuntimeAssurance
+          - ShiftLeft
+          - SourceCodeAssurance
+          - ImageAssurance
+          - Alibaba
+          - Cft
+          - ContainerRegistry
+          - Oci
+          - CIEM
+          type: string
+        requestId:
+          format: uuid
+          description: the assessment id (returned in the response)
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        shouldMinimizeResult:
+          description: Minimized the entity results
           type: boolean
+    Falconetix.Model.RuleEngine.ViewModels.Assessment.AssessmentBundleRequestViewModel:
+      type: object
+      properties:
+        id:
+          format: int64
+          description: the bundle id
+          type: integer
+        version:
+          type: string
+        name:
+          description: the bundle name
+          type: string
+        description:
+          description: the bundle description
+          type: string
+        dome9CloudAccountId:
+          format: uuid
+          description: The Dome9 account id
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        externalCloudAccountId:
+          description: account id on cloud provider (AWS, Azure, GCP)
+          type: string
+        cloudAccountId:
+          description: account id on cloud provider (AWS, Azure, GCP)
+          type: string
+        cloudAccountType:
+          description: the cloud provider (AWS/Azure/GCP)
+          enum:
+          - Aws
+          - Azure
+          - Google
+          - Kubernetes
+          - Terraform
+          - Generic
+          - KubernetesRuntimeAssurance
+          - ShiftLeft
+          - SourceCodeAssurance
+          - ImageAssurance
+          - Alibaba
+          - Cft
+          - ContainerRegistry
+          - Oci
+          - CIEM
+          type: string
+        requestId:
+          format: uuid
+          description: the assessment id (returned in the response)
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        shouldMinimizeResult:
+          description: Minimized the entity results
+          type: boolean
+    Falconetix.Model.RuleEngine.ViewModels.LocationConventionMetadataViewModel:
+      type: object
+      properties:
+        srl:
+          type: string
+        name:
+          type: string
+        id:
+          type: string
+        externalId:
+          type: string
     Falconetix.Model.RuleEngine.Entities.RuleEntity:
       type: object
       properties:
@@ -135,77 +217,6 @@ components:
           description: The property represents default rule
           type: boolean
           readOnly: true
-    Falconetix.Model.RuleEngine.ViewModels.Assessment.AssessmentBundleRequestViewModel:
-      type: object
-      properties:
-        id:
-          format: int64
-          description: the bundle id
-          type: integer
-        version:
-          type: string
-        name:
-          description: the bundle name
-          type: string
-        description:
-          description: the bundle description
-          type: string
-        dome9CloudAccountId:
-          format: uuid
-          description: The Dome9 account id
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
-        externalCloudAccountId:
-          description: account id on cloud provider (AWS, Azure, GCP)
-          type: string
-        cloudAccountId:
-          description: account id on cloud provider (AWS, Azure, GCP)
-          type: string
-        cloudAccountType:
-          description: the cloud provider (AWS/Azure/GCP)
-          enum:
-          - Aws
-          - Azure
-          - Google
-          - Kubernetes
-          - Terraform
-          - Generic
-          - KubernetesRuntimeAssurance
-          - ShiftLeft
-          - SourceCodeAssurance
-          - ImageAssurance
-          - Alibaba
-          - Cft
-          - ContainerRegistry
-          - Oci
-          - CIEM
-          type: string
-        requestId:
-          format: uuid
-          description: the assessment id (returned in the response)
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
-        shouldMinimizeResult:
-          description: Minimized the entity results
-          type: boolean
-    Falconetix.Model.Entites.RuleEngine.LocationMetadata:
-      type: object
-      properties:
-        account:
-          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.LocationConventionMetadataViewModel'
-    Falconetix.Model.RuleEngine.ViewModels.Assessment.AssessmentDataSyncStatusEntityViewModel:
-      type: object
-      properties:
-        entityType:
-          type: string
-        recentlySuccessfulSync:
-          type: boolean
-        generalFetchPermissionIssues:
-          type: boolean
-        entitiesWithPermissionIssues:
-          type: array
-          items:
-            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.Assessment.EntityWithPermissionIssueViewModel'
     Falconetix.Model.RuleEngine.ViewModels.Assessment.AssessmentResultViewModel_Newtonsoft.Json.Linq.JRaw_:
       description: the API result structure. Aggregates results from multiple tests
       type: object
@@ -247,6 +258,69 @@ components:
           format: uuid
           type: string
           example: 00000000-0000-0000-0000-000000000000
+    Falconetix.Model.Entites.RuleEngine.LocationMetadata:
+      type: object
+      properties:
+        account:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.LocationConventionMetadataViewModel'
+    Falconetix.Model.RuleEngine.ViewModels.Assessment.AssessmentDataSyncStatusEntityViewModel:
+      type: object
+      properties:
+        entityType:
+          type: string
+        recentlySuccessfulSync:
+          type: boolean
+        generalFetchPermissionIssues:
+          type: boolean
+        entitiesWithPermissionIssues:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.ViewModels.Assessment.EntityWithPermissionIssueViewModel'
+    Falconetix.Model.RuleEngine.Entities.RuleTestResultStats:
+      type: object
+      properties:
+        testedCount:
+          format: int32
+          type: integer
+        relevantCount:
+          format: int32
+          type: integer
+        nonComplyingCount:
+          format: int32
+          type: integer
+    Falconetix.Model.RuleEngine.Entities.RuleTestResult:
+      type: object
+      properties:
+        error:
+          type: string
+        testedCount:
+          format: int32
+          type: integer
+        relevantCount:
+          format: int32
+          type: integer
+        nonComplyingCount:
+          format: int32
+          type: integer
+        exclusionStats:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.RuleTestResultStats'
+        entityResults:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.ValidationResult'
+        rule:
+          $ref: '#/components/schemas/Falconetix.Model.RuleEngine.Entities.RuleEntity'
+        testPassed:
+          type: boolean
+    Falconetix.Model.RuleEngine.ViewModels.Assessment.EntityWithPermissionIssueViewModel:
+      type: object
+      properties:
+        externalId:
+          type: string
+        name:
+          type: string
+        cloudVendorIdentifier:
+          type: string
     Falconetix.Model.RuleEngine.Entities.ValidationResult:
       type: object
       properties:
@@ -285,80 +359,6 @@ components:
         testObj:
           description: note that the lambda is not aware of this field
           type: object
-    Falconetix.Model.RuleEngine.ViewModels.Assessment.EntityWithPermissionIssueViewModel:
-      type: object
-      properties:
-        externalId:
-          type: string
-        name:
-          type: string
-        cloudVendorIdentifier:
-          type: string
-    Falconetix.Model.RuleEngine.Entities.RuleTestResultStats:
-      type: object
-      properties:
-        testedCount:
-          format: int32
-          type: integer
-        relevantCount:
-          format: int32
-          type: integer
-        nonComplyingCount:
-          format: int32
-          type: integer
-    Falconetix.Model.RuleEngine.ViewModels.LocationConventionMetadataViewModel:
-      type: object
-      properties:
-        srl:
-          type: string
-        name:
-          type: string
-        id:
-          type: string
-        externalId:
-          type: string
-    Falconetix.Model.RuleEngine.ViewModels.Assessment.BaseAssessmentRequestViewModel:
-      description: 'Roy note: This is a temp impl that unites the request the result and the rule. All these 3 concepts will be split.'
-      type: object
-      properties:
-        dome9CloudAccountId:
-          format: uuid
-          description: The Dome9 account id
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
-        externalCloudAccountId:
-          description: account id on cloud provider (AWS, Azure, GCP)
-          type: string
-        cloudAccountId:
-          description: account id on cloud provider (AWS, Azure, GCP)
-          type: string
-        cloudAccountType:
-          description: the cloud provider (AWS/Azure/GCP)
-          enum:
-          - Aws
-          - Azure
-          - Google
-          - Kubernetes
-          - Terraform
-          - Generic
-          - KubernetesRuntimeAssurance
-          - ShiftLeft
-          - SourceCodeAssurance
-          - ImageAssurance
-          - Alibaba
-          - Cft
-          - ContainerRegistry
-          - Oci
-          - CIEM
-          type: string
-        requestId:
-          format: uuid
-          description: the assessment id (returned in the response)
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
-        shouldMinimizeResult:
-          description: Minimized the entity results
-          type: boolean
   securitySchemes:
     basic:
       type: http

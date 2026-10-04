@@ -72,6 +72,13 @@ components:
           type: string
         type:
           type: string
+    Dome9.Web.Api.AwsECSPlacementConstraintViewModel:
+      type: object
+      properties:
+        expression:
+          type: string
+        type:
+          type: string
     Dome9.Web.Api.AwsECSDeploymentConfigurationViewModel:
       type: object
       properties:
@@ -81,29 +88,17 @@ components:
         minimumHealthyPercent:
           format: int32
           type: integer
-    Dome9.Web.Api.AwsECSDeploymentViewModel:
+    Dome9.Web.Api.AwsECSLoadBalancerViewModel:
       type: object
       properties:
-        createdAt:
-          format: date-time
+        containerName:
           type: string
-        desiredCount:
+        containerPort:
           format: int32
           type: integer
-        id:
+        loadBalancerName:
           type: string
-        pendingCount:
-          format: int32
-          type: integer
-        runningCount:
-          format: int32
-          type: integer
-        status:
-          type: string
-        taskDefinition:
-          type: string
-        updatedAt:
-          format: date-time
+        targetGroupArn:
           type: string
     Dome9.Web.Api.CloudECSServiceViewModel:
       type: object
@@ -148,24 +143,29 @@ components:
         createdAt:
           format: date-time
           type: string
-    Dome9.Web.Api.AwsECSLoadBalancerViewModel:
+    Dome9.Web.Api.AwsECSDeploymentViewModel:
       type: object
       properties:
-        containerName:
+        createdAt:
+          format: date-time
           type: string
-        containerPort:
+        desiredCount:
           format: int32
           type: integer
-        loadBalancerName:
+        id:
           type: string
-        targetGroupArn:
+        pendingCount:
+          format: int32
+          type: integer
+        runningCount:
+          format: int32
+          type: integer
+        status:
           type: string
-    Dome9.Web.Api.AwsECSPlacementConstraintViewModel:
-      type: object
-      properties:
-        expression:
+        taskDefinition:
           type: string
-        type:
+        updatedAt:
+          format: date-time
           type: string
   securitySchemes:
     basic:

@@ -59,6 +59,23 @@ paths:
       summary: Get
 components:
   schemas:
+    Dome9.Web.Api.Models.AzureInboundNatServiceViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        virtualMachineTarget:
+          type: string
+        backendPort:
+          format: int32
+          type: integer
+        frontendPort:
+          format: int32
+          type: integer
+        protocol:
+          type: string
+        enableFloatingIP:
+          type: boolean
     Dome9.Web.Api.Models.AzureIPConfigurationViewModel:
       type: object
       properties:
@@ -84,23 +101,15 @@ components:
           type: string
         subnet:
           type: string
-    Dome9.Web.Api.Models.AzureInboundNatServiceViewModel:
+    Dome9.Web.Api.Models.AzureBackendAddressPoolViewModel:
       type: object
       properties:
         name:
           type: string
-        virtualMachineTarget:
-          type: string
-        backendPort:
-          format: int32
-          type: integer
-        frontendPort:
-          format: int32
-          type: integer
-        protocol:
-          type: string
-        enableFloatingIP:
-          type: boolean
+        virtualMachines:
+          type: array
+          items:
+            type: string
     Dome9.Web.Api.Models.AzureLoadBalancingServiceViewModel:
       type: object
       properties:
@@ -125,24 +134,6 @@ components:
           type: string
         enableFloatingIP:
           type: boolean
-    Dome9.Web.Api.Models.AzureLoadBalancerProbeViewModel:
-      type: object
-      properties:
-        name:
-          type: string
-        protocol:
-          type: string
-        port:
-          format: int32
-          type: integer
-        intervalInSeconds:
-          format: int32
-          type: integer
-        unhealthyThreshold:
-          format: int32
-          type: integer
-        requestPath:
-          type: string
     Dome9.Web.Api.Models.AzureLoadBalancerViewModel:
       type: object
       properties:
@@ -193,15 +184,24 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Dome9.Web.Api.Models.AzureIPConfigurationViewModel'
-    Dome9.Web.Api.Models.AzureBackendAddressPoolViewModel:
+    Dome9.Web.Api.Models.AzureLoadBalancerProbeViewModel:
       type: object
       properties:
         name:
           type: string
-        virtualMachines:
-          type: array
-          items:
-            type: string
+        protocol:
+          type: string
+        port:
+          format: int32
+          type: integer
+        intervalInSeconds:
+          format: int32
+          type: integer
+        unhealthyThreshold:
+          format: int32
+          type: integer
+        requestPath:
+          type: string
   securitySchemes:
     basic:
       type: http

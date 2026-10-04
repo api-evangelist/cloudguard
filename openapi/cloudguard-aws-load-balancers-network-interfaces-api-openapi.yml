@@ -39,32 +39,30 @@ paths:
       description: Get all AWS Load Balancers with attached Network Interfaces
 components:
   schemas:
-    CGN.Inventory.Aws.Model.WrapperModels.AwsEc2NetworkInterfaceAssociation:
+    Dome9.Web.Api.CloudNetworkInerfaces.CloudNetworkInterfaceAttachmentViewModel:
       type: object
       properties:
-        allocationId:
+        attachmentId:
           type: string
-        associationId:
-          type: string
-        ipOwnerId:
-          type: string
-        publicDnsName:
-          type: string
-        publicIp:
-          type: string
-    Dome9.Web.Api.CloudNetworkInerfaces.CloudNetworkInterfacePrivateIpAddressViewModel:
-      type: object
-      properties:
-        association:
-          $ref: '#/components/schemas/CGN.Inventory.Aws.Model.WrapperModels.AwsEc2NetworkInterfaceAssociation'
           readOnly: true
-        primary:
+        attachTime:
+          format: date-time
+          type: string
+          readOnly: true
+        deleteOnTermination:
           type: boolean
           readOnly: true
-        privateDnsName:
+        deviceIndex:
+          format: int32
+          type: integer
+          readOnly: true
+        instanceId:
           type: string
           readOnly: true
-        privateIpAddress:
+        instanceOwnerId:
+          type: string
+          readOnly: true
+        status:
           type: string
           readOnly: true
     Dome9.Web.Api.Models.AwsLoadBalancersNetworkInterfacesViewModel:
@@ -332,32 +330,19 @@ components:
         groupName:
           type: string
           readOnly: true
-    Dome9.Web.Api.CloudNetworkInerfaces.CloudNetworkInterfaceAttachmentViewModel:
+    CGN.Inventory.Aws.Model.WrapperModels.AwsEc2NetworkInterfaceAssociation:
       type: object
       properties:
-        attachmentId:
+        allocationId:
           type: string
-          readOnly: true
-        attachTime:
-          format: date-time
+        associationId:
           type: string
-          readOnly: true
-        deleteOnTermination:
-          type: boolean
-          readOnly: true
-        deviceIndex:
-          format: int32
-          type: integer
-          readOnly: true
-        instanceId:
+        ipOwnerId:
           type: string
-          readOnly: true
-        instanceOwnerId:
+        publicDnsName:
           type: string
-          readOnly: true
-        status:
+        publicIp:
           type: string
-          readOnly: true
     Dome9.Web.Api.Models.AwsNetworkInterfaceViewModel:
       type: object
       properties:
@@ -422,6 +407,21 @@ components:
           type: string
         subnetId:
           type: string
+    Dome9.Web.Api.CloudNetworkInerfaces.CloudNetworkInterfacePrivateIpAddressViewModel:
+      type: object
+      properties:
+        association:
+          $ref: '#/components/schemas/CGN.Inventory.Aws.Model.WrapperModels.AwsEc2NetworkInterfaceAssociation'
+          readOnly: true
+        primary:
+          type: boolean
+          readOnly: true
+        privateDnsName:
+          type: string
+          readOnly: true
+        privateIpAddress:
+          type: string
+          readOnly: true
     Dome9.Web.Api.CloudNetworkInerfaces.CloudNetworkInterfaceAssociationViewModel:
       type: object
       properties:

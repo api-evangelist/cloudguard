@@ -198,6 +198,17 @@ paths:
       description: Delete an organizational unit by its id and attach its cloud accounts to the the root organizational unit
 components:
   schemas:
+    Dome9.BL.Std.Helpers.TreeNode_Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem_System.String_:
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem'
+        parentId:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.BL.Std.Helpers.TreeNode_Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem_System.String_'
     Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem:
       type: object
       properties:
@@ -277,32 +288,20 @@ components:
           type: boolean
         pathStr:
           type: string
-    Falconetix.Model.OrganizationalUnit.OrganizationalUnitNodeViewModel:
+    Dome9.BL.Std.Services.OrganizationalUnit.UpdateOrganizationalUnitViewModel:
+      required:
+      - name
       type: object
       properties:
-        id:
+        name:
+          maxLength: 50
+          minLength: 0
+          pattern: '[^/]+$'
+          type: string
+        parentId:
           format: uuid
           type: string
           example: 00000000-0000-0000-0000-000000000000
-        name:
-          type: string
-        path:
-          type: string
-        children:
-          type: array
-          items:
-            $ref: '#/components/schemas/Falconetix.Model.OrganizationalUnit.OrganizationalUnitNodeViewModel'
-    Dome9.BL.Std.Helpers.TreeNode_Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem_System.String_:
-      type: object
-      properties:
-        item:
-          $ref: '#/components/schemas/Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem'
-        parentId:
-          type: string
-        children:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.BL.Std.Helpers.TreeNode_Falconetix.Model.OrganizationalUnit.OrganizationalUnitEntityTreeItem_System.String_'
     Falconetix.Model.OrganizationalUnit.OrganizationalUnitViewModel:
       type: object
       properties:
@@ -318,20 +317,21 @@ components:
           format: uuid
           type: string
           example: 00000000-0000-0000-0000-000000000000
-    Dome9.BL.Std.Services.OrganizationalUnit.UpdateOrganizationalUnitViewModel:
-      required:
-      - name
+    Falconetix.Model.OrganizationalUnit.OrganizationalUnitNodeViewModel:
       type: object
       properties:
-        name:
-          maxLength: 50
-          minLength: 0
-          pattern: '[^/]+$'
-          type: string
-        parentId:
+        id:
           format: uuid
           type: string
           example: 00000000-0000-0000-0000-000000000000
+        name:
+          type: string
+        path:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.OrganizationalUnit.OrganizationalUnitNodeViewModel'
   securitySchemes:
     basic:
       type: http

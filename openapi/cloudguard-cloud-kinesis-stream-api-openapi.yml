@@ -39,14 +39,6 @@ paths:
       summary: Get
 components:
   schemas:
-    Dome9.Web.Api.CloudKinesis.CloudKinesisEnhancedMetricsEnhancedMetricsViewModel:
-      type: object
-      properties:
-        shardLevelMetrics:
-          type: array
-          items:
-            type: string
-          readOnly: true
     Dome9.Web.Api.CloudKinesis.CloudKinesisStreamViewModel:
       type: object
       properties:
@@ -313,6 +305,14 @@ components:
         tags:
           type: object
           additionalProperties:
+            type: string
+          readOnly: true
+    Dome9.Web.Api.CloudKinesis.CloudKinesisEnhancedMetricsEnhancedMetricsViewModel:
+      type: object
+      properties:
+        shardLevelMetrics:
+          type: array
+          items:
             type: string
           readOnly: true
   securitySchemes:

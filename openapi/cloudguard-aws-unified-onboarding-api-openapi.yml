@@ -98,6 +98,43 @@ components:
           items:
             format: int64
             type: integer
+    Dome9.Web.Api.Onboarding.ViewModel.AwsStackConfigViewModel:
+      type: object
+      properties:
+        stackName:
+          type: string
+        templateUrl:
+          type: string
+        parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Onboarding.ViewModel.Parameter'
+        iamCapabilities:
+          type: array
+          items:
+            type: string
+    Falconetix.Model.Onboarding.Logic.IntelligenceConfigurations:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        rulesets:
+          type: array
+          items:
+            format: int64
+            type: integer
+    Falconetix.Model.Onboarding.Serverless.ServerlessConfiguration:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+    Dome9.Web.Api.Onboarding.ViewModel.Parameter:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
     Dome9.Web.Api.Onboarding.ViewModel.OnboardingStatus:
       type: object
       properties:
@@ -115,18 +152,6 @@ components:
           type: string
         remediationRecommendation:
           type: string
-    Dome9.Web.Api.Onboarding.ViewModel.Parameter:
-      type: object
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-    Falconetix.Model.Onboarding.Serverless.ServerlessConfiguration:
-      type: object
-      properties:
-        enabled:
-          type: boolean
     Dome9.Web.Api.Onboarding.Requests.OnboardingConfigurationRequest:
       type: object
       properties:
@@ -171,21 +196,6 @@ components:
           $ref: '#/components/schemas/Falconetix.Model.Onboarding.Serverless.ServerlessConfiguration'
         intelligenceConfigurations:
           $ref: '#/components/schemas/Falconetix.Model.Onboarding.Logic.IntelligenceConfigurations'
-    Dome9.Web.Api.Onboarding.ViewModel.AwsStackConfigViewModel:
-      type: object
-      properties:
-        stackName:
-          type: string
-        templateUrl:
-          type: string
-        parameters:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.Onboarding.ViewModel.Parameter'
-        iamCapabilities:
-          type: array
-          items:
-            type: string
     Dome9.Web.Api.Onboarding.ViewModel.OnboardingInfoViewModel:
       type: object
       properties:
@@ -218,16 +228,6 @@ components:
             $ref: '#/components/schemas/Dome9.Web.Api.Onboarding.ViewModel.OnboardingStatus'
         intelligenceStackRegion:
           type: string
-    Falconetix.Model.Onboarding.Logic.IntelligenceConfigurations:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-        rulesets:
-          type: array
-          items:
-            format: int64
-            type: integer
   securitySchemes:
     basic:
       type: http

@@ -171,6 +171,9 @@ paths:
       description: Get the schema of entities and relationships
 components:
   schemas:
+    GraphDataViewModel:
+      type: object
+      properties: {}
     SgqlQueryRunEvidenceResponseViewModel:
       type: object
       properties:
@@ -178,39 +181,7 @@ components:
           type: object
         error:
           type: string
-    EntitySchemaViewModel:
-      type: object
-      properties:
-        EntitySchemas:
-          type: object
-        RelationshipSchemas:
-          type: object
-      required:
-      - EntitySchemas
-      - RelationshipSchemas
     SgqlQueryRunEvidencePathRequestModel:
-      type: object
-      properties: {}
-    SgqlQueryRunSrlsResponseViewModel:
-      type: object
-      properties:
-        srlResults:
-          type: array
-          items:
-            type: array
-        error:
-          type: string
-    QueryExecutionEvidencePathResponseViewModel:
-      type: object
-      properties:
-        evidencePath:
-          $ref: '#/components/schemas/GraphDataViewModel'
-        error:
-          type: string
-    GraphDataViewModel:
-      type: object
-      properties: {}
-    SgqlQueryRunRequestModel:
       type: object
       properties: {}
     SgqlQueryRunSrlsEnhancedResponseViewModel:
@@ -226,6 +197,35 @@ components:
           type: string
       required:
       - queryRunRequestId
+    QueryExecutionEvidencePathResponseViewModel:
+      type: object
+      properties:
+        evidencePath:
+          $ref: '#/components/schemas/GraphDataViewModel'
+        error:
+          type: string
+    SgqlQueryRunRequestModel:
+      type: object
+      properties: {}
+    EntitySchemaViewModel:
+      type: object
+      properties:
+        EntitySchemas:
+          type: object
+        RelationshipSchemas:
+          type: object
+      required:
+      - EntitySchemas
+      - RelationshipSchemas
+    SgqlQueryRunSrlsResponseViewModel:
+      type: object
+      properties:
+        srlResults:
+          type: array
+          items:
+            type: array
+        error:
+          type: string
   securitySchemes:
     basic:
       type: http

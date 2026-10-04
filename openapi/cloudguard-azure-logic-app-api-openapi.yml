@@ -60,17 +60,6 @@ paths:
       description: Get specific LogicApp by Dome9 Id
 components:
   schemas:
-    Falconetix.Model.AzureLogicAppWorkflowParameterViewModel:
-      type: object
-      properties:
-        type:
-          type: string
-        description:
-          type: string
-        value:
-          type: object
-        metadata:
-          type: object
     Falconetix.Model.AzureLogicAppViewModel:
       type: object
       properties:
@@ -138,6 +127,17 @@ components:
           type: object
           additionalProperties:
             $ref: '#/components/schemas/Falconetix.Model.AzureLogicAppWorkflowParameterViewModel'
+    Falconetix.Model.AzureLogicAppWorkflowParameterViewModel:
+      type: object
+      properties:
+        type:
+          type: string
+        description:
+          type: string
+        value:
+          type: object
+        metadata:
+          type: object
     Falconetix.Model.AzureLogicAppResourceReferenceViewModel:
       type: object
       properties:

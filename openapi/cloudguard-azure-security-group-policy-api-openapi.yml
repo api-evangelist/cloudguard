@@ -176,68 +176,6 @@ paths:
       description: Create a security group policy
 components:
   schemas:
-    Dome9.Web.Api.Shared.SharedViewModels.TagViewModel:
-      type: object
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-    Dome9.Web.Api.Azure.AzureErrorStateViewModel:
-      type: object
-      properties:
-        action:
-          type: string
-        errorMessage:
-          type: string
-    Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyServiceViewModel:
-      required:
-      - name
-      - priority
-      - access
-      - protocol
-      - sourceScopes
-      - destinationScopes
-      type: object
-      properties:
-        name:
-          description: Service name
-          type: string
-        description:
-          description: Service description
-          type: string
-        priority:
-          format: int32
-          description: Service priority (a number between 100 and 4096)
-          type: integer
-        access:
-          description: Service access (Allow / Deny)
-          type: string
-        protocol:
-          description: Service protocol (UDP / TCP / ANY)
-          type: string
-        sourcePortRanges:
-          description: Source port ranges
-          type: array
-          items:
-            type: string
-        sourceScopes:
-          description: List of source scopes for the service (CIDR / IP List / Tag)
-          type: array
-          items:
-            $ref: '#/components/schemas/Falconetix.WebApi.Models.ScopeElementViewModel'
-        destinationPortRanges:
-          description: Destination port ranges
-          type: array
-          items:
-            type: string
-        destinationScopes:
-          description: List of destination scopes for the service (CIDR / IP List / Tag)
-          type: array
-          items:
-            $ref: '#/components/schemas/Falconetix.WebApi.Models.ScopeElementViewModel'
-        isDefault:
-          type: boolean
     Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyStatsViewModel:
       type: object
       properties:
@@ -270,57 +208,6 @@ components:
           format: int32
           description: The number of alerts opened on the policy
           type: integer
-    Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyServiceGetViewModel:
-      required:
-      - name
-      - priority
-      - access
-      - protocol
-      - sourceScopes
-      - destinationScopes
-      type: object
-      properties:
-        direction:
-          description: Service direction (Inbound / Outbound)
-          type: string
-        name:
-          description: Service name
-          type: string
-        description:
-          description: Service description
-          type: string
-        priority:
-          format: int32
-          description: Service priority (a number between 100 and 4096)
-          type: integer
-        access:
-          description: Service access (Allow / Deny)
-          type: string
-        protocol:
-          description: Service protocol (UDP / TCP / ANY)
-          type: string
-        sourcePortRanges:
-          description: Source port ranges
-          type: array
-          items:
-            type: string
-        sourceScopes:
-          description: List of source scopes for the service (CIDR / IP List / Tag)
-          type: array
-          items:
-            $ref: '#/components/schemas/Falconetix.WebApi.Models.ScopeElementViewModel'
-        destinationPortRanges:
-          description: Destination port ranges
-          type: array
-          items:
-            type: string
-        destinationScopes:
-          description: List of destination scopes for the service (CIDR / IP List / Tag)
-          type: array
-          items:
-            $ref: '#/components/schemas/Falconetix.WebApi.Models.ScopeElementViewModel'
-        isDefault:
-          type: boolean
     Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyGetViewModel:
       required:
       - cloudAccountId
@@ -380,6 +267,83 @@ components:
         isTamperProtected:
           description: policy is tamper protected
           type: boolean
+    Falconetix.WebApi.Models.ScopeElementViewModel:
+      type: object
+      properties:
+        type:
+          enum:
+          - CIDR
+          - DNS
+          - IPList
+          - MagicIP
+          - AWS
+          - Tag
+          - ASG
+          - CIDRv6
+          - PrefixList
+          type: string
+        data:
+          type: object
+          additionalProperties:
+            type: string
+    Dome9.Web.Api.Shared.SharedViewModels.TagViewModel:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyServiceGetViewModel:
+      required:
+      - name
+      - priority
+      - access
+      - protocol
+      - sourceScopes
+      - destinationScopes
+      type: object
+      properties:
+        direction:
+          description: Service direction (Inbound / Outbound)
+          type: string
+        name:
+          description: Service name
+          type: string
+        description:
+          description: Service description
+          type: string
+        priority:
+          format: int32
+          description: Service priority (a number between 100 and 4096)
+          type: integer
+        access:
+          description: Service access (Allow / Deny)
+          type: string
+        protocol:
+          description: Service protocol (UDP / TCP / ANY)
+          type: string
+        sourcePortRanges:
+          description: Source port ranges
+          type: array
+          items:
+            type: string
+        sourceScopes:
+          description: List of source scopes for the service (CIDR / IP List / Tag)
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.WebApi.Models.ScopeElementViewModel'
+        destinationPortRanges:
+          description: Destination port ranges
+          type: array
+          items:
+            type: string
+        destinationScopes:
+          description: List of destination scopes for the service (CIDR / IP List / Tag)
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.WebApi.Models.ScopeElementViewModel'
+        isDefault:
+          type: boolean
     Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyPostViewModel:
       required:
       - cloudAccountId
@@ -420,25 +384,61 @@ components:
         isTamperProtected:
           description: policy is tamper protected
           type: boolean
-    Falconetix.WebApi.Models.ScopeElementViewModel:
+    Dome9.Web.Api.Azure.SecurityGroupPolicy.ViewModels.AzureSgPolicyServiceViewModel:
+      required:
+      - name
+      - priority
+      - access
+      - protocol
+      - sourceScopes
+      - destinationScopes
       type: object
       properties:
-        type:
-          enum:
-          - CIDR
-          - DNS
-          - IPList
-          - MagicIP
-          - AWS
-          - Tag
-          - ASG
-          - CIDRv6
-          - PrefixList
+        name:
+          description: Service name
           type: string
-        data:
-          type: object
-          additionalProperties:
+        description:
+          description: Service description
+          type: string
+        priority:
+          format: int32
+          description: Service priority (a number between 100 and 4096)
+          type: integer
+        access:
+          description: Service access (Allow / Deny)
+          type: string
+        protocol:
+          description: Service protocol (UDP / TCP / ANY)
+          type: string
+        sourcePortRanges:
+          description: Source port ranges
+          type: array
+          items:
             type: string
+        sourceScopes:
+          description: List of source scopes for the service (CIDR / IP List / Tag)
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.WebApi.Models.ScopeElementViewModel'
+        destinationPortRanges:
+          description: Destination port ranges
+          type: array
+          items:
+            type: string
+        destinationScopes:
+          description: List of destination scopes for the service (CIDR / IP List / Tag)
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.WebApi.Models.ScopeElementViewModel'
+        isDefault:
+          type: boolean
+    Dome9.Web.Api.Azure.AzureErrorStateViewModel:
+      type: object
+      properties:
+        action:
+          type: string
+        errorMessage:
+          type: string
   securitySchemes:
     basic:
       type: http

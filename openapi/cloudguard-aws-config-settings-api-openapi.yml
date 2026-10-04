@@ -59,35 +59,6 @@ paths:
       summary: Get
 components:
   schemas:
-    Dome9.Web.Api.AwsConfigSetting.AwsConfigSettingsRecorderStatusViewModel:
-      type: object
-      properties:
-        lastErrorCode:
-          type: string
-        lastErrorMessage:
-          type: string
-        lastStartTime:
-          format: date-time
-          type: string
-        lastStatus:
-          type: string
-        lastStatusChangeTime:
-          format: date-time
-          type: string
-        lastStopTime:
-          format: date-time
-          type: string
-        recording:
-          type: boolean
-    Dome9.Web.Api.AwsConfigSetting.AwsConfigSettingsDeliveryChannelViewModel:
-      type: object
-      properties:
-        s3BucketName:
-          type: string
-        s3KeyPrefix:
-          type: string
-        snsTopicARN:
-          type: string
     Dome9.Web.Api.AwsConfigSetting.AwsConfigSettingsViewModel:
       type: object
       properties:
@@ -340,6 +311,35 @@ components:
           format: int64
           type: integer
           readOnly: true
+    Dome9.Web.Api.AwsConfigSetting.AwsConfigSettingsRecorderStatusViewModel:
+      type: object
+      properties:
+        lastErrorCode:
+          type: string
+        lastErrorMessage:
+          type: string
+        lastStartTime:
+          format: date-time
+          type: string
+        lastStatus:
+          type: string
+        lastStatusChangeTime:
+          format: date-time
+          type: string
+        lastStopTime:
+          format: date-time
+          type: string
+        recording:
+          type: boolean
+    Dome9.Web.Api.AwsConfigSetting.AwsConfigSettingsDeliveryChannelViewModel:
+      type: object
+      properties:
+        s3BucketName:
+          type: string
+        s3KeyPrefix:
+          type: string
+        snsTopicARN:
+          type: string
   securitySchemes:
     basic:
       type: http

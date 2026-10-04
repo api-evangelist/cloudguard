@@ -88,6 +88,15 @@ components:
         updatedTime:
           format: date-time
           type: string
+    Dome9.Web.Api.CloudRoute53.CloudRoute53DomainNameserverViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        glueIps:
+          type: array
+          items:
+            type: string
     Dome9.Web.Api.CloudRoute53.CloudRoute53DomainViewModel:
       type: object
       properties:
@@ -111,15 +120,6 @@ components:
           type: string
         details:
           $ref: '#/components/schemas/Dome9.Web.Api.CloudRoute53.CloudRoute53DomainDetailsViewModel'
-    Dome9.Web.Api.CloudRoute53.CloudRoute53DomainNameserverViewModel:
-      type: object
-      properties:
-        name:
-          type: string
-        glueIps:
-          type: array
-          items:
-            type: string
   securitySchemes:
     basic:
       type: http

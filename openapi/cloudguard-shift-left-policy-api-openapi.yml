@@ -144,56 +144,6 @@ paths:
       description: Delete policy by its ID. (move to use /v2/vulnerability/policy)
 components:
   schemas:
-    ShiftLeftPolicyViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - id
-      - targetType
-      - targetId
-      - accountExternalId
-      - rulesetId
-      - notificationIds
-      - errorMessage
-      - admissionControllerAction
-      - admissionControlUnScannedAction
-      properties:
-        id:
-          type: string
-          format: guid
-        targetType:
-          $ref: '#/components/schemas/ContinuousCompliancePolicyTargetType'
-        targetId:
-          type: string
-          format: guid
-        accountExternalId:
-          type: string
-        rulesetId:
-          type: integer
-          format: int64
-        notificationIds:
-          type: array
-          items:
-            type: string
-            format: guid
-        errorMessage:
-          type:
-          - string
-          - 'null'
-        admissionControllerAction:
-          type:
-          - string
-          - 'null'
-          description: '[Preview feature - Image Admission] Image Admission action to block non-compliant images according to the relevant ruleset.
-
-            Options: ''Prevention'', ''Detection'', or null.'
-        admissionControlUnScannedAction:
-          type:
-          - string
-          - 'null'
-          description: '[Preview feature - Image Admission] Image Admission unScanned action of Detection or Prevention to alert on or block images that have not been scanned.
-
-            Options: ''Prevention'', ''Detection'', or null.'
     ContinuousCompliancePolicyTargetType:
       type: string
       description: ''
@@ -260,6 +210,56 @@ components:
           type: integer
           format: int64
         externalAccountId:
+          type:
+          - string
+          - 'null'
+        admissionControllerAction:
+          type:
+          - string
+          - 'null'
+          description: '[Preview feature - Image Admission] Image Admission action to block non-compliant images according to the relevant ruleset.
+
+            Options: ''Prevention'', ''Detection'', or null.'
+        admissionControlUnScannedAction:
+          type:
+          - string
+          - 'null'
+          description: '[Preview feature - Image Admission] Image Admission unScanned action of Detection or Prevention to alert on or block images that have not been scanned.
+
+            Options: ''Prevention'', ''Detection'', or null.'
+    ShiftLeftPolicyViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - targetType
+      - targetId
+      - accountExternalId
+      - rulesetId
+      - notificationIds
+      - errorMessage
+      - admissionControllerAction
+      - admissionControlUnScannedAction
+      properties:
+        id:
+          type: string
+          format: guid
+        targetType:
+          $ref: '#/components/schemas/ContinuousCompliancePolicyTargetType'
+        targetId:
+          type: string
+          format: guid
+        accountExternalId:
+          type: string
+        rulesetId:
+          type: integer
+          format: int64
+        notificationIds:
+          type: array
+          items:
+            type: string
+            format: guid
+        errorMessage:
           type:
           - string
           - 'null'

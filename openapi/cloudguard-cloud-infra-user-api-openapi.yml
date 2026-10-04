@@ -61,25 +61,6 @@ paths:
       summary: Post
 components:
   schemas:
-    Dome9.Web.Api.UserAndRole.CreateDome9CloudInfraUserRequestViewModel:
-      type: object
-      properties:
-        usersToCreate:
-          type: array
-          items:
-            $ref: '#/components/schemas/Falconetix.Model.CloudInfra.CloudInfraUserViewModel'
-        roleIds:
-          type: array
-          items:
-            format: int64
-            type: integer
-    Dome9.Web.Api.UserAndRole.CloudInfraUserCreationFailureResult:
-      type: object
-      properties:
-        user:
-          $ref: '#/components/schemas/Falconetix.Model.CloudInfra.CloudInfraUserViewModel'
-        errorMessage:
-          type: string
     Dome9.Web.Api.UserAndRole.CreateDome9CloudInfraUserResponseViewModel:
       type: object
       properties:
@@ -118,6 +99,25 @@ components:
           type: string
         existInDome9:
           type: boolean
+    Dome9.Web.Api.UserAndRole.CloudInfraUserCreationFailureResult:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/Falconetix.Model.CloudInfra.CloudInfraUserViewModel'
+        errorMessage:
+          type: string
+    Dome9.Web.Api.UserAndRole.CreateDome9CloudInfraUserRequestViewModel:
+      type: object
+      properties:
+        usersToCreate:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.CloudInfra.CloudInfraUserViewModel'
+        roleIds:
+          type: array
+          items:
+            format: int64
+            type: integer
   securitySchemes:
     basic:
       type: http

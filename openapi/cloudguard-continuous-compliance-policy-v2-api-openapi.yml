@@ -215,6 +215,33 @@ paths:
       description: Evaluate the ruleset version elected for each cloud account, based on the configured policies.
 components:
   schemas:
+    EvaluateRulesetVersionsRequestModel:
+      type: object
+      additionalProperties: false
+      required:
+      - rulesetId
+      - cloudAccountIds
+      properties:
+        rulesetId:
+          type: integer
+          format: int64
+        cloudAccountIds:
+          type: array
+          items:
+            type: string
+            format: guid
+    Dome9.Web.Api.Compliance.ContinuousCompliancePolicyV2.EvaluateRulesetVersionsRequestModel:
+      type: object
+      properties:
+        rulesetId:
+          format: int64
+          type: integer
+        cloudAccountIds:
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
     ContinuousCompliancePolicyRequestModel:
       type: object
       additionalProperties: false
@@ -241,18 +268,6 @@ components:
           items:
             type: string
             format: guid
-    Dome9.Web.Api.Compliance.ContinuousCompliancePolicyV2.EvaluateRulesetVersionsRequestModel:
-      type: object
-      properties:
-        rulesetId:
-          format: int64
-          type: integer
-        cloudAccountIds:
-          type: array
-          items:
-            format: uuid
-            type: string
-            example: 00000000-0000-0000-0000-000000000000
     ContinuousCompliancePolicyTargetType:
       type: string
       description: ''
@@ -288,21 +303,6 @@ components:
       - Vendor
       - Oci
       - CIEM
-    EvaluateRulesetVersionsRequestModel:
-      type: object
-      additionalProperties: false
-      required:
-      - rulesetId
-      - cloudAccountIds
-      properties:
-        rulesetId:
-          type: integer
-          format: int64
-        cloudAccountIds:
-          type: array
-          items:
-            type: string
-            format: guid
     ContinuousCompliancePolicyViewModel:
       type: object
       additionalProperties: false

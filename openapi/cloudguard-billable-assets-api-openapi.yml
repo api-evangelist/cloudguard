@@ -37,6 +37,21 @@ paths:
       summary: Get
 components:
   schemas:
+    Falconetix.Model.BillableAssets.GrandTotalData:
+      type: object
+      properties:
+        grandTotalCount:
+          format: int32
+          type: integer
+        grandTotalBillable:
+          format: int32
+          type: integer
+        grandTotalNonBillable:
+          format: int32
+          type: integer
+        grandTotalOnLineCount:
+          format: int32
+          type: integer
     Dome9.Web.Api.BillableAssets.AssetsViewModel:
       type: object
       properties:
@@ -64,40 +79,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Dome9.Web.Api.BillableAssets.AssetsViewModel'
-    Falconetix.Model.BillableAssets.GrandTotalData:
-      type: object
-      properties:
-        grandTotalCount:
-          format: int32
-          type: integer
-        grandTotalBillable:
-          format: int32
-          type: integer
-        grandTotalNonBillable:
-          format: int32
-          type: integer
-        grandTotalOnLineCount:
-          format: int32
-          type: integer
-    Falconetix.Model.BillableAssets.AccountAssetsTotalData:
-      type: object
-      properties:
-        vendor:
-          type: string
-        assetType:
-          type: string
-        totalCount:
-          format: int32
-          type: integer
-        totalBillable:
-          format: int32
-          type: integer
-        totalNonBillable:
-          format: int32
-          type: integer
-        totalOnLineCount:
-          format: int32
-          type: integer
     Dome9.Web.Api.BillableAssets.AccountBillableAssetsViewModel:
       type: object
       properties:
@@ -119,6 +100,25 @@ components:
             $ref: '#/components/schemas/Falconetix.Model.BillableAssets.AccountAssetsTotalData'
         grandTotals:
           $ref: '#/components/schemas/Falconetix.Model.BillableAssets.GrandTotalData'
+    Falconetix.Model.BillableAssets.AccountAssetsTotalData:
+      type: object
+      properties:
+        vendor:
+          type: string
+        assetType:
+          type: string
+        totalCount:
+          format: int32
+          type: integer
+        totalBillable:
+          format: int32
+          type: integer
+        totalNonBillable:
+          format: int32
+          type: integer
+        totalOnLineCount:
+          format: int32
+          type: integer
   securitySchemes:
     basic:
       type: http

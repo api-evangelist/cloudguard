@@ -227,81 +227,78 @@ paths:
       summary: Scan Environment Failed
 components:
   schemas:
-    ImageScanRequestModel:
-      type: object
-      additionalProperties: false
-      required:
-      - environmentId
-      - imageIdOrDigest
-      properties:
-        environmentId:
-          type: string
-          format: guid
-        imageIdOrDigest:
-          type: string
-    KubernetesImageWorkloadViewModel:
+    WorkloadImageViewModel:
       type: object
       additionalProperties: false
       required:
       - id
+      - imageId
       - externalId
       - name
-      - namespace
-      - labels
-      - annotations
-      - desiredPodsNumber
-      - readyPodsNumber
-      - environmentId
-      - createdAt
-      - kind
+      - registry
+      - repository
+      - tag
+      - type
+      - digest
+      - riskScore
+      - scanStatus
       properties:
         id:
+          type: string
+        imageId:
           type: string
         externalId:
           type: string
         name:
           type: string
-        namespace:
+        registry:
           type: string
-        labels:
-          type: object
-          additionalProperties:
-            type: string
-        annotations:
-          type: object
-          additionalProperties:
-            type: string
-        desiredPodsNumber:
-          type: integer
-          format: int32
-        readyPodsNumber:
-          type: integer
-          format: int32
-        environmentId:
+        repository:
           type: string
-          format: guid
-        createdAt:
+        tag:
           type: string
-          format: date-time
-        kind:
+        type:
+          $ref: '#/components/schemas/ImageType'
+        digest:
           type: string
-    ImageWorkloadsViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - kubernetesImageWorkloads
-      - ecsImageWorkloads
-      properties:
-        kubernetesImageWorkloads:
-          type: array
-          default: []
-          items:
-            $ref: '#/components/schemas/KubernetesImageWorkloadViewModel'
-        ecsImageWorkloads:
-          type: array
-          default: []
-          items:
-            $ref: '#/components/schemas/EcsImageWorkloadViewModel'
+        riskScore:
+          type:
+          - string
+          - 'null'
+        scanStatus:
+          oneOf:
+          - $ref: '#/components/schemas/ImageStatus'
+    ImageStatus:
+      type: string
+      description: ''
+      x-enumNames:
+      - Pending
+      - Requested
+      - InternalError
+      - Scanned
+      - PartialResult
+      - UnsupportedOS
+      - Unmatched
+      - UnsupportedArtifactType
+      - NetworkError
+      - Unauthorized
+      - NewImage
+      - InsufficientResources
+      - Timeout
+      enum:
+      - Pending
+      - Requested
+      - InternalError
+      - Scanned
+      - PartialResult
+      - UnsupportedOS
+      - Unmatched
+      - UnsupportedArtifactType
+      - NetworkError
+      - Unauthorized
+      - NewImage
+      - InsufficientResources
+      - Timeout
     KubernetesImageViewModel:
       type: object
       additionalProperties: false
@@ -349,6 +346,26 @@ components:
           type: string
         isScannable:
           type: boolean
+    KubernetesImageScanDetailsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - riskScore
+      - scanStatus
+      - scanStatusDetails
+      - scanEngineVersion
+      - totals
+      properties:
+        riskScore:
+          type: string
+        scanStatus:
+          type: string
+        scanStatusDetails:
+          type: string
+        scanEngineVersion:
+          type: string
+        totals:
+          $ref: '#/components/schemas/KubernetesImageScanTotalsViewModel'
     EcsImageWorkloadViewModel:
       type: object
       additionalProperties: false
@@ -392,6 +409,61 @@ components:
         createdAt:
           type: string
           format: date-time
+    KubernetesImageWorkloadViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - externalId
+      - name
+      - namespace
+      - labels
+      - annotations
+      - desiredPodsNumber
+      - readyPodsNumber
+      - environmentId
+      - createdAt
+      - kind
+      properties:
+        id:
+          type: string
+        externalId:
+          type: string
+        name:
+          type: string
+        namespace:
+          type: string
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+        annotations:
+          type: object
+          additionalProperties:
+            type: string
+        desiredPodsNumber:
+          type: integer
+          format: int32
+        readyPodsNumber:
+          type: integer
+          format: int32
+        environmentId:
+          type: string
+          format: guid
+        createdAt:
+          type: string
+          format: date-time
+        kind:
+          type: string
+    ImageType:
+      type: string
+      description: ''
+      x-enumNames:
+      - EcsImage
+      - KubernetesImage
+      enum:
+      - EcsImage
+      - KubernetesImage
     CloudRegion:
       type: string
       description: ''
@@ -815,116 +887,35 @@ components:
       - mx_monterrey_1
       - eu_jovanovac_1
       - ap_singapore_2
-    ImageType:
-      type: string
-      description: ''
-      x-enumNames:
-      - EcsImage
-      - KubernetesImage
-      enum:
-      - EcsImage
-      - KubernetesImage
-    ImageScanRequestViewModel:
+    ImageScanRequestModel:
       type: object
       additionalProperties: false
       required:
-      - imagesToScanCount
+      - environmentId
+      - imageIdOrDigest
       properties:
-        imagesToScanCount:
-          type: integer
-          format: int32
-    ImageStatus:
-      type: string
-      description: ''
-      x-enumNames:
-      - Pending
-      - Requested
-      - InternalError
-      - Scanned
-      - PartialResult
-      - UnsupportedOS
-      - Unmatched
-      - UnsupportedArtifactType
-      - NetworkError
-      - Unauthorized
-      - NewImage
-      - InsufficientResources
-      - Timeout
-      enum:
-      - Pending
-      - Requested
-      - InternalError
-      - Scanned
-      - PartialResult
-      - UnsupportedOS
-      - Unmatched
-      - UnsupportedArtifactType
-      - NetworkError
-      - Unauthorized
-      - NewImage
-      - InsufficientResources
-      - Timeout
-    WorkloadImageViewModel:
+        environmentId:
+          type: string
+          format: guid
+        imageIdOrDigest:
+          type: string
+    ImageWorkloadsViewModel:
       type: object
       additionalProperties: false
       required:
-      - id
-      - imageId
-      - externalId
-      - name
-      - registry
-      - repository
-      - tag
-      - type
-      - digest
-      - riskScore
-      - scanStatus
+      - kubernetesImageWorkloads
+      - ecsImageWorkloads
       properties:
-        id:
-          type: string
-        imageId:
-          type: string
-        externalId:
-          type: string
-        name:
-          type: string
-        registry:
-          type: string
-        repository:
-          type: string
-        tag:
-          type: string
-        type:
-          $ref: '#/components/schemas/ImageType'
-        digest:
-          type: string
-        riskScore:
-          type:
-          - string
-          - 'null'
-        scanStatus:
-          oneOf:
-          - $ref: '#/components/schemas/ImageStatus'
-    KubernetesImageScanDetailsViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - riskScore
-      - scanStatus
-      - scanStatusDetails
-      - scanEngineVersion
-      - totals
-      properties:
-        riskScore:
-          type: string
-        scanStatus:
-          type: string
-        scanStatusDetails:
-          type: string
-        scanEngineVersion:
-          type: string
-        totals:
-          $ref: '#/components/schemas/KubernetesImageScanTotalsViewModel'
+        kubernetesImageWorkloads:
+          type: array
+          default: []
+          items:
+            $ref: '#/components/schemas/KubernetesImageWorkloadViewModel'
+        ecsImageWorkloads:
+          type: array
+          default: []
+          items:
+            $ref: '#/components/schemas/EcsImageWorkloadViewModel'
     KubernetesImageScanTotalsViewModel:
       type: object
       additionalProperties: false
@@ -968,6 +959,15 @@ components:
           type: integer
           format: int32
         cve:
+          type: integer
+          format: int32
+    ImageScanRequestViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - imagesToScanCount
+      properties:
+        imagesToScanCount:
           type: integer
           format: int32
   securitySchemes:

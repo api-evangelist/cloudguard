@@ -108,22 +108,6 @@ paths:
       summary: Delete
 components:
   schemas:
-    Dome9.Web.Api.Tenable.Account.TenableAccountViewModel:
-      required:
-      - name
-      - accessKey
-      - secretKey
-      type: object
-      properties:
-        name:
-          description: Tenable account name in Dome9
-          type: string
-        accessKey:
-          description: Tenable API Access Key
-          type: string
-        secretKey:
-          description: Tenable  API Secret Key
-          type: string
     Dome9.Web.Api.Tenable.Account.TenableVulnerabilitySyncResultViewModel:
       type: object
       properties:
@@ -161,6 +145,22 @@ components:
         accessKey:
           type: string
         secretKey:
+          type: string
+    Dome9.Web.Api.Tenable.Account.TenableAccountViewModel:
+      required:
+      - name
+      - accessKey
+      - secretKey
+      type: object
+      properties:
+        name:
+          description: Tenable account name in Dome9
+          type: string
+        accessKey:
+          description: Tenable API Access Key
+          type: string
+        secretKey:
+          description: Tenable  API Secret Key
           type: string
     Dome9.Web.Api.Tenable.Account.TenableVulnerabilitySyncViewModel:
       required:

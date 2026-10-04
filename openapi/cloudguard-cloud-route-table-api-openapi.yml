@@ -39,6 +39,51 @@ paths:
       summary: Get
 components:
   schemas:
+    Dome9.Web.Api.CloudRouteTables.CloudRouteViewModel:
+      type: object
+      properties:
+        destinationCidrBlock:
+          type: string
+        destinationIpv6CidrBlock:
+          type: string
+        destinationPrefixListId:
+          type: string
+        egressOnlyInternetGatewayId:
+          type: string
+        gatewayId:
+          type: string
+        instanceId:
+          type: string
+        instanceOwnerId:
+          type: string
+        natGatewayId:
+          type: string
+        networkInterfaceId:
+          type: string
+        origin:
+          type: string
+        state:
+          type: string
+        vpcPeeringConnectionId:
+          type: string
+        transitGatewayId:
+          type: string
+    Dome9.Web.Api.CloudRouteTables.CloudRouteTableAssociationViewModel:
+      type: object
+      properties:
+        isMain:
+          type: boolean
+        routeTableAssociationId:
+          type: string
+        routeTableId:
+          type: string
+        subnetId:
+          type: string
+    Dome9.Web.Api.CloudRouteTables.CloudPropagatingVgwViewModel:
+      type: object
+      properties:
+        gatewayId:
+          type: string
     Dome9.Web.Api.CloudRouteTables.CloudRouteTableViewModel:
       type: object
       properties:
@@ -74,51 +119,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Dome9.Web.Api.CloudRouteTables.CloudRouteTableAssociationViewModel'
-    Dome9.Web.Api.CloudRouteTables.CloudRouteTableAssociationViewModel:
-      type: object
-      properties:
-        isMain:
-          type: boolean
-        routeTableAssociationId:
-          type: string
-        routeTableId:
-          type: string
-        subnetId:
-          type: string
-    Dome9.Web.Api.CloudRouteTables.CloudRouteViewModel:
-      type: object
-      properties:
-        destinationCidrBlock:
-          type: string
-        destinationIpv6CidrBlock:
-          type: string
-        destinationPrefixListId:
-          type: string
-        egressOnlyInternetGatewayId:
-          type: string
-        gatewayId:
-          type: string
-        instanceId:
-          type: string
-        instanceOwnerId:
-          type: string
-        natGatewayId:
-          type: string
-        networkInterfaceId:
-          type: string
-        origin:
-          type: string
-        state:
-          type: string
-        vpcPeeringConnectionId:
-          type: string
-        transitGatewayId:
-          type: string
-    Dome9.Web.Api.CloudRouteTables.CloudPropagatingVgwViewModel:
-      type: object
-      properties:
-        gatewayId:
-          type: string
   securitySchemes:
     basic:
       type: http

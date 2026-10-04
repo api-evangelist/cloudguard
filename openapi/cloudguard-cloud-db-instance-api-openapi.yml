@@ -59,18 +59,6 @@ paths:
       summary: Get
 components:
   schemas:
-    Dome9.Web.Api.CloudDbInstances.CloudDbInstanceEndpointViewModel:
-      type: object
-      properties:
-        address:
-          type: string
-          readOnly: true
-        port:
-          format: int32
-          type: integer
-          readOnly: true
-        hostedZoneId:
-          type: string
     Dome9.Web.Api.CloudDbInstances.CloudDbInstanceViewModel:
       type: object
       properties:
@@ -403,6 +391,18 @@ components:
           items:
             type: string
           readOnly: true
+    Dome9.Web.Api.CloudDbInstances.CloudDbInstanceEndpointViewModel:
+      type: object
+      properties:
+        address:
+          type: string
+          readOnly: true
+        port:
+          format: int32
+          type: integer
+          readOnly: true
+        hostedZoneId:
+          type: string
   securitySchemes:
     basic:
       type: http

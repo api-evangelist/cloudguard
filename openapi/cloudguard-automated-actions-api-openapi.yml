@@ -116,6 +116,29 @@ paths:
       description: Delete an automated action by ID
 components:
   schemas:
+    FindingsPoliciesFilterOperator:
+      type: string
+      description: 'eq: equal, !eq: not equal, has: field contains the value as a word, !has: not has, hasprefix: field contains the value as prefix, !hasprefix: not hasprefix, in: equal to one of the values, !in: not in, has_any: field has any of the values, !has_any: not has_any, has_all: field has all the values, !has_all: not has_all'
+      enum:
+      - eq
+      - '!eq'
+      - in
+      - '!in'
+      - has
+      - '!has'
+      - hasprefix
+      - '!hasprefix'
+      - has_any
+      - '!has_any'
+      - has_all
+      - '!has_all'
+    FindingsPolicyCreationViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
     FindingsPolicySearchFieldFilterViewModel:
       type: object
       properties:
@@ -154,6 +177,62 @@ components:
       - name
       - values
       - operator
+    FindingsPolicySearchAdvFilterViewModel:
+      type: object
+      properties:
+        logicalOperator:
+          type: string
+          enum:
+          - and
+          - or
+          description: Logical operator to apply on operands.
+        operands:
+          type: array
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/FindingsPolicySearchFieldFilterViewModel'
+            - $ref: '#/components/schemas/FindingsPolicySearchAdvFilterViewModel'
+          minItems: 1
+          maxItems: 15
+          description: Array of filter operands. An operand can either be an array of FindingsPolicySearchAdvFilterViewModel or a recursive FindingsPolicySearchFieldFilterViewModel.
+      required:
+      - logicalOperator
+      - operands
+    FindingsPolicyViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        filter:
+          $ref: '#/components/schemas/FindingsPolicySearchAdvFilterViewModel'
+        triggers:
+          type: array
+          items:
+            type: string
+        integrationIds:
+          type: array
+          items:
+            type: string
+        orgUnitIdsFilter:
+          type: array
+          items:
+            type: string
+        created:
+          format: date-time
+          type: string
+        updated:
+          format: date-time
+          type: string
+      required:
+      - id
+      - name
+      - triggers
+      - integrationIds
+      - created
     FindingsPolicyRequestModel:
       type: object
       properties:
@@ -195,85 +274,6 @@ components:
       - name
       - triggers
       - integrationIds
-    FindingsPoliciesFilterOperator:
-      type: string
-      description: 'eq: equal, !eq: not equal, has: field contains the value as a word, !has: not has, hasprefix: field contains the value as prefix, !hasprefix: not hasprefix, in: equal to one of the values, !in: not in, has_any: field has any of the values, !has_any: not has_any, has_all: field has all the values, !has_all: not has_all'
-      enum:
-      - eq
-      - '!eq'
-      - in
-      - '!in'
-      - has
-      - '!has'
-      - hasprefix
-      - '!hasprefix'
-      - has_any
-      - '!has_any'
-      - has_all
-      - '!has_all'
-    FindingsPolicyCreationViewModel:
-      type: object
-      properties:
-        id:
-          type: string
-      required:
-      - id
-    FindingsPolicyViewModel:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        filter:
-          $ref: '#/components/schemas/FindingsPolicySearchAdvFilterViewModel'
-        triggers:
-          type: array
-          items:
-            type: string
-        integrationIds:
-          type: array
-          items:
-            type: string
-        orgUnitIdsFilter:
-          type: array
-          items:
-            type: string
-        created:
-          format: date-time
-          type: string
-        updated:
-          format: date-time
-          type: string
-      required:
-      - id
-      - name
-      - triggers
-      - integrationIds
-      - created
-    FindingsPolicySearchAdvFilterViewModel:
-      type: object
-      properties:
-        logicalOperator:
-          type: string
-          enum:
-          - and
-          - or
-          description: Logical operator to apply on operands.
-        operands:
-          type: array
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/FindingsPolicySearchFieldFilterViewModel'
-            - $ref: '#/components/schemas/FindingsPolicySearchAdvFilterViewModel'
-          minItems: 1
-          maxItems: 15
-          description: Array of filter operands. An operand can either be an array of FindingsPolicySearchAdvFilterViewModel or a recursive FindingsPolicySearchFieldFilterViewModel.
-      required:
-      - logicalOperator
-      - operands
   securitySchemes:
     basic:
       type: http

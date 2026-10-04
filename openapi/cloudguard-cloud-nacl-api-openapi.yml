@@ -39,35 +39,6 @@ paths:
       description: Fetch all cloud subnets for the user from all cloud accounts.
 components:
   schemas:
-    Dome9.Web.Api.Controllers.NaclEntryIcmpTypeCodeViewModel:
-      type: object
-      properties:
-        type:
-          format: int32
-          type: integer
-        code:
-          format: int32
-          type: integer
-        description:
-          type: string
-    Dome9.Web.Api.Controllers.CloudNaclEntryViewModel:
-      type: object
-      properties:
-        protocol:
-          type: string
-        ruleNumber:
-          format: int32
-          type: integer
-        ruleAction:
-          type: string
-        egress:
-          type: boolean
-        cidrBlock:
-          type: string
-        portRange:
-          $ref: '#/components/schemas/CGN.Inventory.Aws.Model.WrapperModels.NaclEntryPortRange'
-        icmpTypeCode:
-          $ref: '#/components/schemas/Dome9.Web.Api.Controllers.NaclEntryIcmpTypeCodeViewModel'
     Dome9.Web.Api.Models.CloudNaclViewModel:
       type: object
       properties:
@@ -315,6 +286,35 @@ components:
           type: object
           additionalProperties:
             type: string
+    Dome9.Web.Api.Controllers.NaclEntryIcmpTypeCodeViewModel:
+      type: object
+      properties:
+        type:
+          format: int32
+          type: integer
+        code:
+          format: int32
+          type: integer
+        description:
+          type: string
+    Dome9.Web.Api.Controllers.CloudNaclEntryViewModel:
+      type: object
+      properties:
+        protocol:
+          type: string
+        ruleNumber:
+          format: int32
+          type: integer
+        ruleAction:
+          type: string
+        egress:
+          type: boolean
+        cidrBlock:
+          type: string
+        portRange:
+          $ref: '#/components/schemas/CGN.Inventory.Aws.Model.WrapperModels.NaclEntryPortRange'
+        icmpTypeCode:
+          $ref: '#/components/schemas/Dome9.Web.Api.Controllers.NaclEntryIcmpTypeCodeViewModel'
     CGN.Inventory.Aws.Model.WrapperModels.NaclEntryPortRange:
       type: object
       properties:

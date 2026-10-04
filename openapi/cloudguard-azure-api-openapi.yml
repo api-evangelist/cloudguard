@@ -175,42 +175,16 @@ paths:
         Please follow the Intelligence onboarding "Prerequisites" screen on the CloudGuard portal.'
 components:
   schemas:
-    CdrAzureActivityLogTypeEnum:
-      type: string
-      description: ''
-      x-enumNames:
-      - ActivityLogs
-      - SignIns
-      - AuditLogs
-      - StorageAccounts
-      enum:
-      - ActivityLogs
-      - SignIns
-      - AuditLogs
-      - StorageAccounts
-    MagellanAzureNetworkActivityOnboardingArmModelForApi:
+    ArmApiWarning:
       type: object
       additionalProperties: false
       required:
-      - subscriptionId
-      - nsgsDetails
+      - warning
+      - storagesNames
       properties:
-        subscriptionId:
+        warning:
           type: string
-        nsgsDetails:
-          type: array
-          items:
-            $ref: '#/components/schemas/MagellanAzureFlowLogsParamsFromCliForApi'
-    MagellanAzureFlowLogsParamsFromCliForApi:
-      type: object
-      additionalProperties: false
-      required:
-      - rgName
-      - nsgsNames
-      properties:
-        rgName:
-          type: string
-        nsgsNames:
+        storagesNames:
           type: array
           items:
             type: string
@@ -353,6 +327,60 @@ components:
       - LoopDetected
       - NotExtended
       - NetworkAuthenticationRequired
+    ArmApiResponseDetails:
+      type: object
+      additionalProperties: false
+      required:
+      - arm
+      - warnings
+      properties:
+        arm:
+          type: string
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArmApiWarning'
+    AccountActivityStorageDetails:
+      type: object
+      additionalProperties: false
+      required:
+      - logTypes
+      - storageName
+      properties:
+        logTypes:
+          type: array
+          description: '[Required] List of log types to be onboarded to Intelligence Account Activity'
+          items:
+            $ref: '#/components/schemas/CdrAzureActivityLogTypeEnum'
+        storageName:
+          type: string
+          description: '[Required] Storage Account Name'
+    CdrAzureActivityLogTypeEnum:
+      type: string
+      description: ''
+      x-enumNames:
+      - ActivityLogs
+      - SignIns
+      - AuditLogs
+      - StorageAccounts
+      enum:
+      - ActivityLogs
+      - SignIns
+      - AuditLogs
+      - StorageAccounts
+    MagellanAzureFlowLogsParamsFromCliForApi:
+      type: object
+      additionalProperties: false
+      required:
+      - rgName
+      - nsgsNames
+      properties:
+        rgName:
+          type: string
+        nsgsNames:
+          type: array
+          items:
+            type: string
     CentralizedNetworkTrafficArmApiRequest:
       type: object
       additionalProperties: false
@@ -373,47 +401,19 @@ components:
           type: boolean
           description: Indicates if to return json or full ARM template URL. Deault value is true, so the API will return a json URL.
           default: true
-    AccountActivityStorageDetails:
+    MagellanAzureNetworkActivityOnboardingArmModelForApi:
       type: object
       additionalProperties: false
       required:
-      - logTypes
-      - storageName
+      - subscriptionId
+      - nsgsDetails
       properties:
-        logTypes:
-          type: array
-          description: '[Required] List of log types to be onboarded to Intelligence Account Activity'
-          items:
-            $ref: '#/components/schemas/CdrAzureActivityLogTypeEnum'
-        storageName:
+        subscriptionId:
           type: string
-          description: '[Required] Storage Account Name'
-    ArmApiResponseDetails:
-      type: object
-      additionalProperties: false
-      required:
-      - arm
-      - warnings
-      properties:
-        arm:
-          type: string
-        warnings:
+        nsgsDetails:
           type: array
           items:
-            $ref: '#/components/schemas/ArmApiWarning'
-    ArmApiWarning:
-      type: object
-      additionalProperties: false
-      required:
-      - warning
-      - storagesNames
-      properties:
-        warning:
-          type: string
-        storagesNames:
-          type: array
-          items:
-            type: string
+            $ref: '#/components/schemas/MagellanAzureFlowLogsParamsFromCliForApi'
     AccountActivityArmApiRequest:
       type: object
       additionalProperties: false

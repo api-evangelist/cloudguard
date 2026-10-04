@@ -505,37 +505,95 @@ paths:
       description: Attach several cloud accounts to a specific Organizational Unit. User 'null' as root Organizational Unit as target
 components:
   schemas:
-    OciAccountCreationInput:
+    CloudAccountMissingPermissionsIgnorableViewModel:
       type: object
       additionalProperties: false
       required:
-      - userOcid
-      - tenancyId
+      - id
+      - actions
+      properties:
+        id:
+          type: string
+          description: account id
+          format: guid
+        actions:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/MissingPermissionsIgnorableViewModel'
+    CloudAccountExternalActionStatusViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - type
+      - subType
+      - total
+      - error
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        subType:
+          type:
+          - string
+          - 'null'
+        total:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        error:
+          oneOf:
+          - $ref: '#/components/schemas/CloudAccountActionFailureViewModel'
+    AttachCloudAccountsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - entries
       - organizationalUnitId
       properties:
-        userOcid:
-          type: string
-          description: The created user’s OCID (from the terraform output)
-          minLength: 1
-        tenancyId:
-          type: string
-          description: The tenancy’s OCID (from the previous step)
-          minLength: 1
+        entries:
+          type:
+          - array
+          - 'null'
+          default: []
+          items:
+            type: string
         organizationalUnitId:
           type:
           - string
           - 'null'
-          description: The organizationalUnitId to add this cloud account to, or an empty GUID – “00000000-0000-0000-0000-000000000000”
           format: guid
-    OciAccountNameViewModel:
+    MoveOrganizationalUnitViewModel:
       type: object
       additionalProperties: false
       required:
-      - name
+      - sourceOrganizationalUnitId
+      - targetOrganizationalUnitId
       properties:
-        name:
-          type: string
-          minLength: 1
+        sourceOrganizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        targetOrganizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+    UpdateIdViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - organizationalUnitId
+      properties:
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
     OciCloudAccountTempDataCreationModel:
       type: object
       additionalProperties: false
@@ -585,44 +643,6 @@ components:
           - string
           - 'null'
           description: (*Optional) - The desired name for the Policy that will be created in the Tenancy (default - “CloudGuard-Policy”)
-    MissingPermissionsIgnorableUpdateViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - isIgnored
-      - cloudAccountId
-      - permissionId
-      - type
-      - subType
-      - errorCode
-      - errorMessage
-      properties:
-        cloudAccountId:
-          type: string
-          format: guid
-        permissionId:
-          type:
-          - string
-          - 'null'
-          format: guid
-        isIgnored:
-          type: boolean
-        type:
-          type:
-          - string
-          - 'null'
-        subType:
-          type:
-          - string
-          - 'null'
-        errorCode:
-          type:
-          - string
-          - 'null'
-        errorMessage:
-          type:
-          - string
-          - 'null'
     MissingPermissionMetadataViewModel:
       type: object
       additionalProperties: false
@@ -696,6 +716,44 @@ components:
       - ocigov
       - ocigovuk
       - CIEM
+    CloudAccountMissingPermissionsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - accountId
+      - actions
+      properties:
+        accountId:
+          type: string
+          format: guid
+        actions:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CloudAccountExternalActionStatusViewModel'
+    OciAccountCreationInput:
+      type: object
+      additionalProperties: false
+      required:
+      - userOcid
+      - tenancyId
+      - organizationalUnitId
+      properties:
+        userOcid:
+          type: string
+          description: The created user’s OCID (from the terraform output)
+          minLength: 1
+        tenancyId:
+          type: string
+          description: The tenancy’s OCID (from the previous step)
+          minLength: 1
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          description: The organizationalUnitId to add this cloud account to, or an empty GUID – “00000000-0000-0000-0000-000000000000”
+          format: guid
     MissingPermissionsIgnorableViewModel:
       allOf:
       - $ref: '#/components/schemas/CloudAccountExternalActionStatusViewModel'
@@ -714,39 +772,53 @@ components:
             type:
             - boolean
             - 'null'
-    CloudAccountMissingPermissionsViewModel:
+    MissingPermissionsIgnorableUpdateViewModel:
       type: object
       additionalProperties: false
       required:
-      - accountId
-      - actions
+      - isIgnored
+      - cloudAccountId
+      - permissionId
+      - type
+      - subType
+      - errorCode
+      - errorMessage
       properties:
-        accountId:
+        cloudAccountId:
           type: string
           format: guid
-        actions:
+        permissionId:
           type:
-          - array
+          - string
           - 'null'
-          items:
-            $ref: '#/components/schemas/CloudAccountExternalActionStatusViewModel'
-    MoveOrganizationalUnitViewModel:
+          format: guid
+        isIgnored:
+          type: boolean
+        type:
+          type:
+          - string
+          - 'null'
+        subType:
+          type:
+          - string
+          - 'null'
+        errorCode:
+          type:
+          - string
+          - 'null'
+        errorMessage:
+          type:
+          - string
+          - 'null'
+    OciAccountNameViewModel:
       type: object
       additionalProperties: false
       required:
-      - sourceOrganizationalUnitId
-      - targetOrganizationalUnitId
+      - name
       properties:
-        sourceOrganizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
-        targetOrganizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
+        name:
+          type: string
+          minLength: 1
     CloudAccountActionFailureViewModel:
       type: object
       additionalProperties: false
@@ -762,118 +834,6 @@ components:
           type:
           - string
           - 'null'
-    AttachCloudAccountsViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - entries
-      - organizationalUnitId
-      properties:
-        entries:
-          type:
-          - array
-          - 'null'
-          default: []
-          items:
-            type: string
-        organizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
-    OciCloudAccountViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - credentials
-      - id
-      - name
-      - creationDate
-      - tenancyId
-      - homeRegion
-      - organizationalUnitId
-      - organizationalUnitPath
-      - organizationalUnitName
-      - vendor
-      properties:
-        id:
-          type: string
-          description: OCI cloud account ID in CloudGuard
-          format: guid
-        name:
-          type:
-          - string
-          - 'null'
-          description: OCI account name in CloudGuard
-        creationDate:
-          type: string
-          description: Creation date for this cloud account ID in CloudGuard
-          format: date-time
-        tenancyId:
-          type:
-          - string
-          - 'null'
-          description: OCI TenancyId
-        homeRegion:
-          type:
-          - string
-          - 'null'
-          description: OCI account HomeRegion
-        credentials:
-          description: OCI account Credentials details (user ocid, fingerprint, public key)
-          oneOf:
-          - $ref: '#/components/schemas/OciAccountCredentialsViewModel'
-        organizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
-        organizationalUnitPath:
-          type:
-          - string
-          - 'null'
-        organizationalUnitName:
-          type:
-          - string
-          - 'null'
-        vendor:
-          $ref: '#/components/schemas/CloudVendor'
-    UpdateIdViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - organizationalUnitId
-      properties:
-        organizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
-    CloudAccountExternalActionStatusViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - type
-      - subType
-      - total
-      - error
-      properties:
-        type:
-          type:
-          - string
-          - 'null'
-        subType:
-          type:
-          - string
-          - 'null'
-        total:
-          type:
-          - integer
-          - 'null'
-          format: int64
-        error:
-          oneOf:
-          - $ref: '#/components/schemas/CloudAccountActionFailureViewModel'
     OciAccountCredentialsViewModel:
       type: object
       additionalProperties: false
@@ -894,23 +854,6 @@ components:
           type: string
           description: The public key that should be used in OCI "identity api key".
           minLength: 1
-    CloudAccountMissingPermissionsIgnorableViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - id
-      - actions
-      properties:
-        id:
-          type: string
-          description: account id
-          format: guid
-        actions:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/MissingPermissionsIgnorableViewModel'
     MissingPermissionViewModel:
       type: object
       additionalProperties: false
@@ -978,6 +921,63 @@ components:
           description: cloud account provider (AWS, Azure, GCP)
           oneOf:
           - $ref: '#/components/schemas/CloudVendor'
+    OciCloudAccountViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - credentials
+      - id
+      - name
+      - creationDate
+      - tenancyId
+      - homeRegion
+      - organizationalUnitId
+      - organizationalUnitPath
+      - organizationalUnitName
+      - vendor
+      properties:
+        id:
+          type: string
+          description: OCI cloud account ID in CloudGuard
+          format: guid
+        name:
+          type:
+          - string
+          - 'null'
+          description: OCI account name in CloudGuard
+        creationDate:
+          type: string
+          description: Creation date for this cloud account ID in CloudGuard
+          format: date-time
+        tenancyId:
+          type:
+          - string
+          - 'null'
+          description: OCI TenancyId
+        homeRegion:
+          type:
+          - string
+          - 'null'
+          description: OCI account HomeRegion
+        credentials:
+          description: OCI account Credentials details (user ocid, fingerprint, public key)
+          oneOf:
+          - $ref: '#/components/schemas/OciAccountCredentialsViewModel'
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        organizationalUnitPath:
+          type:
+          - string
+          - 'null'
+        organizationalUnitName:
+          type:
+          - string
+          - 'null'
+        vendor:
+          $ref: '#/components/schemas/CloudVendor'
   securitySchemes:
     basic:
       type: http

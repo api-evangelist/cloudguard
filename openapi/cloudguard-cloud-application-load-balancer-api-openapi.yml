@@ -97,6 +97,101 @@ paths:
       summary: Get
 components:
   schemas:
+    CloudV2LoadBalancerTargetViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - instanceId
+      - port
+      - status
+      properties:
+        instanceId:
+          type: string
+        port:
+          type: integer
+          format: int32
+        status:
+          type: string
+    ListenerRuleConditionViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - values
+      properties:
+        name:
+          type: string
+        values:
+          type: array
+          items:
+            type: string
+    CloudV2LoadBalancerViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - externalId
+      - name
+      - accountId
+      - cloudAccountId
+      - region
+      - vpc
+      - dnsName
+      - securityGroups
+      - scheme
+      - state
+      - listeners
+      - targetGroups
+      - tags
+      - canonicalHostedZoneId
+      - ipAddressType
+      - type
+      - arn
+      properties:
+        id:
+          type: string
+        externalId:
+          type: string
+        name:
+          type: string
+        accountId:
+          type: integer
+          format: int64
+        cloudAccountId:
+          type: string
+          format: guid
+        region:
+          $ref: '#/components/schemas/CloudRegion'
+        vpc:
+          type: string
+        dnsName:
+          type: string
+        securityGroups:
+          type: array
+          items:
+            type: string
+        scheme:
+          type: string
+        state:
+          type: string
+        listeners:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudV2LoadBalancerListenerViewModel'
+        targetGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudV2LoadBalancerTargetGroupViewModel'
+        tags:
+          $ref: '#/components/schemas/TagsDictionary'
+        canonicalHostedZoneId:
+          type: string
+        ipAddressType:
+          type: string
+        type:
+          type: string
+        arn:
+          type: string
     CloudV2LoadBalancerListenerRuleViewModel:
       type: object
       additionalProperties: false
@@ -119,23 +214,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ListenerRuleConditionViewModel'
-    ListenerRuleConditionViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      - values
-      properties:
-        name:
-          type: string
-        values:
-          type: array
-          items:
-            type: string
-    TagsDictionary:
-      type: object
-      additionalProperties:
-        type: string
     CloudRegion:
       type: string
       description: ''
@@ -559,6 +637,10 @@ components:
       - mx_monterrey_1
       - eu_jovanovac_1
       - ap_singapore_2
+    TagsDictionary:
+      type: object
+      additionalProperties:
+        type: string
     CloudV2LoadBalancerListenerViewModel:
       type: object
       additionalProperties: false
@@ -587,88 +669,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CloudV2LoadBalancerListenerRuleViewModel'
-    CloudV2LoadBalancerTargetViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - instanceId
-      - port
-      - status
-      properties:
-        instanceId:
-          type: string
-        port:
-          type: integer
-          format: int32
-        status:
-          type: string
-    CloudV2LoadBalancerViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - id
-      - externalId
-      - name
-      - accountId
-      - cloudAccountId
-      - region
-      - vpc
-      - dnsName
-      - securityGroups
-      - scheme
-      - state
-      - listeners
-      - targetGroups
-      - tags
-      - canonicalHostedZoneId
-      - ipAddressType
-      - type
-      - arn
-      properties:
-        id:
-          type: string
-        externalId:
-          type: string
-        name:
-          type: string
-        accountId:
-          type: integer
-          format: int64
-        cloudAccountId:
-          type: string
-          format: guid
-        region:
-          $ref: '#/components/schemas/CloudRegion'
-        vpc:
-          type: string
-        dnsName:
-          type: string
-        securityGroups:
-          type: array
-          items:
-            type: string
-        scheme:
-          type: string
-        state:
-          type: string
-        listeners:
-          type: array
-          items:
-            $ref: '#/components/schemas/CloudV2LoadBalancerListenerViewModel'
-        targetGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/CloudV2LoadBalancerTargetGroupViewModel'
-        tags:
-          $ref: '#/components/schemas/TagsDictionary'
-        canonicalHostedZoneId:
-          type: string
-        ipAddressType:
-          type: string
-        type:
-          type: string
-        arn:
-          type: string
     CloudV2LoadBalancerTargetGroupViewModel:
       type: object
       additionalProperties: false

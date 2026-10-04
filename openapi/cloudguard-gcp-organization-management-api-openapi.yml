@@ -117,14 +117,6 @@ paths:
       description: Get the script that performs GCP account onboarding
 components:
   schemas:
-    GcpOnboardingExecCmdResponse:
-      type: object
-      additionalProperties: false
-      required:
-      - executionCommand
-      properties:
-        executionCommand:
-          type: string
     GetOnboardingScriptForPreviewResponse:
       type: object
       additionalProperties: false
@@ -144,6 +136,14 @@ components:
       - Project
       - Folder
       - Organization
+    GcpOnboardingExecCmdResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - executionCommand
+      properties:
+        executionCommand:
+          type: string
   securitySchemes:
     basic:
       type: http
