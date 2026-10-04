@@ -1,0 +1,494 @@
+slug: cloudguard
+provider: CloudGuard
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 46
+edges:
+- tag: Vulnerabilities
+  spec_file: cloudguard-vulnerabilities-api-openapi.yml
+  capability_id: BC-620.40
+  capability_id_l1: BC-620
+  capability_name: Vulnerability Management
+  confidence: 0.92
+  evidence: GET /v2/vulnerability/scan-results  Get Scan Results; schemas UnifiedPackageCve, CvssData,
+    VulnerabilitySeverityStats
+  reason: Retrieval and export of vulnerability scan results with CVE and CVSS data — plainly vulnerability
+    scanning and remediation management.
+- tag: Security Graph Issues
+  spec_file: cloudguard-security-graph-issues-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.9
+  evidence: GET /v2/security-graph/issues/vulnerabilities 'Get Vulnerabilities'; .../malware 'Get Malware';
+    .../security-event 'Get Security Events'; schemas CveVulnerabilityResponse, MalwareViewModel
+  reason: Retrieval of vulnerabilities, malware, IAM/data sensitivity and security events on protected
+    cloud assets — unambiguously cybersecurity. Spans vulnerability management and threat detection, so
+    no single L2 is asserted.
+- tag: Cloud Iam User
+  spec_file: cloudguard-cloud-iam-user-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: Dome9.Web.Api.Models.CloudIamUserViewModel, CloudIamUserAttachedManagedPolicyViewModel, SSHPublicKeyMetaDataViewModel
+  reason: Cloud IAM user accounts with attached policies and keys — plainly identity and access entitlement
+    data.
+- tag: Iam Safe Lease
+  spec_file: cloudguard-iam-safe-lease-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: openapi title "Identity Iam Safe Lease API"; POST /v2/iam-safe-leases/custom-lease "Post Custom
+    Lease"; GET /v2/iam-safe-leases/me "Get Only Mine"
+  reason: IAM Safe leases grant time-bound elevated cloud IAM permissions to a user, creating and revoking
+    those grants. That is just-in-time privileged access administration, which is squarely Identity &
+    Access Management.
+- tag: Ignore Cves
+  spec_file: cloudguard-ignore-cves-api-openapi.yml
+  capability_id: BC-620.40
+  capability_id_l1: BC-620
+  capability_name: Vulnerability Management
+  confidence: 0.85
+  evidence: GET/POST/PUT/DELETE /v2/security-graph/ignore-cves; schemas SecurityGraphIgnoreCveViewModel,
+    IgnoreCveSearchAdvFilterViewModel
+  reason: CRUD over CVE suppression/exception rules in the security graph. Managing which CVE findings
+    are accepted or excluded from remediation is vulnerability management triage, so the narrower Vulnerability
+    Management capability is supported.
+- tag: Security Graph Query
+  spec_file: cloudguard-security-graph-query-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.85
+  evidence: POST /v2/security-graph/query 'Execute Toxic Combination Query'; 'Get Toxic Combination Evidence';
+    schemas SgqlQueryRunRequestModel, GraphDataViewModel
+  reason: Executes security-graph queries for 'toxic combinations' and returns attack/evidence paths across
+    cloud entities — cloud security posture analysis. Kept at L1 as it serves both posture governance
+    and detection use cases.
+- tag: Security Issues
+  spec_file: cloudguard-security-issues-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.85
+  evidence: GET /v2/findings/{id} 'Get Finding'; POST /v2/findings/search; schemas FindingViewModel, SeverityLevel
+  reason: Search, retrieval and grouping of security findings with severity — security issue/finding management
+    on the CNAPP. L1 only because findings here cover misconfiguration, vulnerability and threat alike.
+- tag: Vulnerability Exclusions
+  spec_file: cloudguard-vulnerability-exclusions-api-openapi.yml
+  capability_id: BC-620.40
+  capability_id_l1: BC-620
+  capability_name: Vulnerability Management
+  confidence: 0.85
+  evidence: POST /v2/vulnerability/exclusions  Create Exclusions Vulnerabilities; schema VulnerabilityExclusionViewModel
+  reason: Managing exceptions/exclusions within the vulnerability findings workflow is part of vulnerability
+    triage and remediation management.
+- tag: Kubernetes Image Assurance
+  spec_file: cloudguard-kubernetes-image-assurance-api-openapi.yml
+  capability_id: BC-620.40
+  capability_id_l1: BC-620
+  capability_name: Vulnerability Management
+  confidence: 0.82
+  evidence: GET /v2/kubernetes/imageAssurance/image/vulnerabilities  Get Image Vulnerabilities; schemas
+    CveFindingOnPackage, KubernetesImageScanVulnerabilityViewModel, CvssMetrics
+  reason: Container image scanning returning CVE findings and CVSS severity for running pods — vulnerability
+    scanning and remediation prioritisation, which is Vulnerability Management.
+- tag: Aws Security Group
+  spec_file: cloudguard-aws-security-group-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.8
+  evidence: openapi title 'Network Security Aws Security Group API'; GET /v2/AwsSecurityGroup 'Get All
+    Security Groups'; 'Get All Referenced Security Groups'
+  reason: Visibility over cloud network firewall (security group) configuration within a cloud network
+    security product. Clearly Cybersecurity Management; sub-capability ambiguous between security architecture
+    and operational controls, so L1 only.
+- tag: Aws Security Group Policy
+  spec_file: cloudguard-aws-security-group-policy-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.8
+  evidence: '''Create Aws Security Group'', ''Add Service To Security Group'', ''Post Protection Mode'';
+    schema ''CloudSecurityGroupProtectionModeChangeViewModel'''
+  reason: Create and manage cloud firewall rule policies and protection modes — active enforcement of
+    network security controls. Cybersecurity Management at L1; no single listed L2 cleanly covers firewall
+    policy administration.
+- tag: Cloud Iam Credential Report
+  spec_file: cloudguard-cloud-iam-credential-report-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: GET /v2/CloudIamCredentialReport/user ... CloudIamCredentialReportUserAccessKeyViewModel
+  reason: Reports on IAM user credentials, access keys and certificates — credential/identity posture,
+    mapping to Identity & Access Management.
+- tag: Cloud Iam Group
+  spec_file: cloudguard-cloud-iam-group-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: Dome9.Web.Api.CloudIamGroups.CloudIamGroupViewModel, ...AwsIamGroupPolicyViewModel
+  reason: Exposes cloud IAM groups and their attached policies — access group and entitlement visibility,
+    i.e. Identity & Access Management.
+- tag: Cloud Iam Policy
+  spec_file: cloudguard-cloud-iam-policy-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: GET /v2/CloudIamPolicy/defaults  Get Defaults ... CloudIamPolicyVersionViewModel
+  reason: Retrieval of IAM permission policies and versions — access entitlement definitions, i.e. Identity
+    & Access Management.
+- tag: Cloud Iam Role
+  spec_file: cloudguard-cloud-iam-role-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: Dome9.Web.Api.Models.CloudIamRoleViewModel.PermissionsBoundary, ...AwsIamRoleLastUsedViewModel
+  reason: IAM roles, permission boundaries and last-used data — role-based access entitlement visibility
+    under Identity & Access Management.
+- tag: Remediation
+  spec_file: cloudguard-remediation-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.8
+  evidence: POST /v2/remediation/trigger 'Post Trigger Remediation'; description 'Remediation Actions';
+    schemas RemediationExecuteRequestModel, Finding2, CloudBot
+  reason: Operations trigger and track automated remediation of security findings (CloudBot) on cloud
+    assets — squarely cybersecurity control remediation. Kept at L1 because the evidence does not distinguish
+    vulnerability remediation from misconfiguration/threat response sub-capabilities.
+- tag: Serverless
+  spec_file: cloudguard-serverless-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.8
+  evidence: POST /v2/serverless/accounts 'Post Account'; '/exclusions' Post Exclusion; schemas ServerlessRuleViewModel,
+    ServerlessMissingPermissionsViewModel, ServerlessPermissionResourceViewModel
+  reason: Onboards cloud accounts for serverless workload protection and manages protection rules, exclusions
+    and function permission findings — cloud workload security configuration. L1 BC-620; the surface mixes
+    protection-rule policy with permission analysis so no L2 is claimed.
+- tag: Tenable Account
+  spec_file: cloudguard-tenable-account-api-openapi.yml
+  capability_id: BC-620.40
+  capability_id_l1: BC-620
+  capability_name: Vulnerability Management
+  confidence: 0.8
+  evidence: POST /v2/TenableAccount/Sync  Sync Vulnerabilities; schema TenableVulnerabilitySyncResultViewModel
+  reason: Integration that validates permissions and synchronises vulnerability findings from a vulnerability
+    scanner — vulnerability scanning and remediation data management.
+- tag: User
+  spec_file: cloudguard-user-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: 'openapi description: CloudGuard account users; PUT /v2/user/{id}/unlock; schemas MfaUserEnforcementViewModel,
+    PermissionsViewModel'
+  reason: User account lifecycle, permissions, MFA enforcement and IAM-entity assignment — identity and
+    access management, not HR employee records.
+- tag: Finding
+  spec_file: cloudguard-finding-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.78
+  evidence: openapi description "Compliance Findings"; "Get Finding By Key", "Select All Close", schemas
+    PutSeverityViewModel, PutAssigneeViewModel, PutAcknowledgedViewModel
+  reason: Full lifecycle of cloud security/compliance findings — search, severity, assignment, acknowledgement,
+    closure. Unambiguously Cybersecurity Management; the sub-capability is ambiguous between security
+    governance, vulnerability management and detection/response, so no L2.
+- tag: Vulnerability Policy
+  spec_file: cloudguard-vulnerability-policy-api-openapi.yml
+  capability_id: BC-620.40
+  capability_id_l1: BC-620
+  capability_name: Vulnerability Management
+  confidence: 0.78
+  evidence: POST /v2/vulnerability/policy; schema VlmWorkloadPolicyViewModel
+  reason: Defines vulnerability-management policies bound to workload targets, governing scanning scope
+    and findings — within vulnerability management.
+- tag: Access Lease
+  spec_file: cloudguard-access-lease-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: '"POST /v2/accesslease/aws  Acquire Aws Lease"; schemas "AwsAccessLeaseViewModel", "AgentAccessLeaseViewModel"'
+  reason: 'Acquiring, listing and revoking time-bound access leases to cloud resources is just-in-time
+    privileged access granting — Identity & Access Management (IAM/PAM). Homograph check: ''lease'' here
+    is access entitlement, not real-estate leasing.'
+- tag: Cloud Iam Account Summary
+  spec_file: cloudguard-cloud-iam-account-summary-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: GET /v2/CloudIamAccountSummary ... Dome9.Web.Api.CloudIamAccountSummary.CloudIamAccountSummaryViewModel
+  reason: Read-only inventory of AWS IAM account-level identity configuration, surfaced by a cloud security
+    posture platform; closest fit is Identity & Access Management, though the operation is posture visibility
+    rather than IAM administration.
+- tag: Cloud Iam Password Policy
+  spec_file: cloudguard-cloud-iam-password-policy-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: GET /v2/CloudIamPasswordPolicy ... Dome9.Web.Api.Models.CloudIamPasswordPolicy
+  reason: Password policy configuration of cloud IAM — an access control/credential policy concern within
+    Identity & Access Management (as observed for security posture).
+- tag: Cloud Iam Virtual Mfa Device
+  spec_file: cloudguard-cloud-iam-virtual-mfa-device-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: GET /v2/CloudIamVirtualMfaDevice ... CloudIamVirtualMfaDeviceViewModel
+  reason: Virtual MFA device inventory for cloud IAM identities — multi-factor authentication artefacts
+    within Identity & Access Management.
+- tag: Cloud Security Group
+  spec_file: cloudguard-cloud-security-group-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.75
+  evidence: POST /v2/cloudsecuritygroup/{id}/protection-mode  Change Protection Mode; POST /v2/CloudSecurityGroup  Create
+    Cloud Security Group
+  reason: Full CRUD over cloud security groups (firewall rule sets), protection-mode changes and revision
+    history — active management of network security controls. L1 Cybersecurity Management is supported;
+    no single L2 clearly covers firewall/security-group policy administration.
+- tag: Kubernetes Admission Control
+  spec_file: cloudguard-kubernetes-admission-control-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.75
+  evidence: POST /v2/kubernetes/admissionControl/policy  Post Policy; POST /v2/kubernetes/admissionControl/validation/validateRule  Validate
+    Rule; AdmissionControlPolicyViewModel
+  reason: Creation and validation of Kubernetes admission-control security policies and rule exclusions
+    — preventative security control enforcement on workloads. Clearly cybersecurity, but spans policy
+    governance and runtime enforcement so L1 only.
+- tag: Role
+  spec_file: cloudguard-role-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: description 'CloudGuard Roles'; POST/PUT/DELETE /v2/Role; schemas Dome9.Web.Api.Role.EditRoleViewModel,
+    Dome9.Web.Api.User.PermissionsViewModel
+  reason: Full lifecycle of roles carrying permission sets and user/service-account membership — role-based
+    access administration, i.e. identity and access management. Some chance this is better read as tenant
+    administration of the SaaS product, hence 0.75.
+- tag: Rules
+  spec_file: cloudguard-rules-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.75
+  evidence: description 'The rules endpoint provides APIs to get the security rules data'; schemas SecurityGraphRuleViewModel,
+    SecurityGraphQueryDefinition
+  reason: Read-only access to security rule definitions and their underlying graph queries — security
+    control/policy definition content. Mapped at L1 only because read-only rule retrieval does not clearly
+    land in governance vs detection sub-capabilities.
+- tag: Service Account
+  spec_file: cloudguard-service-account-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: POST /v2/service-account/generate-key  Generate Secret For Service Account; DELETE All Service
+    Accounts For User
+  reason: Creation, deletion and secret issuance for machine/service identities used to access the platform
+    — non-human identity and credential lifecycle, i.e. Identity & Access Management.
+- tag: Workload Image Assurance
+  spec_file: cloudguard-workload-image-assurance-api-openapi.yml
+  capability_id: BC-620.40
+  capability_id_l1: BC-620
+  capability_name: Vulnerability Management
+  confidence: 0.75
+  evidence: POST /v2/workload/imageAssurance/scanImage  Scan Image; POST /v2/workload/imageAssurance/scanEnvironment/{environmentId}/all;
+    schemas KubernetesImageScanDetailsViewModel, ImageStatus
+  reason: Operations scan container/workload images across Kubernetes and ECS and report scan status —
+    container image vulnerability scanning within a CNAPP, i.e. cybersecurity vulnerability management
+    rather than any product-engineering capability. Sub-capability choice (vulnerability scanning vs broader
+    security posture) carries some ambiguity, hence moderate confidence.
+- tag: Ecs Image Scan
+  spec_file: cloudguard-ecs-image-scan-api-openapi.yml
+  capability_id: BC-620.40
+  capability_id_l1: BC-620
+  capability_name: Vulnerability Management
+  confidence: 0.72
+  evidence: '"Enable Or Disable Ecs Image Scan", "Get Ecs Image Scan Config" (EcsImageScanConfigViewModel)'
+  reason: Container/compute image scanning configuration on a cloud account is workload vulnerability
+    scanning, which maps to Vulnerability Management. Slight uncertainty because the surface is only an
+    enable/disable config toggle.
+- tag: Kubernetes Account
+  spec_file: cloudguard-kubernetes-account-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.72
+  evidence: POST /v2/kubernetes/account/{id}/runtimeProtection/enable  Enable Runtime Protection; Enable
+    Image Assurance; Enable Admission Control
+  reason: Onboarding of Kubernetes clusters into the CNAPP and toggling their security protections (image
+    assurance, runtime protection, admission control). This is security control administration over cloud
+    workloads, i.e. Cybersecurity Management; no single L2 clearly dominates (mix of posture, vulnerability
+    and policy enforcement), so L1 only.
+- tag: Access Lease Invitation
+  spec_file: cloudguard-access-lease-invitation-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: '"AccessLeaseInvitation_CreateInvitationAsync  Create Invitation", "Get Pending Invitations",
+    "Access Invitation"'
+  reason: Invitations that let a party redeem a temporary access lease — granting and revoking privileged
+    access to cloud resources, i.e. Identity & Access Management. Slightly thinner context than the Access
+    Lease tag itself, hence lower confidence.
+- tag: Account Trust
+  spec_file: cloudguard-account-trust-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: '"GET /v2/AccountTrust/assumable-roles  Get Assumable Roles"; schemas "AccountTrustViewModel",
+    "AccountTrustRestrictionsViewModel"'
+  reason: Managing cross-account trust relationships and assumable roles with restrictions is access federation/delegation
+    configuration — Identity & Access Management. 'Account' here is a cloud/tenant account, not a customer
+    or financial account.
+- tag: Assessment
+  spec_file: cloudguard-assessment-api-openapi.yml
+  capability_id: BC-620.10
+  capability_id_l1: BC-620
+  capability_name: Security Strategy & Governance Management
+  confidence: 0.7
+  evidence: openapi description "Run and View Compliance Assessments"; "Assessment_RunBundleV2Async  Run
+    Bundle V2"; schemas "RuleTestResult", "AssessmentBundleRequestViewModel"
+  reason: Executes security/compliance rulesets against cloud estates and returns rule test results —
+    security posture assessment against control frameworks, i.e. Security Strategy & Governance (security
+    GRC). Chosen over generic Compliance Management because the rules are cloud security controls.
+- tag: Assessment History V2
+  spec_file: cloudguard-assessment-history-v2-api-openapi.yml
+  capability_id: BC-620.10
+  capability_id_l1: BC-620
+  capability_name: Security Strategy & Governance Management
+  confidence: 0.7
+  evidence: '"Get Assessment Trend V2", "Get Last Assessment Results", "Get Assessment Executive ReportCSV";
+    schemas "AssessmentExecutiveReport", "Falconetix.Model.Compliance.Ruleset.RuleViewModel"'
+  reason: Historical security/compliance assessment results, trends and executive reporting over cloud
+    accounts and organisational units — reporting layer of cloud security posture governance, mapped to
+    Security Strategy & Governance Management.
+- tag: Azure Security Group Policy
+  spec_file: cloudguard-azure-security-group-policy-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.7
+  evidence: PUT /v2/AzureSecurityGroupPolicy/{policyId}/TamperProtected 'Update Protection Mode'; POST
+    /v2/AzureSecurityGroupPolicy
+  reason: Full CRUD over network security group policies plus tamper-protection mode — active enforcement
+    of network firewall security controls on cloud assets. Clearly cybersecurity; the sub-capability split
+    (architecture vs governance) is not determinable, so L1 only.
+- tag: Cloud Infra User
+  spec_file: cloudguard-cloud-infra-user-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: POST /v2/CloudInfraUser ... Dome9.Web.Api.UserAndRole.CreateDome9CloudInfraUserRequestViewModel
+  reason: Creates and lists platform users under the Administration area with UserAndRole schemas — user
+    account administration, i.e. Identity & Access Management for the security product itself.
+- tag: Compliance Exclusion
+  spec_file: cloudguard-compliance-exclusion-api-openapi.yml
+  capability_id: BC-620.10
+  capability_id_l1: BC-620
+  capability_name: Security Strategy & Governance Management
+  confidence: 0.7
+  evidence: '"Posture Management Compliance Exclusion API"; POST /v2/Compliance/Exclusion/ByFindingId
+    "Create By Finding Id"; schemas ExclusionViewModel, RuleViewModel2'
+  reason: Manages exclusions (accepted exceptions) against compliance rules and security findings in the
+    posture-management engine. That is security policy/framework governance and exception handling rather
+    than regulatory compliance in the legal sense, so BC-620.10 Security Strategy & Governance; some residual
+    ambiguity with generic compliance management keeps confidence moderate.
+- tag: Compliance Remediation
+  spec_file: cloudguard-compliance-remediation-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.7
+  evidence: '"Posture Management Compliance Remediation API"; GET/PUT/POST/DELETE /v2/Compliance/Remediation
+    with Dome9.Web.Api.Compliance.Remediation.RemediationViewModel and Dome9.Web.Api.Compliance.RuleViewModel'
+  reason: CRUD over remediation definitions attached to posture compliance rules — i.e. fixing insecure
+    cloud configurations found by the security platform. Clearly Cybersecurity Management at L1; the evidence
+    does not decide between vulnerability remediation and security governance sub-capabilities, so no
+    L2.
+- tag: Compliance Ruleset
+  spec_file: cloudguard-compliance-ruleset-api-openapi.yml
+  capability_id: BC-620.10
+  capability_id_l1: BC-620
+  capability_name: Security Strategy & Governance Management
+  confidence: 0.7
+  evidence: '"Create Rule Bundle", "Get Versioned Bundle By Id"; schemas RuleBundleResultViewModel, RuleBundleVersionViewModel,
+    CloudVendor'
+  reason: Authoring and versioning of security rule bundles (rulesets) used to assess cloud accounts —
+    the definition of the security standards/frameworks applied to the estate, which maps to Security
+    Strategy & Governance Management. Moderate confidence as it could also be read as generic policy management.
+- tag: Continuous Compliance Policy V2
+  spec_file: cloudguard-continuous-compliance-policy-v2-api-openapi.yml
+  capability_id: BC-620.10
+  capability_id_l1: BC-620
+  capability_name: Security Strategy & Governance Management
+  confidence: 0.7
+  evidence: POST /v2/ContinuousCompliancePolicyV2 and "Evaluate Ruleset Versions"; schemas ContinuousCompliancePolicyViewModel,
+    ContinuousCompliancePolicyTargetType
+  reason: Binds security rulesets to assessment targets as continuous-compliance policies — the governance
+    layer that decides which security standards are continuously evaluated against which cloud environments,
+    i.e. Security Strategy & Governance Management.
+- tag: External Findings
+  spec_file: cloudguard-external-findings-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.7
+  evidence: '"Archive External Finding", "Delete External Findings", schema "Falconetix.Model.ExternalFindings.ExternalFindingUpsertRequestViewModel"'
+  reason: Ingestion, search and archival of security findings from external scanners into the CNAPP. Clearly
+    cybersecurity work, but it straddles vulnerability management, posture governance and detection/response,
+    so only the L1 is asserted.
+- tag: Intelligence
+  spec_file: cloudguard-intelligence-api-openapi.yml
+  capability_id: BC-620.30
+  capability_id_l1: BC-620
+  capability_name: Threat Detection & Response Management
+  confidence: 0.7
+  evidence: 'description: "CloudGuard Intelligence allows you to visualize and analyze Account Activity
+    and Network Traffic into and out of your cloud environment"; POST .../magellan-cloudtrail-onboarding
+    "Aws Account Activity Onboarding"'
+  reason: Onboarding of CloudTrail/flow-log sources so the platform can analyse account activity and network
+    traffic for suspicious behaviour — SIEM-style detection over cloud logs, which maps to Threat Detection
+    & Response. Operations are onboarding/configuration rather than investigation, so confidence is held
+    below 0.8.
+- tag: Remediation Actions
+  spec_file: cloudguard-remediation-actions-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.7
+  evidence: POST /v2/erm/remediation/top-actions 'Get Top Remediation Actions', schema RemediationActionsRequestViewModel
+  reason: Returns prioritised remediation actions from the cloud security risk-management module. Clearly
+    security remediation prioritisation rather than enterprise risk management of the buyer's business,
+    so BC-620 at L1; single thin operation keeps confidence moderate and no L2 is named.

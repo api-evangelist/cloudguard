@@ -3443,6 +3443,9 @@ apis:
   - type: Authentication
     url: https://docs.cgn.portal.checkpoint.com/reference/authentication
 common:
+- type: CapabilityMap
+  url: capabilities/cloudguard-capability-edges.yml
+  name: CloudGuard Business Capability Map
 - type: Overlay
   url: overlays/cloudguard-onboarding-overlay.yaml
 - type: Overlay
