@@ -176,23 +176,6 @@ components:
         permissions:
           $ref: '#/components/schemas/Dome9.Web.Api.User.PermissionsViewModel'
           description: Permissions of the role
-    Dome9.Web.Api.Role.RoleGetServiceAccountViewModel:
-      type: object
-      properties:
-        serviceAccountName:
-          type: string
-        serviceAccountId:
-          format: uuid
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
-    Dome9.Web.Api.Role.RoleGetUserViewModel:
-      type: object
-      properties:
-        userId:
-          format: int32
-          type: integer
-        userName:
-          type: string
     Dome9.Web.Api.User.PermissionsViewModel:
       type: object
       properties:
@@ -287,6 +270,23 @@ components:
         permissions:
           $ref: '#/components/schemas/Dome9.Web.Api.User.PermissionsViewModel'
           description: Permissions of the role
+    Dome9.Web.Api.Role.RoleGetServiceAccountViewModel:
+      type: object
+      properties:
+        serviceAccountName:
+          type: string
+        serviceAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+    Dome9.Web.Api.Role.RoleGetUserViewModel:
+      type: object
+      properties:
+        userId:
+          format: int32
+          type: integer
+        userName:
+          type: string
   requestBodies:
     Dome9.Web.Api.Role.RoleViewModel:
       content:

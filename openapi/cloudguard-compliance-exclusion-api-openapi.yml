@@ -230,29 +230,6 @@ components:
       - ContainerRegistry
       - Oci
       - CIEM
-    ExclusionPostByFindingIdRequestModel:
-      type: object
-      additionalProperties: false
-      required:
-      - findingId
-      - dateRange
-      properties:
-        findingId:
-          type: string
-          description: '[Required] Finding ID'
-          format: guid
-        dateRange:
-          description: '[Optional] Date range for the exclusion to take effect.
-
-            The exclusion will take effect permanently unless a specific date range is specified.
-
-            Leaving ''From'' null will take only ''To'' into account.
-
-            Leaving ''To'' null will take only ''From'' into account.
-
-            DateRange with both ''From'' and ''To'' null will be disregarded.'
-          oneOf:
-          - $ref: '#/components/schemas/DateTimeRange'
     RuleViewModel2:
       type: object
       additionalProperties: false
@@ -282,18 +259,17 @@ components:
           type:
           - string
           - 'null'
-    ExclusionPostByFindingKeyRequestModel:
+    ExclusionPostByFindingIdRequestModel:
       type: object
       additionalProperties: false
       required:
-      - findingKey
+      - findingId
       - dateRange
       properties:
-        findingKey:
-          type:
-          - string
-          - 'null'
-          description: '[Required] Finding Key'
+        findingId:
+          type: string
+          description: '[Required] Finding ID'
+          format: guid
         dateRange:
           description: '[Optional] Date range for the exclusion to take effect.
 
@@ -306,6 +282,18 @@ components:
             DateRange with both ''From'' and ''To'' null will be disregarded.'
           oneOf:
           - $ref: '#/components/schemas/DateTimeRange'
+    ExclusionPutRequestModel:
+      allOf:
+      - $ref: '#/components/schemas/ExclusionPostRequestModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - id
+        properties:
+          id:
+            type: string
+            description: Exclusion ID
+            format: guid
     ExclusionPostRequestModel:
       type: object
       additionalProperties: false
@@ -384,6 +372,56 @@ components:
             DateRange with both ''From'' and ''To'' null will be disregarded.'
           oneOf:
           - $ref: '#/components/schemas/DateTimeRange'
+    ExclusionViewModel:
+      allOf:
+      - $ref: '#/components/schemas/ExclusionPutRequestModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - platform
+        properties:
+          platform:
+            description: Exclusion platform
+            oneOf:
+            - $ref: '#/components/schemas/AssessmentCloudAccountType'
+    ExclusionPostByFindingKeyRequestModel:
+      type: object
+      additionalProperties: false
+      required:
+      - findingKey
+      - dateRange
+      properties:
+        findingKey:
+          type:
+          - string
+          - 'null'
+          description: '[Required] Finding Key'
+        dateRange:
+          description: '[Optional] Date range for the exclusion to take effect.
+
+            The exclusion will take effect permanently unless a specific date range is specified.
+
+            Leaving ''From'' null will take only ''To'' into account.
+
+            Leaving ''To'' null will take only ''From'' into account.
+
+            DateRange with both ''From'' and ''To'' null will be disregarded.'
+          oneOf:
+          - $ref: '#/components/schemas/DateTimeRange'
+    ExclusionMultiStatusResponseViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - exclusions
+      properties:
+        exclusions:
+          type:
+          - object
+          - 'null'
+          default: {}
+          additionalProperties:
+            type: integer
+            format: int32
     DateTimeRange:
       type: object
       deprecated: true
@@ -405,44 +443,6 @@ components:
           - 'null'
           description: To date time
           format: date-time
-    ExclusionPutRequestModel:
-      allOf:
-      - $ref: '#/components/schemas/ExclusionPostRequestModel'
-      - type: object
-        additionalProperties: false
-        required:
-        - id
-        properties:
-          id:
-            type: string
-            description: Exclusion ID
-            format: guid
-    ExclusionViewModel:
-      allOf:
-      - $ref: '#/components/schemas/ExclusionPutRequestModel'
-      - type: object
-        additionalProperties: false
-        required:
-        - platform
-        properties:
-          platform:
-            description: Exclusion platform
-            oneOf:
-            - $ref: '#/components/schemas/AssessmentCloudAccountType'
-    ExclusionMultiStatusResponseViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - exclusions
-      properties:
-        exclusions:
-          type:
-          - object
-          - 'null'
-          default: {}
-          additionalProperties:
-            type: integer
-            format: int32
   securitySchemes:
     basic:
       type: http

@@ -102,17 +102,6 @@ paths:
       description: Delete a remediation
 components:
   schemas:
-    Falconetix.Model.DateTimeRange:
-      type: object
-      properties:
-        from:
-          format: date-time
-          description: From date time
-          type: string
-        to:
-          format: date-time
-          description: To date time
-          type: string
     Dome9.Web.Api.Compliance.Remediation.RemediationPutRequestModel:
       required:
       - comment
@@ -225,6 +214,21 @@ components:
           - ContainerRegistry
           - Oci
           - CIEM
+          type: string
+    Dome9.Web.Api.Compliance.RuleViewModel:
+      type: object
+      properties:
+        logicHash:
+          description: Rule logic hash
+          pattern: ^[A-Za-z0-9+/]{22}?$
+          type: string
+        rlmId:
+          type: string
+        id:
+          description: Rule ID
+          type: string
+        name:
+          description: Rule name
           type: string
     Dome9.Web.Api.Compliance.Remediation.RemediationViewModel:
       required:
@@ -448,20 +452,16 @@ components:
           - Oci
           - CIEM
           type: string
-    Dome9.Web.Api.Compliance.RuleViewModel:
+    Falconetix.Model.DateTimeRange:
       type: object
       properties:
-        logicHash:
-          description: Rule logic hash
-          pattern: ^[A-Za-z0-9+/]{22}?$
+        from:
+          format: date-time
+          description: From date time
           type: string
-        rlmId:
-          type: string
-        id:
-          description: Rule ID
-          type: string
-        name:
-          description: Rule name
+        to:
+          format: date-time
+          description: To date time
           type: string
   securitySchemes:
     basic:

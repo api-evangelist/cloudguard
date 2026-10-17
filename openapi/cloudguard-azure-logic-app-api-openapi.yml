@@ -60,6 +60,29 @@ paths:
       description: Get specific LogicApp by Dome9 Id
 components:
   schemas:
+    Falconetix.Model.AzureLogicAppResourceReferenceViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+    Falconetix.Model.AzureLogicAppSkuViewModel:
+      type: object
+      properties:
+        name:
+          enum:
+          - NotSpecified
+          - Free
+          - Shared
+          - Basic
+          - Standard
+          - Premium
+          type: string
+        plan:
+          $ref: '#/components/schemas/Falconetix.Model.AzureLogicAppResourceReferenceViewModel'
     Falconetix.Model.AzureLogicAppViewModel:
       type: object
       properties:
@@ -138,29 +161,6 @@ components:
           type: object
         metadata:
           type: object
-    Falconetix.Model.AzureLogicAppResourceReferenceViewModel:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        type:
-          type: string
-    Falconetix.Model.AzureLogicAppSkuViewModel:
-      type: object
-      properties:
-        name:
-          enum:
-          - NotSpecified
-          - Free
-          - Shared
-          - Basic
-          - Standard
-          - Premium
-          type: string
-        plan:
-          $ref: '#/components/schemas/Falconetix.Model.AzureLogicAppResourceReferenceViewModel'
   securitySchemes:
     basic:
       type: http

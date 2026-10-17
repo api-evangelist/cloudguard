@@ -59,6 +59,56 @@ paths:
       summary: Get
 components:
   schemas:
+    Dome9.Web.Api.Azure.RedisCache.ViewModels.AzureRedisFirewallRuleViewModel:
+      type: object
+      properties:
+        endIp:
+          type: string
+        externalId:
+          type: string
+        name:
+          type: string
+        startIp:
+          type: string
+    Dome9.Web.Api.Azure.RedisCache.ViewModels.AzureRedisLinkedServerViewModel:
+      type: object
+      properties:
+        externalId:
+          type: string
+        linkedRedisCacheId:
+          type: string
+        linkedRedisCacheLocation:
+          type: string
+        name:
+          type: string
+        provisioningState:
+          type: string
+        serverRole:
+          type: string
+    Dome9.Web.Api.Azure.DiagnosticSettings.MetricAuditViewModel:
+      type: object
+      properties:
+        category:
+          type: string
+        enabled:
+          type: boolean
+        retentionDays:
+          format: int32
+          type: integer
+        retentionStatus:
+          type: boolean
+        timeGrain:
+          type: string
+    Dome9.Web.Api.Azure.RedisCache.ViewModels.AzureRedisScheduleEntryViewModel:
+      type: object
+      properties:
+        dayOfWeek:
+          type: string
+        maintenanceWindow:
+          type: string
+        startHourUtc:
+          format: int32
+          type: integer
     Dome9.Web.Api.Azure.DiagnosticSettings.DiagnosticSettingsViewModel:
       type: object
       properties:
@@ -80,20 +130,15 @@ components:
           type: string
         workspaceId:
           type: string
-    Dome9.Web.Api.Azure.DiagnosticSettings.MetricAuditViewModel:
+    System.Collections.Generic.KeyValuePair_System.String_System.String_:
       type: object
       properties:
-        category:
+        key:
           type: string
-        enabled:
-          type: boolean
-        retentionDays:
-          format: int32
-          type: integer
-        retentionStatus:
-          type: boolean
-        timeGrain:
+          readOnly: true
+        value:
           type: string
+          readOnly: true
     Dome9.Web.Api.Azure.RedisCache.ViewModels.AzureRedisCacheViewModel:
       type: object
       properties:
@@ -173,51 +218,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Dome9.Web.Api.Azure.DiagnosticSettings.DiagnosticSettingsViewModel'
-    System.Collections.Generic.KeyValuePair_System.String_System.String_:
-      type: object
-      properties:
-        key:
-          type: string
-          readOnly: true
-        value:
-          type: string
-          readOnly: true
-    Dome9.Web.Api.Azure.RedisCache.ViewModels.AzureRedisScheduleEntryViewModel:
-      type: object
-      properties:
-        dayOfWeek:
-          type: string
-        maintenanceWindow:
-          type: string
-        startHourUtc:
-          format: int32
-          type: integer
-    Dome9.Web.Api.Azure.RedisCache.ViewModels.AzureRedisLinkedServerViewModel:
-      type: object
-      properties:
-        externalId:
-          type: string
-        linkedRedisCacheId:
-          type: string
-        linkedRedisCacheLocation:
-          type: string
-        name:
-          type: string
-        provisioningState:
-          type: string
-        serverRole:
-          type: string
-    Dome9.Web.Api.Azure.RedisCache.ViewModels.AzureRedisFirewallRuleViewModel:
-      type: object
-      properties:
-        endIp:
-          type: string
-        externalId:
-          type: string
-        name:
-          type: string
-        startIp:
-          type: string
     Dome9.Web.Api.Azure.DiagnosticSettings.LogAuditViewModel:
       type: object
       properties:

@@ -118,15 +118,47 @@ paths:
       description: Insert a new exclusion by ID
 components:
   schemas:
-    ExclusionFilterOperator:
-      type: string
-      description: 'eq: equal, in: equal to one of the values, between: between values, has_any: field has any of the values, like_any: like any'
-      enum:
-      - in
-      - eq
-      - like_any
-      - has_any
-      - between
+    IdViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+    ExclusionSearchFieldFilterViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+          - environmentId
+          - ruleId
+          - severity
+          - entityExternalId
+          - entityName
+          - entityTags
+          - entityTypeByPlatform
+          - timestamp
+        values:
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: array
+            items:
+              type: number
+          - type: array
+            items:
+              type: boolean
+          uniqueItems: true
+          minItems: 1
+          maxItems: 50
+        operator:
+          $ref: '#/components/schemas/ExclusionFilterOperator'
+      required:
+      - name
+      - values
+      - operator
     SecurityGraphExclusionRequestModel:
       type: object
       properties:
@@ -176,40 +208,6 @@ components:
       required:
       - name
       - _id
-    ExclusionSearchFieldFilterViewModel:
-      type: object
-      properties:
-        name:
-          type: string
-          enum:
-          - environmentId
-          - ruleId
-          - severity
-          - entityExternalId
-          - entityName
-          - entityTags
-          - entityTypeByPlatform
-          - timestamp
-        values:
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: array
-            items:
-              type: number
-          - type: array
-            items:
-              type: boolean
-          uniqueItems: true
-          minItems: 1
-          maxItems: 50
-        operator:
-          $ref: '#/components/schemas/ExclusionFilterOperator'
-      required:
-      - name
-      - values
-      - operator
     ExclusionSearchAdvFilterViewModel:
       type: object
       properties:
@@ -228,13 +226,15 @@ components:
       required:
       - logicalOperator
       - operands
-    IdViewModel:
-      type: object
-      properties:
-        id:
-          type: string
-      required:
-      - id
+    ExclusionFilterOperator:
+      type: string
+      description: 'eq: equal, in: equal to one of the values, between: between values, has_any: field has any of the values, like_any: like any'
+      enum:
+      - in
+      - eq
+      - like_any
+      - has_any
+      - between
   securitySchemes:
     basic:
       type: http

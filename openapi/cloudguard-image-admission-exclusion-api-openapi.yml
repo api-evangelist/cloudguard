@@ -136,19 +136,6 @@ paths:
         Returns created exclusion.'
 components:
   schemas:
-    KubernetesImageAdmissionExclusionViewModel:
-      allOf:
-      - $ref: '#/components/schemas/KubernetesImageAdmissionPostExclusionViewModel'
-      - type: object
-        additionalProperties: false
-        required:
-        - id
-        properties:
-          id:
-            type: string
-            description: '[Required] Exclusion ID - Unique identifier for the exclusion. '
-            format: guid
-            minLength: 1
     KubernetesImageAdmissionPostExclusionViewModel:
       type: object
       additionalProperties: false
@@ -221,6 +208,19 @@ components:
           - string
           - 'null'
           description: '[Optional] Comment text (free text)'
+    KubernetesImageAdmissionExclusionViewModel:
+      allOf:
+      - $ref: '#/components/schemas/KubernetesImageAdmissionPostExclusionViewModel'
+      - type: object
+        additionalProperties: false
+        required:
+        - id
+        properties:
+          id:
+            type: string
+            description: '[Required] Exclusion ID - Unique identifier for the exclusion. '
+            format: guid
+            minLength: 1
   securitySchemes:
     basic:
       type: http

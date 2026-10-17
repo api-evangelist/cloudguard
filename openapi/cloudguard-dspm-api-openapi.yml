@@ -243,6 +243,31 @@ paths:
       description: Deletes a Cyera account by id
 components:
   schemas:
+    CyeraAccountErrorViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - errorTimestamp
+      - error
+      properties:
+        errorTimestamp:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        error:
+          type:
+          - string
+          - 'null'
+    SentraCreateResponseViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: guid
     CyeraUpdateAccountRequestViewModel:
       type: object
       additionalProperties: false
@@ -266,19 +291,53 @@ components:
           - string
           - 'null'
           maxLength: 100
-    CyeraAccountErrorViewModel:
+    CyeraCreateAccountRequestViewModel:
       type: object
       additionalProperties: false
       required:
-      - errorTimestamp
-      - error
+      - clientId
+      - secret
+      - name
       properties:
-        errorTimestamp:
+        clientId:
+          type: string
+          maxLength: 100
+          minLength: 1
+        secret:
+          type: string
+          maxLength: 100
+          minLength: 1
+        name:
+          type: string
+          maxLength: 100
+          minLength: 1
+    SentraCredentialsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - apiKey
+      - apiKeyName
+      - email
+      properties:
+        apiKey:
           type:
           - string
           - 'null'
-          format: date-time
-        error:
+        apiKeyName:
+          type:
+          - string
+          - 'null'
+        email:
+          type:
+          - string
+          - 'null'
+    CyeraCredentialsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - clientId
+      properties:
+        clientId:
           type:
           - string
           - 'null'
@@ -320,6 +379,21 @@ components:
           - string
           - 'null'
           format: date-time
+    SentraCreateRequestViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - apiKey
+      - name
+      properties:
+        apiKey:
+          type: string
+          maxLength: 100
+          minLength: 1
+        name:
+          type: string
+          maxLength: 100
+          minLength: 1
     SentraUpdateRequestViewModel:
       type: object
       additionalProperties: false
@@ -337,46 +411,7 @@ components:
           - string
           - 'null'
           maxLength: 100
-    SentraCreateResponseViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          format: guid
-    CyeraCredentialsViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - clientId
-      properties:
-        clientId:
-          type:
-          - string
-          - 'null'
-    SentraCredentialsViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - apiKey
-      - apiKeyName
-      - email
-      properties:
-        apiKey:
-          type:
-          - string
-          - 'null'
-        apiKeyName:
-          type:
-          - string
-          - 'null'
-        email:
-          type:
-          - string
-          - 'null'
-    SentraGetAllResponseViewModel:
+    CyeraGetAllResponseViewModel:
       type: object
       additionalProperties: false
       required:
@@ -387,58 +422,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/SentraAccountResponseViewModel'
-    CyeraCreateAccountRequestViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - clientId
-      - secret
-      - name
-      properties:
-        clientId:
-          type: string
-          maxLength: 100
-          minLength: 1
-        secret:
-          type: string
-          maxLength: 100
-          minLength: 1
-        name:
-          type: string
-          maxLength: 100
-          minLength: 1
-    SentraCreateRequestViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - apiKey
-      - name
-      properties:
-        apiKey:
-          type: string
-          maxLength: 100
-          minLength: 1
-        name:
-          type: string
-          maxLength: 100
-          minLength: 1
-    SentraAccountErrorViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - errorTimestamp
-      - error
-      properties:
-        errorTimestamp:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        error:
-          type:
-          - string
-          - 'null'
+            $ref: '#/components/schemas/CyeraAccountResponseViewModel'
     SentraAccountResponseViewModel:
       type: object
       additionalProperties: false
@@ -482,7 +466,7 @@ components:
           - string
           - 'null'
           format: date-time
-    CyeraGetAllResponseViewModel:
+    SentraGetAllResponseViewModel:
       type: object
       additionalProperties: false
       required:
@@ -493,7 +477,23 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/CyeraAccountResponseViewModel'
+            $ref: '#/components/schemas/SentraAccountResponseViewModel'
+    SentraAccountErrorViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - errorTimestamp
+      - error
+      properties:
+        errorTimestamp:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        error:
+          type:
+          - string
+          - 'null'
     CyeraCreateRessponseViewModel:
       type: object
       additionalProperties: false

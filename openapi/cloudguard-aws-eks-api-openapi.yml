@@ -82,28 +82,10 @@ paths:
       summary: Get
 components:
   schemas:
-    Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.ResourcesVpcConfigViewModel:
+    Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.OidcViewModel:
       type: object
       properties:
-        clusterSecurityGroupId:
-          type: string
-        endpointPrivateAccess:
-          type: boolean
-        endpointPublicAccess:
-          type: boolean
-        publicAccessCidrs:
-          type: array
-          items:
-            type: string
-        securityGroupIds:
-          type: array
-          items:
-            type: string
-        subnetIds:
-          type: array
-          items:
-            type: string
-        vpcId:
+        issuer:
           type: string
     Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.NodegroupHealthViewModel:
       type: object
@@ -112,20 +94,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.IssueViewModel'
-    Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.OidcViewModel:
-      type: object
-      properties:
-        issuer:
-          type: string
-    Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.NodegroupResourcesViewModel:
-      type: object
-      properties:
-        autoScalingGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.AutoScalingGroupViewModel'
-        remoteAccessSecurityGroup:
-          type: string
     Dome9.Web.Api.Shared.SharedViewModels.TagViewModel:
       type: object
       properties:
@@ -182,6 +150,11 @@ components:
             $ref: '#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.TagViewModel'
         version:
           type: string
+    Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.IdentityViewModel:
+      type: object
+      properties:
+        oidc:
+          $ref: '#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.OidcViewModel'
     Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.IssueViewModel:
       type: object
       properties:
@@ -193,64 +166,29 @@ components:
           type: array
           items:
             type: string
-    Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.IdentityViewModel:
+    Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.ResourcesVpcConfigViewModel:
       type: object
       properties:
-        oidc:
-          $ref: '#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.OidcViewModel'
-    Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.FargateProfileViewModel:
-      type: object
-      properties:
-        clusterName:
+        clusterSecurityGroupId:
           type: string
-        createdAt:
-          format: date-time
-          type: string
-        fargateProfileArn:
-          type: string
-        fargateProfileName:
-          type: string
-        podExecutionRoleArn:
-          type: string
-        selectors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.FargateProfileSelectorViewModel'
-        status:
-          type: string
-        subnets:
-          type: array
-          items:
-            type: string
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.TagViewModel'
-    Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.RemoteAccessConfigViewModel:
-      type: object
-      properties:
-        ec2SshKey:
-          type: string
-        sourceSecurityGroups:
-          type: array
-          items:
-            type: string
-    Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.LoggingLogSetupViewModel:
-      type: object
-      properties:
-        enabled:
+        endpointPrivateAccess:
           type: boolean
-        types:
+        endpointPublicAccess:
+          type: boolean
+        publicAccessCidrs:
           type: array
           items:
             type: string
-    Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.LoggingViewModel:
-      type: object
-      properties:
-        clusterLogging:
+        securityGroupIds:
           type: array
           items:
-            $ref: '#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.LoggingLogSetupViewModel'
+            type: string
+        subnetIds:
+          type: array
+          items:
+            type: string
+        vpcId:
+          type: string
     Dome9.Web.Api.AwsEks.AwsEksClusterViewModel:
       type: object
       properties:
@@ -510,20 +448,31 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.FargateProfileViewModel'
-    Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.FargateProfileSelectorViewModel:
+    Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.LoggingViewModel:
       type: object
       properties:
-        labels:
+        clusterLogging:
           type: array
           items:
-            $ref: '#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.TagViewModel'
-        namespace:
-          type: string
-    Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.AutoScalingGroupViewModel:
+            $ref: '#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.LoggingLogSetupViewModel'
+    Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.LoggingLogSetupViewModel:
       type: object
       properties:
-        name:
+        enabled:
+          type: boolean
+        types:
+          type: array
+          items:
+            type: string
+    Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.RemoteAccessConfigViewModel:
+      type: object
+      properties:
+        ec2SshKey:
           type: string
+        sourceSecurityGroups:
+          type: array
+          items:
+            type: string
     Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.NodegroupScalingConfigViewModel:
       type: object
       properties:
@@ -536,6 +485,57 @@ components:
         minSize:
           format: int32
           type: integer
+    Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.AutoScalingGroupViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+    Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.FargateProfileViewModel:
+      type: object
+      properties:
+        clusterName:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        fargateProfileArn:
+          type: string
+        fargateProfileName:
+          type: string
+        podExecutionRoleArn:
+          type: string
+        selectors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.FargateProfileSelectorViewModel'
+        status:
+          type: string
+        subnets:
+          type: array
+          items:
+            type: string
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.TagViewModel'
+    Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.FargateProfileSelectorViewModel:
+      type: object
+      properties:
+        labels:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Shared.SharedViewModels.TagViewModel'
+        namespace:
+          type: string
+    Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.NodegroupResourcesViewModel:
+      type: object
+      properties:
+        autoScalingGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.AwsEks.AwsEksClusterViewModel.AutoScalingGroupViewModel'
+        remoteAccessSecurityGroup:
+          type: string
   securitySchemes:
     basic:
       type: http

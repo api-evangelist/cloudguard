@@ -212,6 +212,180 @@ paths:
       description: Get all enrichment categories for an issue
 components:
   schemas:
+    DataSensitivityViewModel:
+      type: object
+      properties:
+        entityId:
+          type: string
+        name:
+          type: string
+        typeByPlatform:
+          type: string
+        platform:
+          type: string
+        cloudAccountId:
+          type: string
+        context:
+          type: object
+      required:
+      - entityId
+      - name
+      - typeByPlatform
+      - platform
+      - cloudAccountId
+      - context
+    MalwareViewModel:
+      type: object
+      properties:
+        malwareId:
+          type: string
+        severity:
+          type: string
+        family:
+          type: string
+          enum:
+          - Adware
+          - Botnet
+          - Dropper
+          - Exploit
+          - Generic
+          - HackTool
+          - Infostealer
+          - Ransomware
+          - RiskTool
+          - Trojan
+          - Virus
+          - HEUR:Backdoor
+          - HEUR:Trojan
+        hash:
+          type: string
+        scanData:
+          $ref: '#/components/schemas/MalwareScanEnrichment'
+      required:
+      - malwareId
+      - severity
+      - family
+      - hash
+      - scanData
+    ContainerImageIssueViewModel:
+      type: object
+      properties:
+        cloudAccountId:
+          type: string
+        platform:
+          type: string
+        imageId:
+          type: string
+        imageType:
+          type: string
+        typeByPlatform:
+          type: string
+      required:
+      - cloudAccountId
+      - platform
+      - imageId
+      - imageType
+      - typeByPlatform
+    CveVulnerabilityResponse:
+      type: object
+      properties:
+        cveId:
+          type: string
+        baseScore:
+          type: object
+        baseScoreVector:
+          type: object
+        description:
+          type: object
+        severity:
+          type: string
+          enum:
+          - Critical
+          - High
+          - Medium
+          - Low
+        fixable:
+          type: object
+        knownExploit:
+          type: boolean
+        epssScore:
+          type: object
+        packages:
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageDetailsResponse'
+      required:
+      - cveId
+      - severity
+      - knownExploit
+      - packages
+    IamSensitivityResponse:
+      type: object
+      properties:
+        roleScopeActions:
+          type: object
+        entityType:
+          type: string
+          enum:
+          - Instance
+          - EcsService
+          - Lambda
+          - RDS
+          - S3Bucket
+          - EcrRepository
+          - EksCluster
+          - IamRole
+          - IamUser
+          - AutoScalingGroup
+          - RDSDBCluster
+          - NeptuneCluster
+          - DocDbCluster
+          - Redshift
+          - EcsImage
+          - DynamoDbTable
+          - EcsTask
+          - VirtualMachine
+          - FunctionApp
+          - AppRegistration
+          - StorageAccount
+          - User
+          - AzureGroup
+          - UserAssignedIdentity
+          - VirtualMachineScaleSet
+          - SQLServer
+          - CosmosDbAccount
+          - PostgreSQL
+          - MySQLDBSingleServer
+          - MySQLDBFlexibleServer
+          - PostgreSQLFlexibleServer
+          - AzureContainerInstance
+          - AzureRoleDefinition
+          - AksCluster
+          - SqlManagedInstance
+          - RedisCache
+          - StorageBlobContainer
+          - ContainerRegistryImage
+          - KubernetesImage
+          - KubernetesPod
+          - KubernetesDaemonSet
+          - KubernetesDeployment
+          - KubernetesStatefulSet
+          - KubernetesCronJob
+          - KubernetesReplicaSet
+      required:
+      - roleScopeActions
+      - entityType
+    PackageDetailsResponse:
+      type: object
+      properties:
+        name:
+          type: string
+        filePath:
+          type: string
+        upgradeTo:
+          type: string
+        packageId:
+          type: string
     ProtectedAssetViewModel:
       type: object
       properties:
@@ -285,91 +459,6 @@ components:
       - resourceGroup
       - additionalFields
       - externalAdditionalFields
-    ContainerImageIssueViewModel:
-      type: object
-      properties:
-        cloudAccountId:
-          type: string
-        platform:
-          type: string
-        imageId:
-          type: string
-        imageType:
-          type: string
-        typeByPlatform:
-          type: string
-      required:
-      - cloudAccountId
-      - platform
-      - imageId
-      - imageType
-      - typeByPlatform
-    DataSensitivityViewModel:
-      type: object
-      properties:
-        entityId:
-          type: string
-        name:
-          type: string
-        typeByPlatform:
-          type: string
-        platform:
-          type: string
-        cloudAccountId:
-          type: string
-        context:
-          type: object
-      required:
-      - entityId
-      - name
-      - typeByPlatform
-      - platform
-      - cloudAccountId
-      - context
-    CveVulnerabilityResponse:
-      type: object
-      properties:
-        cveId:
-          type: string
-        baseScore:
-          type: object
-        baseScoreVector:
-          type: object
-        description:
-          type: object
-        severity:
-          type: string
-          enum:
-          - Critical
-          - High
-          - Medium
-          - Low
-        fixable:
-          type: object
-        knownExploit:
-          type: boolean
-        epssScore:
-          type: object
-        packages:
-          type: array
-          items:
-            $ref: '#/components/schemas/PackageDetailsResponse'
-      required:
-      - cveId
-      - severity
-      - knownExploit
-      - packages
-    PackageDetailsResponse:
-      type: object
-      properties:
-        name:
-          type: string
-        filePath:
-          type: string
-        upgradeTo:
-          type: string
-        packageId:
-          type: string
     MalwareScanEnrichment:
       type: object
       properties:
@@ -377,39 +466,6 @@ components:
           type: string
       required:
       - filePath
-    MalwareViewModel:
-      type: object
-      properties:
-        malwareId:
-          type: string
-        severity:
-          type: string
-        family:
-          type: string
-          enum:
-          - Adware
-          - Botnet
-          - Dropper
-          - Exploit
-          - Generic
-          - HackTool
-          - Infostealer
-          - Ransomware
-          - RiskTool
-          - Trojan
-          - Virus
-          - HEUR:Backdoor
-          - HEUR:Trojan
-        hash:
-          type: string
-        scanData:
-          $ref: '#/components/schemas/MalwareScanEnrichment'
-      required:
-      - malwareId
-      - severity
-      - family
-      - hash
-      - scanData
     SecurityEventPartialViewModel:
       type: object
       properties:
@@ -455,62 +511,6 @@ components:
       - severity
       - entityExternalId
       - createdTime
-    IamSensitivityResponse:
-      type: object
-      properties:
-        roleScopeActions:
-          type: object
-        entityType:
-          type: string
-          enum:
-          - Instance
-          - EcsService
-          - Lambda
-          - RDS
-          - S3Bucket
-          - EcrRepository
-          - EksCluster
-          - IamRole
-          - IamUser
-          - AutoScalingGroup
-          - RDSDBCluster
-          - NeptuneCluster
-          - DocDbCluster
-          - Redshift
-          - EcsImage
-          - DynamoDbTable
-          - EcsTask
-          - VirtualMachine
-          - FunctionApp
-          - AppRegistration
-          - StorageAccount
-          - User
-          - AzureGroup
-          - UserAssignedIdentity
-          - VirtualMachineScaleSet
-          - SQLServer
-          - CosmosDbAccount
-          - PostgreSQL
-          - MySQLDBSingleServer
-          - MySQLDBFlexibleServer
-          - PostgreSQLFlexibleServer
-          - AzureContainerInstance
-          - AzureRoleDefinition
-          - AksCluster
-          - SqlManagedInstance
-          - RedisCache
-          - StorageBlobContainer
-          - ContainerRegistryImage
-          - KubernetesImage
-          - KubernetesPod
-          - KubernetesDaemonSet
-          - KubernetesDeployment
-          - KubernetesStatefulSet
-          - KubernetesCronJob
-          - KubernetesReplicaSet
-      required:
-      - roleScopeActions
-      - entityType
   securitySchemes:
     basic:
       type: http

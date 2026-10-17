@@ -93,6 +93,54 @@ paths:
       summary: Get
 components:
   schemas:
+    Dome9.Web.Api.Google.Instance.GcpComputeAttachedDiskViewModel:
+      type: object
+      properties:
+        autoDelete:
+          type: boolean
+        deviceName:
+          type: string
+        guestOsFeatures:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Google.Instance.GcpComputeGuestOsFeatureViewModel'
+        eTag:
+          type: string
+        interface:
+          type: string
+        kind:
+          type: string
+        licenses:
+          type: array
+          items:
+            type: string
+        mode:
+          type: string
+        source:
+          type: string
+        type:
+          type: string
+        diskEncryptionType:
+          type: string
+        diskEncryptionTypeMetadata:
+          $ref: '#/components/schemas/Dome9.Web.Api.Google.Instance.GcpComputeDiskEncryptionTypeMetadataViewModel'
+        diskEncryptionKey:
+          $ref: '#/components/schemas/Dome9.Web.Api.Google.Instance.GcpComputeInstanceCustomerEncryptionKeyViewModel'
+        initializeParams:
+          $ref: '#/components/schemas/Dome9.Web.Api.Google.Instance.GcpComputeAttachedDiskInitializeParamsViewModel'
+        id:
+          type: string
+    Dome9.Web.Api.Google.Instance.GcpComputeInstanceCustomerEncryptionKeyViewModel:
+      type: object
+      properties:
+        eTag:
+          type: string
+        rawKey:
+          type: string
+        sha256:
+          type: string
+        kmsKeyName:
+          type: string
     Dome9.Web.Api.Google.Instance.NetworkDetailViewModel:
       type: object
       properties:
@@ -115,26 +163,6 @@ components:
             $ref: '#/components/schemas/Dome9.Web.Api.Google.Instance.GoogleCloudFirewallRuleWithSecurityGroupsViewModel'
         networkInterface:
           $ref: '#/components/schemas/Dome9.Web.Api.Google.Instance.NetworkInterfaceViewModel'
-    Dome9.Web.Api.Google.Instance.NetworkInterfaceViewModel:
-      type: object
-      properties:
-        name:
-          type: string
-        network:
-          type: string
-        networkIP:
-          type: string
-        subnetwork:
-          type: string
-        publicIP:
-          type: string
-    Dome9.Web.Api.Shared.SharedViewModels.TagViewModel:
-      type: object
-      properties:
-        key:
-          type: string
-        value:
-          type: string
     Dome9.Web.Api.Google.Instance.GcpVMInstanceViewModel:
       type: object
       properties:
@@ -194,53 +222,50 @@ components:
           example: 00000000-0000-0000-0000-000000000000
         name:
           type: string
-    Dome9.Web.Api.Google.Instance.GcpComputeAttachedDiskViewModel:
+    Dome9.Web.Api.Shared.SharedViewModels.TagViewModel:
       type: object
       properties:
-        autoDelete:
-          type: boolean
-        deviceName:
+        key:
           type: string
-        guestOsFeatures:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.Google.Instance.GcpComputeGuestOsFeatureViewModel'
-        eTag:
+        value:
           type: string
-        interface:
-          type: string
-        kind:
-          type: string
-        licenses:
-          type: array
-          items:
-            type: string
-        mode:
-          type: string
-        source:
-          type: string
+    Dome9.Web.Api.Google.Instance.GcpComputeGuestOsFeatureViewModel:
+      type: object
+      properties:
         type:
           type: string
-        diskEncryptionType:
+        eTag:
           type: string
-        diskEncryptionTypeMetadata:
-          $ref: '#/components/schemas/Dome9.Web.Api.Google.Instance.GcpComputeDiskEncryptionTypeMetadataViewModel'
-        diskEncryptionKey:
-          $ref: '#/components/schemas/Dome9.Web.Api.Google.Instance.GcpComputeInstanceCustomerEncryptionKeyViewModel'
-        initializeParams:
-          $ref: '#/components/schemas/Dome9.Web.Api.Google.Instance.GcpComputeAttachedDiskInitializeParamsViewModel'
-        id:
-          type: string
-    Dome9.Web.Api.Google.Instance.GcpComputeInstanceCustomerEncryptionKeyViewModel:
+    Dome9.Web.Api.Google.Instance.GcpComputeCustomerEncryptionKeyViewModel:
       type: object
       properties:
-        eTag:
+        kmsKeyName:
           type: string
         rawKey:
           type: string
         sha256:
           type: string
-        kmsKeyName:
+        eTag:
+          type: string
+    Dome9.Web.Api.Google.Instance.SecurityGroupOfFirewallRule:
+      type: object
+      properties:
+        name:
+          type: string
+        externalId:
+          type: string
+    Dome9.Web.Api.Google.Instance.NetworkInterfaceViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        network:
+          type: string
+        networkIP:
+          type: string
+        subnetwork:
+          type: string
+        publicIP:
           type: string
     Dome9.Web.Api.Google.Firewall.GoogleFirewallRuleScopeViewModel:
       type: object
@@ -251,13 +276,6 @@ components:
           type: array
           items:
             type: string
-    Dome9.Web.Api.Google.Instance.GcpComputeGuestOsFeatureViewModel:
-      type: object
-      properties:
-        type:
-          type: string
-        eTag:
-          type: string
     Dome9.Web.Api.Google.Instance.GoogleCloudFirewallRuleWithSecurityGroupsViewModel:
       type: object
       properties:
@@ -315,6 +333,18 @@ components:
           example: 00000000-0000-0000-0000-000000000000
         name:
           type: string
+    Dome9.Web.Api.Google.Instance.GcpComputeDiskEncryptionTypeMetadataViewModel:
+      type: object
+      properties:
+        isGoogleManagedKey:
+          type: boolean
+          readOnly: true
+        isCustomerManagedKey:
+          type: boolean
+          readOnly: true
+        isCustomerSuppliedKey:
+          type: boolean
+          readOnly: true
     Dome9.Web.Api.Google.Instance.GcpComputeAttachedDiskInitializeParamsViewModel:
       type: object
       properties:
@@ -330,36 +360,6 @@ components:
         sourceImageEncryptionKey:
           $ref: '#/components/schemas/Dome9.Web.Api.Google.Instance.GcpComputeCustomerEncryptionKeyViewModel'
         eTag:
-          type: string
-    Dome9.Web.Api.Google.Instance.GcpComputeCustomerEncryptionKeyViewModel:
-      type: object
-      properties:
-        kmsKeyName:
-          type: string
-        rawKey:
-          type: string
-        sha256:
-          type: string
-        eTag:
-          type: string
-    Dome9.Web.Api.Google.Instance.GcpComputeDiskEncryptionTypeMetadataViewModel:
-      type: object
-      properties:
-        isGoogleManagedKey:
-          type: boolean
-          readOnly: true
-        isCustomerManagedKey:
-          type: boolean
-          readOnly: true
-        isCustomerSuppliedKey:
-          type: boolean
-          readOnly: true
-    Dome9.Web.Api.Google.Instance.SecurityGroupOfFirewallRule:
-      type: object
-      properties:
-        name:
-          type: string
-        externalId:
           type: string
   securitySchemes:
     basic:

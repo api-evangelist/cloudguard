@@ -312,6 +312,44 @@ paths:
       description: Get audit metadata
 components:
   schemas:
+    Dome9.Web.Api.Models.AuditViewModel:
+      type: object
+      properties:
+        total:
+          format: int32
+          description: the number of pages in the view
+          type: integer
+        page:
+          format: int32
+          description: the current page number
+          type: integer
+        records:
+          format: int64
+          description: the total number of records (events) in all the pages
+          type: integer
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Models.AuditEntryViewModel'
+    Dome9.Web.Api.Models.AuditEntryViewModel:
+      type: object
+      properties:
+        id:
+          type: object
+        cell:
+          type: array
+          items:
+            type: object
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+    Falconetix.Model.Audit.CountAuditResult:
+      type: object
+      properties:
+        count:
+          format: int32
+          type: integer
     Falconetix.Model.Audit.ApiAuditResult:
       type: object
       properties:
@@ -346,44 +384,6 @@ components:
           type: string
         cloud_account_id:
           type: string
-    Falconetix.Model.Audit.CountAuditResult:
-      type: object
-      properties:
-        count:
-          format: int32
-          type: integer
-    Dome9.Web.Api.Models.AuditEntryViewModel:
-      type: object
-      properties:
-        id:
-          type: object
-        cell:
-          type: array
-          items:
-            type: object
-        metadata:
-          type: object
-          additionalProperties:
-            type: string
-    Dome9.Web.Api.Models.AuditViewModel:
-      type: object
-      properties:
-        total:
-          format: int32
-          description: the number of pages in the view
-          type: integer
-        page:
-          format: int32
-          description: the current page number
-          type: integer
-        records:
-          format: int64
-          description: the total number of records (events) in all the pages
-          type: integer
-        rows:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.Models.AuditEntryViewModel'
   securitySchemes:
     basic:
       type: http

@@ -499,45 +499,10 @@ paths:
       description: Add (onboard) an Azure account to the user's Dome9 account
 components:
   schemas:
-    CGN.Common.Model.CloudAccounts.Onboarding.Blades.PostureManagement:
+    Dome9.Web.Api.Azure.Accounts.AzureAccountNameModeViewModel:
       type: object
       properties:
-        onboardingMode:
-          enum:
-          - read-only
-          - manage
-          type: string
-    CGN.Common.Model.CloudAccounts.Onboarding.Blades.CdrConfiguration:
-      type: object
-      properties:
-        accounts:
-          type: array
-          items:
-            $ref: '#/components/schemas/CGN.Common.Model.CloudAccounts.Onboarding.Blades.StorageAccount'
-        isEnabled:
-          type: boolean
-    Dome9.Web.Api.Shared.Permissions.MissingPermissionsIgnorableUpdateViewModel:
-      required:
-      - isIgnored
-      type: object
-      properties:
-        cloudAccountId:
-          format: uuid
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
-        permissionId:
-          format: uuid
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
-        isIgnored:
-          type: boolean
-        type:
-          type: string
-        subType:
-          type: string
-        errorCode:
-          type: string
-        errorMessage:
+        name:
           type: string
     Dome9.Web.Api.Models.AzureCloudAccountViewModel:
       description: account details
@@ -633,6 +598,17 @@ components:
           type: array
           items:
             type: string
+    Dome9.BL.Std.Services.OrganizationalUnit.MoveOrganizationalUnitViewModel:
+      type: object
+      properties:
+        sourceOrganizationalUnitId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        targetOrganizationalUnitId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
     Dome9.Web.Api.Shared.Permissions.MissingPermissionViewModel:
       type: object
       properties:
@@ -699,22 +675,35 @@ components:
           - ocigovuk
           - CIEM
           type: string
-    CGN.Common.Model.CloudAccounts.Onboarding.Blades.Blades:
+    Dome9.Web.Api.Models.AzureAccountCredentialsViewModel:
       required:
-      - awp
-      - serverless
-      - cdr
-      - postureManagement
+      - clientId
+      - clientPassword
       type: object
       properties:
-        awp:
-          $ref: '#/components/schemas/CGN.Common.Model.CloudAccounts.Onboarding.Blades.AwpConfiguration'
-        serverless:
-          $ref: '#/components/schemas/CGN.Common.Model.CloudAccounts.Onboarding.Blades.ServerlessConfiguration'
-        cdr:
-          $ref: '#/components/schemas/CGN.Common.Model.CloudAccounts.Onboarding.Blades.CdrConfiguration'
-        postureManagement:
-          $ref: '#/components/schemas/CGN.Common.Model.CloudAccounts.Onboarding.Blades.PostureManagement'
+        clientId:
+          description: Azure account id
+          type: string
+        clientPassword:
+          description: Password for account
+          type: string
+    Dome9.Web.Api.Azure.Accounts.AzureAccountOperationModeViewModel:
+      required:
+      - operationMode
+      type: object
+      properties:
+        operationMode:
+          enum:
+          - Read
+          - Manage
+          type: string
+    Dome9.Web.Api.Shared.Permissions.CloudAccountActionFailureViewModel:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
     Dome9.Web.Api.Shared.Permissions.MissingPermissionsIgnorableViewModel:
       type: object
       properties:
@@ -733,67 +722,6 @@ components:
           type: integer
         error:
           $ref: '#/components/schemas/Dome9.Web.Api.Shared.Permissions.CloudAccountActionFailureViewModel'
-    Dome9.BL.Std.Services.OrganizationalUnit.AttachCloudAccountsViewModel:
-      type: object
-      properties:
-        entries:
-          type: array
-          items:
-            type: string
-        organizationalUnitId:
-          format: uuid
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
-    Dome9.BL.Std.Services.OrganizationalUnit.UpdateIdViewModel:
-      type: object
-      properties:
-        organizationalUnitId:
-          format: uuid
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
-    Dome9.Web.Api.Shared.Permissions.MissingPermissionMetadataViewModel:
-      type: object
-      properties:
-        permissions:
-          description: list of missing permissions
-          type: array
-          items:
-            type: string
-        entityType:
-          type: string
-        subType:
-          type: string
-    Dome9.Web.Api.Azure.Accounts.AzureCloudAccountCredentialsPutViewModel:
-      required:
-      - applicationId
-      - applicationKey
-      type: object
-      properties:
-        applicationId:
-          type: string
-        applicationKey:
-          type: string
-    CGN.Common.Model.CloudAccounts.Onboarding.Blades.StorageAccount:
-      type: object
-      properties:
-        storageId:
-          type: string
-        logTypes:
-          type: array
-          items:
-            type: string
-    Dome9.Web.Api.Shared.Permissions.CloudAccountActionFailureViewModel:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    CGN.Common.Model.CloudAccounts.Onboarding.Blades.ServerlessConfiguration:
-      type: object
-      properties:
-        isEnabled:
-          type: boolean
     CGN.Common.Model.CloudAccounts.Onboarding.Blades.AwpConfiguration:
       type: object
       properties:
@@ -811,53 +739,6 @@ components:
           type: boolean
         isEnabled:
           type: boolean
-    Dome9.Web.Api.Shared.Permissions.CloudAccountExternalActionStatusViewModel:
-      type: object
-      properties:
-        type:
-          type: string
-        subType:
-          type: string
-        total:
-          format: int64
-          type: integer
-        error:
-          $ref: '#/components/schemas/Dome9.Web.Api.Shared.Permissions.CloudAccountActionFailureViewModel'
-    Dome9.Web.Api.Models.AzureAccountCredentialsViewModel:
-      required:
-      - clientId
-      - clientPassword
-      type: object
-      properties:
-        clientId:
-          description: Azure account id
-          type: string
-        clientPassword:
-          description: Password for account
-          type: string
-    Dome9.Web.Api.Shared.Permissions.CloudAccountMissingPermissionsViewModel:
-      type: object
-      properties:
-        id:
-          format: uuid
-          description: account id
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
-        actions:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.Shared.Permissions.CloudAccountExternalActionStatusViewModel'
-    Dome9.BL.Std.Services.OrganizationalUnit.MoveOrganizationalUnitViewModel:
-      type: object
-      properties:
-        sourceOrganizationalUnitId:
-          format: uuid
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
-        targetOrganizationalUnitId:
-          format: uuid
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
     CGN.Common.Model.CloudAccounts.Onboarding.AzureSimplifiedOnboardingExecCmdRequest:
       required:
       - activeBlades
@@ -909,6 +790,72 @@ components:
           type: string
         activeBlades:
           $ref: '#/components/schemas/CGN.Common.Model.CloudAccounts.Onboarding.Blades.Blades'
+    Dome9.Web.Api.Shared.Permissions.CloudAccountMissingPermissionsViewModel:
+      type: object
+      properties:
+        id:
+          format: uuid
+          description: account id
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Shared.Permissions.CloudAccountExternalActionStatusViewModel'
+    CGN.Common.Model.CloudAccounts.Onboarding.Blades.CdrConfiguration:
+      type: object
+      properties:
+        accounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/CGN.Common.Model.CloudAccounts.Onboarding.Blades.StorageAccount'
+        isEnabled:
+          type: boolean
+    Dome9.Web.Api.Shared.Permissions.CloudAccountExternalActionStatusViewModel:
+      type: object
+      properties:
+        type:
+          type: string
+        subType:
+          type: string
+        total:
+          format: int64
+          type: integer
+        error:
+          $ref: '#/components/schemas/Dome9.Web.Api.Shared.Permissions.CloudAccountActionFailureViewModel'
+    Dome9.Web.Api.Shared.Permissions.MissingPermissionsIgnorableUpdateViewModel:
+      required:
+      - isIgnored
+      type: object
+      properties:
+        cloudAccountId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        permissionId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        isIgnored:
+          type: boolean
+        type:
+          type: string
+        subType:
+          type: string
+        errorCode:
+          type: string
+        errorMessage:
+          type: string
+    Dome9.Web.Api.Azure.Accounts.AzureCloudAccountCredentialsPutViewModel:
+      required:
+      - applicationId
+      - applicationKey
+      type: object
+      properties:
+        applicationId:
+          type: string
+        applicationKey:
+          type: string
     Dome9.Web.Api.Shared.Permissions.CloudAccountMissingPermissionsIgnorableViewModel:
       type: object
       properties:
@@ -921,22 +868,84 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Dome9.Web.Api.Shared.Permissions.MissingPermissionsIgnorableViewModel'
-    Dome9.Web.Api.Azure.Accounts.AzureAccountOperationModeViewModel:
-      required:
-      - operationMode
+    Dome9.BL.Std.Services.OrganizationalUnit.AttachCloudAccountsViewModel:
       type: object
       properties:
-        operationMode:
-          enum:
-          - Read
-          - Manage
+        entries:
+          type: array
+          items:
+            type: string
+        organizationalUnitId:
+          format: uuid
           type: string
-    Dome9.Web.Api.Azure.Accounts.AzureAccountNameModeViewModel:
+          example: 00000000-0000-0000-0000-000000000000
+    CGN.Common.Model.CloudAccounts.Onboarding.Blades.Blades:
+      required:
+      - awp
+      - serverless
+      - cdr
+      - postureManagement
       type: object
       properties:
-        name:
+        awp:
+          $ref: '#/components/schemas/CGN.Common.Model.CloudAccounts.Onboarding.Blades.AwpConfiguration'
+        serverless:
+          $ref: '#/components/schemas/CGN.Common.Model.CloudAccounts.Onboarding.Blades.ServerlessConfiguration'
+        cdr:
+          $ref: '#/components/schemas/CGN.Common.Model.CloudAccounts.Onboarding.Blades.CdrConfiguration'
+        postureManagement:
+          $ref: '#/components/schemas/CGN.Common.Model.CloudAccounts.Onboarding.Blades.PostureManagement'
+    CGN.Common.Model.CloudAccounts.Onboarding.Blades.ServerlessConfiguration:
+      type: object
+      properties:
+        isEnabled:
+          type: boolean
+    CGN.Common.Model.CloudAccounts.Onboarding.Blades.PostureManagement:
+      type: object
+      properties:
+        onboardingMode:
+          enum:
+          - read-only
+          - manage
+          type: string
+    Dome9.BL.Std.Services.OrganizationalUnit.UpdateIdViewModel:
+      type: object
+      properties:
+        organizationalUnitId:
+          format: uuid
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+    CGN.Common.Model.CloudAccounts.Onboarding.Blades.StorageAccount:
+      type: object
+      properties:
+        storageId:
+          type: string
+        logTypes:
+          type: array
+          items:
+            type: string
+    Dome9.Web.Api.Shared.Permissions.MissingPermissionMetadataViewModel:
+      type: object
+      properties:
+        permissions:
+          description: list of missing permissions
+          type: array
+          items:
+            type: string
+        entityType:
+          type: string
+        subType:
           type: string
   requestBodies:
+    Dome9.BL.Std.Services.OrganizationalUnit.AttachCloudAccountsViewModel:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Dome9.BL.Std.Services.OrganizationalUnit.AttachCloudAccountsViewModel'
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/Dome9.BL.Std.Services.OrganizationalUnit.AttachCloudAccountsViewModel'
+      required: true
     Dome9.BL.Std.Services.OrganizationalUnit.UpdateIdViewModel2:
       content:
         application/json:
@@ -955,15 +964,6 @@ components:
           schema:
             $ref: '#/components/schemas/Dome9.BL.Std.Services.OrganizationalUnit.MoveOrganizationalUnitViewModel'
       description: The guids of the source organizational unit to detach from and the target organizational unit to attach to. Use null for root organizational unit.
-      required: true
-    Dome9.BL.Std.Services.OrganizationalUnit.AttachCloudAccountsViewModel:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Dome9.BL.Std.Services.OrganizationalUnit.AttachCloudAccountsViewModel'
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: '#/components/schemas/Dome9.BL.Std.Services.OrganizationalUnit.AttachCloudAccountsViewModel'
       required: true
   securitySchemes:
     basic:

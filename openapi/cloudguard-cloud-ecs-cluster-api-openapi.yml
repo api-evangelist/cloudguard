@@ -39,6 +39,56 @@ paths:
       summary: Get
 components:
   schemas:
+    Dome9.Web.Api.CloudECSServiceViewModel:
+      type: object
+      properties:
+        deploymentConfiguration:
+          $ref: '#/components/schemas/Dome9.Web.Api.AwsECSDeploymentConfigurationViewModel'
+        deployments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.AwsECSDeploymentViewModel'
+        desiredCount:
+          format: int32
+          type: integer
+        loadBalancers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.AwsECSLoadBalancerViewModel'
+        pendingCount:
+          format: int32
+          type: integer
+        placementConstraints:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.AwsECSPlacementConstraintViewModel'
+        placementStrategy:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.AwsECSPlacementStrategyViewModel'
+        roleArn:
+          type: string
+        runningCount:
+          format: int32
+          type: integer
+        serviceArn:
+          type: string
+        serviceName:
+          type: string
+        status:
+          type: string
+        clusterArn:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+    Dome9.Web.Api.CloudEcsClusterViewModel.ContainerInstance.Resource:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: object
     Dome9.Web.Api.AwsECSPlacementStrategyViewModel:
       type: object
       properties:
@@ -46,12 +96,38 @@ components:
           type: string
         type:
           type: string
-    Dome9.Web.Api.AwsECSPlacementConstraintViewModel:
+    Dome9.Web.Api.AwsECSDeploymentViewModel:
       type: object
       properties:
-        expression:
+        createdAt:
+          format: date-time
           type: string
-        type:
+        desiredCount:
+          format: int32
+          type: integer
+        id:
+          type: string
+        pendingCount:
+          format: int32
+          type: integer
+        runningCount:
+          format: int32
+          type: integer
+        status:
+          type: string
+        taskDefinition:
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+    Dome9.Web.Api.CloudEcsClusterViewModel.ContainerInstance.ContainerInstanceVersionInfo:
+      type: object
+      properties:
+        agentHash:
+          type: string
+        agentVersion:
+          type: string
+        dockerVersion:
           type: string
     Dome9.Web.Api.AwsECSLoadBalancerViewModel:
       type: object
@@ -65,54 +141,6 @@ components:
           type: string
         targetGroupArn:
           type: string
-    Dome9.Web.Api.CloudEcsClusterViewModel.ContainerInstance.ContainerInstanceVersionInfo:
-      type: object
-      properties:
-        agentHash:
-          type: string
-        agentVersion:
-          type: string
-        dockerVersion:
-          type: string
-    Dome9.Web.Api.CloudEcsClusterViewModel.ContainerInstance:
-      type: object
-      properties:
-        agentConnected:
-          type: boolean
-        agentUpdateStatus:
-          type: string
-        containerInstanceArn:
-          type: string
-        ec2InstanceId:
-          type: string
-        pendingTasksCount:
-          format: int32
-          type: integer
-        registeredResources:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.CloudEcsClusterViewModel.ContainerInstance.Resource'
-        remainingResources:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.CloudEcsClusterViewModel.ContainerInstance.Resource'
-        runningTasksCount:
-          format: int32
-          type: integer
-        status:
-          type: string
-        version:
-          format: int64
-          type: integer
-        versionInfo:
-          $ref: '#/components/schemas/Dome9.Web.Api.CloudEcsClusterViewModel.ContainerInstance.ContainerInstanceVersionInfo'
-    Dome9.Web.Api.CloudEcsClusterViewModel.ContainerInstance.Resource:
-      type: object
-      properties:
-        name:
-          type: string
-        value:
-          type: object
     Dome9.Web.Api.CloudEcsClusterViewModel:
       type: object
       properties:
@@ -387,6 +415,13 @@ components:
           type: object
           additionalProperties:
             type: string
+    Dome9.Web.Api.AwsECSPlacementConstraintViewModel:
+      type: object
+      properties:
+        expression:
+          type: string
+        type:
+          type: string
     Dome9.Web.Api.AwsECSDeploymentConfigurationViewModel:
       type: object
       properties:
@@ -396,73 +431,38 @@ components:
         minimumHealthyPercent:
           format: int32
           type: integer
-    Dome9.Web.Api.CloudECSServiceViewModel:
+    Dome9.Web.Api.CloudEcsClusterViewModel.ContainerInstance:
       type: object
       properties:
-        deploymentConfiguration:
-          $ref: '#/components/schemas/Dome9.Web.Api.AwsECSDeploymentConfigurationViewModel'
-        deployments:
+        agentConnected:
+          type: boolean
+        agentUpdateStatus:
+          type: string
+        containerInstanceArn:
+          type: string
+        ec2InstanceId:
+          type: string
+        pendingTasksCount:
+          format: int32
+          type: integer
+        registeredResources:
           type: array
           items:
-            $ref: '#/components/schemas/Dome9.Web.Api.AwsECSDeploymentViewModel'
-        desiredCount:
-          format: int32
-          type: integer
-        loadBalancers:
+            $ref: '#/components/schemas/Dome9.Web.Api.CloudEcsClusterViewModel.ContainerInstance.Resource'
+        remainingResources:
           type: array
           items:
-            $ref: '#/components/schemas/Dome9.Web.Api.AwsECSLoadBalancerViewModel'
-        pendingCount:
-          format: int32
-          type: integer
-        placementConstraints:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.AwsECSPlacementConstraintViewModel'
-        placementStrategy:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.AwsECSPlacementStrategyViewModel'
-        roleArn:
-          type: string
-        runningCount:
-          format: int32
-          type: integer
-        serviceArn:
-          type: string
-        serviceName:
-          type: string
-        status:
-          type: string
-        clusterArn:
-          type: string
-        createdAt:
-          format: date-time
-          type: string
-    Dome9.Web.Api.AwsECSDeploymentViewModel:
-      type: object
-      properties:
-        createdAt:
-          format: date-time
-          type: string
-        desiredCount:
-          format: int32
-          type: integer
-        id:
-          type: string
-        pendingCount:
-          format: int32
-          type: integer
-        runningCount:
+            $ref: '#/components/schemas/Dome9.Web.Api.CloudEcsClusterViewModel.ContainerInstance.Resource'
+        runningTasksCount:
           format: int32
           type: integer
         status:
           type: string
-        taskDefinition:
-          type: string
-        updatedAt:
-          format: date-time
-          type: string
+        version:
+          format: int64
+          type: integer
+        versionInfo:
+          $ref: '#/components/schemas/Dome9.Web.Api.CloudEcsClusterViewModel.ContainerInstance.ContainerInstanceVersionInfo'
   securitySchemes:
     basic:
       type: http

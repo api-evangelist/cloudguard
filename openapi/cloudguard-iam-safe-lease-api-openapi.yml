@@ -133,24 +133,6 @@ paths:
       description: Create a new lease
 components:
   schemas:
-    Dome9.Web.Api.Leases.IamSafeCustomLeasePostViewModel:
-      required:
-      - cloudAccountId
-      - iamEntityArn
-      type: object
-      properties:
-        cloudAccountId:
-          format: uuid
-          description: '[Required] Cloud account id for the user'
-          type: string
-          example: 00000000-0000-0000-0000-000000000000
-        expirationDate:
-          format: date-time
-          description: '[Required] Lease expiry time'
-          type: string
-        iamEntityArn:
-          description: '[Required] AWS IAM user or role ARN affected by lease'
-          type: string
     Dome9.Web.Api.Leases.IamSafeLeasePostViewModel:
       required:
       - cloudAccountId
@@ -202,6 +184,24 @@ components:
           type: array
           items:
             type: string
+    Dome9.Web.Api.Leases.IamSafeCustomLeasePostViewModel:
+      required:
+      - cloudAccountId
+      - iamEntityArn
+      type: object
+      properties:
+        cloudAccountId:
+          format: uuid
+          description: '[Required] Cloud account id for the user'
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        expirationDate:
+          format: date-time
+          description: '[Required] Lease expiry time'
+          type: string
+        iamEntityArn:
+          description: '[Required] AWS IAM user or role ARN affected by lease'
+          type: string
   securitySchemes:
     basic:
       type: http

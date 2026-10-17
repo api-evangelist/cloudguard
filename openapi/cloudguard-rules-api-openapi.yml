@@ -96,6 +96,41 @@ paths:
       description: Get all rules by filter
 components:
   schemas:
+    SecurityGraphQueryDefinition:
+      type: object
+      properties:
+        nodeLabel:
+          type: string
+          enum:
+          - AutoScalingGroup
+          - Bucket
+          - ContainerImage
+          - ContainerWorkload
+          - Cve
+          - Database
+          - Function
+          - IamRole
+          - IamUser
+          - KubernetesService
+          - Malware
+          - SecurityEvent
+          - VirtualMachine
+        type:
+          type: string
+          enum:
+          - GraphMainEntity
+          - GraphMainEntityGroup
+        filter:
+          type: object
+        relationships:
+          type: array
+          items:
+            type: string
+      required:
+      - nodeLabel
+      - type
+      - filter
+      - relationships
     SecurityGraphRuleViewModel:
       type: object
       properties:
@@ -173,41 +208,6 @@ components:
       - entityLabels
       - platforms
       - frameworks
-    SecurityGraphQueryDefinition:
-      type: object
-      properties:
-        nodeLabel:
-          type: string
-          enum:
-          - AutoScalingGroup
-          - Bucket
-          - ContainerImage
-          - ContainerWorkload
-          - Cve
-          - Database
-          - Function
-          - IamRole
-          - IamUser
-          - KubernetesService
-          - Malware
-          - SecurityEvent
-          - VirtualMachine
-        type:
-          type: string
-          enum:
-          - GraphMainEntity
-          - GraphMainEntityGroup
-        filter:
-          type: object
-        relationships:
-          type: array
-          items:
-            type: string
-      required:
-      - nodeLabel
-      - type
-      - filter
-      - relationships
   securitySchemes:
     basic:
       type: http

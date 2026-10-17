@@ -636,127 +636,6 @@ paths:
       description: Modify all AWP accounts scanner settings
 components:
   schemas:
-    Dome9.Web.Api.Agentless.SubAccountOnboardingCustomizationViewModel:
-      type: object
-      properties:
-        resourceGroupName:
-          description: Custom name for the scans resource group at the centralized account
-          type: string
-    Dome9.BL.Std.Services.Agentless.IssueItem:
-      type: object
-      properties:
-        issueType:
-          type: string
-    Dome9.Web.Api.Agentless.AgentlessInstanceStateDetailsViewModel:
-      type: object
-      properties:
-        type:
-          description: The scan result type
-          type: string
-        description:
-          description: The scan result description
-          type: string
-    Dome9.Web.Api.Agentless.CentralizedAzureAccountViewModel:
-      type: object
-      properties:
-        accountId:
-          description: The CloudGuard account ID
-          type: string
-        cloudAccountId:
-          description: The CloudGuard cloud account ID
-          type: string
-        externalAccountNumber:
-          description: The external account number
-          type: string
-    Dome9.Web.Api.Agentless.AgentlessCentralizedAccountSettingsViewModel:
-      type: object
-      properties:
-        inAccountScannerVPC:
-          description: The VPC mode
-          enum:
-          - ManagedByAWP
-          - ManagedByCustomer
-          type: string
-    Dome9.Web.Api.Agentless.AgentlessInstanceViewModel:
-      type: object
-      properties:
-        state:
-          type: string
-        timestamp:
-          type: string
-        stateDetails:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.Agentless.AgentlessInstanceStateDetailsViewModel'
-    Dome9.Web.Api.Agentless.AddAgentlessAzureSubAccountRequestBody:
-      required:
-      - centralizedCloudAccountId
-      type: object
-      properties:
-        centralizedCloudAccountId:
-          description: Centralized cloud account Id that AWP scanners will run
-          type: string
-        agentlessAccountSettings:
-          $ref: '#/components/schemas/Dome9.Web.Api.Agentless.AgentlessAccountSettingsViewModel'
-          description: AWP account settings
-        onboardingCustomizations:
-          $ref: '#/components/schemas/Dome9.Web.Api.Agentless.SubAccountOnboardingCustomizationViewModel'
-          description: Azure Sub Account Onboarding Customizations
-        isTerraform:
-          description: Indicates whether the account is onboarded with Terraform (Setting True will make AWP assume no cloud formation stack, hence no indication on CFT version updates)
-          type: boolean
-    Dome9.Web.Api.Agentless.AccountStateViewModel:
-      type: object
-      properties:
-        cloudAccountId:
-          description: The D9 cloud account id
-          type: string
-        agentlessProtectionEnabled:
-          description: A flag indicating whether AWP protection is enabled
-          type: boolean
-        scanMode:
-          description: OSne of saas, inAccount, inAccountHub, inAccountSub
-          type: string
-        provider:
-          description: The cloud provider
-          enum:
-          - aws
-          - azure
-          type: string
-        shouldUpdate:
-          description: A flag indicating whether AWP resources should be updated
-          type: boolean
-        isOrgOnboarding:
-          description: A flag indicating whether AWP was enabled as part of the organization onboarding
-          type: boolean
-        isOrgOnboardingManagement:
-          description: A flag indicating whether AWP was enabled as part of the organization onboarding as management account
-          type: boolean
-        isTerraform:
-          description: A flag indicating whether AWP was enabled from terraform
-          type: boolean
-        centralizedCloudAccountId:
-          description: Centralized account id in case using centralized-sub accounts
-          type: string
-    Dome9.Web.Api.Agentless.AgentlessSettingsViewModel:
-      type: object
-      properties:
-        scanMachineIntervalInHours:
-          format: int32
-          description: The interval in hours to scan the account
-          type: integer
-        maxConcurrenceScansPerRegion:
-          format: int32
-          description: The max number of scans that can run concurrently per region
-          type: integer
-        customTags:
-          description: A Dictionary of custom tags that will be added to each resource created by AWP
-          type: object
-          additionalProperties:
-            type: string
-        scanAWSLicensedImages:
-          description: Scan AWS licensed images (supported for AWS inAccount mode)
-          type: boolean
     Dome9.Web.Api.Agentless.AgentlessAwsOnboardingDataViewModel:
       type: object
       properties:
@@ -784,18 +663,120 @@ components:
           type: string
         scannerManagedIdentityName:
           type: string
-    Dome9.Web.Api.Agentless.AgentlessAzureOffboardingDataViewModel:
+    Dome9.Web.Api.Agentless.AzureOnboardingCustomizationDataViewModel:
       type: object
       properties:
-        offboardingScriptCommand:
-          description: The AWP offboarding script command
+        virtualMachineDataShareRoleName:
+          description: Custom name for the virtual machine data share role, applicable for saas, centralized, and in account mode
           type: string
-        offboardingScriptURL:
-          description: The AWP offboarding script url
+        virtualMachineScanOperatorRoleName:
+          description: Custom name for the virtual machine scan operator role, applicable for centralized, and in account mode
           type: string
-        version:
-          description: AWP offboarding script version
+        functionAppScanOperatorRoleName:
+          description: Custom name for the function-app scan operator role, applicable for centralized, and in account mode
           type: string
+        functionAppScannerRoleName:
+          description: Custom name for the function-app scanner role, applicable for centralized and in account mode
+          type: string
+        cryptoCreatorRoleName:
+          description: Custom name for the crypto resources creator role, applicable for centralized with SseCmkEncryptedDisksScan enabled
+          type: string
+        diskEncryptorRoleName:
+          description: Custom name for the disk encryptor role, applicable for centralized with SseCmkEncryptedDisksScan enabled
+          type: string
+        resourceGroupName:
+          description: Custom name for the resource group, applicable for centralized, sub and in account mode
+          type: string
+        scannerManagedIdentityName:
+          description: Custom name for the managed-identity used by the function-app scanner, applicable for centralized and in account mode
+          type: string
+    Dome9.Web.Api.Agentless.GenerateAgentlessAwsOnboardingDataRequest:
+      type: object
+      properties:
+        scanMode:
+          description: One of saas, inAccount, inAccountHub, inAccountSub
+          enum:
+          - saas
+          - inAccount
+          - inAccountHub
+          - inAccountSub
+          type: string
+        crossAccountRoleExternalId:
+          description: The AWP stack external id
+          type: string
+        cloudGuardAWPStackName:
+          description: The AWP stack name
+          type: string
+        centralizedCloudAccountId:
+          description: In case of inAccountSub, the account id of the centralized account
+          type: string
+    Dome9.Web.Api.Agentless.AgentlessAccountSettingsViewModel:
+      type: object
+      properties:
+        disabledRegions:
+          description: The list of regions that are disabled for the account
+          type: array
+          items:
+            type: string
+        skipFunctionAppsScan:
+          description: Skip Azure Function Apps scan (supported for inAccount and inAccountSub scan modes)
+          type: boolean
+        inAccountScannerVPC:
+          description: The VPC mode (supported for inAccount scan mode)
+          enum:
+          - ManagedByAWP
+          - ManagedByCustomer
+          type: string
+        scanMachineIntervalInHours:
+          format: int32
+          description: The interval in hours to scan the account
+          type: integer
+        maxConcurrenceScansPerRegion:
+          format: int32
+          description: The max number of scans that can run concurrently per region
+          type: integer
+        customTags:
+          description: A Dictionary of custom tags that will be added to each resource created by AWP
+          type: object
+          additionalProperties:
+            type: string
+        scanAWSLicensedImages:
+          description: Scan AWS licensed images (supported for AWS inAccount mode)
+          type: boolean
+    Dome9.Web.Api.Agentless.AgentlessInstanceStateDetailsViewModel:
+      type: object
+      properties:
+        type:
+          description: The scan result type
+          type: string
+        description:
+          description: The scan result description
+          type: string
+    Dome9.Web.Api.Agentless.AddAgentlessAwsSubAccountRequestBody:
+      required:
+      - crossAccountRoleName
+      - crossAccountRoleExternalId
+      - centralizedCloudAccountId
+      type: object
+      properties:
+        crossAccountRoleName:
+          description: The AWP cross account role name
+          type: string
+        crossAccountRoleExternalId:
+          description: The AWP cross account role external id
+          type: string
+        cloudGuardAWPStackName:
+          description: The AWP stack name
+          type: string
+        centralizedCloudAccountId:
+          description: Centralized cloud account Id that AWP scanners will run in
+          type: string
+        isTerraform:
+          description: Indicates whether the account is onboarded with Terraform (Setting True will make AWP assume no cloud formation stack, hence no indication on CFT version updates)
+          type: boolean
+        agentlessAccountSettings:
+          $ref: '#/components/schemas/Dome9.Web.Api.Agentless.AgentlessAccountSettingsViewModel'
+          description: AWP account settings
     Dome9.Web.Api.Agentless.AccountViewModel:
       type: object
       properties:
@@ -839,18 +820,6 @@ components:
         centralizedCloudAccountId:
           description: Centralized account id in case using centralized-sub accounts
           type: string
-    Dome9.Web.Api.Agentless.AgentlessAzureOnboardingDataViewModel:
-      type: object
-      properties:
-        onboardingScriptCommand:
-          description: The AWP onboarding script command
-          type: string
-        onboardingScriptURL:
-          description: The AWP onboarding script url
-          type: string
-        version:
-          description: AWP onboarding script version
-          type: string
     Dome9.Web.Api.Agentless.AddAgentlessAzureAccountRequestBody:
       type: object
       properties:
@@ -869,58 +838,39 @@ components:
         agentlessAccountSettings:
           $ref: '#/components/schemas/Dome9.Web.Api.Agentless.AgentlessAccountSettingsViewModel'
           description: AWP account settings
-    Dome9.Web.Api.Agentless.CentralizedAccountOnboardingCustomizationViewModel:
+    Dome9.Web.Api.Agentless.AccountStateViewModel:
       type: object
       properties:
-        virtualMachineScanOperatorRoleName:
+        cloudAccountId:
+          description: The D9 cloud account id
           type: string
-        functionAppScanOperatorRoleName:
-          type: string
-        virtualMachineDataShareRoleName:
-          type: string
-        functionAppScannerRoleName:
-          type: string
-        cryptoCreatorRoleName:
-          type: string
-        diskEncryptorRoleName:
-          type: string
-        resourceGroupName:
-          type: string
-        scannerManagedIdentityName:
-          type: string
-    Dome9.Web.Api.Agentless.AgentlessAccountSettingsViewModel:
-      type: object
-      properties:
-        disabledRegions:
-          description: The list of regions that are disabled for the account
-          type: array
-          items:
-            type: string
-        skipFunctionAppsScan:
-          description: Skip Azure Function Apps scan (supported for inAccount and inAccountSub scan modes)
+        agentlessProtectionEnabled:
+          description: A flag indicating whether AWP protection is enabled
           type: boolean
-        inAccountScannerVPC:
-          description: The VPC mode (supported for inAccount scan mode)
+        scanMode:
+          description: OSne of saas, inAccount, inAccountHub, inAccountSub
+          type: string
+        provider:
+          description: The cloud provider
           enum:
-          - ManagedByAWP
-          - ManagedByCustomer
+          - aws
+          - azure
           type: string
-        scanMachineIntervalInHours:
-          format: int32
-          description: The interval in hours to scan the account
-          type: integer
-        maxConcurrenceScansPerRegion:
-          format: int32
-          description: The max number of scans that can run concurrently per region
-          type: integer
-        customTags:
-          description: A Dictionary of custom tags that will be added to each resource created by AWP
-          type: object
-          additionalProperties:
-            type: string
-        scanAWSLicensedImages:
-          description: Scan AWS licensed images (supported for AWS inAccount mode)
+        shouldUpdate:
+          description: A flag indicating whether AWP resources should be updated
           type: boolean
+        isOrgOnboarding:
+          description: A flag indicating whether AWP was enabled as part of the organization onboarding
+          type: boolean
+        isOrgOnboardingManagement:
+          description: A flag indicating whether AWP was enabled as part of the organization onboarding as management account
+          type: boolean
+        isTerraform:
+          description: A flag indicating whether AWP was enabled from terraform
+          type: boolean
+        centralizedCloudAccountId:
+          description: Centralized account id in case using centralized-sub accounts
+          type: string
     Dome9.Web.Api.Agentless.AgentlessAwsValidateStackDataViewModel:
       type: object
       properties:
@@ -930,31 +880,23 @@ components:
           type: string
         version:
           type: string
-    Dome9.Web.Api.Agentless.AddAgentlessAwsSubAccountRequestBody:
+    Dome9.Web.Api.Agentless.AddAgentlessAzureSubAccountRequestBody:
       required:
-      - crossAccountRoleName
-      - crossAccountRoleExternalId
       - centralizedCloudAccountId
       type: object
       properties:
-        crossAccountRoleName:
-          description: The AWP cross account role name
-          type: string
-        crossAccountRoleExternalId:
-          description: The AWP cross account role external id
-          type: string
-        cloudGuardAWPStackName:
-          description: The AWP stack name
-          type: string
         centralizedCloudAccountId:
-          description: Centralized cloud account Id that AWP scanners will run in
+          description: Centralized cloud account Id that AWP scanners will run
           type: string
-        isTerraform:
-          description: Indicates whether the account is onboarded with Terraform (Setting True will make AWP assume no cloud formation stack, hence no indication on CFT version updates)
-          type: boolean
         agentlessAccountSettings:
           $ref: '#/components/schemas/Dome9.Web.Api.Agentless.AgentlessAccountSettingsViewModel'
           description: AWP account settings
+        onboardingCustomizations:
+          $ref: '#/components/schemas/Dome9.Web.Api.Agentless.SubAccountOnboardingCustomizationViewModel'
+          description: Azure Sub Account Onboarding Customizations
+        isTerraform:
+          description: Indicates whether the account is onboarded with Terraform (Setting True will make AWP assume no cloud formation stack, hence no indication on CFT version updates)
+          type: boolean
     Dome9.Web.Api.Agentless.AddAgentlessAwsAccountRequestBody:
       required:
       - crossAccountRoleName
@@ -997,15 +939,71 @@ components:
         agentlessAccountSettings:
           $ref: '#/components/schemas/Dome9.Web.Api.Agentless.AgentlessAzureCentralizedAccountSettingsViewModel'
           description: AWP account settings
-    Dome9.BL.Std.Services.Agentless.AccountIssues:
+    Dome9.Web.Api.Agentless.AgentlessAzureOffboardingDataViewModel:
       type: object
       properties:
-        regions:
+        offboardingScriptCommand:
+          description: The AWP offboarding script command
+          type: string
+        offboardingScriptURL:
+          description: The AWP offboarding script url
+          type: string
+        version:
+          description: AWP offboarding script version
+          type: string
+    Dome9.Web.Api.Agentless.SubAccountOnboardingCustomizationViewModel:
+      type: object
+      properties:
+        resourceGroupName:
+          description: Custom name for the scans resource group at the centralized account
+          type: string
+    Dome9.Web.Api.Agentless.CentralizedAccountOnboardingCustomizationViewModel:
+      type: object
+      properties:
+        virtualMachineScanOperatorRoleName:
+          type: string
+        functionAppScanOperatorRoleName:
+          type: string
+        virtualMachineDataShareRoleName:
+          type: string
+        functionAppScannerRoleName:
+          type: string
+        cryptoCreatorRoleName:
+          type: string
+        diskEncryptorRoleName:
+          type: string
+        resourceGroupName:
+          type: string
+        scannerManagedIdentityName:
+          type: string
+    Dome9.Web.Api.Agentless.AgentlessSettingsViewModel:
+      type: object
+      properties:
+        scanMachineIntervalInHours:
+          format: int32
+          description: The interval in hours to scan the account
+          type: integer
+        maxConcurrenceScansPerRegion:
+          format: int32
+          description: The max number of scans that can run concurrently per region
+          type: integer
+        customTags:
+          description: A Dictionary of custom tags that will be added to each resource created by AWP
           type: object
           additionalProperties:
-            $ref: '#/components/schemas/Dome9.BL.Std.Services.Agentless.IssueItem'
-        account:
-          $ref: '#/components/schemas/Dome9.BL.Std.Services.Agentless.IssueItem'
+            type: string
+        scanAWSLicensedImages:
+          description: Scan AWS licensed images (supported for AWS inAccount mode)
+          type: boolean
+    Dome9.Web.Api.Agentless.AgentlessCentralizedAccountSettingsViewModel:
+      type: object
+      properties:
+        inAccountScannerVPC:
+          description: The VPC mode
+          enum:
+          - ManagedByAWP
+          - ManagedByCustomer
+          type: string
     Dome9.Web.Api.Agentless.AgentlessAzureCentralizedAccountSettingsViewModel:
       type: object
       properties:
@@ -1018,32 +1016,17 @@ components:
           - ManagedByAWP
           - ManagedByCustomer
           type: string
-    Dome9.Web.Api.Agentless.AzureOnboardingCustomizationDataViewModel:
+    Dome9.Web.Api.Agentless.CentralizedAzureAccountViewModel:
       type: object
       properties:
-        virtualMachineDataShareRoleName:
-          description: Custom name for the virtual machine data share role, applicable for saas, centralized, and in account mode
+        accountId:
+          description: The CloudGuard account ID
           type: string
-        virtualMachineScanOperatorRoleName:
-          description: Custom name for the virtual machine scan operator role, applicable for centralized, and in account mode
+        cloudAccountId:
+          description: The CloudGuard cloud account ID
           type: string
-        functionAppScanOperatorRoleName:
-          description: Custom name for the function-app scan operator role, applicable for centralized, and in account mode
-          type: string
-        functionAppScannerRoleName:
-          description: Custom name for the function-app scanner role, applicable for centralized and in account mode
-          type: string
-        cryptoCreatorRoleName:
-          description: Custom name for the crypto resources creator role, applicable for centralized with SseCmkEncryptedDisksScan enabled
-          type: string
-        diskEncryptorRoleName:
-          description: Custom name for the disk encryptor role, applicable for centralized with SseCmkEncryptedDisksScan enabled
-          type: string
-        resourceGroupName:
-          description: Custom name for the resource group, applicable for centralized, sub and in account mode
-          type: string
-        scannerManagedIdentityName:
-          description: Custom name for the managed-identity used by the function-app scanner, applicable for centralized and in account mode
+        externalAccountNumber:
+          description: The external account number
           type: string
     Dome9.Web.Api.Agentless.AddAgentlessAwsCentralizedAccountRequestBody:
       required:
@@ -1066,26 +1049,15 @@ components:
         agentlessAccountSettings:
           $ref: '#/components/schemas/Dome9.Web.Api.Agentless.AgentlessCentralizedAccountSettingsViewModel'
           description: AWP account settings
-    Dome9.Web.Api.Agentless.GenerateAgentlessAwsOnboardingDataRequest:
+    Dome9.BL.Std.Services.Agentless.AccountIssues:
       type: object
       properties:
-        scanMode:
-          description: One of saas, inAccount, inAccountHub, inAccountSub
-          enum:
-          - saas
-          - inAccount
-          - inAccountHub
-          - inAccountSub
-          type: string
-        crossAccountRoleExternalId:
-          description: The AWP stack external id
-          type: string
-        cloudGuardAWPStackName:
-          description: The AWP stack name
-          type: string
-        centralizedCloudAccountId:
-          description: In case of inAccountSub, the account id of the centralized account
-          type: string
+        regions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Dome9.BL.Std.Services.Agentless.IssueItem'
+        account:
+          $ref: '#/components/schemas/Dome9.BL.Std.Services.Agentless.IssueItem'
     Dome9.Web.Api.Agentless.GenerateAgentlessAzureOnboardingDataRequest:
       type: object
       properties:
@@ -1112,6 +1084,34 @@ components:
         onboardingCustomizations:
           $ref: '#/components/schemas/Dome9.Web.Api.Agentless.AzureOnboardingCustomizationDataViewModel'
           description: AWP Azure Onboarding Customizations
+    Dome9.Web.Api.Agentless.AgentlessAzureOnboardingDataViewModel:
+      type: object
+      properties:
+        onboardingScriptCommand:
+          description: The AWP onboarding script command
+          type: string
+        onboardingScriptURL:
+          description: The AWP onboarding script url
+          type: string
+        version:
+          description: AWP onboarding script version
+          type: string
+    Dome9.Web.Api.Agentless.AgentlessInstanceViewModel:
+      type: object
+      properties:
+        state:
+          type: string
+        timestamp:
+          type: string
+        stateDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Agentless.AgentlessInstanceStateDetailsViewModel'
+    Dome9.BL.Std.Services.Agentless.IssueItem:
+      type: object
+      properties:
+        issueType:
+          type: string
   securitySchemes:
     basic:
       type: http

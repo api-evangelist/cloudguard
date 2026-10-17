@@ -614,40 +614,6 @@ paths:
       description: Attach several Kubernetes accounts to a specific Organizational Unit. User 'null' as root Organizational Unit as target
 components:
   schemas:
-    KubernetesPlatformType:
-      type: string
-      description: ''
-      x-enumNames:
-      - NA
-      - GKE
-      - EKS
-      - AKS
-      - Openshift
-      enum:
-      - NA
-      - GKE
-      - EKS
-      - AKS
-      - Openshift
-    AttachCloudAccountsViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - entries
-      - organizationalUnitId
-      properties:
-        entries:
-          type:
-          - array
-          - 'null'
-          default: []
-          items:
-            type: string
-        organizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
     KubernetesAgentStatusOptions:
       type: string
       description: ''
@@ -667,6 +633,35 @@ components:
       - WARNING
       - ERROR
       - DISABLED
+    KubernetesAccountFeatureAgentStatusViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - kubernetesFeature
+      - statusOk
+      - statusError
+      - statusInit
+      - statusPending
+      properties:
+        kubernetesFeature:
+          type: string
+          description: Feature
+        statusOk:
+          type: integer
+          description: Status Ok
+          format: int32
+        statusError:
+          type: integer
+          description: Status Error
+          format: int32
+        statusInit:
+          type: integer
+          description: Status Init
+          format: int32
+        statusPending:
+          type: integer
+          description: Status Pending
+          format: int32
     KubernetesAgentSummaryViewModel:
       type: object
       additionalProperties: false
@@ -720,295 +715,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/KubernetesAgentComponentViewModel'
-    UpdateIdViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - organizationalUnitId
-      properties:
-        organizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
-    KubernetesAccountAgentStatusFiltersViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - statuses
-      - isAgentUpToDate
-      - organizationalUnitIds
-      properties:
-        statuses:
-          type:
-          - array
-          - 'null'
-          description: Filter agents by status (OK/WARNING/ERROR/PENDING/PENDING_CLEANUP/INITIALIZING/DISABLED).
-          items:
-            $ref: '#/components/schemas/KubernetesAgentStatusOptions'
-        isAgentUpToDate:
-          type:
-          - boolean
-          - 'null'
-          description: Filter agents that are up to date or not. Set to 'null' to include all.
-        organizationalUnitIds:
-          type:
-          - array
-          - 'null'
-          description: Filter agents by the organizational unit.
-          items:
-            type: string
-            format: guid
-    KubernetesAccountSummaryViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - id
-      - name
-      - numberOfNodes
-      - numberOfPods
-      - numberOfServices
-      - clusterVersion
-      - agentsStatus
-      - agentsStatusDescription
-      - agentsStatusSuportUrl
-      - featureStatuses
-      - isAutoUpgradeActive
-      - description
-      properties:
-        id:
-          type: string
-          description: Kubernetes id
-          format: guid
-        name:
-          type: string
-          description: Kubernetes account name in Dome9
-        numberOfNodes:
-          type: integer
-          description: Total Number of Nodes in the Kubernetes account
-          format: int32
-        numberOfPods:
-          type: integer
-          description: Total Number of Pods in the Kubernetes account
-          format: int32
-        numberOfServices:
-          type: integer
-          description: Total Number of Services in the Kubernetes account
-          format: int32
-        clusterVersion:
-          type: string
-          description: Kubernetes cluster server version
-        agentsStatus:
-          type: string
-          description: Kubernetes cluster agent version
-        agentsStatusDescription:
-          type: string
-          description: Kubernetes cluster agents status description
-        agentsStatusSuportUrl:
-          type: string
-          description: Kubernetes cluster agents status support URL
-        featureStatuses:
-          type: array
-          description: Kubernetes cluster agent feature status list
-          items:
-            $ref: '#/components/schemas/KubernetesAccountFeatureAgentStatusViewModel'
-        isAutoUpgradeActive:
-          type: boolean
-        description:
-          type: string
-          description: Kubernetes cluster description
-    MoveOrganizationalUnitViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - sourceOrganizationalUnitId
-      - targetOrganizationalUnitId
-      properties:
-        sourceOrganizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
-        targetOrganizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
-    CloudVendor:
-      type: string
-      description: ''
-      x-enumNames:
-      - aws
-      - hp
-      - mellanox
-      - awsgov
-      - azure
-      - google
-      - awschina
-      - azuregov
-      - kubernetes
-      - azurechina
-      - terraform
-      - generic
-      - kubernetesruntimeassurance
-      - shiftleft
-      - sourcecodeassurance
-      - imageassurance
-      - alibaba
-      - cft
-      - containerregistry
-      - oci
-      - ocigov
-      - ocigovuk
-      - CIEM
-      enum:
-      - aws
-      - hp
-      - mellanox
-      - awsgov
-      - azure
-      - google
-      - awschina
-      - azuregov
-      - kubernetes
-      - azurechina
-      - terraform
-      - generic
-      - kubernetesruntimeassurance
-      - shiftleft
-      - sourcecodeassurance
-      - imageassurance
-      - alibaba
-      - cft
-      - containerregistry
-      - oci
-      - ocigov
-      - ocigovuk
-      - CIEM
-    KubernetesAgentsSummaryViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - agentType
-      - agentSummary
-      properties:
-        agentType:
-          type: string
-        agentSummary:
-          type: array
-          items:
-            $ref: '#/components/schemas/KubernetesAgentSummaryViewModel'
-    KubernetesPostViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      - organizationalUnitId
-      - description
-      properties:
-        name:
-          type: string
-          description: Kubernetes account name in Dome9
-          maxLength: 500
-          pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
-        organizationalUnitId:
-          type:
-          - string
-          - 'null'
-          description: Kubernetes account name in Dome9
-          format: guid
-        description:
-          type:
-          - string
-          - 'null'
-          description: Kubernetes account description in CloudGuard
-          maxLength: 1000
-          pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
-    KubernetesAgentComponentViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - lastOkTime
-      - lastOkDate
-      - id
-      - name
-      - status
-      - description
-      - supportUrl
-      - activationTime
-      - activationDate
-      properties:
-        lastOkTime:
-          type: string
-          deprecated: true
-          x-deprecatedMessage: use LastOkDate
-        lastOkDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        id:
-          type: string
-        name:
-          type: string
-        status:
-          type: string
-        description:
-          type: string
-        supportUrl:
-          type: string
-        activationTime:
-          type: string
-          deprecated: true
-          x-deprecatedMessage: use ActivationDate
-        activationDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-    KubernetesAccountFeatureSummaryViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      - status
-      - statusDescription
-      properties:
-        name:
-          type: string
-        status:
-          $ref: '#/components/schemas/KubernetesAgentStatusOptions'
-        statusDescription:
-          type: string
-    KubernetesAccountFeatureAgentStatusViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - kubernetesFeature
-      - statusOk
-      - statusError
-      - statusInit
-      - statusPending
-      properties:
-        kubernetesFeature:
-          type: string
-          description: Feature
-        statusOk:
-          type: integer
-          description: Status Ok
-          format: int32
-        statusError:
-          type: integer
-          description: Status Error
-          format: int32
-        statusInit:
-          type: integer
-          description: Status Init
-          format: int32
-        statusPending:
-          type: integer
-          description: Status Pending
-          format: int32
     KubernetesAccountAgentStatusViewModel:
       type: object
       additionalProperties: false
@@ -1053,6 +759,21 @@ components:
           description: Kubernetes account features status
           items:
             $ref: '#/components/schemas/KubernetesAccountFeatureSummaryViewModel'
+    KubernetesPlatformType:
+      type: string
+      description: ''
+      x-enumNames:
+      - NA
+      - GKE
+      - EKS
+      - AKS
+      - Openshift
+      enum:
+      - NA
+      - GKE
+      - EKS
+      - AKS
+      - Openshift
     KubernetesAccountViewModel:
       type: object
       additionalProperties: false
@@ -1145,6 +866,285 @@ components:
           $ref: '#/components/schemas/CloudVendor'
         type:
           $ref: '#/components/schemas/KubernetesPlatformType'
+    MoveOrganizationalUnitViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - sourceOrganizationalUnitId
+      - targetOrganizationalUnitId
+      properties:
+        sourceOrganizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        targetOrganizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+    KubernetesPostViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - organizationalUnitId
+      - description
+      properties:
+        name:
+          type: string
+          description: Kubernetes account name in Dome9
+          maxLength: 500
+          pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          description: Kubernetes account name in Dome9
+          format: guid
+        description:
+          type:
+          - string
+          - 'null'
+          description: Kubernetes account description in CloudGuard
+          maxLength: 1000
+          pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
+    CloudVendor:
+      type: string
+      description: ''
+      x-enumNames:
+      - aws
+      - hp
+      - mellanox
+      - awsgov
+      - azure
+      - google
+      - awschina
+      - azuregov
+      - kubernetes
+      - azurechina
+      - terraform
+      - generic
+      - kubernetesruntimeassurance
+      - shiftleft
+      - sourcecodeassurance
+      - imageassurance
+      - alibaba
+      - cft
+      - containerregistry
+      - oci
+      - ocigov
+      - ocigovuk
+      - CIEM
+      enum:
+      - aws
+      - hp
+      - mellanox
+      - awsgov
+      - azure
+      - google
+      - awschina
+      - azuregov
+      - kubernetes
+      - azurechina
+      - terraform
+      - generic
+      - kubernetesruntimeassurance
+      - shiftleft
+      - sourcecodeassurance
+      - imageassurance
+      - alibaba
+      - cft
+      - containerregistry
+      - oci
+      - ocigov
+      - ocigovuk
+      - CIEM
+    AttachCloudAccountsViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - entries
+      - organizationalUnitId
+      properties:
+        entries:
+          type:
+          - array
+          - 'null'
+          default: []
+          items:
+            type: string
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+    KubernetesAgentsSummaryViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - agentType
+      - agentSummary
+      properties:
+        agentType:
+          type: string
+        agentSummary:
+          type: array
+          items:
+            $ref: '#/components/schemas/KubernetesAgentSummaryViewModel'
+    KubernetesAgentComponentViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - lastOkTime
+      - lastOkDate
+      - id
+      - name
+      - status
+      - description
+      - supportUrl
+      - activationTime
+      - activationDate
+      properties:
+        lastOkTime:
+          type: string
+          deprecated: true
+          x-deprecatedMessage: use LastOkDate
+        lastOkDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        description:
+          type: string
+        supportUrl:
+          type: string
+        activationTime:
+          type: string
+          deprecated: true
+          x-deprecatedMessage: use ActivationDate
+        activationDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+    KubernetesAccountFeatureSummaryViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - status
+      - statusDescription
+      properties:
+        name:
+          type: string
+        status:
+          $ref: '#/components/schemas/KubernetesAgentStatusOptions'
+        statusDescription:
+          type: string
+    KubernetesAccountSummaryViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - name
+      - numberOfNodes
+      - numberOfPods
+      - numberOfServices
+      - clusterVersion
+      - agentsStatus
+      - agentsStatusDescription
+      - agentsStatusSuportUrl
+      - featureStatuses
+      - isAutoUpgradeActive
+      - description
+      properties:
+        id:
+          type: string
+          description: Kubernetes id
+          format: guid
+        name:
+          type: string
+          description: Kubernetes account name in Dome9
+        numberOfNodes:
+          type: integer
+          description: Total Number of Nodes in the Kubernetes account
+          format: int32
+        numberOfPods:
+          type: integer
+          description: Total Number of Pods in the Kubernetes account
+          format: int32
+        numberOfServices:
+          type: integer
+          description: Total Number of Services in the Kubernetes account
+          format: int32
+        clusterVersion:
+          type: string
+          description: Kubernetes cluster server version
+        agentsStatus:
+          type: string
+          description: Kubernetes cluster agent version
+        agentsStatusDescription:
+          type: string
+          description: Kubernetes cluster agents status description
+        agentsStatusSuportUrl:
+          type: string
+          description: Kubernetes cluster agents status support URL
+        featureStatuses:
+          type: array
+          description: Kubernetes cluster agent feature status list
+          items:
+            $ref: '#/components/schemas/KubernetesAccountFeatureAgentStatusViewModel'
+        isAutoUpgradeActive:
+          type: boolean
+        description:
+          type: string
+          description: Kubernetes cluster description
+    KubernetesAccountAgentStatusFiltersViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - statuses
+      - isAgentUpToDate
+      - organizationalUnitIds
+      properties:
+        statuses:
+          type:
+          - array
+          - 'null'
+          description: Filter agents by status (OK/WARNING/ERROR/PENDING/PENDING_CLEANUP/INITIALIZING/DISABLED).
+          items:
+            $ref: '#/components/schemas/KubernetesAgentStatusOptions'
+        isAgentUpToDate:
+          type:
+          - boolean
+          - 'null'
+          description: Filter agents that are up to date or not. Set to 'null' to include all.
+        organizationalUnitIds:
+          type:
+          - array
+          - 'null'
+          description: Filter agents by the organizational unit.
+          items:
+            type: string
+            format: guid
+    UpdateIdViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - organizationalUnitId
+      properties:
+        organizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
   securitySchemes:
     basic:
       type: http

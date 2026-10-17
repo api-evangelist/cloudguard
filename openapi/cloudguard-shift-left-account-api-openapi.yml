@@ -332,6 +332,23 @@ components:
           type: string
         organizationalUnitName:
           type: string
+    MoveOrganizationalUnitViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - sourceOrganizationalUnitId
+      - targetOrganizationalUnitId
+      properties:
+        sourceOrganizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        targetOrganizationalUnitId:
+          type:
+          - string
+          - 'null'
+          format: guid
     AttachCloudAccountsViewModel:
       type: object
       additionalProperties: false
@@ -351,33 +368,32 @@ components:
           - string
           - 'null'
           format: guid
-    MoveOrganizationalUnitViewModel:
+    ShiftLeftPostViewModel:
       type: object
       additionalProperties: false
       required:
-      - sourceOrganizationalUnitId
-      - targetOrganizationalUnitId
-      properties:
-        sourceOrganizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
-        targetOrganizationalUnitId:
-          type:
-          - string
-          - 'null'
-          format: guid
-    UpdateIdViewModel:
-      type: object
-      additionalProperties: false
-      required:
+      - name
+      - description
       - organizationalUnitId
       properties:
+        name:
+          type: string
+          description: ShiftLeft account name in Dome9
+          maxLength: 500
+          minLength: 1
+          pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
+        description:
+          type:
+          - string
+          - 'null'
+          description: ShiftLeft environment description in Dome9
+          maxLength: 1000
+          pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
         organizationalUnitId:
           type:
           - string
           - 'null'
+          description: ShiftLeft account organizational unit ID
           format: guid
     CloudVendor:
       type: string
@@ -430,32 +446,16 @@ components:
       - ocigov
       - ocigovuk
       - CIEM
-    ShiftLeftPostViewModel:
+    UpdateIdViewModel:
       type: object
       additionalProperties: false
       required:
-      - name
-      - description
       - organizationalUnitId
       properties:
-        name:
-          type: string
-          description: ShiftLeft account name in Dome9
-          maxLength: 500
-          minLength: 1
-          pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
-        description:
-          type:
-          - string
-          - 'null'
-          description: ShiftLeft environment description in Dome9
-          maxLength: 1000
-          pattern: ^[\p{L}\p{M}0-9\s\-_'.,#/@;:!=]*$
         organizationalUnitId:
           type:
           - string
           - 'null'
-          description: ShiftLeft account organizational unit ID
           format: guid
   securitySchemes:
     basic:

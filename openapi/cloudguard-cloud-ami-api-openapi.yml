@@ -59,6 +59,13 @@ paths:
       summary: Get
 components:
   schemas:
+    Dome9.Web.Api.CloudAmi.CloudEc2TagViewModel:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
     Dome9.Web.Api.CloudAmi.CloudEc2BlockDeviceMappingViewModel:
       type: object
       properties:
@@ -76,23 +83,6 @@ components:
         code:
           type: string
         message:
-          type: string
-    Dome9.Web.Api.CloudAmi.CloudEc2EbsBlockDeviceViewModel:
-      type: object
-      properties:
-        deleteOnTermination:
-          type: boolean
-        encrypted:
-          type: boolean
-        iops:
-          format: int32
-          type: integer
-        snapshotId:
-          type: string
-        volumeSize:
-          format: int32
-          type: integer
-        volumeType:
           type: string
     Dome9.Web.Api.CloudAmi.CloudEc2ProductCodeViewModel:
       type: object
@@ -167,12 +157,22 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Dome9.Web.Api.CloudAmi.CloudEc2TagViewModel'
-    Dome9.Web.Api.CloudAmi.CloudEc2TagViewModel:
+    Dome9.Web.Api.CloudAmi.CloudEc2EbsBlockDeviceViewModel:
       type: object
       properties:
-        key:
+        deleteOnTermination:
+          type: boolean
+        encrypted:
+          type: boolean
+        iops:
+          format: int32
+          type: integer
+        snapshotId:
           type: string
-        value:
+        volumeSize:
+          format: int32
+          type: integer
+        volumeType:
           type: string
   securitySchemes:
     basic:

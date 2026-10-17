@@ -224,23 +224,6 @@ components:
             format: int64
         onboardingMode:
           $ref: '#/components/schemas/OnboardingMode'
-    OnboardingRequest:
-      allOf:
-      - $ref: '#/components/schemas/ValidateStackSetArnRequest'
-      - type: object
-        additionalProperties: false
-        required:
-        - enableStackModify
-        - awsOrganizationName
-        properties:
-          awsOrganizationName:
-            type:
-            - string
-            - 'null'
-            description: Not required.
-          enableStackModify:
-            type: boolean
-            description: Required. Default is false, it's for future use.
     OnboardingMode:
       type: string
       description: ''
@@ -250,44 +233,6 @@ components:
       enum:
       - read-only
       - manage
-    OnboardingPermissionRequest:
-      type: object
-      additionalProperties: false
-      required:
-      - secret
-      - workflowId
-      - roleArn
-      - apiKey
-      properties:
-        workflowId:
-          type: string
-          description: Not required
-          format: guid
-          default: 9dae2043-7b84-4afe-a3ff-e11ceebc22a2
-        roleArn:
-          type: string
-          description: 'CloudGuard role arn from AWS.
-
-            AWS China accounts supported only in CloudGuard China DC.'
-          pattern: ^arn:(aws|aws-cn):iam::\d{12}:role\/[A-Za-z0-9]+(?:-[A-Za-z0-9]+)+$
-        secret:
-          type: string
-          description: 'Also known as ExternalId from management-stack API.
-
-            this value should be the one that returns from: management-stack API.'
-          pattern: ^[\w+=,.@:\/-]{12,1224}$
-        apiKey:
-          type:
-          - string
-          - 'null'
-          description: 'Should be null.
-
-            Needed only for ''UserBased'' Type.'
-    AwsOrganizationOnboardingConfiguration:
-      allOf:
-      - $ref: '#/components/schemas/OrganizationOnboardingConfigurationBase'
-      - type: object
-        additionalProperties: false
     MappingStrategyType:
       type: string
       description: ''
@@ -297,38 +242,6 @@ components:
       enum:
       - Flat
       - Clone
-    UpdateConfigurationRequest:
-      type: object
-      additionalProperties: false
-      required:
-      - mappingStrategy
-      - postureManagement
-      - organizationRootOuId
-      properties:
-        organizationRootOuId:
-          type:
-          - string
-          - 'null'
-          format: guid
-        mappingStrategy:
-          $ref: '#/components/schemas/MappingStrategyType'
-        postureManagement:
-          $ref: '#/components/schemas/PostureManagementConfiguration'
-    OnboardingUpdateRequest:
-      type: object
-      additionalProperties: false
-      required:
-      - awsOrganizationName
-      - enableStackModify
-      properties:
-        awsOrganizationName:
-          type:
-          - string
-          - 'null'
-          description: AWS organization name.
-        enableStackModify:
-          type: boolean
-          description: Required. Default is false, it's for future use.
     OrganizationManagementViewModel:
       type: object
       additionalProperties: false
@@ -395,6 +308,28 @@ components:
           description: The organization root ID or organizational unit (OU) IDs that the client specified for the StackSet DeploymentTargets.
           items:
             type: string
+    OnboardingRequest:
+      allOf:
+      - $ref: '#/components/schemas/ValidateStackSetArnRequest'
+      - type: object
+        additionalProperties: false
+        required:
+        - enableStackModify
+        - awsOrganizationName
+        properties:
+          awsOrganizationName:
+            type:
+            - string
+            - 'null'
+            description: Not required.
+          enableStackModify:
+            type: boolean
+            description: Required. Default is false, it's for future use.
+    AwsOrganizationOnboardingConfiguration:
+      allOf:
+      - $ref: '#/components/schemas/OrganizationOnboardingConfigurationBase'
+      - type: object
+        additionalProperties: false
     ValidateStackSetArnRequest:
       allOf:
       - $ref: '#/components/schemas/OnboardingPermissionRequest'
@@ -407,6 +342,31 @@ components:
             type: string
             description: The created StackSet ARN.
             pattern: ^arn:(?<partition>(aws[\w\-]*)):(?<service>[\w]*):(?<region>[\w\d-]*):(?<accountId>[\d]*):stackset\/(((?<resource>[\w+=,\.@\-_ ]+)[\/]?)+):(((?<subresource>[\w+=,\.@\-_ ]+)[\/:]?)+)?$
+    OnboardingUpdateRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - awsOrganizationName
+      - enableStackModify
+      properties:
+        awsOrganizationName:
+          type:
+          - string
+          - 'null'
+          description: AWS organization name.
+        enableStackModify:
+          type: boolean
+          description: Required. Default is false, it's for future use.
+    UpdateStackSetArnRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - stackSetArn
+      properties:
+        stackSetArn:
+          type: string
+          description: The created StackSet ARN.
+          pattern: ^arn:(?<partition>(aws[\w\-]*)):(?<service>[\w]*):(?<region>[\w\d-]*):(?<accountId>[\d]*):stackset\/(((?<resource>[\w+=,\.@\-_ ]+)[\/]?)+):(((?<subresource>[\w+=,\.@\-_ ]+)[\/:]?)+)?$
     OrganizationOnboardingConfigurationBase:
       type: object
       additionalProperties: false
@@ -425,16 +385,56 @@ components:
         postureManagement:
           oneOf:
           - $ref: '#/components/schemas/PostureManagementConfiguration'
-    UpdateStackSetArnRequest:
+    UpdateConfigurationRequest:
       type: object
       additionalProperties: false
       required:
-      - stackSetArn
+      - mappingStrategy
+      - postureManagement
+      - organizationRootOuId
       properties:
-        stackSetArn:
+        organizationRootOuId:
+          type:
+          - string
+          - 'null'
+          format: guid
+        mappingStrategy:
+          $ref: '#/components/schemas/MappingStrategyType'
+        postureManagement:
+          $ref: '#/components/schemas/PostureManagementConfiguration'
+    OnboardingPermissionRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - secret
+      - workflowId
+      - roleArn
+      - apiKey
+      properties:
+        workflowId:
           type: string
-          description: The created StackSet ARN.
-          pattern: ^arn:(?<partition>(aws[\w\-]*)):(?<service>[\w]*):(?<region>[\w\d-]*):(?<accountId>[\d]*):stackset\/(((?<resource>[\w+=,\.@\-_ ]+)[\/]?)+):(((?<subresource>[\w+=,\.@\-_ ]+)[\/:]?)+)?$
+          description: Not required
+          format: guid
+          default: 9dae2043-7b84-4afe-a3ff-e11ceebc22a2
+        roleArn:
+          type: string
+          description: 'CloudGuard role arn from AWS.
+
+            AWS China accounts supported only in CloudGuard China DC.'
+          pattern: ^arn:(aws|aws-cn):iam::\d{12}:role\/[A-Za-z0-9]+(?:-[A-Za-z0-9]+)+$
+        secret:
+          type: string
+          description: 'Also known as ExternalId from management-stack API.
+
+            this value should be the one that returns from: management-stack API.'
+          pattern: ^[\w+=,.@:\/-]{12,1224}$
+        apiKey:
+          type:
+          - string
+          - 'null'
+          description: 'Should be null.
+
+            Needed only for ''UserBased'' Type.'
   securitySchemes:
     basic:
       type: http

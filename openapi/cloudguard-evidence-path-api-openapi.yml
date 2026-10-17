@@ -56,6 +56,20 @@ components:
       - fromId
       - toId
       - label
+    EvidencePathViewModel:
+      type: object
+      properties:
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/NodeViewModel'
+        relationships:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelationshipViewModel'
+      required:
+      - nodes
+      - relationships
     NodeViewModel:
       type: object
       properties:
@@ -85,20 +99,6 @@ components:
       - srl
       - label
       - properties
-    EvidencePathViewModel:
-      type: object
-      properties:
-        nodes:
-          type: array
-          items:
-            $ref: '#/components/schemas/NodeViewModel'
-        relationships:
-          type: array
-          items:
-            $ref: '#/components/schemas/RelationshipViewModel'
-      required:
-      - nodes
-      - relationships
   securitySchemes:
     basic:
       type: http

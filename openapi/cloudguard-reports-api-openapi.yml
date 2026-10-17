@@ -109,6 +109,49 @@ paths:
                 $ref: '#/components/schemas/ReportOperationResponse'
 components:
   schemas:
+    ReportNotificationItem:
+      type: object
+      additionalProperties: false
+      required:
+      - type
+      - value
+      properties:
+        type:
+          type: string
+        value:
+          type: string
+    BaseReportModel:
+      type: object
+      additionalProperties: false
+      required:
+      - reportName
+      - reportType
+      - filters
+      - notifications
+      - scheduleDetails
+      properties:
+        reportName:
+          type: string
+        reportType:
+          type: string
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportFiltersItem'
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportNotificationItem'
+        scheduleDetails:
+          $ref: '#/components/schemas/ReportScheduleDetails'
+    ReportOperationResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - message
+      properties:
+        message:
+          type: string
     FullReportResponseModel:
       allOf:
       - $ref: '#/components/schemas/BaseReportModel'
@@ -144,51 +187,6 @@ components:
           items:
             type: integer
             format: int32
-    BaseReportModel:
-      type: object
-      additionalProperties: false
-      required:
-      - reportName
-      - reportType
-      - filters
-      - notifications
-      - scheduleDetails
-      properties:
-        reportName:
-          type: string
-        reportType:
-          type: string
-        filters:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReportFiltersItem'
-        notifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReportNotificationItem'
-        scheduleDetails:
-          $ref: '#/components/schemas/ReportScheduleDetails'
-    ReportFiltersItem:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      - value
-      properties:
-        name:
-          type: string
-        value: {}
-    ReportNotificationItem:
-      type: object
-      additionalProperties: false
-      required:
-      - type
-      - value
-      properties:
-        type:
-          type: string
-        value:
-          type: string
     ReportScheduleDetails:
       type: object
       additionalProperties: false
@@ -214,14 +212,16 @@ components:
           - integer
           - 'null'
           format: int32
-    ReportOperationResponse:
+    ReportFiltersItem:
       type: object
       additionalProperties: false
       required:
-      - message
+      - name
+      - value
       properties:
-        message:
+        name:
           type: string
+        value: {}
   securitySchemes:
     basic:
       type: http

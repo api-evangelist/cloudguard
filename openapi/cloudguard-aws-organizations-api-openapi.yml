@@ -55,27 +55,6 @@ paths:
       summary: Get Accounts
 components:
   schemas:
-    Dome9.Web.Api.AwsOrganizationViewModel:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        unitPath:
-          type: string
-        arn:
-          type: string
-        organizationType:
-          enum:
-          - Root
-          - Account
-          - Unit
-          type: string
-        organizationPolicies:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dome9.Web.Api.Organizations.AwsOrganizationPolicyViewModel'
     Dome9.Web.Api.AwsOrganizationAccountViewModel:
       type: object
       properties:
@@ -123,6 +102,27 @@ components:
           type: string
         value:
           type: string
+    Dome9.Web.Api.AwsOrganizationViewModel:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        unitPath:
+          type: string
+        arn:
+          type: string
+        organizationType:
+          enum:
+          - Root
+          - Account
+          - Unit
+          type: string
+        organizationPolicies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dome9.Web.Api.Organizations.AwsOrganizationPolicyViewModel'
     Dome9.Web.Api.Organizations.AwsOrganizationPolicyViewModel:
       type: object
       properties:

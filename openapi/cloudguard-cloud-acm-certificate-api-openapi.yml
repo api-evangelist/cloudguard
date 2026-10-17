@@ -39,6 +39,29 @@ paths:
       summary: Get
 components:
   schemas:
+    Falconetix.Model.CloudAcmKeyUsageViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+    Falconetix.Model.CloudAcmResourceRecordViewModel:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        value:
+          type: string
+    Falconetix.Model.CloudAcmRenewalSummaryViewModel:
+      type: object
+      properties:
+        domainValidationOptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Falconetix.Model.CloudAcmDomainValidationViewModel'
+        renewalStatus:
+          type: string
     Falconetix.Model.CloudAcmCertificateDetailViewModel:
       type: object
       properties:
@@ -111,27 +134,6 @@ components:
           additionalProperties:
             type: string
           readOnly: true
-    Falconetix.Model.CloudAcmExtendedKeyUsageViewModel:
-      type: object
-      properties:
-        name:
-          type: string
-        oid:
-          type: string
-    Falconetix.Model.CloudAcmRenewalSummaryViewModel:
-      type: object
-      properties:
-        domainValidationOptions:
-          type: array
-          items:
-            $ref: '#/components/schemas/Falconetix.Model.CloudAcmDomainValidationViewModel'
-        renewalStatus:
-          type: string
-    Falconetix.Model.CloudAcmCertificateOptionsSummaryViewModel:
-      type: object
-      properties:
-        certificateTransparencyLoggingPreference:
-          type: string
     Falconetix.Model.CloudAcmDomainValidationViewModel:
       type: object
       properties:
@@ -149,19 +151,17 @@ components:
           type: string
         validationStatus:
           type: string
-    Falconetix.Model.CloudAcmResourceRecordViewModel:
+    Falconetix.Model.CloudAcmExtendedKeyUsageViewModel:
       type: object
       properties:
         name:
           type: string
-        type:
+        oid:
           type: string
-        value:
-          type: string
-    Falconetix.Model.CloudAcmKeyUsageViewModel:
+    Falconetix.Model.CloudAcmCertificateOptionsSummaryViewModel:
       type: object
       properties:
-        name:
+        certificateTransparencyLoggingPreference:
           type: string
   securitySchemes:
     basic:

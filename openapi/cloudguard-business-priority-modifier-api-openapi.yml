@@ -102,6 +102,22 @@ paths:
       description: Get all configured Business Priority rules
 components:
   schemas:
+    BusinessPriorityModifierRuleEnvironmentViewModel:
+      type: object
+      additionalProperties: false
+      required:
+      - cloudAccountId
+      - platform
+      properties:
+        cloudAccountId:
+          type: string
+          description: The environment ID
+          format: guid
+          minLength: 1
+        platform:
+          description: The environment platform ("aws" / "azure" / "google")
+          oneOf:
+          - $ref: '#/components/schemas/AssessmentCloudAccountType'
     BusinessPriorityModifierRuleDefinitionViewModel:
       type: object
       additionalProperties: false
@@ -139,11 +155,6 @@ components:
           description: Match assets with at least one tag from the provided list of tags
           items:
             $ref: '#/components/schemas/BusinessPriorityModifierTagViewModel'
-    BusinessPriorityModifierUpdateRuleRequestViewModel:
-      allOf:
-      - $ref: '#/components/schemas/BusinessPriorityModifierRuleWithIdViewModel'
-      - type: object
-        additionalProperties: false
     AssessmentCloudAccountType:
       type: string
       description: ''
@@ -179,6 +190,11 @@ components:
       - ContainerRegistry
       - Oci
       - CIEM
+    BusinessPriorityModifierAddRuleRequestViewModel:
+      allOf:
+      - $ref: '#/components/schemas/BusinessPriorityModifierRuleViewModel'
+      - type: object
+        additionalProperties: false
     BusinessPriorityModifierRuleViewModel:
       type: object
       additionalProperties: false
@@ -201,11 +217,6 @@ components:
           description: The rule definition to use when matching assets
           oneOf:
           - $ref: '#/components/schemas/BusinessPriorityModifierRuleDefinitionViewModel'
-    BusinessPriorityModifierAddRuleRequestViewModel:
-      allOf:
-      - $ref: '#/components/schemas/BusinessPriorityModifierRuleViewModel'
-      - type: object
-        additionalProperties: false
     BusinessPriorityModifierRuleWithIdViewModel:
       allOf:
       - $ref: '#/components/schemas/BusinessPriorityModifierRuleViewModel'
@@ -246,22 +257,11 @@ components:
           description: The ID of the OU
           format: guid
           minLength: 1
-    BusinessPriorityModifierRuleEnvironmentViewModel:
-      type: object
-      additionalProperties: false
-      required:
-      - cloudAccountId
-      - platform
-      properties:
-        cloudAccountId:
-          type: string
-          description: The environment ID
-          format: guid
-          minLength: 1
-        platform:
-          description: The environment platform ("aws" / "azure" / "google")
-          oneOf:
-          - $ref: '#/components/schemas/AssessmentCloudAccountType'
+    BusinessPriorityModifierUpdateRuleRequestViewModel:
+      allOf:
+      - $ref: '#/components/schemas/BusinessPriorityModifierRuleWithIdViewModel'
+      - type: object
+        additionalProperties: false
   securitySchemes:
     basic:
       type: http
