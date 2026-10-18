@@ -666,6 +666,8 @@ apis:
   humanURL: https://docs.cgn.portal.checkpoint.com/reference
   baseURL: https://api.dome9.com
   tags:
+  - Microsoft Azure
+  tags_raw:
   - Azure
   properties:
   - type: OpenAPI
